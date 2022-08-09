@@ -41,7 +41,44 @@
       <sourceFolder url="file://$MODULE_DIR$/utils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/_archives/shop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/_archives/shop/add" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/api" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/_init" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/account" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/cart" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/chat" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/offer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/order" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/places" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/rating" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/shop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/version" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/ws" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/_init" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/account" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/cart" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/chat" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/offer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/order" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/places" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/rating" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/shop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/version" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/ws" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/services/_init" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/_init" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/account" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/cart" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/chat" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/offer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/order" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/places" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/rating" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/shop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/version" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/_archives" />
+      <excludeFolder url="file://$MODULE_DIR$/_archives/shop" />
+      <excludeFolder url="file://$MODULE_DIR$/_archives/shop/add" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

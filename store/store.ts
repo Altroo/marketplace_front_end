@@ -105,4 +105,8 @@ store.sagaTask = SagaMiddleware.run(rootSaga);
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof combinedReducers>;
 
-export const wrapper = createWrapper(() => store, { debug: true });
+export const wrapper = createWrapper(() => store,
+	{
+		debug: process.env.NODE_ENV !== 'production',
+	}
+);

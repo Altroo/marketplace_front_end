@@ -1,14 +1,11 @@
-import { put, call, fork, select } from 'typed-redux-saga/macro';
+import { put, call, takeLatest, select } from 'typed-redux-saga/macro';
 import * as Types from '../../actions';
 import {
-	InitStateInterface,
+	AppTokensCookieType,
 	InitStateToken,
 	InitStateUniqueID,
-	// TokenChoices
 } from '../../../types/_init/_initTypes';
-// import { emptyInitStateUniqueID, setInitState } from '../slices/_initSlice';
-import { setInitState } from '../../slices/_init/_initSlice';
-import { loadAppToken } from '../../../utils/helpers';
+import { emptyInitStateToken, emptyInitStateUniqueID, initialState, setInitState } from '../../slices/_init/_initSlice';
 import { getInitStateToken, getInitStateUniqueID, getTokenType } from '../../selectors';
 import { versionSaga } from '../version/versionSaga';
 import { initAccount, setIsLoggedIn } from '../../slices/account/accountSlice';
@@ -31,17 +28,10 @@ import { initChat } from '../../slices/chat/chatSlice';
 //     }
 // }
 
-/*
-	Steps :
-		step 1 : change initAppSaga from fork to takeLatest.
-		step 2 : merge new logic codes with initAppSaga
-			2.1 :
- */
-/** TODO 5 : create saga generics that sets the tokens states **/
-export function* initAppSaga() {
+function* initAppSaga() {
 	// init version first.
 	yield* call(() => versionSaga());
-	const appToken: InitStateInterface<InitStateToken, InitStateUniqueID> = yield* call(loadAppToken);
+	// const appToken: InitStateInterface<InitStateToken, InitStateUniqueID> = yield* call(loadAppToken);
 	// const appToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
 	// 	tokenType: 'TOKEN',
 	// 	initStateToken: {
@@ -64,16 +54,67 @@ export function* initAppSaga() {
 	// yield* call(() => localStorage.setItem('@type', appToken.tokenType!));
 	// yield* call(() => localStorage.setItem('@initStateToken', JSON.stringify(appToken.initStateToken)));
 	// yield* call(() => localStorage.setItem('@initStateUniqueID', JSON.stringify(appToken.initStateUniqueID)));
-	yield* put(setInitState(appToken));
-	if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null){
+	/*yield* put(setInitState(appToken));
+	if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
 		// set is logged in to true
 		yield* put(setIsLoggedIn(true));
 	}
-	console.log('initAppSaga Called');
+	console.log('initAppSaga Called');*/
+}
+
+// function* initNewShopStateSaga(payload: {type: string, cookies: cookiesType}) {
+// 	if ('@shop_name' in payload.cookies) {
+// 		const shop_name = payload.cookies['@shop_name'];
+// 		if (shop_name) {
+// 			yield* put(setNewShopName(shop_name));
+// 		}
+// 	} else if ('@avatar' in payload.cookies) {
+// 		const avatar = payload.cookies['@avatar'];
+// 		if (avatar) {
+// 			yield* put(setNewShopAvatar(avatar));
+// 		}
+// 	} else if ('@color_code' in payload.cookies && '@bg_color_code' in payload.cookies) {
+// 		const color_code = payload.cookies['@color_code'];
+// 		const bg_color_code = payload.cookies['@bg_color_code'];
+// 		if (color_code && bg_color_code) {
+// 			yield* put(setNewShopColor({color_code, bg_color_code}));
+// 		}
+// 	} else if ('@font_name' in payload.cookies) {
+// 		const font_name = payload.cookies['@font_name'];
+// 		if (font_name) {
+// 			yield* put(setNewShopFont(font_name));
+// 		}
+// 	}
+// }
+
+function* initAppTokensSaga(payload: { type: string; cookies: AppTokensCookieType }) {
+	const tokenType: string | undefined = payload.cookies['@tokenType'];
+	const stateToken: string | undefined = payload.cookies['@initStateToken'];
+	const stateUniqueID: string | undefined = payload.cookies['@initStateUniqueID'];
+	let appToken = initialState;
+	if (tokenType === 'TOKEN' && stateToken !== undefined) {
+		appToken = {
+			tokenType: 'TOKEN',
+			initStateToken: JSON.parse(stateToken) as InitStateToken,
+			initStateUniqueID: emptyInitStateUniqueID,
+		};
+	} else if (tokenType === 'UNIQUE_ID' && stateUniqueID !== undefined) {
+		appToken = {
+			tokenType: 'UNIQUE_ID',
+			initStateToken: emptyInitStateToken,
+			initStateUniqueID: JSON.parse(stateUniqueID) as InitStateUniqueID,
+		};
+	}
+	yield* put(setInitState(appToken));
+	if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+		// set is logged in to true
+		yield* put(setIsLoggedIn(true));
+	}
+	console.log('initAppTokensSaga Called');
 }
 
 // User click Logout
-export function* initEmptyStatesSaga(){
+export function* initEmptyStatesSaga() {
 	yield* put(initShop());
 	yield* put(initOffer());
 	yield* put(initPlaces());
@@ -96,6 +137,8 @@ export function* ctxAuthSaga() {
 export function* watchInit() {
 	// using fork to let initAppSaga sets the token state
 	// before proceeding to the rest of the watchers that needs the token state
-	// yield* takeLatest(Types.INIT_APP, initAppSaga)
-	// yield* fork(initAppSaga, Types.INIT_APP)
+	// yield* takeLatest(Types.INIT_NEW_SHOP_STATE, initNewShopStateSaga)
+	yield* takeLatest(Types.INIT_APP, initAppSaga);
+	yield* takeLatest(Types.INIT_APP_COOKIE_TOKENS, initAppTokensSaga);
+	// yield* fork(initAppSaga, Types.INIT_APP);
 }

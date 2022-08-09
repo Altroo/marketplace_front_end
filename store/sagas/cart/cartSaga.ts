@@ -8,14 +8,8 @@ import {
 	CartDeleteRootResponseType,
 	CartGetAllResponseType,
 	CartGetCoordinatesResponseType,
-	CartGetDetailsResponseType,
 } from '../../../types/cart/cartTypes';
-import {
-	setCartGetAll,
-	setCartOrderStatus,
-	// setCartSelectedDetails,
-	setCoordinates
-} from '../../slices/cart/cartSlice';
+import { setCartGetAll, setCartOrderStatus, setCartSelectedDetails, setCoordinates } from '../../slices/cart/cartSlice';
 import { setExistsInCart } from '../../slices/offer/offerSlice';
 
 function* cartGetAllSaga() {
@@ -83,26 +77,27 @@ function* cartDeleteRootSaga(payload: { type: string; cart_pk: number }) {
 	}
 }
 
-// function* cartGetDetailsSaga(payload: { type: string; shop_pk: number }) {
-// 	const authSagaContext = yield* call(() => ctxAuthSaga());
-// 	const url = `${process.env.NEXT_PUBLIC_CART_GET_DETAILS}${payload.shop_pk}/`;
-// 	try {
-// 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-// 			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-// 			const response: CartGetDetailsResponseType = yield* call(() => getApi(url, authInstance));
-// 			if (response.status === 200) {
-// 				yield* put(setCartSelectedDetails(response.data));
-// 			} else {
-// 				console.log(response.data);
-// 				console.log(response.status);
-// 			}
-// 		}
-// 	} catch (e) {
-// 		const errors = e as AxiosErrorDefaultType;
-// 		console.log(errors);
-// 		// set error state
-// 	}
-// }
+function* cartGetDetailsSaga(payload: { type: string; shop_pk: number }) {
+	const authSagaContext = yield* call(() => ctxAuthSaga());
+	const url = `${process.env.NEXT_PUBLIC_CART_GET_DETAILS}${payload.shop_pk}/`;
+	try {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+			// TODO Check type in case wrong
+			const response: CartGetAllResponseType = yield* call(() => getApi(url, authInstance));
+			if (response.status === 200) {
+				yield* put(setCartSelectedDetails(response.data));
+			} else {
+				console.log(response.data);
+				console.log(response.status);
+			}
+		}
+	} catch (e) {
+		const errors = e as AxiosErrorDefaultType;
+		console.log(errors);
+		// set error state
+	}
+}
 
 function* cartPostRootSaga(payload: {
 	type: string;
@@ -203,10 +198,10 @@ function* cartPostOrderSaga(payload: {
 
 export function* watchCart() {
 	yield* takeLatest(Types.CART_GET_ALL, cartGetAllSaga);
-	yield* takeLatest(Types.CART_POST_ORDER, cartPostOrderSaga)
+	yield* takeLatest(Types.CART_POST_ORDER, cartPostOrderSaga);
 	yield* takeLatest(Types.CART_DELETE_ROOT, cartDeleteRootSaga);
 	yield* takeLatest(Types.CART_GET_COORDINATES, cartGetCoordinatesSaga);
 	yield* takeLatest(Types.CART_PATCH_ROOT, cartPatchRootSaga);
-	// yield* takeLatest(Types.CART_GET_DETAILS, cartGetDetailsSaga);
+	yield* takeLatest(Types.CART_GET_DETAILS, cartGetDetailsSaga);
 	yield* takeLatest(Types.CART_POST_ROOT, cartPostRootSaga);
 }

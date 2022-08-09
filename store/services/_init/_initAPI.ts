@@ -12,6 +12,43 @@ export const tokenRefreshApi = async (refresh: string) => {
 		status: response.status,
 	};
 };
+// POST Next api/cookies
+export const cookiesPoster = async (url: string, body: object) => {
+	axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_BACKEND_API}`;
+	const response = await axios.post(
+		url,
+		{
+			...body,
+			maxAge: 86400,
+		},
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		},
+	);
+	return {
+		status: response.status,
+	};
+};
+
+// GET Next api/cookies
+export const cookiesFetcher = async (url: string) => {
+	axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_BACKEND_API}`;
+	const response = await axios.get(url);
+	return {
+		status: response.status,
+		data: response.data,
+	};
+};
+// DELETE Next api/cookies
+// export const cookiesDeleter = async (url: string, body: object) => {
+// 	axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_BACKEND_API}`;
+// 	const response = await axios.delete(url, body);
+// 	return {
+// 		status: response.status,
+// 	};
+// };
 
 /*** Base Axios Form Data Api call [POST] */
 export const postFormDataApi = async (
@@ -75,6 +112,7 @@ export const postApi = async (url: string | undefined, instance: AxiosInstance, 
 		data: response.data,
 	};
 };
+
 /*** Base Axios Json Api call [GET] */
 export const getApi = async (url: string | undefined, instance: AxiosInstance, queryParams?: object) => {
 	const response = await instance.get(`${url}`, { params: queryParams });

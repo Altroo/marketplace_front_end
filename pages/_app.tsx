@@ -1,14 +1,14 @@
 import '../styles/globals.sass';
-import type {AppProps} from 'next/app';
-import {wrapper} from '../store/store';
-import {InitContextProvider} from '../contexts/InitContext';
+import type { AppProps } from 'next/app';
+import { wrapper } from '../store/store';
+import { InitContextProvider } from '../contexts/InitContext';
 
-function EntryPoint({Component, pageProps}: AppProps) {
-    return (
-        <InitContextProvider>
-            <Component {...pageProps} />
-        </InitContextProvider>
-    );
+function EntryPoint({ Component, pageProps }: AppProps) {
+	return (
+		<InitContextProvider>
+			<Component {...pageProps} />
+		</InitContextProvider>
+	);
 }
 
 export default wrapper.withRedux(EntryPoint);

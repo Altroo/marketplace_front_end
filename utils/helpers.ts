@@ -1,5 +1,5 @@
 import {
-	APIContentTypeInterface,
+	APIContentTypeInterface, AppTokensCookieType,
 	InitStateInterface,
 	InitStateToken,
 	InitStateUniqueID,
@@ -9,83 +9,97 @@ import {
 	emptyInitStateToken,
 	emptyInitStateUniqueID,
 	setInitState,
-	initialState,
 } from '../store/slices/_init/_initSlice';
-import { tokenRefreshApi } from '../store/services/_init/_initAPI';
+import { cookiesFetcher, cookiesPoster, tokenRefreshApi } from '../store/services/_init/_initAPI';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store/store';
 import { ShopFontNameType } from '../types/shop/shopTypes';
 
-export const loadAppToken = (): InitStateInterface<InitStateToken, InitStateUniqueID> => {
-	// load required data from storage
-	// using this check since next use server side rendering
-	if (typeof window !== 'undefined') {
-		const tokenType: string | null = localStorage.getItem('@type');
-		const stateToken: string | null = localStorage.getItem('@initStateToken');
-		const stateUniqueID: string | null = localStorage.getItem('@initStateUniqueID');
-		if (tokenType === 'TOKEN' && stateToken !== null) {
-			return {
-				tokenType: 'TOKEN',
-				initStateToken: JSON.parse(stateToken) as InitStateToken,
-				initStateUniqueID: emptyInitStateUniqueID,
-			};
-		} else if (tokenType === 'UNIQUE_ID' && stateUniqueID !== null) {
-			return {
-				tokenType: 'UNIQUE_ID',
-				initStateToken: emptyInitStateToken,
-				initStateUniqueID: JSON.parse(stateUniqueID) as InitStateUniqueID,
-			};
-		} else {
-			return initialState;
-		}
-	} else {
-		return initialState;
-	}
-};
+// export const loadAppToken = (): InitStateInterface<InitStateToken, InitStateUniqueID> => {
+// 	// load required data from storage
+// 	// using this check since next use server side rendering
+// 	if (typeof window !== 'undefined') {
+// 		const tokenType: string | null = localStorage.getItem('@tokenType');
+// 		const stateToken: string | null = localStorage.getItem('@initStateToken');
+// 		const stateUniqueID: string | null = localStorage.getItem('@initStateUniqueID');
+// 		if (tokenType === 'TOKEN' && stateToken !== null) {
+// 			return {
+// 				tokenType: 'TOKEN',
+// 				initStateToken: JSON.parse(stateToken) as InitStateToken,
+// 				initStateUniqueID: emptyInitStateUniqueID,
+// 			};
+// 		} else if (tokenType === 'UNIQUE_ID' && stateUniqueID !== null) {
+// 			return {
+// 				tokenType: 'UNIQUE_ID',
+// 				initStateToken: emptyInitStateToken,
+// 				initStateUniqueID: JSON.parse(stateUniqueID) as InitStateUniqueID,
+// 			};
+// 		} else {
+// 			return initialState;
+// 		}
+// 	} else {
+// 		return initialState;
+// 	}
+// };
 
-export const setLocalStorageAppToken = (newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID>) => {
-	if (typeof window !== 'undefined') {
-		localStorage.setItem('@type', newInitStateToken.tokenType as 'TOKEN' | 'UNIQUE_ID');
-		localStorage.setItem('@initStateToken', JSON.stringify(newInitStateToken.initStateToken));
-		localStorage.setItem('@initStateUniqueID', JSON.stringify(newInitStateToken.initStateUniqueID));
-	}
-};
+// export const setLocalStorageAppToken = (newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID>) => {
+// 	if (typeof window !== 'undefined') {
+// 		localStorage.setItem('@tokenType', newInitStateToken.tokenType as 'TOKEN' | 'UNIQUE_ID');
+// 		localStorage.setItem('@initStateToken', JSON.stringify(newInitStateToken.initStateToken));
+// 		localStorage.setItem('@initStateUniqueID', JSON.stringify(newInitStateToken.initStateUniqueID));
+// 	}
+// };
 
-export const setLocalStorageTokenOnly = (InitStateToken: InitStateToken) => {
-	if (typeof window !== 'undefined') {
-		localStorage.setItem('@type', 'TOKEN');
-		localStorage.setItem('@initStateToken', JSON.stringify(InitStateToken));
-	}
-};
+// export const setLocalStorageTokenOnly = (InitStateToken: InitStateToken) => {
+// 	if (typeof window !== 'undefined') {
+// 		localStorage.setItem('@tokenType', 'TOKEN');
+// 		localStorage.setItem('@initStateToken', JSON.stringify(InitStateToken));
+// 	}
+// };
+//
+// export const emptyLocalStorageUniqueIDOnly = () => {
+// 	if (typeof window !== 'undefined') {
+// 		localStorage.setItem('@initStateUniqueID', JSON.stringify(emptyInitStateUniqueID));
+// 	}
+// };
 
-export const emptyLocalStorageUniqueIDOnly = () => {
-	if (typeof window !== 'undefined') {
-		localStorage.setItem('@initStateUniqueID', JSON.stringify(emptyInitStateUniqueID));
-	}
-};
-
-export const emptyLocalStorageAppToken = () => {
-	if (typeof window !== 'undefined') {
-		localStorage.setItem('@type', '');
-		localStorage.setItem('@initStateToken', JSON.stringify(emptyInitStateToken));
-		localStorage.setItem('@initStateUniqueID', JSON.stringify(emptyInitStateUniqueID));
-	}
-};
+// export const emptyLocalStorageAppToken = () => {
+// 	if (typeof window !== 'undefined') {
+// 		localStorage.setItem('@tokenType', '');
+// 		localStorage.setItem('@initStateToken', JSON.stringify(emptyInitStateToken));
+// 		localStorage.setItem('@initStateUniqueID', JSON.stringify(emptyInitStateUniqueID));
+// 	}
+// };
 
 const refreshToken = async (refresh_token: string): Promise<ResponseDataTokenRefreshType> => {
 	return await tokenRefreshApi(refresh_token);
 };
 
-const loadAccessToken: () => string | null = () => {
-	if (typeof window !== 'undefined') {
-		const localStateToken = localStorage.getItem('@initStateToken');
-		if (localStateToken !== null) {
-			const stateToken: InitStateToken = JSON.parse(localStateToken) as InitStateToken;
-			return stateToken.access_token;
+// const loadAccessToken: () => string | null = () => {
+// 	if (typeof window !== 'undefined') {
+// 		const localStateToken = localStorage.getItem('@initStateToken');
+// 		if (localStateToken !== null) {
+// 			const stateToken: InitStateToken = JSON.parse(localStateToken) as InitStateToken;
+// 			return stateToken.access_token;
+// 		}
+// 	}
+// 	return null;
+// };
+
+const loadAccessTokenCookie: () => string | null | undefined = () => {
+	cookiesFetcher('/cookies').then((value: { data: { cookies: AppTokensCookieType }; status: number }) => {
+		if (value.status === 200) {
+			const localStateToken = value.data.cookies['@initStateToken'];
+			if (localStateToken !== null) {
+				if (typeof localStateToken === 'string') {
+					const stateToken: InitStateToken = JSON.parse(localStateToken) as InitStateToken;
+					return stateToken.access_token;
+				}
+			}
 		}
-	}
+	});
 	return null;
-};
+}
 
 export const isAuthenticatedInstance = (
 	initStateToken: InitStateToken,
@@ -106,8 +120,9 @@ export const isAuthenticatedInstance = (
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				config.headers!['Authorization'] = 'Bearer ' + initStateToken.access_token;
 			} else {
-				const access_token: string | null = loadAccessToken();
-				if (access_token !== null) {
+				// const access_token: string | null = loadAccessToken();
+				const access_token: string | null | undefined = loadAccessTokenCookie();
+				if (typeof access_token === 'string') {
 					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					config.headers!['Authorization'] = 'Bearer ' + access_token;
 				}
@@ -153,7 +168,7 @@ export const isAuthenticatedInstance = (
 								},
 								initStateUniqueID: emptyInitStateUniqueID,
 							};
-							setLocalStorageAppToken(newInitStateToken);
+							setRemoteCookiesAppToken(newInitStateToken);
 							store.dispatch(setInitState(newInitStateToken));
 							return instance(originalConfig);
 						}
@@ -197,7 +212,7 @@ export const allowAnyInstance = (
 						unique_id_expiration: response.data.unique_id_expiration,
 					},
 				};
-				setLocalStorageAppToken(newInitStateToken);
+				setRemoteCookiesAppToken(newInitStateToken);
 				store.dispatch(setInitState(newInitStateToken));
 			}
 			return response;
@@ -277,7 +292,7 @@ export const setLocalStorageNewShopFont = (font_name: ShopFontNameType) => {
 // New shop load LocalStorage
 export const loadLocalStorageNewShopData = () => {
 	if (typeof window !== 'undefined') {
-		const shop_name : string | null = localStorage.getItem('@shop_name');
+		const shop_name: string | null = localStorage.getItem('@shop_name');
 		const avatar: string | null = localStorage.getItem('@avatar');
 		const color_code: string | null = localStorage.getItem('@color_code');
 		const bg_color_code: string | null = localStorage.getItem('@bg_color_code');
@@ -287,11 +302,11 @@ export const loadLocalStorageNewShopData = () => {
 			avatar,
 			color_code,
 			bg_color_code,
-			font_name
-		}
+			font_name,
+		};
 	}
 	return null;
-}
+};
 // New shop empty localStorage
 export const emptyLocalStorageNewShopData = () => {
 	if (typeof window !== 'undefined') {
@@ -301,4 +316,27 @@ export const emptyLocalStorageNewShopData = () => {
 		localStorage.removeItem('@bg_color_code');
 		localStorage.removeItem('@font_name');
 	}
-}
+};
+
+// Set Server token cookies
+export const setRemoteCookiesAppToken = (newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID>) => {
+	cookiesPoster('/cookies', { tokenType: newInitStateToken.tokenType}).then();
+	cookiesPoster('/cookies', { initStateToken: newInitStateToken.initStateToken}).then();
+	cookiesPoster('/cookies', { initStateUniqueID: newInitStateToken.initStateUniqueID}).then();
+};
+
+
+export const setRemoteCookiesTokenOnly = (InitStateToken: InitStateToken) => {
+	cookiesPoster('/cookies', { tokenType: 'TOKEN'}).then();
+	cookiesPoster('/cookies', { initStateToken: InitStateToken}).then();
+};
+
+export const emptyRemoteCookiesUniqueIDOnly = () => {
+	cookiesPoster('/cookies', { initStateToken: emptyInitStateToken}).then();
+};
+
+export const emptyRemoteCookiesAppToken = () => {
+	cookiesPoster('/cookies', { tokenType: ''}).then();
+	cookiesPoster('/cookies', { initStateToken: emptyInitStateToken}).then();
+	cookiesPoster('/cookies', { initStateUniqueID: emptyInitStateUniqueID}).then();
+};

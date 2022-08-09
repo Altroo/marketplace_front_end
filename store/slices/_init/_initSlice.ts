@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { InitStateInterface, InitStateToken, InitStateUniqueID } from '../../../types/_init/_initTypes';
-// import { HYDRATE } from "next-redux-wrapper";
 
 export const emptyInitStateToken = {
 	access_token: null,
@@ -30,7 +29,10 @@ const _initSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		setInitState: (state, action: PayloadAction<InitStateInterface<InitStateToken, InitStateUniqueID>>) => {
-			return action.payload;
+			state.tokenType = action.payload.tokenType;
+			state.initStateToken = action.payload.initStateToken;
+			state.initStateUniqueID = action.payload.initStateUniqueID;
+			return state;
 		},
 		setTokenState: (state, action: PayloadAction<InitStateToken>) => {
 			state.tokenType = 'TOKEN';
@@ -45,11 +47,6 @@ const _initSlice = createSlice({
 			return initialState;
 		},
 	},
-	// extraReducers: {
-	// 	[HYDRATE]: (state, action) => {
-	// 		return { ...state, ...action.payload._init };
-	// 	},
-	// },
 });
 
 export const { setInitState, setTokenState, setEmptyUniqueIDState, initToken } = _initSlice.actions;

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-	// CartDetailsTopPaginationResponseType,
+	CartDetailsTopPaginationResponseType,
 	CartGetCoordinates,
 	cartOrderStatus,
 	CartStateInterface,
@@ -8,11 +8,10 @@ import {
 } from '../../../types/cart/cartTypes';
 import {
 	MultiCartClass,
-	// MultiCartDetailsClass,
+	MultiCartDetailsClass,
 	SingleCartClass,
-	// SingleCartDetailsClass,
+	SingleCartDetailsClass,
 } from '../../../models/cart/CartClass';
-// import { HYDRATE } from 'next-redux-wrapper';
 
 const initialState: CartStateInterface = {
 	cartOffers: {
@@ -46,14 +45,13 @@ const cartSlice = createSlice({
 			state.selectedCoordinates = action.payload;
 			return state;
 		},
-		// TODO to verify
-		// setCartSelectedDetails: (
-		// 	state,
-		// 	action: PayloadAction<CartDetailsTopPaginationResponseType<SingleCartDetailsClass | MultiCartDetailsClass>>,
-		// ) => {
-		// 	state.selectedCartDetails = action.payload;
-		// 	return state;
-		// },
+		setCartSelectedDetails: (
+			state,
+			action: PayloadAction<CartTopPaginationResponseType<SingleCartDetailsClass | MultiCartDetailsClass>>,
+		) => {
+			state.selectedCartDetails = action.payload;
+			return state;
+		},
 		setCartOrderStatus: (state, action: PayloadAction<cartOrderStatus>) => {
 			state.orderStatus = action.payload;
 			return state;
@@ -62,19 +60,9 @@ const cartSlice = createSlice({
 			return initialState;
 		},
 	},
-	// extraReducers: {
-	// 	[HYDRATE]: (state, action) => {
-	// 		return { ...state, ...action.payload.cart };
-	// 	},
-	// },
 });
 
-export const {
-	setCartGetAll,
-	setCoordinates,
-	// setCartSelectedDetails,
-	setCartOrderStatus,
-	initCart
-} = cartSlice.actions;
+export const { setCartGetAll, setCoordinates, setCartSelectedDetails, setCartOrderStatus, initCart } =
+	cartSlice.actions;
 
 export default cartSlice.reducer;

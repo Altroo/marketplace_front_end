@@ -1,39 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-// import { getCookie } from "cookies-next";
-// import {wrapper} from '../store/store';
-// import {getCookie, getCookies, setCookie} from "cookies-next";
-import useSWR from 'swr';
 import Link from 'next/link';
 import { RootState } from "../store/store";
-// import { placesGetCountriesAction } from "../store/actions/places/placesActions";
-// import { END } from "redux-saga";
-
-const fetcher = (url: string) =>
-	fetch(url, {
-		method: 'POST',
-		body: JSON.stringify({
-			token: 'TEST_TOKEN_POST_REQUEST',
-			maxAge: 100,
-		}),
-	}).then((res: Response) => res.text());
-
-// const geter = (url: string) =>
-// 	fetch(url, {
-// 		method: 'GET',
-// 	}).then((res: Response) => res.text());
 
 
 const Home: NextPage<RootState> = () => {
-	// console.log('props from getServerSideProps');
-	// console.log(props.places.countries);
-
-	// const { data, error } = useSWR('/api/cookies', geter);
-	// console.log(data);
-	// console.log(error);
-	// if (error) return <div>Failed to load</div>;
-	// if (!data) return <div>Loading...</div>;
-
 	return (
 		<div>
 			<Head>

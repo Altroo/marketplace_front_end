@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'typed-redux-saga/macro';
 import * as Types from '../../actions';
 import {
-	allowAnyInstance, emptyLocalStorageAppToken,
-	emptyLocalStorageUniqueIDOnly,
+	allowAnyInstance,
+	emptyRemoteCookiesAppToken,
+	emptyRemoteCookiesUniqueIDOnly,
 	isAuthenticatedInstance,
-	setLocalStorageTokenOnly,
+	setRemoteCookiesTokenOnly,
 } from '../../../utils/helpers';
 import { deleteApi, getApi, patchApi, postApi, putApi } from '../../services/_init/_initAPI';
 import {
@@ -91,7 +92,7 @@ function* accountPostRegisterSaga(payload: AccountPostRegisterType) {
 			const uniqueID = authSagaContext.initStateUniqueID.unique_id;
 			if(authSagaContext.tokenType === 'UNIQUE_ID' && uniqueID !== null) {
 				// set localStorage token only
-				yield* call(() => setLocalStorageTokenOnly(response.data));
+				yield* call(() => setRemoteCookiesTokenOnly(response.data));
 				// construct transfer shop url
 				const transferShopUrl = `${process.env.NEXT_PUBLIC_SHOP_TRANSFER_SHOP}`;
 				// call is authenticated instance (require real token from localStorage previously set)
@@ -106,7 +107,7 @@ function* accountPostRegisterSaga(payload: AccountPostRegisterType) {
 					// Empty unique ID state
 					yield* put(setEmptyUniqueIDState());
 					// Empty unique ID localStorage
-					yield* call(() => emptyLocalStorageUniqueIDOnly());
+					yield* call(() => emptyRemoteCookiesUniqueIDOnly());
 					yield* put(setIsLoggedIn(true));
 				} else {
 					console.log(transferResponse.data);
@@ -117,10 +118,10 @@ function* accountPostRegisterSaga(payload: AccountPostRegisterType) {
 				// Set new token state
 				yield* put(setTokenState(response.data));
 				// set localStorage token only
-				yield* call(() => setLocalStorageTokenOnly(response.data));
+				yield* call(() => setRemoteCookiesTokenOnly(response.data));
 				// Empty unique ID state & localStorage in case
 				yield* put(setEmptyUniqueIDState());
-				yield* call(() => emptyLocalStorageUniqueIDOnly());
+				yield* call(() => emptyRemoteCookiesUniqueIDOnly());
 				yield* put(setIsLoggedIn(true));
 			}
 		} else {
@@ -142,10 +143,10 @@ function* accountPostLoginSaga(payload: AccountPostLoginType) {
 		const response: AccountPostLoginResponseType = yield* call(() => postApi(url, instance, payloadData));
 		if (response.status === 200) {
 			// set localStorage token only
-			yield* call(() => setLocalStorageTokenOnly(response.data));
+			yield* call(() => setRemoteCookiesTokenOnly(response.data));
 			// Empty unique ID state & localStorage in case
 			yield* put(setEmptyUniqueIDState());
-			yield* call(() => emptyLocalStorageUniqueIDOnly());
+			yield* call(() => emptyRemoteCookiesUniqueIDOnly());
 			yield* put(setIsLoggedIn(true));
 		} else {
 			console.log(response.data);
@@ -168,7 +169,7 @@ function* accountPostLogoutSaga() {
 				// Empty both Token & unique ID state
 				yield* put(initToken());
 				yield* put(setIsLoggedIn(false));
-				yield* call(() => emptyLocalStorageAppToken());
+				yield* call(() => emptyRemoteCookiesAppToken());
 			} else {
 				console.log(response.data);
 				console.log(response.status);
@@ -276,10 +277,10 @@ function* accountPostFacebookSaga(payload: {type: string, access_token: string})
 			// Set new token state
 			yield* put(setTokenState(response.data));
 			// set localStorage token only
-			yield* call(() => setLocalStorageTokenOnly(response.data));
+			yield* call(() => setRemoteCookiesTokenOnly(response.data));
 			// Empty unique ID state & localStorage in case
 			yield* put(setEmptyUniqueIDState());
-			yield* call(() => emptyLocalStorageUniqueIDOnly());
+			yield* call(() => emptyRemoteCookiesUniqueIDOnly());
 			yield* put(setIsLoggedIn(true));
 			// Reload socials state
 			yield* call(() => accountGetSocialsSaga());
@@ -303,10 +304,10 @@ function* accountPostGoogleSaga(payload: {type: string, access_token: string}) {
 			// Set new token state
 			yield* put(setTokenState(response.data));
 			// set localStorage token only
-			yield* call(() => setLocalStorageTokenOnly(response.data));
+			yield* call(() => setRemoteCookiesTokenOnly(response.data));
 			// Empty unique ID state & localStorage in case
 			yield* put(setEmptyUniqueIDState());
-			yield* call(() => emptyLocalStorageUniqueIDOnly());
+			yield* call(() => emptyRemoteCookiesUniqueIDOnly());
 			yield* put(setIsLoggedIn(true));
 			// Reload socials state
 			yield* call(() => accountGetSocialsSaga());
@@ -332,10 +333,10 @@ function* accountPostLinkFacebookSaga(payload: {type: string, access_token: stri
 				// Set new token state
 				yield* put(setTokenState(response.data));
 				// set localStorage token only
-				yield* call(() => setLocalStorageTokenOnly(response.data));
+				yield* call(() => setRemoteCookiesTokenOnly(response.data));
 				// Empty unique ID state & localStorage in case
 				yield* put(setEmptyUniqueIDState());
-				yield* call(() => emptyLocalStorageUniqueIDOnly());
+				yield* call(() => emptyRemoteCookiesUniqueIDOnly());
 				// Reload socials state
 				yield* call(() => accountGetSocialsSaga());
 			} else {
@@ -361,10 +362,10 @@ function* accountPostLinkGoogleSaga(payload: {type: string, access_token: string
 				// Set new token state
 				yield* put(setTokenState(response.data));
 				// set localStorage token only
-				yield* call(() => setLocalStorageTokenOnly(response.data));
+				yield* call(() => setRemoteCookiesTokenOnly(response.data));
 				// Empty unique ID state & localStorage in case
 				yield* put(setEmptyUniqueIDState());
-				yield* call(() => emptyLocalStorageUniqueIDOnly());
+				yield* call(() => emptyRemoteCookiesUniqueIDOnly());
 				// Reload socials state
 				yield* call(() => accountGetSocialsSaga());
 			} else {

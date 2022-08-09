@@ -1,5 +1,7 @@
 // Initialise the APP
 export const INIT_APP = 'INIT_APP';
+export const INIT_NEW_SHOP_STATE = 'INIT_NEW_SHOP_STATE';
+export const INIT_APP_COOKIE_TOKENS = 'INIT_APP_COOKIE_TOKENS';
 // Account [Has no root]
 export const ACCOUNT_POST_FACEBOOK = 'ACCOUNT_POST_FACEBOOK';
 export const ACCOUNT_POST_GOOGLE = 'ACCOUNT_POST_GOOGLE';

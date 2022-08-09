@@ -49,17 +49,24 @@ import {
 } from '../../slices/shop/shopSlice';
 import {
 	allowAnyInstance,
-	setLocalStorageAppToken,
 	isAuthenticatedInstance,
-	setLocalStorageNewShopName,
+	emptyLocalStorageNewShopData,
 	setLocalStorageNewShopAvatar,
-	setLocalStorageNewShopColor,
 	setLocalStorageNewShopFont,
-	loadLocalStorageNewShopData, emptyLocalStorageNewShopData,
+	loadLocalStorageNewShopData,
+	setLocalStorageNewShopColor,
+	setLocalStorageNewShopName, setRemoteCookiesAppToken,
 } from '../../../utils/helpers';
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
-import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
+import {
+	cookiesPoster,
+	getApi,
+	patchApi,
+	patchFormDataApi,
+	postApi,
+	postFormDataApi,
+} from '../../services/_init/_initAPI';
 // import {AxiosInstance} from "axios";
 
 // interface TokenNoAuthSagaBaseGeneratorParams {
@@ -130,7 +137,8 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 						unique_id_expiration: response.data.expiration_date,
 					},
 				};
-				yield* call(() => setLocalStorageAppToken(newInitStateToken));
+				// yield* call(() => setLocalStorageAppToken(newInitStateToken));
+				yield* call(() => setRemoteCookiesAppToken(newInitStateToken));
 				yield* put(setInitState(newInitStateToken));
 				yield* put(setPostShopState(response.data));
 				// empty temporary new shop data
@@ -605,16 +613,19 @@ function* setShopNameSaga(payload: {type: string, shop_name: string}) {
 function* setShopAvatarSaga(payload: {type: string, avatar: ArrayBuffer | string | null}) {
 	yield* put(setNewShopAvatar(payload.avatar));
 	yield* call(() => setLocalStorageNewShopAvatar(payload.avatar as string));
+	yield* call(() => cookiesPoster('/cookies', { avatar: true }));
 }
 
 function* setShopColorSaga(payload: {type: string, color_code: string, bg_color_code: string}) {
 	yield* put(setNewShopColor({color_code: payload.color_code, bg_color_code: payload.bg_color_code}));
 	yield* call(() => setLocalStorageNewShopColor(payload.color_code, payload.bg_color_code));
+	yield* call(() => cookiesPoster('/cookies', { color_code: true, bg_color_code: true }));
 }
 
 function* setShopFontSaga(payload: {type: string, font_name: ShopFontNameType}) {
 	yield* put(setNewShopFont(payload.font_name));
 	yield* call(() => setLocalStorageNewShopFont(payload.font_name));
+	yield* call(() => cookiesPoster('/cookies', { font_name: true }));
 }
 
 function* loadNewAddedShopDataSaga() {
