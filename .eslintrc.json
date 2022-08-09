@@ -1,3 +1,56 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "es2022": true,
+    "node": true,
+    "browser": true,
+    "commonjs": true,
+    "shared-node-browser": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "project": [
+      "./tsconfig.json"
+    ],
+    "sourceType": "module",
+    "createDefaultProgram": true
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "@jambit/typed-redux-saga"
+    // "prettier"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "./**/*.ts"
+      ],
+      "excludedFiles": [
+        "./**/*.spec.ts"
+      ],
+      "rules": {
+        "@jambit/typed-redux-saga/use-typed-effects": [
+          "error",
+          "macro"
+        ],
+        "@jambit/typed-redux-saga/delegate-effects": "error"
+      }
+    }
+  ],
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+    // "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    // "prettier",
+    // "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error"
+    // "prettier/prettier": "off"
+    // "@typescript-eslint/restrict-template-expressions": "off"
+    // "@typescript-eslint/no-unsafe-assignment": "off",
+    // "@typescript-eslint/no-unsafe-member-access": "off"
+  }
 }

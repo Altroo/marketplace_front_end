@@ -1,7 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectTreeColorHighlighter">
-    <files />
+    <files>
+      <node color="9" path="$PROJECT_DIR$/models/account" />
+      <node color="9" path="$PROJECT_DIR$/models/cart" />
+      <node color="9" path="$PROJECT_DIR$/models/offer" />
+      <node color="9" path="$PROJECT_DIR$/models/order" />
+      <node color="9" path="$PROJECT_DIR$/models/rating" />
+      <node color="9" path="$PROJECT_DIR$/models/shop" />
+      <node color="7" path="$PROJECT_DIR$/store/actions" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/_init" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/account" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/cart" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/chat" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/index.ts" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/offer" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/order" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/places" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/rating" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/shop" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/version" />
+      <node color="7" path="$PROJECT_DIR$/store/actions/ws" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/_init" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/account" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/cart" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/chat" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/index.ts" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/offer" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/order" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/places" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/rating" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/shop" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/version" />
+      <node color="1" path="$PROJECT_DIR$/store/sagas/ws" />
+      <node color="6" path="$PROJECT_DIR$/store/selectors" />
+      <node color="6" path="$PROJECT_DIR$/store/selectors/index.ts" />
+      <node color="3" path="$PROJECT_DIR$/store/services" />
+      <node color="3" path="$PROJECT_DIR$/store/services/_init" />
+      <node color="3" path="$PROJECT_DIR$/store/services/ws.ts" />
+      <node color="4" path="$PROJECT_DIR$/store/slices" />
+      <node color="4" path="$PROJECT_DIR$/store/slices/_init" />
+      <node color="4" path="$PROJECT_DIR$/store/slices/account" />
+      <node color="4" path="$PROJECT_DIR$/store/slices/cart" />
+      <node color="4" path="$PROJECT_DIR$/store/slices/chat" />
+      <node color="4" path="$PROJECT_DIR$/store/slices/offer" />
+      <node color="4" path="$PROJECT_DIR$/store/slices/order" />
+      <node color="4" path="$PROJECT_DIR$/store/slices/places" />
+      <node color="4" path="$PROJECT_DIR$/store/slices/rating" />
+      <node color="4" path="$PROJECT_DIR$/store/slices/shop" />
+      <node color="4" path="$PROJECT_DIR$/store/slices/version" />
+      <node color="5" path="$PROJECT_DIR$/types/_init" />
+      <node color="5" path="$PROJECT_DIR$/types/account" />
+      <node color="5" path="$PROJECT_DIR$/types/cart" />
+      <node color="5" path="$PROJECT_DIR$/types/chat" />
+      <node color="5" path="$PROJECT_DIR$/types/offer" />
+      <node color="5" path="$PROJECT_DIR$/types/order" />
+      <node color="5" path="$PROJECT_DIR$/types/places" />
+      <node color="5" path="$PROJECT_DIR$/types/rating" />
+      <node color="5" path="$PROJECT_DIR$/types/shop" />
+      <node color="5" path="$PROJECT_DIR$/types/version" />
+      <node color="5" path="$PROJECT_DIR$/types/ws" />
+    </files>
     <colors>
       <color id="1" value="#4f060d" name="Color 1" enabled="true" />
       <color id="2" value="#44220e" name="Color 2" enabled="true" />
@@ -11,6 +71,7 @@
       <color id="6" value="#171a34" name="Color 6" enabled="true" />
       <color id="7" value="#311333" name="Color 7" enabled="true" />
       <color id="8" value="#1e1e1e" name="Color 8" enabled="true" />
+      <color id="9" value="#124821" name="Color 9" enabled="true" />
     </colors>
     <option name="marksForCollapsedHighlights" value="Dots" />
   </component>

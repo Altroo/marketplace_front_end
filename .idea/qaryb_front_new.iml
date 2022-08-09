@@ -1,7 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/createShopLeftSideBar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/topBar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/contexts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/models" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/models/account" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/models/cart" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/models/offer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/models/order" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/models/rating" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/models/shop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop/add" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/selectors" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/services" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/sass" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/_init" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/account" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/cart" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/chat" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/offer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/order" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/places" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/rating" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/shop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/version" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/ws" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/_archives/shop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/_archives/shop/add" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

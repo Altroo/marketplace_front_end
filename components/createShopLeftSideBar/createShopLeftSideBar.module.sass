@@ -1,0 +1,206 @@
+@import 'styles/sass/base/colors'
+@import 'styles/sass/base/variables'
+
+// Global styles
+.sideBar
+  display: flex
+  flex-direction: column
+  position: absolute
+  left: 0
+  bottom: 0
+  top: 0
+  padding-top: 60px
+  padding-left: 60px
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.25)
+  margin: 0
+  width: 440px
+  height: 100%
+  cursor: pointer
+  z-index: 999
+
+.sideBarItemWrapper
+  display: flex
+  justify-content: space-between
+  align-items: center
+  width: 80%
+  gap: 0
+  margin: 0
+.sideBarItem
+  display: flex
+  align-items: center
+  gap: 18px
+  width: 100%
+  span
+    font-family: $poppins
+    font-size: 16px
+    font-weight: 300
+    color: $primaryColor
+    overflow-wrap: break-word
+    margin: 0
+
+// Desktop
+// @media #{$desktop}
+
+// Tablet
+// @media #{$tablette}
+
+// Mobile
+// @media #{$mobile}
+
+/* ORIGINAL */
+.fillSvg
+  fill: #ff0000
+  border: 1px solid red
+
+#stepOne
+  fill: #ff0000
+
+.debugSidebar
+  min-height: 100%
+
+.grayCover
+  position: absolute
+  right: 0
+  left: 0
+  bottom: 0
+  top: 0
+  background-color: #0d070b
+  opacity: 0.1
+
+.topBar
+  display: none
+
+.containerFlex
+  display: flex
+  grid-gap: 0
+  min-width: 100%
+  height: 100%
+  max-height: 100%
+
+.btmDesktopMap
+  width: 90%
+  position: absolute
+  bottom: 0
+  padding: 1.2rem
+  margin-bottom: 2rem
+  text-align: center
+  background: #ffffff
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.25)
+  border-radius: 100px
+
+.spaceW
+  position: absolute
+  bottom: 0
+  width: 100%
+  text-align: center
+  display: flex
+  justify-content: center
+
+.plcBtn
+  position: absolute
+  bottom: 0
+  right: 0
+  text-align: center
+  margin-bottom: 4rem
+
+.sepBtn
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  margin-right: 1.5rem
+  min-width: 100%
+
+.input::placeholder
+  color: #a3a3ad
+
+.desktopSlideshow
+  display: none
+
+.phoneContact
+  display: flex
+  border: 1px solid #0274d7
+  border-radius: 16px
+  width: 100%
+  height: 49px
+  margin-top: 1rem
+  align-items: center
+
+.contactSelect
+  outline: none
+  border: 0
+  margin: 0
+  padding: 6px
+  width: 5rem
+
+.blueSep
+  background-color: #0274d7
+  height: 100%
+  width: 1px
+
+.nbInput
+  width: 70%
+  margin-left: 10px
+  border: 0
+  caret-color: #0274d7
+  font-size: 19px
+  &:focus
+    outline: none
+
+.blueCursor
+  color: #0274d7
+  position: absolute
+
+@media only screen and (max-width: 1024px)
+  .mobileSlideshow
+    margin: 0
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
+@media only screen and (min-width: 1025px)
+  .displayNone
+    display: none
+
+  .desktopView
+    display: flex
+    align-items: flex-start
+    justify-content: center
+    gap: 3rem
+
+  .desktopSlideshow
+    display: flex
+    height: 400px
+    margin-top: 2rem
+    gap: 1rem
+
+  .leftImgs
+    display: flex
+    flex-direction: column
+    gap: 1.4rem
+
+  .imgBox
+    width: 80px
+    height: 80px
+    background-color: pink
+    border-radius: 10px
+
+  .rightImg
+    width: 590px
+    height: 388px
+    background-color: lightblue
+    border-radius: 20px
+
+  .topBar
+    display: flex
+    justify-content: space-between
+
+  .desktopBtnWidth
+    width: 300px !important
+    margin: 0 auto
+
+  .btns
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
