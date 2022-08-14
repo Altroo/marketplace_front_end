@@ -30,8 +30,8 @@ const initialState:
 	userShop: {},
 	phoneCodes: [],
 	newShop: {},
-	border: '',
-	iconColor: null,
+	// border: '',
+	// iconColor: null,
 };
 
 const shopSlice = createSlice({
@@ -61,6 +61,8 @@ const shopSlice = createSlice({
 		setShopColors: (state, action: PayloadAction<ShopColorType>) => {
 			state.userShop.color_code = action.payload.color_code;
 			state.userShop.bg_color_code = action.payload.bg_color_code;
+			state.userShop.border = action.payload.border;
+			state.userShop.icon_color = action.payload.icon_color;
 			return state;
 		},
 		setShopFont: (state, action: PayloadAction<ShopFontType>) => {
@@ -140,10 +142,12 @@ const shopSlice = createSlice({
 		},
 		setNewShopColor: (
 			state,
-			action: PayloadAction<{ color_code: string; bg_color_code: string }>,
+			action: PayloadAction<{ color_code: string; bg_color_code: string, border: string, icon_color: IconColorType }>,
 		) => {
 			state.newShop.color_code = action.payload.color_code;
 			state.newShop.bg_color_code = action.payload.bg_color_code;
+			state.newShop.border = action.payload.border;
+			state.newShop.icon_color = action.payload.icon_color;
 			return state;
 		},
 		setNewShopFont: (state, action: PayloadAction<ShopFontNameType>) => {
@@ -151,16 +155,16 @@ const shopSlice = createSlice({
 			return state;
 		},
 		setBorderIconColor: (state, action: PayloadAction<{border: string, iconColor: IconColorType}>) => {
-			state.border = action.payload.border;
-			state.iconColor = action.payload.iconColor;
+			state.newShop.border = action.payload.border;
+			state.newShop.icon_color = action.payload.iconColor;
 			return state;
 		},
 		setBorder: (state, action: PayloadAction<string>) => {
-			state.border = action.payload;
+			state.newShop.border = action.payload;
 			return state;
 		},
 		setIconColor: (state, action: PayloadAction<IconColorType>) => {
-			state.iconColor = action.payload;
+			state.newShop.icon_color = action.payload;
 			return state;
 		},
 		initShop: () => {

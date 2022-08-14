@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Styles from '../../../styles/shop/add/avatar.module.sass';
+import Styles from '../../../styles/shop/add/shopAddShared.module.sass';
 import LeftSideBar from '../../../components/shop/add/leftSideBar/leftSideBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/HelperH1Header';
@@ -113,7 +113,7 @@ const Avatar: NextPage = () => {
 									</div>
 									<div className={Styles.promoWrapper}>
 										<span className={Styles.subHeader}>En Promo</span>
-										<IosSwitch disabled />
+										<IosSwitch disabled checked={false}/>
 									</div>
 									<div className={Styles.forWhomWrapper}>
 										<span className={Styles.subHeader}>Pour qui</span>

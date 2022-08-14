@@ -1,6 +1,6 @@
 import React from 'react';
 import Styles from './shopTabContent.module.sass';
-import { checkBoxForWhomBaseType, chipActionsType } from "../../../../types/ui/uiTypes";
+import { checkBoxForWhomBaseType, chipActionsType, switchActionType } from "../../../../types/ui/uiTypes";
 import IconTextInput from "../../../htmlElements/iconTextInput/iconTextInput";
 import ChipButtons from "../../../htmlElements/buttons/chipButton/chipButton";
 import IosSwitch from "../../../htmlElements/switches/IosSwitch";
@@ -9,7 +9,8 @@ import StartYourShopContent from "../startYourShopContent/startYourShopContent";
 
 type Props = {
 	chipCategoriesAction: chipActionsType;
-	checkBoxAction: Array<checkBoxForWhomBaseType>;
+	promoCheckAction: switchActionType;
+	checkBoxForWhomAction: Array<checkBoxForWhomBaseType>;
 	children?: React.ReactNode;
 }
 
@@ -39,13 +40,13 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 						</div>
 						<div className={Styles.promoWrapper}>
 							<span className={Styles.subHeader}>En Promo</span>
-							<IosSwitch />
+							<IosSwitch checked={props.promoCheckAction.checked} onChange={props.promoCheckAction.onChange} activeColor={props.promoCheckAction.activeColor} />
 						</div>
 						<div className={Styles.forWhomWrapper}>
 							<span className={Styles.subHeader}>Pour qui</span>
 							<div>
 								<div>
-									{props.checkBoxAction.map((action, index: number) => {
+									{props.checkBoxForWhomAction.map((action, index: number) => {
 										return (
 											<CheckBox
 												key={index}
@@ -53,6 +54,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 												active={action.active}
 												text={action.text}
 												onChange={action.onChange}
+												activeColor={action.activeColor}
 											/>
 										);
 									})}

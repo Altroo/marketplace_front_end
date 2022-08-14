@@ -58,11 +58,7 @@ function TabPanel(props: TabPanelProps) {
 			aria-labelledby={`tab-${index}`}
 			{...other}
 		>
-			{value === index && (
-				<Box sx={{ p: 3 }}>
-					{children}
-				</Box>
-			)}
+			{value === index && <Box sx={{ p: 3 }}>{children}</Box>}
 		</div>
 	);
 }
@@ -96,7 +92,15 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 	const handleChangeIndex = (index: number) => {
 		setValue(index);
 	};
-
+	// Check if white color
+	let newColor = props.color;
+	let newBorderColor = props.borderColor;
+	if (newColor === '#FFFFFF') {
+		newColor = '#0D070B';
+	}
+	if (newBorderColor === '#FFFFFF') {
+		newBorderColor = '#0D070B';
+	}
 	const colorTheme = createTheme({
 		palette: {
 			background: {
@@ -113,10 +117,11 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 						'&.Mui-selected': {
 							fontFamily: 'poppins',
 							fontSize: '17px',
-							color: props.color, // active tab text color along with ripple color
+							color: newColor, // active tab text color along with ripple color
 						},
 					},
 					fullWidth: {
+						fontFamily: 'poppins',
 						color: '#84848A', // inactive tab text color
 					},
 				},
@@ -124,7 +129,7 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 			MuiTabs: {
 				styleOverrides: {
 					indicator: {
-						backgroundColor: props.color, // active tab bottom border
+						backgroundColor: newColor, // active tab bottom border
 					},
 				},
 			},
@@ -137,7 +142,7 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 				<Box
 					sx={{
 						borderBottom: 2,
-						borderColor: props.borderColor, // inactive tab bottom border
+						borderColor: newBorderColor, // inactive tab bottom border
 						bgcolor: 'background.paper',
 					}}
 				>

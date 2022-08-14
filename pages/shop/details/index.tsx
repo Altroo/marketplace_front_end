@@ -17,7 +17,7 @@ import MobilePublishEditNavbar from '../../../components/mobile/navbars/mobilePu
 import Image from 'next/image';
 import BlackStarSVG from '../../../public/assets/svgs/black-star.svg';
 import BorderIconButton from '../../../components/htmlElements/buttons/borderIconButton/borderIconButton';
-import { checkBoxesForWhomActionType, chipActionsType } from "../../../types/ui/uiTypes";
+import { checkBoxesForWhomActionType, chipActionsType, switchActionType } from "../../../types/ui/uiTypes";
 import InfoTabContent from "../../../components/shop/details/infoTabContent/InfoTabContent";
 import ShopTabContent from "../../../components/shop/details/shopTabContent/shopTabContent";
 
@@ -26,19 +26,26 @@ const Index: NextPage = () => {
 	const { created } = router.query;
 	const dispatch = useAppDispatch();
 	const [modalDismissed, setModalDismissed] = useState(false);
-	const shop_name = useAppSelector((state) => state.shop.userShop.shop_name as string);
-	const shop_avatar = useAppSelector((state) => state.shop.userShop.avatar as string);
-	const color_code = useAppSelector((state) => state.shop.userShop.color_code as string);
-	const bg_color_code = useAppSelector((state) => state.shop.userShop.bg_color_code as string);
-	const font_name = useAppSelector((state) => state.shop.userShop.font_name as ShopFontNameType);
-	const shopBorder = useAppSelector((state) => state.shop.border as string);
-	const shopIconColor = useAppSelector((state) => state.shop.iconColor as IconColorType);
+	const shopName = useAppSelector((state) => state.shop.userShop.shop_name as string);
+	const shopAvatar = useAppSelector((state) => state.shop.userShop.avatar as string);
+	const shopColorCode = useAppSelector((state) => state.shop.userShop.color_code as string);
+	const shopBgColorCode = useAppSelector((state) => state.shop.userShop.bg_color_code as string);
+	const shopFontName = useAppSelector((state) => state.shop.userShop.font_name as ShopFontNameType);
+	const shopBorder = useAppSelector((state) => state.shop.userShop.border as string);
+	const shopIconColor = useAppSelector((state) => state.shop.userShop.icon_color as IconColorType);
 	// avatar preview
 	const [preview, setPreview] = useState<string | null>(null);
+	// colors
+	const [colorCode, setColorCode] = useState<string>(shopColorCode);
+	const [bgColorCode, setBgColorCode] = useState<string>(shopBgColorCode);
 	// border
-	const [border, setborder] = useState<string | undefined>(undefined);
+	const [border, setborder] = useState<string | undefined>(shopBorder);
+	// font
+	const [fontName, setFontName] = useState<ShopFontNameType>(shopFontName);
 	// Gray Message Icon
 	const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
+	// Promo states
+	const [promoCheck, setPromoCheck] = useState(false);
 	// For whom states
 	const [enfantCheck, setEnfantCheck] = useState(false);
 	const [femmeCheck, setFemmeCheck] = useState(true);
@@ -47,28 +54,34 @@ const Index: NextPage = () => {
 		{
 			buttonText: 'Bien-être',
 			selected: true,
-			onClick: () => {return;},
 			border: border,
-			textColor: color_code,
-			backgroundColor: bg_color_code,
+			textColor: colorCode,
+			backgroundColor: bgColorCode,
+			onClick: () => {return;},
 		},
 		{
 			buttonText: 'Service',
 			selected: false,
 			border: border,
-			textColor: color_code,
-			// backgroundColor: bg_color_code,
+			textColor: colorCode,
+			backgroundColor: bgColorCode,
 			onClick: () => {return;},
 		},
 		{
 			buttonText: 'Sport',
 			selected: true,
-			onClick: () => {return;},
 			border: border,
-			textColor: color_code,
-			backgroundColor: bg_color_code,
+			textColor: colorCode,
+			backgroundColor: bgColorCode,
+			onClick: () => {return;},
 		},
 	];
+	// promo check action
+	const promoCheckAction: switchActionType = {
+			activeColor: bgColorCode,
+			checked: promoCheck,
+			onChange: setPromoCheck,
+		};
 
 	const checkBoxesForWhomAction: Array<checkBoxesForWhomActionType> = [
 		{
@@ -76,34 +89,54 @@ const Index: NextPage = () => {
 			checked: enfantCheck,
 			active: true,
 			onChange: setEnfantCheck,
+			activeColor: bgColorCode,
+
 		},
 		{
 			text: 'Femme',
 			checked: femmeCheck,
 			active: true,
 			onChange: setFemmeCheck,
+			activeColor: bgColorCode,
 		},
 		{
 			text: 'Homme',
 			checked: hommeCheck,
 			active: true,
 			onChange: setHommeCheck,
+			activeColor: bgColorCode,
 		},
 	];
 
 	useEffect(() => {
-		if (shop_avatar) {
-			setPreview(shop_avatar);
+		// avatar
+		if (shopAvatar) {
+			setPreview(shopAvatar);
 		}
+		// color code
+		if (shopBgColorCode) {
+			console.log('shopBgColorCode: ', shopBgColorCode);
+			setBgColorCode(shopBgColorCode);
+		}
+		// bg color code
+		if (shopColorCode) {
+			console.log('shopColorCode: ', shopColorCode);
+			setColorCode(shopColorCode);
+		}
+		// border
 		if (shopBorder) {
 			setborder(shopBorder);
 		}
+		// icon color
 		if (shopIconColor === 'white') {
 			setMessageIcon(MessageIconWhiteSVG);
 		} else if (shopIconColor === 'black') {
 			setMessageIcon(MessageIconBlackSVG);
 		}
-	}, [shopBorder, shopIconColor, shop_avatar]);
+		if (shopFontName) {
+			setFontName(shopFontName);
+		}
+	}, [shopBorder, shopIconColor, shopAvatar, shopColorCode, shopBgColorCode, shopFontName]);
 
 
 	return (
@@ -147,16 +180,16 @@ const Index: NextPage = () => {
 									className={Styles.shopName}
 									style={{
 										fontFamily:
-											font_name === 'L'
+											fontName === 'L'
 												? 'Poppins-Light'
-												: font_name === 'B'
+												: fontName === 'B'
 												? 'Poppins-Black'
-												: font_name === 'S'
+												: fontName === 'S'
 												? 'Poppins-SemiBold'
 												: 'Poppins',
 									}}
 								>
-									{shop_name}
+									{shopName}
 								</h2>
 								<div className={Styles.ratingContainer}>
 									<Image src={BlackStarSVG} width={20} height={20} alt="" />
@@ -168,8 +201,8 @@ const Index: NextPage = () => {
 							<IconButton
 								buttonText="Message"
 								svgIcon={messageIcon}
-								backgroundColor={bg_color_code}
-								textColor={color_code}
+								backgroundColor={bgColorCode}
+								textColor={colorCode}
 								border={border}
 								onClick={() => {
 									console.log('clicked');
@@ -194,11 +227,12 @@ const Index: NextPage = () => {
 									shopContent={
 										<ShopTabContent
 											chipCategoriesAction={chipCategoriesAction}
-											checkBoxAction={checkBoxesForWhomAction}
+											promoCheckAction={promoCheckAction}
+											checkBoxForWhomAction={checkBoxesForWhomAction}
 										/>
 									}
-									color={bg_color_code}
-									borderColor={bg_color_code}
+									color={bgColorCode}
+									borderColor={bgColorCode}
 								/>
 							</div>
 						</div>

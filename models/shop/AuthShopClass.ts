@@ -1,4 +1,5 @@
 import { ShopDaysType, ShopFontNameType, ShopZoneByType } from '../../types/shop/shopTypes';
+import { IconColorType } from "../../types/_init/_initTypes";
 
 export class AuthShopClass {
 	constructor(
@@ -6,6 +7,8 @@ export class AuthShopClass {
 		public avatar: string | ArrayBuffer,
 		public color_code: string,
 		public bg_color_code: string,
+		public border: string,
+		public icon_color: IconColorType,
 		public font_name: ShopFontNameType,
 	) {}
 }
@@ -16,6 +19,8 @@ export class AddShopClass {
 		public avatar: string | ArrayBuffer | null,
 		public color_code: string,
 		public bg_color_code: string,
+		public border: string,
+		public icon_color: IconColorType,
 		public font_name: ShopFontNameType,
 	) {}
 }
@@ -28,6 +33,8 @@ export class UserShopClass extends AuthShopClass {
 		public avatar_thumbnail: string | ArrayBuffer | null,
 		public color_code: string,
 		public bg_color_code: string,
+		public border: string,
+		public icon_color: IconColorType,
 		public font_name: ShopFontNameType,
 		public bio: string,
 		public opening_days: Array<ShopDaysType>,
@@ -49,6 +56,6 @@ export class UserShopClass extends AuthShopClass {
 		public km_radius: number,
 		public creator: boolean,
 	) {
-		super(shop_name, avatar, color_code, bg_color_code, font_name);
+		super(shop_name, avatar, color_code, bg_color_code, border, icon_color, font_name);
 	}
 }

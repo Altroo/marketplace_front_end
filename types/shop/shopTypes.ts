@@ -1,5 +1,5 @@
 import { AddShopClass, AuthShopClass, UserShopClass } from '../../models/shop/AuthShopClass';
-import { IconColorType, Nullable, ResponseDataInterface } from "../_init/_initTypes";
+import { Nullable, ResponseDataInterface } from "../_init/_initTypes";
 // ('L', 'Light'), ('R', 'Regular'), ('S', 'Semi-bold'), ('B', 'Black'),
 export type ShopFontNameType = 'L' | 'R' | 'S' | 'B';
 // ('A', 'Address'), ('S', 'Sector')
@@ -69,8 +69,6 @@ export interface ShopStateInterface<T, K> {
 	userShop: T | K | Record<string, unknown>;
 	phoneCodes: Pick<PhoneCodesType, 'phone_codes'> | [];
 	newShop: AddShopClass | Record<string, unknown>;
-	border: string;
-	iconColor: IconColorType | null;
 }
 
 
@@ -84,7 +82,7 @@ export type ShopAvatarType = Pick<UserShopClass, 'avatar'>;
 
 export type ShopPatchAvatarType = ResponseDataInterface<ShopAvatarType>;
 
-export type ShopColorType = Pick<UserShopClass, 'color_code' | 'bg_color_code'>;
+export type ShopColorType = Pick<UserShopClass, 'color_code' | 'bg_color_code' | 'border' | 'icon_color'>;
 
 export type ShopPatchColorType = ResponseDataInterface<ShopColorType>;
 

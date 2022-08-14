@@ -27,6 +27,7 @@ export type checkBoxForWhomType = {
 	checked: boolean;
 	active: boolean;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	activeColor?: string;
 	children?: React.ReactNode;
 }
 
@@ -34,6 +35,7 @@ export type checkBoxesForWhomActionType = {
 	onChange: (value: (((prevState: boolean) => boolean) | boolean)) => void;
 	checked: boolean;
 	active: boolean;
+	activeColor: string;
 	text: string;
 }
 
@@ -42,5 +44,12 @@ export interface checkBoxForWhomBaseType extends Omit<checkBoxForWhomType, 'onCh
 	checked: boolean;
 	active: boolean;
 	onChange?: React.Dispatch<React.SetStateAction<boolean>>;
+	activeColor?: string;
 	children?: React.ReactNode;
+}
+
+export type switchActionType = {
+	checked: boolean;
+	onChange: React.Dispatch<React.SetStateAction<boolean>>;
+	activeColor?: string;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import Styles from '../../../styles/shop/add/font.module.sass';
+import Styles from '../../../styles/shop/add/shopAddShared.module.sass';
 import LeftSideBar from '../../../components/shop/add/leftSideBar/leftSideBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/HelperH1Header';
@@ -32,7 +32,7 @@ import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { deleteCookieStorageNewShopData } from '../../../utils/helpers';
-import { TokenChoices } from '../../../types/_init/_initTypes';
+import { IconColorType, TokenChoices } from '../../../types/_init/_initTypes';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 
@@ -45,16 +45,17 @@ const Font: NextPage = () => {
 	const shopAvatar = useAppSelector((state) => state.shop.newShop.avatar as ArrayBuffer);
 	const shopColorCode = useAppSelector((state) => state.shop.newShop.color_code as string);
 	const shopBgColorCode = useAppSelector((state) => state.shop.newShop.bg_color_code as string);
+	const shopBorder = useAppSelector((state) => state.shop.newShop.border as string);
+	const shopIconColor = useAppSelector((state) => state.shop.newShop.icon_color as IconColorType);
 	const shopFontName = useAppSelector((state) => state.shop.newShop.font_name as ShopFontNameType);
-	const shopBorder = useAppSelector((state) => state.shop.border as string);
 	const uniqueID = useAppSelector((state) => state._init.tokenType as TokenChoices);
 	// page states
 	const [preview, setPreview] = useState<ArrayBuffer | null>(null);
 	const [colorCode, setColorCode] = useState<string>('');
-	const [fontName, setFontName] = useState<ShopFontNameType>('R');
 	const [bgColorCode, setBgColorCode] = useState<string>('');
 	// Border
 	const [border, setborder] = useState<string | undefined>(undefined);
+	const [fontName, setFontName] = useState<ShopFontNameType>('R');
 	// Gray Message Icon
 	const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
 	// Gray contact Icon
@@ -77,51 +78,49 @@ const Font: NextPage = () => {
 			disabled: true,
 		},
 	];
-	const whiteText = '#FFFFFF';
+	// const whiteText = '#FFFFFF';
 	const blackText = '#0D070B';
 
 	useEffect(() => {
-		if (uniqueID === 'UNIQUE_ID') {
-			deleteCookieStorageNewShopData();
-			router.push('/shop/details?created=true').then();
-		} else {
-			setBackendError(true);
-		}
+		// avatar
 		if (shopAvatar) {
 			setPreview(shopAvatar);
 		}
-		if (shopColorCode === whiteText) {
-			setBgColorCode(shopColorCode);
-			setColorCode(whiteText);
-			// setborder('1px solid #0D070B');
-			// Else other colors than white.
-		} else {
-			setBgColorCode(shopColorCode);
-			// setborder('0px solid transparent');
+		// color code
+		if (shopBgColorCode) {
+			setBgColorCode(shopBgColorCode);
 		}
-		// if picked color fall into those white text colors => apply white text color
+		// bg color code
 		if (shopColorCode) {
-			setborder(shopBorder);
-			const whiteTextColors = ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
-			if (whiteTextColors.includes(shopColorCode)) {
-				setColorCode(whiteText);
-				setContactIcon(ContactIconWhiteSVG);
-				setMessageIcon(MessageIconWhiteSVG);
-				if (shopColorCode === blackText) {
-					setColorCode(whiteText);
-				}
-				// else apply black text color
-			} else {
-				setContactIcon(ContactIconBlackSVG);
-				setMessageIcon(MessageIconBlackSVG);
-				setColorCode(blackText);
-			}
+			setColorCode(shopColorCode);
 		}
-
+		// border
+		if (shopBorder) {
+			setborder(shopBorder);
+		}
+		// icon color
+		if (shopIconColor === 'white') {
+			setContactIcon(ContactIconWhiteSVG);
+			setMessageIcon(MessageIconWhiteSVG);
+		} else if (shopIconColor === 'black') {
+			setContactIcon(ContactIconBlackSVG);
+			setMessageIcon(MessageIconBlackSVG);
+		}
+		// font
 		if (shopFontName) {
 			setFontName(shopFontName);
 		}
-	}, [dispatch, router, shopAvatar, shopBorder, shopColorCode, shopFontName, uniqueID]);
+	}, [
+		dispatch,
+		router,
+		shopAvatar,
+		shopBgColorCode,
+		shopBorder,
+		shopColorCode,
+		shopFontName,
+		shopIconColor,
+		uniqueID,
+	]);
 
 	const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
 		{
@@ -152,7 +151,13 @@ const Font: NextPage = () => {
 	const fontHandler = async (font: ShopFontNameType | undefined) => {
 		if (font) {
 			dispatch(setShopFontAction(font));
-			dispatch(shopPostRootAction(shopName, shopAvatar, shopBgColorCode, shopColorCode, font));
+			dispatch(shopPostRootAction(shopName, shopAvatar, shopBgColorCode, shopColorCode, shopBorder, shopIconColor, font));
+			if (uniqueID === 'UNIQUE_ID') {
+				deleteCookieStorageNewShopData();
+				router.push('/shop/details?created=true').then();
+			} else {
+				setBackendError(true);
+			}
 		}
 	};
 	return !backendError ? (
@@ -220,7 +225,7 @@ const Font: NextPage = () => {
 									</div>
 									<div className={Styles.promoWrapper}>
 										<span className={Styles.subHeader}>En Promo</span>
-										<IosSwitch disabled />
+										<IosSwitch disabled checked={false} />
 									</div>
 									<div className={Styles.forWhomWrapper}>
 										<span className={Styles.subHeader}>Pour qui</span>
@@ -250,7 +255,7 @@ const Font: NextPage = () => {
 								</div>
 							</div>
 						</div>
-						<div className={Styles.desktopContainerModal}>
+						<div className={Styles.desktopFontWrapper}>
 							{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
 								return (
 									<FontPicker
@@ -265,7 +270,7 @@ const Font: NextPage = () => {
 							})}
 						</div>
 						<div>
-							<div className={Styles.mobileContainerModal}>
+							<div className={Styles.mobileFontWrapper}>
 								<div className={Styles.mobileFontContainerModal}>
 									{availableFonts.map(
 										(font: { name: string; code: ShopFontNameType }, index: number) => {
@@ -282,7 +287,9 @@ const Font: NextPage = () => {
 										},
 									)}
 								</div>
-								<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonWrapper}`}>
+								<div
+									className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}
+								>
 									<PrimaryButton
 										buttonText="Continuer"
 										active={fontName !== undefined}
@@ -292,7 +299,7 @@ const Font: NextPage = () => {
 							</div>
 						</div>
 					</CardSection>
-					<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonWrapper}`}>
+					<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 						<PrimaryButton
 							buttonText="Continuer"
 							active={fontName !== undefined}

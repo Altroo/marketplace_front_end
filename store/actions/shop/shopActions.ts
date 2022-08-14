@@ -16,11 +16,17 @@ export const setShopAvatarAction = (avatar: ArrayBuffer | string | null) => {
 	};
 };
 
-export const setShopColorAction = (color_code: string, bg_color_code: string) => {
+export const setShopColorAction = (
+	color_code: string,
+	bg_color_code: string,
+	border: string,
+	icon_color: string) => {
 	return {
 		type: Types.SET_SHOP_COLOR,
 		color_code,
-		bg_color_code
+		bg_color_code,
+		border,
+		icon_color,
 	};
 };
 
@@ -57,6 +63,8 @@ export const shopPostRootAction = (
 	avatar: ArrayBuffer | string,
 	color_code: string,
 	bg_color_code: string,
+	border: string,
+	icon_color: IconColorType,
 	font_name: ShopFontNameType,
 ) => {
 	return {
@@ -65,6 +73,8 @@ export const shopPostRootAction = (
 		avatar,
 		color_code,
 		bg_color_code,
+		border,
+		icon_color,
 		font_name,
 	};
 };

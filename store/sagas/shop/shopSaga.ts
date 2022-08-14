@@ -18,15 +18,17 @@ import {
 	ShopPatchContactType,
 	ShopPatchAddressType,
 	ShopPatchRootType,
-	ShopGetRootType, ShopFontNameType,
+	ShopGetRootType,
+	ShopFontNameType,
 } from '../../../types/shop/shopTypes';
 import {
-	AxiosErrorDefaultType, IconColorType,
+	AxiosErrorDefaultType,
+	IconColorType,
 	InitStateInterface,
 	InitStateToken,
 	InitStateUniqueID,
-	ResponseDataErrorInterface
-} from "../../../types/_init/_initTypes";
+	ResponseDataErrorInterface,
+} from '../../../types/_init/_initTypes';
 import {
 	setShopAvatar,
 	setGetPhoneCodes,
@@ -45,8 +47,11 @@ import {
 	setWSShopAvatar,
 	setNewShopName,
 	setNewShopAvatar,
-	setNewShopColor, setNewShopFont, setBorder, setIconColor
-} from "../../slices/shop/shopSlice";
+	setNewShopColor,
+	setNewShopFont,
+	setBorder,
+	setIconColor,
+} from '../../slices/shop/shopSlice';
 import {
 	allowAnyInstance,
 	isAuthenticatedInstance,
@@ -55,17 +60,12 @@ import {
 	setLocalStorageNewShopFont,
 	loadLocalStorageNewShopData,
 	setLocalStorageNewShopColor,
-	setLocalStorageNewShopName, setRemoteCookiesAppToken,
+	setLocalStorageNewShopName,
+	setRemoteCookiesAppToken,
 } from '../../../utils/helpers';
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
-import {
-	getApi,
-	patchApi,
-	patchFormDataApi,
-	postApi,
-	postFormDataApi,
-} from '../../services/_init/_initAPI';
+import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
 // import {AxiosInstance} from "axios";
 
 // interface TokenNoAuthSagaBaseGeneratorParams {
@@ -162,12 +162,10 @@ function* shopGetRootSaga(payload: ShopGetRootType) {
 			const instance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			// get shop data using qaryb link.
 			// else get user data.
-			if (payload.qaryb_link){
-				url += `${payload.qaryb_link}/`
+			if (payload.qaryb_link) {
+				url += `${payload.qaryb_link}/`;
 			}
-			const response: ShopGetRootTokenResponseType = yield* call(() =>
-				getApi(url, instance),
-			);
+			const response: ShopGetRootTokenResponseType = yield* call(() => getApi(url, instance));
 			if (response.status === 200) {
 				// update state
 				yield* put(setGetShopState(response.data));
@@ -179,10 +177,8 @@ function* shopGetRootSaga(payload: ShopGetRootType) {
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			// User is not authenticated
 			const instance = yield* call(() => allowAnyInstance());
-			url += `${authSagaContext.initStateUniqueID.unique_id}/`
-			const response: ShopGetRootUniqueIDResponseType = yield* call(() =>
-				getApi(url, instance),
-			);
+			url += `${authSagaContext.initStateUniqueID.unique_id}/`;
+			const response: ShopGetRootUniqueIDResponseType = yield* call(() => getApi(url, instance));
 			if (response.status === 200) {
 				// update state
 				// console.log(response.data);
@@ -599,36 +595,51 @@ function* shopPostCreatorSaga() {
 	}
 }
 
-function* wsShopAvatarSaga(payload: {type: string, pk: number, shop_avatar: string}) {
+function* wsShopAvatarSaga(payload: { type: string; pk: number; shop_avatar: string }) {
 	yield* put(setWSShopAvatar(payload.shop_avatar));
 }
 
 // Create Temporary shop
-function* setShopNameSaga(payload: {type: string, shop_name: string}) {
+function* setShopNameSaga(payload: { type: string; shop_name: string }) {
 	yield* put(setNewShopName(payload.shop_name));
 	yield* call(() => setLocalStorageNewShopName(payload.shop_name));
 }
 
-function* setShopAvatarSaga(payload: {type: string, avatar: ArrayBuffer | string}) {
+function* setShopAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string }) {
 	yield* put(setNewShopAvatar(payload.avatar));
 	yield* call(() => setLocalStorageNewShopAvatar(payload.avatar as string));
 }
 
-function* setShopColorSaga(payload: {type: string, color_code: string, bg_color_code: string}) {
-	yield* put(setNewShopColor({color_code: payload.color_code, bg_color_code: payload.bg_color_code}));
-	yield* call(() => setLocalStorageNewShopColor(payload.color_code, payload.bg_color_code));
+function* setShopColorSaga(payload: {
+	type: string;
+	color_code: string;
+	bg_color_code: string;
+	border: string;
+	icon_color: IconColorType;
+}) {
+	yield* put(
+		setNewShopColor({
+			color_code: payload.color_code,
+			bg_color_code: payload.bg_color_code,
+			border: payload.border,
+			icon_color: payload.icon_color,
+		}),
+	);
+	yield* call(() =>
+		setLocalStorageNewShopColor(payload.color_code, payload.bg_color_code, payload.border, payload.icon_color),
+	);
 }
 
-function* setShopFontSaga(payload: {type: string, font_name: ShopFontNameType}) {
+function* setShopFontSaga(payload: { type: string; font_name: ShopFontNameType }) {
 	yield* put(setNewShopFont(payload.font_name));
 	yield* call(() => setLocalStorageNewShopFont(payload.font_name));
 }
 
-function* setShopBorderSaga(payload: {type: string, border: string}) {
+function* setShopBorderSaga(payload: { type: string; border: string }) {
 	yield* put(setBorder(payload.border));
 }
 
-function* setShopIconColorSaga(payload: {type: string, iconColor: IconColorType}) {
+function* setShopIconColorSaga(payload: { type: string; iconColor: IconColorType }) {
 	yield* put(setIconColor(payload.iconColor));
 }
 
@@ -637,7 +648,12 @@ function* loadNewAddedShopDataSaga() {
 	if (newShopData !== null) {
 		yield* put(setNewShopName(newShopData.shop_name));
 		yield* put(setNewShopAvatar(newShopData.avatar));
-		yield* put(setNewShopColor({color_code: newShopData.color_code, bg_color_code: newShopData.bg_color_code}));
+		yield* put(setNewShopColor({
+			color_code: newShopData.color_code,
+			bg_color_code: newShopData.bg_color_code,
+			border: newShopData.border,
+			icon_color: newShopData.icon_color
+		}));
 		yield* put(setNewShopFont(newShopData.font_name));
 	}
 }

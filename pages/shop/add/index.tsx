@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import LeftSideBar from '../../../components/shop/add/leftSideBar/leftSideBar';
 import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import Styles from '../../../styles/shop/add/addIndex.module.sass';
+import Styles from '../../../styles/shop/add/shopAddShared.module.sass';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/HelperH1Header';
 import TextInput from '../../../components/htmlElements/textInput/textInput';

@@ -1,6 +1,7 @@
 import {
 	APIContentTypeInterface,
 	AppTokensCookieType,
+	IconColorType,
 	InitStateInterface,
 	InitStateToken,
 	InitStateUniqueID,
@@ -274,10 +275,17 @@ export const setLocalStorageNewShopAvatar = (avatar: string) => {
 	}
 };
 
-export const setLocalStorageNewShopColor = (color_code: string, bg_color_code: string) => {
+export const setLocalStorageNewShopColor = (
+	color_code: string,
+	bg_color_code: string,
+	border: string,
+	icon_color: IconColorType,
+) => {
 	if (typeof window !== 'undefined') {
 		localStorage.setItem('@color_code', color_code);
 		localStorage.setItem('@bg_color_code', bg_color_code);
+		localStorage.setItem('@border', border);
+		localStorage.setItem('@icon_color', icon_color);
 	}
 };
 
@@ -293,12 +301,16 @@ export const loadLocalStorageNewShopData = () => {
 		const avatar = localStorage.getItem('@avatar') as string;
 		const color_code = localStorage.getItem('@color_code') as string;
 		const bg_color_code = localStorage.getItem('@bg_color_code') as string;
+		const border = localStorage.getItem('@border') as string;
+		const icon_color = localStorage.getItem('@icon_color') as IconColorType;
 		const font_name = localStorage.getItem('@font_name') as ShopFontNameType;
 		return {
 			shop_name,
 			avatar,
 			color_code,
 			bg_color_code,
+			border,
+			icon_color,
 			font_name,
 		};
 	}
@@ -311,6 +323,8 @@ export const emptyLocalStorageNewShopData = () => {
 		localStorage.removeItem('@avatar');
 		localStorage.removeItem('@color_code');
 		localStorage.removeItem('@bg_color_code');
+		localStorage.removeItem('@border');
+		localStorage.removeItem('@icon_color');
 		localStorage.removeItem('@font_name');
 	}
 };
@@ -345,9 +359,9 @@ export const emptyRemoteCookiesUniqueIDOnly = () => {
 };
 
 export const deleteRemoteCookiesAppToken = () => {
-	cookiesDeleter('/cookies', {tokenType: 0}).then(() => {
-		cookiesDeleter('/cookies', {initStateToken: 0}).then(() => {
-			cookiesDeleter('/cookies', {initStateToken: 0}).then();
+	cookiesDeleter('/cookies', { tokenType: 0 }).then(() => {
+		cookiesDeleter('/cookies', { initStateToken: 0 }).then(() => {
+			cookiesDeleter('/cookies', { initStateToken: 0 }).then();
 		});
 	});
 	// cookiesPoster('/cookies', { tokenType: '' }).then();
@@ -355,3 +369,15 @@ export const deleteRemoteCookiesAppToken = () => {
 	// cookiesPoster('/cookies', { initStateUniqueID: emptyInitStateUniqueID }).then();
 };
 
+// convert hex color to rgba
+export const hexToRGB = (hex: string, alpha: number) => {
+	const r: number = parseInt(hex.slice(1, 3), 16),
+		g: number = parseInt(hex.slice(3, 5), 16),
+		b: number = parseInt(hex.slice(5, 7), 16);
+
+	if (alpha) {
+		return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
+	} else {
+		return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+	}
+};

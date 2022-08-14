@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import Styles from '../../../styles/shop/add/color.module.sass';
+import Styles from '../../../styles/shop/add/shopAddShared.module.sass';
 import LeftSideBar from '../../../components/shop/add/leftSideBar/leftSideBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/HelperH1Header';
@@ -56,14 +56,14 @@ const Color: NextPage = () => {
 	// let bgcolorCodeInitial: string | undefined = undefined;
 	const [bgColorCode, setBgColorCode] = useState<string | null>(null);
 	// Border
-	const [border, setborder] = useState<string | undefined>(undefined);
+	const [border, setborder] = useState<string>('');
 	// Gray Message Icon
 	const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
 	// Gray contact Icon
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconSVG);
 	// Icon color
 	// type IconColorType = 'gray' | 'black' | 'white';
-	const [iconColor, setIconColor] = useState<IconColorType>();
+	const [iconColor, setIconColor] = useState<IconColorType>('black');
 	const chipCategoriesAction: chipActionsType = [
 		{
 			buttonText: 'Bien-être',
@@ -89,11 +89,11 @@ const Color: NextPage = () => {
 
 	const colorHandler = (_bgColorCode: string | null, _colorCode: string | null) => {
 		if (_colorCode && _bgColorCode) {
-			// _bgColorCode & _colorCode are reversed for this action.
 			cookiesPoster('/cookies', { border: border }).then(() => {
 				cookiesPoster('/cookies', { icon_color: iconColor }).then();
 			});
-			dispatch(setShopColorAction(_bgColorCode, _colorCode));
+			// _bgColorCode & _colorCode are reversed for this action.
+			dispatch(setShopColorAction(_bgColorCode, _colorCode, border, iconColor));
 		}
 	};
 
@@ -213,7 +213,7 @@ const Color: NextPage = () => {
 									</div>
 									<div className={Styles.promoWrapper}>
 										<span className={Styles.subHeader}>En Promo</span>
-										<IosSwitch disabled />
+										<IosSwitch disabled checked={false} />
 									</div>
 									<div className={Styles.forWhomWrapper}>
 										<span className={Styles.subHeader}>Pour qui</span>
@@ -293,7 +293,7 @@ const Color: NextPage = () => {
 										})}
 									</SwiperSlide>
 								</Swiper>
-								<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonWrapper}`}>
+								<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 									<PrimaryAnchorButton
 										buttonText="Continuer"
 										active={colorCode !== undefined && bgColorCode !== undefined}
@@ -304,7 +304,7 @@ const Color: NextPage = () => {
 							</div>
 						</div>
 					</CardSection>
-					<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonWrapper}`}>
+					<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 						<PrimaryAnchorButton
 							buttonText="Continuer"
 							active={colorCode !== undefined && bgColorCode !== undefined}

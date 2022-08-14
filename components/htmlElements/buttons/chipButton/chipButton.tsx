@@ -22,9 +22,13 @@ const ChipButtons: React.FC<Props> = (props: Props) => {
 				if (action.selected && action.textColor) {
 					cssStyle = { ...cssStyle, color: action.textColor };
 				}
-				if (action.selected && action.border) {
-					cssStyle = { ...cssStyle, border: action.border };
+				if (!action.selected) {
+					cssStyle = { border: `2px solid ` + action.backgroundColor, ...cssStyle };
 				}
+				if (action.selected && action.border) {
+					cssStyle = { border: action.border, ...cssStyle };
+				}
+
 				return (
 					<Chip
 						key={index}
@@ -33,6 +37,7 @@ const ChipButtons: React.FC<Props> = (props: Props) => {
 						disabled={action.disabled}
 						variant={variant}
 						onClick={action.onClick}
+						className={Styles.chip}
 					/>
 				);
 			})}
