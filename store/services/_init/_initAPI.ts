@@ -42,13 +42,15 @@ export const cookiesFetcher = async (url: string) => {
 	};
 };
 // DELETE Next api/cookies
-// export const cookiesDeleter = async (url: string, body: object) => {
-// 	axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_BACKEND_API}`;
-// 	const response = await axios.delete(url, body);
-// 	return {
-// 		status: response.status,
-// 	};
-// };
+export const cookiesDeleter = async (url: string, body: object) => {
+	axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_BACKEND_API}`;
+	const response = await axios.delete(url, {
+		data: body
+	});
+	return {
+		status: response.status,
+	};
+};
 
 /*** Base Axios Form Data Api call [POST] */
 export const postFormDataApi = async (

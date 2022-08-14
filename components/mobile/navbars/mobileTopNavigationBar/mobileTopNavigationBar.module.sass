@@ -1,0 +1,22 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+.topBar
+  display: flex
+  justify-content: space-between
+  margin-top: 1rem
+  img
+    cursor: pointer
+
+.backLink
+  +Regular
+  color: $primary
+  font-size: 19px
+  letter-spacing: -0.03em
+  display: flex
+
+// Desktop
+@media #{$desktop}
+  .topBar
+    +Hidden

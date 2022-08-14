@@ -1,3 +1,5 @@
+import { ShopFontNameType } from "../shop/shopTypes";
+
 export type ResponseStatusDefaultType = {
 	status: number | undefined;
 };
@@ -30,13 +32,14 @@ export interface ResponseOnlyInterface {
 export type APIContentTypeInterface = 'application/json' | 'application/x-www-form-urlencoded' | 'multipart/form-data';
 
 export type Nullable<T> = { [K in keyof T]: T[K] | null };
+export type Undefinedable<T> = { [K in keyof T]: T[K] | undefined };
 
 // export type DeepNullable<T> = { [K in keyof T]: DeepNullable<T[K]> | null };
 
-export type TokenChoices = 'TOKEN' | 'UNIQUE_ID' | null;
+export type TokenChoices = 'TOKEN' | 'UNIQUE_ID';
 
 export type Token_type = {
-	tokenType: TokenChoices;
+	tokenType: TokenChoices | null;
 };
 
 export type InitStateNonNullableToken = {
@@ -91,9 +94,20 @@ export type ResponseDataTokenRefreshType = ResponseDataInterface<ResponseDataTok
 // 	'@bg_color_code': string | undefined,
 // 	'@font_name': ShopFontNameType | undefined,
 // };
+export type IconColorType = 'black' | 'white';
 
 export type AppTokensCookieType = {
 	'@tokenType' : string | undefined,
 	'@initStateToken' : string | undefined,
 	'@initStateUniqueID' : string | undefined,
+}
+
+export type NewShopCookieType = {
+	'@shop_name' : string | undefined,
+	'@avatar': ArrayBuffer | string | undefined,
+	'@color_code': string | undefined,
+	'@bg_color_code': string | undefined,
+	'@font_name': ShopFontNameType | undefined,
+	'@border': string | undefined,
+	'@icon_color': IconColorType | undefined,
 }

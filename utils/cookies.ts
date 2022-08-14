@@ -9,3 +9,7 @@ export const setCookie = (res: NextApiResponse, name: string, value: unknown, op
 	}
 	res.setHeader('Set-Cookie', serialize(name, stringValue, options));
 };
+
+export const deleteCookie = (res: NextApiResponse, name: string, options: CookieSerializeOptions = {}) => {
+	res.setHeader('Set-Cookie', serialize(name, '0', options));
+};

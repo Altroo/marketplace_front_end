@@ -1,5 +1,5 @@
 import { AddShopClass, AuthShopClass, UserShopClass } from '../../models/shop/AuthShopClass';
-import { Nullable, ResponseDataInterface } from '../_init/_initTypes';
+import { IconColorType, Nullable, ResponseDataInterface } from "../_init/_initTypes";
 // ('L', 'Light'), ('R', 'Regular'), ('S', 'Semi-bold'), ('B', 'Black'),
 export type ShopFontNameType = 'L' | 'R' | 'S' | 'B';
 // ('A', 'Address'), ('S', 'Sector')
@@ -33,7 +33,8 @@ export interface ShopPostRootUniqueIDType extends AuthShopClass {
 	qaryb_link: string;
 }
 
-type OpeningDaysArray = Array<{ pk: number; code_day: ShopDaysType; name_day: string }>;
+// TODO Check here
+export type OpeningDaysArray = Array<{ pk: number; code_day: ShopDaysType; name_day: string }>;
 
 export interface ShopGetRootTokenType extends Omit<Nullable<UserShopClass>, 'opening_days'> {
 	pk: number;
@@ -67,7 +68,9 @@ export type PhoneCodesType = { phone_codes: Array<string> };
 export interface ShopStateInterface<T, K> {
 	userShop: T | K | Record<string, unknown>;
 	phoneCodes: Pick<PhoneCodesType, 'phone_codes'> | [];
-	newShop: AddShopClass;
+	newShop: AddShopClass | Record<string, unknown>;
+	border: string;
+	iconColor: IconColorType | null;
 }
 
 

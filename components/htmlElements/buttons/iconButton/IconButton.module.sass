@@ -1,0 +1,35 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.iconButton
+  +SemiBold
+  font-size: 16px
+  line-height: 18px
+  background-color: $buttonInputDisabled
+  display: flex
+  flex-direction: row
+  justify-content: space-evenly
+  align-items: center
+  width: 150px
+  height: 45px
+  border: none
+  border-radius: 50px
+  cursor: default
+  margin: 5px 5px
+  color: $buttonTextDisabled
+.active
+  cursor: pointer
+.icon
+  width: 20px
+  height: 20px
+// @media #{$desktop}
+@media #{$tablette}
+  .iconButton
+    +Regular
+    width: 170px
+
+@media #{$mobile}
+  .iconButton
+    width: 140px

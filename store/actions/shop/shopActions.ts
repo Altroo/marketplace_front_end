@@ -1,5 +1,6 @@
 import * as Types from '../index';
 import { ShopFontNameType, ShopZoneByType } from '../../../types/shop/shopTypes';
+import { IconColorType } from "../../../types/_init/_initTypes";
 
 export const setShopNameAction = (shop_name: string) => {
 	return {
@@ -29,6 +30,20 @@ export const setShopFontAction = (font_name: ShopFontNameType) => {
 		font_name,
 	};
 };
+
+export const setShopBorderAction = (border: string) => {
+	return {
+		type: Types.SET_SHOP_BORDER,
+		border,
+	};
+}
+
+export const setShopIconColorAction = (iconColor: IconColorType) => {
+	return {
+		type: Types.SET_SHOP_ICON_COLOR,
+		iconColor,
+	};
+}
 
 export const loadNewAddedShopAction = () => {
 	return {

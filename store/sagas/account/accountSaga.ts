@@ -2,7 +2,7 @@ import { call, put, takeLatest } from 'typed-redux-saga/macro';
 import * as Types from '../../actions';
 import {
 	allowAnyInstance,
-	emptyRemoteCookiesAppToken,
+	deleteRemoteCookiesAppToken,
 	emptyRemoteCookiesUniqueIDOnly,
 	isAuthenticatedInstance,
 	setRemoteCookiesTokenOnly,
@@ -169,7 +169,7 @@ function* accountPostLogoutSaga() {
 				// Empty both Token & unique ID state
 				yield* put(initToken());
 				yield* put(setIsLoggedIn(false));
-				yield* call(() => emptyRemoteCookiesAppToken());
+				yield* call(() => deleteRemoteCookiesAppToken());
 			} else {
 				console.log(response.data);
 				console.log(response.status);

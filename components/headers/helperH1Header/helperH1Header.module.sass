@@ -1,0 +1,46 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.headerWrapper
+  margin-top: 2rem
+
+.header
+  +Bold
+  font-size: 45px
+  color: $primary
+  margin: 0
+
+.helpTextWrapper
+  display: flex
+  gap: 3px
+  align-items: center
+  height: 1rem
+  margin: 0 auto
+  text-align: center
+  width: 100%
+  p
+    +Regular
+    color: $blue
+    font-size: 17px
+    line-height: 22px
+    letter-spacing: 0.02rem
+
+// Desktop
+@media #{$desktop}
+  .header
+    font-size: 38px
+
+// Tablet
+@media #{$tablette}
+  .headerWrapper
+    margin-top: 1rem
+  .header
+    font-size: 33px
+
+// Mobile
+@media #{$mobile}
+  .header
+    +SemiBold
+    font-size: 21px

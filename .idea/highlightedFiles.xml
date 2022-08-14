@@ -2,12 +2,67 @@
 <project version="4">
   <component name="ProjectTreeColorHighlighter">
     <files>
+      <node color="7" path="$PROJECT_DIR$/components/cards" />
+      <node color="7" path="$PROJECT_DIR$/components/cards/cardSection" />
+      <node color="7" path="$PROJECT_DIR$/components/cards/cardSection/cardSection.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/cards/cardSection/cardSection.tsx" />
+      <node color="7" path="$PROJECT_DIR$/components/desktop" />
+      <node color="7" path="$PROJECT_DIR$/components/desktop/desktopTopBar" />
+      <node color="7" path="$PROJECT_DIR$/components/desktop/desktopTopBar/desktopTopBar.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/desktop/desktopTopBar/desktopTopBar.tsx" />
+      <node color="7" path="$PROJECT_DIR$/components/headers" />
+      <node color="7" path="$PROJECT_DIR$/components/headers/helperDescriptionHeader" />
+      <node color="7" path="$PROJECT_DIR$/components/headers/helperDescriptionHeader/helperDescriptionHeader.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/headers/helperDescriptionHeader/helperDescriptionHeader.tsx" />
+      <node color="7" path="$PROJECT_DIR$/components/headers/helperH1Header" />
+      <node color="7" path="$PROJECT_DIR$/components/headers/helperH1Header/helperH1Header.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/headers/helperH1Header/HelperH1Header.tsx" />
+      <node color="7" path="$PROJECT_DIR$/components/htmlElements" />
+      <node color="7" path="$PROJECT_DIR$/components/htmlElements/buttons" />
+      <node color="7" path="$PROJECT_DIR$/components/htmlElements/checkBoxes" />
+      <node color="7" path="$PROJECT_DIR$/components/htmlElements/iconTextInput" />
+      <node color="7" path="$PROJECT_DIR$/components/htmlElements/switches" />
+      <node color="7" path="$PROJECT_DIR$/components/htmlElements/textInput" />
+      <node color="7" path="$PROJECT_DIR$/components/mobile" />
+      <node color="7" path="$PROJECT_DIR$/components/mobile/mobileStepsBar" />
+      <node color="7" path="$PROJECT_DIR$/components/mobile/mobileStepsBar/mobileStepsBar.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/mobile/mobileStepsBar/mobileStepsBar.tsx" />
+      <node color="7" path="$PROJECT_DIR$/components/mobile/mobileTopBar" />
+      <node color="7" path="$PROJECT_DIR$/components/mobile/mobileTopBar/mobileTopBar.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/mobile/mobileTopBar/mobileTopBar.tsx" />
+      <node color="7" path="$PROJECT_DIR$/components/shop" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/avatarShopNameRating" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/avatarShopNameRating/avatarShopNameRating.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/avatarShopNameRating/avatarShopNameRating.tsx" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/categorieBadge" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/categorieBadge/categorieBadge.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/categorieBadge/categorieBadge.tsx" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/centeredInfoAction" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/centeredInfoAction/centeredInfoAction.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/centeredInfoAction/centeredInfoAction.tsx" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/disabledFilterDropDown" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/disabledFilterDropDown/disabledFilterDropDown.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/disabledFilterDropDown/disabledFilterDropDown.tsx" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/leftSideBar" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/leftSideBar/leftSideBar.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/shop/leftSideBar/leftSideBar.tsx" />
+      <node color="7" path="$PROJECT_DIR$/components/tabs" />
+      <node color="7" path="$PROJECT_DIR$/components/tabs/tab.module.sass" />
+      <node color="7" path="$PROJECT_DIR$/components/tabs/tab.tsx" />
       <node color="9" path="$PROJECT_DIR$/models/account" />
       <node color="9" path="$PROJECT_DIR$/models/cart" />
       <node color="9" path="$PROJECT_DIR$/models/offer" />
       <node color="9" path="$PROJECT_DIR$/models/order" />
       <node color="9" path="$PROJECT_DIR$/models/rating" />
       <node color="9" path="$PROJECT_DIR$/models/shop" />
+      <node color="5" path="$PROJECT_DIR$/pages/_app.tsx" />
+      <node color="5" path="$PROJECT_DIR$/pages/api" />
+      <node color="5" path="$PROJECT_DIR$/pages/index.tsx" />
+      <node color="5" path="$PROJECT_DIR$/pages/shop" />
+      <node color="5" path="$PROJECT_DIR$/pages/shop/add" />
+      <node color="5" path="$PROJECT_DIR$/pages/shop/add/avatar.tsx" />
+      <node color="5" path="$PROJECT_DIR$/pages/shop/add/color.tsx" />
+      <node color="5" path="$PROJECT_DIR$/pages/shop/add/index.tsx" />
       <node color="7" path="$PROJECT_DIR$/store/actions" />
       <node color="7" path="$PROJECT_DIR$/store/actions/_init" />
       <node color="7" path="$PROJECT_DIR$/store/actions/account" />
@@ -50,6 +105,17 @@
       <node color="4" path="$PROJECT_DIR$/store/slices/rating" />
       <node color="4" path="$PROJECT_DIR$/store/slices/shop" />
       <node color="4" path="$PROJECT_DIR$/store/slices/version" />
+      <node color="1" path="$PROJECT_DIR$/styles/globals.sass" />
+      <node color="1" path="$PROJECT_DIR$/styles/sass" />
+      <node color="1" path="$PROJECT_DIR$/styles/sass/_colors.sass" />
+      <node color="1" path="$PROJECT_DIR$/styles/sass/_mixins.sass" />
+      <node color="1" path="$PROJECT_DIR$/styles/sass/_typography.sass" />
+      <node color="1" path="$PROJECT_DIR$/styles/sass/_variables.sass" />
+      <node color="1" path="$PROJECT_DIR$/styles/shop" />
+      <node color="1" path="$PROJECT_DIR$/styles/shop/add" />
+      <node color="1" path="$PROJECT_DIR$/styles/shop/add/addIndex.module.sass" />
+      <node color="1" path="$PROJECT_DIR$/styles/shop/add/avatar.module.sass" />
+      <node color="1" path="$PROJECT_DIR$/styles/shop/add/color.module.sass" />
       <node color="5" path="$PROJECT_DIR$/types/_init" />
       <node color="5" path="$PROJECT_DIR$/types/account" />
       <node color="5" path="$PROJECT_DIR$/types/cart" />
@@ -72,6 +138,7 @@
       <color id="7" value="#311333" name="Color 7" enabled="true" />
       <color id="8" value="#1e1e1e" name="Color 8" enabled="true" />
       <color id="9" value="#124821" name="Color 9" enabled="true" />
+      <color id="10" value="#5f5219" name="Color 10" enabled="true" />
     </colors>
     <option name="marksForCollapsedHighlights" value="Dots" />
   </component>

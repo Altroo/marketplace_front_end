@@ -25,9 +25,17 @@ export function middleware(req: NextRequest) {
 	if (req.nextUrl.pathname.endsWith('/font')) {
 		return redirectFunc(req, '@bg_color_code', '/shop/add/color');
 	}
+	// if added shop cookie tokenType doesn't exist redirect to create shop else to shop details page.
+	if (req.nextUrl.pathname.endsWith('/details')) {
+		if (req.cookies.get('@tokenType') !== null) {
+			return res;
+		} else {
+			return NextResponse.redirect(new URL('/shop/add', req.url));
+		}
+	}
 	return res;
 }
 
 export const config = {
-	matcher: ['/shop/add', '/shop/add/:path*'],
+	matcher: ['/shop/add', '/shop/add/:path*', '/shop/details'],
 };

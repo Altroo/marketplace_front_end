@@ -12,11 +12,11 @@ export class AuthShopClass {
 
 export class AddShopClass {
 	constructor(
-		public shop_name?: string,
-		public avatar?: string | ArrayBuffer | null,
-		public color_code?: string,
-		public bg_color_code?: string,
-		public font_name?: ShopFontNameType,
+		public shop_name: string,
+		public avatar: string | ArrayBuffer | null,
+		public color_code: string,
+		public bg_color_code: string,
+		public font_name: ShopFontNameType,
 	) {}
 }
 

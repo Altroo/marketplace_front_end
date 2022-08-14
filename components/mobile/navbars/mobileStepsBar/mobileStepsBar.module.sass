@@ -1,0 +1,26 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.stepActive
+  background-color: $primary !important
+.steps
+  display: flex
+  justify-content: space-between
+  gap: 1rem
+  text-align: center
+  margin-top: 18px
+.step
+  width: 30%
+  height: 0.3rem
+  border-radius: 20px
+  margin: 0
+  background-color: $grayColor
+
+@media #{$desktop}
+  .steps
+    +Hidden
+
+// @media #{$tablette}
+// @media #{$mobile}

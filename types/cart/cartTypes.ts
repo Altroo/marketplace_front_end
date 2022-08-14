@@ -10,9 +10,9 @@ export type cartOrderStatus = 'Success' | 'Fail';
 
 //!- Cart State
 export interface CartStateInterface {
-	cartOffers: CartTopPaginationResponseType<SingleCartClass | MultiCartClass>;
+	cartOffers: CartTopPaginationResponseType<SingleCartClass | MultiCartClass> | Record<string, unknown>;
 	selectedCoordinates: CartGetCoordinates | Record<string, unknown>;
-	selectedCartDetails: CartTopPaginationResponseType<SingleCartDetailsClass | MultiCartDetailsClass>;
+	selectedCartDetails: CartTopPaginationResponseType<SingleCartDetailsClass | MultiCartDetailsClass> | Record<string, unknown>;
 	orderStatus: cartOrderStatus | null;
 }
 

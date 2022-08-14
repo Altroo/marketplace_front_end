@@ -14,10 +14,10 @@ const Home: NextPage<RootState> = () => {
 			</Head>
 			<main>
 				<h1>
-					Welcome to <a href="https://nextjs.org">Next.js!</a>
+					<Link href="/shop/add">Créer ma boutique</Link>
 				</h1>
 				{/*<div>{`Cookie from response: "${data}"`}</div>*/}
-				<Link href="/">To second page</Link>
+
 			</main>
 		</div>
 	);

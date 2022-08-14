@@ -1,0 +1,31 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.dropDownWrapper
+  color: $blue
+  display: flex
+  align-self: center
+  button
+    +Regular
+    font-size: 17px
+    text-transform: capitalize !important
+.menuItem
+  display: flex
+  align-items: center
+  cursor: pointer
+  z-index: 2
+  position: relative
+  width: 100%
+  gap: 0.5rem
+  margin-top: 6px
+  margin-bottom: 6px
+  li
+    +Regular
+    font-size: 17px
+    color: $primary
+    margin: 0
+// @media #{}
+// @media #{}
+// @media #{}

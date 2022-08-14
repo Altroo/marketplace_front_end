@@ -6,12 +6,21 @@ const nextConfig = {
 	sassOptions: {
 		includePaths: [path.join(__dirname, 'styles')]
 	},
+	images: {
+		domains: [`${process.env.API_ROOT_URL}`]
+	},
 	experimental: {
 		images: {
 			allowFutureImage: true
 		},
-		swcPlugins: [['css-variable/swc', { displayName: true, basePath: __dirname }]]
-	}
+		swcMinifyDebugOptions: {
+			compress: {
+				defaults: true,
+				side_effects: false
+			}
+		}
+	},
+	swcMinify: true
 };
 
 module.exports = nextConfig;

@@ -1,4 +1,8 @@
-html
+@import 'styles/sass/variables'
+@import 'styles/sass/typography'
+@import 'styles/sass/colors'
+
+html, body
   line-height: 1.5
   font-weight: normal
   -ms-text-size-adjust: 100%
@@ -15,3 +19,12 @@ a
 
 *
   box-sizing: border-box
+// Mobile color picker active bullet
+span.activekBullet
+  background: $primary
+  opacity: 1
+div.paginationBullet
+  bottom: 20px !important
+input[type='text']
+  &:focus
+    outline: none

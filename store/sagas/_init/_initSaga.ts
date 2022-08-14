@@ -1,15 +1,15 @@
 import { put, call, takeLatest, select } from 'typed-redux-saga/macro';
 import * as Types from '../../actions';
 import {
-	AppTokensCookieType,
+	AppTokensCookieType, IconColorType,
 	InitStateToken,
-	InitStateUniqueID,
-} from '../../../types/_init/_initTypes';
+	InitStateUniqueID, NewShopCookieType
+} from "../../../types/_init/_initTypes";
 import { emptyInitStateToken, emptyInitStateUniqueID, initialState, setInitState } from '../../slices/_init/_initSlice';
 import { getInitStateToken, getInitStateUniqueID, getTokenType } from '../../selectors';
 import { versionSaga } from '../version/versionSaga';
 import { initAccount, setIsLoggedIn } from '../../slices/account/accountSlice';
-import { initShop } from '../../slices/shop/shopSlice';
+import { initShop, setBorderIconColor } from "../../slices/shop/shopSlice";
 import { initOffer } from '../../slices/offer/offerSlice';
 import { initPlaces } from '../../slices/places/placesSlice';
 import { initVersion } from '../../slices/version/versionSlice';
@@ -87,7 +87,7 @@ function* initAppSaga() {
 // 	}
 // }
 
-function* initAppTokensSaga(payload: { type: string; cookies: AppTokensCookieType }) {
+function* initAppCookieTokensSaga(payload: { type: string; cookies: AppTokensCookieType }) {
 	const tokenType: string | undefined = payload.cookies['@tokenType'];
 	const stateToken: string | undefined = payload.cookies['@initStateToken'];
 	const stateUniqueID: string | undefined = payload.cookies['@initStateUniqueID'];
@@ -110,7 +110,15 @@ function* initAppTokensSaga(payload: { type: string; cookies: AppTokensCookieTyp
 		// set is logged in to true
 		yield* put(setIsLoggedIn(true));
 	}
-	console.log('initAppTokensSaga Called');
+	console.log('initAppCookieTokensSaga Called');
+}
+
+function* initCookieBorderIconSaga(payload: { type: string; cookies: NewShopCookieType }) {
+	const border: string | undefined = payload.cookies['@border'];
+	const iconColor: IconColorType | undefined = payload.cookies['@icon_color'];
+	if (border && iconColor) {
+		yield* put(setBorderIconColor({border: border, iconColor: iconColor}));
+	}
 }
 
 // User click Logout
@@ -139,6 +147,7 @@ export function* watchInit() {
 	// before proceeding to the rest of the watchers that needs the token state
 	// yield* takeLatest(Types.INIT_NEW_SHOP_STATE, initNewShopStateSaga)
 	yield* takeLatest(Types.INIT_APP, initAppSaga);
-	yield* takeLatest(Types.INIT_APP_COOKIE_TOKENS, initAppTokensSaga);
+	yield* takeLatest(Types.INIT_APP_COOKIE_TOKENS, initAppCookieTokensSaga);
+	yield* takeLatest(Types.INIT_COOKIE_BORDER_ICON, initCookieBorderIconSaga);
 	// yield* fork(initAppSaga, Types.INIT_APP);
 }

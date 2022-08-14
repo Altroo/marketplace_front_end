@@ -5,7 +5,6 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/createShopLeftSideBar" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/topBar" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contexts" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/models" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/models/account" isTestSource="false" />
@@ -75,10 +74,72 @@
       <sourceFolder url="file://$MODULE_DIR$/store/slices/rating" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/shop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/version" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/headers" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/headers/helperDescriptionHeader" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/headers/helperH1Header" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/borderIconAnchorButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/circularAvatarInputFile" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/iconButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/primaryAnchorButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/primaryButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/checkBoxes" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/iconTextInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/switches" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/textInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop/add" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop/modals/desktopColorPicker" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/cards" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/cards/cardSection" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/images" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/images/circularAvatar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/modals/actionModal" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/modals/dismissMessageModal" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/tabs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/mobile/modals/mobileColorPicker" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/mobile/modals/mobileFontPicker" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/mobile/modals/testColorPickerSlide" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop/details" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop/details" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars/desktopPublishEditNavbar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars/desktopTopNavigationBar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/borderIconButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/dropDownMenu" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/mobile/navbars" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/mobile/navbars/mobilePublishEditNavbar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/mobile/navbars/mobileStepsBar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/mobile/navbars/mobileTopNavigationBar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/ui" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/archives/desktopFilterSelect" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop/dropDowns" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop/selects" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/selects" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/archives/categorieChip" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop/modals" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/chipButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/modals" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/mobile" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/mobile/modals" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/add" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/add/avatarShopNameRating" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/add/centeredInfoAction" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/add/disabledFilterDropDown" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/add/fontPicker" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/add/leftSideBar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/infoTabContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/shopTabContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/startYourShopContent" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop/add" />
+      <excludeFolder url="file://$MODULE_DIR$/components/archives" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

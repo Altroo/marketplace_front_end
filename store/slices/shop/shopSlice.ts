@@ -17,8 +17,10 @@ import {
 	ShopBioType,
 	ShopAvailabilityType,
 	ShopContactType,
-	ShopAddressType, ShopFontNameType,
+	ShopAddressType,
+	ShopFontNameType,
 } from '../../../types/shop/shopTypes';
+import { IconColorType } from "../../../types/_init/_initTypes";
 // import { HYDRATE } from "next-redux-wrapper";
 
 // GET | POST |
@@ -28,23 +30,19 @@ const initialState:
 	userShop: {},
 	phoneCodes: [],
 	newShop: {},
+	border: '',
+	iconColor: null,
 };
 
 const shopSlice = createSlice({
 	name: 'shop',
 	initialState: initialState,
 	reducers: {
-		setPostShopState: (
-			state,
-			action: PayloadAction<ShopPostRootTokenType | ShopPostRootUniqueIDType>,
-		) => {
+		setPostShopState: (state, action: PayloadAction<ShopPostRootTokenType | ShopPostRootUniqueIDType>) => {
 			state.userShop = action.payload;
 			return state;
 		},
-		setGetShopState: (
-			state,
-			action: PayloadAction<ShopGetRootTokenType | ShopGetRootUniqueIDType>,
-		) => {
+		setGetShopState: (state, action: PayloadAction<ShopGetRootTokenType | ShopGetRootUniqueIDType>) => {
 			state.userShop = action.payload;
 			return state;
 		},
@@ -53,28 +51,20 @@ const shopSlice = createSlice({
 			return state;
 		},
 		setShopName: (state, action: PayloadAction<ShopNameType>) => {
-			if ('shop_name' in state.userShop) {
-				state.userShop.shop_name = action.payload.shop_name;
-			}
+			state.userShop.shop_name = action.payload.shop_name;
 			return state;
 		},
 		setShopAvatar: (state, action: PayloadAction<ShopAvatarType>) => {
-			if ('avatar' in state.userShop) {
-				state.userShop.avatar = action.payload.avatar;
-			}
+			state.userShop.avatar = action.payload.avatar;
 			return state;
 		},
 		setShopColors: (state, action: PayloadAction<ShopColorType>) => {
-			if ('color_code' in state.userShop) {
-				state.userShop.color_code = action.payload.color_code;
-				state.userShop.bg_color_code = action.payload.bg_color_code;
-			}
+			state.userShop.color_code = action.payload.color_code;
+			state.userShop.bg_color_code = action.payload.bg_color_code;
 			return state;
 		},
 		setShopFont: (state, action: PayloadAction<ShopFontType>) => {
-			if ('font_name' in state.userShop) {
-				state.userShop.font_name = action.payload.font_name;
-			}
+			state.userShop.font_name = action.payload.font_name;
 			return state;
 		},
 		setShopPhone: (state, action: PayloadAction<ShopPhoneType>) => {
@@ -95,6 +85,7 @@ const shopSlice = createSlice({
 			}
 			return state;
 		},
+		// TODO TO CHECK OpeningDaysArray
 		setShopAvailability: (state, action: PayloadAction<ShopAvailabilityType>) => {
 			if ('opening_days' in state.userShop) {
 				state.userShop.opening_days = action.payload.opening_days;
@@ -130,6 +121,7 @@ const shopSlice = createSlice({
 			if ('creator' in state.userShop) {
 				state.userShop.creator = action.payload;
 			}
+			return state;
 		},
 		setWSShopAvatar: (state, action: PayloadAction<string>) => {
 			// payload has shop_avatar
@@ -138,29 +130,37 @@ const shopSlice = createSlice({
 			}
 			return state;
 		},
-		setNewShopName: (state, action: PayloadAction<string | null>) => {
-			if (action.payload !== null) {
-				state.newShop.shop_name = action.payload;
-			}
+		setNewShopName: (state, action: PayloadAction<string>) => {
+			state.newShop.shop_name = action.payload;
 			return state;
 		},
-		setNewShopAvatar: (state, action: PayloadAction<ArrayBuffer | string | null>) => {
-			if (action.payload !== null) {
-				state.newShop.avatar = action.payload;
-			}
+		setNewShopAvatar: (state, action: PayloadAction<ArrayBuffer | string>) => {
+			state.newShop.avatar = action.payload;
 			return state;
 		},
-		setNewShopColor: (state, action: PayloadAction<{color_code: string | null, bg_color_code: string | null}>) => {
-			if (action.payload.color_code !== null && action.payload.bg_color_code !== null) {
-				state.newShop.color_code = action.payload.color_code;
-				state.newShop.bg_color_code = action.payload.bg_color_code;
-			}
+		setNewShopColor: (
+			state,
+			action: PayloadAction<{ color_code: string; bg_color_code: string }>,
+		) => {
+			state.newShop.color_code = action.payload.color_code;
+			state.newShop.bg_color_code = action.payload.bg_color_code;
 			return state;
 		},
-		setNewShopFont: (state, action: PayloadAction<ShopFontNameType | null>) => {
-			if (action.payload !== null) {
-				state.newShop.font_name = action.payload;
-			}
+		setNewShopFont: (state, action: PayloadAction<ShopFontNameType>) => {
+			state.newShop.font_name = action.payload;
+			return state;
+		},
+		setBorderIconColor: (state, action: PayloadAction<{border: string, iconColor: IconColorType}>) => {
+			state.border = action.payload.border;
+			state.iconColor = action.payload.iconColor;
+			return state;
+		},
+		setBorder: (state, action: PayloadAction<string>) => {
+			state.border = action.payload;
+			return state;
+		},
+		setIconColor: (state, action: PayloadAction<IconColorType>) => {
+			state.iconColor = action.payload;
 			return state;
 		},
 		initShop: () => {
@@ -194,7 +194,10 @@ export const {
 	setNewShopName,
 	setNewShopAvatar,
 	setNewShopColor,
-	setNewShopFont
+	setNewShopFont,
+	setBorderIconColor,
+	setBorder,
+	setIconColor,
 } = shopSlice.actions;
 
 export default shopSlice.reducer;

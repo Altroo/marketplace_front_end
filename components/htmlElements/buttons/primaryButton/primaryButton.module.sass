@@ -1,0 +1,28 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.primaryButtonDisabled
+  +SemiBold
+  font-size: 17px
+  width: 300px
+  background-color: $buttonInputDisabled
+  color: $buttonTextDisabled
+  border: 0
+  border-radius: 50px
+  height: 3rem
+  margin: 0 auto
+  cursor: pointer
+
+.primaryButtonActive
+  background-color: $primary
+  color: white
+
+// @media #{$desktop}
+@media #{$tablette}
+  .primaryButtonDisabled
+    width: 100%
+@media #{$mobile}
+  .primaryButtonDisabled
+    width: 100%

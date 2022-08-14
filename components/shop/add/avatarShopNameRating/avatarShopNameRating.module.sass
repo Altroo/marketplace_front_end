@@ -1,0 +1,52 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.avatarWrapper
+  display: flex
+  justify-content: flex-start
+  align-self: center
+  width: 55%
+.shopNameContainer
+  display: flex
+  flex-direction: column
+  justify-content: center
+  width: 100%
+.ratingContainer
+  display: flex
+  align-items: center
+  span
+    +Regular
+    color: $buttonTextDisabled
+    font-size: 12px
+    line-height: 17px
+    letter-spacing: -0.03em
+    opacity: 0.9
+.shopName
+  +Regular
+  font-size: 37px
+  color: $primary
+  line-height: 43px
+  letter-spacing: -0.03em
+  margin-left: 5px
+  margin-bottom: 0
+// @media #{$desktop}
+@media #{$tablette}
+  .avatarWrapper
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 20px
+    width: 60%
+    align-self: center
+  .shopNameContainer
+    align-items: center
+    margin: 5px 0
+    width: 100%
+  .shopName
+    font-size: 25px
+    margin-top: 0
+    margin-left: 0
+@media #{$mobile}

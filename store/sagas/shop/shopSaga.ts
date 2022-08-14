@@ -21,12 +21,12 @@ import {
 	ShopGetRootType, ShopFontNameType,
 } from '../../../types/shop/shopTypes';
 import {
-	AxiosErrorDefaultType,
+	AxiosErrorDefaultType, IconColorType,
 	InitStateInterface,
 	InitStateToken,
 	InitStateUniqueID,
-	ResponseDataErrorInterface,
-} from '../../../types/_init/_initTypes';
+	ResponseDataErrorInterface
+} from "../../../types/_init/_initTypes";
 import {
 	setShopAvatar,
 	setGetPhoneCodes,
@@ -45,8 +45,8 @@ import {
 	setWSShopAvatar,
 	setNewShopName,
 	setNewShopAvatar,
-	setNewShopColor, setNewShopFont,
-} from '../../slices/shop/shopSlice';
+	setNewShopColor, setNewShopFont, setBorder, setIconColor
+} from "../../slices/shop/shopSlice";
 import {
 	allowAnyInstance,
 	isAuthenticatedInstance,
@@ -60,7 +60,6 @@ import {
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import {
-	cookiesPoster,
 	getApi,
 	patchApi,
 	patchFormDataApi,
@@ -610,22 +609,27 @@ function* setShopNameSaga(payload: {type: string, shop_name: string}) {
 	yield* call(() => setLocalStorageNewShopName(payload.shop_name));
 }
 
-function* setShopAvatarSaga(payload: {type: string, avatar: ArrayBuffer | string | null}) {
+function* setShopAvatarSaga(payload: {type: string, avatar: ArrayBuffer | string}) {
 	yield* put(setNewShopAvatar(payload.avatar));
 	yield* call(() => setLocalStorageNewShopAvatar(payload.avatar as string));
-	yield* call(() => cookiesPoster('/cookies', { avatar: true }));
 }
 
 function* setShopColorSaga(payload: {type: string, color_code: string, bg_color_code: string}) {
 	yield* put(setNewShopColor({color_code: payload.color_code, bg_color_code: payload.bg_color_code}));
 	yield* call(() => setLocalStorageNewShopColor(payload.color_code, payload.bg_color_code));
-	yield* call(() => cookiesPoster('/cookies', { color_code: true, bg_color_code: true }));
 }
 
 function* setShopFontSaga(payload: {type: string, font_name: ShopFontNameType}) {
 	yield* put(setNewShopFont(payload.font_name));
 	yield* call(() => setLocalStorageNewShopFont(payload.font_name));
-	yield* call(() => cookiesPoster('/cookies', { font_name: true }));
+}
+
+function* setShopBorderSaga(payload: {type: string, border: string}) {
+	yield* put(setBorder(payload.border));
+}
+
+function* setShopIconColorSaga(payload: {type: string, iconColor: IconColorType}) {
+	yield* put(setIconColor(payload.iconColor));
 }
 
 function* loadNewAddedShopDataSaga() {
@@ -644,6 +648,8 @@ export function* watchShop() {
 	yield* takeLatest(Types.SET_SHOP_AVATAR, setShopAvatarSaga);
 	yield* takeLatest(Types.SET_SHOP_COLOR, setShopColorSaga);
 	yield* takeLatest(Types.SET_SHOP_FONT, setShopFontSaga);
+	yield* takeLatest(Types.SET_SHOP_BORDER, setShopBorderSaga);
+	yield* takeLatest(Types.SET_SHOP_ICON_COLOR, setShopIconColorSaga);
 	yield* takeLatest(Types.SHOP_POST_ROOT, shopPostRootSaga);
 	yield* takeLatest(Types.SHOP_GET_ROOT, shopGetRootSaga);
 	yield* takeLatest(Types.SHOP_GET_PHONE_CODES, shopGetPhoneCodesSaga);

@@ -1,0 +1,194 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/mixins'
+@import 'styles/sass/variables'
+
+// Global styles
+.main
+  position: absolute
+  right: 0
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  height: 100%
+  overflow-y: scroll
+  padding: 0 60px 60px 60px
+  width: calc(100% - 350px)
+
+.avatarActionsWrapper
+  display: flex
+  width: 100%
+  justify-content: space-between
+  align-items: center
+.actionsWrapper
+  display: flex
+  justify-content: space-evenly
+  flex-wrap: wrap
+.shopDetailsWrapper
+  display: flex
+  flex-direction: column
+  width: 100%
+.shopTabs
+  display: flex
+  width: 100%
+  margin: 20px 0
+.filterWrapper
+  display: flex
+  justify-content: space-between
+  width: 100%
+  padding-bottom: 1rem
+  gap: 0
+  margin: 0
+.filterText
+  +SemiBold
+  font-size: 19px
+  color: $buttonTextDisabled
+  overflow-wrap: break-word
+  margin: 0
+.shopDetailsAside
+  width: 100%
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+.shopFilterWrapper
+  display: flex
+  flex-direction: column
+  min-width: 150px
+  max-width: 150px
+  margin: 20px 0
+.shopFilterContainer
+  display: flex
+  flex-direction: column
+  margin: 10px 0
+  max-width: 160px
+  min-width: 160px
+.subHeader
+  +Regular
+  font-size: 14px
+  font-style: normal
+  color: $buttonTextDisabled
+  margin-top: 10px
+  letter-spacing: -0.03em
+.categoriesWrapper
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+  flex-wrap: wrap
+  width: 100%
+  margin: 10px 0
+  padding: 0 20px 0 0
+  gap: 5px
+.promoWrapper
+  display: flex
+  flex-direction: column
+.forWhomWrapper
+  display: flex
+  flex-direction: column
+  gap: 0.5rem
+  margin-top: 20px
+.shopAddOfferWrapper
+  display: flex
+  flex-direction: column
+  width: 70%
+.addOfferContainer
+  width: 100%
+  max-height: 700px
+  border-radius: 20px
+  display: flex
+  align-items: center
+.centeredInfoActionWrapper
+  display: flex
+  flex-direction: column
+  height: 100%
+  width: 400px
+  align-content: center
+  justify-content: center
+  align-items: center
+  margin: 0 auto
+.desktopContainerModal
+  position: absolute
+  bottom: calc(100vh - 90%)
+  background: $white
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.25)
+  padding: 20px
+  border-radius: 50px
+  display: flex
+  min-width: 80%
+  justify-content: space-around
+  align-items: center
+  z-index: 1
+  max-width: 80%
+  width: 100%
+  left: 0
+  right: 0
+  margin: 0 auto
+  flex-wrap: wrap
+.mobileContainerModal
+  border-radius: 20px 20px 0 0
+  display: flex
+  justify-content: space-between
+  flex-direction: column
+  background: $white
+  box-shadow: 0 0 24px rgb(0 0 0 / 25%)
+  width: 100%
+  left: 0
+  bottom: 0
+  position: fixed
+  padding: 20px
+  height: 300px
+  font-size: 31px
+.mobileSwiper
+  width: 100%
+  height: 100%
+.swiperSlide
+  display: grid
+  justify-items: center
+  grid-template-columns: repeat(5, 1fr)
+  grid-template-rows: repeat(3, 1fr)
+
+.primaryButtonWrapper
+  width: 100%
+  text-align: center
+  z-index: 1
+
+@media #{$desktop}
+  .shopAddOfferWrapper
+    flex: 1
+    min-height: 100%
+    justify-content: space-around
+  .shopFilterWrapper
+    width: 40%
+  .mobileContainerModal
+    +Hidden
+  .primaryButtonMobileWrapper
+    +Hidden
+
+@media #{$tablette}
+  .main
+    width: 100%
+    padding: 0 1.5rem 1.5rem 1.5rem
+  .steps
+    display: flex !important
+  .shopAddOfferWrapper
+    margin-top: 32px
+    width: 100%
+  .continueButton
+    width: 100%
+  .avatarActionsWrapper
+    display: flex
+    flex-direction: column
+    justify-content: space-evenly
+    width: 100%
+    align-items: center
+  .blockContactsContainer
+    width: 50%
+  .filterWrapper
+    +Hidden
+  .shopDetailsAside
+    justify-content: space-around
+  .shopFilterWrapper
+    +Hidden
+  .desktopContainerModal
+    +Hidden
+  .primaryButtonDesktopWrapper
+    +Hidden
+

@@ -1,16 +1,13 @@
 import {
-	APIContentTypeInterface, AppTokensCookieType,
+	APIContentTypeInterface,
+	AppTokensCookieType,
 	InitStateInterface,
 	InitStateToken,
 	InitStateUniqueID,
 	ResponseDataTokenRefreshType,
 } from '../types/_init/_initTypes';
-import {
-	emptyInitStateToken,
-	emptyInitStateUniqueID,
-	setInitState,
-} from '../store/slices/_init/_initSlice';
-import { cookiesFetcher, cookiesPoster, tokenRefreshApi } from '../store/services/_init/_initAPI';
+import { emptyInitStateToken, emptyInitStateUniqueID, setInitState } from '../store/slices/_init/_initSlice';
+import { cookiesDeleter, cookiesFetcher, cookiesPoster, tokenRefreshApi } from '../store/services/_init/_initAPI';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store/store';
 import { ShopFontNameType } from '../types/shop/shopTypes';
@@ -99,7 +96,7 @@ const loadAccessTokenCookie: () => string | null | undefined = () => {
 		}
 	});
 	return null;
-}
+};
 
 export const isAuthenticatedInstance = (
 	initStateToken: InitStateToken,
@@ -292,11 +289,11 @@ export const setLocalStorageNewShopFont = (font_name: ShopFontNameType) => {
 // New shop load LocalStorage
 export const loadLocalStorageNewShopData = () => {
 	if (typeof window !== 'undefined') {
-		const shop_name: string | null = localStorage.getItem('@shop_name');
-		const avatar: string | null = localStorage.getItem('@avatar');
-		const color_code: string | null = localStorage.getItem('@color_code');
-		const bg_color_code: string | null = localStorage.getItem('@bg_color_code');
-		const font_name: ShopFontNameType | null = localStorage.getItem('@font_name') as ShopFontNameType | null;
+		const shop_name = localStorage.getItem('@shop_name') as string;
+		const avatar = localStorage.getItem('@avatar') as string;
+		const color_code = localStorage.getItem('@color_code') as string;
+		const bg_color_code = localStorage.getItem('@bg_color_code') as string;
+		const font_name = localStorage.getItem('@font_name') as ShopFontNameType;
 		return {
 			shop_name,
 			avatar,
@@ -318,25 +315,43 @@ export const emptyLocalStorageNewShopData = () => {
 	}
 };
 
-// Set Server token cookies
-export const setRemoteCookiesAppToken = (newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID>) => {
-	cookiesPoster('/cookies', { tokenType: newInitStateToken.tokenType}).then();
-	cookiesPoster('/cookies', { initStateToken: newInitStateToken.initStateToken}).then();
-	cookiesPoster('/cookies', { initStateUniqueID: newInitStateToken.initStateUniqueID}).then();
+export const deleteCookieStorageNewShopData = () => {
+	cookiesDeleter('/cookies', { shop_name: 0 }).then(() => {
+		cookiesDeleter('/cookies', { avatar: 0 }).then(() => {
+			cookiesDeleter('/cookies', { color_code: 0 }).then(() => {
+				cookiesDeleter('/cookies', { font_name: 0 }).then();
+			});
+		});
+	});
 };
 
+// Set Server token cookies
+export const setRemoteCookiesAppToken = (newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID>) => {
+	cookiesPoster('/cookies', { tokenType: newInitStateToken.tokenType }).then(() => {
+		cookiesPoster('/cookies', { initStateToken: newInitStateToken.initStateToken }).then(() => {
+			cookiesPoster('/cookies', { initStateUniqueID: newInitStateToken.initStateUniqueID }).then();
+		});
+	});
+};
 
 export const setRemoteCookiesTokenOnly = (InitStateToken: InitStateToken) => {
-	cookiesPoster('/cookies', { tokenType: 'TOKEN'}).then();
-	cookiesPoster('/cookies', { initStateToken: InitStateToken}).then();
+	cookiesPoster('/cookies', { tokenType: 'TOKEN' }).then(() => {
+		cookiesPoster('/cookies', { initStateToken: InitStateToken }).then();
+	});
 };
 
 export const emptyRemoteCookiesUniqueIDOnly = () => {
-	cookiesPoster('/cookies', { initStateToken: emptyInitStateToken}).then();
+	cookiesPoster('/cookies', { initStateToken: emptyInitStateToken }).then();
 };
 
-export const emptyRemoteCookiesAppToken = () => {
-	cookiesPoster('/cookies', { tokenType: ''}).then();
-	cookiesPoster('/cookies', { initStateToken: emptyInitStateToken}).then();
-	cookiesPoster('/cookies', { initStateUniqueID: emptyInitStateUniqueID}).then();
+export const deleteRemoteCookiesAppToken = () => {
+	cookiesDeleter('/cookies', {tokenType: 0}).then(() => {
+		cookiesDeleter('/cookies', {initStateToken: 0}).then(() => {
+			cookiesDeleter('/cookies', {initStateToken: 0}).then();
+		});
+	});
+	// cookiesPoster('/cookies', { tokenType: '' }).then();
+	// cookiesPoster('/cookies', { initStateToken: emptyInitStateToken }).then();
+	// cookiesPoster('/cookies', { initStateUniqueID: emptyInitStateUniqueID }).then();
 };
+

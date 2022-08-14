@@ -1,0 +1,36 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.tabHeaderContainer
+  +Regular
+  text-align: center
+  border-bottom: 2px solid $buttonTextDisabled
+  width: 50%
+  cursor: default
+
+.tabBottomBorder
+  border-bottom: 2px solid $buttonTextDisabled
+
+.tabActive
+  border-bottom: 5px solid $buttonTextDisabled
+  cursor: default
+
+.tabBlackColor
+  border-bottom: 5px solid $primary
+
+.tabSelected
+  cursor: default
+
+.tabHeader
+  +Regular
+  color: $buttonTextDisabled
+  letter-spacing: -0.03em
+  margin: 16px 0
+
+.realTabHeaderContainer
+  +Regular
+// @media #{$desktop}
+// @media #{$tablette}
+// @media #{$mobile}
