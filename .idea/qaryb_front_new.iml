@@ -86,7 +86,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/primaryAnchorButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/primaryButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/checkBoxes" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/iconTextInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/switches" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/textInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/add" isTestSource="false" />
@@ -135,6 +134,13 @@
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details/infoTabContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details/shopTabContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details/startYourShopContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/outlineButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop/modals/rightSwipeModal" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/shopFilterSelect" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/inputs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/inputs/iconTextInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/inputs/phoneInputFields" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/contacterPhoneInput" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop" />

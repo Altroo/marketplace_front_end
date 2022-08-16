@@ -8,18 +8,17 @@
 
 .header
   +SemiBold
-  font-size: 32px
+  font-size: 22px
   color: $primary
   margin: 0
 
 .descriptionWrapper
   display: flex
-  gap: 3px
   align-items: center
-  height: 1rem
-  margin: 0 auto
-  text-align: center
+  text-align: start
   width: 100%
+  margin: 1rem auto 0
+
   p
     +Regular
     color: $grayText
@@ -41,18 +40,12 @@
     line-height: 22px
     letter-spacing: 0.02rem
 
-// Desktop
-@media #{$desktop}
-  .header
-    font-size: 28px
-
 // Tablet
 @media #{$tablette}
   .header
-    font-size: 24px
+    font-size: 20px
 
 // Mobile
 @media #{$mobile}
   .header
-    +Regular
-    font-size: 21px
+    font-size: 20px

@@ -11,16 +11,14 @@ import {
 	ShopPatchAvatarType,
 	ShopPatchColorType,
 	ShopPatchFontType,
-	ShopPatchPhoneType,
-	ShopPatchWhatsappType,
 	ShopPatchBioType,
 	ShopPatchAvailabilityType,
 	ShopPatchContactType,
 	ShopPatchAddressType,
 	ShopPatchRootType,
 	ShopGetRootType,
-	ShopFontNameType,
-} from '../../../types/shop/shopTypes';
+	ShopFontNameType, ShopPatchContactPhoneType
+} from "../../../types/shop/shopTypes";
 import {
 	AxiosErrorDefaultType,
 	IconColorType,
@@ -37,8 +35,6 @@ import {
 	setShopName,
 	setShopColors,
 	setShopFont,
-	setShopPhone,
-	setShopWhatsapp,
 	setShopBio,
 	setShopAvailability,
 	setShopContact,
@@ -50,8 +46,8 @@ import {
 	setNewShopColor,
 	setNewShopFont,
 	setBorder,
-	setIconColor,
-} from '../../slices/shop/shopSlice';
+	setIconColor, setShopPhoneContact
+} from "../../slices/shop/shopSlice";
 import {
 	allowAnyInstance,
 	isAuthenticatedInstance,
@@ -197,13 +193,13 @@ function* shopGetRootSaga(payload: ShopGetRootType) {
 	}
 }
 
-function* shopGetPhoneCodesSaga() {
+export function* shopGetPhoneCodesSaga() {
 	const url = `${process.env.NEXT_PUBLIC_SHOP_PHONE_CODES}`;
 	try {
 		const instance = yield* call(() => allowAnyInstance());
 		const response: ShopGetPhoneCodesResponseType = yield* call(() => getApi(url, instance));
 		if (response.status === 200) {
-			yield* put(setGetPhoneCodes({ ...response.data }));
+			yield* put(setGetPhoneCodes(response.data.phone_codes));
 		} else {
 			console.log(response.status);
 			console.log(response.data);
@@ -359,8 +355,15 @@ function* shopPatchFontSaga(payload: Partial<ShopPatchRootType>) {
 	}
 }
 
-function* shopPatchPhoneSaga(payload: Partial<ShopPatchRootType>) {
-	const url = `${process.env.NEXT_PUBLIC_SHOP_PHONE}`;
+function* shopPatchPhoneContactSaga(payload: {
+	type: string,
+	contact_phone_code: string | null,
+	contact_phone: string | null,
+	contact_whatsapp_code: string | null,
+	contact_whatsapp: string | null,
+	contact_mode: 'P' | 'W'
+}) {
+	const url = `${process.env.NEXT_PUBLIC_SHOP_PHONE_CONTACT}`;
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { type, ...payloadData } = payload;
@@ -368,22 +371,22 @@ function* shopPatchPhoneSaga(payload: Partial<ShopPatchRootType>) {
 		// User authenticated
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const instance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: ShopPatchPhoneType = yield* call(() => patchApi(url, instance, payloadData));
+			const response: ShopPatchContactPhoneType = yield* call(() => patchApi(url, instance, payloadData));
 			if (response.status === 200) {
 				// update state
-				yield* put(setShopPhone({ ...response.data }));
+				yield* put(setShopPhoneContact(response.data));
 			} else {
 				// set error state
 				console.log(response.status);
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
-			const response: ShopPatchPhoneType = yield* call(() =>
+			const response: ShopPatchContactPhoneType = yield* call(() =>
 				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
 			);
 			if (response.status === 200) {
 				// update state
-				yield* put(setShopPhone({ ...response.data }));
+				yield* put(setShopPhoneContact(response.data));
 			} else {
 				// set error state
 				console.log(response.status);
@@ -395,41 +398,41 @@ function* shopPatchPhoneSaga(payload: Partial<ShopPatchRootType>) {
 	}
 }
 
-function* shopPatchWhatsappSaga(payload: Partial<ShopPatchRootType>) {
-	const url = `${process.env.NEXT_PUBLIC_SHOP_WHATSAPP}`;
-	const authSagaContext = yield* call(() => ctxAuthSaga());
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { type, ...payloadData } = payload;
-	try {
-		// User authenticated
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const instance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: ShopPatchWhatsappType = yield* call(() => patchApi(url, instance, payloadData));
-			if (response.status === 200) {
-				// update state
-				yield* put(setShopWhatsapp({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
-			}
-		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-			const instance = yield* call(() => allowAnyInstance());
-			const response: ShopPatchWhatsappType = yield* call(() =>
-				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-			);
-			if (response.status === 200) {
-				// update state
-				yield* put(setShopWhatsapp({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
-			}
-		}
-	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
-		console.log(errors);
-	}
-}
+// function* shopPatchWhatsappSaga(payload: {type: string, whatsapp_code: string | null, whatsapp: string | null}) {
+// 	const url = `${process.env.NEXT_PUBLIC_SHOP_WHATSAPP}`;
+// 	const authSagaContext = yield* call(() => ctxAuthSaga());
+// 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// 	const { type, ...payloadData } = payload;
+// 	try {
+// 		// User authenticated
+// 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+// 			const instance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+// 			const response: ShopPatchWhatsappType = yield* call(() => patchApi(url, instance, payloadData));
+// 			if (response.status === 200) {
+// 				// update state
+// 				yield* put(setShopWhatsapp(response.data));
+// 			} else {
+// 				// set error state
+// 				console.log(response.status);
+// 			}
+// 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+// 			const instance = yield* call(() => allowAnyInstance());
+// 			const response: ShopPatchWhatsappType = yield* call(() =>
+// 				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
+// 			);
+// 			if (response.status === 200) {
+// 				// update state
+// 				yield* put(setShopWhatsapp(response.data));
+// 			} else {
+// 				// set error state
+// 				console.log(response.status);
+// 			}
+// 		}
+// 	} catch (e) {
+// 		const errors = e as AxiosErrorDefaultType;
+// 		console.log(errors);
+// 	}
+// }
 
 function* shopPatchBioSaga(payload: Partial<ShopPatchRootType>) {
 	const url = `${process.env.NEXT_PUBLIC_SHOP_WHATSAPP}`;
@@ -673,8 +676,8 @@ export function* watchShop() {
 	yield* takeLatest(Types.SHOP_PATCH_AVATAR, shopPatchAvatarSaga);
 	yield* takeLatest(Types.SHOP_PATCH_COLOR, shopPatchColorSaga);
 	yield* takeLatest(Types.SHOP_PATCH_FONT, shopPatchFontSaga);
-	yield* takeLatest(Types.SHOP_PATCH_PHONE, shopPatchPhoneSaga);
-	yield* takeLatest(Types.SHOP_PATCH_WHATSAPP, shopPatchWhatsappSaga);
+	yield* takeLatest(Types.SHOP_PATCH_PHONE_CONTACT, shopPatchPhoneContactSaga);
+	// yield* takeLatest(Types.SHOP_PATCH_WHATSAPP, shopPatchWhatsappSaga);
 	yield* takeLatest(Types.SHOP_PATCH_BIO, shopPatchBioSaga);
 	yield* takeLatest(Types.SHOP_PATCH_AVAILABILITY, shopPatchAvailabilitySaga);
 	yield* takeLatest(Types.SHOP_PATCH_CONTACT, shopPatchContactSaga);

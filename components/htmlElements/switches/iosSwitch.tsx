@@ -3,13 +3,14 @@ import { styled } from '@mui/material/styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import { CSSProperties } from "react";
 
 type IOSSwitchProps = {
 	checked: boolean;
-	activeColor?: string
+	activeColor?: string;
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
-const IOSSwitch = styled((props: IOSSwitchProps) => {
+const IOSSwitchStyle = styled((props: IOSSwitchProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { activeColor, ...remainingProps } = props;
 	return (
@@ -71,7 +72,8 @@ type Props = {
 	checked: boolean;
 	activeColor?: string;
 	disabled?: boolean;
-	onChange?: React.Dispatch<React.SetStateAction<boolean>>;
+	onChange?: (value: boolean) => void;
+	labelcssStyles?: CSSProperties;
 	children?: React.ReactNode;
 };
 const IosSwitch: React.FC<Props> = (props: Props) => {
@@ -82,8 +84,9 @@ const IosSwitch: React.FC<Props> = (props: Props) => {
 	return (
 		<FormGroup>
 			<FormControlLabel
+				style={{...props.labelcssStyles}}
 				control={
-					<IOSSwitch
+					<IOSSwitchStyle
 						sx={{ m: 1 }}
 						activeColor={activeColor && activeColor}
 						onChange={(e) => props.onChange && props.onChange(e.target.checked)}

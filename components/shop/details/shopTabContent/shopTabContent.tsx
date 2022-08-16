@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import Styles from './shopTabContent.module.sass';
 import { checkBoxForWhomBaseType, chipActionsType, switchActionType } from "../../../../types/ui/uiTypes";
-import IconTextInput from "../../../htmlElements/iconTextInput/iconTextInput";
+import IconTextInput from "../../../htmlElements/inputs/iconTextInput/iconTextInput";
 import ChipButtons from "../../../htmlElements/buttons/chipButton/chipButton";
-import IosSwitch from "../../../htmlElements/switches/IosSwitch";
+import IosSwitch from "../../../htmlElements/switches/iosSwitch";
 import CheckBox from "../../../htmlElements/checkBoxes/checkBox";
 import StartYourShopContent from "../startYourShopContent/startYourShopContent";
+import ShopFilterSelect from "../shopFilterSelect/shopFilterSelect";
 
 type Props = {
+	activeColor: string;
 	chipCategoriesAction: chipActionsType;
 	promoCheckAction: switchActionType;
 	checkBoxForWhomAction: Array<checkBoxForWhomBaseType>;
@@ -15,20 +17,17 @@ type Props = {
 }
 
 const ShopTabContent: React.FC<Props> = (props: Props) => {
+	const [filter, setFilter] = useState<'D' | 'T'>('D');
+
+	useEffect(() => {
+		console.log(filter);
+	}, [filter]);
 
 	return (
 		<>
 			<div className={Styles.filterWrapper}>
 				<span className={Styles.filterText}>Filtrer</span>
-				<div>
-					<label>Trier : </label>
-					<select>
-						<option value="D" defaultValue="D">
-							Prix décroissant
-						</option>
-						<option value="C">Prix croissant</option>
-					</select>
-				</div>
+				<ShopFilterSelect state={filter} setStateHandler={setFilter} activeHoverColor={props.activeColor}/>
 			</div>
 			<div className={Styles.shopDetailsAside}>
 				<div className={Styles.shopFilterWrapper}>

@@ -1,5 +1,5 @@
 import { AddShopClass, AuthShopClass, UserShopClass } from '../../models/shop/AuthShopClass';
-import { Nullable, ResponseDataInterface } from "../_init/_initTypes";
+import { Nullable, ResponseDataInterface } from '../_init/_initTypes';
 // ('L', 'Light'), ('R', 'Regular'), ('S', 'Semi-bold'), ('B', 'Black'),
 export type ShopFontNameType = 'L' | 'R' | 'S' | 'B';
 // ('A', 'Address'), ('S', 'Sector')
@@ -66,11 +66,10 @@ export type PhoneCodesType = { phone_codes: Array<string> };
 
 //!- Shop State
 export interface ShopStateInterface<T, K> {
-	userShop: T | K | Record<string, unknown>;
-	phoneCodes: Pick<PhoneCodesType, 'phone_codes'> | [];
+	userShop: T | K | undefined;
+	phoneCodes: Array<string>;
 	newShop: AddShopClass | Record<string, unknown>;
 }
-
 
 export type ShopGetPhoneCodesResponseType = ResponseDataInterface<PhoneCodesType>;
 
@@ -90,13 +89,16 @@ export type ShopFontType = Pick<UserShopClass, 'font_name'>;
 
 export type ShopPatchFontType = ResponseDataInterface<ShopFontType>;
 
-export type ShopPhoneType = Pick<UserShopClass, 'phone'>;
+export type ShopContactPhoneType = Pick<
+	UserShopClass,
+	'contact_phone_code' | 'contact_phone' | 'contact_whatsapp_code' | 'contact_whatsapp' | 'contact_mode'
+>;
 
-export type ShopPatchPhoneType = ResponseDataInterface<ShopPhoneType>;
+export type ShopPatchContactPhoneType = ResponseDataInterface<ShopContactPhoneType>;
 
-export type ShopWhatsappType = Pick<UserShopClass, 'whatsapp'>;
+// export type ShopWhatsappType = Pick<UserShopClass, 'whatsapp_code' | 'whatsapp'>;
 
-export type ShopPatchWhatsappType = ResponseDataInterface<ShopWhatsappType>;
+// export type ShopPatchWhatsappType = ResponseDataInterface<ShopWhatsappType>;
 
 export type ShopBioType = Pick<UserShopClass, 'bio'>;
 

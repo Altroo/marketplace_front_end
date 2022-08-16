@@ -1,16 +1,14 @@
 import React from 'react';
 import Styles from './desktopFilterDropDown.module.sass';
 import { DropDownActionType } from '../../../types/ui/uiTypes';
-import InfoIconSVG from '../../../public/assets/svgs/drop-down-info.svg';
-import AvatarIconSVG from '../../../public/assets/svgs/drop-down-avatar.svg';
 import ArrowDownIconSVG from '../../../public/assets/svgs/arrow-down.svg';
 import DropDownMenu from '../../htmlElements/buttons/dropDownMenu/dropDownMenu';
-import EditIconSVG from '../../../public/assets/svgs/blue-pencil.svg';
 
 type Props = {
 	menuID: string;
 	buttonID: string;
 	onClick: () => void;
+	backgroundColor?: string;
 	children?: React.ReactNode;
 };
 

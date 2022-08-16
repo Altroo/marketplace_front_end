@@ -15,6 +15,7 @@ import { initPlaces } from '../../slices/places/placesSlice';
 import { initVersion } from '../../slices/version/versionSlice';
 import { initCart } from '../../slices/cart/cartSlice';
 import { initChat } from '../../slices/chat/chatSlice';
+import { shopGetPhoneCodesSaga } from "../shop/shopSaga";
 
 // or use fork instead
 // fork(initAppSaga, Types.INIT_APP)
@@ -31,6 +32,8 @@ import { initChat } from '../../slices/chat/chatSlice';
 function* initAppSaga() {
 	// init version first.
 	yield* call(() => versionSaga());
+	// load phone codes.
+	yield* call(() => shopGetPhoneCodesSaga());
 	// const appToken: InitStateInterface<InitStateToken, InitStateUniqueID> = yield* call(loadAppToken);
 	// const appToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
 	// 	tokenType: 'TOKEN',

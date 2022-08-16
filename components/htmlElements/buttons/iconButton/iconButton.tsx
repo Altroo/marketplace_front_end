@@ -1,7 +1,10 @@
 import React, { ForwardedRef, forwardRef } from 'react';
-import Styles from './IconButton.module.sass';
+import Styles from './iconButton.module.sass';
+import Button from '@mui/material/Button';
 import Image from 'next/image';
 import Link from 'next/link';
+import theme from "../../../../theme";
+import { ThemeProvider } from "@mui/material";
 
 type Props = {
 	buttonText: string;
@@ -28,10 +31,17 @@ const IconButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: Forw
 	if (props.border) {
 		cssStyle = {...cssStyle, border: props.border};
 	}
+	let customTheme = theme();
+	if (props.backgroundColor) {
+		customTheme = theme(props.backgroundColor);
+	}
+
 	return props.nextPage ? (
+		<ThemeProvider theme={customTheme}>
 		<Link href={props.nextPage} passHref>
 			<a ref={ref}>
-				<button
+				<Button
+					color="primary"
 					disabled={!props.active}
 					className={`${Styles.iconButton} 
 					${props.active ? Styles.active : ''}
@@ -40,18 +50,22 @@ const IconButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: Forw
 					style={{...cssStyle}}>
 					<Image src={props.svgIcon} alt="" className={Styles.icon} />
 					{props.buttonText}
-				</button>
+				</Button>
 			</a>
 		</Link>
+		</ThemeProvider>
 	) : (
-		<button
+		<ThemeProvider theme={customTheme}>
+		<Button
+			color="primary"
 			className={`${Styles.iconButton} ${props.active ? Styles.active : ''} 
 			${props.cssClass && props.cssClass}`}
 			disabled={!props.active}
 			style={{...cssStyle}}>
 			<Image src={props.svgIcon} alt="" className={Styles.icon} />
 			{props.buttonText}
-		</button>
+		</Button>
+		</ThemeProvider>
 	);
 });
 IconButton.displayName = 'IconButton';

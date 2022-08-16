@@ -4,35 +4,65 @@ import Styles from '../../../styles/shop/details/detailsIndex.module.sass';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
-import IconButton from '../../../components/htmlElements/buttons/iconButton/IconButton';
+import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
 import ShopInfoTabs from '../../../components/htmlElements/tabs/tab';
 import MessageIconWhiteSVG from '../../../public/assets/svgs/message-white.svg';
 import MessageIconBlackSVG from '../../../public/assets/svgs/message-black.svg';
 import ContactIconBlueSVG from '../../../public/assets/svgs/call-blue.svg';
 import CircularAvatar from '../../../components/htmlElements/images/circularAvatar/circularAvatar';
 import { ShopFontNameType } from '../../../types/shop/shopTypes';
-import { IconColorType } from '../../../types/_init/_initTypes';
 import DesktopPublishEditNavbar from '../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
 import MobilePublishEditNavbar from '../../../components/mobile/navbars/mobilePublishEditNavbar/mobilePublishEditNavbar';
 import Image from 'next/image';
 import BlackStarSVG from '../../../public/assets/svgs/black-star.svg';
 import BorderIconButton from '../../../components/htmlElements/buttons/borderIconButton/borderIconButton';
-import { checkBoxesForWhomActionType, chipActionsType, switchActionType } from "../../../types/ui/uiTypes";
-import InfoTabContent from "../../../components/shop/details/infoTabContent/InfoTabContent";
-import ShopTabContent from "../../../components/shop/details/shopTabContent/shopTabContent";
+import {
+	checkBoxesForWhomActionType,
+	chipActionsType,
+	contacterPhoneInputType,
+	switchActionType,
+} from '../../../types/ui/uiTypes';
+import InfoTabContent from '../../../components/shop/details/infoTabContent/InfoTabContent';
+import ShopTabContent from '../../../components/shop/details/shopTabContent/shopTabContent';
+import CloseSVG from '../../../public/assets/svgs/close.svg';
+import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
+import PhoneSVG from '../../../public/assets/svgs/contact-phone.svg';
+import WtspSVG from '../../../public/assets/svgs/whatsapp-icon.svg';
+import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
+import ContacterPhoneInput from '../../../components/shop/details/contacterPhoneInput/contacterPhoneInput';
+import {
+	shopPatchPhoneContactAction,
+} from "../../../store/actions/shop/shopActions";
+import {
+	getShopAvatar,
+	getShopBgColorCode, getShopBorder,
+	getShopColorCode, getShopContactMode,
+	getShopFontName, getShopIconColor,
+	getShopName, getShopPhoneContactCode,
+	getShopWhatsappContactCode, getShopPhoneContact,
+	getShopWhatsappContact
+} from "../../../store/selectors";
 
 const Index: NextPage = () => {
 	const router = useRouter();
 	const { created } = router.query;
 	const dispatch = useAppDispatch();
 	const [modalDismissed, setModalDismissed] = useState(false);
-	const shopName = useAppSelector((state) => state.shop.userShop.shop_name as string);
-	const shopAvatar = useAppSelector((state) => state.shop.userShop.avatar as string);
-	const shopColorCode = useAppSelector((state) => state.shop.userShop.color_code as string);
-	const shopBgColorCode = useAppSelector((state) => state.shop.userShop.bg_color_code as string);
-	const shopFontName = useAppSelector((state) => state.shop.userShop.font_name as ShopFontNameType);
-	const shopBorder = useAppSelector((state) => state.shop.userShop.border as string);
-	const shopIconColor = useAppSelector((state) => state.shop.userShop.icon_color as IconColorType);
+	const shopName = useAppSelector(getShopName);
+	const shopAvatar = useAppSelector(getShopAvatar);
+	const shopColorCode = useAppSelector(getShopColorCode);
+	const shopBgColorCode = useAppSelector(getShopBgColorCode);
+	const shopFontName = useAppSelector(getShopFontName);
+	const shopBorder = useAppSelector(getShopBorder);
+	const shopIconColor = useAppSelector(getShopIconColor);
+	const shopPhoneContactCode = useAppSelector(getShopPhoneContactCode);
+	const shopPhoneContact = useAppSelector(getShopPhoneContact);
+	const shopWhatsappContactCode = useAppSelector(getShopWhatsappContactCode);
+	const shopWhatsappContact = useAppSelector(getShopWhatsappContact);
+	const shopContactMode = useAppSelector(getShopContactMode);
+
+	// const shopPhone
 	// avatar preview
 	const [preview, setPreview] = useState<string | null>(null);
 	// colors
@@ -50,6 +80,52 @@ const Index: NextPage = () => {
 	const [enfantCheck, setEnfantCheck] = useState(false);
 	const [femmeCheck, setFemmeCheck] = useState(true);
 	const [hommeCheck, setHommeCheck] = useState(true);
+	const [openContacterModal, setContacterModalOpen] = useState(false);
+	let phoneContactMode = true;
+	let whatsappContactMode = false;
+	if (shopContactMode === 'W') {
+		phoneContactMode = false;
+		whatsappContactMode = true;
+	}
+	const [phoneSwitch, setPhoneSwitch] = useState(phoneContactMode);
+	const [wtspSwitch, setWtspSwitch] = useState(whatsappContactMode);
+	let phoneContactCodeInitial = '+212';
+	if (shopPhoneContactCode) {
+		phoneContactCodeInitial = shopPhoneContactCode;
+	}
+	let phoneContactInitial = '';
+	if (shopPhoneContact) {
+		phoneContactInitial = shopPhoneContact;
+	}
+	let whatsappContactCodeInitial = '+212';
+	if (shopWhatsappContactCode) {
+		whatsappContactCodeInitial = shopWhatsappContactCode;
+	}
+	let whatsappContactInitial = '';
+	if (shopWhatsappContact) {
+		whatsappContactInitial = shopWhatsappContact;
+	}
+	const [phoneCode, setPhoneCode] = useState<string>(phoneContactCodeInitial);
+	const [whatsappCode, setwhatsappCode] = useState<string>(whatsappContactCodeInitial);
+	const [whatsappValue, setwhatsappValue] = useState<string>(whatsappContactInitial);
+	const [phoneValue, setPhoneValue] = useState<string>(phoneContactInitial);
+
+	const handleOpen = () => {
+		setContacterModalOpen(true);
+	};
+	const handleClose = () => {
+		setContacterModalOpen(false);
+	};
+	const setWhatsappSwitchHandler = (value: boolean) => {
+		setWtspSwitch(value);
+		setPhoneSwitch(!value);
+	};
+
+	const setPhoneSwitchHandler = (value: boolean) => {
+		setPhoneSwitch(value);
+		setWtspSwitch(!value);
+	};
+	// categories action
 	const chipCategoriesAction: chipActionsType = [
 		{
 			buttonText: 'Bien-être',
@@ -57,7 +133,9 @@ const Index: NextPage = () => {
 			border: border,
 			textColor: colorCode,
 			backgroundColor: bgColorCode,
-			onClick: () => {return;},
+			onClick: () => {
+				return;
+			},
 		},
 		{
 			buttonText: 'Service',
@@ -65,7 +143,9 @@ const Index: NextPage = () => {
 			border: border,
 			textColor: colorCode,
 			backgroundColor: bgColorCode,
-			onClick: () => {return;},
+			onClick: () => {
+				return;
+			},
 		},
 		{
 			buttonText: 'Sport',
@@ -73,16 +153,18 @@ const Index: NextPage = () => {
 			border: border,
 			textColor: colorCode,
 			backgroundColor: bgColorCode,
-			onClick: () => {return;},
+			onClick: () => {
+				return;
+			},
 		},
 	];
 	// promo check action
 	const promoCheckAction: switchActionType = {
-			activeColor: bgColorCode,
-			checked: promoCheck,
-			onChange: setPromoCheck,
-		};
-
+		activeColor: bgColorCode,
+		checked: promoCheck,
+		onChange: setPromoCheck,
+	};
+	// for whom action
 	const checkBoxesForWhomAction: Array<checkBoxesForWhomActionType> = [
 		{
 			text: 'Enfant',
@@ -90,7 +172,6 @@ const Index: NextPage = () => {
 			active: true,
 			onChange: setEnfantCheck,
 			activeColor: bgColorCode,
-
 		},
 		{
 			text: 'Femme',
@@ -107,6 +188,31 @@ const Index: NextPage = () => {
 			activeColor: bgColorCode,
 		},
 	];
+	// contacter action
+	const contacterAction: Array<contacterPhoneInputType> = [
+		{
+			checked: phoneSwitch,
+			setStateHandler: setPhoneSwitchHandler,
+			label: 'Par téléphone',
+			backgroundColor: bgColorCode,
+			icon: PhoneSVG,
+			code: phoneCode,
+			setCode: setPhoneCode,
+			value: phoneValue,
+			setValue: setPhoneValue,
+		},
+		{
+			checked: wtspSwitch,
+			setStateHandler: setWhatsappSwitchHandler,
+			label: 'Par WhatsApp',
+			backgroundColor: bgColorCode,
+			icon: WtspSVG,
+			code: whatsappCode,
+			setCode: setwhatsappCode,
+			value: whatsappValue,
+			setValue: setwhatsappValue,
+		},
+	];
 
 	useEffect(() => {
 		// avatar
@@ -115,12 +221,10 @@ const Index: NextPage = () => {
 		}
 		// color code
 		if (shopBgColorCode) {
-			console.log('shopBgColorCode: ', shopBgColorCode);
 			setBgColorCode(shopBgColorCode);
 		}
 		// bg color code
 		if (shopColorCode) {
-			console.log('shopColorCode: ', shopColorCode);
 			setColorCode(shopColorCode);
 		}
 		// border
@@ -136,8 +240,28 @@ const Index: NextPage = () => {
 		if (shopFontName) {
 			setFontName(shopFontName);
 		}
-	}, [shopBorder, shopIconColor, shopAvatar, shopColorCode, shopBgColorCode, shopFontName]);
+	}, [shopAvatar, shopBgColorCode, shopColorCode, shopBorder, shopIconColor, shopFontName, dispatch, whatsappCode]);
 
+	const contacterSaveHandler = () => {
+		if (phoneSwitch) {
+			if (phoneCode) {
+				if (!phoneValue.match(/[^0-9]/)) {
+					dispatch(shopPatchPhoneContactAction(phoneCode, phoneValue, whatsappCode, whatsappValue, 'P'));
+					// dispatch(shopPatchWhatsappAction(null, null));
+					setContacterModalOpen(false);
+				}
+			}
+			// wtsp switch active => validate inputs & save
+		} else if (wtspSwitch) {
+			if (whatsappCode) {
+				if (!whatsappValue.match(/[^0-9]/)) {
+					dispatch(shopPatchPhoneContactAction(phoneCode, phoneValue, whatsappCode, whatsappValue, 'W'));
+					// dispatch(shopPatchPhoneAction(null, null));
+					setContacterModalOpen(false);
+				}
+			}
+		}
+	};
 
 	return (
 		<>
@@ -207,30 +331,67 @@ const Index: NextPage = () => {
 								onClick={() => {
 									console.log('clicked');
 								}}
+								active={true}
 								cssClass={Styles.iconButton}
 							/>
 							<BorderIconButton
 								buttonText="Contacter"
 								svgIcon={ContactIconBlueSVG}
-								onClick={() => {
-									console.log('clicked');
-								}}
+								onClick={handleOpen}
 								cssClass={Styles.iconButton}
 							/>
+							{/* START right side contact modal */}
+							<RightSwipeModal open={openContacterModal} handleClose={handleClose}>
+								<div className={Styles.modalContentWrapper}>
+									<div className={Styles.topBar}>
+										<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleClose} />
+									</div>
+									<HelperDescriptionHeader
+										header="Ajouter un moyen de contact"
+										description="Choississez comment vos client peuvent vous contacter"
+									/>
+									{contacterAction.map((action, index) => {
+										return (
+											<ContacterPhoneInput
+												key={index}
+												checked={action.checked}
+												setStateHandler={action.setStateHandler}
+												label={action.label}
+												backgroundColor={action.backgroundColor}
+												icon={action.icon}
+												code={action.code}
+												setCode={action.setCode}
+												value={action.value}
+												setValue={action.setValue}
+											/>
+										);
+									})}
+								</div>
+								<div className={Styles.actionButtonWrapper}>
+									<PrimaryButton
+										buttonText="Enregistrer"
+										active={true}
+										onClick={contacterSaveHandler}
+										cssClass={Styles.actionButtonWidth}
+									/>
+								</div>
+							</RightSwipeModal>
+							{/* END right side contact modal */}
 						</div>
 					</div>
 					<div>
 						<div className={Styles.shopDetailsWrapper}>
 							<div className={Styles.shopTabs}>
 								<ShopInfoTabs
-									InfoContent={<InfoTabContent />}
 									shopContent={
 										<ShopTabContent
 											chipCategoriesAction={chipCategoriesAction}
 											promoCheckAction={promoCheckAction}
 											checkBoxForWhomAction={checkBoxesForWhomAction}
+											activeColor={bgColorCode}
 										/>
 									}
+									InfoContent={<InfoTabContent backgroundColor={bgColorCode} />}
 									color={bgColorCode}
 									borderColor={bgColorCode}
 								/>

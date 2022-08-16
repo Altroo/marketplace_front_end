@@ -68,6 +68,20 @@
   display: flex
   width: 100%
   margin: 20px 0
+// right side contact modal
+.modalWrapper
+  display: flex
+  align-content: center
+  justify-content: center
+.modalContentWrapper
+  margin: 24px 32px 40px
+.topBar
+  display: flex
+  justify-content: flex-end
+  img
+    cursor: pointer
+.actionButtonWrapper
+  margin: auto auto 40px auto
 @media #{$desktop}
   .iconButton
     width: 180px !important
@@ -104,6 +118,8 @@
     margin-left: 0
   .iconButton
     width: 170px !important
+  .actionButtonWidth
+    width: 300px !important
 
 @media #{$mobile}
   .main

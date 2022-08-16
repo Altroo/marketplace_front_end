@@ -3,7 +3,43 @@
 @import 'styles/sass/mixins'
 
 // Global styles
+.infoWrapper
+  display: flex
+  flex-direction: column
+  width: 50%
+  height: 50vh
+  margin: 0 auto
+  text-align: center
+  justify-content: center
+  align-content: center
+  h3
+    +SemiBold
+    font-size: 24px
+    height: fit-content
+    margin: 0
+  p
+    +Regular
+    font-size: 17px
+    margin-top: 0.2rem
+    margin-bottom: 3rem
+.buttonWrapper
+  display: flex
+  align-content: center
+  justify-content: center
+.modalContentWrapper
+  margin: 24px 32px 40px
+.topBar
+  display: flex
+  justify-content: flex-end
+  img
+    cursor: pointer
 
-// @media #{}
+@media #{$tablette}
+  .infoWrapper
+    width: auto
+    justify-content: flex-start
+    align-content: flex-start
+    h3
+      font-size: 19px
 // @media #{}
 // @media #{}

@@ -1,6 +1,7 @@
 import * as Types from '../index';
 import { ShopFontNameType, ShopZoneByType } from '../../../types/shop/shopTypes';
 import { IconColorType } from "../../../types/_init/_initTypes";
+import { SHOP_PATCH_PHONE_CONTACT } from "../index";
 
 export const setShopNameAction = (shop_name: string) => {
 	return {
@@ -127,20 +128,31 @@ export const shopPatchFontAction = (font_name: ShopFontNameType) => {
 	};
 };
 
-// PATCH : /api/1.0.0/shop/phone/
-export const shopPatchPhoneAction = (phone: string) => {
+// PATCH : /api/1.0.0/shop/phone_contact/
+export const shopPatchPhoneContactAction = (
+	contact_phone_code: string | null,
+	contact_phone: string | null,
+	contact_whatsapp_code : string | null,
+	contact_whatsapp: string | null,
+	contact_mode: 'P' | 'W',
+) => {
 	return {
-		type: Types.SHOP_PATCH_PHONE,
-		phone,
+		type: Types.SHOP_PATCH_PHONE_CONTACT,
+		contact_phone_code,
+		contact_phone,
+		contact_whatsapp_code,
+		contact_whatsapp,
+		contact_mode
 	};
 };
 // PATCH : /api/1.0.0/shop/whatsapp/
-export const shopPatchWhatsappAction = (whatsapp: string) => {
-	return {
-		type: Types.SHOP_PATCH_WHATSAPP,
-		whatsapp,
-	};
-};
+// export const shopPatchWhatsappAction = (whatsapp_code: string | null, whatsapp: string | null) => {
+// 	return {
+// 		type: Types.SHOP_PATCH_WHATSAPP,
+// 		whatsapp_code,
+// 		whatsapp,
+// 	};
+// };
 // PATCH : /api/1.0.0/shop/bio/
 export const shopPatchBioAction = (bio: string) => {
 	return {

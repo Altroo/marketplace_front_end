@@ -4,13 +4,13 @@ import { useRouter } from 'next/router';
 import Styles from '../../../styles/shop/add/shopAddShared.module.sass';
 import LeftSideBar from '../../../components/shop/add/leftSideBar/leftSideBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
-import HelperH1Header from '../../../components/headers/helperH1Header/HelperH1Header';
+import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
 import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import CardSection from '../../../components/htmlElements/cards/cardSection/cardSection';
 import { setShopFontAction, shopPostRootAction } from '../../../store/actions/shop/shopActions';
 import AvatarShopNameRating from '../../../components/shop/add/avatarShopNameRating/avatarShopNameRating';
-import IconButton from '../../../components/htmlElements/buttons/iconButton/IconButton';
+import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
 import MessageIconSVG from '../../../public/assets/svgs/message.svg';
 import MessageIconWhiteSVG from '../../../public/assets/svgs/message-white.svg';
 import MessageIconBlackSVG from '../../../public/assets/svgs/message-black.svg';
@@ -20,8 +20,8 @@ import ContactIconBlackSVG from '../../../public/assets/svgs/call-black.svg';
 import DisactivatedAddIconSVG from '../../../public/assets/svgs/gray-add.svg';
 import { DisactivatedTab } from '../../../components/htmlElements/tabs/tab';
 import DisabledFilterDropDown from '../../../components/shop/add/disabledFilterDropDown/disabledFilterDropDown';
-import IconTextInput from '../../../components/htmlElements/iconTextInput/iconTextInput';
-import IosSwitch from '../../../components/htmlElements/switches/IosSwitch';
+import IconTextInput from '../../../components/htmlElements/inputs/iconTextInput/iconTextInput';
+import IosSwitch from '../../../components/htmlElements/switches/iosSwitch';
 import CheckBox from '../../../components/htmlElements/checkBoxes/checkBox';
 import CenteredInfoAction from '../../../components/shop/add/centeredInfoAction/centeredInfoAction';
 import BorderIconAnchorButton from '../../../components/htmlElements/buttons/borderIconAnchorButton/borderIconAnchorButton';
@@ -88,11 +88,11 @@ const Font: NextPage = () => {
 		}
 		// color code
 		if (shopBgColorCode) {
-			setBgColorCode(shopBgColorCode);
+			setBgColorCode(shopColorCode);
 		}
 		// bg color code
 		if (shopColorCode) {
-			setColorCode(shopColorCode);
+			setColorCode(shopBgColorCode);
 		}
 		// border
 		if (shopBorder) {

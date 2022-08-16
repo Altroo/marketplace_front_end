@@ -4,7 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Styles from './dropDownMenu.module.sass';
 import Image from 'next/image';
-import { DropDownActionType, DropDownVariantType } from "../../../../types/ui/uiTypes";
+import { DropDownActionType, DropDownVariantType } from '../../../../types/ui/uiTypes';
 import { createTheme, ThemeProvider } from '@mui/material';
 
 type Props = {
@@ -17,15 +17,15 @@ type Props = {
 	children?: React.ReactNode;
 };
 
-const theme = createTheme({
+const menuTheme = createTheme({
 	components: {
 		MuiMenu: {
 			styleOverrides: {
 				paper: {
 					boxShadow: '0 2.80058px 11.2023px rgba(13, 7, 11, 0.2) !important',
 					borderRadius: '30px !important',
-					padding: '10px'
-				}
+					padding: '10px',
+				},
 			},
 		},
 		MuiMenuItem: {
@@ -35,9 +35,9 @@ const theme = createTheme({
 					fontSize: '17px',
 					color: '#0D070B',
 					margin: '0',
-				}
-			}
-		}
+				},
+			},
+		},
 	},
 });
 
@@ -50,7 +50,6 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-
 	return (
 		<div className={Styles.dropDownWrapper}>
 			<Button
@@ -63,7 +62,7 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 			>
 				{props.dropDownText}
 			</Button>
-			<ThemeProvider theme={theme}>
+			<ThemeProvider theme={menuTheme}>
 				<Menu
 					variant={props.variant ? props.variant : 'menu'}
 					id={props.menuID}
@@ -76,7 +75,7 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 				>
 					{props.actions.map((action, index) => {
 						return (
-							<MenuItem onClick={action.onClick} key={index} disableRipple className={Styles.menuItem}>
+							<MenuItem onClick={action.onClick} key={index} className={Styles.menuItem}>
 								{action.icon && <Image src={action.icon} alt="" className={Styles.icon} />}
 								{action.text}
 							</MenuItem>

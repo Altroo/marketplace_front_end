@@ -1,32 +1,15 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Styles from './desktopFilterSelect.module.sass';
+// import Styles from './desktopFilterSelect.module.sass';
 import { createTheme, ThemeProvider } from "@mui/material";
 
 const theme = createTheme({
 	components: {
 		MuiSelect: {
 			styleOverrides: {
-				standard: {
-					border: '0px solid transparent !important',
-					boxShadow: '0px !important',
-					color: '#0D070B !important',
-					fontFamily: 'Poppins',
-					backgroundColor: 'white',
-					borderBottom: '0px solid transparent !important'
-				},
-				nativeInput: {
-					border: '0px solid transparent !important',
-					boxShadow: '0px !important',
-					color: '#0D070B !important',
-					fontFamily: 'Poppins',
-					backgroundColor: 'white',
-					borderBottom: '0px solid transparent !important'
-				},
 				select: {
 					border: '0px solid transparent !important',
 					boxShadow: '0px !important',
@@ -35,32 +18,49 @@ const theme = createTheme({
 					backgroundColor: 'white',
 					borderBottom: '0px solid transparent !important'
 				},
-				iconStandard: {
-					border: '0px solid transparent !important',
-					boxShadow: '0px !important',
-					color: '#0D070B !important',
-					fontFamily: 'Poppins',
-					backgroundColor: 'white',
-					borderBottom: '0px solid transparent !important'
-				},
-				icon: {
-					border: '0px solid transparent !important',
-					boxShadow: '0px !important',
-					color: '#0D070B !important',
-					fontFamily: 'Poppins',
-					backgroundColor: 'white',
-					borderBottom: '0px solid transparent !important'
-				},
-				iconOpen: {
-					border: '0px solid transparent !important',
-					boxShadow: '0px !important',
-					color: '#0D070B !important',
-					fontFamily: 'Poppins',
-					backgroundColor: 'white',
-					borderBottom: '0px solid transparent !important'
-				}
 			},
 		},
+		MuiFilledInput: {
+			styleOverrides: {
+				root: {
+					'&::before': {
+						borderBottom: '0px solid transparent',
+					},
+					'&::after': {
+						borderBottom: '2px solid red',
+					}
+				}
+			}
+		},
+		MuiInputLabel: {
+			styleOverrides: {
+				root: {
+					color: 'red'
+				},
+				filled: {
+					color: 'red'
+				}
+			}
+		},
+		MuiFormLabel: {
+			styleOverrides: {
+				root: {
+					'&.Mui-focused': {
+						color: 'red'
+					}
+				}
+			}
+		},
+		MuiFormControlLabel: {
+			styleOverrides: {
+				root: {
+					'&.Mui-focused': {
+						color: 'red'
+					}
+				}
+			}
+		},
+
 	},
 });
 
@@ -73,28 +73,23 @@ type Props = {
 };
 
 const DesktopFilterSelect: React.FC<Props> = (props: Props) => {
-	const handleChange = (event: SelectChangeEvent) => {
-		props.setStateHandler(event.target.value as 'D' | 'T');
-	};
-
 	return (
-		<Box sx={{ minWidth: 120 }}>
-			<FormControl fullWidth>
-				<InputLabel id={props.labelID}>Trier : </InputLabel>
-				<ThemeProvider theme={theme}>
-					<Select
-						variant="standard"
-						labelId={props.labelID}
-						id={props.selectID}
-						value={props.state}
-						label="Trier"
-						onChange={handleChange}>
-						<MenuItem value='D'>Prix décroissant</MenuItem>
-						<MenuItem value='C'>Prix croissant</MenuItem>
-					</Select>
-				</ThemeProvider>
-			</FormControl>
-		</Box>
+		<FormControl>
+			<InputLabel id={props.labelID} sx={{color: 'red', '&:focused': {color: 'red'}}}>Trier : </InputLabel>
+			<ThemeProvider theme={theme}>
+				<Select
+					autoWidth
+					variant="filled"
+					labelId={props.labelID}
+					id={props.selectID}
+					value={props.state}
+					label="Trier"
+					onChange={(e: SelectChangeEvent) => props.setStateHandler(e.target.value as 'D' | 'T')}>
+					<MenuItem value='D'>Prix décroissant</MenuItem>
+					<MenuItem value='C'>Prix croissant</MenuItem>
+				</Select>
+			</ThemeProvider>
+		</FormControl>
 	);
 };
 
