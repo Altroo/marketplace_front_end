@@ -1,12 +1,69 @@
-import { ShopFontNameType } from "../shop/shopTypes";
+import { ShopFontNameType } from '../shop/shopTypes';
 
-export type ResponseStatusDefaultType = {
-	status: number | undefined;
-};
-
-export interface AxiosErrorDefaultType extends ResponseStatusDefaultType {
-	error?: string;
+/*
+	CASE 1 (GLOBAL ERROR):
+	{
+    "error": {
+        "status_code": 400,
+        "message": "Bad request syntax or unsupported method",
+        "details": {
+            "error": [
+                "Doit inclure “email” et “password”."
+            ]
+        }
+    }
+	}
+CASE 2 (SPECIFIC SOLO EACH ERROR):
+{
+    "error": {
+        "status_code": 400,
+        "message": "Bad request syntax or unsupported method",
+        "details": {
+            "email": [
+                "Saisissez une adresse e-mail valide."
+            ],
+            "password": [
+                "Ce champ ne peut être nul."
+            ],
+            "password2": [
+                "Ce champ ne peut être nul."
+            ]
+        }
+    }
 }
+CASE 3 (SPECIFIC SOLO MULTI ERRORS):
+{
+    "error": {
+        "status_code": 400,
+        "message": "Bad request syntax or unsupported method",
+        "details": {
+            "email": [
+                "Assurez-vous que ce champ comporte au plus 254 caractères.",
+                "Saisissez une adresse e-mail valide."
+            ]
+        }
+    }
+}
+ */
+
+export type ApiErrorResponseType = {
+	error: {
+		status_code: number | null;
+		message: string | null;
+		details: Record<string, Array<string>> | { error: Array<string> } | null;
+	}
+}
+
+export interface ApiPromise extends ApiErrorResponseType {
+	isAddInProgress: boolean;
+	isFetchInProgress: boolean;
+	isDeleteInProgress: boolean;
+	isEditInProgress: boolean;
+	// Error inherited
+	promiseStatus: 'PENDING' | 'RESOLVED' | 'REJECTED' | null;
+}
+
+// export type ApiPromiseStatus = 'PENDING' | 'RESOLVED' | 'REJECTED';
 
 export interface ResponseDataInterface<T> {
 	data: T;
@@ -14,10 +71,10 @@ export interface ResponseDataInterface<T> {
 }
 
 export interface PaginationResponseType<T> {
-	count: number | null,
-	next: string | null,
-	previous: string | null,
-	results: Array<T>
+	count: number | null;
+	next: string | null;
+	previous: string | null;
+	results: Array<T>;
 }
 
 export interface ResponseDataErrorInterface {
@@ -26,13 +83,13 @@ export interface ResponseDataErrorInterface {
 }
 
 export interface ResponseOnlyInterface {
-	status: number
+	status: number;
 }
 
 export type APIContentTypeInterface = 'application/json' | 'application/x-www-form-urlencoded' | 'multipart/form-data';
 
 export type Nullable<T> = { [K in keyof T]: T[K] | null };
-export type Undefinedable<T> = { [K in keyof T]: T[K] | undefined };
+// export type Undefinedable<T> = { [K in keyof T]: T[K] | undefined };
 
 // export type DeepNullable<T> = { [K in keyof T]: DeepNullable<T[K]> | null };
 
@@ -53,7 +110,7 @@ export type InitStateNonNullableToken = {
 	};
 	access_token_expiration: string;
 	refresh_token_expiration: string;
-}
+};
 
 //!- Init State
 export type InitStateToken = {
@@ -97,17 +154,17 @@ export type ResponseDataTokenRefreshType = ResponseDataInterface<ResponseDataTok
 export type IconColorType = 'black' | 'white';
 
 export type AppTokensCookieType = {
-	'@tokenType' : string | undefined,
-	'@initStateToken' : string | undefined,
-	'@initStateUniqueID' : string | undefined,
-}
+	'@tokenType': string | undefined;
+	'@initStateToken': string | undefined;
+	'@initStateUniqueID': string | undefined;
+};
 
 export type NewShopCookieType = {
-	'@shop_name' : string | undefined,
-	'@avatar': ArrayBuffer | string | undefined,
-	'@color_code': string | undefined,
-	'@bg_color_code': string | undefined,
-	'@font_name': ShopFontNameType | undefined,
-	'@border': string | undefined,
-	'@icon_color': IconColorType | undefined,
-}
+	'@shop_name': string | undefined;
+	'@avatar': ArrayBuffer | string | undefined;
+	'@color_code': string | undefined;
+	'@bg_color_code': string | undefined;
+	'@font_name': ShopFontNameType | undefined;
+	'@border': string | undefined;
+	'@icon_color': IconColorType | undefined;
+};

@@ -3,7 +3,7 @@ import * as Types from '../../actions';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { isAuthenticatedInstance } from '../../../utils/helpers';
 import { deleteResponseDataApi, getApi, patchApi, postApi } from '../../services/_init/_initAPI';
-import { AxiosErrorDefaultType, ResponseOnlyInterface } from '../../../types/_init/_initTypes';
+import { ApiErrorResponseType, ResponseOnlyInterface } from '../../../types/_init/_initTypes';
 import {
 	CartDeleteRootResponseType,
 	CartGetAllResponseType,
@@ -27,7 +27,7 @@ function* cartGetAllSaga() {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -48,7 +48,7 @@ function* cartGetCoordinatesSaga() {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -71,7 +71,7 @@ function* cartDeleteRootSaga(payload: { type: string; cart_pk: number }) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -93,7 +93,7 @@ function* cartGetDetailsSaga(payload: { type: string; shop_pk: number }) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -116,7 +116,7 @@ function* cartPostRootSaga(payload: {
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const { type, ...payloadData } = payload;
 			const response: ResponseOnlyInterface = yield* call(() => postApi(url, authInstance, payloadData));
-			if (response.status === 204) {
+			if (response.status === 200) {
 				// set exists in cart in offers slice
 				yield* put(setExistsInCart({ offer_pk: payload.offer_pk, exists_in_cart: true }));
 			} else {
@@ -124,7 +124,7 @@ function* cartPostRootSaga(payload: {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -155,7 +155,7 @@ function* cartPatchRootSaga(payload: {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -190,7 +190,7 @@ function* cartPostOrderSaga(payload: {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}

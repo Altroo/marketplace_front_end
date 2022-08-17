@@ -4,7 +4,7 @@ import { ctxAuthSaga } from '../_init/_initSaga';
 import { getMyBuyingsListNextPage, getMySellingsListNextPage } from '../../selectors';
 import { isAuthenticatedInstance } from '../../../utils/helpers';
 import { getApi } from '../../services/_init/_initAPI';
-import { AxiosErrorDefaultType } from '../../../types/_init/_initTypes';
+import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
 import { setBuyingsListState, setSellingsListState } from '../../slices/order/orderSlice';
 import { OrderGetBuyingsSellingsResponseType } from '../../../types/order/orderTypes';
 
@@ -31,7 +31,7 @@ function* orderGetBuyingsSaga() {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -60,7 +60,7 @@ function* orderGetSellingsSaga() {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}

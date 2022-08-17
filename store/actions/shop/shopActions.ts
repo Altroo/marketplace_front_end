@@ -1,7 +1,6 @@
 import * as Types from '../index';
 import { ShopFontNameType, ShopZoneByType } from '../../../types/shop/shopTypes';
 import { IconColorType } from "../../../types/_init/_initTypes";
-import { SHOP_PATCH_PHONE_CONTACT } from "../index";
 
 export const setShopNameAction = (shop_name: string) => {
 	return {
@@ -145,14 +144,7 @@ export const shopPatchPhoneContactAction = (
 		contact_mode
 	};
 };
-// PATCH : /api/1.0.0/shop/whatsapp/
-// export const shopPatchWhatsappAction = (whatsapp_code: string | null, whatsapp: string | null) => {
-// 	return {
-// 		type: Types.SHOP_PATCH_WHATSAPP,
-// 		whatsapp_code,
-// 		whatsapp,
-// 	};
-// };
+
 // PATCH : /api/1.0.0/shop/bio/
 export const shopPatchBioAction = (bio: string) => {
 	return {

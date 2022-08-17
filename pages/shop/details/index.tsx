@@ -4,30 +4,36 @@ import Styles from '../../../styles/shop/details/detailsIndex.module.sass';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
-import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
+import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import ShopInfoTabs from '../../../components/htmlElements/tabs/tab';
 import MessageIconWhiteSVG from '../../../public/assets/svgs/message-white.svg';
 import MessageIconBlackSVG from '../../../public/assets/svgs/message-black.svg';
 import ContactIconBlueSVG from '../../../public/assets/svgs/call-blue.svg';
+import ContactIconWhiteSVG from '../../../public/assets/svgs/call-white.svg';
+import ContactIconBlackSVG from '../../../public/assets/svgs/call-black.svg';
 import CircularAvatar from '../../../components/htmlElements/images/circularAvatar/circularAvatar';
 import { ShopFontNameType } from '../../../types/shop/shopTypes';
 import DesktopPublishEditNavbar from '../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
 import MobilePublishEditNavbar from '../../../components/mobile/navbars/mobilePublishEditNavbar/mobilePublishEditNavbar';
 import Image from 'next/image';
 import BlackStarSVG from '../../../public/assets/svgs/black-star.svg';
+import InfoIconSVG from "../../../public/assets/svgs/drop-down-info.svg";
+import AvatarIconSVG from "../../../public/assets/svgs/drop-down-avatar.svg";
+import ColorIconSVG from "../../../public/assets/svgs/drop-down-color.svg";
+import FontIconSVG from "../../../public/assets/svgs/drop-down-font.svg";
+import CloseSVG from '../../../public/assets/svgs/close.svg';
+import PhoneSVG from '../../../public/assets/svgs/contact-phone.svg';
+import WtspSVG from '../../../public/assets/svgs/whatsapp-icon.svg';
 import BorderIconButton from '../../../components/htmlElements/buttons/borderIconButton/borderIconButton';
 import {
 	checkBoxesForWhomActionType,
 	chipActionsType,
-	contacterPhoneInputType,
-	switchActionType,
-} from '../../../types/ui/uiTypes';
+	contacterPhoneInputType, DropDownActionType,
+	switchActionType
+} from "../../../types/ui/uiTypes";
 import InfoTabContent from '../../../components/shop/details/infoTabContent/InfoTabContent';
 import ShopTabContent from '../../../components/shop/details/shopTabContent/shopTabContent';
-import CloseSVG from '../../../public/assets/svgs/close.svg';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
-import PhoneSVG from '../../../public/assets/svgs/contact-phone.svg';
-import WtspSVG from '../../../public/assets/svgs/whatsapp-icon.svg';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
 import ContacterPhoneInput from '../../../components/shop/details/contacterPhoneInput/contacterPhoneInput';
@@ -43,6 +49,7 @@ import {
 	getShopWhatsappContactCode, getShopPhoneContact,
 	getShopWhatsappContact
 } from "../../../store/selectors";
+import IconButton from "../../../components/htmlElements/buttons/iconButton/iconButton";
 
 const Index: NextPage = () => {
 	const router = useRouter();
@@ -74,6 +81,7 @@ const Index: NextPage = () => {
 	const [fontName, setFontName] = useState<ShopFontNameType>(shopFontName);
 	// Gray Message Icon
 	const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
+	const [contactIcon, setContactIcon] = useState<string>(ContactIconBlackSVG);
 	// Promo states
 	const [promoCheck, setPromoCheck] = useState(false);
 	// For whom states
@@ -214,6 +222,30 @@ const Index: NextPage = () => {
 		},
 	];
 
+	// drop down menu actions
+	const dropDownActions: DropDownActionType = [
+		{
+			icon: InfoIconSVG,
+			text: 'Mes infos',
+			onClick: () => {return;},
+		},
+		{
+			icon: AvatarIconSVG,
+			text: 'Photo de profil',
+			onClick: () => {return;},
+		},
+		{
+			icon: ColorIconSVG,
+			text: 'Couleur de la boutique',
+			onClick: () => {return;},
+		},
+		{
+			icon: FontIconSVG,
+			text: 'Police du titre',
+			onClick: () => {return;},
+		},
+	];
+
 	useEffect(() => {
 		// avatar
 		if (shopAvatar) {
@@ -234,20 +266,22 @@ const Index: NextPage = () => {
 		// icon color
 		if (shopIconColor === 'white') {
 			setMessageIcon(MessageIconWhiteSVG);
+			setContactIcon(ContactIconWhiteSVG);
 		} else if (shopIconColor === 'black') {
 			setMessageIcon(MessageIconBlackSVG);
+			setContactIcon(ContactIconBlackSVG);
 		}
 		if (shopFontName) {
 			setFontName(shopFontName);
 		}
 	}, [shopAvatar, shopBgColorCode, shopColorCode, shopBorder, shopIconColor, shopFontName, dispatch, whatsappCode]);
 
+	// save phone contact modal button
 	const contacterSaveHandler = () => {
 		if (phoneSwitch) {
 			if (phoneCode) {
 				if (!phoneValue.match(/[^0-9]/)) {
 					dispatch(shopPatchPhoneContactAction(phoneCode, phoneValue, whatsappCode, whatsappValue, 'P'));
-					// dispatch(shopPatchWhatsappAction(null, null));
 					setContacterModalOpen(false);
 				}
 			}
@@ -256,7 +290,6 @@ const Index: NextPage = () => {
 			if (whatsappCode) {
 				if (!whatsappValue.match(/[^0-9]/)) {
 					dispatch(shopPatchPhoneContactAction(phoneCode, phoneValue, whatsappCode, whatsappValue, 'W'));
-					// dispatch(shopPatchPhoneAction(null, null));
 					setContacterModalOpen(false);
 				}
 			}
@@ -265,6 +298,7 @@ const Index: NextPage = () => {
 
 	return (
 		<>
+			{/* Show shop created modal */}
 			{created && !modalDismissed && (
 				<DismissMessageModal
 					title="Voilà le résultat !"
@@ -277,6 +311,7 @@ const Index: NextPage = () => {
 			<main className={Styles.main}>
 				<div className={Styles.desktopTopBarWrapper}>
 					<DesktopPublishEditNavbar
+						actions={dropDownActions}
 						onClick={() => {
 							console.log('Clicked');
 						}}
@@ -322,7 +357,7 @@ const Index: NextPage = () => {
 							</div>
 						</div>
 						<div className={Styles.actionsWrapper}>
-							<IconButton
+							<IconAnchorButton
 								buttonText="Message"
 								svgIcon={messageIcon}
 								backgroundColor={bgColorCode}
@@ -334,12 +369,24 @@ const Index: NextPage = () => {
 								active={true}
 								cssClass={Styles.iconButton}
 							/>
-							<BorderIconButton
+							{/* show outline icon button if no phone or whatsapp added yet, else show normal icon button */}
+							{(phoneValue || whatsappValue) !== '' ?
+								<IconButton
+									buttonText="Contacter"
+									svgIcon={contactIcon}
+									onClick={handleOpen}
+									backgroundColor={bgColorCode}
+									textColor={colorCode}
+									border={border}
+									cssClass={Styles.iconButton}
+								/> :
+								<BorderIconButton
 								buttonText="Contacter"
 								svgIcon={ContactIconBlueSVG}
 								onClick={handleOpen}
 								cssClass={Styles.iconButton}
-							/>
+							/>}
+
 							{/* START right side contact modal */}
 							<RightSwipeModal open={openContacterModal} handleClose={handleClose}>
 								<div className={Styles.modalContentWrapper}>

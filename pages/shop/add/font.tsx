@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import CardSection from '../../../components/htmlElements/cards/cardSection/cardSection';
 import { setShopFontAction, shopPostRootAction } from '../../../store/actions/shop/shopActions';
 import AvatarShopNameRating from '../../../components/shop/add/avatarShopNameRating/avatarShopNameRating';
-import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
+import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import MessageIconSVG from '../../../public/assets/svgs/message.svg';
 import MessageIconWhiteSVG from '../../../public/assets/svgs/message-white.svg';
 import MessageIconBlackSVG from '../../../public/assets/svgs/message-black.svg';
@@ -178,14 +178,14 @@ const Font: NextPage = () => {
 								active={false}
 							/>
 							<div className={Styles.actionsWrapper}>
-								<IconButton
+								<IconAnchorButton
 									buttonText="Message"
 									svgIcon={messageIcon}
 									backgroundColor={bgColorCode}
 									textColor={colorCode}
 									border={border}
 								/>
-								<IconButton
+								<IconAnchorButton
 									buttonText="Contacter"
 									svgIcon={contactIcon}
 									backgroundColor={bgColorCode}

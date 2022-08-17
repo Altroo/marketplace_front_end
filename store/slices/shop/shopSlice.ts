@@ -28,8 +28,6 @@ const initialState:
 	userShop: undefined,
 	phoneCodes: [],
 	newShop: {},
-	// border: '',
-	// iconColor: null,
 };
 
 const shopSlice = createSlice({
@@ -45,8 +43,6 @@ const shopSlice = createSlice({
 			return state;
 		},
 		setGetPhoneCodes: (state, action: PayloadAction<Array<string>>) => {
-			console.log(action.payload);
-			console.log(typeof action.payload);
 			state.phoneCodes = action.payload;
 			return state;
 		},
@@ -89,15 +85,6 @@ const shopSlice = createSlice({
 			}
 			return state;
 		},
-		// setShopWhatsapp: (state, action: PayloadAction<ShopWhatsappType>) => {
-		// 	if (state.userShop) {
-		// 		if ('whatsapp' in state.userShop) {
-		// 			state.userShop.whatsapp_code = action.payload.whatsapp_code;
-		// 			state.userShop.whatsapp = action.payload.whatsapp;
-		// 		}
-		// 	}
-		// 	return state;
-		// },
 		setShopBio: (state, action: PayloadAction<ShopBioType>) => {
 			if (state.userShop) {
 				if ('bio' in state.userShop) {

@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import CardSection from '../../../components/htmlElements/cards/cardSection/cardSection';
 import { setShopAvatarAction } from '../../../store/actions/shop/shopActions';
 import AvatarShopNameRating from '../../../components/shop/add/avatarShopNameRating/avatarShopNameRating';
-import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
+import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import MessageIconSVG from '../../../public/assets/svgs/message.svg';
 import CallIconSVG from '../../../public/assets/svgs/call.svg';
 import DisactivatedAddIconSVG from '../../../public/assets/svgs/gray-add.svg';
@@ -89,8 +89,8 @@ const Avatar: NextPage = () => {
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} setAvatar={setAvatar} preview={preview} active />
 							<div className={Styles.actionsWrapper}>
-								<IconButton buttonText="Message" svgIcon={MessageIconSVG} />
-								<IconButton buttonText="Contacter" svgIcon={CallIconSVG} />
+								<IconAnchorButton buttonText="Message" svgIcon={MessageIconSVG} />
+								<IconAnchorButton buttonText="Contacter" svgIcon={CallIconSVG} />
 							</div>
 						</div>
 						<div className={Styles.shopDetailsWrapper}>

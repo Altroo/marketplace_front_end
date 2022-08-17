@@ -141,11 +141,17 @@
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/inputs/iconTextInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/inputs/phoneInputFields" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details/contacterPhoneInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/iconAnchorButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/_api_promises" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/_api_promises" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/_api_promises" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop/add" />
       <excludeFolder url="file://$MODULE_DIR$/components/archives" />
+      <excludeFolder url="file://$MODULE_DIR$/components/archives/categorieChip" />
+      <excludeFolder url="file://$MODULE_DIR$/components/archives/desktopFilterSelect" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

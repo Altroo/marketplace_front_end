@@ -110,21 +110,21 @@ export interface OfferGetTagsType {
 }
 
 type OfferTags = {
-	pk: number,
-	name_tag: string
-}
+	pk: number;
+	name_tag: string;
+};
 
 export type OfferTagsType = Array<OfferTags> | [];
 
 export type OfferGetTagsResponseType = ResponseDataInterface<OfferTagsType>;
 
 type ProductDeliveryCity = {
-	pk: number,
-	name: string
-}
+	pk: number;
+	name: string;
+};
 
 export type DeliveriesResponseType = {
-	pk: number,
+	pk: number;
 	delivery_city: Array<ProductDeliveryCity>;
 	delivery_price: number;
 	delivery_days: number;
@@ -158,8 +158,8 @@ export interface OfferServiceInterface extends OfferServiceClass {
 	picture_3_thumb: string | null;
 }
 
-export type OfferProductColorsArray = Array<{pk: number, code_color: OfferProductColors, name_color: string}>
-export type OfferProductSizesArray = Array<{pk: number, code_size: OfferProductSizes, name_size: string}>
+export type OfferProductColorsArray = Array<{ pk: number; code_color: OfferProductColors; name_color: string }>;
+export type OfferProductSizesArray = Array<{ pk: number; code_size: OfferProductSizes; name_size: string }>;
 
 export type DetailsOfferProductType = {
 	product_quantity: number | null;
@@ -171,7 +171,7 @@ export type DetailsOfferProductType = {
 	product_sizes: string | OfferProductSizesArray | [];
 };
 
-export type OfferServiceAvailabilityDaysArray = Array<{pk: number, code_day: OfferServiceDaysType, name_day: string}>
+export type OfferServiceAvailabilityDaysArray = Array<{ pk: number; code_day: OfferServiceDaysType; name_day: string }>;
 type DetailsOfferServiceType = {
 	service_availability_days: string | OfferServiceAvailabilityDaysArray | [];
 	service_morning_hour_from: string;
@@ -186,8 +186,8 @@ type DetailsOfferServiceType = {
 	service_km_radius: number | null;
 };
 
-export type OfferCategoriesArray = Array<{pk: number, code_category: OfferCategoriesType, name_category: string}>
-export type OfferForWhomArray = Array<{pk: number, code_for_whom: OfferForWhomType, name_for_whom: string}>
+export type OfferCategoriesArray = Array<{ pk: number; code_category: OfferCategoriesType; name_category: string }>;
+export type OfferForWhomArray = Array<{ pk: number; code_for_whom: OfferForWhomType; name_for_whom: string }>;
 
 export interface OfferGetRootProductInterface
 	extends Omit<
@@ -220,11 +220,7 @@ export interface OfferGetRootProductInterface
 	exists_in_cart?: boolean;
 }
 
-export interface OfferGetRootServiceInterface
-	extends Omit<OfferServiceClass,
-		| 'offer_categories'
-		| 'for_whom'
-		> {
+export interface OfferGetRootServiceInterface extends Omit<OfferServiceClass, 'offer_categories' | 'for_whom'> {
 	pk: number;
 	offer_categories: OfferCategoriesArray;
 	shop_name: string;
@@ -240,44 +236,46 @@ export interface OfferGetRootServiceInterface
 }
 
 export type OfferProductLocalisation = {
-    longitude: number,
-    latitude: number,
-    localisation_name: string
-}
+	longitude: number;
+	latitude: number;
+	localisation_name: string;
+};
 
 export interface OfferServiceLocalisation extends OfferProductLocalisation {
-	zone_by: OfferZoneByType,
-	km_radius: number | null,
+	zone_by: OfferZoneByType;
+	km_radius: number | null;
 }
 
-export type OfferGetLastUsedLocalisationResponseType = ResponseDataInterface<OfferProductLocalisation | OfferServiceLocalisation>;
+export type OfferGetLastUsedLocalisationResponseType = ResponseDataInterface<
+	OfferProductLocalisation | OfferServiceLocalisation
+>;
 
 export type OfferDeliveries = {
 	deliveries: Array<DeliveriesResponseType>;
-}
+};
 
 export type OfferGetLastThreeUsedDeliveriesResponseType = ResponseDataInterface<OfferDeliveries>;
 
 export type OfferGetVues = {
-	pk: number,
-	thumbnail: string,
-	title: string,
-	nbr_total_vue: number
-}
+	pk: number;
+	thumbnail: string;
+	title: string;
+	nbr_total_vue: number;
+};
 
-export type OfferGetVuesMonthType = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12'
+export type OfferGetVuesMonthType = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12';
 
-export interface OfferGetVuesType extends PaginationResponseType<OfferGetVues>{
-	total_vues: number | null,
-    this_month: OfferGetVuesMonthType | null,
-    pourcentage: string | null,
+export interface OfferGetVuesType extends PaginationResponseType<OfferGetVues> {
+	total_vues: number | null;
+	this_month: OfferGetVuesMonthType | null;
+	pourcentage: string | null;
 }
 
 //!- Offer State
 export interface OfferStateInterface {
 	userOffers: Array<OfferProductInterface | OfferServiceInterface>;
 	userOffersList: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
-	offerVuesList: OfferGetVuesType
+	offerVuesList: OfferGetVuesType;
 	selectedOffer: OfferGetRootProductInterface | OfferGetRootServiceInterface | Record<string, unknown>;
 	selectedSolder: Nullable<OfferSolderInterface> | Record<string, unknown>;
 	selectedTags: OfferTagsType;
@@ -295,36 +293,38 @@ export type OfferPutRootProductResponseType = OfferPostRootProductResponseType;
 export type OfferPutRootServiceResponseType = OfferPostRootServiceResponseType;
 
 export interface OfferSolderInterface {
-    offer: number,
-    solder_type: OfferSolderByType,
-    solder_value: number
+	offer: number;
+	solder_type: OfferSolderByType;
+	solder_value: number;
 }
 
 export type OfferPostSolderResponseType = ResponseDataInterface<OfferSolderInterface>;
 
 type OfferGetMyOffersProductServiceType = {
-	pk: number,
-	thumbnail: string,
-	title: string,
-	price: number,
-	solder_type: OfferSolderByType | null,
-	solder_value: number | null,
-	creator_label: boolean,
-}
+	pk: number;
+	thumbnail: string;
+	title: string;
+	price: number;
+	solder_type: OfferSolderByType | null;
+	solder_value: number | null;
+	creator_label: boolean;
+};
 
 export interface OfferGetMyOffersProductInterface extends OfferGetMyOffersProductServiceType {
-	details_offer: DetailsOfferProductType
+	details_offer: DetailsOfferProductType;
 }
 
 export interface OfferGetMyOffersServiceInterface extends OfferGetMyOffersProductServiceType {
-	details_offer: DetailsOfferServiceType
+	details_offer: DetailsOfferServiceType;
 }
 
-export type OfferGetMyOffersResponseType = ResponseDataInterface<PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>>
+export type OfferGetMyOffersResponseType = ResponseDataInterface<
+	PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
+>;
 
-export interface OfferPostSolderType extends Omit<OfferSolderInterface, 'offer'>{
-	type: string,
-	offer_pk: number,
+export interface OfferPostSolderType extends Omit<OfferSolderInterface, 'offer'> {
+	type: string;
+	offer_pk: number;
 }
 
 export type OfferGetVuesResponseType = ResponseDataInterface<OfferGetVuesType>;

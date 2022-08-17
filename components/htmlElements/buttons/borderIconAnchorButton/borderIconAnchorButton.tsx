@@ -33,14 +33,12 @@ const BorderIconAnchorButton = forwardRef<HTMLAnchorElement, Props>(
 				</Link>
 			</ThemeProvider>
 		) : (
-			<ThemeProvider theme={customTheme}>
-				<Button disabled className={`${Styles.button} ${Styles.desactivatedButton}`}>
-					<div className={Styles.container}>
-						<Image src={props.svgIcon} alt="" width={18.67} height={18.67} />
-						<span>{props.buttonText}</span>
-					</div>
-				</Button>
-			</ThemeProvider>
+			<button disabled className={`${Styles.button} ${Styles.desactivatedButton}`}>
+				<div className={Styles.container}>
+					<Image src={props.svgIcon} alt="" width={18.67} height={18.67} />
+					<span>{props.buttonText}</span>
+				</div>
+			</button>
 		);
 	},
 );

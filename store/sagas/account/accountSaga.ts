@@ -29,35 +29,35 @@ import {
 	setWSUserAvatar,
 } from '../../slices/account/accountSlice';
 import {
-	AxiosErrorDefaultType,
+	ApiErrorResponseType,
 	ResponseDataErrorInterface,
 	ResponseOnlyInterface,
 } from '../../../types/_init/_initTypes';
 import {
-	AccountGetAddressesResponseType, AccountGetAddressResponseType,
+	AccountGetAddressesResponseType,
+	AccountGetAddressResponseType,
 	AccountGetBlockResponseType,
 	AccountGetCheckAccountResponseType,
 	AccountGetProfilResponseType,
-	AccountGetSocialsResponseType, AccountPatchAddressResponseType,
+	AccountGetSocialsResponseType,
+	AccountPatchAddressResponseType,
 	AccountPatchProfilResponseType,
 	AccountPatchProfilType,
 	AccountPostAddressInterface,
 	AccountPostAddressResponseType,
-	AccountPostBlockResponseType, AccountPostDeleteAccountType, AccountPostEncloseAccountType,
+	AccountPostBlockResponseType,
+	AccountPostDeleteAccountType,
+	AccountPostEncloseAccountType,
 	AccountPostFacebookResponseType,
 	AccountPostGoogleResponseType,
 	AccountPostLoginResponseType,
 	AccountPostLoginType,
 	AccountPostRegisterResponseType,
-	AccountPostRegisterType, AccountPostVerifyAccountType,
+	AccountPostRegisterType,
+	AccountPostVerifyAccountType,
 } from '../../../types/account/accountTypes';
-import {
-	setTokenState,
-	setEmptyUniqueIDState,
-	initToken
-} from '../../slices/_init/_initSlice';
+import { setTokenState, setEmptyUniqueIDState, initToken } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga, initEmptyStatesSaga } from '../_init/_initSaga';
-
 
 function* accountPostCheckEmailSaga(payload: { type: string; email: string }) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_EMAIL}`;
@@ -66,12 +66,15 @@ function* accountPostCheckEmailSaga(payload: { type: string; email: string }) {
 		const response: ResponseOnlyInterface = yield* call(() => postApi(url, instance, { email: payload.email }));
 		if (response.status === 204) {
 			yield* put(setEmailExistsStatus(false));
-		} else {
-			yield* put(setEmailExistsStatus(true));
-			console.log(response.status);
 		}
+		// else {
+		// 	yield* put(setEmailExistsStatus(true));
+		// 	console.log(response.status);
+		// }
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		yield* put(setEmailExistsStatus(true));
+		const errors = e as ApiErrorResponseType;
+		console.log(errors.error.status_code);
 		console.log(errors);
 	}
 }
@@ -90,16 +93,20 @@ function* accountPostRegisterSaga(payload: AccountPostRegisterType) {
 		if (response.status === 200) {
 			// Check if previous init state has unique_id (user own a temporary shop)
 			const uniqueID = authSagaContext.initStateUniqueID.unique_id;
-			if(authSagaContext.tokenType === 'UNIQUE_ID' && uniqueID !== null) {
+			if (authSagaContext.tokenType === 'UNIQUE_ID' && uniqueID !== null) {
 				// set localStorage token only
 				yield* call(() => setRemoteCookiesTokenOnly(response.data));
 				// construct transfer shop url
 				const transferShopUrl = `${process.env.NEXT_PUBLIC_SHOP_TRANSFER_SHOP}`;
 				// call is authenticated instance (require real token from localStorage previously set)
-				const authInstance = yield* call(() => isAuthenticatedInstance(response.data, 'application/json', true));
+				const authInstance = yield* call(() =>
+					isAuthenticatedInstance(response.data, 'application/json', true),
+				);
 				// Get transfer shop response
-				const transferResponse: ResponseDataErrorInterface = yield* call(() => postApi(transferShopUrl, authInstance, {unique_id: uniqueID}))
-				if (transferResponse.status === 204){
+				const transferResponse: ResponseDataErrorInterface = yield* call(() =>
+					postApi(transferShopUrl, authInstance, { unique_id: uniqueID }),
+				);
+				if (transferResponse.status === 204) {
 					// Transfer complete
 					// localStorage token was previously set
 					// Set new token state
@@ -113,8 +120,8 @@ function* accountPostRegisterSaga(payload: AccountPostRegisterType) {
 					console.log(transferResponse.data);
 					console.log(transferResponse.status);
 				}
-			// Previous init state is null (user don't own a temporary shop)
-			}else {
+				// Previous init state is null (user don't own a temporary shop)
+			} else {
 				// Set new token state
 				yield* put(setTokenState(response.data));
 				// set localStorage token only
@@ -129,7 +136,7 @@ function* accountPostRegisterSaga(payload: AccountPostRegisterType) {
 			console.log(response.data);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -153,7 +160,7 @@ function* accountPostLoginSaga(payload: AccountPostLoginType) {
 			console.log(response.status);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -162,9 +169,11 @@ function* accountPostLogoutSaga() {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_LOGOUT}`;
 	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null){
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: ResponseDataErrorInterface = yield* call(() => postApi(url, authInstance, {refresh: authSagaContext.initStateToken.refresh_token}));
+			const response: ResponseDataErrorInterface = yield* call(() =>
+				postApi(url, authInstance, { refresh: authSagaContext.initStateToken.refresh_token }),
+			);
 			if (response.status === 200) {
 				// Empty both Token & unique ID state
 				yield* put(initToken());
@@ -176,7 +185,7 @@ function* accountPostLogoutSaga() {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -186,7 +195,7 @@ function* accountGetProfilSaga() {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PROFIL}`;
 	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null){
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: AccountGetProfilResponseType = yield* call(() => getApi(url, authInstance));
 			if (response.status === 200) {
@@ -197,17 +206,17 @@ function* accountGetProfilSaga() {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountGetSelectedProfilSaga(payload: {type: string, user_pk: number}) {
+function* accountGetSelectedProfilSaga(payload: { type: string; user_pk: number }) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_GET_PROFIL}${payload.user_pk}/`;
 	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null){
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: AccountGetProfilResponseType = yield* call(() => getApi(url, authInstance));
 			if (response.status === 200) {
@@ -218,7 +227,7 @@ function* accountGetSelectedProfilSaga(payload: {type: string, user_pk: number})
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -232,7 +241,9 @@ function* accountPatchProfilSaga(payload: AccountPatchProfilType) {
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: AccountPatchProfilResponseType = yield* call(() => patchApi(url, authInstance, payloadData));
+			const response: AccountPatchProfilResponseType = yield* call(() =>
+				patchApi(url, authInstance, payloadData),
+			);
 			if (response.status === 200) {
 				yield* put(setProfil(response.data));
 			} else {
@@ -241,7 +252,7 @@ function* accountPatchProfilSaga(payload: AccountPatchProfilType) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -262,17 +273,19 @@ function* accountGetSocialsSaga() {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountPostFacebookSaga(payload: {type: string, access_token: string}) {
+function* accountPostFacebookSaga(payload: { type: string; access_token: string }) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_FACEBOOK}`;
 	try {
 		const instance = yield* call(() => allowAnyInstance());
-		const response: AccountPostFacebookResponseType = yield* call(() => postApi(url, instance, {access_token: payload.access_token}));
+		const response: AccountPostFacebookResponseType = yield* call(() =>
+			postApi(url, instance, { access_token: payload.access_token }),
+		);
 		if (response.status === 200) {
 			// Set new token state
 			yield* put(setTokenState(response.data));
@@ -289,17 +302,19 @@ function* accountPostFacebookSaga(payload: {type: string, access_token: string})
 			console.log(response.status);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountPostGoogleSaga(payload: {type: string, access_token: string}) {
+function* accountPostGoogleSaga(payload: { type: string; access_token: string }) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_GOOGLE}`;
 	try {
 		const instance = yield* call(() => allowAnyInstance());
-		const response: AccountPostGoogleResponseType = yield* call(() => postApi(url, instance, {access_token: payload.access_token}));
+		const response: AccountPostGoogleResponseType = yield* call(() =>
+			postApi(url, instance, { access_token: payload.access_token }),
+		);
 		if (response.status === 200) {
 			// Set new token state
 			yield* put(setTokenState(response.data));
@@ -316,19 +331,21 @@ function* accountPostGoogleSaga(payload: {type: string, access_token: string}) {
 			console.log(response.status);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountPostLinkFacebookSaga(payload: {type: string, access_token: string}) {
+function* accountPostLinkFacebookSaga(payload: { type: string; access_token: string }) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_LINK_FACEBOOK}`;
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: AccountPostFacebookResponseType = yield* call(() => postApi(url, authInstance, {access_token: payload.access_token}));
+			const response: AccountPostFacebookResponseType = yield* call(() =>
+				postApi(url, authInstance, { access_token: payload.access_token }),
+			);
 			if (response.status === 200) {
 				// Set new token state
 				yield* put(setTokenState(response.data));
@@ -345,19 +362,21 @@ function* accountPostLinkFacebookSaga(payload: {type: string, access_token: stri
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountPostLinkGoogleSaga(payload: {type: string, access_token: string}) {
+function* accountPostLinkGoogleSaga(payload: { type: string; access_token: string }) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_LINK_GOOGLE}`;
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: AccountPostGoogleResponseType = yield* call(() => postApi(url, authInstance, {access_token: payload.access_token}));
+			const response: AccountPostGoogleResponseType = yield* call(() =>
+				postApi(url, authInstance, { access_token: payload.access_token }),
+			);
 			if (response.status === 200) {
 				// Set new token state
 				yield* put(setTokenState(response.data));
@@ -374,14 +393,14 @@ function* accountPostLinkGoogleSaga(payload: {type: string, access_token: string
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
 //TODO : missing unlink a primary email check
-function* accountPostUnlinkSocialSaga(payload: {type: string, pk: number}) {
+function* accountPostUnlinkSocialSaga(payload: { type: string; pk: number }) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_UNLINK_SOCIAL}${payload.pk}/`;
 	try {
@@ -396,13 +415,13 @@ function* accountPostUnlinkSocialSaga(payload: {type: string, pk: number}) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountGetBlockSaga(){
+function* accountGetBlockSaga() {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_BLOCK}`;
 	try {
@@ -417,20 +436,21 @@ function* accountGetBlockSaga(){
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountPostBlockSaga(payload: {type: string, user_pk: number}) {
+function* accountPostBlockSaga(payload: { type: string; user_pk: number }) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_BLOCK}`;
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: AccountPostBlockResponseType = yield* call(() => postApi(url, authInstance,
-				{user_pk: payload.user_pk}));
+			const response: AccountPostBlockResponseType = yield* call(() =>
+				postApi(url, authInstance, { user_pk: payload.user_pk }),
+			);
 			if (response.status === 204) {
 				// Reload the block list
 				yield* call(() => accountGetBlockSaga());
@@ -439,13 +459,13 @@ function* accountPostBlockSaga(payload: {type: string, user_pk: number}) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountDeleteBlockSaga(payload: {type: string, user_pk: number}) {
+function* accountDeleteBlockSaga(payload: { type: string; user_pk: number }) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_BLOCK}${payload.user_pk}/`;
 	try {
@@ -460,13 +480,13 @@ function* accountDeleteBlockSaga(payload: {type: string, user_pk: number}) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountGetCheckAccountSaga(){
+function* accountGetCheckAccountSaga() {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	try {
@@ -481,13 +501,13 @@ function* accountGetCheckAccountSaga(){
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountGetAddressesSaga(){
+function* accountGetAddressesSaga() {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_ADDRESSES}`;
 	try {
@@ -502,7 +522,7 @@ function* accountGetAddressesSaga(){
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -526,7 +546,7 @@ function* accountPostAddressSaga(payload: AccountPostAddressInterface) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -540,7 +560,9 @@ function* accountPatchAddressSaga(payload: AccountPostAddressInterface) {
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: AccountPatchAddressResponseType = yield* call(() => patchApi(url, authInstance, payloadData));
+			const response: AccountPatchAddressResponseType = yield* call(() =>
+				patchApi(url, authInstance, payloadData),
+			);
 			if (response.status === 200) {
 				yield* put(setPatchAddress(response.data));
 			} else {
@@ -549,13 +571,13 @@ function* accountPatchAddressSaga(payload: AccountPostAddressInterface) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountDeleteAddressSaga(payload: {type: string, address_pk: number}) {
+function* accountDeleteAddressSaga(payload: { type: string; address_pk: number }) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_ADDRESS}${payload.address_pk}/`;
 	try {
@@ -570,13 +592,13 @@ function* accountDeleteAddressSaga(payload: {type: string, address_pk: number}) 
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountGetAddressSaga(payload: {type: string, address_pk: number}){
+function* accountGetAddressSaga(payload: { type: string; address_pk: number }) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_ADDRESS}${payload.address_pk}/`;
 	try {
@@ -591,7 +613,7 @@ function* accountGetAddressSaga(payload: {type: string, address_pk: number}){
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -616,7 +638,7 @@ function* accountPostEncloseSaga(payload: AccountPostEncloseAccountType) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -641,7 +663,7 @@ function* accountDeleteAccountSaga(payload: AccountPostDeleteAccountType) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -660,29 +682,28 @@ function* accountPostVerifyAccountSaga(payload: AccountPostVerifyAccountType) {
 			console.log(response.status);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
 
-function* accountPostResendVerificationSaga(payload: {type:string, email: string}) {
+function* accountPostResendVerificationSaga(payload: { type: string; email: string }) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_RESEND_VERIFICATION}`;
 	try {
 		const instance = yield* call(() => allowAnyInstance());
-		const response: ResponseOnlyInterface = yield* call(() => postApi(url, instance,
-			{email: payload.email}));
+		const response: ResponseOnlyInterface = yield* call(() => postApi(url, instance, { email: payload.email }));
 		if (response.status === 204) {
 			yield* put(setResendVerification(true));
 		} else {
 			console.log(response.status);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
 
-function* accountPostPasswordChangeSaga(payload: {type: string, new_password1: string, new_password2: string}) {
+function* accountPostPasswordChangeSaga(payload: { type: string; new_password1: string; new_password2: string }) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PASSWORD_CHANGE}`;
 	try {
@@ -698,30 +719,29 @@ function* accountPostPasswordChangeSaga(payload: {type: string, new_password1: s
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountPostSendPasswordResetSaga(payload: {type:string, email: string}) {
+function* accountPostSendPasswordResetSaga(payload: { type: string; email: string }) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_SEND_PASSWORD_RESET}`;
 	try {
 		const instance = yield* call(() => allowAnyInstance());
-		const response: ResponseOnlyInterface = yield* call(() => postApi(url, instance,
-			{email: payload.email}));
+		const response: ResponseOnlyInterface = yield* call(() => postApi(url, instance, { email: payload.email }));
 		if (response.status === 204) {
 			yield* put(setPasswordResetSent(true));
 		} else {
 			console.log(response.status);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
 
-function* accountGetPasswordResetSaga(payload: {type:string, email: string, code: string}) {
+function* accountGetPasswordResetSaga(payload: { type: string; email: string; code: string }) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PASSWORD_RESET}${payload.email}/${payload.code}/`;
 	try {
 		const instance = yield* call(() => allowAnyInstance());
@@ -732,12 +752,18 @@ function* accountGetPasswordResetSaga(payload: {type:string, email: string, code
 			console.log(response.status);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
 
-function* accountPutPasswordResetSaga(payload: {type:string, email: string, code: string, new_password: string, new_password2: string}) {
+function* accountPutPasswordResetSaga(payload: {
+	type: string;
+	email: string;
+	code: string;
+	new_password: string;
+	new_password2: string;
+}) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PASSWORD_RESET}`;
 	try {
 		const instance = yield* call(() => allowAnyInstance());
@@ -750,12 +776,12 @@ function* accountPutPasswordResetSaga(payload: {type:string, email: string, code
 			console.log(response.status);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
 
-function* accountPutChangeEmailHasPasswordSaga(payload: {type: string, new_email: string, password: string}) {
+function* accountPutChangeEmailHasPasswordSaga(payload: { type: string; new_email: string; password: string }) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHANGE_EMAIL_HAS_PASSWORD}`;
 	try {
@@ -765,19 +791,24 @@ function* accountPutChangeEmailHasPasswordSaga(payload: {type: string, new_email
 			const { type, ...payloadData } = payload;
 			const response: ResponseOnlyInterface = yield* call(() => putApi(url, authInstance, payloadData));
 			if (response.status === 204) {
-				yield* put(setEmailChanged({new_email: payload.new_email, changed: true}));
+				yield* put(setEmailChanged({ new_email: payload.new_email, changed: true }));
 			} else {
 				console.log(response.status);
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* accountPutChangeEmailNotHasPasswordSaga(payload: {type: string, new_email: string, new_password: string, new_password2: string}) {
+function* accountPutChangeEmailNotHasPasswordSaga(payload: {
+	type: string;
+	new_email: string;
+	new_password: string;
+	new_password2: string;
+}) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHANGE_EMAIL_NOT_HAS_PASSWORD}`;
 	try {
@@ -787,19 +818,19 @@ function* accountPutChangeEmailNotHasPasswordSaga(payload: {type: string, new_em
 			const { type, ...payloadData } = payload;
 			const response: ResponseOnlyInterface = yield* call(() => putApi(url, authInstance, payloadData));
 			if (response.status === 204) {
-				yield* put(setEmailChanged({new_email: payload.new_email, changed: true}));
+				yield* put(setEmailChanged({ new_email: payload.new_email, changed: true }));
 			} else {
 				console.log(response.status);
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
 }
 
-function* wsUserAvatarSaga(payload: {type: string, pk: number, avatar_thumbnail: string}) {
+function* wsUserAvatarSaga(payload: { type: string; pk: number; avatar_thumbnail: string }) {
 	yield* put(setWSUserAvatar(payload.avatar_thumbnail));
 }
 

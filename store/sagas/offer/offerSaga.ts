@@ -2,7 +2,7 @@ import { call, put, takeLatest, select } from 'typed-redux-saga/macro';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { allowAnyInstance, isAuthenticatedInstance } from '../../../utils/helpers';
 import { getApi, patchApi, postFormDataApi, postApi, putFormDataApi, deleteApi } from '../../services/_init/_initAPI';
-import { AxiosErrorDefaultType, ResponseOnlyInterface } from '../../../types/_init/_initTypes';
+import { ApiErrorResponseType, ResponseOnlyInterface } from '../../../types/_init/_initTypes';
 import * as Types from '../../actions';
 import {
 	OfferGetLastThreeUsedDeliveriesResponseType,
@@ -73,7 +73,7 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -108,7 +108,7 @@ function* offerGetRootSaga(payload: OfferPkRootType) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -127,7 +127,7 @@ function* offerGetTagsSaga(payload: OfferGetTagsType) {
 			console.log(response.data);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -161,7 +161,7 @@ function* offerGetLastUsedLocalisationSaga(payload: { type: string; offer_type: 
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -191,7 +191,7 @@ function* offerGetLastThreeUsedDeliveriesSaga() {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -237,7 +237,7 @@ function* offerGetMyOffersSaga() {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -273,7 +273,7 @@ function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServic
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -308,7 +308,7 @@ function* offerDeleteRootSaga(payload: { type: string; pk: number }) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -344,7 +344,7 @@ function* offerPostSolderSaga(payload: OfferPostSolderType) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -378,7 +378,7 @@ function* offerGetSolderSaga(payload: { type: string; offer_pk: number }) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -414,7 +414,7 @@ function* offerPatchSolderSaga(payload: OfferPostSolderType) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -449,7 +449,7 @@ function* offerDeleteSolderSaga(payload: { type: string; offer_pk: number }) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -477,7 +477,7 @@ function* offerGetVuesSaga() {
 				}
 			}
 		} catch (e) {
-			const errors = e as AxiosErrorDefaultType;
+			const errors = e as ApiErrorResponseType;
 			console.log(errors);
 		}
 	}

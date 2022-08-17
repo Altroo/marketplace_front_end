@@ -3,7 +3,7 @@ import * as Types from '../../actions';
 import { allowAnyInstance } from '../../../utils/helpers';
 import { getApi } from '../../services/_init/_initAPI';
 import { setGetLocalisation, setGetCities, setGetCountries } from '../../slices/places/placesSlice';
-import { AxiosErrorDefaultType } from '../../../types/_init/_initTypes';
+import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
 import {
 	PlacesGetCitiesResponseType,
 	PlacesGetCountriesResponseType,
@@ -22,7 +22,7 @@ export function* placesGetLocalisationSaga(payload: { type: string; longitude: n
 			console.log(response.data);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -40,7 +40,7 @@ export function* placesGetCountriesSaga() {
 			console.log(response.data);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -58,7 +58,7 @@ export function* placesGetCitiesSaga(payload: { type: string; code: string; q?: 
 			console.log(response.data);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }

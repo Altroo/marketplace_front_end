@@ -20,7 +20,7 @@ import {
 	ShopFontNameType, ShopPatchContactPhoneType
 } from "../../../types/shop/shopTypes";
 import {
-	AxiosErrorDefaultType,
+	ApiErrorResponseType,
 	IconColorType,
 	InitStateInterface,
 	InitStateToken,
@@ -62,7 +62,6 @@ import {
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
-// import {AxiosInstance} from "axios";
 
 // interface TokenNoAuthSagaBaseGeneratorParams {
 //     payloadRecord: Record<string, unknown>;
@@ -143,7 +142,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -187,7 +186,7 @@ function* shopGetRootSaga(payload: ShopGetRootType) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 		// set error state
 	}
@@ -205,7 +204,7 @@ export function* shopGetPhoneCodesSaga() {
 			console.log(response.data);
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -240,7 +239,7 @@ function* shopPatchShopNameSaga(payload: Partial<ShopPatchRootType>) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -278,7 +277,7 @@ function* shopPatchAvatarSaga(payload: Partial<ShopPatchRootType>) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -314,7 +313,7 @@ function* shopPatchColorSaga(payload: Partial<ShopPatchRootType>) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -350,7 +349,7 @@ function* shopPatchFontSaga(payload: Partial<ShopPatchRootType>) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -393,46 +392,10 @@ function* shopPatchPhoneContactSaga(payload: {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
-
-// function* shopPatchWhatsappSaga(payload: {type: string, whatsapp_code: string | null, whatsapp: string | null}) {
-// 	const url = `${process.env.NEXT_PUBLIC_SHOP_WHATSAPP}`;
-// 	const authSagaContext = yield* call(() => ctxAuthSaga());
-// 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// 	const { type, ...payloadData } = payload;
-// 	try {
-// 		// User authenticated
-// 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-// 			const instance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-// 			const response: ShopPatchWhatsappType = yield* call(() => patchApi(url, instance, payloadData));
-// 			if (response.status === 200) {
-// 				// update state
-// 				yield* put(setShopWhatsapp(response.data));
-// 			} else {
-// 				// set error state
-// 				console.log(response.status);
-// 			}
-// 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-// 			const instance = yield* call(() => allowAnyInstance());
-// 			const response: ShopPatchWhatsappType = yield* call(() =>
-// 				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-// 			);
-// 			if (response.status === 200) {
-// 				// update state
-// 				yield* put(setShopWhatsapp(response.data));
-// 			} else {
-// 				// set error state
-// 				console.log(response.status);
-// 			}
-// 		}
-// 	} catch (e) {
-// 		const errors = e as AxiosErrorDefaultType;
-// 		console.log(errors);
-// 	}
-// }
 
 function* shopPatchBioSaga(payload: Partial<ShopPatchRootType>) {
 	const url = `${process.env.NEXT_PUBLIC_SHOP_WHATSAPP}`;
@@ -465,7 +428,7 @@ function* shopPatchBioSaga(payload: Partial<ShopPatchRootType>) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -501,7 +464,7 @@ function* shopPatchAvailabilitySaga(payload: Partial<ShopPatchRootType>) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -537,7 +500,7 @@ function* shopPatchContactSaga(payload: Partial<ShopPatchRootType>) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -573,7 +536,7 @@ function* shopPatchAddressSaga(payload: Partial<ShopPatchRootType>) {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -593,7 +556,7 @@ function* shopPostCreatorSaga() {
 			}
 		}
 	} catch (e) {
-		const errors = e as AxiosErrorDefaultType;
+		const errors = e as ApiErrorResponseType;
 		console.log(errors);
 	}
 }
@@ -677,7 +640,6 @@ export function* watchShop() {
 	yield* takeLatest(Types.SHOP_PATCH_COLOR, shopPatchColorSaga);
 	yield* takeLatest(Types.SHOP_PATCH_FONT, shopPatchFontSaga);
 	yield* takeLatest(Types.SHOP_PATCH_PHONE_CONTACT, shopPatchPhoneContactSaga);
-	// yield* takeLatest(Types.SHOP_PATCH_WHATSAPP, shopPatchWhatsappSaga);
 	yield* takeLatest(Types.SHOP_PATCH_BIO, shopPatchBioSaga);
 	yield* takeLatest(Types.SHOP_PATCH_AVAILABILITY, shopPatchAvailabilitySaga);
 	yield* takeLatest(Types.SHOP_PATCH_CONTACT, shopPatchContactSaga);

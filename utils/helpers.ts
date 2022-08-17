@@ -1,5 +1,6 @@
 import {
 	APIContentTypeInterface,
+	ApiErrorResponseType,
 	AppTokensCookieType,
 	IconColorType,
 	InitStateInterface,
@@ -177,8 +178,7 @@ export const isAuthenticatedInstance = (
 				} else {
 					// api error not related to access token
 					const errorObj = {
-						status: error.response.status,
-						error: error.response.statusText,
+						error: error.response.data.error as ApiErrorResponseType,
 					};
 					return Promise.reject(errorObj);
 				}
@@ -218,8 +218,7 @@ export const allowAnyInstance = (
 		(error) => {
 			if (error.response) {
 				const errorObj = {
-					status: error.response.status,
-					error: error.response.statusText,
+					error: error.response.data.error as ApiErrorResponseType,
 				};
 				return Promise.reject(errorObj);
 			}
@@ -243,8 +242,7 @@ export const defaultInstance = (BaseUrl: string, contentType: APIContentTypeInte
 		(error) => {
 			if (error.response) {
 				const errorObj = {
-					status: error.response.status,
-					error: error.response.statusText,
+					error: error.response.data.error as ApiErrorResponseType,
 				};
 				return Promise.reject(errorObj);
 			}
@@ -364,9 +362,6 @@ export const deleteRemoteCookiesAppToken = () => {
 			cookiesDeleter('/cookies', { initStateToken: 0 }).then();
 		});
 	});
-	// cookiesPoster('/cookies', { tokenType: '' }).then();
-	// cookiesPoster('/cookies', { initStateToken: emptyInitStateToken }).then();
-	// cookiesPoster('/cookies', { initStateUniqueID: emptyInitStateUniqueID }).then();
 };
 
 // convert hex color to rgba
