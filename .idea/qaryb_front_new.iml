@@ -131,8 +131,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/shop/add/fontPicker" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/shop/add/leftSideBar" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/infoTabContent" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/shopTabContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details/startYourShopContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/outlineButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/modals/rightSwipeModal" isTestSource="false" />
@@ -150,6 +148,15 @@
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add/index" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add/index/shopNameField" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/boutique-Tab_Content" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/info-Tab_Content" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editAdresse" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editBio" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editCoordonees" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editHoraire" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editNomBoutique" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop" />

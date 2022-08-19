@@ -71,3 +71,11 @@ export type SelectInputcontacterType = {
 	label: string;
 	code: string;
 };
+
+export type addMyInfosStackType = {
+	title: string;
+	// description: string;
+	added: 'FULL' | 'EMPTY';
+	onClick: () => void;
+	content?: React.ReactNode;
+}

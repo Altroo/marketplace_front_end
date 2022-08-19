@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Styles from './shopTabContent.module.sass';
+import Styles from './boutiqueTabContent.module.sass';
 import { checkBoxForWhomBaseType, chipActionsType, switchActionType } from "../../../../types/ui/uiTypes";
 import IconTextInput from "../../../htmlElements/inputs/iconTextInput/iconTextInput";
 import ChipButtons from "../../../htmlElements/buttons/chipButton/chipButton";
@@ -17,7 +17,7 @@ type Props = {
 	children?: React.ReactNode;
 }
 
-const ShopTabContent: React.FC<Props> = (props: Props) => {
+const BoutiqueTabContent: React.FC<Props> = (props: Props) => {
 	const [filter, setFilter] = useState<'D' | 'T'>('D');
 
 	useEffect(() => {
@@ -69,4 +69,4 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 	);
 };
 
-export default ShopTabContent;
+export default BoutiqueTabContent;

@@ -5,7 +5,7 @@ import QuestionMarkSVG from '../../../public/assets/svgs/question-mark.svg';
 
 type Props = {
 	header: string;
-	description: string;
+	description?: string;
 	HelpText?: string;
 	children?: React.ReactNode;
 };

@@ -17,39 +17,44 @@ import DesktopPublishEditNavbar from '../../../components/desktop/navbars/deskto
 import MobilePublishEditNavbar from '../../../components/mobile/navbars/mobilePublishEditNavbar/mobilePublishEditNavbar';
 import Image from 'next/image';
 import BlackStarSVG from '../../../public/assets/svgs/black-star.svg';
-import InfoIconSVG from "../../../public/assets/svgs/drop-down-info.svg";
-import AvatarIconSVG from "../../../public/assets/svgs/drop-down-avatar.svg";
-import ColorIconSVG from "../../../public/assets/svgs/drop-down-color.svg";
-import FontIconSVG from "../../../public/assets/svgs/drop-down-font.svg";
+import InfoIconSVG from '../../../public/assets/svgs/drop-down-info.svg';
+import AvatarIconSVG from '../../../public/assets/svgs/drop-down-avatar.svg';
+import ColorIconSVG from '../../../public/assets/svgs/drop-down-color.svg';
+import FontIconSVG from '../../../public/assets/svgs/drop-down-font.svg';
 import CloseSVG from '../../../public/assets/svgs/close.svg';
 import PhoneSVG from '../../../public/assets/svgs/contact-phone.svg';
 import WtspSVG from '../../../public/assets/svgs/whatsapp-icon.svg';
 import BorderIconButton from '../../../components/htmlElements/buttons/borderIconButton/borderIconButton';
 import {
+	addMyInfosStackType,
 	checkBoxesForWhomActionType,
 	chipActionsType,
-	contacterPhoneInputType, DropDownActionType,
-	switchActionType
-} from "../../../types/ui/uiTypes";
-import InfoTabContent from '../../../components/shop/details/infoTabContent/InfoTabContent';
-import ShopTabContent from '../../../components/shop/details/shopTabContent/shopTabContent';
+	contacterPhoneInputType,
+	DropDownActionType,
+	switchActionType,
+} from '../../../types/ui/uiTypes';
+import InfoTabContent from '../../../components/shop/details/info-Tab_Content/InfoTabContent';
+import BoutiqueTabContent from '../../../components/shop/details/boutique-Tab_Content/boutiqueTabContent';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
 import ContacterPhoneInput from '../../../components/shop/details/contacterPhoneInput/contacterPhoneInput';
-import {
-	shopPatchPhoneContactAction,
-} from "../../../store/actions/shop/shopActions";
+import { shopPatchPhoneContactAction } from '../../../store/actions/shop/shopActions';
 import {
 	getShopAvatar,
-	getShopBgColorCode, getShopBorder,
-	getShopColorCode, getShopContactMode,
-	getShopFontName, getShopIconColor,
-	getShopName, getShopPhoneContactCode,
-	getShopWhatsappContactCode, getShopPhoneContact,
-	getShopWhatsappContact
-} from "../../../store/selectors";
-import IconButton from "../../../components/htmlElements/buttons/iconButton/iconButton";
+	getShopBgColorCode,
+	getShopBorder,
+	getShopColorCode,
+	getShopContactMode,
+	getShopFontName,
+	getShopIconColor,
+	getShopName,
+	getShopPhoneContactCode,
+	getShopWhatsappContactCode,
+	getShopPhoneContact,
+	getShopWhatsappContact,
+} from '../../../store/selectors';
+import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
 
 const Index: NextPage = () => {
 	const router = useRouter();
@@ -227,25 +232,72 @@ const Index: NextPage = () => {
 		{
 			icon: InfoIconSVG,
 			text: 'Mes infos',
-			onClick: () => {return;},
+			onClick: () => {
+				return;
+			},
 		},
 		{
 			icon: AvatarIconSVG,
 			text: 'Photo de profil',
-			onClick: () => {return;},
+			onClick: () => {
+				return;
+			},
 		},
 		{
 			icon: ColorIconSVG,
 			text: 'Couleur de la boutique',
-			onClick: () => {return;},
+			onClick: () => {
+				return;
+			},
 		},
 		{
 			icon: FontIconSVG,
 			text: 'Police du titre',
-			onClick: () => {return;},
+			onClick: () => {
+				return;
+			},
 		},
 	];
-
+	// Infos stack actions
+	// get content from selectors. & pass value as jsx
+	const infosStackActions: Array<addMyInfosStackType> = [
+		{
+			title: 'Nom',
+			content: shopName,
+			added: 'FULL',
+			onClick: () => {
+				return;
+			},
+		},
+		{
+			title: 'Bio',
+			added: 'EMPTY',
+			onClick: () => {
+				return;
+			},
+		},
+		{
+			title: 'Horaire',
+			added: 'EMPTY',
+			onClick: () => {
+				return;
+			},
+		},
+		{
+			title: 'Coordonées',
+			added: 'EMPTY',
+			onClick: () => {
+				return;
+			},
+		},
+		{
+			title: 'Adresse',
+			added: 'EMPTY',
+			onClick: () => {
+				return;
+			},
+		},
+	];
 	useEffect(() => {
 		// avatar
 		if (shopAvatar) {
@@ -370,7 +422,7 @@ const Index: NextPage = () => {
 								cssClass={Styles.iconButton}
 							/>
 							{/* show outline icon button if no phone or whatsapp added yet, else show normal icon button */}
-							{(phoneValue || whatsappValue) !== '' ?
+							{(phoneValue || whatsappValue) !== '' ? (
 								<IconButton
 									buttonText="Contacter"
 									svgIcon={contactIcon}
@@ -379,13 +431,15 @@ const Index: NextPage = () => {
 									textColor={colorCode}
 									border={border}
 									cssClass={Styles.iconButton}
-								/> :
+								/>
+							) : (
 								<BorderIconButton
-								buttonText="Contacter"
-								svgIcon={ContactIconBlueSVG}
-								onClick={handleOpen}
-								cssClass={Styles.iconButton}
-							/>}
+									buttonText="Contacter"
+									svgIcon={ContactIconBlueSVG}
+									onClick={handleOpen}
+									cssClass={Styles.iconButton}
+								/>
+							)}
 
 							{/* START right side contact modal */}
 							<RightSwipeModal open={openContacterModal} handleClose={handleClose}>
@@ -431,7 +485,7 @@ const Index: NextPage = () => {
 							<div className={Styles.shopTabs}>
 								<ShopInfoTabs
 									shopContent={
-										<ShopTabContent
+										<BoutiqueTabContent
 											chipCategoriesAction={chipCategoriesAction}
 											promoCheckAction={promoCheckAction}
 											checkBoxForWhomAction={checkBoxesForWhomAction}
@@ -440,7 +494,12 @@ const Index: NextPage = () => {
 										/>
 										// <StartYourShopContent/>
 									}
-									InfoContent={<InfoTabContent backgroundColor={bgColorCode} />}
+									InfoContent={
+										<InfoTabContent
+											backgroundColor={bgColorCode}
+											infosStackActions={infosStackActions}
+										/>
+									}
 									color={bgColorCode}
 									borderColor={bgColorCode}
 								/>
