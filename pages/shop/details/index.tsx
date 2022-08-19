@@ -436,7 +436,9 @@ const Index: NextPage = () => {
 											promoCheckAction={promoCheckAction}
 											checkBoxForWhomAction={checkBoxesForWhomAction}
 											activeColor={bgColorCode}
+											hidden={true}
 										/>
+										// <StartYourShopContent/>
 									}
 									InfoContent={<InfoTabContent backgroundColor={bgColorCode} />}
 									color={bgColorCode}

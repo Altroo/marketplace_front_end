@@ -13,6 +13,7 @@ type Props = {
 	chipCategoriesAction: chipActionsType;
 	promoCheckAction: switchActionType;
 	checkBoxForWhomAction: Array<checkBoxForWhomBaseType>;
+	hidden: boolean;
 	children?: React.ReactNode;
 }
 
@@ -25,12 +26,12 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			<div className={Styles.filterWrapper}>
+			{!props.hidden ? <div className={Styles.filterWrapper}>
 				<span className={Styles.filterText}>Filtrer</span>
 				<ShopFilterSelect state={filter} setStateHandler={setFilter} activeHoverColor={props.activeColor}/>
-			</div>
+			</div> : null}
 			<div className={Styles.shopDetailsAside}>
-				<div className={Styles.shopFilterWrapper}>
+				{!props.hidden ? <div className={Styles.shopFilterWrapper}>
 					<IconTextInput active={true} placeholder="Rechercher" />
 					<div className={Styles.shopFilterContainer}>
 						<span className={Styles.subHeader}>Catégories</span>
@@ -61,7 +62,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> : null}
 				<StartYourShopContent/>
 			</div>
 		</>
