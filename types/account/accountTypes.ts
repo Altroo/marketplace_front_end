@@ -1,8 +1,9 @@
 import {
+	GlobalApiPromiseError,
 	InitStateNonNullableToken,
 	InitStateToken,
-	ResponseDataInterface,
-} from '../_init/_initTypes';
+	ResponseDataInterface
+} from "../_init/_initTypes";
 import { UserClass } from '../../models/account/UserClass';
 import { FacebookClass, GoogleClass } from '../../models/account/SocialsClass';
 import { CitiesType, CountriesType } from '../places/placesTypes';
@@ -20,14 +21,16 @@ export type AccountCheckAccountType = {
 
 //!- Account State
 export interface AccountStateInterface {
-	email: string | null,
+	// email: string | null,
 	profil: UserClass | Record<string, unknown>;
+	profilApi: GlobalApiPromiseError,
 	selectedProfil: UserClass | Record<string, unknown>;
 	socials: Array<GoogleClass | FacebookClass> | [];
 	email_exists: boolean;
 	isLoggedIn: boolean;
 	blockedList: Array<AccountGetBlockType> | [];
 	check_account: AccountCheckAccountType | Record<string, unknown>;
+	check_accountApi: GlobalApiPromiseError,
 	addresses: Array<AccountAddress>;
 	selectedAddress: AccountAddress | Record<string, unknown>;
 	verifiedAccount: boolean;

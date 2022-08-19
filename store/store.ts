@@ -95,11 +95,10 @@ export const store: SagaStore = configureStore({
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
 			serializableCheck: false,
-			thunk: false,
+			thunk: true,
 		}).prepend(SagaMiddleware),
 	devTools: process.env.NODE_ENV !== 'production',
 });
-
 store.sagaTask = SagaMiddleware.run(rootSaga);
 
 export type AppDispatch = typeof store.dispatch;

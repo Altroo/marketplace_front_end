@@ -46,21 +46,28 @@ CASE 3 (SPECIFIC SOLO MULTI ERRORS):
 }
  */
 
-export type ApiErrorResponseType = {
-	error: {
-		status_code: number | null;
-		message: string | null;
-		details: Record<string, Array<string>> | { error: Array<string> } | null;
-	}
+export type ApiErrorType = {
+	status_code: number | null;
+	message: string | null;
+	details: Record<string, Array<string>> | { error: Array<string> } | null;
 }
 
-export interface ApiPromise extends ApiErrorResponseType {
+export type ApiErrorResponseType = {
+	error: ApiErrorType;
+}
+
+export type ApiPromiseStatus = 'PENDING' | 'RESOLVED' | 'REJECTED' | null;
+
+export interface GlobalApiPromiseError extends ApiErrorResponseType {
 	isAddInProgress: boolean;
 	isFetchInProgress: boolean;
 	isDeleteInProgress: boolean;
 	isEditInProgress: boolean;
 	// Error inherited
-	promiseStatus: 'PENDING' | 'RESOLVED' | 'REJECTED' | null;
+	addPromiseStatus: ApiPromiseStatus;
+	fetchPromiseStatus: ApiPromiseStatus;
+	deletePromiseStatus: ApiPromiseStatus;
+	editPromiseStatus: ApiPromiseStatus;
 }
 
 // export type ApiPromiseStatus = 'PENDING' | 'RESOLVED' | 'REJECTED';

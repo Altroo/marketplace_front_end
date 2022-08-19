@@ -38,13 +38,14 @@ import MobileColorPicker from '../../../components/mobile/modals/mobileColorPick
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
+import { getNewShopName, getNewShopAvatar } from "../../../store/selectors";
 
 const Color: NextPage = () => {
 	const activeStep = '3';
 	const dispatch = useAppDispatch();
 	// Redux states
-	const shopName = useAppSelector((state) => state.shop.newShop.shop_name as string);
-	const shopAvatar = useAppSelector((state) => state.shop.newShop.avatar as ArrayBuffer);
+	const shopName = useAppSelector(getNewShopName);
+	const shopAvatar = useAppSelector(getNewShopAvatar);
 
 	const [preview, setPreview] = useState<ArrayBuffer | null>(null);
 
@@ -85,7 +86,7 @@ const Color: NextPage = () => {
 		if (shopAvatar) {
 			setPreview(shopAvatar);
 		}
-	}, [dispatch, shopAvatar]);
+	}, [shopAvatar]);
 
 	const colorHandler = (_bgColorCode: string | null, _colorCode: string | null) => {
 		if (_colorCode && _bgColorCode) {

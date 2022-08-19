@@ -29,26 +29,40 @@ import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTop
 import { ShopFontNameType } from '../../../types/shop/shopTypes';
 import FontPicker from '../../../components/shop/add/fontPicker/fontPicker';
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
-import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import { deleteCookieStorageNewShopData } from '../../../utils/helpers';
-import { IconColorType, TokenChoices } from '../../../types/_init/_initTypes';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
 import { chipActionsType } from '../../../types/ui/uiTypes';
+import {
+	getNewShopName,
+	getNewShopAvatar,
+	getNewShopColorCode,
+	getNewShopBgColorCode,
+	getNewShopFontName,
+	getNewShopBorder,
+	getNewShopIconColor,
+	getNewShopIsAddInProgress,
+	getNewShopIsAddError,
+	getNewShopAddPromiseStatus,
+} from '../../../store/selectors';
+import { Alert, Box, CircularProgress } from '@mui/material';
 
 const Font: NextPage = () => {
 	const activeStep = '4';
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	// redux states
-	const shopName = useAppSelector((state) => state.shop.newShop.shop_name as string);
-	const shopAvatar = useAppSelector((state) => state.shop.newShop.avatar as ArrayBuffer);
-	const shopColorCode = useAppSelector((state) => state.shop.newShop.color_code as string);
-	const shopBgColorCode = useAppSelector((state) => state.shop.newShop.bg_color_code as string);
-	const shopBorder = useAppSelector((state) => state.shop.newShop.border as string);
-	const shopIconColor = useAppSelector((state) => state.shop.newShop.icon_color as IconColorType);
-	const shopFontName = useAppSelector((state) => state.shop.newShop.font_name as ShopFontNameType);
-	const uniqueID = useAppSelector((state) => state._init.tokenType as TokenChoices);
+	const shopName = useAppSelector(getNewShopName);
+	const shopAvatar = useAppSelector(getNewShopAvatar);
+	const shopColorCode = useAppSelector(getNewShopColorCode);
+	const shopBgColorCode = useAppSelector(getNewShopBgColorCode);
+	const shopBorder = useAppSelector(getNewShopBorder);
+	const shopIconColor = useAppSelector(getNewShopIconColor);
+	const shopFontName = useAppSelector(getNewShopFontName);
+	// const uniqueID = useAppSelector(getTokenType);
+	const isAddInProgressSelector = useAppSelector(getNewShopIsAddInProgress);
+	const isAddErrorSelector = useAppSelector(getNewShopIsAddError);
+	const isAddPromiseStatusSelector = useAppSelector(getNewShopAddPromiseStatus);
+
 	// page states
 	const [preview, setPreview] = useState<ArrayBuffer | null>(null);
 	const [colorCode, setColorCode] = useState<string>('');
@@ -60,7 +74,7 @@ const Font: NextPage = () => {
 	const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
 	// Gray contact Icon
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconSVG);
-	const [backendError, setBackendError] = useState<boolean>(false);
+
 	const chipCategoriesAction: chipActionsType = [
 		{
 			buttonText: 'Bien-être',
@@ -111,15 +125,12 @@ const Font: NextPage = () => {
 			setFontName(shopFontName);
 		}
 	}, [
-		dispatch,
-		router,
 		shopAvatar,
 		shopBgColorCode,
 		shopBorder,
 		shopColorCode,
 		shopFontName,
 		shopIconColor,
-		uniqueID,
 	]);
 
 	const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
@@ -151,16 +162,22 @@ const Font: NextPage = () => {
 	const fontHandler = async (font: ShopFontNameType | undefined) => {
 		if (font) {
 			dispatch(setShopFontAction(font));
-			dispatch(shopPostRootAction(shopName, shopAvatar, shopBgColorCode, shopColorCode, shopBorder, shopIconColor, font));
-			if (uniqueID === 'UNIQUE_ID') {
-				deleteCookieStorageNewShopData();
-				router.push('/shop/details?created=true').then();
-			} else {
-				setBackendError(true);
-			}
+			dispatch(
+				shopPostRootAction(
+					shopName,
+					shopAvatar,
+					shopBgColorCode,
+					shopColorCode,
+					shopBorder,
+					shopIconColor,
+					font,
+					router,
+				),
+			);
 		}
 	};
-	return !backendError ? (
+
+	return (
 		<>
 			<LeftSideBar step={activeStep} />
 			<main className={Styles.main}>
@@ -307,18 +324,21 @@ const Font: NextPage = () => {
 						/>
 					</div>
 				</div>
+				{(isAddInProgressSelector && isAddPromiseStatusSelector === 'PENDING') && (
+					<Box sx={{ position: 'absolute', top: '50%', left: '50%' }}>
+						<CircularProgress />
+					</Box>
+				)}
+				{!isAddInProgressSelector && isAddPromiseStatusSelector === 'REJECTED' && isAddErrorSelector && (
+					<Alert
+						severity="error"
+						sx={{ position: 'absolute', left: '50%', top: '50%', margin: '0 -60px -60px -60px' }}
+					>
+						{isAddErrorSelector.details?.error}
+					</Alert>
+				)}
 			</main>
 		</>
-	) : (
-		<DismissMessageModal
-			title="Erreur"
-			body="Try again later."
-			visible={true}
-			buttonText="Ok !"
-			dismissHandler={() => {
-				setBackendError(false);
-			}}
-		/>
 	);
 };
 

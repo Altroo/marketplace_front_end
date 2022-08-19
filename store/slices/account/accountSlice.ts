@@ -1,25 +1,35 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
 	AccountAddress,
-	AccountBlockType, AccountCheckAccountType,
+	AccountBlockType,
+	AccountCheckAccountType,
 	AccountGetSocialsType,
 	AccountStateInterface,
 } from '../../../types/account/accountTypes';
 import { UserClass } from '../../../models/account/UserClass';
+import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
+import { apiErrorInitialState } from "../_init/_initSlice";
 // import { HYDRATE } from "next-redux-wrapper";
+
+// Extra reducers actions
+export const profileGETApiErrorAction = createAction<ApiErrorResponseType>('profileGETApiErrorAction');
+export const check_accountGETApiErrorAction = createAction<ApiErrorResponseType>('check_accountGETApiErrorAction');
+
 
 
 const initialState: AccountStateInterface = {
-	email: null,
+	// email: null,
 	profil: {},
+	profilApi: apiErrorInitialState,
 	selectedProfil: {},
 	socials: [],
 	email_exists: false,
 	isLoggedIn: false,
-	blockedList : [],
+	blockedList: [],
 	check_account: {},
-	addresses : [],
-	selectedAddress : {},
+	check_accountApi: apiErrorInitialState,
+	addresses: [],
+	selectedAddress: {},
 	verifiedAccount: false,
 	verificationCodeSent: false,
 	passwordChanged: false,
@@ -40,8 +50,16 @@ const accountSlice = createSlice({
 			state.isLoggedIn = action.payload;
 			return state;
 		},
+		setProfilGETLoading: (state) => {
+			state.profilApi.isFetchInProgress = true;
+			state.profilApi.fetchPromiseStatus = 'PENDING';
+			state.profilApi.error = apiErrorInitialState.error;
+			return state;
+		},
 		setProfil: (state, action: PayloadAction<UserClass>) => {
 			state.profil = action.payload;
+			state.profilApi.fetchPromiseStatus = 'RESOLVED';
+			state.profilApi.isFetchInProgress = false;
 			return state;
 		},
 		setSelectedProfil: (state, action: PayloadAction<UserClass>) => {
@@ -56,9 +74,15 @@ const accountSlice = createSlice({
 			state.blockedList = action.payload;
 			return state;
 		},
+		setCheckAccountGETLoading: (state) => {
+			state.check_accountApi.isFetchInProgress = true;
+			state.check_accountApi.fetchPromiseStatus = 'PENDING';
+			state.check_accountApi.error = apiErrorInitialState.error;
+			return state;
+		},
 		setCheckAccount: (state, action: PayloadAction<AccountCheckAccountType>) => {
 			state.check_account = action.payload;
-			state.email = action.payload.email;
+			// state.email = action.payload.email;
 			return state;
 		},
 		setAddresses: (state, action: PayloadAction<Array<AccountAddress>>) => {
@@ -71,7 +95,7 @@ const accountSlice = createSlice({
 		},
 		setPatchAddress: (state, action: PayloadAction<AccountAddress>) => {
 			const addressindex = state.addresses.findIndex((item) => item.pk === action.payload.pk);
-			if (addressindex >= 0){
+			if (addressindex >= 0) {
 				state.addresses[addressindex] = action.payload;
 			}
 			return state;
@@ -101,9 +125,9 @@ const accountSlice = createSlice({
 			state.passwordResetValidCode = action.payload;
 			return state;
 		},
-		setEmailChanged: (state, action: PayloadAction<{new_email: string, changed: boolean}>) => {
+		setEmailChanged: (state, action: PayloadAction<{ new_email: string; changed: boolean }>) => {
 			state.emailChanged = action.payload.changed;
-			state.email = action.payload.new_email;
+			// state.email = action.payload.new_email;
 			state.verifiedAccount = false;
 			state.check_account.email = action.payload.new_email;
 			state.check_account.verified = false;
@@ -119,6 +143,21 @@ const accountSlice = createSlice({
 			return initialState;
 		},
 	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(profileGETApiErrorAction, (state, action) => {
+				state.profilApi.error = action.payload.error;
+				state.profilApi.fetchPromiseStatus = 'REJECTED';
+				state.profilApi.isFetchInProgress = false;
+				return state;
+			})
+			.addCase(check_accountGETApiErrorAction, (state, action) => {
+				state.check_accountApi.error = action.payload.error;
+				state.check_accountApi.fetchPromiseStatus = 'REJECTED';
+				state.check_accountApi.isFetchInProgress = false;
+				return state;
+			});
+	},
 	// extraReducers: {
 	// 	[HYDRATE]: (state, action) => {
 	// 		return { ...state, ...action.payload.account };
@@ -129,10 +168,12 @@ const accountSlice = createSlice({
 export const {
 	setEmailExistsStatus,
 	setIsLoggedIn,
+	setProfilGETLoading,
 	setProfil,
 	setSelectedProfil,
 	setSocials,
 	setBlockedList,
+	setCheckAccountGETLoading,
 	setCheckAccount,
 	setAddresses,
 	appendPostAddress,
@@ -145,7 +186,7 @@ export const {
 	setPasswordResetValidCode,
 	setEmailChanged,
 	setWSUserAvatar,
-	initAccount
+	initAccount,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

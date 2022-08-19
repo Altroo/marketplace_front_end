@@ -25,12 +25,13 @@ import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTop
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
 import { chipActionsType } from '../../../types/ui/uiTypes';
+import { getNewShopName, getNewShopAvatar } from "../../../store/selectors";
 
 const Avatar: NextPage = () => {
 	const activeStep = '2';
 	const dispatch = useAppDispatch();
-	const shopName = useAppSelector((state) => state.shop.newShop.shop_name as string);
-	const shopAvatar = useAppSelector((state) => state.shop.newShop.avatar as ArrayBuffer);
+	const shopName = useAppSelector(getNewShopName);
+	const shopAvatar = useAppSelector(getNewShopAvatar);
 
 	let avatarInitial: string | ArrayBuffer | null = null;
 	if (shopAvatar) {
@@ -68,7 +69,7 @@ const Avatar: NextPage = () => {
 		} else {
 			setPreview(avatarInitial);
 		}
-	}, [avatarInitial, dispatch, avatar]);
+	}, [avatarInitial, avatar]);
 
 	const avatarHandler = (avatar: string | ArrayBuffer | null) => {
 		if (avatar) {

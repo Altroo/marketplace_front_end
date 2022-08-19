@@ -9,10 +9,11 @@ import {
 } from '../../../utils/helpers';
 import { deleteApi, getApi, patchApi, postApi, putApi } from '../../services/_init/_initAPI';
 import {
-	appendPostAddress,
+	appendPostAddress, check_accountGETApiErrorAction,
+	profileGETApiErrorAction,
 	setAddresses,
 	setBlockedList,
-	setCheckAccount,
+	setCheckAccount, setCheckAccountGETLoading,
 	setEmailChanged,
 	setEmailExistsStatus,
 	setIsLoggedIn,
@@ -21,13 +22,14 @@ import {
 	setPasswordResetValidCode,
 	setPatchAddress,
 	setProfil,
+	setProfilGETLoading,
 	setResendVerification,
 	setSelectedAddress,
 	setSelectedProfil,
 	setSocials,
 	setVerifiedAccount,
-	setWSUserAvatar,
-} from '../../slices/account/accountSlice';
+	setWSUserAvatar
+} from "../../slices/account/accountSlice";
 import {
 	ApiErrorResponseType,
 	ResponseDataErrorInterface,
@@ -192,6 +194,7 @@ function* accountPostLogoutSaga() {
 }
 
 function* accountGetProfilSaga() {
+	yield* put(setProfilGETLoading());
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PROFIL}`;
 	try {
@@ -200,15 +203,11 @@ function* accountGetProfilSaga() {
 			const response: AccountGetProfilResponseType = yield* call(() => getApi(url, authInstance));
 			if (response.status === 200) {
 				yield* put(setProfil(response.data));
-			} else {
-				console.log(response.data);
-				console.log(response.status);
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-		// set error state
+		const apiError = e as ApiErrorResponseType;
+		yield* put(yield* call(() => profileGETApiErrorAction(apiError)));
 	}
 }
 
@@ -487,6 +486,7 @@ function* accountDeleteBlockSaga(payload: { type: string; user_pk: number }) {
 }
 
 function* accountGetCheckAccountSaga() {
+	yield* put(setCheckAccountGETLoading());
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	try {
@@ -495,14 +495,11 @@ function* accountGetCheckAccountSaga() {
 			const response: AccountGetCheckAccountResponseType = yield* call(() => getApi(url, authInstance));
 			if (response.status === 200) {
 				yield* put(setCheckAccount(response.data));
-			} else {
-				console.log(response.data);
-				console.log(response.status);
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
+		const apiError = e as ApiErrorResponseType;
+		yield* put(yield* call(() => check_accountGETApiErrorAction(apiError)));
 		// set error state
 	}
 }

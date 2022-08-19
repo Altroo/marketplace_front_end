@@ -145,6 +145,11 @@
       <sourceFolder url="file://$MODULE_DIR$/store/actions/_api_promises" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/sagas/_api_promises" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/_api_promises" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add/index" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add/index/shopNameField" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop" />

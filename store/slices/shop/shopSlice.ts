@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
 	ShopStateInterface,
 	ShopStateToken,
@@ -18,28 +18,53 @@ import {
 	ShopAddressType,
 	ShopFontNameType,
 } from '../../../types/shop/shopTypes';
-import { IconColorType } from "../../../types/_init/_initTypes";
+import { ApiErrorResponseType, IconColorType } from "../../../types/_init/_initTypes";
+import { apiErrorInitialState } from "../_init/_initSlice";
 // import { HYDRATE } from "next-redux-wrapper";
+
+// Extra reducers actions
+export const userShopGETApiErrorAction = createAction<ApiErrorResponseType>('userShopGETApiErrorAction');
+export const userShopPOSTApiErrorAction = createAction<ApiErrorResponseType>('userShopPOSTApiErrorAction');
 
 // GET | POST |
 const initialState:
 	| ShopStateInterface<ShopStateToken, ShopStateUniqueID>
 	| ShopStateInterface<ShopGetRootTokenType, ShopGetRootUniqueIDType> = {
 	userShop: undefined,
+	userShopApi: apiErrorInitialState,
 	phoneCodes: [],
+	phoneCodesApi: apiErrorInitialState,
 	newShop: {},
+	// newShopApi: apiErrorInitialState,
 };
 
 const shopSlice = createSlice({
 	name: 'shop',
 	initialState: initialState,
 	reducers: {
+		setPostShopIsLoading: (state) => {
+			state.userShopApi.isAddInProgress = true;
+			state.userShopApi.addPromiseStatus = 'PENDING';
+			// state.userShopApi.error = apiErrorInitialState.error;
+			return state;
+		},
 		setPostShopState: (state, action: PayloadAction<ShopPostRootTokenType | ShopPostRootUniqueIDType>) => {
 			state.userShop = action.payload;
+			state.userShopApi.addPromiseStatus = 'RESOLVED';
+			state.userShopApi.isAddInProgress = false;
+			state.userShopApi.error = apiErrorInitialState.error;
+			return state;
+		},
+		setGetShopIsLoading: (state) => {
+			state.userShopApi.isFetchInProgress = true;
+			state.userShopApi.fetchPromiseStatus = 'PENDING';
+			state.userShopApi.error = apiErrorInitialState.error;
 			return state;
 		},
 		setGetShopState: (state, action: PayloadAction<ShopGetRootTokenType | ShopGetRootUniqueIDType>) => {
 			state.userShop = action.payload;
+			state.userShopApi.fetchPromiseStatus = 'RESOLVED';
+			state.userShopApi.isFetchInProgress = false;
 			return state;
 		},
 		setGetPhoneCodes: (state, action: PayloadAction<Array<string>>) => {
@@ -148,6 +173,7 @@ const shopSlice = createSlice({
 			}
 			return state;
 		},
+		// Step by step shop creation
 		setNewShopName: (state, action: PayloadAction<string>) => {
 			state.newShop.shop_name = action.payload;
 			return state;
@@ -187,6 +213,21 @@ const shopSlice = createSlice({
 			return initialState;
 		},
 	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(userShopGETApiErrorAction, (state, action) => {
+				state.userShopApi.error = action.payload.error;
+				state.userShopApi.fetchPromiseStatus = 'REJECTED';
+				state.userShopApi.isFetchInProgress = false;
+				return state;
+			})
+			.addCase(userShopPOSTApiErrorAction, (state, action) => {
+				state.userShopApi.error = action.payload.error;
+				state.userShopApi.addPromiseStatus = 'REJECTED';
+				state.userShopApi.isAddInProgress = false;
+				return state;
+			});
+	},
 	// extraReducers: {
 	// 	[HYDRATE]: (state, action) => {
 	// 		return { ...state, ...action.payload.shop };
@@ -195,7 +236,9 @@ const shopSlice = createSlice({
 });
 
 export const {
+	setPostShopIsLoading,
 	setPostShopState,
+	setGetShopIsLoading,
 	setGetShopState,
 	setGetPhoneCodes,
 	setShopName,

@@ -42,9 +42,6 @@ const PhoneInputFields: React.FC<inputProps> = (props: inputProps) => {
 			setPhoneCodesObj(constructedPhoneCodes);
 		}
 	}, [phoneCodes, value]);
-
-
-
 	return (
 		<Collapse in={props.open}>
 			<ThemeProvider theme={customTheme}>

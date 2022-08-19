@@ -13,9 +13,9 @@ import {
 } from "../store/actions/_init/_initActions";
 import { emptyInitStateToken, emptyInitStateUniqueID } from '../store/slices/_init/_initSlice';
 import { loadNewAddedShopAction, shopGetRootAction } from '../store/actions/shop/shopActions';
-import { accountGetCheckAccountAction, accountGetProfilAction } from '../store/actions/account/accountActions';
-import { cartGetAllAction } from '../store/actions/cart/cartActions';
+import { accountGetCheckAccountAction } from '../store/actions/account/accountActions';
 import { cookiesFetcher } from '../store/services/_init/_initAPI';
+import { getCheckUserHasShop, getInitStateToken, getInitStateUniqueID, getTokenType } from "../store/selectors";
 
 const InitContext = createContext<InitStateInterface<InitStateToken, InitStateUniqueID>>({
 	tokenType: null,
@@ -25,10 +25,10 @@ const InitContext = createContext<InitStateInterface<InitStateToken, InitStateUn
 
 export const InitContextProvider = (props: PropsWithChildren<Record<string, unknown>>) => {
 	const dispatch = useAppDispatch();
-	const userHasShop = useAppSelector((state) => state.account.check_account.has_shop);
-	const tokenType = useAppSelector((state) => state._init.tokenType);
-	const token = useAppSelector((state) => state._init.initStateToken);
-	const uniqueID = useAppSelector((state) => state._init.initStateUniqueID);
+	const userHasShop = useAppSelector(getCheckUserHasShop);
+	const tokenType = useAppSelector(getTokenType);
+	const token = useAppSelector(getInitStateToken);
+	const uniqueID = useAppSelector(getInitStateUniqueID);
 	const [appTokenCookiesLoaded, setAppTokenCookiesLoaded] = useState(false);
 	const [newShopCookiesLoaded, setNewShopCookiesLoaded] = useState(false);
 
@@ -57,9 +57,11 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 		// or refreshed the page in the middle of the process
 		dispatch(loadNewAddedShopAction());
 		if (tokenType === 'TOKEN' && token !== null) {
-			dispatch(accountGetProfilAction());
+			// moved to init Saga or in it's page.
+			// dispatch(accountGetProfilAction());
+			// dispatch(cartGetAllAction());
+			// Required by userHasShop
 			dispatch(accountGetCheckAccountAction());
-			dispatch(cartGetAllAction());
 			if (userHasShop) {
 				dispatch(shopGetRootAction());
 			}

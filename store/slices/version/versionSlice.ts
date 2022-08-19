@@ -1,7 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAction } from '@reduxjs/toolkit';
 import { VersionStateInterface } from '../../../types/version/versionTypes';
-import { ApiErrorResponseType } from "../../../types/_init/_initTypes";
+import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
 // import { HYDRATE } from "next-redux-wrapper";
+
+// Extra reducers actions
+export const SetGETVersionApiError = createAction<ApiErrorResponseType>('SetGETVersionApiError');
+
 
 const initialState: VersionStateInterface = {
 	current_version: '',
@@ -12,11 +16,8 @@ const initialState: VersionStateInterface = {
 			message: null,
 			details: null,
 		},
-		isAddInProgress: false,
 		isFetchInProgress: false,
-		isDeleteInProgress: false,
-		isEditInProgress: false,
-		promiseStatus: null,
+		fetchPromiseStatus: null,
 	},
 };
 
@@ -26,19 +27,18 @@ const versionSlice = createSlice({
 	reducers: {
 		setCurrentVersionIsLoading: (state) => {
 			state.api.isFetchInProgress = true;
-			state.api.promiseStatus = 'PENDING';
+			state.api.fetchPromiseStatus = 'PENDING';
+			state.api.error = {
+				details: null,
+				status_code: null,
+				message: null,
+			};
 			return state;
 		},
 		setCurrentVersion: (state, action: PayloadAction<VersionStateInterface>) => {
 			state.current_version = action.payload.current_version;
 			state.maintenance = action.payload.maintenance;
-			state.api.promiseStatus = 'RESOLVED';
-			state.api.isFetchInProgress = false;
-			return state;
-		},
-		setCurrentVersionError: (state, action: PayloadAction<ApiErrorResponseType>) => {
-			state.api.error = action.payload.error;
-			state.api.promiseStatus = 'REJECTED';
+			state.api.fetchPromiseStatus = 'RESOLVED';
 			state.api.isFetchInProgress = false;
 			return state;
 		},
@@ -49,8 +49,16 @@ const versionSlice = createSlice({
 		initVersion: () => {
 			return initialState;
 		},
-		// set error states.
 	},
+	extraReducers: (builder) => {
+		builder.addCase(SetGETVersionApiError, (state, action) => {
+			state.api.error = action.payload.error;
+			state.api.fetchPromiseStatus = 'REJECTED';
+			state.api.isFetchInProgress = false;
+			return state;
+		});
+	},
+
 	// extraReducers: {
 	// 	[HYDRATE]: (state, action) => {
 	// 		return { ...state, ...action.payload.version };
@@ -61,7 +69,6 @@ const versionSlice = createSlice({
 export const {
 	setCurrentVersionIsLoading,
 	setCurrentVersion,
-	setCurrentVersionError,
 	initVersion,
 	setWSMaintenance
 } = versionSlice.actions;

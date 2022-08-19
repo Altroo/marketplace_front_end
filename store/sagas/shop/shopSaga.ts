@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'typed-redux-saga/macro';
+import { call, put, takeLatest, putResolve } from 'typed-redux-saga/macro';
 import * as Types from '../../actions';
 import {
 	ShopGetRootTokenResponseType,
@@ -17,8 +17,9 @@ import {
 	ShopPatchAddressType,
 	ShopPatchRootType,
 	ShopGetRootType,
-	ShopFontNameType, ShopPatchContactPhoneType
-} from "../../../types/shop/shopTypes";
+	ShopFontNameType,
+	ShopPatchContactPhoneType,
+} from '../../../types/shop/shopTypes';
 import {
 	ApiErrorResponseType,
 	IconColorType,
@@ -46,8 +47,13 @@ import {
 	setNewShopColor,
 	setNewShopFont,
 	setBorder,
-	setIconColor, setShopPhoneContact
-} from "../../slices/shop/shopSlice";
+	setIconColor,
+	setShopPhoneContact,
+	setGetShopIsLoading,
+	userShopGETApiErrorAction,
+	userShopPOSTApiErrorAction,
+	setPostShopIsLoading,
+} from '../../slices/shop/shopSlice';
 import {
 	allowAnyInstance,
 	isAuthenticatedInstance,
@@ -57,8 +63,8 @@ import {
 	loadLocalStorageNewShopData,
 	setLocalStorageNewShopColor,
 	setLocalStorageNewShopName,
-	setRemoteCookiesAppToken,
-} from '../../../utils/helpers';
+	setRemoteCookiesAppToken, deleteCookieStorageNewShopData
+} from "../../../utils/helpers";
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
@@ -100,6 +106,7 @@ import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '..
 // }
 
 function* shopPostRootSaga(payload: ShopPostRootType) {
+	yield* put(setPostShopIsLoading());
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SHOP_ROOT}/`;
 	try {
@@ -112,8 +119,8 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setPostShopState(response.data));
-			} else {
-				// set error state
+				// TODO check when reach add shop while connected
+				payload.router.push('/shop/details?created=true').then();
 			}
 		} else {
 			// User is not authenticated
@@ -137,18 +144,19 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				yield* put(setPostShopState(response.data));
 				// empty temporary new shop data
 				yield* call(() => emptyLocalStorageNewShopData());
-			} else {
-				// set error state
+				// delete cookies
+				yield* call(() => deleteCookieStorageNewShopData());
+				payload.router.push('/shop/details?created=true').then();
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-		// set error state
+		const apiError = e as ApiErrorResponseType;
+		yield* put(yield* call(() => userShopPOSTApiErrorAction(apiError)));
 	}
 }
 
 function* shopGetRootSaga(payload: ShopGetRootType) {
+	yield* put(setGetShopIsLoading());
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_SHOP_ROOT}/`;
 	try {
@@ -164,10 +172,6 @@ function* shopGetRootSaga(payload: ShopGetRootType) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setGetShopState(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
-				console.log(response.data);
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			// User is not authenticated
@@ -175,19 +179,12 @@ function* shopGetRootSaga(payload: ShopGetRootType) {
 			url += `${authSagaContext.initStateUniqueID.unique_id}/`;
 			const response: ShopGetRootUniqueIDResponseType = yield* call(() => getApi(url, instance));
 			if (response.status === 200) {
-				// update state
-				// console.log(response.data);
 				yield* put(setGetShopState(response.data));
-			} else {
-				// set error state
-				// TODO empty unique_ID state token
-				console.log(response.status);
-				console.log(response.data);
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
+		const apiError = e as ApiErrorResponseType;
+		yield* put(yield* call(() => userShopGETApiErrorAction(apiError)));
 		// set error state
 	}
 }
@@ -355,12 +352,12 @@ function* shopPatchFontSaga(payload: Partial<ShopPatchRootType>) {
 }
 
 function* shopPatchPhoneContactSaga(payload: {
-	type: string,
-	contact_phone_code: string | null,
-	contact_phone: string | null,
-	contact_whatsapp_code: string | null,
-	contact_whatsapp: string | null,
-	contact_mode: 'P' | 'W'
+	type: string;
+	contact_phone_code: string | null;
+	contact_phone: string | null;
+	contact_whatsapp_code: string | null;
+	contact_whatsapp: string | null;
+	contact_mode: 'P' | 'W';
 }) {
 	const url = `${process.env.NEXT_PUBLIC_SHOP_PHONE_CONTACT}`;
 	const authSagaContext = yield* call(() => ctxAuthSaga());
@@ -566,17 +563,17 @@ function* wsShopAvatarSaga(payload: { type: string; pk: number; shop_avatar: str
 }
 
 // Create Temporary shop
-function* setShopNameSaga(payload: { type: string; shop_name: string }) {
+function* setShopLocalShopNameSaga(payload: { type: string; shop_name: string }) {
 	yield* put(setNewShopName(payload.shop_name));
 	yield* call(() => setLocalStorageNewShopName(payload.shop_name));
 }
 
-function* setShopAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string }) {
+function* setShopLocalAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string }) {
 	yield* put(setNewShopAvatar(payload.avatar));
 	yield* call(() => setLocalStorageNewShopAvatar(payload.avatar as string));
 }
 
-function* setShopColorSaga(payload: {
+function* setShopLocalColorSaga(payload: {
 	type: string;
 	color_code: string;
 	bg_color_code: string;
@@ -596,16 +593,16 @@ function* setShopColorSaga(payload: {
 	);
 }
 
-function* setShopFontSaga(payload: { type: string; font_name: ShopFontNameType }) {
+function* setShopLocalFontSaga(payload: { type: string; font_name: ShopFontNameType }) {
 	yield* put(setNewShopFont(payload.font_name));
 	yield* call(() => setLocalStorageNewShopFont(payload.font_name));
 }
 
-function* setShopBorderSaga(payload: { type: string; border: string }) {
+function* setShopLocalBorderSaga(payload: { type: string; border: string }) {
 	yield* put(setBorder(payload.border));
 }
 
-function* setShopIconColorSaga(payload: { type: string; iconColor: IconColorType }) {
+function* setShopLocalIconColorSaga(payload: { type: string; iconColor: IconColorType }) {
 	yield* put(setIconColor(payload.iconColor));
 }
 
@@ -614,24 +611,27 @@ function* loadNewAddedShopDataSaga() {
 	if (newShopData !== null) {
 		yield* put(setNewShopName(newShopData.shop_name));
 		yield* put(setNewShopAvatar(newShopData.avatar));
-		yield* put(setNewShopColor({
-			color_code: newShopData.color_code,
-			bg_color_code: newShopData.bg_color_code,
-			border: newShopData.border,
-			icon_color: newShopData.icon_color
-		}));
+		yield* put(
+			setNewShopColor({
+				color_code: newShopData.color_code,
+				bg_color_code: newShopData.bg_color_code,
+				border: newShopData.border,
+				icon_color: newShopData.icon_color,
+			}),
+		);
 		yield* put(setNewShopFont(newShopData.font_name));
 	}
+	// else case is handled by the middleware
 }
 
 export function* watchShop() {
 	yield* takeLatest(Types.LOAD_NEW_ADDED_SHOP_DATA, loadNewAddedShopDataSaga);
-	yield* takeLatest(Types.SET_SHOP_NAME, setShopNameSaga);
-	yield* takeLatest(Types.SET_SHOP_AVATAR, setShopAvatarSaga);
-	yield* takeLatest(Types.SET_SHOP_COLOR, setShopColorSaga);
-	yield* takeLatest(Types.SET_SHOP_FONT, setShopFontSaga);
-	yield* takeLatest(Types.SET_SHOP_BORDER, setShopBorderSaga);
-	yield* takeLatest(Types.SET_SHOP_ICON_COLOR, setShopIconColorSaga);
+	yield* takeLatest(Types.SET_SHOP_NAME, setShopLocalShopNameSaga);
+	yield* takeLatest(Types.SET_SHOP_AVATAR, setShopLocalAvatarSaga);
+	yield* takeLatest(Types.SET_SHOP_COLOR, setShopLocalColorSaga);
+	yield* takeLatest(Types.SET_SHOP_FONT, setShopLocalFontSaga);
+	yield* takeLatest(Types.SET_SHOP_BORDER, setShopLocalBorderSaga);
+	yield* takeLatest(Types.SET_SHOP_ICON_COLOR, setShopLocalIconColorSaga);
 	yield* takeLatest(Types.SHOP_POST_ROOT, shopPostRootSaga);
 	yield* takeLatest(Types.SHOP_GET_ROOT, shopGetRootSaga);
 	yield* takeLatest(Types.SHOP_GET_PHONE_CODES, shopGetPhoneCodesSaga);

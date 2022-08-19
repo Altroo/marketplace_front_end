@@ -141,6 +141,18 @@ export const isAuthenticatedInstance = (
 			const originalConfig = error.config;
 			if (error.response) {
 				// access token expired
+				if ('code' in error) {
+					const errorObj = {
+						error: {
+							status_code: 502,
+							message: 'Network error.',
+							details: {
+								error: ["It looks like we are unable to connect. Please check your network connection and try again."]
+							}
+						}
+					}
+					return Promise.reject(errorObj);
+				}
 				if (error.response.status === 401 && !originalConfig._retry) {
 					originalConfig._retry = true;
 					try {
@@ -183,7 +195,7 @@ export const isAuthenticatedInstance = (
 					return Promise.reject(errorObj);
 				}
 			}
-			return Promise.reject(error);
+			// return Promise.reject(error);
 		},
 	);
 	return instance;
@@ -217,12 +229,25 @@ export const allowAnyInstance = (
 		},
 		(error) => {
 			if (error.response) {
-				const errorObj = {
-					error: error.response.data.error as ApiErrorResponseType,
-				};
+				let errorObj;
+				if ('code' in error) {
+					errorObj = {
+						error: {
+							status_code: 502,
+							message: 'Network error.',
+							details: {
+								error: ["It looks like we are unable to connect. Please check your network connection and try again."]
+							}
+						}
+					};
+				} else {
+					errorObj = {
+						error: error.response.data.error as ApiErrorResponseType,
+					};
+				}
 				return Promise.reject(errorObj);
 			}
-			return Promise.reject(error);
+			// return Promise.reject(error);
 		},
 	);
 	return instance;
@@ -241,12 +266,37 @@ export const defaultInstance = (BaseUrl: string, contentType: APIContentTypeInte
 		},
 		(error) => {
 			if (error.response) {
-				const errorObj = {
-					error: error.response.data.error as ApiErrorResponseType,
-				};
+				let errorObj;
+				/*
+					"ERR_FR_TOO_MANY_REDIRECTS"
+					"ERR_BAD_OPTION_VALUE"
+					"ERR_BAD_OPTION"
+					"ERR_NETWORK"
+					"ERR_DEPRECATED"
+					"ERR_BAD_RESPONSE"
+					"ERR_BAD_REQUEST"
+					"ERR_CANCELED"
+					"ECONNABORTED"
+					"ETIMEDOUT"
+				*/
+				if ('code' in error) {
+					errorObj = {
+						error: {
+							status_code: 502,
+							message: 'Network error.',
+							details: {
+								error: ["It looks like we are unable to connect. Please check your network connection and try again."]
+							}
+						}
+					};
+				} else {
+					errorObj = {
+						error: error.response.data.error as ApiErrorResponseType,
+					};
+				}
 				return Promise.reject(errorObj);
 			}
-			return Promise.reject(error);
+			// return Promise.reject(error);
 		},
 	);
 	return instance;
@@ -338,9 +388,9 @@ export const deleteCookieStorageNewShopData = () => {
 };
 
 // Set Server token cookies
-export const setRemoteCookiesAppToken = (newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID>) => {
-	cookiesPoster('/cookies', { tokenType: newInitStateToken.tokenType }).then(() => {
-		cookiesPoster('/cookies', { initStateToken: newInitStateToken.initStateToken }).then(() => {
+export const setRemoteCookiesAppToken = async (newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID>) => {
+	await cookiesPoster('/cookies', { tokenType: newInitStateToken.tokenType }).then(async () => {
+		cookiesPoster('/cookies', { initStateToken: newInitStateToken.initStateToken }).then(async () => {
 			cookiesPoster('/cookies', { initStateUniqueID: newInitStateToken.initStateUniqueID }).then();
 		});
 	});

@@ -1,6 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { InitStateInterface, InitStateToken, InitStateUniqueID } from '../../../types/_init/_initTypes';
 
+export const apiErrorInitialState = {
+	error: {
+		status_code: null,
+		message: null,
+		details: null,
+	},
+	isFetchInProgress: false,
+	isDeleteInProgress: false,
+	isEditInProgress: false,
+	isAddInProgress: false,
+	addPromiseStatus: null,
+	fetchPromiseStatus: null,
+	deletePromiseStatus: null,
+	editPromiseStatus: null,
+};
+
 export const emptyInitStateToken = {
 	access_token: null,
 	refresh_token: null,

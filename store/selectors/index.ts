@@ -1,12 +1,26 @@
 import { RootState } from '../store';
 import { ShopFontNameType, ShopGetRootUniqueIDType } from "../../types/shop/shopTypes";
-import { IconColorType } from "../../types/_init/_initTypes";
+import { IconColorType, TokenChoices } from "../../types/_init/_initTypes";
 
 // _Init
-export const getTokenType = (state: RootState) => state._init.tokenType;
+export const getTokenType = (state: RootState) => state._init.tokenType as TokenChoices;
 export const getInitStateToken = (state: RootState) => state._init.initStateToken;
 export const getAccessToken = (state: RootState) => state._init.initStateToken.access_token;
 export const getInitStateUniqueID = (state: RootState) => state._init.initStateUniqueID;
+
+// New shop
+export const getNewShopName = (state: RootState) => state.shop.newShop?.shop_name as string;
+export const getNewShopAvatar = (state: RootState) => state.shop.newShop?.avatar as ArrayBuffer;
+export const getNewShopColorCode = (state: RootState) => state.shop.newShop?.color_code as string;
+export const getNewShopBgColorCode = (state: RootState) => state.shop.newShop?.bg_color_code as string;
+export const getNewShopBorder = (state: RootState) => state.shop.newShop?.border as string;
+export const getNewShopIconColor = (state: RootState) => state.shop.newShop?.icon_color as IconColorType;
+export const getNewShopFontName = (state: RootState) => state.shop.newShop?.font_name as ShopFontNameType;
+
+export const getNewShopIsAddInProgress = (state: RootState) => state.shop.userShopApi.isAddInProgress;
+export const getNewShopIsAddError = (state: RootState) => state.shop.userShopApi.error;
+export const getNewShopAddPromiseStatus = (state: RootState) => state.shop.userShopApi.addPromiseStatus;
+
 // Shop
 export const getShopName = (state: RootState) => state.shop.userShop?.shop_name as string;
 export const getShopAvatar = (state: RootState) => state.shop.userShop?.avatar as string;
@@ -21,7 +35,7 @@ export const getShopPhoneContact = (state: RootState) => (state.shop.userShop as
 export const getShopWhatsappContact = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_whatsapp;
 export const getShopContactMode = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_mode;
 // Account
-// export const getCheckUserHasShop = (state: RootState) => state.account.profil.has_shop;
+export const getCheckUserHasShop = (state: RootState) => state.account.check_account?.has_shop as boolean;
 
 // Offers
 export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersList.next;

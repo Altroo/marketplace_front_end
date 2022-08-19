@@ -4,8 +4,8 @@ import {
 	setCurrentVersion,
 	setCurrentVersionIsLoading,
 	setWSMaintenance,
-	setCurrentVersionError,
-} from '../../slices/version/versionSlice';
+	SetGETVersionApiError
+} from "../../slices/version/versionSlice";
 import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
 import { VersionGetRootResponseType } from '../../../types/version/versionTypes';
 import { defaultInstance } from '../../../utils/helpers';
@@ -23,7 +23,7 @@ export function* versionSaga() {
 		}
 	} catch (e) {
 		const apiError = e as ApiErrorResponseType;
-		yield* put(setCurrentVersionError(apiError));
+		yield* put(yield* call(() => SetGETVersionApiError(apiError)));
 	}
 }
 

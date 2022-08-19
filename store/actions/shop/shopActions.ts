@@ -1,6 +1,8 @@
 import * as Types from '../index';
 import { ShopFontNameType, ShopZoneByType } from '../../../types/shop/shopTypes';
-import { IconColorType } from "../../../types/_init/_initTypes";
+import { IconColorType } from '../../../types/_init/_initTypes';
+import { AppDispatch } from '../../store';
+import { NextRouter } from "next/router";
 
 export const setShopNameAction = (shop_name: string) => {
 	return {
@@ -16,11 +18,7 @@ export const setShopAvatarAction = (avatar: ArrayBuffer | string | null) => {
 	};
 };
 
-export const setShopColorAction = (
-	color_code: string,
-	bg_color_code: string,
-	border: string,
-	icon_color: string) => {
+export const setShopColorAction = (color_code: string, bg_color_code: string, border: string, icon_color: string) => {
 	return {
 		type: Types.SET_SHOP_COLOR,
 		color_code,
@@ -42,18 +40,18 @@ export const setShopBorderAction = (border: string) => {
 		type: Types.SET_SHOP_BORDER,
 		border,
 	};
-}
+};
 
 export const setShopIconColorAction = (iconColor: IconColorType) => {
 	return {
 		type: Types.SET_SHOP_ICON_COLOR,
 		iconColor,
 	};
-}
+};
 
 export const loadNewAddedShopAction = () => {
 	return {
-		type: Types.LOAD_NEW_ADDED_SHOP_DATA
+		type: Types.LOAD_NEW_ADDED_SHOP_DATA,
 	};
 };
 
@@ -66,6 +64,7 @@ export const shopPostRootAction = (
 	border: string,
 	icon_color: IconColorType,
 	font_name: ShopFontNameType,
+	router: NextRouter,
 ) => {
 	return {
 		type: Types.SHOP_POST_ROOT,
@@ -76,8 +75,33 @@ export const shopPostRootAction = (
 		border,
 		icon_color,
 		font_name,
+		router
 	};
 };
+
+// // POST : /api/1.0.0/shop/
+// export const shopPostRootAction =
+// 	(
+// 		shop_name: string,
+// 		avatar: ArrayBuffer | string,
+// 		color_code: string,
+// 		bg_color_code: string,
+// 		border: string,
+// 		icon_color: IconColorType,
+// 		font_name: ShopFontNameType,
+// 	) =>
+// 	async (dispatch: AppDispatch) => {
+// 		dispatch({
+// 			type: Types.SHOP_POST_ROOT,
+// 			shop_name,
+// 			avatar,
+// 			color_code,
+// 			bg_color_code,
+// 			border,
+// 			icon_color,
+// 			font_name,
+// 		});
+// 	};
 
 // GET : /api/1.0.0/shop/
 export const shopGetRootAction = (qaryb_link?: string) => {
@@ -131,7 +155,7 @@ export const shopPatchFontAction = (font_name: ShopFontNameType) => {
 export const shopPatchPhoneContactAction = (
 	contact_phone_code: string | null,
 	contact_phone: string | null,
-	contact_whatsapp_code : string | null,
+	contact_whatsapp_code: string | null,
 	contact_whatsapp: string | null,
 	contact_mode: 'P' | 'W',
 ) => {
@@ -141,7 +165,7 @@ export const shopPatchPhoneContactAction = (
 		contact_phone,
 		contact_whatsapp_code,
 		contact_whatsapp,
-		contact_mode
+		contact_mode,
 	};
 };
 
