@@ -1,0 +1,23 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.textField
+  margin-top: 60px
+  outline: none
+  &:focus
+    border: 2px solid $blue !important
+  & ::placeholder
+    font-family: $poppins !important
+    font-weight: 400
+    color: $grayInput
+    font-size: 1.1rem
+.span
+  +Regular
+  font-size: 13px
+  color: $grayInput
+  margin-top: 10px
+// @media #{$desktop}
+// @media #{$tablette}
+// @media #{$mobile}

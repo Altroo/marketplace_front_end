@@ -3,7 +3,16 @@
 @import 'styles/sass/mixins'
 
 // Global styles
+.header
+  +SemiBold
+  font-size: 24px
+.description
+  margin: 0
 
-// @media #{}
+
+@media #{$tablette}
+  .header
+    font-size: 21px
+    letter-spacing: -0.01em
 // @media #{}
 // @media #{}

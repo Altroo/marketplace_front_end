@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { hexToRGB } from './utils/helpers';
+import { hexToRGB } from './helpers';
 
 const theme = (primaryColor: string | undefined = undefined) => {
 	let rippleColor = '#0D070B';

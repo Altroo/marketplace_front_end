@@ -2,8 +2,10 @@ import React from 'react';
 import Styles from './rightSwipeModal.module.sass';
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
+import { createTheme, ThemeProvider } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 
+// overflow-x: hidden;
 const Transition = React.forwardRef(function Transition(
 	props: TransitionProps & {
 		// eslint-disable-next-line
@@ -21,18 +23,32 @@ type Props = {
 };
 
 const RightSwipeModal: React.FC<Props> = (props: Props) => {
+	const customTheme = createTheme({
+		components: {
+			MuiDialog: {
+				styleOverrides: {
+					root: {
+						'& .MuiPaper-root': {
+							overflowX: 'hidden',
+						}
+					}
+				}
+			}
+		}
+	});
 	return (
-		<Dialog
-			open={props.open}
-			TransitionComponent={Transition}
-			keepMounted
-			onClose={props.handleClose}
-			aria-describedby="alert-dialog-slide-description"
-			fullScreen={true}
-			className={Styles.dialog}
-		>
-			{props.children}
-		</Dialog>
+		<ThemeProvider theme={customTheme}>
+			<Dialog
+				open={props.open}
+				TransitionComponent={Transition}
+				onClose={props.handleClose}
+				aria-describedby="alert-dialog-slide-description"
+				fullScreen={true}
+				className={Styles.dialog}
+			>
+				{props.children}
+			</Dialog>
+		</ThemeProvider>
 	);
 };
 

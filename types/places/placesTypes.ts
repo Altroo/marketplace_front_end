@@ -1,4 +1,4 @@
-import { ResponseDataInterface } from '../_init/_initTypes';
+import { GlobalApiPromiseError, ResponseDataInterface } from "../_init/_initTypes";
 
 type PlacesType = {
 	pk: number,
@@ -14,6 +14,7 @@ export type CitiesType = PlacesType;
 //!- Places State
 export interface PlacesStateInterface {
 	localisation_name: string | null;
+	placesApi: GlobalApiPromiseError;
 	countries: Array<CountriesType> | [];
 	cities: Array<CitiesType> | [];
 }

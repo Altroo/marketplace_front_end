@@ -4,7 +4,7 @@ import React from 'react';
 
 type EditDropDownType = {
 	text: string;
-	onClick: () => void;
+	onClick: React.Dispatch<React.SetStateAction<boolean>>;
 	icon?: string;
 };
 export type DropDownActionType = Array<EditDropDownType>;
@@ -73,9 +73,24 @@ export type SelectInputcontacterType = {
 };
 
 export type addMyInfosStackType = {
-	title: string;
-	// description: string;
-	added: 'FULL' | 'EMPTY';
-	onClick: () => void;
+	title: 'Nom' | 'Bio' | 'Horaire' | 'Coordonées' | 'Adresse';
+	// edit shop name
+	openEditModal: boolean;
+	setOpenEditModal: React.Dispatch<React.SetStateAction<boolean>>;
+	// openEditShopNameModal: boolean;
+	// setOpenEditShopNameModal: React.Dispatch<React.SetStateAction<boolean>>;
+	// // edit bio
+	// openEditBioModal: boolean;
+	// setOpenEditBioModal: React.Dispatch<React.SetStateAction<boolean>>;
+	// // edit horaire
+	// openEditHoraireModal: boolean;
+	// setOpenEditHoraireModal: React.Dispatch<React.SetStateAction<boolean>>;
+	// // edit coordonée
+	// openEditCoordoneeModal: boolean;
+	// setOpenEditCoordoneeModal: React.Dispatch<React.SetStateAction<boolean>>;
+	// // edit address
+	// openEditAdressModal: boolean;
+	// setOpenEditAdressModal: React.Dispatch<React.SetStateAction<boolean>>;
+	added: boolean;
 	content?: React.ReactNode;
 }

@@ -1,15 +1,31 @@
+// import '../styles/globals.sass';
+// import type { AppProps } from 'next/app';
+// import { wrapper } from '../store/store';
+// import { InitContextProvider } from '../contexts/InitContext';
+//
+// function EntryPoint({ Component, pageProps }: AppProps) {
+// 	return (
+// 		<InitContextProvider>
+// 			<Component {...pageProps} />
+// 		</InitContextProvider>
+// 	);
+// }
+//
+// export default wrapper.withRedux(EntryPoint);
+
 import '../styles/globals.sass';
-import type { AppProps } from 'next/app';
-import { wrapper } from '../store/store';
+import React, {FC} from 'react';
+import {AppProps} from 'next/app';
+import {wrapper} from '../store/store';
 import { InitContextProvider } from '../contexts/InitContext';
 
-function EntryPoint({ Component, pageProps }: AppProps) {
+const EntryPoint: FC<AppProps> = ({Component, pageProps}) => {
 	return (
 		<InitContextProvider>
 			<Component {...pageProps} />
 		</InitContextProvider>
 	);
-}
+};
 
 export default wrapper.withRedux(EntryPoint);
 
@@ -36,7 +52,7 @@ export default wrapper.withRedux(EntryPoint);
 // import { placesGetCountriesAction } from "../store/actions/places/placesActions";
 // import { initAppAction } from "../store/actions/_init/_initActions";
 // import { loadNewAddedShopAction } from "../store/actions/shop/shopActions";
-// import { setCookie, getCookie } from "cookies-next";
+// // import { setCookie, getCookie } from "cookies-next";
 //
 //
 // class EntryPoint extends React.Component<AppProps> {
@@ -49,35 +65,29 @@ export default wrapper.withRedux(EntryPoint);
 // 		const pageProps = {
 // 			...(await App.getInitialProps(context)).pageProps
 // 		};
+//
 // 		if (context.ctx.req) {
 // 			//*** TODO 2 : LOAD COOKIE *** //
 // 			// Example set cookie
-// 			const req = context.ctx.req;
-// 			const res = context.ctx.res;
-// 			setCookie("new_cookie", "new_cookie_value", { req, res, maxAge: 60 * 6 * 24 });
-// 			setCookie("cookie_from_EntryPoint", "cookie_from_EntryPoint_value", {
-// 				req, res, httpOnly: true, sameSite: "lax", secure: true,
-// 			});
+// 			// const req = context.ctx.req;
+// 			// const res = context.ctx.res;
+// 			// setCookie("new_cookie", "new_cookie_value", { req, res, maxAge: 60 * 6 * 24 });
+// 			// setCookie("cookie_from_EntryPoint", "cookie_from_EntryPoint_value", {
+// 			// 	req, res, httpOnly: true, sameSite: "lax", secure: true,
+// 			// });
 // 			// context.ctx.res.cookies.set('new_cookie', 'new_cookie_value', {httpOnly: true, sameSite: 'lax', secure: true});
-// 			console.log("from getInitialProps SERVER SIDE");
+// 			// console.log("from getInitialProps SERVER SIDE");
 // 			store.dispatch(END);
 // 			await (store as SagaStore).sagaTask?.toPromise();
-// 		} else {
-// 			console.log("from getInitialProps LOCAL SIDE");
 // 		}
-// 		/*** Note Runs Second **/
-//
-// 		//*** TODO 3 : PASS token from cookie to HOContext **//
-// 		pageProps["abc"] = "test";
-// 		return {
-// 			pageProps: pageProps
-// 		};
+// 		// pageProps["abc"] = "test";
+// 		return {pageProps};
 // 	});
 //
 // 	render() {
 // 		const { Component, pageProps } = this.props;
 // 		return (
-// 			<InitContextProvider abc={pageProps.abc}>
+// 			<InitContextProvider>
 // 				<Component {...pageProps} />
 // 			</InitContextProvider>
 // 		);

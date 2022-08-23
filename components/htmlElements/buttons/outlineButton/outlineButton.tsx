@@ -2,7 +2,7 @@ import React from 'react';
 import Styles from './outlineButton.module.sass';
 import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material';
-import theme from '../../../../theme';
+import theme from '../../../../utils/theme';
 
 type Props = {
 	buttonText: string;

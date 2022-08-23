@@ -1,7 +1,6 @@
 import * as Types from '../index';
 import { ShopFontNameType, ShopZoneByType } from '../../../types/shop/shopTypes';
 import { IconColorType } from '../../../types/_init/_initTypes';
-import { AppDispatch } from '../../store';
 import { NextRouter } from "next/router";
 
 export const setShopNameAction = (shop_name: string) => {
@@ -170,7 +169,7 @@ export const shopPatchPhoneContactAction = (
 };
 
 // PATCH : /api/1.0.0/shop/bio/
-export const shopPatchBioAction = (bio: string) => {
+export const shopPatchBioAction = (bio: string | null) => {
 	return {
 		type: Types.SHOP_PATCH_BIO,
 		bio,
@@ -178,11 +177,11 @@ export const shopPatchBioAction = (bio: string) => {
 };
 // PATCH : /api/1.0.0/shop/availability/
 export const shopPatchAvailabilityAction = (
-	opening_days: string,
-	morning_hour_from: string,
-	morning_hour_to: string,
-	afternoon_hour_from: string,
-	afternoon_hour_to: string,
+	opening_days: string | null,
+	morning_hour_from: string | null,
+	morning_hour_to: string | null,
+	afternoon_hour_from: string | null,
+	afternoon_hour_to: string | null,
 ) => {
 	return {
 		type: Types.SHOP_PATCH_AVAILABILITY,
@@ -195,13 +194,13 @@ export const shopPatchAvailabilityAction = (
 };
 // PATCH : /api/1.0.0/shop/contact/
 export const shopPatchContactAction = (
-	phone: string,
-	contact_email: string,
-	website_link: string,
-	facebook_link: string,
-	twitter_link: string,
-	instagram_link: string,
-	whatsapp: string,
+	phone: string | null,
+	contact_email: string | null,
+	website_link: string | null,
+	facebook_link: string | null,
+	twitter_link: string | null,
+	instagram_link: string | null,
+	whatsapp: string | null,
 ) => {
 	return {
 		type: Types.SHOP_PATCH_CONTACT,
@@ -216,10 +215,11 @@ export const shopPatchContactAction = (
 };
 // PATCH : /api/1.0.0/shop/address/
 export const shopPatchAddressAction = (
-	zone_by: ShopZoneByType,
-	longitude: number,
-	latitude: number,
-	address_name: string,
+	zone_by: ShopZoneByType | null,
+	longitude: number | null,
+	latitude: number | null,
+	address_name: string | null,
+	km_radius: number | null,
 ) => {
 	return {
 		type: Types.SHOP_PATCH_ADDRESS,
@@ -227,6 +227,7 @@ export const shopPatchAddressAction = (
 		longitude,
 		latitude,
 		address_name,
+		km_radius,
 	};
 };
 

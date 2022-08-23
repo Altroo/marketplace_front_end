@@ -3,7 +3,7 @@ import Styles from './chipButton.module.sass';
 import Chip from '@mui/material/Chip';
 import { chipActionsType, chipVariantType } from '../../../../types/ui/uiTypes';
 import { ThemeProvider } from '@mui/material';
-import theme from "../../../../theme";
+import theme from "../../../../utils/theme";
 
 type Props = {
 	actions: chipActionsType;

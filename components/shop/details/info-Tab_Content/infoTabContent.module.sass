@@ -25,13 +25,27 @@
   display: flex
   align-content: center
   justify-content: center
-.modalContentWrapper
-  margin: 24px 32px 40px
-.topBar
-  display: flex
-  justify-content: flex-end
-  img
-    cursor: pointer
+.stackTitle
+  +SemiBold
+  font-size: 19px
+  color: $primary
+.stackButton
+  +Regular
+  font-size: 17px
+  color: $blue
+  text-transform: none
+.infoContent
+  +Regular
+  font-size: 17px
+  color: $primary
+.leftSideWrapper
+  height: 100%
+  width: 30%
+.rightSideWrapper
+  width: 70%
+  height: 100%
+
+
 @media #{$tablette}
   .infoWrapper
     width: auto
@@ -40,5 +54,13 @@
     margin: 1rem auto 0
     h3
       font-size: 19px
+  .BothSidesWrapper
+    flex-direction: column
+  .leftSideWrapper
+    width: 100%
+  .rightSideWrapper
+    width: 100%
+    margin: 0 !important
+    margin-top: 8px !important
 // @media #{}
 // @media #{}

@@ -1,0 +1,34 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.localisationNamePopupWrapper
+  position: absolute
+  background: #FFFFFF
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.25)
+  border-radius: 100px
+  z-index: 1000
+  display: flex
+  justify-content: center
+  bottom: 20px
+  left: 20px
+  right: 20px
+  height: 50px
+  align-items: center
+  padding-left: 20px
+  padding-right: 20px
+.localisationIconWrapper
+  margin: 5px
+  display: flex
+  align-self: center
+.localisationName
+  +Regular
+  font-size: 16px
+  color: $primary
+.localisationError
+  @extend .localisationName
+  color: red
+// @media #{}
+// @media #{}
+// @media #{}

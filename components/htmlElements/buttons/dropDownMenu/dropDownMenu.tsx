@@ -75,7 +75,10 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 				>
 					{props.actions.map((action, index) => {
 						return (
-							<MenuItem onClick={action.onClick} key={index} className={Styles.menuItem}>
+							<MenuItem onClick={() => {
+								action.onClick(true);
+								handleClose();
+							}} key={index} className={Styles.menuItem}>
 								{action.icon && <Image src={action.icon} alt="" className={Styles.icon} />}
 								{action.text}
 							</MenuItem>

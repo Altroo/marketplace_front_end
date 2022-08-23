@@ -2,7 +2,7 @@ import React from 'react';
 import Styles from './borderIconButton.module.sass';
 import Image from 'next/image';
 import Button from '@mui/material/Button';
-import theme from "../../../../theme";
+import theme from "../../../../utils/theme";
 import { ThemeProvider } from "@mui/material";
 
 type Props = {

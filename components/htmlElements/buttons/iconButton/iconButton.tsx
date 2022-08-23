@@ -1,6 +1,6 @@
 import React from "react";
 import Styles from "./iconButton.module.sass";
-import theme from "../../../../theme";
+import theme from "../../../../utils/theme";
 import Image from "next/image";
 import { ThemeProvider } from "@mui/material";
 import Button from "@mui/material/Button";

@@ -17,10 +17,6 @@ import DesktopPublishEditNavbar from '../../../components/desktop/navbars/deskto
 import MobilePublishEditNavbar from '../../../components/mobile/navbars/mobilePublishEditNavbar/mobilePublishEditNavbar';
 import Image from 'next/image';
 import BlackStarSVG from '../../../public/assets/svgs/black-star.svg';
-import InfoIconSVG from '../../../public/assets/svgs/drop-down-info.svg';
-import AvatarIconSVG from '../../../public/assets/svgs/drop-down-avatar.svg';
-import ColorIconSVG from '../../../public/assets/svgs/drop-down-color.svg';
-import FontIconSVG from '../../../public/assets/svgs/drop-down-font.svg';
 import CloseSVG from '../../../public/assets/svgs/close.svg';
 import PhoneSVG from '../../../public/assets/svgs/contact-phone.svg';
 import WtspSVG from '../../../public/assets/svgs/whatsapp-icon.svg';
@@ -53,8 +49,24 @@ import {
 	getShopWhatsappContactCode,
 	getShopPhoneContact,
 	getShopWhatsappContact,
+	getShopBio,
+	getShopOpeningDays,
+	getShopPhone,
+	getShopContactEmail,
+	getShopWebsiteLink,
+	getShopFacebookLink,
+	getShopTwitterLink,
+	getShopInstagramLink,
+	getShopWhatsapp,
+	getShopAddressName,
 } from '../../../store/selectors';
 import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
+import InfoIconSVG from '../../../public/assets/svgs/drop-down-info.svg';
+import AvatarIconSVG from '../../../public/assets/svgs/drop-down-avatar.svg';
+import ColorIconSVG from '../../../public/assets/svgs/drop-down-color.svg';
+import FontIconSVG from '../../../public/assets/svgs/drop-down-font.svg';
+import { Stack } from '@mui/material';
+import AjouterMesInfosStack from '../../../components/shop/details/ajouterMesInfos-Stack/ajouterMesInfosStack';
 
 const Index: NextPage = () => {
 	const router = useRouter();
@@ -62,6 +74,17 @@ const Index: NextPage = () => {
 	const dispatch = useAppDispatch();
 	const [modalDismissed, setModalDismissed] = useState(false);
 	const shopName = useAppSelector(getShopName);
+	const bio = useAppSelector(getShopBio);
+	const opening_days = useAppSelector(getShopOpeningDays);
+	const phone = useAppSelector(getShopPhone);
+	const contact_email = useAppSelector(getShopContactEmail);
+	const website_link = useAppSelector(getShopWebsiteLink);
+	const facebook_link = useAppSelector(getShopFacebookLink);
+	const twitter_link = useAppSelector(getShopTwitterLink);
+	const instagram_link = useAppSelector(getShopInstagramLink);
+	const whatsapp = useAppSelector(getShopWhatsapp);
+	const address_name = useAppSelector(getShopAddressName);
+
 	const shopAvatar = useAppSelector(getShopAvatar);
 	const shopColorCode = useAppSelector(getShopColorCode);
 	const shopBgColorCode = useAppSelector(getShopBgColorCode);
@@ -73,8 +96,6 @@ const Index: NextPage = () => {
 	const shopWhatsappContactCode = useAppSelector(getShopWhatsappContactCode);
 	const shopWhatsappContact = useAppSelector(getShopWhatsappContact);
 	const shopContactMode = useAppSelector(getShopContactMode);
-
-	// const shopPhone
 	// avatar preview
 	const [preview, setPreview] = useState<string | null>(null);
 	// colors
@@ -93,7 +114,10 @@ const Index: NextPage = () => {
 	const [enfantCheck, setEnfantCheck] = useState(false);
 	const [femmeCheck, setFemmeCheck] = useState(true);
 	const [hommeCheck, setHommeCheck] = useState(true);
-	const [openContacterModal, setContacterModalOpen] = useState(false);
+	// modals
+	const [openContacterModal, setContacterModalOpen] = useState<boolean>(false);
+	const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
+
 	let phoneContactMode = true;
 	let whatsappContactMode = false;
 	if (shopContactMode === 'W') {
@@ -102,6 +126,7 @@ const Index: NextPage = () => {
 	}
 	const [phoneSwitch, setPhoneSwitch] = useState(phoneContactMode);
 	const [wtspSwitch, setWtspSwitch] = useState(whatsappContactMode);
+
 	let phoneContactCodeInitial = '+212';
 	if (shopPhoneContactCode) {
 		phoneContactCodeInitial = shopPhoneContactCode;
@@ -118,15 +143,16 @@ const Index: NextPage = () => {
 	if (shopWhatsappContact) {
 		whatsappContactInitial = shopWhatsappContact;
 	}
+
 	const [phoneCode, setPhoneCode] = useState<string>(phoneContactCodeInitial);
 	const [whatsappCode, setwhatsappCode] = useState<string>(whatsappContactCodeInitial);
 	const [whatsappValue, setwhatsappValue] = useState<string>(whatsappContactInitial);
 	const [phoneValue, setPhoneValue] = useState<string>(phoneContactInitial);
 
-	const handleOpen = () => {
+	const handleContactModalOpen = () => {
 		setContacterModalOpen(true);
 	};
-	const handleClose = () => {
+	const handleContactModalClose = () => {
 		setContacterModalOpen(false);
 	};
 	const setWhatsappSwitchHandler = (value: boolean) => {
@@ -226,15 +252,12 @@ const Index: NextPage = () => {
 			setValue: setwhatsappValue,
 		},
 	];
-
 	// drop down menu actions
 	const dropDownActions: DropDownActionType = [
 		{
 			icon: InfoIconSVG,
 			text: 'Mes infos',
-			onClick: () => {
-				return;
-			},
+			onClick: setOpenInfoModal,
 		},
 		{
 			icon: AvatarIconSVG,
@@ -258,46 +281,68 @@ const Index: NextPage = () => {
 			},
 		},
 	];
+
+	// check horaire added
+	let horaireAdded = false;
+	if (opening_days) {
+		if (opening_days.length > 0) {
+			horaireAdded = true;
+		}
+	}
+	// check coordonées added
+	let coordoneesAdded = false;
+	if (phone || twitter_link || website_link || instagram_link || facebook_link || whatsapp || contact_email) {
+		coordoneesAdded = true;
+	}
+	const [openEditShopNameModal, setOpenEditShopNameModal] = useState<boolean>(false);
+	const [openEditBioModal, setOpenEditBioModal] = useState<boolean>(false);
+	const [openEditHoraireModal, setOpenEditHoraireModal] = useState<boolean>(false);
+	const [openEditCoordoneeModal, setOpenEditCoordoneeModal] = useState<boolean>(false);
+	const [openEditAdressModal, setOpenEditAdressModal] = useState<boolean>(false);
+
+	// const handleOpenEditInfoModal = () => {
+	// 	setEditInfoModalOpen(true);
+	// };
+	// const handleCloseEditInfoModal = () => {
+	// 	setEditInfoModalOpen(false);
+	// };
+
 	// Infos stack actions
-	// get content from selectors. & pass value as jsx
 	const infosStackActions: Array<addMyInfosStackType> = [
 		{
 			title: 'Nom',
 			content: shopName,
-			added: 'FULL',
-			onClick: () => {
-				return;
-			},
+			added: !!shopName,
+			openEditModal: openEditShopNameModal,
+			setOpenEditModal: setOpenEditShopNameModal,
 		},
 		{
 			title: 'Bio',
-			added: 'EMPTY',
-			onClick: () => {
-				return;
-			},
+			content: bio,
+			added: !!bio,
+			openEditModal: openEditBioModal,
+			setOpenEditModal: setOpenEditBioModal,
 		},
 		{
 			title: 'Horaire',
-			added: 'EMPTY',
-			onClick: () => {
-				return;
-			},
+			added: horaireAdded,
+			openEditModal: openEditHoraireModal,
+			setOpenEditModal: setOpenEditHoraireModal,
 		},
 		{
 			title: 'Coordonées',
-			added: 'EMPTY',
-			onClick: () => {
-				return;
-			},
+			added: coordoneesAdded,
+			openEditModal: openEditCoordoneeModal,
+			setOpenEditModal: setOpenEditCoordoneeModal,
 		},
 		{
 			title: 'Adresse',
-			added: 'EMPTY',
-			onClick: () => {
-				return;
-			},
+			added: !!address_name,
+			openEditModal: openEditAdressModal,
+			setOpenEditModal: setOpenEditAdressModal,
 		},
 	];
+
 	useEffect(() => {
 		// avatar
 		if (shopAvatar) {
@@ -326,7 +371,41 @@ const Index: NextPage = () => {
 		if (shopFontName) {
 			setFontName(shopFontName);
 		}
-	}, [shopAvatar, shopBgColorCode, shopColorCode, shopBorder, shopIconColor, shopFontName, dispatch, whatsappCode]);
+		// set phone & whatsapp value
+		if (shopPhoneContact) {
+			setPhoneValue(shopPhoneContact);
+		}
+		if (shopWhatsappContact) {
+			setwhatsappValue(shopWhatsappContact);
+		}
+		if (shopWhatsappContactCode) {
+			setwhatsappCode(shopWhatsappContactCode);
+		}
+		if (shopPhoneContactCode) {
+			setPhoneCode(shopPhoneContactCode);
+		}
+		if (shopContactMode) {
+			if (shopContactMode === 'W') {
+				setWhatsappSwitchHandler(true);
+			} else if (shopContactMode === 'P') {
+				setPhoneSwitchHandler(true);
+			}
+		}
+	}, [
+		shopAvatar,
+		shopBgColorCode,
+		shopColorCode,
+		shopBorder,
+		shopIconColor,
+		shopFontName,
+		dispatch,
+		whatsappCode,
+		shopPhoneContact,
+		shopWhatsappContact,
+		shopWhatsappContactCode,
+		shopPhoneContactCode,
+		shopContactMode,
+	]);
 
 	// save phone contact modal button
 	const contacterSaveHandler = () => {
@@ -361,6 +440,7 @@ const Index: NextPage = () => {
 				/>
 			)}
 			<main className={Styles.main}>
+				{/* TOP BAR */}
 				<div className={Styles.desktopTopBarWrapper}>
 					<DesktopPublishEditNavbar
 						actions={dropDownActions}
@@ -373,6 +453,7 @@ const Index: NextPage = () => {
 				</div>
 				<div className={Styles.mobileTopBarWrapper}>
 					<MobilePublishEditNavbar
+						actions={dropDownActions}
 						onPublish={() => {
 							console.log('Clicked');
 						}}
@@ -426,7 +507,7 @@ const Index: NextPage = () => {
 								<IconButton
 									buttonText="Contacter"
 									svgIcon={contactIcon}
-									onClick={handleOpen}
+									onClick={handleContactModalOpen}
 									backgroundColor={bgColorCode}
 									textColor={colorCode}
 									border={border}
@@ -436,16 +517,22 @@ const Index: NextPage = () => {
 								<BorderIconButton
 									buttonText="Contacter"
 									svgIcon={ContactIconBlueSVG}
-									onClick={handleOpen}
+									onClick={handleContactModalOpen}
 									cssClass={Styles.iconButton}
 								/>
 							)}
 
 							{/* START right side contact modal */}
-							<RightSwipeModal open={openContacterModal} handleClose={handleClose}>
+							<RightSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
 								<div className={Styles.modalContentWrapper}>
 									<div className={Styles.topBar}>
-										<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleClose} />
+										<Image
+											src={CloseSVG}
+											width={40}
+											height={40}
+											alt=""
+											onClick={handleContactModalClose}
+										/>
 									</div>
 									<HelperDescriptionHeader
 										header="Ajouter un moyen de contact"
@@ -492,12 +579,16 @@ const Index: NextPage = () => {
 											activeColor={bgColorCode}
 											hidden={true}
 										/>
-										// <StartYourShopContent/>
 									}
 									InfoContent={
 										<InfoTabContent
+											setOpenInfoModal={setOpenInfoModal}
+											openInfoModal={openInfoModal}
+											setOpenEditBioModal={setOpenEditBioModal}
+											setOpenEditHoraireModal={setOpenEditHoraireModal}
+											setOpenEditCoordoneeModal={setOpenEditCoordoneeModal}
+											setOpenEditAdressModal={setOpenEditAdressModal}
 											backgroundColor={bgColorCode}
-											infosStackActions={infosStackActions}
 										/>
 									}
 									color={bgColorCode}
@@ -507,9 +598,61 @@ const Index: NextPage = () => {
 						</div>
 					</div>
 				</div>
+				<RightSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}>
+					<div className={Styles.modalContentWrapper}>
+						<div className={Styles.topBar}>
+							<Image
+								src={CloseSVG}
+								width={40}
+								height={40}
+								alt=""
+								onClick={() => setOpenInfoModal(false)}
+							/>
+						</div>
+						<HelperDescriptionHeader header="Ajouter mes infos" />
+						<Stack direction="column" spacing={4}>
+							{infosStackActions.map((stack, index) => {
+								return (
+									<AjouterMesInfosStack
+										key={index}
+										title={stack.title}
+										added={stack.added}
+										content={stack.content}
+										openEditModal={stack.openEditModal}
+										setOpenEditModal={stack.setOpenEditModal}
+									/>
+								);
+							})}
+						</Stack>
+					</div>
+				</RightSwipeModal>
 			</main>
 		</>
 	);
 };
+
+// export const getServerSideProps = wrapper.getServerSideProps(({ store }) => {
+//   store.dispatch(tickClock(false))
+//
+//   if (!store.getState().placeholderData) {
+//     store.dispatch(loadData())
+//     store.dispatch(END)
+//   }
+//
+//   await store.sagaTask.toPromise()
+// })
+// export const getServerSideProps = wrapper.getServerSideProps(store => async context => {
+// 	// store.dispatch(placesGetCountriesAction());
+// 	store.dispatch(shopGetRootAction());
+// 	// console.log('dispatched');
+// 	// end the saga
+// 	if (context.req) {
+// 		await store.dispatch(END);
+// 		await (store as SagaStore).sagaTask?.toPromise();
+// 	}
+// 	return {
+// 		props: store.getState(),
+// 	};
+// });
 
 export default Index;

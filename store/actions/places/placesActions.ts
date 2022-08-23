@@ -10,7 +10,7 @@ export const placesGetGeolocalisationAction = (longitude: number, latitude: numb
 };
 
 // GET : /api/1.0.0/places/countries?all=true
-export const placesGetCountriesAction = async () => {
+export const placesGetCountriesAction = () => {
 	return {
 		type: Types.PLACES_GET_COUNTRIES,
 	};

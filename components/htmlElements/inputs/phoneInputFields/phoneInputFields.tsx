@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Collapse, ThemeProvider } from '@mui/material';
-import theme from '../../../../theme';
+import theme from '../../../../utils/theme';
 import { Stack } from '@mui/material';
 import { useAppSelector } from '../../../../utils/hooks';
 import { SelectInputcontacterType } from '../../../../types/ui/uiTypes';
@@ -61,7 +61,7 @@ const PhoneInputFields: React.FC<inputProps> = (props: inputProps) => {
 						autoSelect
 						noOptionsText="Invalide"
 						// filterOptions={(x) => x}
-						options={phoneCodesObj ? phoneCodesObj : [{ label: '', code: '' }]}
+						options={phoneCodesObj ? phoneCodesObj : [{ label: '+212', code: '+212' }]}
 						sx={{ width: 205 }}
 						isOptionEqualToValue={(option: phoneOptions | undefined, value: phoneOptions | undefined) =>
 							option?.label === value?.label

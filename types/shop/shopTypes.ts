@@ -35,17 +35,17 @@ export interface ShopPostRootUniqueIDType extends AuthShopClass {
 	qaryb_link: string;
 }
 
-// TODO Check here
 export type OpeningDaysArray = Array<{ pk: number; code_day: ShopDaysType; name_day: string }>;
 
 export interface ShopGetRootTokenType extends Omit<Nullable<UserShopClass>, 'opening_days'> {
 	pk: number;
-	opening_days: OpeningDaysArray;
+	opening_days: OpeningDaysArray | null;
 	creator: boolean;
 }
 
-export interface ShopGetRootUniqueIDType extends Omit<Nullable<UserShopClass>, 'pk' | 'creator' | 'opening_days'> {
-	opening_days: OpeningDaysArray;
+export interface ShopGetRootUniqueIDType extends Omit<Nullable<UserShopClass>, 'pk' | 'creator' | 'opening_days' | 'zone_by'> {
+	opening_days: OpeningDaysArray | null;
+	zone_by: ShopZoneByType;
 }
 
 export type ShopPostRootTokenResponseType = ResponseDataInterface<ShopPostRootTokenType>;
@@ -68,7 +68,7 @@ export type PhoneCodesType = { phone_codes: Array<string> };
 
 //!- Shop State
 export interface ShopStateInterface<T, K> {
-	userShop: T | K | undefined;
+	userShop: T | K | null;
 	userShopApi: GlobalApiPromiseError,
 	phoneCodes: Array<string>;
 	phoneCodesApi: GlobalApiPromiseError,
@@ -123,7 +123,7 @@ export type ShopContactType = Pick<
 
 export type ShopPatchContactType = ResponseDataInterface<ShopContactType>;
 
-export type ShopAddressType = Pick<UserShopClass, 'zone_by' | 'longitude' | 'latitude' | 'address_name'>;
+export type ShopAddressType = Pick<UserShopClass, 'zone_by' | 'longitude' | 'latitude' | 'address_name' | 'km_radius'>;
 
 export type ShopPatchAddressType = ResponseDataInterface<ShopAddressType>;
 

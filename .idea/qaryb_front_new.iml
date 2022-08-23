@@ -148,6 +148,13 @@
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add/index" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add/index/shopNameField" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiResponse" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiResponse/apiAlert" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiResponse/apiProgress" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/details" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/details/index" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/details/index/editShopBioField" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/details/index/editShopNameField" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details/boutique-Tab_Content" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details/info-Tab_Content" isTestSource="false" />
@@ -157,6 +164,15 @@
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editCoordonees" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editHoraire" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editNomBoutique" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/topBar-Save-Close" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack/showAdresse" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack/showBio" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack/showCoordonees" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack/showHoraire" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack/showNomBoutique" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/details/index/editShopCoordonneeField" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/map/localisationNamePopup" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/map/zoneByNav" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop" />

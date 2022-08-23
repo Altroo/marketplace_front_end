@@ -25,12 +25,13 @@ import { apiErrorInitialState } from "../_init/_initSlice";
 // Extra reducers actions
 export const userShopGETApiErrorAction = createAction<ApiErrorResponseType>('userShopGETApiErrorAction');
 export const userShopPOSTApiErrorAction = createAction<ApiErrorResponseType>('userShopPOSTApiErrorAction');
+export const userShopPATCHApiErrorAction = createAction<ApiErrorResponseType>('userShopPATCHApiErrorAction');
 
 // GET | POST |
 const initialState:
 	| ShopStateInterface<ShopStateToken, ShopStateUniqueID>
 	| ShopStateInterface<ShopGetRootTokenType, ShopGetRootUniqueIDType> = {
-	userShop: undefined,
+	userShop: null,
 	userShopApi: apiErrorInitialState,
 	phoneCodes: [],
 	phoneCodesApi: apiErrorInitialState,
@@ -71,9 +72,16 @@ const shopSlice = createSlice({
 			state.phoneCodes = action.payload;
 			return state;
 		},
+		setPatchShopDataIsLoading: (state) => {
+			state.userShopApi.isEditInProgress = true;
+			state.userShopApi.editPromiseStatus = 'PENDING';
+			return state;
+		},
 		setShopName: (state, action: PayloadAction<ShopNameType>) => {
 			if (state.userShop) {
 				state.userShop.shop_name = action.payload.shop_name;
+				state.userShopApi.editPromiseStatus = 'RESOLVED';
+				state.userShopApi.isEditInProgress = false;
 			}
 			return state;
 		},
@@ -114,11 +122,12 @@ const shopSlice = createSlice({
 			if (state.userShop) {
 				if ('bio' in state.userShop) {
 					state.userShop.bio = action.payload.bio;
+					state.userShopApi.editPromiseStatus = 'RESOLVED';
+					state.userShopApi.isEditInProgress = false;
 				}
 			}
 			return state;
 		},
-		// TODO TO CHECK OpeningDaysArray
 		setShopAvailability: (state, action: PayloadAction<ShopAvailabilityType>) => {
 			if (state.userShop) {
 				if ('opening_days' in state.userShop) {
@@ -127,6 +136,8 @@ const shopSlice = createSlice({
 					state.userShop.morning_hour_to = action.payload.morning_hour_to;
 					state.userShop.afternoon_hour_from = action.payload.afternoon_hour_from;
 					state.userShop.afternoon_hour_to = action.payload.afternoon_hour_to;
+					state.userShopApi.editPromiseStatus = 'RESOLVED';
+					state.userShopApi.isEditInProgress = false;
 				}
 			}
 			return state;
@@ -141,17 +152,20 @@ const shopSlice = createSlice({
 					state.userShop.twitter_link = action.payload.twitter_link;
 					state.userShop.instagram_link = action.payload.instagram_link;
 					state.userShop.whatsapp = action.payload.whatsapp;
+					state.userShopApi.editPromiseStatus = 'RESOLVED';
+					state.userShopApi.isEditInProgress = false;
 				}
 			}
 			return state;
 		},
 		setShopAddress: (state, action: PayloadAction<ShopAddressType>) => {
 			if (state.userShop) {
-				if ('zone_by' in state.userShop) {
+				if ('longitude' in state.userShop) {
 					state.userShop.zone_by = action.payload.zone_by;
 					state.userShop.longitude = action.payload.longitude;
 					state.userShop.latitude = action.payload.latitude;
 					state.userShop.address_name = action.payload.address_name;
+					state.userShop.km_radius = action.payload.km_radius;
 				}
 			}
 			return state;
@@ -226,7 +240,13 @@ const shopSlice = createSlice({
 				state.userShopApi.addPromiseStatus = 'REJECTED';
 				state.userShopApi.isAddInProgress = false;
 				return state;
-			});
+			}).addCase(userShopPATCHApiErrorAction, (state, action) => {
+				state.userShopApi.error = action.payload.error;
+				state.userShopApi.editPromiseStatus = 'REJECTED';
+				state.userShopApi.isEditInProgress = false;
+				return state;
+			})
+		;
 	},
 	// extraReducers: {
 	// 	[HYDRATE]: (state, action) => {
@@ -241,6 +261,7 @@ export const {
 	setGetShopIsLoading,
 	setGetShopState,
 	setGetPhoneCodes,
+	setPatchShopDataIsLoading,
 	setShopName,
 	setShopAvatar,
 	setShopColors,

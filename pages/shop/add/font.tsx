@@ -41,10 +41,11 @@ import {
 	getNewShopBorder,
 	getNewShopIconColor,
 	getNewShopIsAddInProgress,
-	getNewShopIsAddError,
+	getNewShopApiError,
 	getNewShopAddPromiseStatus,
 } from '../../../store/selectors';
-import { Alert, Box, CircularProgress } from '@mui/material';
+import ApiAlert from "../../../components/formikElements/apiResponse/apiAlert/apiAlert";
+import ApiProgress from "../../../components/formikElements/apiResponse/apiProgress/apiProgress";
 
 const Font: NextPage = () => {
 	const activeStep = '4';
@@ -60,7 +61,7 @@ const Font: NextPage = () => {
 	const shopFontName = useAppSelector(getNewShopFontName);
 	// const uniqueID = useAppSelector(getTokenType);
 	const isAddInProgressSelector = useAppSelector(getNewShopIsAddInProgress);
-	const isAddErrorSelector = useAppSelector(getNewShopIsAddError);
+	const isAddErrorSelector = useAppSelector(getNewShopApiError);
 	const isAddPromiseStatusSelector = useAppSelector(getNewShopAddPromiseStatus);
 
 	// page states
@@ -325,17 +326,12 @@ const Font: NextPage = () => {
 					</div>
 				</div>
 				{(isAddInProgressSelector && isAddPromiseStatusSelector === 'PENDING') && (
-					<Box sx={{ position: 'absolute', top: '50%', left: '50%' }}>
-						<CircularProgress />
-					</Box>
+					<ApiProgress cssStyle={{position: 'absolute', top: '50%', left: '50%'}}/>
 				)}
 				{!isAddInProgressSelector && isAddPromiseStatusSelector === 'REJECTED' && isAddErrorSelector && (
-					<Alert
-						severity="error"
-						sx={{ position: 'absolute', left: '50%', top: '50%', margin: '0 -60px -60px -60px' }}
-					>
-						{isAddErrorSelector.details?.error}
-					</Alert>
+					<ApiAlert errorDetails={isAddErrorSelector.details}
+										cssStyle={{ position: 'absolute', left: '50%', top: '50%', margin: '0 -60px -60px -60px' }}
+					/>
 				)}
 			</main>
 		</>

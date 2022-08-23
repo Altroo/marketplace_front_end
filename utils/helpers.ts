@@ -141,7 +141,7 @@ export const isAuthenticatedInstance = (
 			const originalConfig = error.config;
 			if (error.response) {
 				// access token expired
-				if ('code' in error) {
+				if ('code' in error && error.code !== 'ERR_BAD_REQUEST') {
 					const errorObj = {
 						error: {
 							status_code: 502,
@@ -222,7 +222,7 @@ export const allowAnyInstance = (
 						unique_id_expiration: response.data.unique_id_expiration,
 					},
 				};
-				setRemoteCookiesAppToken(newInitStateToken);
+				setRemoteCookiesAppToken(newInitStateToken).then();
 				store.dispatch(setInitState(newInitStateToken));
 			}
 			return response;
@@ -230,7 +230,7 @@ export const allowAnyInstance = (
 		(error) => {
 			if (error.response) {
 				let errorObj;
-				if ('code' in error) {
+				if ('code' in error && error.code !== 'ERR_BAD_REQUEST') {
 					errorObj = {
 						error: {
 							status_code: 502,
@@ -279,7 +279,7 @@ export const defaultInstance = (BaseUrl: string, contentType: APIContentTypeInte
 					"ECONNABORTED"
 					"ETIMEDOUT"
 				*/
-				if ('code' in error) {
+				if ('code' in error && error.code !== 'ERR_BAD_REQUEST') {
 					errorObj = {
 						error: {
 							status_code: 502,

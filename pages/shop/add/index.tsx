@@ -11,12 +11,11 @@ import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import { getNewShopName } from '../../../store/selectors';
 import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
 import ShopNameField from '../../../components/formikElements/shop/add/index/shopNameField/shopNameField';
 import { Box } from '@mui/material';
 import { useRouter } from "next/router";
 import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
-import { INPUT_REQUIRED, INPUT_MIN, INPUT_MAX } from "../../../utils/formValidationErrors";
+import { shopNameSchema } from "../../../utils/formValidationSchemas";
 
 const ShopName: NextPage = () => {
 	const activeStep = '1';
@@ -38,13 +37,6 @@ const ShopName: NextPage = () => {
 		dispatch(setShopNameAction(value));
 		router.replace('/shop/add/avatar').then();
 	};
-
-	const shopNameSchema = Yup.object().shape({
-		shop_name: Yup.string()
-			.min(2, INPUT_MIN(2))
-			.max(50, INPUT_MAX(50))
-			.required(INPUT_REQUIRED),
-	});
 
 	return (
 		<>

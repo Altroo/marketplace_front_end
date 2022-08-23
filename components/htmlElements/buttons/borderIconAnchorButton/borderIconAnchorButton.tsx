@@ -3,7 +3,7 @@ import Styles from './borderIconAnchorButton.module.sass';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
 import Link from 'next/link';
-import theme from '../../../../theme';
+import theme from '../../../../utils/theme';
 import { ThemeProvider } from '@mui/material';
 
 type Props = {

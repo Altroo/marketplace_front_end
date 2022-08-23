@@ -1,6 +1,7 @@
 import { RootState } from '../store';
 import { ShopFontNameType, ShopGetRootUniqueIDType } from "../../types/shop/shopTypes";
 import { IconColorType, TokenChoices } from "../../types/_init/_initTypes";
+import { useAppSelector } from "../../utils/hooks";
 
 // _Init
 export const getTokenType = (state: RootState) => state._init.tokenType as TokenChoices;
@@ -17,9 +18,18 @@ export const getNewShopBorder = (state: RootState) => state.shop.newShop?.border
 export const getNewShopIconColor = (state: RootState) => state.shop.newShop?.icon_color as IconColorType;
 export const getNewShopFontName = (state: RootState) => state.shop.newShop?.font_name as ShopFontNameType;
 
+// Global
+export const getNewShopApiError = (state: RootState) => state.shop.userShopApi.error;
+// Add
 export const getNewShopIsAddInProgress = (state: RootState) => state.shop.userShopApi.isAddInProgress;
-export const getNewShopIsAddError = (state: RootState) => state.shop.userShopApi.error;
 export const getNewShopAddPromiseStatus = (state: RootState) => state.shop.userShopApi.addPromiseStatus;
+// Edit
+export const getNewShopIsEditInProgress = (state: RootState) => state.shop.userShopApi.isEditInProgress;
+export const getNewShopEditPromiseStatus = (state: RootState) => state.shop.userShopApi.editPromiseStatus;
+
+// Delete
+
+// Fetch
 
 // Shop
 export const getShopName = (state: RootState) => state.shop.userShop?.shop_name as string;
@@ -34,6 +44,35 @@ export const getShopWhatsappContactCode = (state: RootState) => (state.shop.user
 export const getShopPhoneContact = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_phone;
 export const getShopWhatsappContact = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_whatsapp;
 export const getShopContactMode = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_mode;
+export const getShopBio = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.bio;
+
+export const getShopOpeningDays = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.opening_days;
+export const getShopMorningHourFrom = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.morning_hour_from;
+export const getShopMorningHourTo = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.morning_hour_to;
+export const getShopAfternoonHourFrom = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.afternoon_hour_from;
+export const getShopAfternoonHourTo = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.afternoon_hour_to;
+
+export const getShopPhone = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.phone;
+export const getShopContactEmail = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_email;
+export const getShopWebsiteLink = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.website_link;
+export const getShopFacebookLink = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.facebook_link;
+export const getShopTwitterLink = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.twitter_link;
+export const getShopInstagramLink = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.instagram_link;
+export const getShopWhatsapp = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.whatsapp;
+
+export const getShopAddressName = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.address_name;
+export const getShopLongitude = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.longitude;
+export const getShopLatitude = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.latitude;
+export const getShopZoneBy = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.zone_by;
+export const getShopKmRadius = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.km_radius;
+
+
+export const getShopObj = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType);
+// Places
+export const getLocalisationName = (state: RootState) => state.places.localisation_name;
+export const getPlacesApiError = (state: RootState) => state.places.placesApi.error;
+// export const getPlacesApiFetchInProgress = (state: RootState) => state.places.placesApi.isFetchInProgress;
+export const getPlacesApiFetchPromiseStatus = (state: RootState) => state.places.placesApi.fetchPromiseStatus;
 // Account
 export const getCheckUserHasShop = (state: RootState) => state.account.check_account?.has_shop as boolean;
 

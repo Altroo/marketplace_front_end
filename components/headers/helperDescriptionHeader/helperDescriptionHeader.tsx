@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Styles from './helperDescriptionHeader.module.sass';
 import Image from 'next/image';
 import QuestionMarkSVG from '../../../public/assets/svgs/question-mark.svg';
@@ -7,14 +7,17 @@ type Props = {
 	header: string;
 	description?: string;
 	HelpText?: string;
+	headerClasses?: string;
+	descriptionClasses?: string;
+	cssClasses?: string;
 	children?: React.ReactNode;
 };
 
 const HelperDescriptionHeader: React.FC<Props> = (props: Props) => {
 	return (
-		<div className={Styles.headerWrapper}>
-			<h3 className={Styles.header}>{props.header}</h3>
-			<div className={Styles.descriptionWrapper}>
+		<div className={`${Styles.headerWrapper} ${props.cssClasses}`}>
+			<h3 className={`${Styles.header} ${props.headerClasses}`}>{props.header}</h3>
+			<div className={`${Styles.descriptionWrapper} ${props.descriptionClasses}`}>
 				<p>{props.description}</p>
 			</div>
 			{props.HelpText && (

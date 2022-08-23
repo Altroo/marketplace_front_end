@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './shopNameField.module.sass';
 import TextField from '@mui/material/TextField';
-import theme from '../../../../../../theme';
+import theme from '../../../../../../utils/theme';
 import { createTheme, ThemeProvider } from '@mui/material';
 
 type Props = {

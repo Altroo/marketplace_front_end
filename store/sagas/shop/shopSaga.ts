@@ -1,4 +1,4 @@
-import { call, put, takeLatest, putResolve } from 'typed-redux-saga/macro';
+import { call, put, takeLatest } from 'typed-redux-saga/macro';
 import * as Types from '../../actions';
 import {
 	ShopGetRootTokenResponseType,
@@ -53,7 +53,9 @@ import {
 	userShopGETApiErrorAction,
 	userShopPOSTApiErrorAction,
 	setPostShopIsLoading,
-} from '../../slices/shop/shopSlice';
+	setPatchShopDataIsLoading,
+	userShopPATCHApiErrorAction,
+} from "../../slices/shop/shopSlice";
 import {
 	allowAnyInstance,
 	isAuthenticatedInstance,
@@ -207,6 +209,7 @@ export function* shopGetPhoneCodesSaga() {
 }
 
 function* shopPatchShopNameSaga(payload: Partial<ShopPatchRootType>) {
+	yield* put(setPatchShopDataIsLoading());
 	const url = `${process.env.NEXT_PUBLIC_SHOP_SHOP_NAME}`;
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -218,9 +221,6 @@ function* shopPatchShopNameSaga(payload: Partial<ShopPatchRootType>) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setShopName({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -230,14 +230,11 @@ function* shopPatchShopNameSaga(payload: Partial<ShopPatchRootType>) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setShopName({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
+		const apiError = e as ApiErrorResponseType;
+		yield* put(yield* call(() => userShopPATCHApiErrorAction(apiError)));
 	}
 }
 
@@ -371,9 +368,6 @@ function* shopPatchPhoneContactSaga(payload: {
 			if (response.status === 200) {
 				// update state
 				yield* put(setShopPhoneContact(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -383,9 +377,6 @@ function* shopPatchPhoneContactSaga(payload: {
 			if (response.status === 200) {
 				// update state
 				yield* put(setShopPhoneContact(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		}
 	} catch (e) {
@@ -395,7 +386,8 @@ function* shopPatchPhoneContactSaga(payload: {
 }
 
 function* shopPatchBioSaga(payload: Partial<ShopPatchRootType>) {
-	const url = `${process.env.NEXT_PUBLIC_SHOP_WHATSAPP}`;
+	yield* put(setPatchShopDataIsLoading());
+	const url = `${process.env.NEXT_PUBLIC_SHOP_BIO}`;
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { type, ...payloadData } = payload;
@@ -407,9 +399,6 @@ function* shopPatchBioSaga(payload: Partial<ShopPatchRootType>) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setShopBio({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -419,18 +408,16 @@ function* shopPatchBioSaga(payload: Partial<ShopPatchRootType>) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setShopBio({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
+		const apiError = e as ApiErrorResponseType;
+		yield* put(yield* call(() => userShopPATCHApiErrorAction(apiError)));
 	}
 }
 
 function* shopPatchAvailabilitySaga(payload: Partial<ShopPatchRootType>) {
+	yield* put(setPatchShopDataIsLoading());
 	const url = `${process.env.NEXT_PUBLIC_SHOP_AVAILABILITY}`;
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -443,9 +430,6 @@ function* shopPatchAvailabilitySaga(payload: Partial<ShopPatchRootType>) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setShopAvailability({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -455,18 +439,16 @@ function* shopPatchAvailabilitySaga(payload: Partial<ShopPatchRootType>) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setShopAvailability({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
+		const apiError = e as ApiErrorResponseType;
+		yield* put(yield* call(() => userShopPATCHApiErrorAction(apiError)));
 	}
 }
 
 function* shopPatchContactSaga(payload: Partial<ShopPatchRootType>) {
+	yield* put(setPatchShopDataIsLoading());
 	const url = `${process.env.NEXT_PUBLIC_SHOP_CONTACT}`;
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -479,9 +461,6 @@ function* shopPatchContactSaga(payload: Partial<ShopPatchRootType>) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setShopContact({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -491,14 +470,11 @@ function* shopPatchContactSaga(payload: Partial<ShopPatchRootType>) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setShopContact({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
+		const apiError = e as ApiErrorResponseType;
+		yield* put(yield* call(() => userShopPATCHApiErrorAction(apiError)));
 	}
 }
 

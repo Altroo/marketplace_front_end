@@ -1,5 +1,6 @@
 import createSagaMiddleware, { Task } from 'redux-saga';
-import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
+import { AnyAction, combineReducers, configureStore, Store } from "@reduxjs/toolkit";
+import logger from 'redux-logger';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { rootSaga } from './sagas';
 import _initReducer from './slices/_init/_initSlice';
@@ -79,14 +80,14 @@ export interface SagaStore extends Store {
 // };
 
 /* Reducers using Hydrate */
-const reducers: typeof combinedReducers = (state, action) => {
-	if (action.type === HYDRATE) {
+const reducers: typeof combinedReducers = (state, {type, payload}) => {
+	if (type === HYDRATE) {
 		return {
 			...state,
-			...action.payload,
+			...payload,
 		};
 	} else {
-		return combinedReducers(state, action);
+		return combinedReducers(state, {type, payload});
 	}
 };
 
@@ -97,8 +98,10 @@ export const store: SagaStore = configureStore({
 			serializableCheck: false,
 			thunk: true,
 		}).prepend(SagaMiddleware),
+			// .concat(logger),
 	devTools: process.env.NODE_ENV !== 'production',
 });
+
 store.sagaTask = SagaMiddleware.run(rootSaga);
 
 export type AppDispatch = typeof store.dispatch;
