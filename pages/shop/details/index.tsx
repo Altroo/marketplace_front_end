@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import Styles from '../../../styles/shop/details/detailsIndex.module.sass';
+import SharedStyles from '../../../styles/shop/add/shopAddShared.module.sass';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
@@ -35,7 +36,11 @@ import HelperDescriptionHeader from '../../../components/headers/helperDescripti
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
 import ContacterPhoneInput from '../../../components/shop/details/contacterPhoneInput/contacterPhoneInput';
-import { shopPatchPhoneContactAction } from '../../../store/actions/shop/shopActions';
+import {
+	shopPatchColorAction,
+	shopPatchFontAction,
+	shopPatchPhoneContactAction,
+} from '../../../store/actions/shop/shopActions';
 import {
 	getShopAvatar,
 	getShopBgColorCode,
@@ -65,8 +70,18 @@ import InfoIconSVG from '../../../public/assets/svgs/drop-down-info.svg';
 import AvatarIconSVG from '../../../public/assets/svgs/drop-down-avatar.svg';
 import ColorIconSVG from '../../../public/assets/svgs/drop-down-color.svg';
 import FontIconSVG from '../../../public/assets/svgs/drop-down-font.svg';
-import { Stack } from '@mui/material';
+import { Backdrop, Stack } from '@mui/material';
 import AjouterMesInfosStack from '../../../components/shop/details/ajouterMesInfos-Stack/ajouterMesInfosStack';
+import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
+import { colors } from '../add/color';
+import { cookiesPoster } from '../../../store/services/_init/_initAPI';
+import { IconColorType } from '../../../types/_init/_initTypes';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Lazy, Navigation, Pagination } from 'swiper';
+import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
+import { availableFonts } from '../add/font';
+import FontPicker from '../../../components/shop/add/fontPicker/fontPicker';
+import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 
 const Index: NextPage = () => {
 	const router = useRouter();
@@ -102,7 +117,7 @@ const Index: NextPage = () => {
 	const [colorCode, setColorCode] = useState<string>(shopColorCode);
 	const [bgColorCode, setBgColorCode] = useState<string>(shopBgColorCode);
 	// border
-	const [border, setborder] = useState<string | undefined>(shopBorder);
+	const [border, setborder] = useState<string>(shopBorder);
 	// font
 	const [fontName, setFontName] = useState<ShopFontNameType>(shopFontName);
 	// Gray Message Icon
@@ -117,6 +132,8 @@ const Index: NextPage = () => {
 	// modals
 	const [openContacterModal, setContacterModalOpen] = useState<boolean>(false);
 	const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
+	const [openColorModal, setOpenColorModal] = useState<boolean>(false);
+	const [openFontModal, setOpenFontModal] = useState<boolean>(false);
 
 	let phoneContactMode = true;
 	let whatsappContactMode = false;
@@ -269,16 +286,12 @@ const Index: NextPage = () => {
 		{
 			icon: ColorIconSVG,
 			text: 'Couleur de la boutique',
-			onClick: () => {
-				return;
-			},
+			onClick: setOpenColorModal,
 		},
 		{
 			icon: FontIconSVG,
 			text: 'Police du titre',
-			onClick: () => {
-				return;
-			},
+			onClick: setOpenFontModal,
 		},
 	];
 
@@ -424,6 +437,65 @@ const Index: NextPage = () => {
 					setContacterModalOpen(false);
 				}
 			}
+		}
+	};
+	// duplicated
+	const whiteTextColors = ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
+	const whiteText = '#FFFFFF';
+	const blackText = '#0D070B';
+	const [iconColor, setIconColor] = useState<IconColorType>('black');
+	// const [border, setborder] = useState<string>('');
+
+	const colorClickHandler = (color: string) => {
+		// If picked color is white => apply border + white text + black bg
+		if (color === whiteText) {
+			setBgColorCode(color);
+			setColorCode(whiteText);
+			setborder('1px solid #0D070B');
+			// Else other colors than white.
+		} else {
+			setBgColorCode(color);
+			setborder('0px solid transparent');
+		}
+		// if picked color fall into those white text colors => apply white text color
+		if (whiteTextColors.includes(color)) {
+			setColorCode(whiteText);
+			setContactIcon(ContactIconWhiteSVG);
+			setMessageIcon(MessageIconWhiteSVG);
+			setIconColor('white');
+			if (color === blackText) {
+				setColorCode(whiteText);
+			}
+			// else apply black text color
+		} else {
+			setContactIcon(ContactIconBlackSVG);
+			setMessageIcon(MessageIconBlackSVG);
+			setIconColor('black');
+			setColorCode(blackText);
+		}
+		cookiesPoster('/cookies', { color_code: 1 }).then();
+	};
+	const editColorHandler = (_bgColorCode: string | null, _colorCode: string | null) => {
+		if (_colorCode && _bgColorCode) {
+			cookiesPoster('/cookies', { border: border }).then(() => {
+				cookiesPoster('/cookies', { icon_color: iconColor }).then();
+			});
+			// _bgColorCode & _colorCode are reversed for this action.
+			dispatch(shopPatchColorAction(_colorCode, _bgColorCode, border, iconColor));
+			setOpenColorModal(false);
+		}
+	};
+
+	const editFontHandler = (font: ShopFontNameType) => {
+		if (font) {
+			dispatch(shopPatchFontAction(font));
+			setOpenFontModal(false);
+		}
+	};
+
+	const fontPicker = (font: ShopFontNameType) => {
+		if (font) {
+			setFontName(font);
 		}
 	};
 
@@ -598,6 +670,7 @@ const Index: NextPage = () => {
 						</div>
 					</div>
 				</div>
+				{/* Edit info modal */}
 				<RightSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}>
 					<div className={Styles.modalContentWrapper}>
 						<div className={Styles.topBar}>
@@ -626,6 +699,156 @@ const Index: NextPage = () => {
 						</Stack>
 					</div>
 				</RightSwipeModal>
+				{/* Edit color modal */}
+				{openColorModal && (
+					<>
+						<Backdrop
+							sx={{
+								color: '#fff',
+								zIndex: (theme) => theme.zIndex.drawer + 1,
+								backgroundColor: 'rgba(0, 0, 0, 0.1)',
+							}}
+							open={openColorModal}
+							// onClick={() => setOpenColorModal(false)}
+						>
+							<div className={SharedStyles.desktopContainerModal}>
+								{colors.map((color: string, index: number) => {
+									return (
+										<DesktopColorPicker
+											color={color}
+											onClick={() => colorClickHandler(color)}
+											selectedColor={bgColorCode}
+											key={index}
+										/>
+									);
+								})}
+							</div>
+							<div
+								className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}
+							>
+								<PrimaryButton
+									buttonText="Enregistrer"
+									active={colorCode !== undefined && bgColorCode !== undefined}
+									onClick={() => editColorHandler(bgColorCode, colorCode)}
+								/>
+							</div>
+							<div>
+								<div className={SharedStyles.mobileContainerModal}>
+									<Swiper
+										pagination={{
+											clickable: true,
+											enabled: true,
+											bulletActiveClass: 'activekBullet',
+											clickableClass: 'paginationBullet',
+										}}
+										modules={[Navigation, Pagination, Lazy]}
+										scrollbar={{ enabled: false }}
+										className={SharedStyles.mobileSwiper}
+									>
+										<SwiperSlide className={SharedStyles.swiperSlide}>
+											{colors.slice(0, 10).map((color: string, index: number) => {
+												return (
+													<MobileColorPicker
+														color={color}
+														onClick={() => colorClickHandler(color)}
+														selectedColor={bgColorCode}
+														key={index}
+													/>
+												);
+											})}
+										</SwiperSlide>
+										<SwiperSlide className={SharedStyles.swiperSlide}>
+											{colors.slice(10, 20).map((color: string, index: number) => {
+												return (
+													<MobileColorPicker
+														color={color}
+														onClick={() => colorClickHandler(color)}
+														selectedColor={bgColorCode}
+														key={index}
+													/>
+												);
+											})}
+										</SwiperSlide>
+									</Swiper>
+									<div
+										className={`${SharedStyles.primaryButtonMobileWrapper} ${SharedStyles.primaryButtonZindexWrapper}`}
+									>
+										<PrimaryButton
+											buttonText="Enregistrer"
+											active={colorCode !== undefined && bgColorCode !== undefined}
+											onClick={() => editColorHandler(bgColorCode, colorCode)}
+										/>
+									</div>
+								</div>
+							</div>
+						</Backdrop>
+					</>
+				)}
+				{/* Edit font modal */}
+				{openFontModal && (
+					<>
+						<Backdrop
+							sx={{
+								color: '#fff',
+								zIndex: (theme) => theme.zIndex.drawer + 1,
+								backgroundColor: 'rgba(0, 0, 0, 0.1)',
+							}}
+							open={openFontModal}
+							// onClick={() => setOpenFontModal(false)}
+						>
+							<div className={Styles.desktopFontWrapper}>
+								{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
+									return (
+										<FontPicker
+											key={index}
+											pickedFontName={fontName}
+											font={font}
+											onClick={() => {
+												fontPicker(font.code);
+											}}
+										/>
+									);
+								})}
+							</div>
+							<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
+								<PrimaryButton
+									buttonText="Continuer"
+									active={fontName !== undefined}
+									onClick={() => editFontHandler(fontName)}
+								/>
+							</div>
+							<div>
+								<div className={SharedStyles.mobileFontWrapper}>
+									<div className={SharedStyles.mobileFontContainerModal}>
+										{availableFonts.map(
+											(font: { name: string; code: ShopFontNameType }, index: number) => {
+												return (
+													<FontPicker
+														key={index}
+														pickedFontName={fontName}
+														font={font}
+														onClick={() => {
+															fontPicker(font.code);
+														}}
+													/>
+												);
+											},
+										)}
+									</div>
+									<div
+										className={`${SharedStyles.primaryButtonMobileWrapper} ${SharedStyles.primaryButtonZindexWrapper}`}
+									>
+										<PrimaryButton
+											buttonText="Enregistrer"
+											active={fontName !== undefined}
+											onClick={() => editFontHandler(fontName)}
+										/>
+									</div>
+								</div>
+							</div>
+						</Backdrop>
+					</>
+				)}
 			</main>
 		</>
 	);

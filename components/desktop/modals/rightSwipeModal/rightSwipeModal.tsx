@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Styles from './rightSwipeModal.module.sass';
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
+import { useAppSelector } from "../../../../utils/hooks";
+import { getShopObj } from "../../../../store/selectors";
 
 // overflow-x: hidden;
 const Transition = React.forwardRef(function Transition(
@@ -23,6 +25,9 @@ type Props = {
 };
 
 const RightSwipeModal: React.FC<Props> = (props: Props) => {
+	const [mountDialog, setMountDialog] = useState<boolean>(false);
+	const shopObj = useAppSelector(getShopObj);
+
 	const customTheme = createTheme({
 		components: {
 			MuiDialog: {
@@ -36,9 +41,17 @@ const RightSwipeModal: React.FC<Props> = (props: Props) => {
 			}
 		}
 	});
+
+	useEffect(() => {
+		if (shopObj) {
+			setMountDialog(true);
+		}
+	}, [shopObj]);
+
 	return (
 		<ThemeProvider theme={customTheme}>
 			<Dialog
+				keepMounted={mountDialog}
 				open={props.open}
 				TransitionComponent={Transition}
 				onClose={props.handleClose}

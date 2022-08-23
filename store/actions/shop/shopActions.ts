@@ -1,7 +1,7 @@
 import * as Types from '../index';
 import { ShopFontNameType, ShopZoneByType } from '../../../types/shop/shopTypes';
 import { IconColorType } from '../../../types/_init/_initTypes';
-import { NextRouter } from "next/router";
+import { NextRouter } from 'next/router';
 
 export const setShopNameAction = (shop_name: string) => {
 	return {
@@ -74,7 +74,7 @@ export const shopPostRootAction = (
 		border,
 		icon_color,
 		font_name,
-		router
+		router,
 	};
 };
 
@@ -134,11 +134,18 @@ export const shopPatchAvatarAction = (avatar: File | string) => {
 };
 
 // PATCH : /api/1.0.0/shop/color/
-export const shopPatchColorAction = (color_code: string, bg_color_code: string) => {
+export const shopPatchColorAction = (
+	color_code: string,
+	bg_color_code: string,
+	border: string,
+	icon_color: IconColorType,
+) => {
 	return {
 		type: Types.SHOP_PATCH_COLOR,
 		color_code,
 		bg_color_code,
+		border,
+		icon_color,
 	};
 };
 

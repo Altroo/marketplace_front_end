@@ -12,7 +12,7 @@ const CustomMap = dynamic(() => import('../../../../map/customMap'), {
 });
 
 type Props = {
-	onClick: () => void;
+	onClick?: () => void;
 	children?: React.ReactNode;
 };
 

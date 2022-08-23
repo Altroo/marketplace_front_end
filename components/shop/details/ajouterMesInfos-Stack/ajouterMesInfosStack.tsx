@@ -43,13 +43,8 @@ const AjouterMesInfosStack: React.FC<addMyInfosStackType> = (props: addMyInfosSt
 		addMyInfosStackContent = <ShowCoordonees />;
 	} else if (props.title === 'Adresse') {
 		modalContent = <EditAdresse handleClose={() => props.setOpenEditModal(false)} />;
-		// special case opens edit.
 		addMyInfosStackContent = (
-			<ShowAdresse
-				onClick={() => {
-					console.log('edit click missing');
-				}}
-			/>
+			<ShowAdresse />
 		);
 	}
 

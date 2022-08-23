@@ -38,7 +38,30 @@ import MobileColorPicker from '../../../components/mobile/modals/mobileColorPick
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
-import { getNewShopName, getNewShopAvatar } from "../../../store/selectors";
+import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
+
+export const colors = [
+	'#FF5D6B',
+	'#FFA826',
+	'#FED301',
+	'#07CBAD',
+	'#0274D7',
+	'#8669FB',
+	'#FF9DBF',
+	'#CEB186',
+	'#878E88',
+	'#0D070B',
+	'#F3DCDC',
+	'#FFD9A2',
+	'#F8F2DA',
+	'#DBF4EA',
+	'#DBE8F4',
+	'#D5CEEE',
+	'#F3D8E1',
+	'#EBD2AD',
+	'#E2E4E2',
+	'#FFFFFF',
+];
 
 const Color: NextPage = () => {
 	const activeStep = '3';
@@ -97,29 +120,6 @@ const Color: NextPage = () => {
 			dispatch(setShopColorAction(_bgColorCode, _colorCode, border, iconColor));
 		}
 	};
-
-	const colors = [
-		'#FF5D6B',
-		'#FFA826',
-		'#FED301',
-		'#07CBAD',
-		'#0274D7',
-		'#8669FB',
-		'#FF9DBF',
-		'#CEB186',
-		'#878E88',
-		'#0D070B',
-		'#F3DCDC',
-		'#FFD9A2',
-		'#F8F2DA',
-		'#DBF4EA',
-		'#DBE8F4',
-		'#D5CEEE',
-		'#F3D8E1',
-		'#EBD2AD',
-		'#E2E4E2',
-		'#FFFFFF',
-	];
 	const whiteTextColors = ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
 	const whiteText = '#FFFFFF';
 	const blackText = '#0D070B';
@@ -294,7 +294,9 @@ const Color: NextPage = () => {
 										})}
 									</SwiperSlide>
 								</Swiper>
-								<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}>
+								<div
+									className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}
+								>
 									<PrimaryAnchorButton
 										buttonText="Continuer"
 										active={colorCode !== undefined && bgColorCode !== undefined}

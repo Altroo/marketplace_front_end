@@ -82,6 +82,28 @@
     cursor: pointer
 .actionButtonWrapper
   margin: auto auto 40px auto
+.desktopFontWrapper
+  position: absolute
+  bottom: calc(100vh - 90%)
+  background: $white
+  box-shadow: 0 0 24px rgb(0 0 0 / 25%)
+  width: 60%
+  display: flex
+  padding: 20px
+  border-radius: 100px
+  justify-content: space-evenly
+  align-items: center
+  font-size: 24px
+  z-index: 1
+  align-self: center
+.primaryButtonWrapper
+  width: 100%
+  text-align: center
+.primaryButtonZindexWrapper
+  @extend .primaryButtonWrapper
+  z-index: 1
+  position: absolute
+  bottom: 50px
 @media #{$desktop}
   .iconButton
     width: 180px !important
@@ -121,7 +143,10 @@
     width: 170px !important
   .actionButtonWidth
     width: 300px !important
-
+  .desktopFontWrapper
+    +Hidden
+  .primaryButtonDesktopWrapper
+    +Hidden
 @media #{$mobile}
   .main
     width: 100%

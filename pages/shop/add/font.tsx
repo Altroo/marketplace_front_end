@@ -44,8 +44,27 @@ import {
 	getNewShopApiError,
 	getNewShopAddPromiseStatus,
 } from '../../../store/selectors';
-import ApiAlert from "../../../components/formikElements/apiResponse/apiAlert/apiAlert";
-import ApiProgress from "../../../components/formikElements/apiResponse/apiProgress/apiProgress";
+import ApiAlert from '../../../components/formikElements/apiResponse/apiAlert/apiAlert';
+import ApiProgress from '../../../components/formikElements/apiResponse/apiProgress/apiProgress';
+
+export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
+	{
+		name: 'light',
+		code: 'L',
+	},
+	{
+		name: 'regular',
+		code: 'R',
+	},
+	{
+		name: 'semi Bold',
+		code: 'S',
+	},
+	{
+		name: 'black',
+		code: 'B',
+	},
+];
 
 const Font: NextPage = () => {
 	const activeStep = '4';
@@ -125,33 +144,7 @@ const Font: NextPage = () => {
 		if (shopFontName) {
 			setFontName(shopFontName);
 		}
-	}, [
-		shopAvatar,
-		shopBgColorCode,
-		shopBorder,
-		shopColorCode,
-		shopFontName,
-		shopIconColor,
-	]);
-
-	const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
-		{
-			name: 'light',
-			code: 'L',
-		},
-		{
-			name: 'regular',
-			code: 'R',
-		},
-		{
-			name: 'semi Bold',
-			code: 'S',
-		},
-		{
-			name: 'black',
-			code: 'B',
-		},
-	];
+	}, [shopAvatar, shopBgColorCode, shopBorder, shopColorCode, shopFontName, shopIconColor]);
 
 	const fontPicker = (font: ShopFontNameType | undefined) => {
 		if (font) {
@@ -160,7 +153,7 @@ const Font: NextPage = () => {
 		}
 	};
 
-	const fontHandler = async (font: ShopFontNameType | undefined) => {
+	const fontHandler = (font: ShopFontNameType | undefined) => {
 		if (font) {
 			dispatch(setShopFontAction(font));
 			dispatch(
@@ -325,12 +318,13 @@ const Font: NextPage = () => {
 						/>
 					</div>
 				</div>
-				{(isAddInProgressSelector && isAddPromiseStatusSelector === 'PENDING') && (
-					<ApiProgress cssStyle={{position: 'absolute', top: '50%', left: '50%'}}/>
+				{isAddInProgressSelector && isAddPromiseStatusSelector === 'PENDING' && (
+					<ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} />
 				)}
 				{!isAddInProgressSelector && isAddPromiseStatusSelector === 'REJECTED' && isAddErrorSelector && (
-					<ApiAlert errorDetails={isAddErrorSelector.details}
-										cssStyle={{ position: 'absolute', left: '50%', top: '50%', margin: '0 -60px -60px -60px' }}
+					<ApiAlert
+						errorDetails={isAddErrorSelector.details}
+						cssStyle={{ position: 'absolute', left: '50%', top: '50%', margin: '0 -60px -60px -60px' }}
 					/>
 				)}
 			</main>

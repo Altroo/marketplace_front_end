@@ -53,7 +53,7 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 	// states
 	const [position, setPosition] = useState<PositionType>({ lat: CENTER.lat, lng: CENTER.lng });
 	const [kmRadiusState, setKmRadiusState] = useState<number>(13);
-	const [zoneByState, setZoneByState] = React.useState(zone_by);
+	const [zoneByState, setZoneByState] = useState<ShopZoneByType>(zone_by);
 	// refs
 	const zoneByRef = useRef<HTMLInputElement>(null);
 	const longitudeRef = useRef<HTMLInputElement>(null);
