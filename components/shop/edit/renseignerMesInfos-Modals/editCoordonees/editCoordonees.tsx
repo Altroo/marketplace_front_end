@@ -23,7 +23,7 @@ import TwitterCircularSVG from "../../../../../public/assets/svgs/twitter-circul
 import InstagramCircularSVG from "../../../../../public/assets/svgs/instagram-circular.svg";
 import WhatsappCircularSVG from "../../../../../public/assets/svgs/whatsapp-circular.svg";
 import EditShopCoordonneeField
-	from "../../../../formikElements/shop/details/index/editShopCoordonneeField/editShopCoordonneeField";
+	from "../../../../formikElements/shop/edit/index/editShopCoordonneeField/editShopCoordonneeField";
 
 type Props = {
 	handleClose: () => void;

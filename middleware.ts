@@ -26,7 +26,7 @@ export function middleware(req: NextRequest) {
 		return redirectFunc(req, '@bg_color_code', '/shop/add/color');
 	}
 	// if added shop cookie tokenType doesn't exist redirect to create shop else to shop details page.
-	if (req.nextUrl.pathname.endsWith('/details') || (req.nextUrl.pathname.endsWith('/details?created=true'))) {
+	if (req.nextUrl.pathname.endsWith('/edit') || (req.nextUrl.pathname.endsWith('/edit?created=true'))) {
 		if (typeof req.cookies.get('@tokenType') == 'undefined' || req.cookies.get('@tokenType') === null) {
 			return NextResponse.redirect(new URL('/shop/add', req.url));
 		} else {
@@ -37,5 +37,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-	matcher: ['/shop/add', '/shop/add/:path*', '/shop/details'],
+	matcher: ['/shop/add', '/shop/add/:path*', '/shop/edit'],
 };

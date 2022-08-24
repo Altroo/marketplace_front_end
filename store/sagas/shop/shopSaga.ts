@@ -122,7 +122,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				// update state
 				yield* put(setPostShopState(response.data));
 				// TODO check when reach add shop while connected
-				payload.router.push('/shop/details?created=true').then();
+				payload.router.push('/shop/edit?created=true').then();
 			}
 		} else {
 			// User is not authenticated
@@ -148,7 +148,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				yield* call(() => emptyLocalStorageNewShopData());
 				// delete cookies
 				yield* call(() => deleteCookieStorageNewShopData());
-				payload.router.push('/shop/details?created=true').then();
+				payload.router.push('/shop/edit?created=true').then();
 			}
 		}
 	} catch (e) {

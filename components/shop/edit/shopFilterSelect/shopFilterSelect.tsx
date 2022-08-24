@@ -2,7 +2,7 @@ import * as React from 'react';
 import SelectUnstyled, { SelectUnstyledProps, selectUnstyledClasses, SelectOption } from '@mui/base/SelectUnstyled';
 import OptionUnstyled, { optionUnstyledClasses } from '@mui/base/OptionUnstyled';
 import PopperUnstyled from '@mui/base/PopperUnstyled';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material';
 import { hexToRGB } from '../../../../utils/helpers';
 
 const grey = {

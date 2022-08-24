@@ -139,19 +139,16 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 	return (
 		<Box sx={{ width: '100%', height: '100%' }}>
 			<ThemeProvider theme={colorTheme}>
-				<Box
-					sx={{
+				<Box sx={{
 						borderBottom: 2,
 						borderColor: newBorderColor, // inactive tab bottom border
 						bgcolor: 'background.paper',
-					}}
-				>
+					}}>
 					<Tabs
 						value={value}
 						onChange={handleChange}
 						variant="fullWidth"
-						className={Styles.realTabHeaderContainer}
-					>
+						className={Styles.realTabHeaderContainer}>
 						<Tab label="BOUTIQUE" disabled={props.disabled} {...tabIDS(0)} />
 						<Tab label="INFOS" disabled={props.disabled} {...tabIDS(1)} />
 					</Tabs>
@@ -160,8 +157,7 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 			<SwipeableViews
 				axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
 				index={value}
-				onChangeIndex={handleChangeIndex}
-			>
+				onChangeIndex={handleChangeIndex}>
 				<TabPanel value={value} index={0} dir={theme.direction}>
 					{props.shopContent}
 				</TabPanel>

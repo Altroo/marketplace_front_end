@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { NextPage } from 'next';
-import Styles from '../../../styles/shop/details/detailsIndex.module.sass';
+import Styles from '../../../styles/shop/edit/editIndex.module.sass';
 import SharedStyles from '../../../styles/shop/add/shopAddShared.module.sass';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
 import { useRouter } from 'next/router';
@@ -30,13 +30,14 @@ import {
 	DropDownActionType,
 	switchActionType,
 } from '../../../types/ui/uiTypes';
-import InfoTabContent from '../../../components/shop/details/info-Tab_Content/InfoTabContent';
-import BoutiqueTabContent from '../../../components/shop/details/boutique-Tab_Content/boutiqueTabContent';
+import InfoTabContent from '../../../components/shop/edit/info-Tab_Content/InfoTabContent';
+import BoutiqueTabContent from '../../../components/shop/edit/boutique-Tab_Content/boutiqueTabContent';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
-import ContacterPhoneInput from '../../../components/shop/details/contacterPhoneInput/contacterPhoneInput';
+import ContacterPhoneInput from '../../../components/shop/edit/contacterPhoneInput/contacterPhoneInput';
 import {
+	shopPatchAvatarAction,
 	shopPatchColorAction,
 	shopPatchFontAction,
 	shopPatchPhoneContactAction,
@@ -71,7 +72,7 @@ import AvatarIconSVG from '../../../public/assets/svgs/drop-down-avatar.svg';
 import ColorIconSVG from '../../../public/assets/svgs/drop-down-color.svg';
 import FontIconSVG from '../../../public/assets/svgs/drop-down-font.svg';
 import { Backdrop, Stack } from '@mui/material';
-import AjouterMesInfosStack from '../../../components/shop/details/ajouterMesInfos-Stack/ajouterMesInfosStack';
+import AjouterMesInfosStack from '../../../components/shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack';
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../add/color';
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
@@ -81,12 +82,12 @@ import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../add/font';
 import FontPicker from '../../../components/shop/add/fontPicker/fontPicker';
-import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 
 const Index: NextPage = () => {
 	const router = useRouter();
 	const { created } = router.query;
 	const dispatch = useAppDispatch();
+	const avatarInputRef = useRef<HTMLInputElement>(null);
 	const [modalDismissed, setModalDismissed] = useState(false);
 	const shopName = useAppSelector(getShopName);
 	const bio = useAppSelector(getShopBio);
@@ -112,7 +113,7 @@ const Index: NextPage = () => {
 	const shopWhatsappContact = useAppSelector(getShopWhatsappContact);
 	const shopContactMode = useAppSelector(getShopContactMode);
 	// avatar preview
-	const [preview, setPreview] = useState<string | null>(null);
+	const [preview, setPreview] = useState<string | null>(shopAvatar);
 	// colors
 	const [colorCode, setColorCode] = useState<string>(shopColorCode);
 	const [bgColorCode, setBgColorCode] = useState<string>(shopBgColorCode);
@@ -269,6 +270,15 @@ const Index: NextPage = () => {
 			setValue: setwhatsappValue,
 		},
 	];
+
+	// opens hidden avatar input
+	const avatarInputOnClickHandler = () => {
+		// e.preventDefault();
+		if (!avatarInputRef.current) {
+			return;
+		}
+		avatarInputRef.current.click();
+	};
 	// drop down menu actions
 	const dropDownActions: DropDownActionType = [
 		{
@@ -279,9 +289,7 @@ const Index: NextPage = () => {
 		{
 			icon: AvatarIconSVG,
 			text: 'Photo de profil',
-			onClick: () => {
-				return;
-			},
+			onClick: avatarInputOnClickHandler,
 		},
 		{
 			icon: ColorIconSVG,
@@ -312,13 +320,6 @@ const Index: NextPage = () => {
 	const [openEditHoraireModal, setOpenEditHoraireModal] = useState<boolean>(false);
 	const [openEditCoordoneeModal, setOpenEditCoordoneeModal] = useState<boolean>(false);
 	const [openEditAdressModal, setOpenEditAdressModal] = useState<boolean>(false);
-
-	// const handleOpenEditInfoModal = () => {
-	// 	setEditInfoModalOpen(true);
-	// };
-	// const handleCloseEditInfoModal = () => {
-	// 	setEditInfoModalOpen(false);
-	// };
 
 	// Infos stack actions
 	const infosStackActions: Array<addMyInfosStackType> = [
@@ -499,6 +500,23 @@ const Index: NextPage = () => {
 		}
 	};
 
+	const avatarInputOnChangeUploadHandler = useMemo(
+		() => (e: React.ChangeEvent<HTMLInputElement>) => {
+			if (!e.target.files) {
+				return;
+			}
+			const file = e.target.files[0];
+			if (file && file.type.substring(0, 5) === 'image') {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onloadend = () => {
+					dispatch(shopPatchAvatarAction(reader.result as string));
+				};
+			}
+		},
+		[dispatch],
+	);
+
 	return (
 		<>
 			{/* Show shop created modal */}
@@ -538,6 +556,13 @@ const Index: NextPage = () => {
 						<div className={Styles.avatarWrapper}>
 							<div>
 								<CircularAvatar imageSrc={preview} />
+								<input
+									type="file"
+									className={Styles.hiddenFile}
+									ref={avatarInputRef}
+									accept="image/*"
+									onChange={(e) => avatarInputOnChangeUploadHandler(e)}
+								/>
 							</div>
 							<div className={Styles.shopNameContainer}>
 								<h2
@@ -810,7 +835,9 @@ const Index: NextPage = () => {
 									);
 								})}
 							</div>
-							<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
+							<div
+								className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}
+							>
 								<PrimaryButton
 									buttonText="Continuer"
 									active={fontName !== undefined}

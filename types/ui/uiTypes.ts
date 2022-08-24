@@ -4,7 +4,7 @@ import React from 'react';
 
 type EditDropDownType = {
 	text: string;
-	onClick: React.Dispatch<React.SetStateAction<boolean>>;
+	onClick: React.Dispatch<React.SetStateAction<boolean>> | (() => void);
 	icon?: string;
 };
 export type DropDownActionType = Array<EditDropDownType>;

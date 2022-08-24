@@ -100,7 +100,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/modals/mobileColorPicker" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/modals/mobileFontPicker" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/modals/testColorPickerSlide" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/shop/details" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/details" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars/desktopPublishEditNavbar" isTestSource="false" />
@@ -173,6 +172,7 @@
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/details/index/editShopCoordonneeField" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/map/localisationNamePopup" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/map/zoneByNav" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop" />

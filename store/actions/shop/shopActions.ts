@@ -126,7 +126,7 @@ export const shopPatchShopNameAction = (shop_name: string) => {
 };
 
 // PATCH : /api/1.0.0/shop/avatar/
-export const shopPatchAvatarAction = (avatar: File | string) => {
+export const shopPatchAvatarAction = (avatar: ArrayBuffer | string) => {
 	return {
 		type: Types.SHOP_PATCH_AVATAR,
 		avatar,

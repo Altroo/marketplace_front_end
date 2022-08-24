@@ -15,7 +15,7 @@ import ApiProgress from '../../../../formikElements/apiResponse/apiProgress/apiP
 import ApiAlert from '../../../../formikElements/apiResponse/apiAlert/apiAlert';
 import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
 import { shopBioSchema } from '../../../../../utils/formValidationSchemas';
-import EditShopBioField from '../../../../formikElements/shop/details/index/editShopBioField/editShopBioField';
+import EditShopBioField from '../../../../formikElements/shop/edit/index/editShopBioField/editShopBioField';
 
 type Props = {
 	handleClose: () => void;
