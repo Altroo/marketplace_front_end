@@ -23,8 +23,8 @@ import {
 	OfferPutRootProductResponseType,
 	OfferPutRootServiceResponseType,
 	OfferPostSolderResponseType,
-	OfferPostSolderType, OfferGetVuesResponseType,
-} from '../../../types/offer/offerTypes';
+	OfferPostSolderType, OfferGetVuesResponseType, OfferCategoriesType
+} from "../../../types/offer/offerTypes";
 import {
 	appendPostOfferState,
 	setOfferLastThreeUsedDeliveries,
@@ -36,7 +36,10 @@ import {
 	deleteUserOffer,
 	setSolderOffer,
 	setGetSolderOffer,
-	deleteSolderOffer, setOfferVuesList, setWSOfferThumbnail,
+	deleteSolderOffer,
+	setOfferVuesList,
+	setWSOfferThumbnail,
+	setLocalOfferCategories,
 } from '../../slices/offer/offerSlice';
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 
@@ -487,7 +490,12 @@ function* wsOfferThumbnailSaga(payload: {type: string, pk: number, offer_thumbna
 	yield* put(setWSOfferThumbnail({offer_pk: payload.pk, offer_thumbnail: payload.offer_thumbnail}));
 }
 
+function* setOfferCategoriesSaga(payload: {type: string, categories: OfferCategoriesType}) {
+	yield* put(setLocalOfferCategories(payload.categories));
+}
+
 export function* watchOffer() {
+	yield* takeLatest(Types.SET_OFFER_CATEGORIES, setOfferCategoriesSaga);
 	yield* takeLatest(Types.OFFER_POST_ROOT, offerPostRootSaga);
 	yield* takeLatest(Types.OFFER_GET_ROOT, offerGetRootSaga);
 	yield* takeLatest(Types.OFFER_PUT_ROOT, offerPutRootSaga);

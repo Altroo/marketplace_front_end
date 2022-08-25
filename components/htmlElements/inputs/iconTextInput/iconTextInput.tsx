@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './iconTextInput.module.sass';
 import { default as ImageFuture } from 'next/future/image';
-import SearchIconSVG from '../../../../public/assets/svgs/search.svg';
+import SearchIconSVG from '../../../../public/assets/svgs/globalIcons/search.svg';
 
 type Props = {
 	placeholder: string;

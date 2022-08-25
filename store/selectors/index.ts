@@ -1,7 +1,6 @@
 import { RootState } from '../store';
 import { ShopFontNameType, ShopGetRootUniqueIDType } from "../../types/shop/shopTypes";
 import { IconColorType, TokenChoices } from "../../types/_init/_initTypes";
-import { useAppSelector } from "../../utils/hooks";
 
 // _Init
 export const getTokenType = (state: RootState) => state._init.tokenType as TokenChoices;
@@ -79,6 +78,8 @@ export const getCheckUserHasShop = (state: RootState) => state.account.check_acc
 // Offers
 export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersList.next;
 export const getOfferVuesNextPage = (state: RootState) => state.offer.offerVuesList.next;
+// Local offers
+export const getLocalOfferCategories = (state: RootState) => state.offer.userLocalOffer.categoriesList;
 
 // Chat
 export const getMyConversationsResults = (state: RootState) => state.chat.conversationsList.results;

@@ -3,7 +3,7 @@ import Styles from './zoneByNav.module.sass';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { createTheme, ThemeProvider } from '@mui/material';
-import theme from '../../../utils/theme';
+import {CustomTheme} from '../../../utils/themes';
 import { ShopZoneByType } from "../../../types/shop/shopTypes";
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 
 const ZoneByNav: React.FC<Props> = (props: Props) => {
 	const blueColor = '#0274d7';
-	const customTheme = theme(blueColor);
+	const customTheme = CustomTheme(blueColor);
 
 	const navigationTheme = createTheme({
 		...customTheme,

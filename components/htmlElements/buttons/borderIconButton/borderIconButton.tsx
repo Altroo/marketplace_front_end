@@ -2,7 +2,7 @@ import React from 'react';
 import Styles from './borderIconButton.module.sass';
 import Image from 'next/image';
 import Button from '@mui/material/Button';
-import theme from "../../../../utils/theme";
+import {CustomTheme} from "../../../../utils/themes";
 import { ThemeProvider } from "@mui/material";
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 };
 
 const BorderIconButton: React.FC<Props> = (props: Props) => {
-	const customTheme = theme(props.backgroundColor);
+	const customTheme = CustomTheme(props.backgroundColor);
 	return (
 		<ThemeProvider theme={customTheme}>
 			<Button className={`${Styles.button} ${props.cssClass && `${props.cssClass}`}`}

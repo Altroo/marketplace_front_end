@@ -1,26 +1,26 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { NextPage } from 'next';
 import Styles from '../../../styles/shop/edit/editIndex.module.sass';
-import SharedStyles from '../../../styles/shop/add/shopAddShared.module.sass';
+import SharedStyles from '../../../styles/shop/create/shopCreateShared.module.sass';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import ShopInfoTabs from '../../../components/htmlElements/tabs/tab';
-import MessageIconWhiteSVG from '../../../public/assets/svgs/message-white.svg';
-import MessageIconBlackSVG from '../../../public/assets/svgs/message-black.svg';
-import ContactIconBlueSVG from '../../../public/assets/svgs/call-blue.svg';
-import ContactIconWhiteSVG from '../../../public/assets/svgs/call-white.svg';
-import ContactIconBlackSVG from '../../../public/assets/svgs/call-black.svg';
+import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
+import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
+import ContactIconBlueSVG from '../../../public/assets/svgs/globalIcons/call-blue.svg';
+import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
+import ContactIconBlackSVG from '../../../public/assets/svgs/globalIcons/call-black.svg';
 import CircularAvatar from '../../../components/htmlElements/images/circularAvatar/circularAvatar';
 import { ShopFontNameType } from '../../../types/shop/shopTypes';
 import DesktopPublishEditNavbar from '../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
 import MobilePublishEditNavbar from '../../../components/mobile/navbars/mobilePublishEditNavbar/mobilePublishEditNavbar';
 import Image from 'next/image';
-import BlackStarSVG from '../../../public/assets/svgs/black-star.svg';
-import CloseSVG from '../../../public/assets/svgs/close.svg';
-import PhoneSVG from '../../../public/assets/svgs/contact-phone.svg';
-import WtspSVG from '../../../public/assets/svgs/whatsapp-icon.svg';
+import BlackStarSVG from '../../../public/assets/svgs/globalIcons/black-star.svg';
+import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
+import PhoneSVG from '../../../public/assets/svgs/globalIcons/contact-phone.svg';
+import WtspSVG from '../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
 import BorderIconButton from '../../../components/htmlElements/buttons/borderIconButton/borderIconButton';
 import {
 	addMyInfosStackType,
@@ -30,12 +30,12 @@ import {
 	DropDownActionType,
 	switchActionType,
 } from '../../../types/ui/uiTypes';
-import InfoTabContent from '../../../components/shop/edit/info-Tab_Content/InfoTabContent';
-import BoutiqueTabContent from '../../../components/shop/edit/boutique-Tab_Content/boutiqueTabContent';
+import InfoTabContent from '../../../components/groupedComponents/shop/edit/info-Tab_Content/InfoTabContent';
+import BoutiqueTabContent from '../../../components/groupedComponents/shop/edit/boutique-Tab_Content/boutiqueTabContent';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
-import ContacterPhoneInput from '../../../components/shop/edit/contacterPhoneInput/contacterPhoneInput';
+import ContacterPhoneInput from '../../../components/groupedComponents/shop/edit/contacterPhoneInput/contacterPhoneInput';
 import {
 	shopPatchAvatarAction,
 	shopPatchColorAction,
@@ -67,21 +67,21 @@ import {
 	getShopAddressName,
 } from '../../../store/selectors';
 import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
-import InfoIconSVG from '../../../public/assets/svgs/drop-down-info.svg';
-import AvatarIconSVG from '../../../public/assets/svgs/drop-down-avatar.svg';
-import ColorIconSVG from '../../../public/assets/svgs/drop-down-color.svg';
-import FontIconSVG from '../../../public/assets/svgs/drop-down-font.svg';
+import InfoIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-info.svg';
+import AvatarIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-avatar.svg';
+import ColorIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-color.svg';
+import FontIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-font.svg';
 import { Backdrop, Stack } from '@mui/material';
-import AjouterMesInfosStack from '../../../components/shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack';
+import AjouterMesInfosStack from '../../../components/groupedComponents/shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack';
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
-import { colors } from '../add/color';
+import { colors } from '../create/color';
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import { IconColorType } from '../../../types/_init/_initTypes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
-import { availableFonts } from '../add/font';
-import FontPicker from '../../../components/shop/add/fontPicker/fontPicker';
+import { availableFonts } from '../create/font';
+import FontPicker from '../../../components/groupedComponents/shop/create/fontPicker/fontPicker';
 
 const Index: NextPage = () => {
 	const router = useRouter();

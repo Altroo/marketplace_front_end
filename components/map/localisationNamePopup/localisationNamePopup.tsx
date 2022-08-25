@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Styles from './localisationNamePopup.module.sass';
 import { Stack } from '@mui/material';
 import Image from 'next/image';
-import MarkerBlueSVG from '../../../public/assets/svgs/marker-blue.svg';
+import MarkerBlueSVG from '../../../public/assets/svgs/globalIcons/marker-blue.svg';
 import {
 	getLocalisationName,
 	getPlacesApiError,

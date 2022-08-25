@@ -1,6 +1,6 @@
 import React from "react";
 import Styles from "./iconButton.module.sass";
-import theme from "../../../../utils/theme";
+import {CustomTheme} from "../../../../utils/themes";
 import Image from "next/image";
 import { ThemeProvider } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -28,9 +28,9 @@ const IconButton: React.FC<Props> = (props: Props) => {
 	if (props.border) {
 		cssStyle = {...cssStyle, border: props.border};
 	}
-	let customTheme = theme();
+	let customTheme = CustomTheme();
 	if (props.backgroundColor) {
-		customTheme = theme(props.backgroundColor);
+		customTheme = CustomTheme(props.backgroundColor);
 	}
 	return (
 		<ThemeProvider theme={customTheme}>

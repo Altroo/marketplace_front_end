@@ -3,7 +3,7 @@ import Styles from './iconAnchorButton.module.sass';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
 import Link from 'next/link';
-import theme from "../../../../utils/theme";
+import {CustomTheme} from "../../../../utils/themes";
 import { ThemeProvider } from "@mui/material";
 
 type Props = {
@@ -31,9 +31,9 @@ const IconAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref
 	if (props.border) {
 		cssStyle = {...cssStyle, border: props.border};
 	}
-	let customTheme = theme();
+	let customTheme = CustomTheme();
 	if (props.backgroundColor) {
-		customTheme = theme(props.backgroundColor);
+		customTheme = CustomTheme(props.backgroundColor);
 	}
 
 	return props.nextPage ? (

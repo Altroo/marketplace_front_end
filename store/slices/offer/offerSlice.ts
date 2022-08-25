@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+	OfferCategoriesType,
 	OfferDeliveries, OfferGetMyOffersProductInterface, OfferGetMyOffersServiceInterface,
 	OfferGetRootProductInterface,
 	OfferGetRootServiceInterface, OfferGetVuesType,
@@ -8,8 +9,8 @@ import {
 	OfferServiceInterface,
 	OfferServiceLocalisation, OfferSolderInterface,
 	OfferStateInterface,
-	OfferTagsType,
-} from '../../../types/offer/offerTypes';
+	OfferTagsType
+} from "../../../types/offer/offerTypes";
 import { PaginationResponseType } from '../../../types/_init/_initTypes';
 // import { HYDRATE } from "next-redux-wrapper";
 
@@ -35,6 +36,10 @@ const initialState: OfferStateInterface = {
 	selectedTags: [],
 	lastUsedLocalisation: {},
 	lastUsedDeliveries: {},
+	// local states
+	userLocalOffer: {
+		categoriesList: [],
+	},
 };
 
 const OfferSlice = createSlice({
@@ -192,6 +197,17 @@ const OfferSlice = createSlice({
 			}
 			return state;
 		},
+		setLocalOfferCategories: (state, action: PayloadAction<OfferCategoriesType>) => {
+			if (!state.userLocalOffer.categoriesList.includes(action.payload)) {
+				state.userLocalOffer.categoriesList.push(action.payload);
+			} else {
+				const index = state.userLocalOffer.categoriesList.indexOf(action.payload);
+				if (index !== -1) {
+					state.userLocalOffer.categoriesList.splice(index, 1);
+				}
+			}
+			return state;
+		},
 		initOffer: () => {
 			return initialState;
 		},
@@ -219,6 +235,7 @@ export const {
 	initOffer,
 	setWSOfferThumbnail,
 	setExistsInCart,
+	setLocalOfferCategories,
 } = OfferSlice.actions;
 
 export default OfferSlice.reducer;

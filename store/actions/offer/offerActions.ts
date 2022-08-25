@@ -1,5 +1,5 @@
-// POST : /api/1.0.0/offer/
 import * as Types from '../index';
+
 import {
 	OfferCategoriesType,
 	OfferOfferTypeType,
@@ -9,6 +9,14 @@ import {
 	OfferZoneByType,
 } from '../../../types/offer/offerTypes';
 
+export const setOfferCategories = (categories: OfferCategoriesType) => {
+	return {
+		type: Types.SET_OFFER_CATEGORIES,
+		categories,
+	};
+};
+
+// POST : /api/1.0.0/offer/
 export const offerPostRootProductAction = (
 	offer_type: OfferOfferTypeType,
 	offer_categories: string,

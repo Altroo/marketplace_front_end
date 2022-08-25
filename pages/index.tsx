@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { RootState } from "../store/store";
+import { SHOP_ADD_SHOP_NAME } from "../utils/routes";
 
 
 const Home: NextPage<RootState> = () => {
@@ -14,7 +15,7 @@ const Home: NextPage<RootState> = () => {
 			</Head>
 			<main>
 				<h1>
-					<Link href="/shop/add">Créer ma boutique</Link>
+					<Link href={SHOP_ADD_SHOP_NAME}>Créer ma boutique</Link>
 				</h1>
 				{/*<div>{`Cookie from response: "${data}"`}</div>*/}
 

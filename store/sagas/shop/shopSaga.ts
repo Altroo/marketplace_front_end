@@ -70,6 +70,7 @@ import {
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
+import { SHOP_EDIT_INDEX } from "../../../utils/routes";
 
 // interface TokenNoAuthSagaBaseGeneratorParams {
 //     payloadRecord: Record<string, unknown>;
@@ -122,7 +123,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				// update state
 				yield* put(setPostShopState(response.data));
 				// TODO check when reach add shop while connected
-				payload.router.push('/shop/edit?created=true').then();
+				payload.router.push(`${SHOP_EDIT_INDEX}?created=true`).then();
 			}
 		} else {
 			// User is not authenticated
@@ -148,7 +149,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				yield* call(() => emptyLocalStorageNewShopData());
 				// delete cookies
 				yield* call(() => deleteCookieStorageNewShopData());
-				payload.router.push('/shop/edit?created=true').then();
+				payload.router.push(`${SHOP_EDIT_INDEX}?created=true`).then();
 			}
 		}
 	} catch (e) {

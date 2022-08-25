@@ -3,7 +3,7 @@ import Styles from './chipButton.module.sass';
 import Chip from '@mui/material/Chip';
 import { chipActionsType, chipVariantType } from '../../../../types/ui/uiTypes';
 import { ThemeProvider } from '@mui/material';
-import theme from "../../../../utils/theme";
+import {CustomTheme} from "../../../../utils/themes";
 
 type Props = {
 	actions: chipActionsType;
@@ -49,7 +49,7 @@ const ChipButtons: React.FC<Props> = (props: Props) => {
 				// 		},
 				// 	},
 				// });
-				const customTheme = theme(action.backgroundColor);
+				const customTheme = CustomTheme(action.backgroundColor);
 				return (
 					<ThemeProvider theme={customTheme} key={index}>
 						<Chip

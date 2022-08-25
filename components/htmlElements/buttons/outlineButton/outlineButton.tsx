@@ -2,7 +2,7 @@ import React from 'react';
 import Styles from './outlineButton.module.sass';
 import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material';
-import theme from '../../../../utils/theme';
+import {CustomTheme} from '../../../../utils/themes';
 
 type Props = {
 	buttonText: string;
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const OutlineButton: React.FC<Props> = (props: Props) => {
-	const customTheme = theme(props.backgroundColor);
+	const customTheme = CustomTheme(props.backgroundColor);
 	return (
 		<ThemeProvider theme={customTheme}>
 			<Button

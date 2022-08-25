@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Collapse, ThemeProvider } from '@mui/material';
-import theme from '../../../../utils/theme';
+import {CustomTheme} from '../../../../utils/themes';
 import { Stack } from '@mui/material';
 import { useAppSelector } from '../../../../utils/hooks';
 import { SelectInputcontacterType } from '../../../../types/ui/uiTypes';
@@ -26,7 +26,7 @@ const PhoneInputFields: React.FC<inputProps> = (props: inputProps) => {
 		label: string;
 		code: string;
 	};
-	const customTheme = theme(props.backgroundColor);
+	const customTheme = CustomTheme(props.backgroundColor);
 
 	const [value, setValue] = useState({ label: props.code, code: props.code });
 

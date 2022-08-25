@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './desktopPublishEditNavbar.module.sass';
 import PrimaryButton from '../../../htmlElements/buttons/primaryButton/primaryButton';
-import EditIconSVG from '../../../../public/assets/svgs/blue-pencil.svg';
+import EditIconSVG from '../../../../public/assets/svgs/globalIcons/blue-pencil.svg';
 
 import DropDownMenu from '../../../htmlElements/buttons/dropDownMenu/dropDownMenu';
 import { DropDownActionType } from '../../../../types/ui/uiTypes';

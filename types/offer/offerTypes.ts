@@ -270,7 +270,9 @@ export interface OfferGetVuesType extends PaginationResponseType<OfferGetVues> {
 	this_month: OfferGetVuesMonthType | null;
 	pourcentage: string | null;
 }
-
+export interface UserLocalOfferType {
+	categoriesList: Array<OfferCategoriesType>;
+}
 //!- Offer State
 export interface OfferStateInterface {
 	userOffers: Array<OfferProductInterface | OfferServiceInterface>;
@@ -281,6 +283,7 @@ export interface OfferStateInterface {
 	selectedTags: OfferTagsType;
 	lastUsedLocalisation: OfferProductLocalisation | OfferServiceLocalisation | Record<string, unknown>;
 	lastUsedDeliveries: Array<DeliveriesResponseType> | Record<string, unknown>;
+	userLocalOffer: UserLocalOfferType;
 }
 
 export type OfferPostRootProductResponseType = ResponseDataInterface<OfferProductInterface>;

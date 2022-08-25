@@ -10,6 +10,9 @@
             <path value="file://$PROJECT_DIR$/public/assets/fonts" />
             <path value="file://$PROJECT_DIR$/public/assets/images" />
             <path value="file://$PROJECT_DIR$/public/assets/svgs" />
+            <path value="file://$PROJECT_DIR$/public/assets/svgs/categoryIcons" />
+            <path value="file://$PROJECT_DIR$/public/assets/svgs/globalIcons" />
+            <path value="file://$PROJECT_DIR$/public/assets/svgs/navigationIcons" />
           </resourceRoots>
         </entryData>
       </entry>

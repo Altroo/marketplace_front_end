@@ -15,7 +15,6 @@
       <sourceFolder url="file://$MODULE_DIR$/models/shop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/shop/add" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/actions" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/sagas" isTestSource="false" />
@@ -74,7 +73,6 @@
       <sourceFolder url="file://$MODULE_DIR$/store/slices/rating" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/shop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/version" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/headers" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/headers/helperDescriptionHeader" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/headers/helperH1Header" isTestSource="false" />
@@ -88,10 +86,8 @@
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/checkBoxes" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/switches" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/textInput" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/styles/shop/add" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/modals/desktopColorPicker" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/cards" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/cards/cardSection" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/images" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/images/circularAvatar" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/modals/actionModal" isTestSource="false" />
@@ -100,7 +96,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/modals/mobileColorPicker" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/modals/mobileFontPicker" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/modals/testColorPickerSlide" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/styles/shop/details" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars/desktopPublishEditNavbar" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars/desktopTopNavigationBar" isTestSource="false" />
@@ -123,56 +118,90 @@
       <sourceFolder url="file://$MODULE_DIR$/components/layouts" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/modals" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/add" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/add/avatarShopNameRating" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/add/centeredInfoAction" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/add/disabledFilterDropDown" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/add/fontPicker" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/add/leftSideBar" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/startYourShopContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/outlineButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/modals/rightSwipeModal" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/shopFilterSelect" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/inputs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/inputs/iconTextInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/inputs/phoneInputFields" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/contacterPhoneInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/iconAnchorButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/actions/_api_promises" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/sagas/_api_promises" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/_api_promises" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add/index" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/add/index/shopNameField" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiResponse" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiResponse/apiAlert" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiResponse/apiProgress" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/details" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/details/index" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/details/index/editShopBioField" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/details/index/editShopNameField" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/boutique-Tab_Content" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/info-Tab_Content" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editAdresse" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editBio" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editCoordonees" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editHoraire" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/editNomBoutique" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/renseignerMesInfos-Modals/topBar-Save-Close" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack/showAdresse" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack/showBio" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack/showCoordonees" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack/showHoraire" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/shop/details/ajouterMesInfos-Stack/showNomBoutique" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/details/index/editShopCoordonneeField" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/map/localisationNamePopup" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/map/zoneByNav" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/offer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/offer/shared" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/categoriesList" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/mobileCategoriesList" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/offerTypeCard" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/product" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/product/add" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shared" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shared/leftSideBar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/ajouterMesInfos-Stack" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/ajouterMesInfos-Stack/showAdresse" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/ajouterMesInfos-Stack/showBio" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/ajouterMesInfos-Stack/showCoordonees" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/ajouterMesInfos-Stack/showHoraire" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/ajouterMesInfos-Stack/showNomBoutique" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/boutique-Tab_Content" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/contacterPhoneInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/info-Tab_Content" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/renseignerMesInfos-Modals" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/renseignerMesInfos-Modals/editAdresse" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/renseignerMesInfos-Modals/editBio" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/renseignerMesInfos-Modals/editCoordonees" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/renseignerMesInfos-Modals/editHoraire" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/renseignerMesInfos-Modals/editNomBoutique" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/renseignerMesInfos-Modals/topBar-Save-Close" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/shopFilterSelect" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/startYourShopContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/cards/defaultCardSection" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/map" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/offer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/offer/product" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/offer/product/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/offer/service" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/offer/service/add" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/offer/service/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/public/assets/svgs/categoryIcons" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/public/assets/svgs/categoryIcons" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/public/assets/svgs/globalIcons" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/public/assets/svgs/navigationIcons" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offer/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offer/product" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offer/service" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offer/service/add" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offer/service/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/archives/shop/edit/index" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/archives/shop/edit/index/editShopCoordonneeField" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customStackIconTextInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customTextArea" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customTextInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/create" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/create/index" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/create" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/create/avatarShopNameRating" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/create/centeredInfoAction" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/create/disabledFilterDropDown" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/create/fontPicker" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/offer/create" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/offer/product/create" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop/create" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offer/create" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop/create" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop" />
@@ -180,6 +209,11 @@
       <excludeFolder url="file://$MODULE_DIR$/components/archives" />
       <excludeFolder url="file://$MODULE_DIR$/components/archives/categorieChip" />
       <excludeFolder url="file://$MODULE_DIR$/components/archives/desktopFilterSelect" />
+      <excludeFolder url="file://$MODULE_DIR$/components/archives/editShopNameField" />
+      <excludeFolder url="file://$MODULE_DIR$/components/archives/offerTitleField" />
+      <excludeFolder url="file://$MODULE_DIR$/components/archives/shopNameField" />
+      <excludeFolder url="file://$MODULE_DIR$/components/archives/editShopBioField" />
+      <excludeFolder url="file://$MODULE_DIR$/components/archives/shop/edit" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

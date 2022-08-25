@@ -2,7 +2,7 @@ import React, { ForwardedRef, forwardRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Styles from './desktopTopNavigationBar.module.sass';
-import CloseSVG from '../../../../public/assets/svgs/close.svg';
+import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
 
 type Props = {
 	backHref?: string;

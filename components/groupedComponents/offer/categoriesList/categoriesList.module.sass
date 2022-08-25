@@ -1,0 +1,28 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.categoryTitle
+  +Regular
+  font-size: 19px
+  color: $grayInput
+
+.active
+  color: $primary
+
+.categoryItemWrapper
+  cursor: pointer
+
+.divider
+  color: $buttonInputDisabled
+
+@media #{$tablette}
+  .categoriesListWrapper
+    flex-direction: column
+  .categoriesSecondList
+    margin-left: 0 !important
+  .mobileHidden
+    +Hidden
+// @media #{}
+// @media #{}

@@ -2,8 +2,8 @@ import React, { ForwardedRef, forwardRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Styles from './mobileTopNavigationBar.module.sass';
-import ArrowLeftSVG from '../../../../public/assets/svgs/arrow-left.svg';
-import CloseSVG from '../../../../public/assets/svgs/close.svg';
+import ArrowLeftSVG from '../../../../public/assets/svgs/navigationIcons/arrow-left.svg';
+import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
 
 type Props = {
 	backHref?: string;

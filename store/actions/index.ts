@@ -85,6 +85,8 @@ export const OFFER_POST_ROOT = 'OFFER_POST_ROOT';
 export const OFFER_GET_ROOT = 'OFFER_GET_ROOT';
 export const OFFER_PUT_ROOT = 'OFFER_PUT_ROOT';
 export const OFFER_DELETE_ROOT = 'OFFER_DELETE_ROOT';
+// Offer local states
+export const SET_OFFER_CATEGORIES = 'SET_OFFER_CATEGORIES';
 // Chat [Has no root]
 export const CHAT_POST_MESSAGE = 'CHAT_POST_MESSAGE';
 export const CHAT_POST_ARCHIVE = 'CHAT_POST_ARCHIVE';

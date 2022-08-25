@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './desktopFilterDropDown.module.sass';
 import { DropDownActionType } from '../../../types/ui/uiTypes';
-import ArrowDownIconSVG from '../../../public/assets/svgs/arrow-down.svg';
+import ArrowDownIconSVG from '../../../public/assets/svgs/navigationIcons/arrow-down.svg';
 import DropDownMenu from '../../htmlElements/buttons/dropDownMenu/dropDownMenu';
 
 type Props = {

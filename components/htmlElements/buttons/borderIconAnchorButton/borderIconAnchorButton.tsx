@@ -3,7 +3,7 @@ import Styles from './borderIconAnchorButton.module.sass';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
 import Link from 'next/link';
-import theme from '../../../../utils/theme';
+import {CustomTheme} from '../../../../utils/themes';
 import { ThemeProvider } from '@mui/material';
 
 type Props = {
@@ -18,7 +18,7 @@ type Props = {
 
 const BorderIconAnchorButton = forwardRef<HTMLAnchorElement, Props>(
 	(props: Props, ref: ForwardedRef<HTMLAnchorElement>) => {
-		const customTheme = theme(props.backgroundColor);
+		const customTheme = CustomTheme(props.backgroundColor);
 		return props.nextPage ? (
 			<ThemeProvider theme={customTheme}>
 				<Link href={props.nextPage} passHref>
