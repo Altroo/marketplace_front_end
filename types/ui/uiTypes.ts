@@ -74,23 +74,14 @@ export type SelectInputcontacterType = {
 
 export type addMyInfosStackType = {
 	title: 'Nom' | 'Bio' | 'Horaire' | 'Coordonées' | 'Adresse';
-	// edit shop name
 	openEditModal: boolean;
 	setOpenEditModal: React.Dispatch<React.SetStateAction<boolean>>;
-	// openEditShopNameModal: boolean;
-	// setOpenEditShopNameModal: React.Dispatch<React.SetStateAction<boolean>>;
-	// // edit bio
-	// openEditBioModal: boolean;
-	// setOpenEditBioModal: React.Dispatch<React.SetStateAction<boolean>>;
-	// // edit horaire
-	// openEditHoraireModal: boolean;
-	// setOpenEditHoraireModal: React.Dispatch<React.SetStateAction<boolean>>;
-	// // edit coordonée
-	// openEditCoordoneeModal: boolean;
-	// setOpenEditCoordoneeModal: React.Dispatch<React.SetStateAction<boolean>>;
-	// // edit address
-	// openEditAdressModal: boolean;
-	// setOpenEditAdressModal: React.Dispatch<React.SetStateAction<boolean>>;
 	added: boolean;
 	content?: React.ReactNode;
-}
+};
+
+export type OfferColorsListType = {
+	code: string;
+	value: string;
+	hex: string;
+};

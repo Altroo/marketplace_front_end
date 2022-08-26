@@ -24,7 +24,7 @@ export const CustomTheme = (primaryColor: string | undefined = undefined) => {
 	});
 };
 
-const getDefaultTheme = (primaryColor: string | undefined = undefined) => {
+export const getDefaultTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultColor = '#0274D7';
 	if (primaryColor) {
 		return CustomTheme(primaryColor);
@@ -126,7 +126,7 @@ export const offerTitleTextInputTheme = (primaryColor: string | undefined = unde
 						fontSize: '19px',
 						height: '55px',
 						padding: '10px',
-						width: 'max-content',
+						width: '100%',
 						'& fieldset': {
 							padding: '10px 18px',
 							height: '59px',
@@ -141,7 +141,7 @@ export const offerTitleTextInputTheme = (primaryColor: string | undefined = unde
 			MuiFormControl: {
 				styleOverrides: {
 					root: {
-						width: '100%',
+						width: 'auto',
 						height: '100%',
 					},
 				},
@@ -215,10 +215,110 @@ export const coordonneeTextInputTheme = (primaryColor: string | undefined = unde
 						'& .MuiFormLabel-root': {
 							fontFamily: 'Poppins',
 							fontSize: '16px',
-						}
+						},
 					},
 				},
 			},
 		},
+	});
+};
+// Offer title tooltip
+export const offerTitleTooltipTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	const blueColor = '#0274d7';
+
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiTooltip: {
+				styleOverrides: {
+					tooltip: {
+						fontFamily: 'Poppins',
+						fontSize: '13px',
+						backgroundColor: blueColor,
+					},
+				},
+			},
+		},
+	});
+};
+// Offer for whom dropdown
+export const offerForWhomDropdownTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	const blueColor = '#0274d7';
+
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						'& fieldset': {
+							borderRadius: '16px',
+							border: '2px solid #A3A3AD',
+							// borderTopLeftRadius: '21px',
+							// borderTopRightRadius: '21px',
+						},
+					},
+					input: {
+						fontFamily: 'Poppins',
+						fontSize: '19px',
+						caretColor: blueColor,
+					},
+				},
+			},
+			MuiFormControl: {
+				styleOverrides: {
+					root: {
+						'& .MuiFormLabel-root': {
+							fontFamily: 'Poppins',
+							fontSize: '16px',
+						},
+					},
+				},
+			},
+			MuiMenuItem: {
+				styleOverrides: {
+					gutters: {
+						fontFamily: 'Poppins',
+						fontSize: '16px',
+					}
+				}
+			},
+			MuiPaper: {
+				styleOverrides: {
+					root: {
+						border: `1px solid ${blueColor}`,
+						borderBottomLeftRadius: '21px',
+						borderBottomRightRadius: '21px'
+					}
+				}
+			}
+		},
+	});
+};
+
+// Offer switch button
+export const offerSwitchTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiFormControlLabel: {
+				styleOverrides: {
+					root: {
+						marginRight: '0px',
+					}
+				}
+			},
+			MuiSwitch: {
+				styleOverrides: {
+					root: {
+						marginRight: '0px !important',
+						marginLeft: '0px !important',
+					}
+				}
+			}
+		}
 	});
 };

@@ -1,6 +1,8 @@
 /** @type {import("next").NextConfig} */
 
 const path = require('path');
+// const withImages = require('next-images')
+
 const nextConfig = {
 	reactStrictMode: false,
 	sassOptions: {

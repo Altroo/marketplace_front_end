@@ -1,12 +1,7 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import { CSSProperties } from "react";
-import { Theme } from "@mui/material/styles/createTheme";
-import { getDefaultTheme } from "../../../utils/themes";
-import { ThemeProvider } from "@mui/material";
+import React, {CSSProperties} from "react";
+import Styles from "./customSwitch.module.sass";
+import { styled, FormGroup, FormControlLabel, Switch } from '@mui/material';
+import { CustomTheme, getDefaultTheme } from "../../../utils/themes";
 
 type IOSSwitchProps = {
 	checked: boolean;
@@ -78,39 +73,32 @@ type Props = {
 	disabled?: boolean;
 	onChange?: (value: boolean) => void;
 	labelcssStyles?: CSSProperties;
-	theme?: Theme;
 	children?: React.ReactNode;
 };
 
-const IosSwitch: React.FC<Props> = (props: Props) => {
+
+const CustomSwitch: React.FC<Props> = (props: Props) => {
 	let activeColor = props.activeColor;
 	if (activeColor === '#FFFFFF') {
 		activeColor = '#0D070B';
 	}
-	let defaultTheme = getDefaultTheme(activeColor);
-
-	if (props.theme) {
-		defaultTheme = props.theme;
-	}
 	return (
-		<ThemeProvider theme={defaultTheme}>
-			<FormGroup>
-				<FormControlLabel
-					style={{...props.labelcssStyles}}
-					control={
-						<IOSSwitchStyle
-							sx={{ m: 1 }}
-							activeColor={activeColor && activeColor}
-							onChange={(e) => props.onChange && props.onChange(e.target.checked)}
-							checked={props.checked}
-						/>
-					}
-					label=""
-					disabled={props.disabled}
-				/>
-			</FormGroup>
-		</ThemeProvider>
+		<FormGroup>
+			<FormControlLabel
+				style={{...props.labelcssStyles}}
+				control={
+					<IOSSwitchStyle
+						sx={{ m: 1 }}
+						activeColor={activeColor && activeColor}
+						onChange={(e) => props.onChange && props.onChange(e.target.checked)}
+						checked={props.checked}
+					/>
+				}
+				label=""
+				disabled={props.disabled}
+			/>
+		</FormGroup>
 	);
 };
 
-export default IosSwitch;
+export default CustomSwitch;

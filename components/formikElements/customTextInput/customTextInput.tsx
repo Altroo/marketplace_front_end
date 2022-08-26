@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ForwardedRef, forwardRef } from "react";
 import { Theme } from "@mui/material/styles/createTheme";
 import { ThemeProvider } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -17,13 +17,18 @@ type Props = {
 	label?: string;
 	fullWidth?: boolean;
 	size?: "small" | "medium";
+	onClick?: () => void;
 };
 
-const CustomTextInput: React.FC<Props> = (props: Props) => {
+const CustomTextInput = forwardRef<HTMLInputElement, Props>((props:Props, ref: ForwardedRef<HTMLInputElement>) => {
+	const { cssClass, theme, ...restOfProps } = props;
+	// const {cssClass, theme} = props;
 
 	return (
-		<ThemeProvider theme={props.theme}>
+		<ThemeProvider theme={theme}>
 			<TextField
+				ref={ref}
+				{...restOfProps}
 				type={props.type}
 				id={props.id}
 				value={props.value}
@@ -34,12 +39,14 @@ const CustomTextInput: React.FC<Props> = (props: Props) => {
 				placeholder={props.placeholder}
 				label={props.label}
 				fullWidth={props.fullWidth}
-				className={props.cssClass}
+				className={cssClass}
 				size={props.size}
+				onClick={props.onClick}
 				color="primary"
 			/>
 		</ThemeProvider>
 	);
-};
+});
 
+CustomTextInput.displayName = 'CustomTextInput';
 export default CustomTextInput;

@@ -186,16 +186,26 @@
       <sourceFolder url="file://$MODULE_DIR$/styles/offer/service/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/archives/shop/edit/index" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/archives/shop/edit/index/editShopCoordonneeField" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customDropDownChoices" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customSquareImageUploading" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customStackIconTextInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customTextArea" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customTextInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop/create/index" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/radioCheckElement" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/radioCheckElement/QuantityRadioCheckContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/radioCheckElement/colorsRadioCheckContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/radioCheckElement/creatorRadioCheckContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/radioCheckElement/sizesRadioCheckContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/create/avatarShopNameRating" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/create/centeredInfoAction" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/create/disabledFilterDropDown" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/create/fontPicker" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/squareImageInputFile" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/customSwitch" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/toolTip" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/offer/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/offer/product/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/create" isTestSource="false" />

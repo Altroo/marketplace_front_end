@@ -48,6 +48,7 @@ export function middleware(req: NextRequest) {
 	return res;
 }
 
+// can't access dynamic values
 export const config = {
-	matcher: [SHOP_ADD_SHOP_NAME, `${SHOP_ADD_SHOP_NAME}/:path*`, SHOP_EDIT_INDEX, `${OFFER_ROUTE}:path*`],
+	matcher: ["/shop/create", "/shop/create/:path*", "/shop/edit",  "/offer/:path*"],
 };
