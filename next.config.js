@@ -9,7 +9,7 @@ const nextConfig = {
 		includePaths: [path.join(__dirname, 'styles')]
 	},
 	images: {
-		domains: [`${process.env.API_ROOT_URL}`]
+		domains: [`${process.env.LOCAL_API_ROOT_URL}`]
 	},
 	experimental: {
 		images: {
