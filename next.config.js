@@ -6,7 +6,8 @@ const path = require('path');
 const nextConfig = {
 	reactStrictMode: false,
 	sassOptions: {
-		includePaths: [path.join(__dirname, 'styles')]
+		includePaths: [path.join(__dirname, 'styles')],
+		outputStyle: 'expanded'
 	},
 	images: {
 		domains: [`${process.env.LOCAL_API_ROOT_URL}`]
