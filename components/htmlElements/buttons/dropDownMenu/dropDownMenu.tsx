@@ -53,6 +53,7 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 	return (
 		<div className={Styles.dropDownWrapper}>
 			<Button
+				color="primary"
 				id={props.buttonID}
 				aria-controls={open ? `${props.menuID}` : undefined}
 				aria-haspopup="true"
