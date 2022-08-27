@@ -18,7 +18,7 @@ const FontPicker: React.FC<Props> = (props: Props) => {
 					props.font.code === 'L'
 						? 'Poppins-Light'
 						: props.font.code === 'B'
-						? 'Poppins-Black'
+						? 'Poppins-ExtraBold'
 						: props.font.code === 'S'
 						? 'Poppins-SemiBold'
 						: 'Poppins',

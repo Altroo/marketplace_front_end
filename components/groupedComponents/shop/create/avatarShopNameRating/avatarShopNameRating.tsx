@@ -28,7 +28,7 @@ const AvatarShopNameRating: React.FC<Props> = (props: Props) => {
 							props.font === 'L'
 								? 'Poppins-Light'
 								: props.font === 'B'
-								? 'Poppins-Black'
+								? 'Poppins-ExtraBold'
 								: props.font === 'S'
 								? 'Poppins-SemiBold'
 								: 'Poppins',

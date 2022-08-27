@@ -572,7 +572,7 @@ const Index: NextPage = () => {
 											fontName === 'L'
 												? 'Poppins-Light'
 												: fontName === 'B'
-												? 'Poppins-Black'
+												? 'Poppins-ExtraBold'
 												: fontName === 'S'
 												? 'Poppins-SemiBold'
 												: 'Poppins',
