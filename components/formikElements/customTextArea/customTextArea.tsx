@@ -2,7 +2,7 @@ import React from "react";
 import { Theme } from "@mui/material/styles/createTheme";
 import { Stack, ThemeProvider } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import Styles from "./customCounterTextArea.module.sass";
+import Styles from "./customTextArea.module.sass";
 
 type Props = {
 	type: React.HTMLInputTypeAttribute;
@@ -22,7 +22,7 @@ type Props = {
 	size?: "small" | "medium";
 };
 
-const CustomCounterTextArea: React.FC<Props> = (props: Props) => {
+const CustomTextArea: React.FC<Props> = (props: Props) => {
 
 	return (
 		<ThemeProvider theme={props.theme}>
@@ -43,11 +43,11 @@ const CustomCounterTextArea: React.FC<Props> = (props: Props) => {
 				size={props.size}
 				color="primary"
 			/>
-			<Stack direction="row" justifyContent="flex-end">
-				<span className={Styles.span}>{props.value.length}/300</span>
-			</Stack>
+			{/*<Stack direction="row" justifyContent="flex-end">*/}
+			{/*	<span className={Styles.span}>{props.value.length}/300</span>*/}
+			{/*</Stack>*/}
 		</ThemeProvider>
 	);
 };
 
-export default CustomCounterTextArea;
+export default CustomTextArea;

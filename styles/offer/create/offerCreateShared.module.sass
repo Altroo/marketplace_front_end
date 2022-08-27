@@ -36,8 +36,14 @@
     font-family: $poppins !important
     font-weight: 400
     color: $grayInput
-
-// @media #{$desktop}
+.divider
+  color: $buttonInputDisabled
+.formStyle
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  width: 100%
+  height: 100%
 
 @media #{$tablette}
   .main
@@ -58,3 +64,10 @@
     padding: 20px 10px
   .cardsWrapper
     @extend .flexWrapper
+  .titleTextField
+    display: block
+  .primaryButton
+    justify-content: center
+    text-align: center
+    width: 300px
+    margin-bottom: 1.5rem

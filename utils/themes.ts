@@ -10,6 +10,14 @@ export const CustomTheme = (primaryColor: string | undefined = undefined) => {
 			rippleColor = hexToRGB(rippleColor, 0.5);
 		}
 	}
+	/*
+	$mobile : (max-width: 767px)'
+	$tablette : (min-width: 768px) and (max-width: 991px)'
+	$tablette : (max-width: 991px)'
+	$desktop : (min-width: 992px)'
+	$large : (min-width: 1200px) and (max-width: 1919px)'
+	$wide : (min-width: 1920px)'
+	 */
 	return createTheme({
 		palette: {
 			primary: {
@@ -20,6 +28,15 @@ export const CustomTheme = (primaryColor: string | undefined = undefined) => {
 				main: '#0044ff',
 				contrastText: '#ffcc00',
 			},*/
+		},
+		breakpoints: {
+			values: {
+				xs: 0,
+				sm: 767,
+				md: 991,
+				lg: 1200,
+				xl: 1920,
+			},
 		},
 	});
 };
@@ -319,6 +336,68 @@ export const offerSwitchTheme = (primaryColor: string | undefined = undefined) =
 					}
 				}
 			}
+		}
+	});
+};
+// Offer chip buttons
+export const OfferChipTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		components: {
+			...defaultTheme,
+			MuiChip: {
+				styleOverrides: {
+					root: {
+						fontFamily: 'Poppins',
+						fontSize: '19px',
+						paddingTop: '10px',
+						paddingBottom: '10px',
+						height: '37px',
+						border: '1px solid #0D070B',
+						borderRadius: '40px',
+					},
+					outlined: {
+						'&:hover': {
+							backgroundColor: 'rgba(0, 0, 0, 0.17)',
+						},
+					},
+					filled: {
+						backgroundColor: '#0D070B',
+						color: 'white',
+						'&:hover': {
+							backgroundColor: 'rgba(0, 0, 0, 0.7)',
+						},
+					},
+				},
+			},
+		},
+	});
+};
+
+// Offer quantity field
+export const OfferQuantityFieldTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	const blueColor = '#0274d7';
+	return createTheme({
+		components: {
+			...defaultTheme,
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						width: '65px',
+						'& fieldset': {
+							borderRadius: '16px',
+							border: '2px solid #A3A3AD',
+							width: '65px'
+						},
+					},
+					input: {
+						fontFamily: 'Poppins',
+						fontSize: '19px',
+						caretColor: blueColor,
+					},
+				},
+			},
 		}
 	});
 };

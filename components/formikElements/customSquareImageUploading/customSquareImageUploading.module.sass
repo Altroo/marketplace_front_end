@@ -24,8 +24,13 @@
   cursor: pointer
 @media #{$tablette}
   .rootStackWrapper
-    justify-content: center
     flex-direction: row
     gap: 20px
-// @media #{}
+@media #{$mobile}
+  .rootStackWrapper
+    justify-content: center
+    button
+      width: 100%
+  .addImagesWrapper
+    width: 100%
 // @media #{}

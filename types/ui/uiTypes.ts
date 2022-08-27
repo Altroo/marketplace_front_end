@@ -85,3 +85,10 @@ export type OfferColorsListType = {
 	value: string;
 	hex: string;
 };
+
+export type OfferSizesListType = {
+	code: string;
+	value: string;
+	state: boolean;
+	setState: React.Dispatch<React.SetStateAction<boolean>>;
+}

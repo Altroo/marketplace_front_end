@@ -16,7 +16,7 @@ import ApiAlert from '../../../../../formikElements/apiResponse/apiAlert/apiAler
 import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
 import { shopBioSchema } from '../../../../../../utils/formValidationSchemas';
 import { bioTextAreaTheme } from '../../../../../../utils/themes';
-import CustomCounterTextArea from "../../../../../formikElements/customTextArea/customCounterTextArea";
+import CustomTextArea from "../../../../../formikElements/customTextArea/customTextArea";
 
 type Props = {
 	handleClose: () => void;
@@ -66,7 +66,7 @@ const EditBio: React.FC<Props> = (props: Props) => {
 								headerClasses={Styles.header}
 								descriptionClasses={Styles.description}
 							/>
-							<CustomCounterTextArea
+							<CustomTextArea
 								id="bio"
 								label="Bio"
 								value={values.bio ? values.bio : ''}

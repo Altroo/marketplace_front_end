@@ -21,9 +21,11 @@ type Props = {
 	id: string;
 	label: string;
 	items: Array<string>;
-	value: Array<string>;
-	onChange: (event: SelectChangeEvent<Array<string>>) => void;
 	theme: Theme;
+	value: Array<string>;
+	onChange?: (event: SelectChangeEvent<Array<string>>) => void;
+	disabled?: boolean;
+	multiple?: boolean;
 	children?: React.ReactNode;
 };
 
@@ -31,12 +33,12 @@ const CustomDropDownChoices: React.FC<Props> = (props: Props) => {
 
 	return (
 		<ThemeProvider theme={props.theme}>
-			<FormControl sx={{ m: 1, width: 300 }}>
+			<FormControl className={Styles.formControl} disabled={props.disabled}>
 				<InputLabel id={`${props.id}-label`}>{props.label}</InputLabel>
 				<Select
 					labelId={`${props.id}-label`}
 					id={props.id}
-					multiple
+					multiple={props.multiple}
 					value={props.value}
 					onChange={props.onChange}
 					input={<OutlinedInput label={props.label} />}

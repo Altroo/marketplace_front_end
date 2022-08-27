@@ -5,7 +5,7 @@ import { default as ImageFuture } from 'next/future/image';
 import Styles from '../../../../styles/offer/create/offerCreateShared.module.sass';
 import SharedStyles from '../../../../styles/shop/create/shopCreateShared.module.sass';
 import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import { Box, ClickAwayListener, Stack } from '@mui/material';
+import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
 import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import { OFFER_ADD_PRODUCT_CATEGORIES } from '../../../../utils/routes';
 import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
@@ -25,17 +25,17 @@ import {
 import CustomToolTip from '../../../../components/htmlElements/toolTip/customToolTip';
 import { ImageListType } from 'react-images-uploading/dist/typings';
 import CustomSquareImageUploading from '../../../../components/formikElements/customSquareImageUploading/customSquareImageUploading';
-import CustomCounterTextArea from '../../../../components/formikElements/customTextArea/customCounterTextArea';
+import CustomTextArea from '../../../../components/formikElements/customTextArea/customTextArea';
 import CustomDropDownChoices from '../../../../components/formikElements/customDropDownChoices/customDropDownChoices';
 import { SelectChangeEvent } from '@mui/material/Select';
 import ColorsRadioCheckContent from '../../../../components/groupedComponents/offer/radioCheckElement/colorsRadioCheckContent/colorsRadioCheckContent';
-import { OfferColorsListType } from "../../../../types/ui/uiTypes";
-import CreatorRadioCheckContent
-	from "../../../../components/groupedComponents/offer/radioCheckElement/creatorRadioCheckContent/creatorRadioCheckContent";
-import SizesRadioCheckContent
-	from "../../../../components/groupedComponents/offer/radioCheckElement/sizesRadioCheckContent/sizesRadioCheckContent";
-import QuantityRadioCheckContent
-	from "../../../../components/groupedComponents/offer/radioCheckElement/QuantityRadioCheckContent/quantityRadioCheckContent";
+import { OfferColorsListType, OfferSizesListType } from '../../../../types/ui/uiTypes';
+import CreatorRadioCheckContent from '../../../../components/groupedComponents/offer/radioCheckElement/creatorRadioCheckContent/creatorRadioCheckContent';
+import SizesRadioCheckContent from '../../../../components/groupedComponents/offer/radioCheckElement/sizesRadioCheckContent/sizesRadioCheckContent';
+import QuantityRadioCheckContent from '../../../../components/groupedComponents/offer/radioCheckElement/QuantityRadioCheckContent/quantityRadioCheckContent';
+import Divider from '@mui/material/Divider';
+import { addOfferProductSchema } from "../../../../utils/formValidationSchemas";
+import PrimaryButton from "../../../../components/htmlElements/buttons/primaryButton/primaryButton";
 
 const Description: NextPage = () => {
 	const activeStep = '2';
@@ -44,85 +44,26 @@ const Description: NextPage = () => {
 	const forWhom = ['Tout le monde', 'Enfant', 'Femme', 'Homme'];
 	const [forWhomChoice, setForWhomChoice] = React.useState<Array<string>>([]);
 
-	const availableColorsList: Array<OfferColorsListType> = [
-		{
-			code: 'BK',
-			value: 'Noir',
-			hex: '#0D070B',
-		},
-		{
-			code: 'WT',
-			value: 'Blanc',
-			hex: '#FFFFFF',
-		},
-		{
-			code: 'BR',
-			value: 'Marron',
-			hex: '#CEB186',
-		},
-		{
-			code: 'BL',
-			value: 'Bleu',
-			hex: '#0274D7',
-		},
-		{
-			code: 'GN',
-			value: 'Vert',
-			hex: '#07CBAD',
-		},
-		{
-			code: 'PR',
-			value: 'Violet',
-			hex: '#8669FB',
-		},
-		{
-			code: 'OR',
-			value: 'Orange',
-			hex: '#FFA826',
-		},
-		{
-			code: 'PI',
-			value: 'Rose',
-			hex: '#FF9DBF',
-		},
-		{
-			code: 'YE',
-			value: 'Jaune',
-			hex: '#FED301',
-		},
-		{
-			code: 'GR',
-			value: 'Gris',
-			hex: '#D9D9DD',
-		},
-		{
-			code: 'MC',
-			value: 'Multicolore',
-			hex: 'conic-gradient(from 70.34deg at 51.34% 50%, #9557FF -67.34deg, #FF5364 21.53deg, #FFFB45 108.58deg, #70FA67 180deg, #48C3FF 228.18deg, #9557FF 292.66deg, #FF5364 381.53deg)',
-		},
-		{
-			code: 'RD',
-			value: 'Rouge',
-			hex: '#E12D3D',
-		},
-	];
-
 	// on change images
 	const imagesOnChangeHandler = (imageList: ImageListType, addUpdateIndex?: Array<number>) => {
-		console.log(imageList);
 		setImages(imageList);
 	};
 
 	// submit handler
-	const addDescriptionSubmitHandler = (values: unknown) => {
-		console.log('');
+	const addDescriptionSubmitHandler = (values: {title: string, description: string}) => {
+		console.log('TITLE & DESCRIPTION : ');
+		console.log(values);
+		console.log('PICKED IMAGES :');
+		console.log(images);
+		console.log('FOR WHOM CHOICES : ');
+		// needs short codes
+		console.log(forWhomChoice);
+		// missing colors, sizes, quantity
 	};
 
 	// on change for whom
 	const forWhomHandleChange = (event: SelectChangeEvent<Array<string>>) => {
-		const {
-			target: { value },
-		} = event;
+		const {target: { value }} = event;
 		setForWhomChoice(typeof value === 'string' ? value.split(',') : value);
 	};
 
@@ -144,7 +85,12 @@ const Description: NextPage = () => {
 						description="Commencez par lui donnez un titre, une description et ajoutez quelques photos."
 						HelpText="Apprendre à créer une offre"
 					/>
-					<Stack direction="column" justifyContent="space-between">
+					<Stack
+						direction="column"
+						justifyContent="space-between"
+						spacing={2}
+						sx={{ height: '80%' }}
+					>
 						<Formik
 							enableReinitialize={true}
 							initialValues={{
@@ -152,7 +98,7 @@ const Description: NextPage = () => {
 								description: '',
 							}}
 							validateOnMount={true}
-							// validationSchema={shopBioSchema}
+							validationSchema={addOfferProductSchema}
 							onSubmit={(values) => addDescriptionSubmitHandler(values)}
 						>
 							{({
@@ -165,7 +111,7 @@ const Description: NextPage = () => {
 								isValid,
 								isSubmitting,
 							}) => (
-								<Form>
+								<Form className={Styles.formStyle}>
 									<Stack direction="column" spacing={2}>
 										<ClickAwayListener onClickAway={() => setTitleTooltip(false)}>
 											<div>
@@ -198,7 +144,7 @@ const Description: NextPage = () => {
 											onChange={imagesOnChangeHandler}
 											maxNumber={4}
 										/>
-										<CustomCounterTextArea
+										<CustomTextArea
 											type="text"
 											id="description"
 											label="Description"
@@ -220,30 +166,39 @@ const Description: NextPage = () => {
 											theme={forWhomFieldTheme}
 											onChange={forWhomHandleChange}
 											value={forWhomChoice}
+											multiple={true}
 										/>
-										<Stack direction="row">
-											<div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
-												<Stack direction="column" justifyContent="space-between" alignItems="flex-end" spacing={2}>
-													<ColorsRadioCheckContent colors={availableColorsList} />
-													{/*<CreatorRadioCheckContent/>*/}
-												</Stack>
-											</div>
-											<div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
-												<Stack direction="column" justifyContent="space-between" alignItems="flex-end" spacing={2}>
-													{/*<SizesRadioCheckContent/>*/}
-													{/*<QuantityRadioCheckContent/>*/}
-												</Stack>
-											</div>
-										</Stack>
-										
+										<Grid container columnSpacing={1}>
+											<Grid item md={6} sm={12} xs={12}>
+												<ColorsRadioCheckContent />
+											</Grid>
+											{/*<Divider variant="fullWidth" orientation="vertical" flexItem />*/}
+											<Grid item md={6} sm={12} xs={12}>
+												<CreatorRadioCheckContent />
+											</Grid>
+										</Grid>
+										<Grid container columnSpacing={1}>
+											<Grid item md={6} sm={12} xs={12}>
+												<SizesRadioCheckContent />
+											</Grid>
+											<Grid item md={6} sm={12} xs={12}>
+												<QuantityRadioCheckContent />
+											</Grid>
+										</Grid>
+									</Stack>
+									<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
+										<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+											<PrimaryButton
+												buttonText="Continuer"
+												active={isValid && !isSubmitting}
+												onClick={handleSubmit}
+											/>
+										</div>
 									</Stack>
 								</Form>
 							)}
 						</Formik>
 					</Stack>
-					<div className={SharedStyles.primaryButtonWrapper}>
-						<PrimaryAnchorButton buttonText="Continuer" active={true} nextPage="#" />
-					</div>
 				</Box>
 			</main>
 		</>

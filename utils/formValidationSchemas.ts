@@ -1,6 +1,8 @@
 import * as Yup from "yup";
 import {
-	INPUT_EMAIL, INPUT_FACEBOOK_URL, INPUT_TWITTER_URL,
+	INPUT_EMAIL,
+	INPUT_FACEBOOK_URL,
+	INPUT_TWITTER_URL,
 	INPUT_MAX,
 	INPUT_MIN,
 	INPUT_PONE,
@@ -54,6 +56,14 @@ export const shopAddressSchema = Yup.object().shape({
 	km_radius: Yup.number().nullable().notRequired(),
 });
 
+export const addOfferProductSchema = Yup.object().shape({
+	title: Yup.string()
+		.min(2, INPUT_MIN(2))
+		.max(150, INPUT_MAX(150))
+		.required(INPUT_REQUIRED),
+	description: Yup.string().required(INPUT_REQUIRED),
+
+});
 
 
 

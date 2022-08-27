@@ -99,7 +99,6 @@ const IosSwitch: React.FC<Props> = (props: Props) => {
 					style={{...props.labelcssStyles}}
 					control={
 						<IOSSwitchStyle
-							sx={{ m: 1 }}
 							activeColor={activeColor && activeColor}
 							onChange={(e) => props.onChange && props.onChange(e.target.checked)}
 							checked={props.checked}

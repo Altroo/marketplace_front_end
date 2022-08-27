@@ -1,23 +1,44 @@
-import React from "react";
-import Styles from "./quantityRadioCheckContent.module.sass";
-import { getDefaultTheme } from "../../../../../utils/themes";
-import { ThemeProvider } from "@mui/material";
-import RadioCheckElement from "../radioCheckElement";
+import React, { useState } from 'react';
+import Styles from './quantityRadioCheckContent.module.sass';
+import { OfferQuantityFieldTheme } from '../../../../../utils/themes';
+import { ThemeProvider, Stack, IconButton, TextField } from '@mui/material';
+import RadioCheckElement from '../radioCheckElement';
+import MinusSVG from '../../../../../public/assets/svgs/globalIcons/minus-circular.svg';
+import PlusSVG from '../../../../../public/assets/svgs/globalIcons/plus-circular.svg';
+import Image from 'next/image';
 
 type Props = {
 	children?: React.ReactNode;
-}
+};
 
 const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
-
-	const defaultTheme = getDefaultTheme();
+	const [currentQuantity, setCurrentQuantity] = useState<number>(0);
+	const quantityTheme = OfferQuantityFieldTheme();
 
 	return (
-		<ThemeProvider theme={defaultTheme}>
-			<RadioCheckElement title="Quantité disponible">
-				<div>Quantities</div>
-			</RadioCheckElement>
-		</ThemeProvider>
+		<RadioCheckElement title="Quantité">
+			<Stack direction="row" flexWrap="wrap" gap={5}>
+				<IconButton
+					onClick={() =>
+						setCurrentQuantity((prevState) => {
+							if (prevState === 0) {
+								return 0;
+							} else {
+								return prevState - 1;
+							}
+						})
+					}
+				>
+					<Image src={MinusSVG} width={40} height={40} alt="" />
+				</IconButton>
+				<ThemeProvider theme={quantityTheme}>
+					<TextField variant="outlined" value={currentQuantity} color="primary" />
+				</ThemeProvider>
+				<IconButton onClick={() => setCurrentQuantity((prevState) => prevState + 1)}>
+					<Image src={PlusSVG} width={40} height={40} alt="" />
+				</IconButton>
+			</Stack>
+		</RadioCheckElement>
 	);
 };
 

@@ -32,20 +32,18 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 						alignItems="center" gap={5}>
 						{imageList.map((image, index) => {
 							return (
-								<Stack key={index} direction="row">
-									<Stack direction="row" className={Styles.addImagesWrapper} justifyContent="center" alignItems="center">
-										<ImageFuture
-											className={Styles.showImage}
-											src={image['data_url']}
-											alt=""
-											width={250}
-											height={160}
-											loading="lazy"
-										/>
-										<Box className={Styles.closeButtonWrapper} onClick={() => onImageRemove(index)}>
-											<Image src={CircularRemoveBlack} width={32} height={32} alt="" />
-										</Box>
-									</Stack>
+								<Stack key={index} direction="row" className={Styles.addImagesWrapper} justifyContent="center" alignItems="center">
+									<ImageFuture
+										className={Styles.showImage}
+										src={image['data_url']}
+										alt=""
+										width={250}
+										height={160}
+										loading="lazy"
+									/>
+									<Box className={Styles.closeButtonWrapper} onClick={() => onImageRemove(index)}>
+										<Image src={CircularRemoveBlack} width={32} height={32} alt="" />
+									</Box>
 								</Stack>
 							);
 						})}
