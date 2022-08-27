@@ -18,14 +18,45 @@ import React, {FC} from 'react';
 import {AppProps} from 'next/app';
 import {wrapper} from '../store/store';
 import { InitContextProvider } from '../contexts/InitContext';
+import Head from 'next/head';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { CacheProvider, EmotionCache } from '@emotion/react';
+import {getDefaultTheme} from '../utils/themes';
+import createEmotionCache from '../utils/createEmotionCache';
 
-const EntryPoint: FC<AppProps> = ({Component, pageProps}) => {
-	return (
-		<InitContextProvider>
-			<Component {...pageProps} />
-		</InitContextProvider>
-	);
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache();
+
+interface EntryPointProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+
+const EntryPoint: FC<EntryPointProps> = (props: EntryPointProps) => {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  return (
+    <CacheProvider value={emotionCache}>
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <ThemeProvider theme={getDefaultTheme()}>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+				<InitContextProvider>
+					<Component {...pageProps} />
+				</InitContextProvider>
+      </ThemeProvider>
+    </CacheProvider>
+  );
 };
+
+// const EntryPoint: FC<AppProps> = ({Component, pageProps}) => {
+// 	return (
+// 		<InitContextProvider>
+// 			<Component {...pageProps} />
+// 		</InitContextProvider>
+// 	);
+// };
 
 export default wrapper.withRedux(EntryPoint);
 
