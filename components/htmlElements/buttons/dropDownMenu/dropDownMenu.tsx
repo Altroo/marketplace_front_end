@@ -53,13 +53,12 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 	return (
 		<div className={Styles.dropDownWrapper}>
 			<Button
-				color="primary"
 				id={props.buttonID}
 				aria-controls={open ? `${props.menuID}` : undefined}
 				aria-haspopup="true"
 				aria-expanded={open ? 'true' : undefined}
 				onClick={handleClick}
-				endIcon={<Image src={props.dropDownIcon} alt="" className={Styles.icon} />}
+				endIcon={<Image src={props.dropDownIcon} alt="" />}
 			>
 				{props.dropDownText}
 			</Button>
@@ -80,7 +79,7 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 								action.onClick(true);
 								handleClose();
 							}} key={index} className={Styles.menuItem}>
-								{action.icon && <Image src={action.icon} alt="" className={Styles.icon} />}
+								{action.icon && <Image src={action.icon} alt="" />}
 								{action.text}
 							</MenuItem>
 						);
