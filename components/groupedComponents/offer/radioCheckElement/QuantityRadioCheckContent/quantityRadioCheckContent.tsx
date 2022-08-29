@@ -8,11 +8,12 @@ import PlusSVG from '../../../../../public/assets/svgs/globalIcons/plus-circular
 import Image from 'next/image';
 
 type Props = {
+	quantity: number;
+	setQuantity: React.Dispatch<React.SetStateAction<number>>;
 	children?: React.ReactNode;
 };
 
 const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
-	const [currentQuantity, setCurrentQuantity] = useState<number>(0);
 	const quantityTheme = OfferQuantityFieldTheme();
 
 	return (
@@ -20,7 +21,7 @@ const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
 			<Stack direction="row" flexWrap="wrap" gap={5}>
 				<IconButton
 					onClick={() =>
-						setCurrentQuantity((prevState) => {
+						props.setQuantity((prevState) => {
 							if (prevState === 0) {
 								return 0;
 							} else {
@@ -32,9 +33,9 @@ const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
 					<Image src={MinusSVG} width={40} height={40} alt="" />
 				</IconButton>
 				<ThemeProvider theme={quantityTheme}>
-					<TextField variant="outlined" value={currentQuantity} color="primary" />
+					<TextField variant="outlined" value={props.quantity} color="primary" />
 				</ThemeProvider>
-				<IconButton onClick={() => setCurrentQuantity((prevState) => prevState + 1)}>
+				<IconButton onClick={() => props.setQuantity((prevState) => prevState + 1)}>
 					<Image src={PlusSVG} width={40} height={40} alt="" />
 				</IconButton>
 			</Stack>

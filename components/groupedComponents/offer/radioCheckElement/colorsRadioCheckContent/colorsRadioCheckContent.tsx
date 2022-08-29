@@ -1,18 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Styles from './colorsRadioCheckContent.module.sass';
-import { Stack, Button, ThemeProvider, Grid} from '@mui/material';
+import { Stack, Button, ThemeProvider, Grid, Box} from '@mui/material';
 import { OfferColorsListType } from '../../../../../types/ui/uiTypes';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import RadioCheckElement from "../radioCheckElement";
+import {hexToRGB} from '../../../../../utils/helpers';
 
 type Props = {
+	selectedColorsList: Array<string>;
+	setselectedColorsList: React.Dispatch<React.SetStateAction<Array<string>>>;
 	children?: React.ReactNode;
 };
 
 const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
-
-	const testOnClick = (color: string) => {
-		console.log('clicked : ', color);
+	const colorOnClickHandler = (color: string) => {
+		if (!props.selectedColorsList.includes(color)) {
+			props.setselectedColorsList(prevState => {
+				return [...prevState, color];
+			})
+		}else {
+			const colorsList = [...props.selectedColorsList];
+			const index = props.selectedColorsList.indexOf(color);
+			if (index > -1) {
+				colorsList.splice(index, 1);
+				props.setselectedColorsList(colorsList);
+			}
+		}
 	};
 
 	const defaultTheme = getDefaultTheme();
@@ -85,17 +98,25 @@ const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
 			<RadioCheckElement title="Couleurs">
 					<Grid container>
 					{availableColorsList.map((color, index) => {
+						const rippleColor = hexToRGB(color.hex, 0.5);
 						return (
 							<Grid item md={3} sm={3} xs={4} key={index}>
 								<Stack direction="column" key={index} alignItems="center">
-									<Button className={Styles.colorButton}
-										sx={{ border: color.code === 'WT' ? '1px solid #A3A3AD' : '0',
-											background: color.hex,
-										}}
-										size="small"
-										onClick={() => testOnClick(color.code)}
-										color="primary"
-									/>
+									<Box className={`${Styles.colorWrapper} ${props.selectedColorsList.includes(color.code) ? Styles.colorActive : ''}`}>
+										<Button className={Styles.colorButton}
+											sx={{
+												border: color.code === 'WT' ? '1px solid #A3A3AD' : '0',
+												background: color.hex,
+												'&:hover': {
+													backgroundColor: `${rippleColor} !important`
+												}
+											}}
+											size="small"
+											onClick={() => colorOnClickHandler(color.code)}
+											color="primary"
+
+										/>
+										</Box>
 									<span className={Styles.colorValue}>{color.value}</span>
 								</Stack>
 							</Grid>

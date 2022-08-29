@@ -109,12 +109,12 @@ export interface OfferGetTagsType {
 	nameTag: string;
 }
 
-type OfferTags = {
-	pk: number;
-	name_tag: string;
-};
+// type OfferTags = {
+// 	pk: number;
+// 	name_tag: string;
+// };
 
-export type OfferTagsType = Array<OfferTags> | [];
+export type OfferTagsType = Array<string> | [];
 
 export type OfferGetTagsResponseType = ResponseDataInterface<OfferTagsType>;
 
@@ -272,6 +272,14 @@ export interface OfferGetVuesType extends PaginationResponseType<OfferGetVues> {
 }
 export interface UserLocalOfferType {
 	categoriesList: Array<OfferCategoriesType>;
+	title: string | null,
+	description: string | null,
+	images: Array<string>,
+	forWhom: string | null,
+	colors: string | null,
+	sizes: Array<string>,
+	quantity: number | null,
+	tags: string | null,
 }
 //!- Offer State
 export interface OfferStateInterface {

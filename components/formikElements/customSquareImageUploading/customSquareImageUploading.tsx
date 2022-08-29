@@ -7,6 +7,7 @@ import Image from 'next/image';
 import CircularRemoveBlack from '../../../public/assets/svgs/globalIcons/circular-remove-black.svg';
 import SquareImageInputFile from '../../htmlElements/buttons/squareImageInputFile/squareImageInputFile';
 import { ImageListType } from "react-images-uploading/dist/typings";
+import { FormikHelpers } from "formik";
 
 type Props = {
 	images: ImageListType;

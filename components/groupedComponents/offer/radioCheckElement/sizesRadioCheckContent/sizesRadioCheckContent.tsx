@@ -7,6 +7,8 @@ import { OfferSizesListType } from '../../../../../types/ui/uiTypes';
 import Chip from '@mui/material/Chip';
 
 type Props = {
+	sizesStates: Record<string, boolean>;
+	setSizesStates: Record<string, React.Dispatch<React.SetStateAction<boolean>>>;
 	children?: React.ReactNode;
 };
 
@@ -19,12 +21,6 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 		useRef<HTMLInputElement>(null),
 		useRef<HTMLInputElement>(null),
 	];
-	const [xsState, setXsState] = useState<boolean>(false);
-	const [sState, setSState] = useState<boolean>(false);
-	const [mState, setMState] = useState<boolean>(false);
-	const [lState, setLState] = useState<boolean>(false);
-	const [xState, setXState] = useState<boolean>(false);
-	const [xlState, setXlState] = useState<boolean>(false);
 
 	const sizeOnClickHandler = (
 		setState: React.Dispatch<React.SetStateAction<boolean>>,
@@ -48,38 +44,38 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 		{
 			code: 'XS',
 			value: 'XSmall',
-			state: xsState,
-			setState: setXsState,
+			state: props.sizesStates.xsState,
+			setState: props.setSizesStates.setXsState,
 		},
 		{
 			code: 'S',
 			value: 'Small',
-			state: sState,
-			setState: setSState,
+			state: props.sizesStates.sState,
+			setState: props.setSizesStates.setSState,
 		},
 		{
 			code: 'M',
 			value: 'Medium',
-			state: mState,
-			setState: setMState,
+			state: props.sizesStates.mState,
+			setState: props.setSizesStates.setMState,
 		},
 		{
 			code: 'L',
 			value: 'Large',
-			state: lState,
-			setState: setLState,
+			state: props.sizesStates.lState,
+			setState: props.setSizesStates.setLState,
 		},
 		{
 			code: 'X',
 			value: 'XLarge',
-			state: xState,
-			setState: setXState,
+			state: props.sizesStates.xState,
+			setState: props.setSizesStates.setXState,
 		},
 		{
 			code: 'XL',
 			value: 'XXLarge',
-			state: xlState,
-			setState: setXlState,
+			state: props.sizesStates.xlState,
+			setState: props.setSizesStates.setXlState,
 		},
 	];
 

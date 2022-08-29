@@ -23,7 +23,9 @@ import {
 	OfferPutRootProductResponseType,
 	OfferPutRootServiceResponseType,
 	OfferPostSolderResponseType,
-	OfferPostSolderType, OfferGetVuesResponseType, OfferCategoriesType
+	OfferPostSolderType,
+	OfferGetVuesResponseType,
+	OfferCategoriesType
 } from "../../../types/offer/offerTypes";
 import {
 	appendPostOfferState,
@@ -125,9 +127,6 @@ function* offerGetTagsSaga(payload: OfferGetTagsType) {
 		const response: OfferGetTagsResponseType = yield* call(() => getApi(url, instance, params));
 		if (response.status === 200) {
 			yield* put(setSelectedOfferTags(response.data));
-		} else {
-			console.log(response.status);
-			console.log(response.data);
 		}
 	} catch (e) {
 		const errors = e as ApiErrorResponseType;

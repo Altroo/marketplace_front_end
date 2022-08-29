@@ -39,6 +39,14 @@ const initialState: OfferStateInterface = {
 	// local states
 	userLocalOffer: {
 		categoriesList: [],
+		title: null,
+		description: null,
+		images: [],
+		forWhom: null,
+		colors: null,
+		sizes: [],
+		quantity: null,
+		tags: null,
 	},
 };
 

@@ -1,4 +1,4 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 import {
 	INPUT_EMAIL,
 	INPUT_FACEBOOK_URL,
@@ -7,20 +7,16 @@ import {
 	INPUT_MIN,
 	INPUT_PONE,
 	INPUT_REQUIRED,
-	INPUT_URL, INPUT_INSTAGRAM_URL
-} from "./formValidationErrorMessages";
+	INPUT_URL,
+	INPUT_INSTAGRAM_URL,
+} from './formValidationErrorMessages';
 
 export const shopNameSchema = Yup.object().shape({
-	shop_name: Yup.string()
-		.min(2, INPUT_MIN(2))
-		.max(50, INPUT_MAX(50))
-		.required(INPUT_REQUIRED),
+	shop_name: Yup.string().min(2, INPUT_MIN(2)).max(50, INPUT_MAX(50)).required(INPUT_REQUIRED),
 });
 
 export const shopBioSchema = Yup.object().shape({
-	bio: Yup.string()
-		.max(300, INPUT_MAX(300))
-		.nullable()
+	bio: Yup.string().max(300, INPUT_MAX(300)).nullable(),
 });
 
 export const shopAvailabilityDaysSchema = Yup.object().shape({
@@ -39,13 +35,13 @@ export const shopAvailabilityDaysSchema = Yup.object().shape({
 
 const rePhoneNumber = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
 export const shopCoordonneeSchema = Yup.object().shape({
-	phone: Yup.string().matches(rePhoneNumber, {message: INPUT_PONE}).nullable().notRequired(),
+	phone: Yup.string().matches(rePhoneNumber, { message: INPUT_PONE }).nullable().notRequired(),
 	contact_email: Yup.string().email(INPUT_EMAIL).nullable().notRequired(),
 	website_link: Yup.string().url(INPUT_URL).nullable().notRequired(),
 	facebook_link: Yup.string().url(INPUT_FACEBOOK_URL).nullable().notRequired(),
 	twitter_link: Yup.string().url(INPUT_TWITTER_URL).nullable().notRequired(),
 	instagram_link: Yup.string().url(INPUT_INSTAGRAM_URL).nullable().notRequired(),
-	whatsapp: Yup.string().matches(rePhoneNumber, {message: INPUT_PONE}).nullable().notRequired(),
+	whatsapp: Yup.string().matches(rePhoneNumber, { message: INPUT_PONE }).nullable().notRequired(),
 });
 
 export const shopAddressSchema = Yup.object().shape({
@@ -57,19 +53,16 @@ export const shopAddressSchema = Yup.object().shape({
 });
 
 export const addOfferProductSchema = Yup.object().shape({
-	title: Yup.string()
-		.min(2, INPUT_MIN(2))
-		.max(150, INPUT_MAX(150))
-		.required(INPUT_REQUIRED),
+	title: Yup.string().min(2, INPUT_MIN(2)).max(150, INPUT_MAX(150)).required(INPUT_REQUIRED),
 	description: Yup.string().required(INPUT_REQUIRED),
-
+	images: Yup.lazy((val) =>
+		Array.isArray(val)
+			? Yup.array().of(Yup.string().required(INPUT_REQUIRED))
+			: Yup.string().required(INPUT_REQUIRED),
+	),
+	tags: Yup.lazy((val) =>
+		Array.isArray(val)
+			? Yup.array().of(Yup.string().required(INPUT_REQUIRED))
+			: Yup.string().required(INPUT_REQUIRED),
+	),
 });
-
-
-
-
-
-
-
-
-

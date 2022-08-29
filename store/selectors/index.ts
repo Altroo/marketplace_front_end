@@ -78,8 +78,18 @@ export const getCheckUserHasShop = (state: RootState) => state.account.check_acc
 // Offers
 export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersList.next;
 export const getOfferVuesNextPage = (state: RootState) => state.offer.offerVuesList.next;
+export const getOfferTags = (state: RootState) => state.offer.selectedTags;
 // Local offers
 export const getLocalOfferCategories = (state: RootState) => state.offer.userLocalOffer.categoriesList;
+export const getLocalOfferTitle = (state: RootState) => state.offer.userLocalOffer?.title;
+export const getLocalOfferDescription = (state: RootState) => state.offer.userLocalOffer?.description;
+export const getLocalOfferImages = (state: RootState) => state.offer.userLocalOffer.images;
+export const getLocalOfferForwhom = (state: RootState) => state.offer.userLocalOffer?.forWhom;
+export const getLocalOfferColors = (state: RootState) => state.offer.userLocalOffer?.colors;
+export const getLocalOfferSizes = (state: RootState) => state.offer.userLocalOffer?.sizes;
+export const getLocalOfferQuantity = (state: RootState) => state.offer.userLocalOffer?.quantity;
+export const getLocalOfferTags = (state: RootState) => state.offer.userLocalOffer?.tags;
+
 
 // Chat
 export const getMyConversationsResults = (state: RootState) => state.chat.conversationsList.results;
