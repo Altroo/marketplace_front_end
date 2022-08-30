@@ -21,18 +21,18 @@ const redirectFunc = (req: NextRequest, cookieName: string, redirectTo: string) 
 export function middleware(req: NextRequest) {
 	const res = NextResponse.next();
 	// For user create new shop
-	if (req.nextUrl.pathname.endsWith(SHOP_ADD_AVATAR)) {
-		return redirectFunc(req, '@shop_name', SHOP_ADD_SHOP_NAME);
-	}
-	if (req.nextUrl.pathname.endsWith(SHOP_ADD_COLOR)) {
-		return redirectFunc(req, '@avatar', SHOP_ADD_AVATAR);
-	}
-	if (req.nextUrl.pathname.endsWith(SHOP_ADD_FONT)) {
-		return redirectFunc(req, '@color_code', SHOP_ADD_COLOR);
-	}
-	if (req.nextUrl.pathname.endsWith(SHOP_ADD_FONT)) {
-		return redirectFunc(req, '@bg_color_code', SHOP_ADD_COLOR);
-	}
+	// if (req.nextUrl.pathname.endsWith(SHOP_ADD_AVATAR)) {
+	// 	return redirectFunc(req, '@shop_name', SHOP_ADD_SHOP_NAME);
+	// }
+	// if (req.nextUrl.pathname.endsWith(SHOP_ADD_COLOR)) {
+	// 	return redirectFunc(req, '@avatar', SHOP_ADD_AVATAR);
+	// }
+	// if (req.nextUrl.pathname.endsWith(SHOP_ADD_FONT)) {
+	// 	return redirectFunc(req, '@color_code', SHOP_ADD_COLOR);
+	// }
+	// if (req.nextUrl.pathname.endsWith(SHOP_ADD_FONT)) {
+	// 	return redirectFunc(req, '@bg_color_code', SHOP_ADD_COLOR);
+	// }
 	// if added shop cookie tokenType doesn't exist redirect to create shop else to shop details page.
 	if (
 		req.nextUrl.pathname.endsWith(SHOP_EDIT_INDEX) ||
