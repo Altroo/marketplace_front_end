@@ -37,7 +37,7 @@ const ShopName: NextPage = () => {
 	const shopNameSubmitHandler = (value: string) => {
 		cookiesPoster('/cookies', { shop_name: 1 }).then();
 		dispatch(setShopNameAction(value));
-		router.replace(SHOP_ADD_AVATAR).then();
+		router.push(SHOP_ADD_AVATAR).then();
 	};
 	const inputTheme = shopNameTextInputTheme();
 
