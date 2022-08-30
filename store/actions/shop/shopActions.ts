@@ -11,20 +11,22 @@ export const setShopNameAction = (shop_name: string, router: NextRouter) => {
 	};
 };
 
-export const setShopAvatarAction = (avatar: ArrayBuffer | string | null) => {
+export const setShopAvatarAction = (avatar: ArrayBuffer | string | null, router: NextRouter) => {
 	return {
 		type: Types.SET_SHOP_AVATAR,
 		avatar,
+		router
 	};
 };
-
-export const setShopColorAction = (color_code: string, bg_color_code: string, border: string, icon_color: string) => {
+// SHOP_ADD_FONT
+export const setShopColorAction = (color_code: string, bg_color_code: string, border: string, icon_color: string, router: NextRouter) => {
 	return {
 		type: Types.SET_SHOP_COLOR,
 		color_code,
 		bg_color_code,
 		border,
 		icon_color,
+		router
 	};
 };
 

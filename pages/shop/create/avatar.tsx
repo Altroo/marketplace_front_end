@@ -4,7 +4,6 @@ import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBa
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
 import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import DefaultCardSection from '../../../components/htmlElements/cards/defaultCardSection/defaultCardSection';
 import { setShopAvatarAction } from '../../../store/actions/shop/shopActions';
@@ -26,11 +25,14 @@ import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import { getNewShopName, getNewShopAvatar } from "../../../store/selectors";
-import { SHOP_ADD_COLOR, SHOP_ADD_SHOP_NAME } from "../../../utils/routes";
+import { SHOP_ADD_SHOP_NAME } from "../../../utils/routes";
+import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
+import { useRouter } from "next/router";
 
 const Avatar: NextPage = () => {
 	const activeStep = '2';
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 	const shopName = useAppSelector(getNewShopName);
 	const shopAvatar = useAppSelector(getNewShopAvatar);
 
@@ -74,7 +76,7 @@ const Avatar: NextPage = () => {
 
 	const avatarHandler = (avatar: string | ArrayBuffer | null) => {
 		if (avatar) {
-			dispatch(setShopAvatarAction(avatar));
+			dispatch(setShopAvatarAction(avatar, router));
 		}
 	};
 
@@ -148,11 +150,11 @@ const Avatar: NextPage = () => {
 					</DefaultCardSection>
 				</div>
 				<div className={Styles.primaryButtonWrapper}>
-					<PrimaryAnchorButton
+					<PrimaryButton
 						buttonText="Continuer"
 						active={preview !== null}
 						onClick={() => avatarHandler(preview)}
-						nextPage={SHOP_ADD_COLOR}
+						type="submit"
 					/>
 				</div>
 			</main>

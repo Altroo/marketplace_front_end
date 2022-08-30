@@ -70,7 +70,7 @@ import {
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
-import { SHOP_ADD_AVATAR, SHOP_EDIT_INDEX } from "../../../utils/routes";
+import { SHOP_ADD_AVATAR, SHOP_ADD_COLOR, SHOP_ADD_FONT, SHOP_EDIT_INDEX } from "../../../utils/routes";
 import { NextRouter } from "next/router";
 
 // interface TokenNoAuthSagaBaseGeneratorParams {
@@ -547,9 +547,10 @@ function* setShopLocalShopNameSaga(payload: { type: string; shop_name: string, r
 	yield* call(() => payload.router.push(SHOP_ADD_AVATAR));
 }
 
-function* setShopLocalAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string }) {
+function* setShopLocalAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string, router: NextRouter }) {
 	yield* put(setNewShopAvatar(payload.avatar));
 	yield* call(() => setLocalStorageNewShopAvatar(payload.avatar as string));
+	yield* call(() => payload.router.push(SHOP_ADD_COLOR));
 }
 
 function* setShopLocalColorSaga(payload: {
@@ -558,6 +559,7 @@ function* setShopLocalColorSaga(payload: {
 	bg_color_code: string;
 	border: string;
 	icon_color: IconColorType;
+	router: NextRouter;
 }) {
 	yield* put(
 		setNewShopColor({
@@ -570,6 +572,7 @@ function* setShopLocalColorSaga(payload: {
 	yield* call(() =>
 		setLocalStorageNewShopColor(payload.color_code, payload.bg_color_code, payload.border, payload.icon_color),
 	);
+	yield* call(() => payload.router.push(SHOP_ADD_FONT));
 }
 
 function* setShopLocalFontSaga(payload: { type: string; font_name: ShopFontNameType }) {

@@ -15,7 +15,7 @@ import { Box } from '@mui/material';
 import { useRouter } from "next/router";
 import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
 import { shopNameSchema } from "../../../utils/formValidationSchemas";
-import { SHOP_ADD_AVATAR, SHOP_ADD_SHOP_NAME } from "../../../utils/routes";
+import { SHOP_ADD_SHOP_NAME } from "../../../utils/routes";
 import { shopNameTextInputTheme } from "../../../utils/themes";
 import CustomTextInput from "../../../components/formikElements/customTextInput/customTextInput";
 
@@ -36,7 +36,6 @@ const ShopName: NextPage = () => {
 
 	const shopNameSubmitHandler = (value: string) => {
 		cookiesPoster('/cookies', { shop_name: 1 }).then(() => {
-			// router.push(SHOP_ADD_AVATAR).then();
 			dispatch(setShopNameAction(value, router));
 		});
 	};

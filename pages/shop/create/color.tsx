@@ -5,7 +5,6 @@ import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBa
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
 import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import DefaultCardSection from '../../../components/htmlElements/cards/defaultCardSection/defaultCardSection';
 import { setShopColorAction } from '../../../store/actions/shop/shopActions';
@@ -39,7 +38,9 @@ import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
-import { SHOP_ADD_AVATAR, SHOP_ADD_FONT } from "../../../utils/routes";
+import { SHOP_ADD_AVATAR } from "../../../utils/routes";
+import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
+import { useRouter } from "next/router";
 
 export const colors = [
 	'#FF5D6B',
@@ -67,6 +68,7 @@ export const colors = [
 const Color: NextPage = () => {
 	const activeStep = '3';
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 	// Redux states
 	const shopName = useAppSelector(getNewShopName);
 	const shopAvatar = useAppSelector(getNewShopAvatar);
@@ -118,7 +120,7 @@ const Color: NextPage = () => {
 				cookiesPoster('/cookies', { icon_color: iconColor }).then();
 			});
 			// _bgColorCode & _colorCode are reversed for this action.
-			dispatch(setShopColorAction(_bgColorCode, _colorCode, border, iconColor));
+			dispatch(setShopColorAction(_bgColorCode, _colorCode, border, iconColor, router));
 		}
 	};
 	const whiteTextColors = ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
@@ -298,22 +300,22 @@ const Color: NextPage = () => {
 								<div
 									className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}
 								>
-									<PrimaryAnchorButton
+									<PrimaryButton
 										buttonText="Continuer"
 										active={colorCode !== undefined && bgColorCode !== undefined}
 										onClick={() => colorHandler(bgColorCode, colorCode)}
-										nextPage={SHOP_ADD_FONT}
+										type="submit"
 									/>
 								</div>
 							</div>
 						</div>
 					</DefaultCardSection>
 					<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
-						<PrimaryAnchorButton
+						<PrimaryButton
 							buttonText="Continuer"
 							active={colorCode !== undefined && bgColorCode !== undefined}
 							onClick={() => colorHandler(bgColorCode, colorCode)}
-							nextPage={SHOP_ADD_FONT}
+							type="submit"
 						/>
 					</div>
 				</div>
