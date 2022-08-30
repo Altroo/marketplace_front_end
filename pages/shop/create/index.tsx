@@ -35,9 +35,10 @@ const ShopName: NextPage = () => {
 	}, [shopName]);
 
 	const shopNameSubmitHandler = (value: string) => {
-		cookiesPoster('/cookies', { shop_name: 1 }).then();
-		dispatch(setShopNameAction(value));
-		router.push(SHOP_ADD_AVATAR).then();
+		cookiesPoster('/cookies', { shop_name: 1 }).then(() => {
+			// router.push(SHOP_ADD_AVATAR).then();
+			dispatch(setShopNameAction(value, router));
+		});
 	};
 	const inputTheme = shopNameTextInputTheme();
 

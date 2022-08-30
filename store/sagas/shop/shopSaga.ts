@@ -70,7 +70,8 @@ import {
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
-import { SHOP_EDIT_INDEX } from "../../../utils/routes";
+import { SHOP_ADD_AVATAR, SHOP_EDIT_INDEX } from "../../../utils/routes";
+import { NextRouter } from "next/router";
 
 // interface TokenNoAuthSagaBaseGeneratorParams {
 //     payloadRecord: Record<string, unknown>;
@@ -123,7 +124,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				// update state
 				yield* put(setPostShopState(response.data));
 				// TODO check when reach add shop while connected
-				payload.router.push(`${SHOP_EDIT_INDEX}?created=true`).then();
+				yield* call(() => payload.router.push(`${SHOP_EDIT_INDEX}?created=true`));
 			}
 		} else {
 			// User is not authenticated
@@ -149,7 +150,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				yield* call(() => emptyLocalStorageNewShopData());
 				// delete cookies
 				yield* call(() => deleteCookieStorageNewShopData());
-				payload.router.push(`${SHOP_EDIT_INDEX}?created=true`).then();
+				yield* call(() => payload.router.push(`${SHOP_EDIT_INDEX}?created=true`));
 			}
 		}
 	} catch (e) {
@@ -540,9 +541,10 @@ function* wsShopAvatarSaga(payload: { type: string; pk: number; shop_avatar: str
 }
 
 // Create Temporary shop
-function* setShopLocalShopNameSaga(payload: { type: string; shop_name: string }) {
+function* setShopLocalShopNameSaga(payload: { type: string; shop_name: string, router: NextRouter }) {
 	yield* put(setNewShopName(payload.shop_name));
 	yield* call(() => setLocalStorageNewShopName(payload.shop_name));
+	yield* call(() => payload.router.push(SHOP_ADD_AVATAR));
 }
 
 function* setShopLocalAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string }) {

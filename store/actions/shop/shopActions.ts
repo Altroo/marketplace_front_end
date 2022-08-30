@@ -3,10 +3,11 @@ import { ShopFontNameType, ShopZoneByType } from '../../../types/shop/shopTypes'
 import { IconColorType } from '../../../types/_init/_initTypes';
 import { NextRouter } from 'next/router';
 
-export const setShopNameAction = (shop_name: string) => {
+export const setShopNameAction = (shop_name: string, router: NextRouter) => {
 	return {
 		type: Types.SET_SHOP_NAME,
 		shop_name,
+		router
 	};
 };
 
