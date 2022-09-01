@@ -34,7 +34,7 @@ const placesSlice = createSlice({
 			state.countries = action.payload;
 			return state;
 		},
-		setGetCities: (state, action: PayloadAction<Array<CitiesType>>) => {
+		setGetCities: (state, action: PayloadAction<Array<string>>) => {
 			state.cities = action.payload;
 			return state;
 		},

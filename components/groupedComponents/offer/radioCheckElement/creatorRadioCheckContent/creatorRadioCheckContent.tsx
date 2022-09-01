@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Styles from './creatorRadioCheckContent.module.sass';
 import { getDefaultTheme, OfferChipTheme, offerForWhomDropdownTheme } from "../../../../../utils/themes";
 import { ThemeProvider, Stack, Grid } from '@mui/material';
@@ -29,22 +29,22 @@ const CreatorRadioCheckContent: React.FC<Props> = (props: Props) => {
 		<ThemeProvider theme={defaultTheme}>
 			<RadioCheckElement title="Labels">
 				<Stack direction="column" gap={2}>
-				<span className={Styles.creatorLabel}>Produit original &quot;Creator&quot;</span>
-				<ThemeProvider theme={chipTheme}>
-					<Stack direction="row" flexWrap="wrap" gap={2} alignItems="center" sx={{ marginTop: '6px' }}>
-						<Chip label="Oui" variant="outlined" disabled={true} />
-						<Chip label="Non" variant="outlined" disabled={true} />
-					</Stack>
-				</ThemeProvider>
-				{/* eslint-disable-next-line */}
-				<CustomDropDownChoices onChange={() => {}}
-					id="made_in"
-					label="Made in"
-					items={[""]}
-					theme={madeInFieldTheme}
-					value={[""]}
-					disabled={true}
-				/>
+					<span className={Styles.creatorLabel}>Produit original &quot;Creator&quot;</span>
+					<ThemeProvider theme={chipTheme}>
+						<Stack direction="row" flexWrap="wrap" gap={2} alignItems="center" sx={{ marginTop: '6px' }}>
+							<Chip label="Oui" variant="outlined" disabled={true} />
+							<Chip label="Non" variant="outlined" disabled={true} />
+						</Stack>
+					</ThemeProvider>
+					{/* eslint-disable-next-line */}
+					<CustomDropDownChoices onChange={() => {}}
+						id="made_in"
+						label="Made in"
+						items={[""]}
+						theme={madeInFieldTheme}
+						value={[""]}
+						disabled={true}
+					/>
 				</Stack>
 			</RadioCheckElement>
 		</ThemeProvider>

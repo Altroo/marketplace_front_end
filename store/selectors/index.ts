@@ -70,11 +70,12 @@ export const getShopObj = (state: RootState) => (state.shop.userShop as ShopGetR
 // Places
 export const getLocalisationName = (state: RootState) => state.places.localisation_name;
 export const getPlacesApiError = (state: RootState) => state.places.placesApi.error;
+export const getAvailableCities = (state: RootState) => state.places.cities;
+
 // export const getPlacesApiFetchInProgress = (state: RootState) => state.places.placesApi.isFetchInProgress;
 export const getPlacesApiFetchPromiseStatus = (state: RootState) => state.places.placesApi.fetchPromiseStatus;
 // Account
 export const getCheckUserHasShop = (state: RootState) => state.account.check_account?.has_shop as boolean;
-
 // Offers
 export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersList.next;
 export const getOfferVuesNextPage = (state: RootState) => state.offer.offerVuesList.next;
@@ -83,14 +84,25 @@ export const getOfferTags = (state: RootState) => state.offer.selectedTags;
 export const getLocalOfferCategories = (state: RootState) => state.offer.userLocalOffer.categoriesList;
 export const getLocalOfferTitle = (state: RootState) => state.offer.userLocalOffer?.title;
 export const getLocalOfferDescription = (state: RootState) => state.offer.userLocalOffer?.description;
-export const getLocalOfferImages = (state: RootState) => state.offer.userLocalOffer.images;
+export const getLocalOfferPicture1 = (state: RootState) => state.offer.userLocalOffer.picture_1;
+export const getLocalOfferPicture2 = (state: RootState) => state.offer.userLocalOffer.picture_2;
+export const getLocalOfferPicture3 = (state: RootState) => state.offer.userLocalOffer.picture_3;
+export const getLocalOfferPicture4 = (state: RootState) => state.offer.userLocalOffer.picture_4;
 export const getLocalOfferForwhom = (state: RootState) => state.offer.userLocalOffer?.forWhom;
 export const getLocalOfferColors = (state: RootState) => state.offer.userLocalOffer?.colors;
 export const getLocalOfferSizes = (state: RootState) => state.offer.userLocalOffer?.sizes;
 export const getLocalOfferQuantity = (state: RootState) => state.offer.userLocalOffer?.quantity;
 export const getLocalOfferTags = (state: RootState) => state.offer.userLocalOffer?.tags;
 
-
+export const getLocalOfferDeliveryCity1 = (state: RootState) => state.offer.userLocalOffer.deliveries?.delivery_city_1;
+export const getLocalOfferDeliveryAllCities1 = (state: RootState) => state.offer.userLocalOffer.deliveries?.all_cities_1;
+export const getLocalOfferDeliveryPrice1 = (state: RootState) => state.offer.userLocalOffer.deliveries?.delivery_price_1;
+export const getLocalOfferDeliveryCity2 = (state: RootState) => state.offer.userLocalOffer.deliveries?.delivery_city_2;
+export const getLocalOfferDeliveryAllCities2 = (state: RootState) => state.offer.userLocalOffer.deliveries?.all_cities_2;
+export const getLocalOfferDeliveryPrice2 = (state: RootState) => state.offer.userLocalOffer.deliveries?.delivery_price_2;
+export const getLocalOfferDeliveryCity3 = (state: RootState) => state.offer.userLocalOffer.deliveries?.delivery_city_3;
+export const getLocalOfferDeliveryAllCities3 = (state: RootState) => state.offer.userLocalOffer.deliveries?.all_cities_3;
+export const getLocalOfferDeliveryPrice3 = (state: RootState) => state.offer.userLocalOffer.deliveries?.delivery_price_3;
 // Chat
 export const getMyConversationsResults = (state: RootState) => state.chat.conversationsList.results;
 export const getMyConversationsNextPage = (state: RootState) => state.chat.conversationsList.next;

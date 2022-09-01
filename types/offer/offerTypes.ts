@@ -1,5 +1,6 @@
 import { OfferProductClass, OfferServiceClass } from '../../models/offer/OfferProductClass';
 import { Nullable, ResponseDataInterface, PaginationResponseType } from '../_init/_initTypes';
+import { NextRouter } from 'next/router';
 
 // ('V', 'Produit'), ('S', 'Service'), ('L', 'Location') <- 'L' Not yet available,
 export type OfferOfferTypeType = 'V' | 'S' | 'L';
@@ -270,17 +271,46 @@ export interface OfferGetVuesType extends PaginationResponseType<OfferGetVues> {
 	this_month: OfferGetVuesMonthType | null;
 	pourcentage: string | null;
 }
+
+export type clickAndCollect = {
+	longitude: number | null;
+	latitude: number | null;
+	address_name: string | null;
+};
+
+export type deliveries = {
+	delivery_city_1: string | null;
+	all_cities_1: boolean | null;
+	delivery_price_1: string | null;
+	delivery_days_1: string | null;
+	delivery_city_2: string | null;
+	all_cities_2: boolean | null;
+	delivery_price_2: string | null;
+	delivery_days_2: string | null;
+	delivery_city_3: string | null;
+	all_cities_3: boolean | null;
+	delivery_price_3: string | null;
+	delivery_days_3: string | null;
+}
 export interface UserLocalOfferType {
 	categoriesList: Array<OfferCategoriesType>;
-	title: string | null,
-	description: string | null,
-	images: Array<string>,
-	forWhom: string | null,
-	colors: string | null,
-	sizes: Array<string>,
-	quantity: number | null,
-	tags: string | null,
+	title: string | null;
+	description: string | null;
+	picture_1: string | null;
+	picture_2: string | null;
+	picture_3: string | null;
+	picture_4: string | null;
+	forWhom: string | null;
+	colors: string | null;
+	sizes: string | null;
+	quantity: number | null;
+	tags: string | null;
+	prix: string | null;
+	prix_par: 'U' | 'K' | 'L' | null;
+	clickAndCollect: clickAndCollect;
+	deliveries: deliveries;
 }
+
 //!- Offer State
 export interface OfferStateInterface {
 	userOffers: Array<OfferProductInterface | OfferServiceInterface>;
@@ -339,3 +369,20 @@ export interface OfferPostSolderType extends Omit<OfferSolderInterface, 'offer'>
 }
 
 export type OfferGetVuesResponseType = ResponseDataInterface<OfferGetVuesType>;
+
+// local offer types
+export type LocalOfferDescriptionPageType = {
+	type: string;
+	title: string;
+	picture_1: string;
+	picture_2: string | null;
+	picture_3: string | null;
+	picture_4: string | null;
+	description: string;
+	for_whom: string | null;
+	product_colors: string | null;
+	product_sizes: string | null;
+	product_quantity: number | null;
+	tags: string | null;
+	router: NextRouter;
+};

@@ -51,7 +51,7 @@ export function* placesGetCitiesSaga(payload: { type: string; code: string; q?: 
 		const instance = yield* call(() => allowAnyInstance());
 		const response: PlacesGetCitiesResponseType = yield* call(() => getApi(url, instance, params));
 		if (response.status === 200) {
-			yield* put(setGetCities({ ...response.data }));
+			yield* put(setGetCities(response.data));
 		} else {
 			console.log(response.status);
 			console.log(response.data);

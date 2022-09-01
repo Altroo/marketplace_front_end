@@ -1,16 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+	LocalOfferDescriptionPageType,
 	OfferCategoriesType,
-	OfferDeliveries, OfferGetMyOffersProductInterface, OfferGetMyOffersServiceInterface,
+	OfferDeliveries,
+	OfferGetMyOffersProductInterface,
+	OfferGetMyOffersServiceInterface,
 	OfferGetRootProductInterface,
-	OfferGetRootServiceInterface, OfferGetVuesType,
+	OfferGetRootServiceInterface,
+	OfferGetVuesType,
 	OfferProductInterface,
 	OfferProductLocalisation,
 	OfferServiceInterface,
-	OfferServiceLocalisation, OfferSolderInterface,
+	OfferServiceLocalisation,
+	OfferSolderInterface,
 	OfferStateInterface,
-	OfferTagsType
-} from "../../../types/offer/offerTypes";
+	OfferTagsType,
+} from '../../../types/offer/offerTypes';
 import { PaginationResponseType } from '../../../types/_init/_initTypes';
 // import { HYDRATE } from "next-redux-wrapper";
 
@@ -41,12 +46,36 @@ const initialState: OfferStateInterface = {
 		categoriesList: [],
 		title: null,
 		description: null,
-		images: [],
+		picture_1: null,
+		picture_2: null,
+		picture_3: null,
+		picture_4: null,
 		forWhom: null,
 		colors: null,
-		sizes: [],
+		sizes: null,
 		quantity: null,
 		tags: null,
+		prix: null,
+		prix_par: null,
+		clickAndCollect: {
+			longitude: null,
+			latitude: null,
+			address_name: null,
+		},
+		deliveries: {
+			delivery_city_1: null,
+			all_cities_1: null,
+			delivery_price_1: null,
+			delivery_days_1:null,
+			delivery_city_2: null,
+			all_cities_2: null,
+			delivery_price_2: null,
+			delivery_days_2:null,
+			delivery_city_3: null,
+			all_cities_3: null,
+			delivery_price_3: null,
+			delivery_days_3:null,
+		}
 	},
 };
 
@@ -69,7 +98,10 @@ const OfferSlice = createSlice({
 			state.selectedTags = action.payload;
 			return state;
 		},
-		setOfferLastUsedLocalisation: (state, action: PayloadAction<OfferProductLocalisation | OfferServiceLocalisation>) => {
+		setOfferLastUsedLocalisation: (
+			state,
+			action: PayloadAction<OfferProductLocalisation | OfferServiceLocalisation>,
+		) => {
 			state.lastUsedLocalisation = action.payload;
 			return state;
 		},
@@ -77,33 +109,40 @@ const OfferSlice = createSlice({
 			state.lastUsedDeliveries = action.payload.deliveries;
 			return state;
 		},
-		setMyOffersList: (state, action: PayloadAction<PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>>) => {
+		setMyOffersList: (
+			state,
+			action: PayloadAction<
+				PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
+			>,
+		) => {
 			const { next, previous, count, results } = action.payload;
 			state.userOffersList.count = count;
 			state.userOffersList.next = next;
 			state.userOffersList.previous = previous;
-			for(let i=0; i<results.length; i++){
+			for (let i = 0; i < results.length; i++) {
 				state.userOffersList.results.push(results[i]);
 			}
 			return state;
 		},
 		setPutOffer: (state, action: PayloadAction<OfferProductInterface | OfferServiceInterface>) => {
 			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.pk);
-			if (userOffersindex >= 0){
+			if (userOffersindex >= 0) {
 				state.userOffers[userOffersindex] = action.payload;
 			}
 			const userOffersListIndex = state.userOffersList.results.findIndex((item) => item.pk === action.payload.pk);
-			const updatedOffer = state.userOffersList.results[userOffersListIndex]
-			if (userOffersListIndex >= 0){
+			const updatedOffer = state.userOffersList.results[userOffersListIndex];
+			if (userOffersListIndex >= 0) {
 				updatedOffer.title = action.payload.title;
 				//*** thumbnail will be updated via ws
 				// updatedOffer.thumbnail = action.payload.picture_1_thumb
 				updatedOffer.price = action.payload.price;
 				const detailsOffer = updatedOffer.details_offer;
 				// check if it's a product
-				if (action.payload.offer_type === 'V' &&
+				if (
+					action.payload.offer_type === 'V' &&
 					'product_quantity' in detailsOffer &&
-					'product_quantity' in action.payload) {
+					'product_quantity' in action.payload
+				) {
 					detailsOffer.product_quantity = action.payload.product_quantity;
 					detailsOffer.product_price_by = action.payload.product_price_by;
 					detailsOffer.product_longitude = action.payload.product_longitude;
@@ -111,10 +150,12 @@ const OfferSlice = createSlice({
 					detailsOffer.product_address = action.payload.product_address;
 					detailsOffer.product_colors = action.payload.product_colors;
 					detailsOffer.product_sizes = action.payload.product_sizes;
-				// check if it's a service
-				} else if (action.payload.offer_type === 'S' &&
+					// check if it's a service
+				} else if (
+					action.payload.offer_type === 'S' &&
 					'service_availability_days' in detailsOffer &&
-					'service_availability_days' in action.payload) {
+					'service_availability_days' in action.payload
+				) {
 					detailsOffer.service_availability_days = action.payload.service_availability_days;
 					detailsOffer.service_morning_hour_from = action.payload.service_morning_hour_from;
 					detailsOffer.service_morning_hour_to = action.payload.service_morning_hour_to;
@@ -130,23 +171,27 @@ const OfferSlice = createSlice({
 			}
 			return state;
 		},
-		deleteUserOffer: (state, action: PayloadAction<{offer_pk: number}>) => {
+		deleteUserOffer: (state, action: PayloadAction<{ offer_pk: number }>) => {
 			// update userOffers
-			state.userOffers = state.userOffers.filter(item => item.pk !== action.payload.offer_pk);
+			state.userOffers = state.userOffers.filter((item) => item.pk !== action.payload.offer_pk);
 			// update userOffersList results
-			state.userOffersList.results = state.userOffersList.results.filter(item => item.pk !== action.payload.offer_pk);
+			state.userOffersList.results = state.userOffersList.results.filter(
+				(item) => item.pk !== action.payload.offer_pk,
+			);
 			return state;
 		},
 		setSolderOffer: (state, action: PayloadAction<OfferSolderInterface>) => {
 			// update userOffers
 			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.offer);
-			if (userOffersindex >= 0){
+			if (userOffersindex >= 0) {
 				state.userOffers[userOffersindex].solder_type = action.payload.solder_type;
 				state.userOffers[userOffersindex].solder_value = action.payload.solder_value;
 			}
 			// update userOffersList results
-			const userOffersListIndex = state.userOffersList.results.findIndex((item) => item.pk === action.payload.offer);
-			if (userOffersListIndex >= 0){
+			const userOffersListIndex = state.userOffersList.results.findIndex(
+				(item) => item.pk === action.payload.offer,
+			);
+			if (userOffersListIndex >= 0) {
 				state.userOffersList.results[userOffersListIndex].solder_type = action.payload.solder_type;
 				state.userOffersList.results[userOffersListIndex].solder_value = action.payload.solder_value;
 			}
@@ -156,16 +201,18 @@ const OfferSlice = createSlice({
 			state.selectedSolder = action.payload;
 			return state;
 		},
-		deleteSolderOffer: (state, action: PayloadAction<{offer_pk: number}>) => {
+		deleteSolderOffer: (state, action: PayloadAction<{ offer_pk: number }>) => {
 			// update userOffers
 			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.offer_pk);
-			if (userOffersindex >= 0){
+			if (userOffersindex >= 0) {
 				state.userOffers[userOffersindex].solder_type = null;
 				state.userOffers[userOffersindex].solder_value = null;
 			}
 			// update userOffersList results
-			const userOffersListIndex = state.userOffersList.results.findIndex((item) => item.pk === action.payload.offer_pk);
-			if (userOffersListIndex >= 0){
+			const userOffersListIndex = state.userOffersList.results.findIndex(
+				(item) => item.pk === action.payload.offer_pk,
+			);
+			if (userOffersListIndex >= 0) {
 				state.userOffersList.results[userOffersListIndex].solder_type = null;
 				state.userOffersList.results[userOffersListIndex].solder_value = null;
 			}
@@ -180,17 +227,19 @@ const OfferSlice = createSlice({
 			state.offerVuesList.total_vues = total_vues;
 			state.offerVuesList.pourcentage = pourcentage;
 			state.offerVuesList.this_month = this_month;
-			for(let i=0; i<results.length; i++){
+			for (let i = 0; i < results.length; i++) {
 				state.offerVuesList.results.push(results[i]);
 			}
 			return state;
 		},
-		setWSOfferThumbnail: (state, action: PayloadAction<{offer_pk: number, offer_thumbnail: string}>) => {
+		setWSOfferThumbnail: (state, action: PayloadAction<{ offer_pk: number; offer_thumbnail: string }>) => {
 			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.offer_pk);
-			if (userOffersindex >= 0){
+			if (userOffersindex >= 0) {
 				state.userOffers[userOffersindex].picture_1_thumb = action.payload.offer_thumbnail;
 			}
-			const userOffersListIndex = state.userOffersList.results.findIndex((item) => item.pk === action.payload.offer_pk);
+			const userOffersListIndex = state.userOffersList.results.findIndex(
+				(item) => item.pk === action.payload.offer_pk,
+			);
 			if (userOffersListIndex >= 0) {
 				state.userOffersList.results[userOffersListIndex].thumbnail = action.payload.offer_thumbnail;
 			}
@@ -199,7 +248,7 @@ const OfferSlice = createSlice({
 			}
 			return state;
 		},
-		setExistsInCart: (state, action: PayloadAction<{offer_pk: number, exists_in_cart: boolean}>) => {
+		setExistsInCart: (state, action: PayloadAction<{ offer_pk: number; exists_in_cart: boolean }>) => {
 			if (state.selectedOffer.pk === action.payload.offer_pk) {
 				state.selectedOffer.exists_in_cart = action.payload.exists_in_cart;
 			}
@@ -214,6 +263,55 @@ const OfferSlice = createSlice({
 					state.userLocalOffer.categoriesList.splice(index, 1);
 				}
 			}
+			return state;
+		},
+		setLocalOfferDescription: (state, action: PayloadAction<LocalOfferDescriptionPageType>) => {
+			state.userLocalOffer.title = action.payload.title;
+			state.userLocalOffer.description = action.payload.description;
+			state.userLocalOffer.picture_1 = action.payload.picture_1;
+			state.userLocalOffer.picture_2 = action.payload.picture_2;
+			state.userLocalOffer.picture_3 = action.payload.picture_3;
+			state.userLocalOffer.picture_4 = action.payload.picture_4;
+			state.userLocalOffer.forWhom = action.payload.for_whom;
+			state.userLocalOffer.colors = action.payload.product_colors;
+			state.userLocalOffer.sizes = action.payload.product_sizes;
+			state.userLocalOffer.quantity = action.payload.product_quantity;
+			state.userLocalOffer.tags = action.payload.tags;
+			return state;
+		},
+		setLocalOfferPrice: (state, action: PayloadAction<{ price: string; price_by: 'U' | 'K' | 'L' }>) => {
+			state.userLocalOffer.prix = action.payload.price;
+			state.userLocalOffer.prix_par = action.payload.price_by;
+			return state;
+		},
+		setLocalOfferClickAndCollect: (
+			state,
+			action: PayloadAction<{ longitude: number; latitude: number; address_name: string | null }>,
+		) => {
+			state.userLocalOffer.clickAndCollect.longitude = action.payload.longitude;
+			state.userLocalOffer.clickAndCollect.latitude = action.payload.latitude;
+			state.userLocalOffer.clickAndCollect.address_name = action.payload.address_name;
+			console.log(action.payload);
+			return state;
+		},
+		setLocalOfferDeliveries: (
+			state,
+			action: PayloadAction<{
+				delivery_city_1: string;
+				all_cities_1: boolean;
+				delivery_price_1: string;
+				delivery_days_1: string;
+				delivery_city_2: string;
+				all_cities_2: boolean;
+				delivery_price_2: string;
+				delivery_days_2: string;
+				delivery_city_3: string;
+				all_cities_3: boolean;
+				delivery_price_3: string;
+				delivery_days_3: string;
+			}>,
+		) => {
+			state.userLocalOffer.deliveries = {...action.payload};
 			return state;
 		},
 		initOffer: () => {
@@ -244,6 +342,10 @@ export const {
 	setWSOfferThumbnail,
 	setExistsInCart,
 	setLocalOfferCategories,
+	setLocalOfferDescription,
+	setLocalOfferPrice,
+	setLocalOfferClickAndCollect,
+	setLocalOfferDeliveries,
 } = OfferSlice.actions;
 
 export default OfferSlice.reducer;

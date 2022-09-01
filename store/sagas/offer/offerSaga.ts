@@ -25,8 +25,8 @@ import {
 	OfferPostSolderResponseType,
 	OfferPostSolderType,
 	OfferGetVuesResponseType,
-	OfferCategoriesType
-} from "../../../types/offer/offerTypes";
+	OfferCategoriesType,
+} from '../../../types/offer/offerTypes';
 import {
 	appendPostOfferState,
 	setOfferLastThreeUsedDeliveries,
@@ -42,8 +42,14 @@ import {
 	setOfferVuesList,
 	setWSOfferThumbnail,
 	setLocalOfferCategories,
-} from '../../slices/offer/offerSlice';
+	setLocalOfferDescription,
+	setLocalOfferPrice,
+	setLocalOfferClickAndCollect,
+	setLocalOfferDeliveries
+} from "../../slices/offer/offerSlice";
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
+import { NextRouter } from 'next/router';
+import { OFFER_ADD_PRODUCT_LIVRAISON, OFFER_ADD_PRODUCT_PRICE, SHOP_EDIT_INDEX } from "../../../utils/routes";
 
 function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootServiceType) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
@@ -485,16 +491,70 @@ function* offerGetVuesSaga() {
 	}
 }
 
-function* wsOfferThumbnailSaga(payload: {type: string, pk: number, offer_thumbnail: string}) {
-	yield* put(setWSOfferThumbnail({offer_pk: payload.pk, offer_thumbnail: payload.offer_thumbnail}));
+function* wsOfferThumbnailSaga(payload: { type: string; pk: number; offer_thumbnail: string }) {
+	yield* put(setWSOfferThumbnail({ offer_pk: payload.pk, offer_thumbnail: payload.offer_thumbnail }));
 }
 
-function* setOfferCategoriesSaga(payload: {type: string, categories: OfferCategoriesType}) {
+function* setOfferCategoriesPageSaga(payload: { type: string; categories: OfferCategoriesType }) {
 	yield* put(setLocalOfferCategories(payload.categories));
 }
 
+function* setOfferDescriptionPageSaga(payload: {
+	type: string;
+	title: string;
+	picture_1: string;
+	picture_2: string | null;
+	picture_3: string | null;
+	picture_4: string | null;
+	description: string;
+	for_whom: string | null;
+	product_colors: string | null;
+	product_sizes: string | null;
+	product_quantity: number | null;
+	tags: string | null;
+	router: NextRouter;
+}) {
+	yield* put(
+		setLocalOfferDescription({...payload}),
+	);
+	yield* call(() => payload.router.push(OFFER_ADD_PRODUCT_PRICE));
+}
+
+function* setOfferPricePageSaga(payload: {type: string; price: string, price_by: 'U' | 'K' | 'L', router: NextRouter}) {
+	const { type, ...payloadData } = payload;
+	yield* put(setLocalOfferPrice(payloadData));
+	yield* call(() => payload.router.push(OFFER_ADD_PRODUCT_LIVRAISON))
+}
+
+function* setOfferDeliveryPageClickAndCollectSaga(payload: {type: string; longitude: number; latitude: number; address_name: string | null}) {
+	const { type, ...payloadData } = payload;
+	yield* put(setLocalOfferClickAndCollect(payloadData));
+}
+
+function* setOfferDeliveryPageDeliveriesSaga(payload: {type: string,
+	delivery_city_1: string,
+	all_cities_1: boolean,
+	delivery_price_1: string,
+	delivery_days_1: string,
+	delivery_city_2: string,
+	all_cities_2: boolean,
+	delivery_price_2: string,
+	delivery_days_2: string,
+	delivery_city_3: string,
+	all_cities_3: boolean,
+	delivery_price_3: string,
+	delivery_days_3: string
+}) {
+	const {type, ...payloadData} = payload;
+	yield* put(setLocalOfferDeliveries(payloadData));
+}
+
 export function* watchOffer() {
-	yield* takeLatest(Types.SET_OFFER_CATEGORIES, setOfferCategoriesSaga);
+	yield* takeLatest(Types.SET_OFFER_CATEGORIES_PAGE, setOfferCategoriesPageSaga);
+	yield* takeLatest(Types.SET_OFFER_DESCRIPTION_PAGE, setOfferDescriptionPageSaga);
+	yield* takeLatest(Types.SET_OFFER_PRICE_PAGE, setOfferPricePageSaga);
+	yield* takeLatest(Types.SET_OFFER_DELIVERY_PAGE_CLICK_AND_COLLECT, setOfferDeliveryPageClickAndCollectSaga);
+	yield* takeLatest(Types.SET_OFFER_DELIVERY_PAGE_DELIVERIES, setOfferDeliveryPageDeliveriesSaga);
 	yield* takeLatest(Types.OFFER_POST_ROOT, offerPostRootSaga);
 	yield* takeLatest(Types.OFFER_GET_ROOT, offerGetRootSaga);
 	yield* takeLatest(Types.OFFER_PUT_ROOT, offerPutRootSaga);

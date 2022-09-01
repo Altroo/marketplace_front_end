@@ -1,48 +1,56 @@
-import React, { useState } from "react";
-import { NextPage } from "next";
+// Altroo :
+// 1) Missing two way binding for back button
+// 2) Missing images validation & error message
+// 3) Missing state selectors for formik initial values
+// 4) Missing loading t'ill dispatch
+
+import React, { useState, useEffect } from 'react';
+import { NextPage } from 'next';
 // import Image from "next/image";
 // import { default as ImageFuture } from "next/future/image";
-import Styles from "../../../../styles/offer/create/offerCreateShared.module.sass";
-import SharedStyles from "../../../../styles/shop/create/shopCreateShared.module.sass";
-import LeftSideBar from "../../../../components/groupedComponents/shared/leftSideBar/leftSideBar";
-import { Box, ClickAwayListener, Grid, Stack } from "@mui/material";
-import DesktopTopNavigationBar
-	from "../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar";
-import { OFFER_ADD_PRODUCT_CATEGORIES } from "../../../../utils/routes";
-import MobileTopNavigationBar
-	from "../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar";
-import MobileStepsBar from "../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar";
-import HelperDescriptionHeader from "../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader";
-import { Form, Formik } from "formik";
+import Styles from '../../../../styles/offer/create/offerCreateShared.module.sass';
+import SharedStyles from '../../../../styles/shop/create/shopCreateShared.module.sass';
+import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
+import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
+import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
+import { OFFER_ADD_PRODUCT_CATEGORIES } from '../../../../utils/routes';
+import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
+import MobileStepsBar from '../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
+import HelperDescriptionHeader from '../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
+import { Form, Formik } from 'formik';
 // import ApiProgress from '../../../../components/formikElements/apiResponse/apiProgress/apiProgress';
 // import ApiAlert from '../../../../components/formikElements/apiResponse/apiAlert/apiAlert';
-import CustomTextInput from "../../../../components/formikElements/customTextInput/customTextInput";
+import CustomTextInput from '../../../../components/formikElements/customTextInput/customTextInput';
 import {
 	bioTextAreaTheme,
 	offerForWhomDropdownTheme,
 	offerTitleTextInputTheme,
-	offerTitleTooltipTheme
-} from "../../../../utils/themes";
-import CustomToolTip from "../../../../components/htmlElements/toolTip/customToolTip";
-import { ImageListType } from "react-images-uploading/dist/typings";
-import CustomSquareImageUploading
-	from "../../../../components/formikElements/customSquareImageUploading/customSquareImageUploading";
-import CustomTextArea from "../../../../components/formikElements/customTextArea/customTextArea";
-import CustomDropDownChoices from "../../../../components/formikElements/customDropDownChoices/customDropDownChoices";
-import { SelectChangeEvent } from "@mui/material/Select";
-import ColorsRadioCheckContent
-	from "../../../../components/groupedComponents/offer/radioCheckElement/colorsRadioCheckContent/colorsRadioCheckContent";
+	offerTitleTooltipTheme,
+} from '../../../../utils/themes';
+import CustomToolTip from '../../../../components/htmlElements/toolTip/customToolTip';
+import { ImageListType } from 'react-images-uploading/dist/typings';
+import CustomSquareImageUploading from '../../../../components/formikElements/customSquareImageUploading/customSquareImageUploading';
+import CustomTextArea from '../../../../components/formikElements/customTextArea/customTextArea';
+import CustomDropDownChoices from '../../../../components/formikElements/customDropDownChoices/customDropDownChoices';
+import { SelectChangeEvent } from '@mui/material/Select';
+import ColorsRadioCheckContent from '../../../../components/groupedComponents/offer/radioCheckElement/colorsRadioCheckContent/colorsRadioCheckContent';
 // import { OfferColorsListType, OfferSizesListType } from "../../../../types/ui/uiTypes";
-import CreatorRadioCheckContent
-	from "../../../../components/groupedComponents/offer/radioCheckElement/creatorRadioCheckContent/creatorRadioCheckContent";
-import SizesRadioCheckContent
-	from "../../../../components/groupedComponents/offer/radioCheckElement/sizesRadioCheckContent/sizesRadioCheckContent";
-import QuantityRadioCheckContent
-	from "../../../../components/groupedComponents/offer/radioCheckElement/QuantityRadioCheckContent/quantityRadioCheckContent";
+import CreatorRadioCheckContent from '../../../../components/groupedComponents/offer/radioCheckElement/creatorRadioCheckContent/creatorRadioCheckContent';
+import SizesRadioCheckContent from '../../../../components/groupedComponents/offer/radioCheckElement/sizesRadioCheckContent/sizesRadioCheckContent';
+import QuantityRadioCheckContent from '../../../../components/groupedComponents/offer/radioCheckElement/QuantityRadioCheckContent/quantityRadioCheckContent';
 // import Divider from "@mui/material/Divider";
-import { addOfferProductSchema } from "../../../../utils/formValidationSchemas";
-import PrimaryButton from "../../../../components/htmlElements/buttons/primaryButton/primaryButton";
-import TagChips from "../../../../components/groupedComponents/offer/tagChips/tagChips";
+import { addOfferProductSchema } from '../../../../utils/formValidationSchemas';
+import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import TagChips from '../../../../components/groupedComponents/offer/tagChips/tagChips';
+import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
+import { setOfferDescriptionPage } from '../../../../store/actions/offer/offerActions';
+import { useRouter } from "next/router";
+// import {
+// 	getLocalOfferColors, getLocalOfferDescription,
+// 	getLocalOfferQuantity,
+// 	getLocalOfferSizes,
+// 	getLocalOfferTags, getLocalOfferTitle,
+// } from "../../../../store/selectors";
 // import { useAppSelector } from "../../../../utils/hooks";
 // import {
 // 	getLocalOfferColors,
@@ -50,15 +58,23 @@ import TagChips from "../../../../components/groupedComponents/offer/tagChips/ta
 // 	getLocalOfferSizes,
 // 	getLocalOfferTags
 // } from "../../../../store/selectors";
-import { INPUT_REQUIRED } from "../../../../utils/formValidationErrorMessages";
 
 const Description: NextPage = () => {
-	const activeStep = "2";
+	const activeStep = '2';
+	const dispatch = useAppDispatch();
+	const router = useRouter();
 	const [titleTooltip, setTitleTooltip] = useState<boolean>(false);
 	const [selectedColorsList, setselectedColorsList] = useState<Array<string>>([]);
+	const [offerTitle, setOfferTitle] = useState<string>('');
+	const [offerDescription, setOfferDescription] = useState<string>('');
+	const [offerImageOne, setOfferImageOne] = useState<string>('');
+	const [offerImageTwo, setOfferImageTwo] = useState<string | null>(null);
+	const [offerImageThree, setOfferImageThree] = useState<string | null>(null);
+	const [offerImageFour, setOfferImageFour] = useState<string | null>(null);
+	const [isValid, setIsValid] = useState<boolean>(false);
 	const [images, setImages] = useState<ImageListType>([]);
-	const forWhom = ["Tout le monde", "Enfant", "Femme", "Homme"];
-	const [forWhomChoice, setForWhomChoice] = React.useState<Array<string>>([]);
+	const forWhom = ['Tout le monde', 'Enfant', 'Femme', 'Homme'];
+	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	const [xsState, setXsState] = useState<boolean>(false);
 	const [sState, setSState] = useState<boolean>(false);
 	const [mState, setMState] = useState<boolean>(false);
@@ -71,7 +87,7 @@ const Description: NextPage = () => {
 		mState,
 		lState,
 		xState,
-		xlState
+		xlState,
 	};
 	const setSizesStates = {
 		setXsState,
@@ -79,13 +95,15 @@ const Description: NextPage = () => {
 		setMState,
 		setLState,
 		setXState,
-		setXlState
+		setXlState,
 	};
 	const [quantity, setQuantity] = useState<number>(0);
 	const [pickedTags, setPickedTags] = useState<Array<string>>([]);
+	// const pickedTitle = useAppSelector(getLocalOfferTitle);
+	// const pickedDescription = useAppSelector(getLocalOfferDescription);
 	// const colorsList = useAppSelector(getLocalOfferColors);
 	// const sizesList = useAppSelector(getLocalOfferSizes);
-	// const quantity = useAppSelector(getLocalOfferQuantity);
+	// const productQuantity = useAppSelector(getLocalOfferQuantity);
 	// const tags = useAppSelector(getLocalOfferTags);
 
 	// on change images
@@ -96,30 +114,94 @@ const Description: NextPage = () => {
 	type submitDataType = {
 		title: string;
 		description: string;
-		images: ImageListType | [];
-		tags: Array<string>
-	}
+		// images: boolean;
+		tags: Array<string>;
+	};
+
+	useEffect(() => {
+		if (images.length >= 1 && pickedTags.length >= 1 && offerTitle.length >= 2 && offerDescription.length >= 1) {
+			setIsValid(true);
+		} else {
+			setIsValid(false);
+		}
+	}, [images.length, offerDescription.length, offerTitle.length, pickedTags.length]);
 
 	// submit handler
 	const addDescriptionSubmitHandler = (values: submitDataType) => {
-		console.log("TITLE & DESCRIPTION & images & tags : ");
-		console.log(values); // {title: str, description: str, images: [], tags: []}
-		console.log("FOR WHOM CHOICES : ");
-		console.log(forWhomChoice); // ["Enfant", "Femme"...]
-		console.log("COLORS LIST : ");
-		console.log(selectedColorsList); // ["PI", "QR"] // color codes
-		console.log("SIZES LIST : ");
-		console.log(sizesStates); // {xsState: false, lState: true...} // boolean states
-		console.log("QUANTITY : ");
-		console.log(quantity); // 4 : number
+		if (images.length >= 1) {
+			if (images[0].dataURL) {
+				setOfferImageOne(images[0].dataURL);
+			}
+		}
+		if (images.length >= 2) {
+			if (images[1].dataURL) {
+				setOfferImageTwo(images[1].dataURL);
+			}
+		}
+		if (images.length >= 3) {
+			if (images[2].dataURL) {
+				setOfferImageThree(images[2].dataURL);
+			}
+		}
+		if (images.length === 4) {
+			if (images[3].dataURL) {
+				setOfferImageFour(images[3].dataURL);
+			}
+		}
+		const forWhomCodeArray: Array<string> = [];
+		if (forWhomChoice.length >= 1) {
+			forWhomChoice.map((forWhom) => {
+				forWhomCodeArray.push(forWhom[0]);
+			})
+		}
+		const forWhomStr = forWhomCodeArray.join(',');
+		const productColorsStr: string = selectedColorsList.join(',');
+		const productSizesArray: Array<string> = [];
+		const {xsState, sState, mState, lState, xState, xlState} = sizesStates;
+		if (xsState) {
+			productSizesArray.push('XS');
+		}
+		if (sState) {
+			productSizesArray.push('S');
+		}
+		if (mState) {
+			productSizesArray.push('M');
+		}
+		if (lState) {
+			productSizesArray.push('L');
+		}
+		if (xState) {
+			productSizesArray.push('X');
+		}
+		if (xlState) {
+			productSizesArray.push('XL');
+		}
+		const productSizesStr = productSizesArray.join(',');
+
+		dispatch(
+			setOfferDescriptionPage(
+				values.title,
+				offerImageOne,
+				offerImageTwo,
+				offerImageThree,
+				offerImageFour,
+				values.description,
+				forWhomStr,
+				productColorsStr,
+				productSizesStr,
+				quantity,
+				values.tags.join(','),
+				router
+			),
+		);
 	};
 
 	// on change for whom
 	const forWhomHandleChange = (event: SelectChangeEvent<Array<string>>) => {
 		const {
-			target: { value }
+			target: { value },
 		} = event;
-		setForWhomChoice(typeof value === "string" ? value.split(",") : value);
+		setForWhomChoice(typeof value === 'string' ? value.split(',') : value);
 	};
 
 	// themes
@@ -127,11 +209,12 @@ const Description: NextPage = () => {
 	const titleTooltipTheme = offerTitleTooltipTheme();
 	const descriptionFieldTheme = bioTextAreaTheme();
 	const forWhomFieldTheme = offerForWhomDropdownTheme();
+
 	return (
 		<>
 			<LeftSideBar step={activeStep} which="PRODUCT" />
 			<main className={SharedStyles.main}>
-				<Box sx={{ width: "100%", height: "100%" }}>
+				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar backHref={OFFER_ADD_PRODUCT_CATEGORIES} returnButton />
 					<MobileTopNavigationBar backHref={OFFER_ADD_PRODUCT_CATEGORIES} returnButton />
 					<MobileStepsBar activeStep={activeStep} />
@@ -140,51 +223,21 @@ const Description: NextPage = () => {
 						description="Commencez par lui donnez un titre, une description et ajoutez quelques photos."
 						HelpText="Apprendre à créer une offre"
 					/>
-					<Stack direction="column" justifyContent="space-between" spacing={2} sx={{ height: "80%" }}>
+					<Stack direction="column" justifyContent="space-between" spacing={2} sx={{ height: '80%' }}>
 						<Formik
 							enableReinitialize={true}
 							initialValues={{
-								title: "",
-								description: "",
-								images: [],
-								tags: []
+								title: offerTitle,
+								description: offerDescription,
+								tags: pickedTags,
 							}}
-							/*
-							Array :
-								initialValues={{
-									 images: ['jared', 'ian'],
-								 }}
-								 <Field name="images[0]" />
-							 Object :
-								 initialValues={{
-									 'owner.fullname': '',
-								 }}
-								 <Field name="['owner.fullname']" />
-							 */
 							validateOnMount={true}
 							validationSchema={addOfferProductSchema}
-							onSubmit={(values, { setSubmitting, setErrors, setFieldValue }) => {
-								setSubmitting(false);
-								if (images.length >= 1 && pickedTags.length >= 1) {
-									setFieldValue("images", images);
-									setFieldValue("tags", pickedTags);
-									addDescriptionSubmitHandler(values);
-								} else {
-									setErrors({ images: INPUT_REQUIRED });
-								}
-								setSubmitting(true);
+							onSubmit={(values) => {
+								addDescriptionSubmitHandler(values);
 							}}
 						>
-							{({
-									handleChange,
-									handleBlur,
-									handleSubmit,
-									values,
-									touched,
-									errors,
-									isValid,
-									isSubmitting
-								}) => (
+							{({ handleChange, handleBlur, handleSubmit, values, touched, errors, isSubmitting }) => (
 								<Form className={Styles.formStyle}>
 									<Stack direction="column" spacing={2}>
 										<ClickAwayListener onClickAway={() => setTitleTooltip(false)}>
@@ -198,10 +251,13 @@ const Description: NextPage = () => {
 													<CustomTextInput
 														id="title"
 														label="Titre"
-														value={values.title ? values.title : ""}
-														onChange={handleChange("title")}
-														onBlur={handleBlur("title")}
-														helperText={touched.title ? errors.title : ""}
+														value={offerTitle ? offerTitle : ''}
+														onChange={(e) => {
+															// handleChange('title');
+															setOfferTitle(e.target.value);
+														}}
+														onBlur={handleBlur('title')}
+														helperText={touched.title ? errors.title : ''}
 														error={touched.title && Boolean(errors.title)}
 														theme={titleFieldTheme}
 														fullWidth={false}
@@ -218,15 +274,17 @@ const Description: NextPage = () => {
 											onChange={imagesOnChangeHandler}
 											maxNumber={4}
 										/>
-										<span>{errors.images}</span>
 										<CustomTextArea
 											type="text"
 											id="description"
 											label="Description"
-											value={values.description ? values.description : ""}
-											onChange={handleChange("description")}
-											onBlur={handleBlur("description")}
-											helperText={touched.description ? errors.description : ""}
+											value={offerDescription ? offerDescription : ''}
+											onChange={(e) => {
+												// handleChange('description');
+												setOfferDescription(e.target.value);
+											}}
+											onBlur={handleBlur('description')}
+											helperText={touched.description ? errors.description : ''}
 											error={touched.description && Boolean(errors.description)}
 											minRows={4}
 											multiline={true}
@@ -257,10 +315,16 @@ const Description: NextPage = () => {
 										</Grid>
 										<Grid container columnSpacing={1}>
 											<Grid item md={6} sm={12} xs={12}>
-												<SizesRadioCheckContent sizesStates={sizesStates} setSizesStates={setSizesStates} />
+												<SizesRadioCheckContent
+													sizesStates={sizesStates}
+													setSizesStates={setSizesStates}
+												/>
 											</Grid>
 											<Grid item md={6} sm={12} xs={12}>
-												<QuantityRadioCheckContent quantity={quantity} setQuantity={setQuantity} />
+												<QuantityRadioCheckContent
+													quantity={quantity}
+													setQuantity={setQuantity}
+												/>
 											</Grid>
 										</Grid>
 										<TagChips setPickedTags={setPickedTags} />
@@ -271,6 +335,7 @@ const Description: NextPage = () => {
 												buttonText="Continuer"
 												active={isValid && !isSubmitting}
 												onClick={handleSubmit}
+												type="submit"
 											/>
 										</div>
 									</Stack>

@@ -16,6 +16,7 @@ import { loadNewAddedShopAction, shopGetRootAction } from '../store/actions/shop
 import { accountGetCheckAccountAction } from '../store/actions/account/accountActions';
 import { cookiesFetcher } from '../store/services/_init/_initAPI';
 import { getCheckUserHasShop, getInitStateToken, getInitStateUniqueID, getTokenType } from "../store/selectors";
+import { placesGetCitiesAction } from "../store/actions/places/placesActions";
 
 const InitContext = createContext<InitStateInterface<InitStateToken, InitStateUniqueID>>({
 	tokenType: null,
@@ -53,6 +54,7 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 		}
 		// Initialise states
 		dispatch(initAppAction());
+		dispatch(placesGetCitiesAction('MA'));
 		// case user didn't complete temporary shop creation
 		// or refreshed the page in the middle of the process
 		dispatch(loadNewAddedShopAction());

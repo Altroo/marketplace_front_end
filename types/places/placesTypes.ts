@@ -16,7 +16,8 @@ export interface PlacesStateInterface {
 	localisation_name: string | null;
 	placesApi: GlobalApiPromiseError;
 	countries: Array<CountriesType> | [];
-	cities: Array<CitiesType> | [];
+	// cities: Array<CitiesType> | [];
+	cities: Array<string>;
 }
 
 export type LocalisationType = { localisation_name: string };
@@ -25,4 +26,4 @@ export type PlacesGetLocalisationResponseType = ResponseDataInterface<Localisati
 
 export type PlacesGetCountriesResponseType = ResponseDataInterface<Array<CountriesType>>;
 
-export type PlacesGetCitiesResponseType = ResponseDataInterface<Array<CitiesType>>;
+export type PlacesGetCitiesResponseType = ResponseDataInterface<Array<string>>;

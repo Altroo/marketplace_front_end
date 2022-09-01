@@ -1,0 +1,34 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.priceInputField
+  +Regular
+  font-size: 75px
+  font-weight: 600
+  text-align: center
+  margin: 0 auto
+  border: 0
+  &::before
+    content: "|"
+.priceLabel
+  +Medium
+  font-size: 15px
+  color: #0D070B
+.primaryButton
+  margin-bottom: 2rem
+@media #{$tablette}
+  .priceInputField
+    width: 100%
+  .stackRow
+    flex-direction: column
+  .primaryButton
+    justify-content: center
+    text-align: center
+    width: 300px
+    margin-bottom: 1.5rem
+// @media #{$desktop}
+// @media #{$tablette}
+
+// @media #{$mobile}

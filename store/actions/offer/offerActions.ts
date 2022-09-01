@@ -8,14 +8,99 @@ import {
 	OfferSolderByType,
 	OfferZoneByType,
 } from '../../../types/offer/offerTypes';
+import { NextRouter } from "next/router";
+import { SET_OFFER_DELIVERY_PAGE_DELIVERIES } from "../index";
 
 export const setOfferCategories = (categories: OfferCategoriesType) => {
 	return {
-		type: Types.SET_OFFER_CATEGORIES,
+		type: Types.SET_OFFER_CATEGORIES_PAGE,
 		categories,
 	};
 };
 
+export const setOfferDescriptionPage = (
+	title: string,
+	picture_1: string,
+	picture_2: string | null,
+	picture_3: string | null,
+	picture_4: string | null,
+	description: string,
+	for_whom: string | null,
+	product_colors: string | null,
+	product_sizes: string | null,
+	product_quantity: number | null,
+	tags: string | null,
+	router: NextRouter,
+) => {
+	return {
+		type: Types.SET_OFFER_DESCRIPTION_PAGE,
+		title,
+		picture_1,
+		picture_2,
+		picture_3,
+		picture_4,
+		description,
+		for_whom,
+		product_colors,
+		product_sizes,
+		product_quantity,
+		tags,
+		router
+	};
+};
+
+export const setOfferPricePage = (price: string, price_by: 'U' | 'K' | 'L', router: NextRouter) => {
+	return {
+		type: Types.SET_OFFER_PRICE_PAGE,
+		price,
+		price_by,
+		router
+	}
+}
+
+export const setOfferDeliveryClickAndCollect = (
+		longitude: number,
+		latitude: number,
+		address_name: string | null,
+) => {
+	return {
+		type: Types.SET_OFFER_DELIVERY_PAGE_CLICK_AND_COLLECT,
+		longitude,
+		latitude,
+		address_name
+	}
+}
+
+export const setOfferDeliveries = (
+	delivery_city_1: string,
+	all_cities_1: boolean,
+	delivery_price_1: string,
+	delivery_days_1: string,
+	delivery_city_2: string,
+	all_cities_2: boolean,
+	delivery_price_2: string,
+	delivery_days_2: string,
+	delivery_city_3: string,
+	all_cities_3: boolean,
+	delivery_price_3: string,
+	delivery_days_3: string,
+) => {
+	return {
+		type: Types.SET_OFFER_DELIVERY_PAGE_DELIVERIES,
+		delivery_city_1,
+		all_cities_1,
+		delivery_price_1,
+		delivery_days_1,
+		delivery_city_2,
+		all_cities_2,
+		delivery_price_2,
+		delivery_days_2,
+		delivery_city_3,
+		all_cities_3,
+		delivery_price_3,
+		delivery_days_3,
+	};
+};
 // POST : /api/1.0.0/offer/
 export const offerPostRootProductAction = (
 	offer_type: OfferOfferTypeType,
@@ -253,7 +338,7 @@ export const offerPutRootServiceAction = (
 		service_km_radius,
 		tags,
 		creator_label,
-		made_in_label
+		made_in_label,
 	};
 };
 

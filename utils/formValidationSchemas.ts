@@ -55,14 +55,16 @@ export const shopAddressSchema = Yup.object().shape({
 export const addOfferProductSchema = Yup.object().shape({
 	title: Yup.string().min(2, INPUT_MIN(2)).max(150, INPUT_MAX(150)).required(INPUT_REQUIRED),
 	description: Yup.string().required(INPUT_REQUIRED),
-	images: Yup.lazy((val) =>
-		Array.isArray(val)
-			? Yup.array().of(Yup.string().required(INPUT_REQUIRED))
-			: Yup.string().required(INPUT_REQUIRED),
-	),
+	// images: Yup.boolean().required(INPUT_REQUIRED),
 	tags: Yup.lazy((val) =>
 		Array.isArray(val)
 			? Yup.array().of(Yup.string().required(INPUT_REQUIRED))
 			: Yup.string().required(INPUT_REQUIRED),
 	),
+});
+
+export const clickAndCollectSchema = Yup.object().shape({
+	longitude: Yup.number().nullable().notRequired(),
+	latitude: Yup.number().nullable().notRequired(),
+	address_name: Yup.string().nullable().required(),
 });

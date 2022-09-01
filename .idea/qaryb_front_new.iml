@@ -212,6 +212,7 @@
       <sourceFolder url="file://$MODULE_DIR$/styles/offer/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/tagChips" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/deliveryOptionElements" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />

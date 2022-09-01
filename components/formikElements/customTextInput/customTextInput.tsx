@@ -8,8 +8,8 @@ type Props = {
 	id: string;
 	value: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
 	theme: Theme;
+	onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 	cssClass?: string;
 	helperText?: string;
 	error?: boolean;
@@ -17,6 +17,7 @@ type Props = {
 	label?: string;
 	fullWidth?: boolean;
 	size?: "small" | "medium";
+	disabled?: boolean;
 	onClick?: () => void;
 };
 
@@ -43,6 +44,7 @@ const CustomTextInput = forwardRef<HTMLInputElement, Props>((props:Props, ref: F
 				size={props.size}
 				onClick={props.onClick}
 				color="primary"
+				disabled={props.disabled}
 			/>
 		</ThemeProvider>
 	);

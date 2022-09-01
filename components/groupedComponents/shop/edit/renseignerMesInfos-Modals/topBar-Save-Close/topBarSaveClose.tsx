@@ -9,7 +9,7 @@ type Props = {
 	handleSubmit: (e?: (React.FormEvent<HTMLFormElement> | undefined)) => void;
 	handleClose: () => void;
 	isValid: boolean;
-	isSubmitting: boolean;
+	isSubmitting?: boolean;
 	cssClasses?: string;
 	children?: React.ReactNode;
 };
