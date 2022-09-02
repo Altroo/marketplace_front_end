@@ -38,6 +38,10 @@ const placesSlice = createSlice({
 			state.cities = action.payload;
 			return state;
 		},
+		setEmptyGetLocalisation: (state) => {
+			state.localisation_name = null;
+			return state;
+		},
 		initPlaces: () => {
 			return initialState;
 		},
@@ -64,6 +68,7 @@ export const {
 	setGetCities,
 	setGetCountries,
 	initPlaces,
+	setEmptyGetLocalisation,
 } = placesSlice.actions;
 
 export default placesSlice.reducer;

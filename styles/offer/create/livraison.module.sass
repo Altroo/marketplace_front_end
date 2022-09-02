@@ -3,6 +3,9 @@
 @import 'styles/sass/mixins'
 
 // Global styles
+.buttonCardWrapper
+  width: 360px
+  margin-top: 2rem
 .buttonCard
   background: $white
   // box-shadow: 0 2.80058px 11.2023px rgba(13, 7, 11, 0.2)
@@ -71,14 +74,22 @@
     color: $grayInput
   &:hover
     border-color: $primary
-
+.primaryButton
+  margin-bottom: 2rem
 @media #{$tablette}
+  .buttonCardWrapper
+    width: 100%
   .buttonCard
     margin-top: 20px
     padding: 20px 10px
   .header
     font-size: 21px
     letter-spacing: -0.01em
+  .primaryButton
+    justify-content: center
+    text-align: center
+    width: 300px
+    margin-bottom: 1.5rem
 // @media #{$desktop}
 // @media #{$tablette}
 // @media #{$mobile}

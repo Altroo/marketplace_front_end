@@ -3,7 +3,7 @@ import * as Types from '../../actions';
 import { allowAnyInstance } from '../../../utils/helpers';
 import { getApi } from '../../services/_init/_initAPI';
 import { setGetLocalisation, setGetCities, setGetCountries,
-	setGetPlacesIsLoading, placesGETApiErrorAction } from '../../slices/places/placesSlice';
+	setGetPlacesIsLoading, placesGETApiErrorAction, setEmptyGetLocalisation } from '../../slices/places/placesSlice';
 import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
 import {
 	PlacesGetCitiesResponseType,
@@ -24,6 +24,10 @@ export function* placesGetLocalisationSaga(payload: { type: string; longitude: n
 		const apiError = e as ApiErrorResponseType;
 		yield* put(yield* call(() => placesGETApiErrorAction(apiError)));
 	}
+}
+
+function* placesEmptyGetLocalisationSaga() {
+	yield* put(setEmptyGetLocalisation());
 }
 
 export function* placesGetCountriesSaga() {
@@ -64,6 +68,7 @@ export function* placesGetCitiesSaga(payload: { type: string; code: string; q?: 
 
 export function* watchPlaces() {
 	yield* takeLatest(Types.PLACES_GET_LOCALISATION, placesGetLocalisationSaga);
+	yield* takeLatest(Types.PLACES_EMPTY_GET_LOCALISATION, placesEmptyGetLocalisationSaga);
 	yield* takeLatest(Types.PLACES_GET_COUNTRIES, placesGetCountriesSaga);
 	yield* takeLatest(Types.PLACES_GET_CITIES, placesGetCitiesSaga);
 }

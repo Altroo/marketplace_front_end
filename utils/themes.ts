@@ -23,6 +23,9 @@ export const CustomTheme = (primaryColor: string | undefined = undefined) => {
 			primary: {
 				main: rippleColor,
 			},
+			// secondary: {
+			// 	main: '#E12D3D'
+			// }
 			/*secondary: {
 				light: '#0066ff',
 				main: '#0044ff',
@@ -49,6 +52,34 @@ export const getDefaultTheme = (primaryColor: string | undefined = undefined) =>
 		return CustomTheme(defaultColor);
 	}
 };
+
+export const getDropDownMenuTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiMenu: {
+				styleOverrides: {
+					paper: {
+						boxShadow: '0 2.80058px 11.2023px rgba(13, 7, 11, 0.2) !important',
+						borderRadius: '30px !important',
+						padding: '10px',
+					},
+				},
+			},
+			MuiMenuItem: {
+				styleOverrides: {
+					root: {
+						fontFamily: 'Poppins',
+						fontSize: '17px',
+						color: '#0D070B',
+						margin: '0',
+					},
+				},
+			},
+		},
+	});
+}
 
 // Shop name text input
 export const shopNameTextInputTheme = (primaryColor: string | undefined = undefined) => {

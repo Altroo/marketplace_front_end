@@ -45,7 +45,7 @@ import {
 	setLocalOfferDescription,
 	setLocalOfferPrice,
 	setLocalOfferClickAndCollect,
-	setLocalOfferDeliveries
+	setLocalOfferDeliveries, emptyLocalOfferDeliveryClickAndCollect, emptyLocalOfferDeliveries
 } from "../../slices/offer/offerSlice";
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
@@ -531,6 +531,10 @@ function* setOfferDeliveryPageClickAndCollectSaga(payload: {type: string; longit
 	yield* put(setLocalOfferClickAndCollect(payloadData));
 }
 
+function* emptyOfferDeliveryClickAndCollectSaga() {
+	yield* put(emptyLocalOfferDeliveryClickAndCollect());
+}
+
 function* setOfferDeliveryPageDeliveriesSaga(payload: {type: string,
 	delivery_city_1: string,
 	all_cities_1: boolean,
@@ -549,12 +553,19 @@ function* setOfferDeliveryPageDeliveriesSaga(payload: {type: string,
 	yield* put(setLocalOfferDeliveries(payloadData));
 }
 
+function* emptyOfferDeliveriesSaga() {
+	yield* put(emptyLocalOfferDeliveries());
+}
+
+
 export function* watchOffer() {
 	yield* takeLatest(Types.SET_OFFER_CATEGORIES_PAGE, setOfferCategoriesPageSaga);
 	yield* takeLatest(Types.SET_OFFER_DESCRIPTION_PAGE, setOfferDescriptionPageSaga);
 	yield* takeLatest(Types.SET_OFFER_PRICE_PAGE, setOfferPricePageSaga);
 	yield* takeLatest(Types.SET_OFFER_DELIVERY_PAGE_CLICK_AND_COLLECT, setOfferDeliveryPageClickAndCollectSaga);
 	yield* takeLatest(Types.SET_OFFER_DELIVERY_PAGE_DELIVERIES, setOfferDeliveryPageDeliveriesSaga);
+	yield* takeLatest(Types.EMPTY_OFFER_DELIVERY_CLICK_AND_COLLECT, emptyOfferDeliveryClickAndCollectSaga);
+	yield* takeLatest(Types.EMPTY_OFFER_DELIVERIES, emptyOfferDeliveriesSaga);
 	yield* takeLatest(Types.OFFER_POST_ROOT, offerPostRootSaga);
 	yield* takeLatest(Types.OFFER_GET_ROOT, offerGetRootSaga);
 	yield* takeLatest(Types.OFFER_PUT_ROOT, offerPutRootSaga);

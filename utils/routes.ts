@@ -13,3 +13,4 @@ export const OFFER_ADD_PRODUCT_CATEGORIES = '/offer/product/create';
 export const OFFER_ADD_PRODUCT_DESCRIPTION = '/offer/product/create/description';
 export const OFFER_ADD_PRODUCT_PRICE = '/offer/product/create/prix';
 export const OFFER_ADD_PRODUCT_LIVRAISON = '/offer/product/create/livraison';
+export const OFFER_ADD_PRODUCT_OVERVIEW = '/offer/product/create/overview';

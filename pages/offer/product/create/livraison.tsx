@@ -43,8 +43,17 @@ import TopBarSaveClose from '../../../../components/groupedComponents/shop/edit/
 import { clickAndCollectSchema } from '../../../../utils/formValidationSchemas';
 import { Formik, Form } from 'formik';
 import HelperDescriptionHeader from '../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
-import { setOfferDeliveries, setOfferDeliveryClickAndCollect } from '../../../../store/actions/offer/offerActions';
+import {
+	// emptyOfferDeliveries,
+	// emptyOfferDeliveryClickAndCollect,
+	setOfferDeliveries,
+	setOfferDeliveryClickAndCollect
+} from "../../../../store/actions/offer/offerActions";
 import DeliveryOptionElements from '../../../../components/groupedComponents/offer/deliveryOptionElements/deliveryOptionElements';
+import SharedStyles from "../../../../styles/shop/create/shopCreateShared.module.sass";
+import PrimaryButton from "../../../../components/htmlElements/buttons/primaryButton/primaryButton";
+import { OFFER_ADD_PRODUCT_OVERVIEW } from "../../../../utils/routes";
+// import { emptyGetLocalisation } from "../../../../store/actions/places/placesActions";
 
 const CustomMap = dynamic(() => import('../../../../components/map/customMap'), {
 	ssr: false,
@@ -52,9 +61,9 @@ const CustomMap = dynamic(() => import('../../../../components/map/customMap'), 
 
 const Livraison: NextPage = () => {
 	const activeStep = '4';
-	// const router = useRouter();
+	const router = useRouter();
 	const dispatch = useAppDispatch();
-	// const [submitActive, setSubmitActive] = useState<boolean>(false);
+	const [submitActive, setSubmitActive] = useState<boolean>(false);
 	const [openClick, setOpenClick] = useState<boolean>(false);
 	const [openDelivery, setOpenDelivery] = useState<boolean>(false);
 	let CENTER = {
@@ -76,8 +85,6 @@ const Livraison: NextPage = () => {
 	const deliveryCity3 = useAppSelector(getLocalOfferDeliveryCity3);
 	const deliveryAllCity3 = useAppSelector(getLocalOfferDeliveryAllCities3);
 	const deliveryPrice3 = useAppSelector(getLocalOfferDeliveryPrice3);
-
-
 
 	if (latitude && longitude) {
 		CENTER = {
@@ -118,6 +125,7 @@ const Livraison: NextPage = () => {
 	const editClickCollectHandler = (values: ClickAndCollectValues) => {
 		dispatch(setOfferDeliveryClickAndCollect(values.longitude, values.latitude, values.address_name));
 		setOpenClick(false);
+		setSubmitActive(true);
 	};
 
 	const [isFormOptionOneValid, setIsFormOptionOneValid] = useState<boolean>(false);
@@ -128,6 +136,7 @@ const Livraison: NextPage = () => {
 	const [thirdDeliveryState, setThirdDeliveryState] = useState<boolean>(false);
 	const [optionTwoNumber, setOptionTwoNumber] = useState<'2' | '3'>('2');
 	const [optionThreeNumber, setOptionThreeNumber] = useState<'2' | '3'>('3');
+	const [showEmptyDeliveriesMessage, setShowEmptyDeliveriesMessage] = useState<boolean>(true);
 
 	const addNewDelivery = () => {
 		if (!secondDeliveryState && !thirdDeliveryState) {
@@ -226,9 +235,24 @@ const Livraison: NextPage = () => {
 				data.delivery_days_3,
 			),
 		);
-		// close the modal
-		setOpenClick(false);
+		setShowEmptyDeliveriesMessage(false);
+		setOpenDelivery(false);
+		setSubmitActive(true);
 	};
+
+	const handleSubmit = () => {
+		router.push(OFFER_ADD_PRODUCT_OVERVIEW).then();
+	};
+
+	// const emptyClickAndCollectStates = () => {
+	// 	dispatch(emptyOfferDeliveryClickAndCollect());
+	// 	dispatch(emptyGetLocalisation());
+	// };
+	//
+	// const emptyDeliveriesStates = () => {
+	// 	dispatch(emptyOfferDeliveries());
+	// 	setShowEmptyDeliveriesMessage(true);
+	// };
 
 	const defaultTheme = getDefaultTheme();
 
@@ -245,211 +269,224 @@ const Livraison: NextPage = () => {
 						HelpText="Quelle différence entre livraison et Click & Collect"
 						headerClasses={OfferStyles.topHeader}
 					/>
-
-					<Stack direction="column" spacing={5} sx={{ width: '360px', marginTop: '2rem' }}>
-						<RadioCheckElement title="Click & collect">
-							<Button color="primary" onClick={() => setOpenClick(true)} className={Styles.buttonCard}>
-								<Stack
-									direction="row"
-									spacing={1}
-									sx={{ width: '320px', height: '161px' }}
-									justifyContent="center"
-									alignItems="center"
-								>
-									<Image src={ClickCollectSVG} width={70} height={70} alt="" />
-									{/* eslint-disable-next-line react/no-unescaped-entities */}
-									<p className={`${Styles.defaultLocalisationName} ${localisationName && Styles.activeCardValue}`}>{localisationName ? localisationName : "Renseignez l'adresse de votre boutique"}</p>
-								</Stack>
-							</Button>
-							<RightSwipeModal open={openClick} handleClose={() => setOpenClick(false)}>
-								<Stack direction="column" spacing={4} sx={{ height: '100%' }}>
-									<Formik
-										enableReinitialize={true}
-										initialValues={{
-											longitude: position.lng ? position.lng : CENTER.lng,
-											latitude: position.lat ? position.lat : CENTER.lat,
-											address_name: localisationName ? localisationName : address_name,
-										}}
-										validateOnMount={true}
-										onSubmit={(values) => {
-											editClickCollectHandler(values);
-										}}
-										validationSchema={clickAndCollectSchema}
+					<Stack direction="column" justifyContent="space-between" sx={{height: '100%'}}>
+						<Stack direction="column" spacing={5} className={Styles.buttonCardWrapper}>
+							{/* <RadioCheckElement title="Click & collect" emptyStates={emptyClickAndCollectStates}> */}
+							<RadioCheckElement title="Click & collect">
+								<Button color="primary" onClick={() => setOpenClick(true)} className={Styles.buttonCard}>
+									<Stack
+										direction="row"
+										spacing={1}
+										sx={{ width: '320px', height: '161px' }}
+										justifyContent="center"
+										alignItems="center"
 									>
-										{({ handleChange, handleSubmit, values, isValid, isSubmitting }) => (
-											<Form style={{ height: '100%' }}>
-												<Stack
-													direction="column"
-													justifyContent="space-between"
-													alignContent="space-between"
-													sx={{ height: '100%' }}
-												>
-													<TopBarSaveClose
-														handleClose={() => setOpenClick(false)}
-														handleSubmit={handleSubmit}
-														isValid={isValid}
-														isSubmitting={isSubmitting}
-														cssClasses={Styles.topContainer}
-													/>
-													<HelperDescriptionHeader
-														header="Click'n collect"
-														description="Renseignez l'adresse de votre point de collect"
-														headerClasses={Styles.header}
-														descriptionClasses={Styles.description}
-														cssClasses={Styles.topContainer}
-													/>
-													<input
-														type="hidden"
-														id="longitude"
-														ref={longitudeRef}
-														value={values.longitude ? values.longitude : ''}
-														onChange={handleChange('longitude')}
-													/>
-													<input
-														type="hidden"
-														id="latitude"
-														ref={latitudeRef}
-														value={values.latitude ? values.latitude : ''}
-														onChange={handleChange('latitude')}
-													/>
-													<input
-														type="hidden"
-														id="address_name"
-														ref={addressNameRef}
-														value={values.address_name ? values.address_name : ''}
-														onChange={handleChange('address_name')}
-													/>
-													<CustomMap
-														readOnly={false}
-														position={position}
-														positionHandler={positionHandler}
-														zoneBy="A"
-														kmRadius={13}
-													/>
-												</Stack>
-											</Form>
-										)}
-									</Formik>
-								</Stack>
-							</RightSwipeModal>
-						</RadioCheckElement>
-						<RadioCheckElement title="Livraison">
-							<Button color="primary" onClick={() => setOpenDelivery(true)} className={Styles.buttonCard}>
-								<Stack
-									direction="row"
-									spacing={1}
-									sx={{ width: '320px', height: '161px' }}
-									justifyContent="center"
-									alignItems="center"
-								>
-									<Image src={DeliverySVG} width={70} height={70} alt="" />
-									<div className={`${Styles.defaultLocalisationName} ${(deliveryCity1 || deliveryCity2 || deliveryCity3 || deliveryAllCity1 || deliveryAllCity2 || deliveryAllCity3)  && Styles.activeCardValue}`}>
-										{
-											(deliveryCity1 || deliveryAllCity1) && (
-												<Stack direction="row" justifyContent="space-between">
-													<span>{deliveryCity1 ? deliveryCity1.substring(0, 14) + '...' : deliveryAllCity1 ? "Tout le maroc" : null}</span>
-													<span>{deliveryPrice1 !== "0" ? deliveryPrice1 : "Gratuite"}</span>
-												</Stack>
-											)
-										}
-										{
-											(deliveryCity2 || deliveryAllCity2) && (
-												<Stack direction="row" justifyContent="space-between">
-													<span>{deliveryCity2 ? deliveryCity2.substring(0, 14) + '...' : deliveryAllCity2 ? "Tout le maroc" : null}</span>
-													<span>{deliveryPrice2 !== "0" ? deliveryPrice2 : "Gratuite"}</span>
-												</Stack>
-											)
-										}
-										{
-											(deliveryCity3 || deliveryAllCity3) && (
-												<Stack direction="row" justifyContent="space-between">
-													<span>{deliveryCity3 ? deliveryCity3.substring(0, 14) + '...' : deliveryAllCity3 ? "Tout le maroc" : null}</span>
-													<span>{deliveryPrice3 !== "0" ? deliveryPrice3 : "Gratuite"}</span>
-												</Stack>
-											)
-										}
+										<Image src={ClickCollectSVG} width={70} height={70} alt="" />
 										{/* eslint-disable-next-line react/no-unescaped-entities */}
-										{(deliveryCity1 !== '' || deliveryAllCity1) ? null : "Définissez jusqu'à 3 types de livraison différentes"}
-									</div>
-								</Stack>
-							</Button>
-							<RightSwipeModal open={openDelivery} handleClose={() => setOpenDelivery(false)}>
-								<Stack direction="column" spacing={2} justifyContent="flex-start">
-									<Stack direction="column" sx={{ height: '100%' }}>
-										<TopBarSaveClose
-											handleClose={() => setOpenDelivery(false)}
-											handleSubmit={addDeliveriesHandler}
-											isValid={
-												isFormOptionOneValid && isFormOptionTwoValid && isFormOptionThreeValid
-											}
-											cssClasses={Styles.topContainer}
-										/>
-										<HelperDescriptionHeader
-											header="Définir un prix de livraison"
-											HelpText="Pourquoi définir une adresse"
-											headerClasses={Styles.header}
-											descriptionClasses={Styles.description}
-											cssClasses={Styles.topContainer}
-										/>
+										<p className={`${Styles.defaultLocalisationName} ${localisationName && Styles.activeCardValue}`}>{localisationName ? localisationName : "Renseignez l'adresse de votre boutique"}</p>
 									</Stack>
-									<DeliveryOptionElements
-										setIsFormValidState={setIsFormOptionOneValid}
-										option="1"
-										citiesState={cities1State}
-										setCitiesState={setCities1State}
-										allCitiesState={allCities1State}
-										setAllCitiesState={setAllCities1State}
-										deliveryPriceState={deliveryPrice1State}
-										setDeliveryPriceState={setDeliveryPrice1State}
-										deliveryDaysState={deliveryDays1State}
-										setDeliveryDaysState={setDeliveryDays1State}
-									/>
-									{secondDeliveryState ? (
-										<DeliveryOptionElements
-											setIsFormValidState={setIsFormOptionTwoValid}
-											option={optionTwoNumber}
-											setNextDeliveryState={setSecondDeliveryState}
-											citiesState={cities2State}
-											setCitiesState={setCities2State}
-											allCitiesState={allCities2State}
-											setAllCitiesState={setAllCities2State}
-											deliveryPriceState={deliveryPrice2State}
-											setDeliveryPriceState={setDeliveryPrice2State}
-											deliveryDaysState={deliveryDays2State}
-											setDeliveryDaysState={setDeliveryDays2State}
-										/>
-									) : null}
-									{thirdDeliveryState ? (
-										<DeliveryOptionElements
-											setIsFormValidState={setIsFormOptionThreeValid}
-											option={optionThreeNumber}
-											setNextDeliveryState={setThirdDeliveryState}
-											citiesState={cities3State}
-											setCitiesState={setCities3State}
-											allCitiesState={allCities3State}
-											setAllCitiesState={setAllCities3State}
-											deliveryPriceState={deliveryPrice3State}
-											setDeliveryPriceState={setDeliveryPrice3State}
-											deliveryDaysState={deliveryDays3State}
-											setDeliveryDaysState={setDeliveryDays3State}
-										/>
-									) : null}
-									{/* Add new delivery */}
-									{!secondDeliveryState || !thirdDeliveryState ? (
-										<Button
-											onClick={() => {
-												addNewDelivery();
+								</Button>
+								<RightSwipeModal open={openClick} handleClose={() => setOpenClick(false)}>
+									<Stack direction="column" spacing={4} sx={{ height: '100%' }}>
+										<Formik
+											enableReinitialize={true}
+											initialValues={{
+												longitude: position.lng ? position.lng : CENTER.lng,
+												latitude: position.lat ? position.lat : CENTER.lat,
+												address_name: localisationName ? localisationName : address_name,
 											}}
-											className={Styles.addDeliveryButton}
-											color="primary"
+											validateOnMount={true}
+											onSubmit={(values) => {
+												editClickCollectHandler(values);
+											}}
+											validationSchema={clickAndCollectSchema}
 										>
-											<Image src={BlueAddSVG} width={20} height={20} alt="" />
-											<span>Ajouter une livraison</span>
-										</Button>
-									) : null}
-								</Stack>
-							</RightSwipeModal>
-						</RadioCheckElement>
+											{({ handleChange, handleSubmit, values, isValid, isSubmitting }) => (
+												<Form style={{ height: '100%' }}>
+													<Stack
+														direction="column"
+														justifyContent="space-between"
+														alignContent="space-between"
+														sx={{ height: '100%' }}
+													>
+														<TopBarSaveClose
+															handleClose={() => setOpenClick(false)}
+															handleSubmit={handleSubmit}
+															isValid={isValid}
+															isSubmitting={isSubmitting}
+															cssClasses={Styles.topContainer}
+														/>
+														<HelperDescriptionHeader
+															header="Click'n collect"
+															description="Renseignez l'adresse de votre point de collect"
+															headerClasses={Styles.header}
+															descriptionClasses={Styles.description}
+															cssClasses={Styles.topContainer}
+														/>
+														<input
+															type="hidden"
+															id="longitude"
+															ref={longitudeRef}
+															value={values.longitude ? values.longitude : ''}
+															onChange={handleChange('longitude')}
+														/>
+														<input
+															type="hidden"
+															id="latitude"
+															ref={latitudeRef}
+															value={values.latitude ? values.latitude : ''}
+															onChange={handleChange('latitude')}
+														/>
+														<input
+															type="hidden"
+															id="address_name"
+															ref={addressNameRef}
+															value={values.address_name ? values.address_name : ''}
+															onChange={handleChange('address_name')}
+														/>
+														<CustomMap
+															readOnly={false}
+															position={position}
+															positionHandler={positionHandler}
+															zoneBy="A"
+															kmRadius={13}
+														/>
+													</Stack>
+												</Form>
+											)}
+										</Formik>
+									</Stack>
+								</RightSwipeModal>
+							</RadioCheckElement>
+							{/*<RadioCheckElement title="Livraison" emptyStates={emptyDeliveriesStates}>*/}
+							<RadioCheckElement title="Livraison">
+								<Button color="primary" onClick={() => setOpenDelivery(true)} className={Styles.buttonCard}>
+									<Stack
+										direction="row"
+										spacing={1}
+										sx={{ width: '320px', height: '161px' }}
+										justifyContent="center"
+										alignItems="center"
+									>
+										<Image src={DeliverySVG} width={70} height={70} alt="" />
+										<div className={`${Styles.defaultLocalisationName} ${(deliveryCity1 || deliveryCity2 || deliveryCity3 || deliveryAllCity1 || deliveryAllCity2 || deliveryAllCity3)  && Styles.activeCardValue}`}>
+											{
+												(deliveryCity1 || deliveryAllCity1) && (
+													<Stack direction="row" justifyContent="space-between">
+														<span>{deliveryCity1 ? deliveryCity1.substring(0, 14) + '...' : deliveryAllCity1 ? "Tout le maroc" : null}</span>
+														<span>{deliveryPrice1 !== "0" ? deliveryPrice1 : "Gratuite"}</span>
+													</Stack>
+												)
+											}
+											{
+												(deliveryCity2 || deliveryAllCity2) && (
+													<Stack direction="row" justifyContent="space-between">
+														<span>{deliveryCity2 ? deliveryCity2.substring(0, 14) + '...' : deliveryAllCity2 ? "Tout le maroc" : null}</span>
+														<span>{deliveryPrice2 !== "0" ? deliveryPrice2 : "Gratuite"}</span>
+													</Stack>
+												)
+											}
+											{
+												(deliveryCity3 || deliveryAllCity3) && (
+													<Stack direction="row" justifyContent="space-between">
+														<span>{deliveryCity3 ? deliveryCity3.substring(0, 14) + '...' : deliveryAllCity3 ? "Tout le maroc" : null}</span>
+														<span>{deliveryPrice3 !== "0" ? deliveryPrice3 : "Gratuite"}</span>
+													</Stack>
+												)
+											}
+											{/* eslint-disable-next-line react/no-unescaped-entities */}
+											{showEmptyDeliveriesMessage ? "Définissez jusqu'à 3 types de livraison différentes" : null}
+										</div>
+									</Stack>
+								</Button>
+								<RightSwipeModal open={openDelivery} handleClose={() => setOpenDelivery(false)}>
+									<Stack direction="column" spacing={2} justifyContent="flex-start">
+										<Stack direction="column" sx={{ height: '100%' }}>
+											<TopBarSaveClose
+												handleClose={() => setOpenDelivery(false)}
+												handleSubmit={addDeliveriesHandler}
+												isValid={
+													isFormOptionOneValid && isFormOptionTwoValid && isFormOptionThreeValid
+												}
+												cssClasses={Styles.topContainer}
+											/>
+											<HelperDescriptionHeader
+												header="Définir un prix de livraison"
+												HelpText="Pourquoi définir une adresse"
+												headerClasses={Styles.header}
+												descriptionClasses={Styles.description}
+												cssClasses={Styles.topContainer}
+											/>
+										</Stack>
+										<DeliveryOptionElements
+											setIsFormValidState={setIsFormOptionOneValid}
+											option="1"
+											citiesState={cities1State}
+											setCitiesState={setCities1State}
+											allCitiesState={allCities1State}
+											setAllCitiesState={setAllCities1State}
+											deliveryPriceState={deliveryPrice1State}
+											setDeliveryPriceState={setDeliveryPrice1State}
+											deliveryDaysState={deliveryDays1State}
+											setDeliveryDaysState={setDeliveryDays1State}
+										/>
+										{secondDeliveryState ? (
+											<DeliveryOptionElements
+												setIsFormValidState={setIsFormOptionTwoValid}
+												option={optionTwoNumber}
+												setNextDeliveryState={setSecondDeliveryState}
+												citiesState={cities2State}
+												setCitiesState={setCities2State}
+												allCitiesState={allCities2State}
+												setAllCitiesState={setAllCities2State}
+												deliveryPriceState={deliveryPrice2State}
+												setDeliveryPriceState={setDeliveryPrice2State}
+												deliveryDaysState={deliveryDays2State}
+												setDeliveryDaysState={setDeliveryDays2State}
+											/>
+										) : null}
+										{thirdDeliveryState ? (
+											<DeliveryOptionElements
+												setIsFormValidState={setIsFormOptionThreeValid}
+												option={optionThreeNumber}
+												setNextDeliveryState={setThirdDeliveryState}
+												citiesState={cities3State}
+												setCitiesState={setCities3State}
+												allCitiesState={allCities3State}
+												setAllCitiesState={setAllCities3State}
+												deliveryPriceState={deliveryPrice3State}
+												setDeliveryPriceState={setDeliveryPrice3State}
+												deliveryDaysState={deliveryDays3State}
+												setDeliveryDaysState={setDeliveryDays3State}
+											/>
+										) : null}
+										{/* Add new delivery */}
+										{!secondDeliveryState || !thirdDeliveryState ? (
+											<Button
+												onClick={() => {
+													addNewDelivery();
+												}}
+												className={Styles.addDeliveryButton}
+												color="primary"
+											>
+												<Image src={BlueAddSVG} width={20} height={20} alt="" />
+												<span>Ajouter une livraison</span>
+											</Button>
+										) : null}
+									</Stack>
+								</RightSwipeModal>
+							</RadioCheckElement>
+						</Stack>
+						<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
+							<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+								<PrimaryButton
+									buttonText="Continuer"
+									active={submitActive}
+									onClick={handleSubmit}
+									type="submit"
+								/>
+							</div>
+						</Stack>
 					</Stack>
 				</Box>
 			</main>

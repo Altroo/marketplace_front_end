@@ -81,6 +81,7 @@ export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersL
 export const getOfferVuesNextPage = (state: RootState) => state.offer.offerVuesList.next;
 export const getOfferTags = (state: RootState) => state.offer.selectedTags;
 // Local offers
+export const getUserLocalOffer = (state: RootState) => state.offer.userLocalOffer;
 export const getLocalOfferCategories = (state: RootState) => state.offer.userLocalOffer.categoriesList;
 export const getLocalOfferTitle = (state: RootState) => state.offer.userLocalOffer?.title;
 export const getLocalOfferDescription = (state: RootState) => state.offer.userLocalOffer?.description;

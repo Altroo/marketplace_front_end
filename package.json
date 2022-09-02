@@ -22,6 +22,7 @@
     "leaflet": "^1.8.0",
     "lodash": "^4.17.21",
     "next": "^12.2.5",
+    "next-images": "^1.8.4",
     "next-redux-wrapper": "^7.0.5",
     "react": "18.2.0",
     "react-currency-input-field": "^3.6.4",

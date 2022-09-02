@@ -19,6 +19,27 @@ import {
 import { PaginationResponseType } from '../../../types/_init/_initTypes';
 // import { HYDRATE } from "next-redux-wrapper";
 
+const clickAndCollectInitial = {
+	longitude: null,
+	latitude: null,
+	address_name: null,
+}
+
+const deliveriesInitial = {
+	delivery_city_1: null,
+	all_cities_1: null,
+	delivery_price_1: null,
+	delivery_days_1:null,
+	delivery_city_2: null,
+	all_cities_2: null,
+	delivery_price_2: null,
+	delivery_days_2:null,
+	delivery_city_3: null,
+	all_cities_3: null,
+	delivery_price_3: null,
+	delivery_days_3:null,
+}
+
 const initialState: OfferStateInterface = {
 	userOffers: [],
 	userOffersList: {
@@ -57,25 +78,8 @@ const initialState: OfferStateInterface = {
 		tags: null,
 		prix: null,
 		prix_par: null,
-		clickAndCollect: {
-			longitude: null,
-			latitude: null,
-			address_name: null,
-		},
-		deliveries: {
-			delivery_city_1: null,
-			all_cities_1: null,
-			delivery_price_1: null,
-			delivery_days_1:null,
-			delivery_city_2: null,
-			all_cities_2: null,
-			delivery_price_2: null,
-			delivery_days_2:null,
-			delivery_city_3: null,
-			all_cities_3: null,
-			delivery_price_3: null,
-			delivery_days_3:null,
-		}
+		clickAndCollect: clickAndCollectInitial,
+		deliveries: deliveriesInitial
 	},
 };
 
@@ -291,7 +295,6 @@ const OfferSlice = createSlice({
 			state.userLocalOffer.clickAndCollect.longitude = action.payload.longitude;
 			state.userLocalOffer.clickAndCollect.latitude = action.payload.latitude;
 			state.userLocalOffer.clickAndCollect.address_name = action.payload.address_name;
-			console.log(action.payload);
 			return state;
 		},
 		setLocalOfferDeliveries: (
@@ -312,6 +315,14 @@ const OfferSlice = createSlice({
 			}>,
 		) => {
 			state.userLocalOffer.deliveries = {...action.payload};
+			return state;
+		},
+		emptyLocalOfferDeliveryClickAndCollect: (state) => {
+			state.userLocalOffer.clickAndCollect = clickAndCollectInitial;
+			return state;
+		},
+		emptyLocalOfferDeliveries: (state) => {
+			state.userLocalOffer.deliveries = deliveriesInitial;
 			return state;
 		},
 		initOffer: () => {
@@ -346,6 +357,8 @@ export const {
 	setLocalOfferPrice,
 	setLocalOfferClickAndCollect,
 	setLocalOfferDeliveries,
+	emptyLocalOfferDeliveryClickAndCollect,
+	emptyLocalOfferDeliveries,
 } = OfferSlice.actions;
 
 export default OfferSlice.reducer;

@@ -9,6 +9,12 @@ export const placesGetGeolocalisationAction = (longitude: number, latitude: numb
 	};
 };
 
+export const emptyGetLocalisation = () => {
+	return {
+		type: Types.PLACES_EMPTY_GET_LOCALISATION,
+	};
+};
+
 // GET : /api/1.0.0/places/countries?all=true
 export const placesGetCountriesAction = () => {
 	return {

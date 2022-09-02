@@ -28,7 +28,7 @@ import {
 	offerTitleTooltipTheme,
 } from '../../../../utils/themes';
 import CustomToolTip from '../../../../components/htmlElements/toolTip/customToolTip';
-import { ImageListType } from 'react-images-uploading/dist/typings';
+import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
 import CustomSquareImageUploading from '../../../../components/formikElements/customSquareImageUploading/customSquareImageUploading';
 import CustomTextArea from '../../../../components/formikElements/customTextArea/customTextArea';
 import CustomDropDownChoices from '../../../../components/formikElements/customDropDownChoices/customDropDownChoices';
@@ -42,9 +42,9 @@ import QuantityRadioCheckContent from '../../../../components/groupedComponents/
 import { addOfferProductSchema } from '../../../../utils/formValidationSchemas';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import TagChips from '../../../../components/groupedComponents/offer/tagChips/tagChips';
-import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
+import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
 import { setOfferDescriptionPage } from '../../../../store/actions/offer/offerActions';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 // import {
 // 	getLocalOfferColors, getLocalOfferDescription,
 // 	getLocalOfferQuantity,
@@ -72,7 +72,7 @@ const Description: NextPage = () => {
 	const [offerImageThree, setOfferImageThree] = useState<string | null>(null);
 	const [offerImageFour, setOfferImageFour] = useState<string | null>(null);
 	const [isValid, setIsValid] = useState<boolean>(false);
-	const [images, setImages] = useState<ImageListType>([]);
+	const [images, setImages] = useState<ImageUploadingType>([]);
 	const forWhom = ['Tout le monde', 'Enfant', 'Femme', 'Homme'];
 	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	const [xsState, setXsState] = useState<boolean>(false);
@@ -107,8 +107,46 @@ const Description: NextPage = () => {
 	// const tags = useAppSelector(getLocalOfferTags);
 
 	// on change images
-	const imagesOnChangeHandler = (imageList: ImageListType, addUpdateIndex?: Array<number>) => {
+	const imagesOnChangeHandler = (imageList: ImageUploadingType, addUpdateIndex?: Array<number>) => {
 		setImages(imageList);
+		if (imageList.length === 1) {
+			if (imageList[0].dataURL) {
+				setOfferImageOne(imageList[0].dataURL);
+			}
+		}
+		else if (imageList.length === 2) {
+			if (imageList[0].dataURL) {
+				setOfferImageOne(imageList[0].dataURL);
+			}
+			if (imageList[1].dataURL) {
+				setOfferImageTwo(imageList[1].dataURL);
+			}
+		}
+		else if (imageList.length === 3) {
+			if (imageList[0].dataURL) {
+				setOfferImageOne(imageList[0].dataURL);
+			}
+			if (imageList[1].dataURL) {
+				setOfferImageTwo(imageList[1].dataURL);
+			}
+			if (imageList[2].dataURL) {
+				setOfferImageThree(imageList[2].dataURL);
+			}
+		}
+		else {
+			if (imageList[0].dataURL) {
+				setOfferImageOne(imageList[0].dataURL);
+			}
+			if (imageList[1].dataURL) {
+				setOfferImageTwo(imageList[1].dataURL);
+			}
+			if (imageList[2].dataURL) {
+				setOfferImageThree(imageList[2].dataURL);
+			}
+			if (imageList[3].dataURL) {
+				setOfferImageFour(imageList[3].dataURL);
+			}
+		}
 	};
 
 	type submitDataType = {
@@ -124,40 +162,34 @@ const Description: NextPage = () => {
 		} else {
 			setIsValid(false);
 		}
-	}, [images.length, offerDescription.length, offerTitle.length, pickedTags.length]);
+	}, [images, images.length, offerDescription.length, offerTitle.length, pickedTags.length]);
 
 	// submit handler
 	const addDescriptionSubmitHandler = (values: submitDataType) => {
-		if (images.length >= 1) {
-			if (images[0].dataURL) {
-				setOfferImageOne(images[0].dataURL);
-			}
-		}
-		if (images.length >= 2) {
-			if (images[1].dataURL) {
-				setOfferImageTwo(images[1].dataURL);
-			}
-		}
-		if (images.length >= 3) {
-			if (images[2].dataURL) {
-				setOfferImageThree(images[2].dataURL);
-			}
-		}
-		if (images.length === 4) {
-			if (images[3].dataURL) {
-				setOfferImageFour(images[3].dataURL);
-			}
-		}
+		// console.log('SBMITTED IMAGES');
+		// console.log(images);
+		// console.log("Images.length : ", images.length);
+		// console.log('SOLO :');
+		// console.log(images[0]);
+		// console.log(images[1]);
+		// console.log(images[2]);
+		// console.log(images[3]);
+		// console.log('DATA URL : ');
+		// console.log(images[0].dataURL);
+		// console.log(images[1].dataURL);
+		// console.log(images[2].dataURL);
+		// console.log(images[3].dataURL);
+
 		const forWhomCodeArray: Array<string> = [];
 		if (forWhomChoice.length >= 1) {
 			forWhomChoice.map((forWhom) => {
 				forWhomCodeArray.push(forWhom[0]);
-			})
+			});
 		}
 		const forWhomStr = forWhomCodeArray.join(',');
 		const productColorsStr: string = selectedColorsList.join(',');
 		const productSizesArray: Array<string> = [];
-		const {xsState, sState, mState, lState, xState, xlState} = sizesStates;
+		const { xsState, sState, mState, lState, xState, xlState } = sizesStates;
 		if (xsState) {
 			productSizesArray.push('XS');
 		}
@@ -191,7 +223,7 @@ const Description: NextPage = () => {
 				productSizesStr,
 				quantity,
 				values.tags.join(','),
-				router
+				router,
 			),
 		);
 	};

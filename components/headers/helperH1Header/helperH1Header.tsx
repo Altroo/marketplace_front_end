@@ -16,7 +16,7 @@ const HelperH1Header: React.FC<Props> = (props: Props) => {
 			<h1 className={`${Styles.header} ${props.headerClasses}`}>{props.header}</h1>
 			<div className={Styles.helpTextWrapper}>
 				<Image src={QuestionMarkSVG} width={18} height={18} alt="" />
-				<p>{props.HelpText}</p>
+				<span>{props.HelpText}</span>
 			</div>
 		</div>
 	);

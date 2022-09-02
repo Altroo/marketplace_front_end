@@ -533,6 +533,7 @@ const Index: NextPage = () => {
 				{/* TOP BAR */}
 				<div className={Styles.desktopTopBarWrapper}>
 					<DesktopPublishEditNavbar
+						buttonTitle="Publier"
 						actions={dropDownActions}
 						onClick={() => {
 							console.log('Clicked');

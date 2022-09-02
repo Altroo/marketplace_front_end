@@ -71,6 +71,18 @@ export const setOfferDeliveryClickAndCollect = (
 	}
 }
 
+export const emptyOfferDeliveryClickAndCollect = () => {
+	return {
+		type: Types.EMPTY_OFFER_DELIVERY_CLICK_AND_COLLECT,
+	};
+};
+
+export const emptyOfferDeliveries = () => {
+	return {
+		type: Types.EMPTY_OFFER_DELIVERIES,
+	};
+};
+
 export const setOfferDeliveries = (
 	delivery_city_1: string,
 	all_cities_1: boolean,

@@ -7,7 +7,6 @@ import Image from 'next/image';
 import CircularRemoveBlack from '../../../public/assets/svgs/globalIcons/circular-remove-black.svg';
 import SquareImageInputFile from '../../htmlElements/buttons/squareImageInputFile/squareImageInputFile';
 import { ImageListType } from "react-images-uploading/dist/typings";
-import { FormikHelpers } from "formik";
 
 type Props = {
 	images: ImageListType;
@@ -17,13 +16,14 @@ type Props = {
 };
 
 const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
+
 	return (
 			<ImageUploading
 				multiple
 				value={props.images}
 				onChange={props.onChange}
 				maxNumber={props.maxNumber}
-				dataURLKey="data_url"
+				dataURLKey="dataURL"
 				acceptType={['jpg', 'png', 'jpeg']}
 			>
 				{({ imageList, onImageUpload, onImageRemove }) => (
@@ -36,7 +36,7 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 								<Stack key={index} direction="row" className={Styles.addImagesWrapper} justifyContent="center" alignItems="center">
 									<ImageFuture
 										className={Styles.showImage}
-										src={image['data_url']}
+										src={image['dataURL'] as string}
 										alt=""
 										width={250}
 										height={160}
