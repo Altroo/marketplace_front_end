@@ -478,7 +478,7 @@ const Livraison: NextPage = () => {
 												handleClose={() => setOpenDelivery(false)}
 												handleSubmit={addDeliveriesHandler}
 												isValid={
-													isFormOptionOneValid && isFormOptionTwoValid && isFormOptionThreeValid
+													isFormOptionOneValid || isFormOptionTwoValid || isFormOptionThreeValid
 												}
 												cssClasses={Styles.topContainer}
 											/>
