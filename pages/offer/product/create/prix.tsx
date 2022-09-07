@@ -1,19 +1,12 @@
-// Altroo :
-// 1) Set currency input field as a component to be used in services & in edit.
-// 2) Missing two way binding for back button.
-// 3) Missing the formik & it's validation.
-// 4) Missing back buttons.
-// 5) Missing loading t'ill dispatch
-
 import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import OfferStyles from '../../../../styles/offer/create/offerCreateShared.module.sass';
 import ShopStyles from '../../../../styles/shop/create/shopCreateShared.module.sass';
 import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import Styles from '../../../../styles/offer/create/price.module.sass';
-// import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-// import { OFFER_ADD_PRODUCT_DESCRIPTION } from '../../../../utils/routes';
-// import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
+import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
+import { OFFER_ADD_PRODUCT_DESCRIPTION, SHOP_EDIT_INDEX } from "../../../../utils/routes";
+import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import { Box, Stack, ThemeProvider } from '@mui/material';
 import HelperH1Header from '../../../../components/headers/helperH1Header/helperH1Header';
@@ -22,19 +15,22 @@ import { OfferChipTheme } from '../../../../utils/themes';
 import SharedStyles from '../../../../styles/shop/create/shopCreateShared.module.sass';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CurrencyInput from 'react-currency-input-field';
-import { useAppDispatch } from "../../../../utils/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
 import { setOfferPricePage } from "../../../../store/actions/offer/offerActions";
 import { useRouter } from "next/router";
+import { getLocalOfferPrice, getLocalOfferPriceBy } from "../../../../store/selectors";
 
 const Prix: NextPage = () => {
 	const activeStep = '3';
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const [submitActive, setSubmitActive] = useState<boolean>(false);
-	const [price, setPrice] = useState<string | number>('');
-	const [unity, setUnity] = useState<boolean>(true);
-	const [kg, setKg] = useState<boolean>(false);
-	const [liter, setLiter] = useState<boolean>(false);
+	const pickedPriceBy = useAppSelector(getLocalOfferPriceBy);
+	const pickedPrice = useAppSelector(getLocalOfferPrice);
+	const [price, setPrice] = useState<string | number>(pickedPrice ? pickedPrice : '');
+	const [unity, setUnity] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'U'));
+	const [kg, setKg] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'K'));
+	const [liter, setLiter] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'L'));
 
 	const handleSubmit = () => {
 		let price_by: "L" | "U" | "K" = 'U';
@@ -75,9 +71,9 @@ const Prix: NextPage = () => {
 		<>
 			<LeftSideBar step={activeStep} which="PRODUCT" />
 			<main className={ShopStyles.main}>
-				<Box sx={{ width: '100%', height: '100%', marginTop: '2rem', marginBottom: '2rem' }}>
-					{/*<DesktopTopNavigationBar backHref={OFFER_ADD_PRODUCT_DESCRIPTION} returnButton />*/}
-					{/*<MobileTopNavigationBar backHref={OFFER_ADD_PRODUCT_DESCRIPTION} returnButton />*/}
+				<Box className={Styles.boxWrapper}>
+					<DesktopTopNavigationBar backHref={OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={SHOP_EDIT_INDEX} />
+					<MobileTopNavigationBar backHref={OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={SHOP_EDIT_INDEX}/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header
 						header="Fixer un prix"

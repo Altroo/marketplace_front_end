@@ -432,3 +432,33 @@ export const OfferQuantityFieldTheme = (primaryColor: string | undefined = undef
 		}
 	});
 };
+
+// Offer thumbnails overview
+export const OfferThumbnailsTheme = (backgroundColor: string, textColor: string, border: string) => {
+	return createTheme({
+		components: {
+			MuiImageList: {
+				styleOverrides: {
+					root: {
+						marginTop: '0px',
+						marginBottom: '0px',
+					},
+				},
+			},
+			MuiChip: {
+				styleOverrides: {
+					root: {
+						fontFamily: 'Poppins',
+						fontSize: '15px',
+						border: border,
+						borderRadius: '40px',
+					},
+					filled: {
+						backgroundColor: backgroundColor,
+						color: textColor,
+					},
+				},
+			},
+		},
+	});
+};

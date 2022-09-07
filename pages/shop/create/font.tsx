@@ -46,7 +46,7 @@ import {
 } from '../../../store/selectors';
 import ApiAlert from '../../../components/formikElements/apiResponse/apiAlert/apiAlert';
 import ApiProgress from '../../../components/formikElements/apiResponse/apiProgress/apiProgress';
-import { SHOP_ADD_COLOR } from "../../../utils/routes";
+import { SHOP_ADD_COLOR, SITE_ROOT } from "../../../utils/routes";
 
 export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
 	{
@@ -177,8 +177,8 @@ const Font: NextPage = () => {
 			<LeftSideBar step={activeStep} which="SHOP" />
 			<main className={Styles.main}>
 				<div>
-					<DesktopTopNavigationBar backHref={SHOP_ADD_COLOR} returnButton />
-					<MobileTopNavigationBar backHref={SHOP_ADD_COLOR} returnButton />
+					<DesktopTopNavigationBar backHref={SHOP_ADD_COLOR} returnButton closeButtonHref={SITE_ROOT} />
+					<MobileTopNavigationBar backHref={SHOP_ADD_COLOR} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header header="Choisir une police" HelpText="L'importance d'un type de police" />
 					<DefaultCardSection>

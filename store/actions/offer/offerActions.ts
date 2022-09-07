@@ -9,7 +9,7 @@ import {
 	OfferZoneByType,
 } from '../../../types/offer/offerTypes';
 import { NextRouter } from "next/router";
-import { SET_OFFER_DELIVERY_PAGE_DELIVERIES } from "../index";
+import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
 
 export const setOfferCategories = (categories: OfferCategoriesType) => {
 	return {
@@ -20,10 +20,7 @@ export const setOfferCategories = (categories: OfferCategoriesType) => {
 
 export const setOfferDescriptionPage = (
 	title: string,
-	picture_1: string,
-	picture_2: string | null,
-	picture_3: string | null,
-	picture_4: string | null,
+	pictures: ImageUploadingType,
 	description: string,
 	for_whom: string | null,
 	product_colors: string | null,
@@ -35,10 +32,11 @@ export const setOfferDescriptionPage = (
 	return {
 		type: Types.SET_OFFER_DESCRIPTION_PAGE,
 		title,
-		picture_1,
-		picture_2,
-		picture_3,
-		picture_4,
+		pictures,
+		// picture_1,
+		// picture_2,
+		// picture_3,
+		// picture_4,
 		description,
 		for_whom,
 		product_colors,
@@ -71,15 +69,16 @@ export const setOfferDeliveryClickAndCollect = (
 	}
 }
 
-export const emptyOfferDeliveryClickAndCollect = () => {
-	return {
-		type: Types.EMPTY_OFFER_DELIVERY_CLICK_AND_COLLECT,
-	};
-};
+// export const emptyOfferDeliveryClickAndCollect = () => {
+// 	return {
+// 		type: Types.EMPTY_OFFER_DELIVERY_CLICK_AND_COLLECT,
+// 	};
+// };
 
-export const emptyOfferDeliveries = () => {
+export const emptyOfferDeliveries = (option: "1" | "2" | "3") => {
 	return {
 		type: Types.EMPTY_OFFER_DELIVERIES,
+		option,
 	};
 };
 
@@ -117,31 +116,36 @@ export const setOfferDeliveries = (
 export const offerPostRootProductAction = (
 	offer_type: OfferOfferTypeType,
 	offer_categories: string,
-	title: string,
-	picture_1: File | string,
-	picture_2: File | string | null,
-	picture_3: File | string | null,
-	picture_4: File | string | null,
-	description: string,
+	title: string | null,
+	// picture_1: File | string,
+	// picture_2: File | string | null,
+	// picture_3: File | string | null,
+	// picture_4: File | string | null,
+	pictures: ImageUploadingType,
+	description: string | null,
 	for_whom: string | null,
 	product_colors: string | null,
 	product_sizes: string | null,
 	product_quantity: number | null,
-	price: number,
-	product_price_by: OfferProductPriceByType,
+	price: string | null,
+	product_price_by: OfferProductPriceByType | null,
+	product_address: string | null,
 	product_longitude: number | null,
 	product_latitude: number | null,
-	product_address: string | null,
 	delivery_city_1: string | null,
-	delivery_price_1: number | null,
-	delivery_days_1: number | null,
+	all_cities_1: boolean | null,
+	delivery_price_1: string | null,
+	delivery_days_1: string | null,
 	delivery_city_2: string | null,
-	delivery_price_2: number | null,
-	delivery_days_2: number | null,
+	all_cities_2: boolean | null,
+	delivery_price_2: string | null,
+	delivery_days_2: string | null,
 	delivery_city_3: string | null,
-	delivery_price_3: number | null,
-	delivery_days_3: number | null,
+	all_cities_3: boolean | null,
+	delivery_price_3: string | null,
+	delivery_days_3: string | null,
 	tags: string | null,
+	router: NextRouter,
 	creator_label?: boolean,
 	made_in_label?: string,
 ) => {
@@ -150,10 +154,11 @@ export const offerPostRootProductAction = (
 		offer_type,
 		offer_categories,
 		title,
-		picture_1,
-		picture_2,
-		picture_3,
-		picture_4,
+		// picture_1,
+		// picture_2,
+		// picture_3,
+		// picture_4,
+		pictures,
 		description,
 		for_whom,
 		product_colors,
@@ -165,15 +170,19 @@ export const offerPostRootProductAction = (
 		product_latitude,
 		product_address,
 		delivery_city_1,
+		all_cities_1,
 		delivery_price_1,
 		delivery_days_1,
 		delivery_city_2,
+		all_cities_2,
 		delivery_price_2,
 		delivery_days_2,
 		delivery_city_3,
+		all_cities_3,
 		delivery_price_3,
 		delivery_days_3,
 		tags,
+		router,
 		creator_label,
 		made_in_label,
 	};

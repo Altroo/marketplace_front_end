@@ -1,6 +1,7 @@
 import { OfferProductClass, OfferServiceClass } from '../../models/offer/OfferProductClass';
 import { Nullable, ResponseDataInterface, PaginationResponseType } from '../_init/_initTypes';
 import { NextRouter } from 'next/router';
+import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
 
 // ('V', 'Produit'), ('S', 'Service'), ('L', 'Location') <- 'L' Not yet available,
 export type OfferOfferTypeType = 'V' | 'S' | 'L';
@@ -86,10 +87,12 @@ export type OfferProductSizes = 'XS' | 'S' | 'M' | 'L' | 'X' | 'XL';
 
 export interface OfferPostRootProductType extends OfferProductClass {
 	type: string;
+	router: NextRouter;
 }
 
 export interface OfferPostRootServiceType extends OfferServiceClass {
 	type: string;
+	router: NextRouter;
 }
 
 export interface OfferPutRootProductType extends Omit<OfferPostRootProductType, 'offer_type'> {
@@ -164,12 +167,12 @@ export type OfferProductSizesArray = Array<{ pk: number; code_size: OfferProduct
 
 export type DetailsOfferProductType = {
 	product_quantity: number | null;
-	product_price_by: OfferProductPriceByType;
+	product_price_by: OfferProductPriceByType | null;
 	product_longitude: number | null;
 	product_latitude: number | null;
 	product_address: string | null;
-	product_colors: string | OfferProductColorsArray | [];
-	product_sizes: string | OfferProductSizesArray | [];
+	product_colors: string | null;
+	product_sizes: string | null;
 };
 
 export type OfferServiceAvailabilityDaysArray = Array<{ pk: number; code_day: OfferServiceDaysType; name_day: string }>;
@@ -296,10 +299,11 @@ export interface UserLocalOfferType {
 	categoriesList: Array<OfferCategoriesType>;
 	title: string | null;
 	description: string | null;
-	picture_1: string | null;
-	picture_2: string | null;
-	picture_3: string | null;
-	picture_4: string | null;
+	// picture_1: string | null;
+	// picture_2: string | null;
+	// picture_3: string | null;
+	// picture_4: string | null;
+	pictures: ImageUploadingType;
 	forWhom: string | null;
 	colors: string | null;
 	sizes: string | null;
@@ -344,8 +348,8 @@ export type OfferPostSolderResponseType = ResponseDataInterface<OfferSolderInter
 type OfferGetMyOffersProductServiceType = {
 	pk: number;
 	thumbnail: string;
-	title: string;
-	price: number;
+	title: string | null;
+	price: string | null;
 	solder_type: OfferSolderByType | null;
 	solder_value: number | null;
 	creator_label: boolean;
@@ -374,10 +378,11 @@ export type OfferGetVuesResponseType = ResponseDataInterface<OfferGetVuesType>;
 export type LocalOfferDescriptionPageType = {
 	type: string;
 	title: string;
-	picture_1: string;
-	picture_2: string | null;
-	picture_3: string | null;
-	picture_4: string | null;
+	// picture_1: string;
+	// picture_2: string | null;
+	// picture_3: string | null;
+	// picture_4: string | null;
+	pictures: ImageUploadingType;
 	description: string;
 	for_whom: string | null;
 	product_colors: string | null;

@@ -8,6 +8,7 @@ import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
 type Props = {
 	backHref?: string;
 	returnButton?: boolean;
+	closeButtonHref: string;
 	children?: React.ReactNode;
 };
 
@@ -23,7 +24,7 @@ const MobileTopNavigationBar = forwardRef<HTMLAnchorElement, Props>((props: Prop
 			) : (
 				<div className={Styles.backLink}></div>
 			)}
-			<Link href="/pages">
+			<Link href={props.closeButtonHref}>
 				<a>
 					<Image src={CloseSVG} width={40} height={40} alt="" />
 				</a>

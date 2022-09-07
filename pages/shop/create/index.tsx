@@ -15,7 +15,7 @@ import { Box } from '@mui/material';
 import { useRouter } from "next/router";
 import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
 import { shopNameSchema } from "../../../utils/formValidationSchemas";
-import { SHOP_ADD_SHOP_NAME } from "../../../utils/routes";
+import { SHOP_ADD_SHOP_NAME, SITE_ROOT } from "../../../utils/routes";
 import { shopNameTextInputTheme } from "../../../utils/themes";
 import CustomTextInput from "../../../components/formikElements/customTextInput/customTextInput";
 
@@ -46,8 +46,8 @@ const ShopName: NextPage = () => {
 			<LeftSideBar step={activeStep} which="SHOP" />
 			<main className={Styles.main}>
 				<Box sx={{ width: '100%', height: '100%' }}>
-					<DesktopTopNavigationBar backHref={SHOP_ADD_SHOP_NAME} />
-					<MobileTopNavigationBar backHref={SHOP_ADD_SHOP_NAME} />
+					<DesktopTopNavigationBar backHref={SHOP_ADD_SHOP_NAME} closeButtonHref={SITE_ROOT}/>
+					<MobileTopNavigationBar backHref={SHOP_ADD_SHOP_NAME} closeButtonHref={SITE_ROOT}/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header header="Nommez votre boutique" HelpText="Comment choisir son nom ?" />
 					<Formik

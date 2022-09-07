@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useEffect } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -29,10 +29,6 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-
-	useEffect(() => {
-		console.log(props.dropDownText);
-	}, [props.dropDownText]);
 
 	const customTheme = getDropDownMenuTheme();
 	return (

@@ -25,7 +25,7 @@ import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import { getNewShopName, getNewShopAvatar } from "../../../store/selectors";
-import { SHOP_ADD_SHOP_NAME } from "../../../utils/routes";
+import { SHOP_ADD_SHOP_NAME, SITE_ROOT } from "../../../utils/routes";
 import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
 import { useRouter } from "next/router";
 
@@ -85,8 +85,8 @@ const Avatar: NextPage = () => {
 			<LeftSideBar step={activeStep} which="SHOP" />
 			<main className={Styles.main}>
 				<div>
-					<DesktopTopNavigationBar backHref={SHOP_ADD_SHOP_NAME} returnButton />
-					<MobileTopNavigationBar backHref={SHOP_ADD_SHOP_NAME} returnButton />
+					<DesktopTopNavigationBar backHref={SHOP_ADD_SHOP_NAME} returnButton closeButtonHref={SITE_ROOT}/>
+					<MobileTopNavigationBar backHref={SHOP_ADD_SHOP_NAME} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header header="Ajouter un avatar" HelpText="Bien choisir sa photo de profil" />
 					<DefaultCardSection>

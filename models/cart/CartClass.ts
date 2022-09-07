@@ -46,9 +46,9 @@ export class MultiCartClass extends GlobalCartClass{
 	constructor(
 		offers_count: number,
 		offers_total_price: number,
-        shop_pk: number | undefined,
+		shop_pk: number | undefined,
 		shop_picture: string | undefined,
-        shop_name: string | undefined,
+		shop_name: string | undefined,
 		public cart_details: Array<CartDetails>,
 	){
 		super(offers_count, offers_total_price, shop_pk, shop_picture, shop_name)

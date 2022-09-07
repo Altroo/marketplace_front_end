@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Styles from './tagChips.module.sass';
 import { Chip, Autocomplete, TextField, Stack } from '@mui/material';
 import { ThemeProvider } from '@mui/system';
@@ -16,6 +16,7 @@ import { filter } from "dom7";
 // };
 
 type Props = {
+	pickedTags: Array<string>;
 	setPickedTags: React.Dispatch<React.SetStateAction<Array<string>>>;
 	children?: React.ReactNode;
 };
@@ -33,6 +34,7 @@ const TagChips: React.FC<Props> = (props: Props) => {
 					Ajouter quelques tags afin d&apos;apparaître dans nos collections.
 				</span>
 				<Autocomplete
+					value={props.pickedTags ? props.pickedTags : []}
 					onChange={(event, values: Array<string>) => {
 							props.setPickedTags(values);
 						}
@@ -106,6 +108,11 @@ const TagChips: React.FC<Props> = (props: Props) => {
 							}}
 							onChange={(e) => {
 								dispatch(offerGetTagsAction(e.target.value));
+							}}
+							onKeyDown={(e) => {
+								if (e.code === 'Enter') {
+									e.preventDefault();
+								}
 							}}
 						/>
 					)}

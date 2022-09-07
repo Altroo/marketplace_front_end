@@ -8,6 +8,7 @@ import PlusSVG from '../../../../../public/assets/svgs/globalIcons/plus-circular
 import Image from 'next/image';
 
 type Props = {
+	switchOpen: boolean;
 	quantity: number;
 	setQuantity: React.Dispatch<React.SetStateAction<number>>;
 	children?: React.ReactNode;
@@ -17,7 +18,7 @@ const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
 	const quantityTheme = OfferQuantityFieldTheme();
 
 	return (
-		<RadioCheckElement title="Quantité">
+		<RadioCheckElement title="Quantité" defaultValue={props.switchOpen}>
 			<Stack direction="row" flexWrap="wrap" gap={5}>
 				<IconButton
 					onClick={() =>

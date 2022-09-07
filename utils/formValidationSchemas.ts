@@ -8,8 +8,8 @@ import {
 	INPUT_PONE,
 	INPUT_REQUIRED,
 	INPUT_URL,
-	INPUT_INSTAGRAM_URL,
-} from './formValidationErrorMessages';
+	INPUT_INSTAGRAM_URL, INPUT_IMG_MIN
+} from "./formValidationErrorMessages";
 
 export const shopNameSchema = Yup.object().shape({
 	shop_name: Yup.string().min(2, INPUT_MIN(2)).max(50, INPUT_MAX(50)).required(INPUT_REQUIRED),
@@ -55,7 +55,17 @@ export const shopAddressSchema = Yup.object().shape({
 export const addOfferProductSchema = Yup.object().shape({
 	title: Yup.string().min(2, INPUT_MIN(2)).max(150, INPUT_MAX(150)).required(INPUT_REQUIRED),
 	description: Yup.string().required(INPUT_REQUIRED),
-	// images: Yup.boolean().required(INPUT_REQUIRED),
+	images: Yup.array().of(
+		Yup.object().shape({
+			dataURL: Yup.string(),
+			file: Yup.object().nullable().shape({
+				lastModified: Yup.number(),
+				name: Yup.string(),
+				size: Yup.number(),
+				type: Yup.string(),
+				webkitRelativePath: Yup.string(),
+			}),
+	})).min(1, INPUT_IMG_MIN(1)),
 	tags: Yup.lazy((val) =>
 		Array.isArray(val)
 			? Yup.array().of(Yup.string().required(INPUT_REQUIRED))

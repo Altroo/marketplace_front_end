@@ -12,7 +12,7 @@ import { Stack, Box } from '@mui/material';
 import { useAppSelector } from '../../../../utils/hooks';
 import { getLocalOfferCategories } from '../../../../store/selectors';
 import PrimaryAnchorButton from "../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton";
-import { OFFER_ADD_INDEX, OFFER_ADD_PRODUCT_DESCRIPTION } from "../../../../utils/routes";
+import { OFFER_ADD_INDEX, OFFER_ADD_PRODUCT_DESCRIPTION, SHOP_EDIT_INDEX } from "../../../../utils/routes";
 
 const Index: NextPage = () => {
 	const pickedCategories = useAppSelector(getLocalOfferCategories);
@@ -32,8 +32,8 @@ const Index: NextPage = () => {
 			<LeftSideBar step={activeStep} which="PRODUCT" />
 			<main className={SharedStyles.main}>
 				<Box sx={{ width: '100%', height: '100%' }}>
-					<DesktopTopNavigationBar backHref={OFFER_ADD_INDEX} returnButton />
-					<MobileTopNavigationBar backHref={OFFER_ADD_INDEX} returnButton />
+					<DesktopTopNavigationBar backHref={OFFER_ADD_INDEX} returnButton closeButtonHref={SHOP_EDIT_INDEX} />
+					<MobileTopNavigationBar backHref={OFFER_ADD_INDEX} returnButton closeButtonHref={SHOP_EDIT_INDEX} />
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header
 						header="Choisissez une ou plusieurs catégories"

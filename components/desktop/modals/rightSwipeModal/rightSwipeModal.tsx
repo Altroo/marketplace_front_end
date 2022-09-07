@@ -7,7 +7,6 @@ import { TransitionProps } from '@mui/material/transitions';
 import { useAppSelector } from "../../../../utils/hooks";
 import { getShopObj } from "../../../../store/selectors";
 
-// overflow-x: hidden;
 const Transition = React.forwardRef(function Transition(
 	props: TransitionProps & {
 		// eslint-disable-next-line

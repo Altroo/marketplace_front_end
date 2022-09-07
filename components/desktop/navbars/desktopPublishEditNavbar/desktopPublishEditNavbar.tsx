@@ -12,18 +12,18 @@ type Props = {
 	actions: DropDownActionType;
 	buttonTitle: string;
 	onClick: () => void;
+	dropDownText: string;
 	children?: React.ReactNode;
 };
 
 const DesktopPublishEditNavbar: React.FC<Props> = (props: Props) => {
-
 	return (
 		<div className={Styles.navWrapper}>
 			<div>
 				<PrimaryButton buttonText={props.buttonTitle} active onClick={props.onClick} cssClass={Styles.publishButton} />
 			</div>
 			<DropDownMenu
-				dropDownText="Éditer"
+				dropDownText={props.dropDownText}
 				dropDownIcon={EditIconSVG}
 				actions={props.actions}
 				menuID={props.menuID}

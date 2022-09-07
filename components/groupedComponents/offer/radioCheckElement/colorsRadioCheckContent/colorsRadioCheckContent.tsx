@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from "react";
 import Styles from './colorsRadioCheckContent.module.sass';
 import { Stack, Button, ThemeProvider, Grid, Box} from '@mui/material';
 import { OfferColorsListType } from '../../../../../types/ui/uiTypes';
@@ -7,6 +7,7 @@ import RadioCheckElement from "../radioCheckElement";
 import {hexToRGB} from '../../../../../utils/helpers';
 
 type Props = {
+	switchOpen: boolean;
 	selectedColorsList: Array<string>;
 	setselectedColorsList: React.Dispatch<React.SetStateAction<Array<string>>>;
 	children?: React.ReactNode;
@@ -95,7 +96,7 @@ const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<RadioCheckElement title="Couleurs">
+			<RadioCheckElement title="Couleurs" defaultValue={props.switchOpen}>
 					<Grid container>
 					{availableColorsList.map((color, index) => {
 						const rippleColor = hexToRGB(color.hex, 0.5);
@@ -114,7 +115,6 @@ const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
 											size="small"
 											onClick={() => colorOnClickHandler(color.code)}
 											color="primary"
-
 										/>
 										</Box>
 									<span className={Styles.colorValue}>{color.value}</span>

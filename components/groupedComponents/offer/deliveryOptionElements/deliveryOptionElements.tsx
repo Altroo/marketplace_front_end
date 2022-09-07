@@ -10,8 +10,9 @@ import {
 	offerForWhomDropdownTheme,
 	offerTitleTextInputTheme,
 } from '../../../../utils/themes';
-import { useAppSelector } from '../../../../utils/hooks';
+import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
 import { getAvailableCities } from '../../../../store/selectors';
+import { emptyOfferDeliveries } from "../../../../store/actions/offer/offerActions";
 
 type Props = {
 	citiesState: Array<string>;
@@ -29,6 +30,7 @@ type Props = {
 };
 
 const DeliveryOptionElements: React.FC<Props> = (props: Props) => {
+	const dispatch = useAppDispatch();
 	const availableCities: Array<string> = useAppSelector(getAvailableCities);
 	const {
 		citiesState,
@@ -41,12 +43,12 @@ const DeliveryOptionElements: React.FC<Props> = (props: Props) => {
 		setDeliveryDaysState,
 	} = props;
 
-	const [gratuitState, setGratuitState] = useState<boolean>(false);
-	const [fiveDHState, setFiveDHState] = useState<boolean>(false);
-	const [tenDHState, setTenDHState] = useState<boolean>(false);
-	const [oneDayState, setOneDayState] = useState<boolean>(false);
-	const [twoDayState, setTwoDayState] = useState<boolean>(false);
-	const [fourDayState, setFourDayState] = useState<boolean>(false);
+	const [gratuitState, setGratuitState] = useState<boolean>(deliveryPriceState === '0');
+	const [fiveDHState, setFiveDHState] = useState<boolean>(deliveryPriceState === '5');
+	const [tenDHState, setTenDHState] = useState<boolean>(deliveryPriceState === '10');
+	const [oneDayState, setOneDayState] = useState<boolean>(deliveryDaysState === '1');
+	const [twoDayState, setTwoDayState] = useState<boolean>(deliveryDaysState === '2');
+	const [fourDayState, setFourDayState] = useState<boolean>(deliveryDaysState === '4');
 
 	const citiesHandleChange = (event: SelectChangeEvent<Array<string>>) => {
 		const {
@@ -56,16 +58,34 @@ const DeliveryOptionElements: React.FC<Props> = (props: Props) => {
 		setCitiesState(value_);
 	};
 
+	const {setIsFormValidState} = props;
+
 	useEffect(() => {
-		props.setIsFormValidState(
+		setIsFormValidState(
 			!!((citiesState.length > 0 || allCitiesState) && deliveryPriceState && deliveryDaysState),
 		);
-	}, [allCitiesState, citiesState.length, deliveryDaysState, deliveryPriceState, props]);
+	}, [allCitiesState, citiesState.length, deliveryDaysState, deliveryPriceState, setIsFormValidState]);
+
+	const DeleteDeliveryOptionElementHandler = () => {
+		if (props.setNextDeliveryState) {
+			props.setNextDeliveryState(false);
+		}
+		setCitiesState([]);
+		setAllCitiesState(false);
+		setDeliveryPriceState('');
+		setGratuitState(false);
+		setFiveDHState(false);
+		setTenDHState(false);
+		setDeliveryDaysState('');
+		setOneDayState(false);
+		setTwoDayState(false);
+		setFourDayState(false);
+		dispatch(emptyOfferDeliveries(props.option));
+	};
 
 	const citiesDropDownTheme = offerForWhomDropdownTheme();
 	const priceFieldTheme = offerTitleTextInputTheme();
 	const chipTheme = OfferChipTheme();
-
 	const defaultTheme = getDefaultTheme();
 
 	return (
@@ -76,7 +96,7 @@ const DeliveryOptionElements: React.FC<Props> = (props: Props) => {
 						<p className={Styles.label}>Option {props.option}</p>
 						{props.setNextDeliveryState ? (
 							<Button
-								onClick={() => (props.setNextDeliveryState ? props.setNextDeliveryState(false) : {})}
+								onClick={DeleteDeliveryOptionElementHandler}
 								className={Styles.deleteButton}
 							>
 								Effacer

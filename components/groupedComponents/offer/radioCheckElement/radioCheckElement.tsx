@@ -8,25 +8,32 @@ type Props = {
 	title: string;
 	disabled?: boolean;
 	emptyStates?: () => void;
+	defaultValue?: boolean;
 	children?: React.ReactNode;
 }
 
 const RadioCheckElement: React.FC<Props> = (props: Props) => {
-	const [open, setOpen] = useState<boolean>(false);
+	const [open, setOpen] = useState<boolean>(props.defaultValue ? props.defaultValue : false);
 	const [showOptional, setShowOptional] = useState<boolean>(true);
 	const defaultTheme = getDefaultTheme();
 	const switchTheme = offerSwitchTheme();
+	const [switchOpenHasRun, setSwitchOpenHasRun] = useState<boolean>(false);
+	const {emptyStates, defaultValue, title} = props;
 
 	useEffect(() => {
-		if (props.title === 'Click & collect' || props.title === 'Livraison') {
+		if (title === 'Click & collect' || title === 'Livraison') {
 			setShowOptional(false);
 		}
 		if (!open) {
-			if (props.emptyStates) {
-				props.emptyStates();
+			if (emptyStates) {
+				emptyStates();
 			}
 		}
-	}, [open, props, props.title]);
+		if(defaultValue && !switchOpenHasRun) {
+			setOpen(defaultValue);
+			setSwitchOpenHasRun(true);
+		}
+	}, [defaultValue, emptyStates, open, switchOpenHasRun, title]);
 
 	return (
 		<ThemeProvider theme={defaultTheme}>

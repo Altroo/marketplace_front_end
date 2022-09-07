@@ -1,3 +1,6 @@
+// Site root
+export const SITE_ROOT = '/pages';
+
 // Shop Routes
 export const SHOP_ROUTE = '/shop/';
 export const SHOP_ADD_SHOP_NAME = '/shop/create';

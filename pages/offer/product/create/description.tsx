@@ -1,9 +1,3 @@
-// Altroo :
-// 1) Missing two way binding for back button
-// 2) Missing images validation & error message
-// 3) Missing state selectors for formik initial values
-// 4) Missing loading t'ill dispatch
-
 import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 // import Image from "next/image";
@@ -13,7 +7,7 @@ import SharedStyles from '../../../../styles/shop/create/shopCreateShared.module
 import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
 import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import { OFFER_ADD_PRODUCT_CATEGORIES } from '../../../../utils/routes';
+import { OFFER_ADD_PRODUCT_CATEGORIES, SHOP_EDIT_INDEX } from '../../../../utils/routes';
 import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperDescriptionHeader from '../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
@@ -45,6 +39,28 @@ import TagChips from '../../../../components/groupedComponents/offer/tagChips/ta
 import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
 import { setOfferDescriptionPage } from '../../../../store/actions/offer/offerActions';
 import { useRouter } from 'next/router';
+import {
+	getLocalOfferColors,
+	getLocalOfferDescription,
+	getLocalOfferForwhom,
+	getLocalOfferPictures,
+	// getLocalOfferPicture1,
+	// getLocalOfferPicture2,
+	// getLocalOfferPicture3,
+	// getLocalOfferPicture4,
+	getLocalOfferQuantity,
+	getLocalOfferSizes,
+	getLocalOfferTags,
+	getLocalOfferTitle,
+} from '../../../../store/selectors';
+// import { setSelectedOfferTags } from '../../../../store/slices/offer/offerSlice';
+import {
+	forWhomData,
+	getColorsDataArray,
+	getForWhomDataArray,
+	getForWhomLocalDataArray,
+} from '../../../../utils/rawData';
+// import { OfferForWhomType, OfferProductColors } from '../../../../types/offer/offerTypes';
 // import {
 // 	getLocalOfferColors, getLocalOfferDescription,
 // 	getLocalOfferQuantity,
@@ -67,13 +83,13 @@ const Description: NextPage = () => {
 	const [selectedColorsList, setselectedColorsList] = useState<Array<string>>([]);
 	const [offerTitle, setOfferTitle] = useState<string>('');
 	const [offerDescription, setOfferDescription] = useState<string>('');
-	const [offerImageOne, setOfferImageOne] = useState<string>('');
-	const [offerImageTwo, setOfferImageTwo] = useState<string | null>(null);
-	const [offerImageThree, setOfferImageThree] = useState<string | null>(null);
-	const [offerImageFour, setOfferImageFour] = useState<string | null>(null);
-	const [isValid, setIsValid] = useState<boolean>(false);
+	const [offerTags, setOfferTags] = useState<Array<string>>([]);
+	// const [offerImageOne, setOfferImageOne] = useState<string>('');
+	// const [offerImageTwo, setOfferImageTwo] = useState<string | null>(null);
+	// const [offerImageThree, setOfferImageThree] = useState<string | null>(null);
+	// const [offerImageFour, setOfferImageFour] = useState<string | null>(null);
+	// const [isValid, setIsValid] = useState<boolean>(false);
 	const [images, setImages] = useState<ImageUploadingType>([]);
-	const forWhom = ['Tout le monde', 'Enfant', 'Femme', 'Homme'];
 	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	const [xsState, setXsState] = useState<boolean>(false);
 	const [sState, setSState] = useState<boolean>(false);
@@ -98,88 +114,143 @@ const Description: NextPage = () => {
 		setXlState,
 	};
 	const [quantity, setQuantity] = useState<number>(0);
-	const [pickedTags, setPickedTags] = useState<Array<string>>([]);
-	// const pickedTitle = useAppSelector(getLocalOfferTitle);
-	// const pickedDescription = useAppSelector(getLocalOfferDescription);
-	// const colorsList = useAppSelector(getLocalOfferColors);
-	// const sizesList = useAppSelector(getLocalOfferSizes);
-	// const productQuantity = useAppSelector(getLocalOfferQuantity);
-	// const tags = useAppSelector(getLocalOfferTags);
+	// const [pickedTags, setPickedTags] = useState<Array<string>>([]);
+	const pickedTitle = useAppSelector(getLocalOfferTitle);
+	const pickedPictures = useAppSelector(getLocalOfferPictures);
+	// const pickedPicture1 = useAppSelector(getLocalOfferPicture1);
+	// const pickedPicture2 = useAppSelector(getLocalOfferPicture2);
+	// const pickedPicture3 = useAppSelector(getLocalOfferPicture3);
+	// const pickedPicture4 = useAppSelector(getLocalOfferPicture4);
+	const pickedForWhom = useAppSelector(getLocalOfferForwhom);
+	const pickedDescription = useAppSelector(getLocalOfferDescription);
+	const pickedColorsList = useAppSelector(getLocalOfferColors);
+	const pickedSizesList = useAppSelector(getLocalOfferSizes);
+	const pickedQuantity = useAppSelector(getLocalOfferQuantity);
+	const pickedTags = useAppSelector(getLocalOfferTags);
 
 	// on change images
 	const imagesOnChangeHandler = (imageList: ImageUploadingType, addUpdateIndex?: Array<number>) => {
 		setImages(imageList);
-		if (imageList.length === 1) {
-			if (imageList[0].dataURL) {
-				setOfferImageOne(imageList[0].dataURL);
-			}
-		}
-		else if (imageList.length === 2) {
-			if (imageList[0].dataURL) {
-				setOfferImageOne(imageList[0].dataURL);
-			}
-			if (imageList[1].dataURL) {
-				setOfferImageTwo(imageList[1].dataURL);
-			}
-		}
-		else if (imageList.length === 3) {
-			if (imageList[0].dataURL) {
-				setOfferImageOne(imageList[0].dataURL);
-			}
-			if (imageList[1].dataURL) {
-				setOfferImageTwo(imageList[1].dataURL);
-			}
-			if (imageList[2].dataURL) {
-				setOfferImageThree(imageList[2].dataURL);
-			}
-		}
-		else {
-			if (imageList[0].dataURL) {
-				setOfferImageOne(imageList[0].dataURL);
-			}
-			if (imageList[1].dataURL) {
-				setOfferImageTwo(imageList[1].dataURL);
-			}
-			if (imageList[2].dataURL) {
-				setOfferImageThree(imageList[2].dataURL);
-			}
-			if (imageList[3].dataURL) {
-				setOfferImageFour(imageList[3].dataURL);
-			}
-		}
+		// if (imageList.length === 1) {
+		// 	if (imageList[0].dataURL) {
+		// 		setOfferImageOne(imageList[0].dataURL);
+		// 	}
+		// }
+		// else if (imageList.length === 2) {
+		// 	if (imageList[0].dataURL) {
+		// 		setOfferImageOne(imageList[0].dataURL);
+		// 	}
+		// 	if (imageList[1].dataURL) {
+		// 		setOfferImageTwo(imageList[1].dataURL);
+		// 	}
+		// }
+		// else if (imageList.length === 3) {
+		// 	if (imageList[0].dataURL) {
+		// 		setOfferImageOne(imageList[0].dataURL);
+		// 	}
+		// 	if (imageList[1].dataURL) {
+		// 		setOfferImageTwo(imageList[1].dataURL);
+		// 	}
+		// 	if (imageList[2].dataURL) {
+		// 		setOfferImageThree(imageList[2].dataURL);
+		// 	}
+		// }
+		// else {
+		// 	if (imageList[0].dataURL) {
+		// 		setOfferImageOne(imageList[0].dataURL);
+		// 	}
+		// 	if (imageList[1].dataURL) {
+		// 		setOfferImageTwo(imageList[1].dataURL);
+		// 	}
+		// 	if (imageList[2].dataURL) {
+		// 		setOfferImageThree(imageList[2].dataURL);
+		// 	}
+		// 	if (imageList[3].dataURL) {
+		// 		setOfferImageFour(imageList[3].dataURL);
+		// 	}
+		// }
 	};
 
 	type submitDataType = {
 		title: string;
 		description: string;
-		// images: boolean;
 		tags: Array<string>;
 	};
+	const [colorSwitchOpen, setColorSwitchOpen] = useState<boolean>(false);
+	const [sizesSwitchOpen, setSizesSwitchOpen] = useState<boolean>(false);
+	const [quantitySwitchOpen, setQuantitySwitchOpen] = useState<boolean>(false);
 
 	useEffect(() => {
-		if (images.length >= 1 && pickedTags.length >= 1 && offerTitle.length >= 2 && offerDescription.length >= 1) {
-			setIsValid(true);
-		} else {
-			setIsValid(false);
+		if (pickedTitle) {
+			setOfferTitle(pickedTitle);
 		}
-	}, [images, images.length, offerDescription.length, offerTitle.length, pickedTags.length]);
+		if (pickedPictures.length > 0) {
+			setImages(pickedPictures);
+		}
+		if (pickedDescription) {
+			setOfferDescription(pickedDescription);
+		}
+		if (typeof pickedTags === 'string') {
+			setOfferTags(pickedTags.split(','));
+		}
+		if (typeof pickedForWhom === 'string') {
+			setForWhomChoice(getForWhomLocalDataArray(pickedForWhom.split(',') as Array<string>));
+		}
+		if (pickedColorsList) {
+			setselectedColorsList(pickedColorsList.split(','));
+			setColorSwitchOpen(true);
+		}
+		if (typeof pickedSizesList === 'string') {
+			const sizesArray = pickedSizesList.split(',');
+			if (sizesArray.length > 0) {
+				sizesArray.map((size) => {
+					switch (size) {
+						case 'XS':
+							setXsState(true);
+							break;
+						case 'S':
+							setSState(true);
+							break;
+						case 'M':
+							setMState(true);
+							break;
+						case 'L':
+							setLState(true);
+							break;
+						case 'X':
+							setXState(true);
+							break;
+						case 'XL':
+							setXlState(true);
+							break;
+					}
+					setSizesSwitchOpen(true);
+				});
+			}
+		}
+		if (pickedQuantity){
+			setQuantity(pickedQuantity);
+			setQuantitySwitchOpen(true);
+		}
+		// if (images.length > 0 && pickedTags.length > 0 && offerTitle.length > 1 && offerDescription.length > 0) {
+		// 	setIsValid(true);
+		// } else {
+		// 	setIsValid(false);
+		// }
+	}, [
+		pickedQuantity,
+		pickedColorsList,
+		offerTitle,
+		pickedDescription,
+		pickedForWhom,
+		pickedPictures,
+		pickedTags,
+		pickedTitle,
+		pickedSizesList,
+	]);
 
 	// submit handler
 	const addDescriptionSubmitHandler = (values: submitDataType) => {
-		// console.log('SBMITTED IMAGES');
-		// console.log(images);
-		// console.log("Images.length : ", images.length);
-		// console.log('SOLO :');
-		// console.log(images[0]);
-		// console.log(images[1]);
-		// console.log(images[2]);
-		// console.log(images[3]);
-		// console.log('DATA URL : ');
-		// console.log(images[0].dataURL);
-		// console.log(images[1].dataURL);
-		// console.log(images[2].dataURL);
-		// console.log(images[3].dataURL);
-
 		const forWhomCodeArray: Array<string> = [];
 		if (forWhomChoice.length >= 1) {
 			forWhomChoice.map((forWhom) => {
@@ -213,10 +284,7 @@ const Description: NextPage = () => {
 		dispatch(
 			setOfferDescriptionPage(
 				values.title,
-				offerImageOne,
-				offerImageTwo,
-				offerImageThree,
-				offerImageFour,
+				images,
 				values.description,
 				forWhomStr,
 				productColorsStr,
@@ -247,8 +315,16 @@ const Description: NextPage = () => {
 			<LeftSideBar step={activeStep} which="PRODUCT" />
 			<main className={SharedStyles.main}>
 				<Box sx={{ width: '100%', height: '100%' }}>
-					<DesktopTopNavigationBar backHref={OFFER_ADD_PRODUCT_CATEGORIES} returnButton />
-					<MobileTopNavigationBar backHref={OFFER_ADD_PRODUCT_CATEGORIES} returnButton />
+					<DesktopTopNavigationBar
+						backHref={OFFER_ADD_PRODUCT_CATEGORIES}
+						returnButton
+						closeButtonHref={SHOP_EDIT_INDEX}
+					/>
+					<MobileTopNavigationBar
+						backHref={OFFER_ADD_PRODUCT_CATEGORIES}
+						returnButton
+						closeButtonHref={SHOP_EDIT_INDEX}
+					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperDescriptionHeader
 						header="Décrivez votre offre"
@@ -260,17 +336,33 @@ const Description: NextPage = () => {
 							enableReinitialize={true}
 							initialValues={{
 								title: offerTitle,
+								images: images,
 								description: offerDescription,
-								tags: pickedTags,
+								tags: offerTags,
 							}}
 							validateOnMount={true}
-							validationSchema={addOfferProductSchema}
 							onSubmit={(values) => {
 								addDescriptionSubmitHandler(values);
 							}}
+							validationSchema={addOfferProductSchema}
 						>
-							{({ handleChange, handleBlur, handleSubmit, values, touched, errors, isSubmitting }) => (
-								<Form className={Styles.formStyle}>
+							{({
+								handleBlur,
+								handleChange,
+								values,
+								handleSubmit,
+								setFieldValue,
+								touched,
+								errors,
+								isSubmitting,
+								isValid,
+							}) => (
+								<Form
+									className={Styles.formStyle}
+									onKeyDown={(e) => {
+										if (e.code === 'enter') e.preventDefault();
+									}}
+								>
 									<Stack direction="column" spacing={2}>
 										<ClickAwayListener onClickAway={() => setTitleTooltip(false)}>
 											<div>
@@ -283,9 +375,9 @@ const Description: NextPage = () => {
 													<CustomTextInput
 														id="title"
 														label="Titre"
-														value={offerTitle ? offerTitle : ''}
+														value={values.title ? values.title : ''}
 														onChange={(e) => {
-															// handleChange('title');
+															handleChange('title')(e);
 															setOfferTitle(e.target.value);
 														}}
 														onBlur={handleBlur('title')}
@@ -303,16 +395,19 @@ const Description: NextPage = () => {
 										</ClickAwayListener>
 										<CustomSquareImageUploading
 											images={images}
-											onChange={imagesOnChangeHandler}
+											onChange={(e) => {
+												imagesOnChangeHandler(e);
+												setFieldValue('images', e);
+											}}
 											maxNumber={4}
 										/>
 										<CustomTextArea
 											type="text"
 											id="description"
 											label="Description"
-											value={offerDescription ? offerDescription : ''}
+											value={values.description ? values.description : ''}
 											onChange={(e) => {
-												// handleChange('description');
+												handleChange('description')(e);
 												setOfferDescription(e.target.value);
 											}}
 											onBlur={handleBlur('description')}
@@ -327,7 +422,7 @@ const Description: NextPage = () => {
 										<CustomDropDownChoices
 											id="forWhom"
 											label="Pour qui (optionnel)"
-											items={forWhom}
+											items={forWhomData}
 											theme={forWhomFieldTheme}
 											onChange={forWhomHandleChange}
 											value={forWhomChoice}
@@ -338,9 +433,9 @@ const Description: NextPage = () => {
 												<ColorsRadioCheckContent
 													selectedColorsList={selectedColorsList}
 													setselectedColorsList={setselectedColorsList}
+													switchOpen={colorSwitchOpen}
 												/>
 											</Grid>
-											{/*<Divider variant="fullWidth" orientation="vertical" flexItem />*/}
 											<Grid item md={6} sm={12} xs={12}>
 												<CreatorRadioCheckContent />
 											</Grid>
@@ -348,21 +443,24 @@ const Description: NextPage = () => {
 										<Grid container columnSpacing={1}>
 											<Grid item md={6} sm={12} xs={12}>
 												<SizesRadioCheckContent
+													switchOpen={sizesSwitchOpen}
 													sizesStates={sizesStates}
 													setSizesStates={setSizesStates}
 												/>
 											</Grid>
 											<Grid item md={6} sm={12} xs={12}>
 												<QuantityRadioCheckContent
+													switchOpen={quantitySwitchOpen}
 													quantity={quantity}
 													setQuantity={setQuantity}
 												/>
 											</Grid>
 										</Grid>
-										<TagChips setPickedTags={setPickedTags} />
+										<TagChips setPickedTags={setOfferTags} pickedTags={offerTags} />
 									</Stack>
 									<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
-										<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+										<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton} 
+										${Styles.marginBottom}`}>
 											<PrimaryButton
 												buttonText="Continuer"
 												active={isValid && !isSubmitting}

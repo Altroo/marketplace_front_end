@@ -230,6 +230,7 @@ export const allowAnyInstance = (
 		(error) => {
 			if (error.response) {
 				let errorObj;
+				console.log(error);
 				if ('code' in error && error.code !== 'ERR_BAD_REQUEST') {
 					errorObj = {
 						error: {

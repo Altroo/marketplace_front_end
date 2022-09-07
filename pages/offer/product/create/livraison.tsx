@@ -1,9 +1,4 @@
-// Altroo
-// 1) Created without components
-// 2) Animation doesn't match parent (checkboxes)
-// 3) missing get last used address & deliveries
-// 4)
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import { NextPage } from 'next';
 import OfferStyles from '../../../../styles/offer/create/offerCreateShared.module.sass';
 import ShopStyles from '../../../../styles/shop/create/shopCreateShared.module.sass';
@@ -37,23 +32,42 @@ import {
 	getLocalOfferDeliveryCity3,
 	getLocalOfferDeliveryAllCities3,
 	getLocalOfferDeliveryPrice3,
-} from '../../../../store/selectors';
+	getLocalOfferAddressName,
+	getLocalOfferLongitude,
+	getLocalOfferLatitude,
+	getLocalOfferDeliveryDays1,
+	getLocalOfferDeliveryDays3,
+	getLocalOfferDeliveryDays2,
+	getLocalOfferCategories,
+	getLocalOfferTitle,
+	getLocalOfferPictures,
+	getLocalOfferDescription,
+	getLocalOfferForwhom,
+	getLocalOfferColors,
+	getLocalOfferSizes, getLocalOfferQuantity, getLocalOfferPrice, getLocalOfferPriceBy, getLocalOfferTags
+} from "../../../../store/selectors";
 import { PositionType } from '../../../../components/map/customMap';
 import TopBarSaveClose from '../../../../components/groupedComponents/shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
 import { clickAndCollectSchema } from '../../../../utils/formValidationSchemas';
 import { Formik, Form } from 'formik';
 import HelperDescriptionHeader from '../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import {
-	// emptyOfferDeliveries,
-	// emptyOfferDeliveryClickAndCollect,
+	emptyOfferDeliveries, offerPostRootProductAction,
 	setOfferDeliveries,
 	setOfferDeliveryClickAndCollect
 } from "../../../../store/actions/offer/offerActions";
 import DeliveryOptionElements from '../../../../components/groupedComponents/offer/deliveryOptionElements/deliveryOptionElements';
 import SharedStyles from "../../../../styles/shop/create/shopCreateShared.module.sass";
 import PrimaryButton from "../../../../components/htmlElements/buttons/primaryButton/primaryButton";
-import { OFFER_ADD_PRODUCT_OVERVIEW } from "../../../../utils/routes";
-// import { emptyGetLocalisation } from "../../../../store/actions/places/placesActions";
+import {
+	OFFER_ADD_PRODUCT_OVERVIEW,
+	OFFER_ADD_PRODUCT_PRICE,
+	SHOP_EDIT_INDEX
+} from "../../../../utils/routes";
+import DesktopTopNavigationBar
+	from "../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar";
+import MobileTopNavigationBar
+	from "../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar";
 
 const CustomMap = dynamic(() => import('../../../../components/map/customMap'), {
 	ssr: false,
@@ -75,16 +89,21 @@ const Livraison: NextPage = () => {
 	const longitude = useAppSelector(getShopLongitude);
 	const latitude = useAppSelector(getShopLatitude);
 	const localisationName = useAppSelector(getLocalisationName);
-
+	const pickedLocalisationName = useAppSelector(getLocalOfferAddressName);
+	const pickedLongitude = useAppSelector(getLocalOfferLongitude);
+	const pickedLatitude = useAppSelector(getLocalOfferLatitude);
 	const deliveryCity1 = useAppSelector(getLocalOfferDeliveryCity1);
 	const deliveryAllCity1 = useAppSelector(getLocalOfferDeliveryAllCities1);
 	const deliveryPrice1 = useAppSelector(getLocalOfferDeliveryPrice1);
+	const deliveryDays1 = useAppSelector(getLocalOfferDeliveryDays1);
 	const deliveryCity2 = useAppSelector(getLocalOfferDeliveryCity2);
 	const deliveryAllCity2 = useAppSelector(getLocalOfferDeliveryAllCities2);
 	const deliveryPrice2 = useAppSelector(getLocalOfferDeliveryPrice2);
+	const deliveryDays2 = useAppSelector(getLocalOfferDeliveryDays2);
 	const deliveryCity3 = useAppSelector(getLocalOfferDeliveryCity3);
 	const deliveryAllCity3 = useAppSelector(getLocalOfferDeliveryAllCities3);
 	const deliveryPrice3 = useAppSelector(getLocalOfferDeliveryPrice3);
+	const deliveryDays3 = useAppSelector(getLocalOfferDeliveryDays3);
 
 	if (latitude && longitude) {
 		CENTER = {
@@ -122,8 +141,11 @@ const Livraison: NextPage = () => {
 		address_name: string | null;
 	};
 
+	const [selectedClickAndCollect, setSelectedClickAndCollect] = useState<ClickAndCollectValues | null>(null);
+
 	const editClickCollectHandler = (values: ClickAndCollectValues) => {
 		dispatch(setOfferDeliveryClickAndCollect(values.longitude, values.latitude, values.address_name));
+		setSelectedClickAndCollect(values);
 		setOpenClick(false);
 		setSubmitActive(true);
 	};
@@ -132,8 +154,8 @@ const Livraison: NextPage = () => {
 	const [isFormOptionTwoValid, setIsFormOptionTwoValid] = useState<boolean>(true);
 	const [isFormOptionThreeValid, setIsFormOptionThreeValid] = useState<boolean>(true);
 
-	const [secondDeliveryState, setSecondDeliveryState] = useState<boolean>(false);
-	const [thirdDeliveryState, setThirdDeliveryState] = useState<boolean>(false);
+	const [secondDeliveryState, setSecondDeliveryState] = useState<boolean>(deliveryCity2 !== null && deliveryAllCity2 !== null);
+	const [thirdDeliveryState, setThirdDeliveryState] = useState<boolean>(deliveryCity3 !== null && deliveryAllCity3 !== null);
 	const [optionTwoNumber, setOptionTwoNumber] = useState<'2' | '3'>('2');
 	const [optionThreeNumber, setOptionThreeNumber] = useState<'2' | '3'>('3');
 	const [showEmptyDeliveriesMessage, setShowEmptyDeliveriesMessage] = useState<boolean>(true);
@@ -155,6 +177,25 @@ const Livraison: NextPage = () => {
 		}
 	};
 
+	// Option 1
+	const [cities1State, setCities1State] = useState<Array<string>>(deliveryCity1 ? deliveryCity1.split(','): []);
+	const [allCities1State, setAllCities1State] = useState<boolean>(deliveryAllCity1 ? deliveryAllCity1 : false);
+	const [deliveryPrice1State, setDeliveryPrice1State] = useState<string>(deliveryPrice1 ? deliveryPrice1 : '');
+	const [deliveryDays1State, setDeliveryDays1State] = useState<string>(deliveryDays1 ? deliveryDays1 : '');
+	// Option 2
+	const [cities2State, setCities2State] = useState<Array<string>>(deliveryCity2 ? deliveryCity2.split(','): []);
+	const [allCities2State, setAllCities2State] = useState<boolean>(deliveryAllCity2 ? deliveryAllCity2 : false);
+	const [deliveryPrice2State, setDeliveryPrice2State] = useState<string>(deliveryPrice2 ? deliveryPrice2 : '');
+	const [deliveryDays2State, setDeliveryDays2State] = useState<string>(deliveryDays2 ? deliveryDays2 : '');
+	// Option 3
+	const [cities3State, setCities3State] = useState<Array<string>>(deliveryCity3 ? deliveryCity3.split(','): []);
+	const [allCities3State, setAllCities3State] = useState<boolean>(deliveryAllCity3 ? deliveryAllCity3 : false);
+	const [deliveryPrice3State, setDeliveryPrice3State] = useState<string>(deliveryPrice3 ? deliveryPrice3 : '');
+	const [deliveryDays3State, setDeliveryDays3State] = useState<string>(deliveryDays3 ? deliveryDays3 : '');
+
+	const [localisationSwitchOpen, setLocalisationSwitchOpen] = useState<boolean>(false);
+	const [deliveriesSwitchOpen, setDeliveriesSwitchOpen] = useState<boolean>(false);
+
 	useEffect(() => {
 		if (localisationName && addressNameRef.current !== null) {
 			addressNameRef.current.value = localisationName;
@@ -171,23 +212,19 @@ const Livraison: NextPage = () => {
 			setOptionTwoNumber('2');
 			setOptionThreeNumber('3');
 		}
-	}, [localisationName, position.lat, position.lng, secondDeliveryState, thirdDeliveryState]);
+		if (deliveryCity1 !== null && deliveryAllCity1 !== null){
+			if ((deliveryCity1 === '' || deliveryCity1.length > 0) || deliveryAllCity1){
+				setDeliveriesSwitchOpen(true);
+				setShowEmptyDeliveriesMessage(false);
+			}
+		}
+		if (pickedLocalisationName && pickedLongitude && pickedLatitude) {
+			setLocalisationSwitchOpen(true);
+		}
+	}, [allCities1State, cities1State.length, deliveryAllCity1, deliveryCity1,
+		localisationName, pickedLatitude, pickedLocalisationName, pickedLongitude,
+		position.lat, position.lng, secondDeliveryState, thirdDeliveryState]);
 
-	// Option 1
-	const [cities1State, setCities1State] = useState<Array<string>>([]);
-	const [allCities1State, setAllCities1State] = useState<boolean>(false);
-	const [deliveryPrice1State, setDeliveryPrice1State] = useState<string>('');
-	const [deliveryDays1State, setDeliveryDays1State] = useState<string>('');
-	// Option 2
-	const [cities2State, setCities2State] = useState<Array<string>>([]);
-	const [allCities2State, setAllCities2State] = useState<boolean>(false);
-	const [deliveryPrice2State, setDeliveryPrice2State] = useState<string>('');
-	const [deliveryDays2State, setDeliveryDays2State] = useState<string>('');
-	// Option 3
-	const [cities3State, setCities3State] = useState<Array<string>>([]);
-	const [allCities3State, setAllCities3State] = useState<boolean>(false);
-	const [deliveryPrice3State, setDeliveryPrice3State] = useState<string>('');
-	const [deliveryDays3State, setDeliveryDays3State] = useState<string>('');
 
 	const addDeliveriesHandler = () => {
 		// Option 1 by default
@@ -239,20 +276,57 @@ const Livraison: NextPage = () => {
 		setOpenDelivery(false);
 		setSubmitActive(true);
 	};
+	// selectors from previous pages
+	const pickedCategories = useAppSelector(getLocalOfferCategories);
+	const pickedTitle = useAppSelector(getLocalOfferTitle);
+	const pickedPictures = useAppSelector(getLocalOfferPictures);
+	const pickedDescription = useAppSelector(getLocalOfferDescription);
+	const pickedForWhom = useAppSelector(getLocalOfferForwhom);
+	const pickedColors = useAppSelector(getLocalOfferColors);
+	const pickedSizes = useAppSelector(getLocalOfferSizes);
+	const pickedQuantity = useAppSelector(getLocalOfferQuantity);
+	const pickedPrice = useAppSelector(getLocalOfferPrice);
+	const pickedPriceBy = useAppSelector(getLocalOfferPriceBy);
+	const pickedTags = useAppSelector(getLocalOfferTags);
+	const pickedAddressName = useAppSelector(getLocalOfferAddressName);
 
 	const handleSubmit = () => {
-		router.push(OFFER_ADD_PRODUCT_OVERVIEW).then();
+		// dispatch here
+		dispatch(offerPostRootProductAction(
+			'V', pickedCategories.join(','), pickedTitle, pickedPictures, pickedDescription,
+			pickedForWhom, pickedColors, pickedSizes, pickedQuantity, pickedPrice, pickedPriceBy,
+			pickedAddressName, pickedLatitude, pickedLongitude,
+			deliveryCity1, deliveryAllCity1, deliveryPrice1, deliveryDays1,
+			deliveryCity2, deliveryAllCity2, deliveryPrice2, deliveryDays2,
+			deliveryCity3, deliveryAllCity3, deliveryPrice3, deliveryDays3,
+			pickedTags, router
+		))
 	};
 
-	// const emptyClickAndCollectStates = () => {
-	// 	dispatch(emptyOfferDeliveryClickAndCollect());
-	// 	dispatch(emptyGetLocalisation());
-	// };
-	//
-	// const emptyDeliveriesStates = () => {
-	// 	dispatch(emptyOfferDeliveries());
-	// 	setShowEmptyDeliveriesMessage(true);
-	// };
+	const emptyClickAndCollect = () => {
+		setSelectedClickAndCollect(null);
+	};
+
+	const emptyDeliveries = () => {
+		setCities1State([]);
+		setAllCities1State(false);
+		setDeliveryPrice1State('');
+		setDeliveryDays1State('');
+		setCities2State([]);
+		setAllCities2State(false);
+		setDeliveryPrice2State('');
+		setDeliveryDays2State('');
+		setCities3State([]);
+		setAllCities3State(false);
+		setDeliveryPrice3State('');
+		setDeliveryDays3State('');
+		setIsFormOptionThreeValid(false);
+		setIsFormOptionTwoValid(false);
+		dispatch(emptyOfferDeliveries("1"));
+		dispatch(emptyOfferDeliveries("2"));
+		dispatch(emptyOfferDeliveries("3"));
+		setShowEmptyDeliveriesMessage(true);
+	};
 
 	const defaultTheme = getDefaultTheme();
 
@@ -260,9 +334,9 @@ const Livraison: NextPage = () => {
 		<ThemeProvider theme={defaultTheme}>
 			<LeftSideBar step={activeStep} which="PRODUCT" />
 			<main className={ShopStyles.main}>
-				<Box sx={{ width: '100%', height: '100%', marginTop: '2rem', marginBottom: '2rem' }}>
-					{/*<DesktopTopNavigationBar backHref={OFFER_ADD_PRODUCT_DESCRIPTION} returnButton />*/}
-					{/*<MobileTopNavigationBar backHref={OFFER_ADD_PRODUCT_DESCRIPTION} returnButton />*/}
+				<Box className={Styles.boxWrapper}>
+					<DesktopTopNavigationBar backHref={OFFER_ADD_PRODUCT_PRICE} returnButton closeButtonHref={SHOP_EDIT_INDEX} />
+					<MobileTopNavigationBar backHref={OFFER_ADD_PRODUCT_PRICE} returnButton closeButtonHref={SHOP_EDIT_INDEX} />
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header
 						header="Choisir des modes de livraison"
@@ -271,8 +345,7 @@ const Livraison: NextPage = () => {
 					/>
 					<Stack direction="column" justifyContent="space-between" sx={{height: '100%'}}>
 						<Stack direction="column" spacing={5} className={Styles.buttonCardWrapper}>
-							{/* <RadioCheckElement title="Click & collect" emptyStates={emptyClickAndCollectStates}> */}
-							<RadioCheckElement title="Click & collect">
+							<RadioCheckElement title="Click & collect" defaultValue={localisationSwitchOpen} emptyStates={emptyClickAndCollect}>
 								<Button color="primary" onClick={() => setOpenClick(true)} className={Styles.buttonCard}>
 									<Stack
 										direction="row"
@@ -283,7 +356,7 @@ const Livraison: NextPage = () => {
 									>
 										<Image src={ClickCollectSVG} width={70} height={70} alt="" />
 										{/* eslint-disable-next-line react/no-unescaped-entities */}
-										<p className={`${Styles.defaultLocalisationName} ${localisationName && Styles.activeCardValue}`}>{localisationName ? localisationName : "Renseignez l'adresse de votre boutique"}</p>
+										<p className={`${Styles.defaultLocalisationName} ${selectedClickAndCollect && selectedClickAndCollect.address_name && Styles.activeCardValue}`}>{selectedClickAndCollect && selectedClickAndCollect.address_name ? selectedClickAndCollect.address_name : "Renseignez l'adresse de votre boutique"}</p>
 									</Stack>
 								</Button>
 								<RightSwipeModal open={openClick} handleClose={() => setOpenClick(false)}>
@@ -358,8 +431,7 @@ const Livraison: NextPage = () => {
 									</Stack>
 								</RightSwipeModal>
 							</RadioCheckElement>
-							{/*<RadioCheckElement title="Livraison" emptyStates={emptyDeliveriesStates}>*/}
-							<RadioCheckElement title="Livraison">
+							<RadioCheckElement title="Livraison" defaultValue={deliveriesSwitchOpen} emptyStates={emptyDeliveries}>
 								<Button color="primary" onClick={() => setOpenDelivery(true)} className={Styles.buttonCard}>
 									<Stack
 										direction="row"
@@ -374,7 +446,7 @@ const Livraison: NextPage = () => {
 												(deliveryCity1 || deliveryAllCity1) && (
 													<Stack direction="row" justifyContent="space-between">
 														<span>{deliveryCity1 ? deliveryCity1.substring(0, 14) + '...' : deliveryAllCity1 ? "Tout le maroc" : null}</span>
-														<span>{deliveryPrice1 !== "0" ? deliveryPrice1 : "Gratuite"}</span>
+														<span>{deliveryPrice1 !== "0" ? deliveryPrice1 + 'DH' : "Gratuite"}</span>
 													</Stack>
 												)
 											}
@@ -382,7 +454,7 @@ const Livraison: NextPage = () => {
 												(deliveryCity2 || deliveryAllCity2) && (
 													<Stack direction="row" justifyContent="space-between">
 														<span>{deliveryCity2 ? deliveryCity2.substring(0, 14) + '...' : deliveryAllCity2 ? "Tout le maroc" : null}</span>
-														<span>{deliveryPrice2 !== "0" ? deliveryPrice2 : "Gratuite"}</span>
+														<span>{deliveryPrice2 !== "0" ? deliveryPrice2 + 'DH' : "Gratuite"}</span>
 													</Stack>
 												)
 											}
@@ -390,7 +462,7 @@ const Livraison: NextPage = () => {
 												(deliveryCity3 || deliveryAllCity3) && (
 													<Stack direction="row" justifyContent="space-between">
 														<span>{deliveryCity3 ? deliveryCity3.substring(0, 14) + '...' : deliveryAllCity3 ? "Tout le maroc" : null}</span>
-														<span>{deliveryPrice3 !== "0" ? deliveryPrice3 : "Gratuite"}</span>
+														<span>{deliveryPrice3 !== "0" ? deliveryPrice3 + 'DH' : "Gratuite"}</span>
 													</Stack>
 												)
 											}
@@ -477,7 +549,8 @@ const Livraison: NextPage = () => {
 								</RightSwipeModal>
 							</RadioCheckElement>
 						</Stack>
-						<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
+					</Stack>
+					<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
 							<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 								<PrimaryButton
 									buttonText="Continuer"
@@ -487,7 +560,6 @@ const Livraison: NextPage = () => {
 								/>
 							</div>
 						</Stack>
-					</Stack>
 				</Box>
 			</main>
 		</ThemeProvider>

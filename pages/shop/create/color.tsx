@@ -38,7 +38,7 @@ import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
-import { SHOP_ADD_AVATAR } from "../../../utils/routes";
+import { SHOP_ADD_AVATAR, SITE_ROOT } from "../../../utils/routes";
 import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
 import { useRouter } from "next/router";
 
@@ -162,8 +162,8 @@ const Color: NextPage = () => {
 			<LeftSideBar step={activeStep} which="SHOP" />
 			<main className={Styles.main}>
 				<div>
-					<DesktopTopNavigationBar backHref={SHOP_ADD_AVATAR} returnButton />
-					<MobileTopNavigationBar backHref={SHOP_ADD_AVATAR} returnButton />
+					<DesktopTopNavigationBar backHref={SHOP_ADD_AVATAR} returnButton closeButtonHref={SITE_ROOT} />
+					<MobileTopNavigationBar backHref={SHOP_ADD_AVATAR} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header header="Choisir une couleur" HelpText="Les couleurs et leurs valeurs" />
 					<DefaultCardSection>

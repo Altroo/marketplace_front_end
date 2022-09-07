@@ -49,38 +49,68 @@ import {
 } from "../../slices/offer/offerSlice";
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
-import { OFFER_ADD_PRODUCT_LIVRAISON, OFFER_ADD_PRODUCT_PRICE, SHOP_EDIT_INDEX } from "../../../utils/routes";
+import {
+	OFFER_ADD_PRODUCT_LIVRAISON, OFFER_ADD_PRODUCT_OVERVIEW,
+	OFFER_ADD_PRODUCT_PRICE,
+	SHOP_ADD_AVATAR,
+	SHOP_EDIT_INDEX
+} from "../../../utils/routes";
+import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
 
 function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootServiceType) {
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/`;
+	const { type, ...payloadData } = payload;
+	const {pictures, ...remainingData} = payloadData;
+	// const pictures = payloadData.pictures;
+	let picture_1 = null;
+	let picture_2 = null;
+	let picture_3 = null;
+	let picture_4 = null;
+	if (pictures.length === 1){
+		picture_1 = pictures[0].dataURL;
+	}else if (pictures.length === 2){
+		picture_1 = pictures[0].dataURL;
+		picture_2 = pictures[1].dataURL;
+	} else if (pictures.length === 3){
+		picture_1 = pictures[0].dataURL;
+		picture_2 = pictures[1].dataURL;
+		picture_3 = pictures[2].dataURL;
+	} else if (pictures.length === 4){
+		picture_1 = pictures[0].dataURL;
+		picture_2 = pictures[1].dataURL;
+		picture_3 = pictures[2].dataURL;
+		picture_4 = pictures[3].dataURL;
+	}
+	const dataToSend = {
+		...remainingData,
+		picture_1,
+		picture_2,
+		picture_3,
+		picture_4
+	}
+	console.log(dataToSend);
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const instance = yield* call(() =>
 				isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
 			);
 			const response: OfferPostRootProductResponseType | OfferPostRootServiceResponseType = yield* call(() =>
-				postFormDataApi(url, instance, payload),
+				postFormDataApi(url, instance, {...dataToSend}),
 			);
 			if (response.status === 200) {
 				// update state
 				yield* put(appendPostOfferState(response.data));
-			} else {
-				// set error state
-				console.log(response.data);
-				console.log(response.status);
+				yield* call(() => payload.router.push(OFFER_ADD_PRODUCT_OVERVIEW));
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance('multipart/form-data'));
 			const response: OfferPostRootProductResponseType | OfferPostRootServiceResponseType = yield* call(() =>
-				postFormDataApi(url, instance, payload, authSagaContext.initStateUniqueID.unique_id),
+				postFormDataApi(url, instance, {...dataToSend}, authSagaContext.initStateUniqueID.unique_id),
 			);
 			if (response.status === 200) {
 				yield* put(appendPostOfferState(response.data));
-			} else {
-				// set error state
-				console.log(response.data);
-				console.log(response.status);
+				yield* call(() => payload.router.push(OFFER_ADD_PRODUCT_OVERVIEW));
 			}
 		}
 	} catch (e) {
@@ -502,10 +532,11 @@ function* setOfferCategoriesPageSaga(payload: { type: string; categories: OfferC
 function* setOfferDescriptionPageSaga(payload: {
 	type: string;
 	title: string;
-	picture_1: string;
-	picture_2: string | null;
-	picture_3: string | null;
-	picture_4: string | null;
+	pictures: ImageUploadingType;
+	// picture_1: string;
+	// picture_2: string | null;
+	// picture_3: string | null;
+	// picture_4: string | null;
 	description: string;
 	for_whom: string | null;
 	product_colors: string | null;
@@ -553,8 +584,8 @@ function* setOfferDeliveryPageDeliveriesSaga(payload: {type: string,
 	yield* put(setLocalOfferDeliveries(payloadData));
 }
 
-function* emptyOfferDeliveriesSaga() {
-	yield* put(emptyLocalOfferDeliveries());
+function* emptyOfferDeliveriesSaga(payload: {type: string, option: "1" | "2" | "3"}) {
+	yield* put(emptyLocalOfferDeliveries(payload.option));
 }
 
 

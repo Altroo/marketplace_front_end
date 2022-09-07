@@ -1,12 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import Styles from './sizesRadioCheckContent.module.sass';
-import { getDefaultTheme, OfferChipTheme, offerSwitchTheme } from '../../../../../utils/themes';
+import { OfferChipTheme } from '../../../../../utils/themes';
 import { ThemeProvider, Stack, Grid } from '@mui/material';
 import RadioCheckElement from '../radioCheckElement';
 import { OfferSizesListType } from '../../../../../types/ui/uiTypes';
 import Chip from '@mui/material/Chip';
 
 type Props = {
+	switchOpen: boolean;
 	sizesStates: Record<string, boolean>;
 	setSizesStates: Record<string, React.Dispatch<React.SetStateAction<boolean>>>;
 	children?: React.ReactNode;
@@ -81,7 +82,7 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 
 	const chipTheme = OfferChipTheme();
 	return (
-		<RadioCheckElement title="Tailles">
+		<RadioCheckElement title="Tailles" defaultValue={props.switchOpen}>
 			<Stack
 				direction="row"
 				flexWrap="wrap"

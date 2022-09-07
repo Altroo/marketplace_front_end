@@ -25,6 +25,29 @@ const clickAndCollectInitial = {
 	address_name: null,
 }
 
+const deliveryOneInitial = {
+	delivery_city_1: null,
+	all_cities_1: null,
+	delivery_price_1: null,
+	delivery_days_1:null,
+}
+
+const deliveryTwoInitial = {
+	delivery_city_2: null,
+	all_cities_2: null,
+	delivery_price_2: null,
+	delivery_days_2:null,
+}
+
+const deliveryThreeInitial = {
+	delivery_city_3: null,
+	all_cities_3: null,
+	delivery_price_3: null,
+	delivery_days_3:null,
+}
+
+
+
 const deliveriesInitial = {
 	delivery_city_1: null,
 	all_cities_1: null,
@@ -67,10 +90,11 @@ const initialState: OfferStateInterface = {
 		categoriesList: [],
 		title: null,
 		description: null,
-		picture_1: null,
-		picture_2: null,
-		picture_3: null,
-		picture_4: null,
+		// picture_1: null,
+		// picture_2: null,
+		// picture_3: null,
+		// picture_4: null,
+		pictures: [],
 		forWhom: null,
 		colors: null,
 		sizes: null,
@@ -272,10 +296,11 @@ const OfferSlice = createSlice({
 		setLocalOfferDescription: (state, action: PayloadAction<LocalOfferDescriptionPageType>) => {
 			state.userLocalOffer.title = action.payload.title;
 			state.userLocalOffer.description = action.payload.description;
-			state.userLocalOffer.picture_1 = action.payload.picture_1;
-			state.userLocalOffer.picture_2 = action.payload.picture_2;
-			state.userLocalOffer.picture_3 = action.payload.picture_3;
-			state.userLocalOffer.picture_4 = action.payload.picture_4;
+			state.userLocalOffer.pictures = action.payload.pictures;
+			// state.userLocalOffer.picture_1 = action.payload.picture_1;
+			// state.userLocalOffer.picture_2 = action.payload.picture_2;
+			// state.userLocalOffer.picture_3 = action.payload.picture_3;
+			// state.userLocalOffer.picture_4 = action.payload.picture_4;
 			state.userLocalOffer.forWhom = action.payload.for_whom;
 			state.userLocalOffer.colors = action.payload.product_colors;
 			state.userLocalOffer.sizes = action.payload.product_sizes;
@@ -321,8 +346,23 @@ const OfferSlice = createSlice({
 			state.userLocalOffer.clickAndCollect = clickAndCollectInitial;
 			return state;
 		},
-		emptyLocalOfferDeliveries: (state) => {
-			state.userLocalOffer.deliveries = deliveriesInitial;
+		emptyLocalOfferDeliveries: (state, action: PayloadAction<"1" | "2" | "3">) => {
+			if (action.payload === '1') {
+				state.userLocalOffer.deliveries.delivery_city_1 = null;
+				state.userLocalOffer.deliveries.all_cities_1 = null;
+				state.userLocalOffer.deliveries.delivery_price_1 = null;
+				state.userLocalOffer.deliveries.delivery_days_1 = null;
+			} else if (action.payload === '2') {
+				state.userLocalOffer.deliveries.delivery_city_2 = null;
+				state.userLocalOffer.deliveries.all_cities_2 = null;
+				state.userLocalOffer.deliveries.delivery_price_2 = null;
+				state.userLocalOffer.deliveries.delivery_days_2 = null;
+			} else {
+				state.userLocalOffer.deliveries.delivery_city_3 = null;
+				state.userLocalOffer.deliveries.all_cities_3 = null;
+				state.userLocalOffer.deliveries.delivery_price_3 = null;
+				state.userLocalOffer.deliveries.delivery_days_3 = null;
+			}
 			return state;
 		},
 		initOffer: () => {

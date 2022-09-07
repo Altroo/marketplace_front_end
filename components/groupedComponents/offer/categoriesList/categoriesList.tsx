@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from './categoriesList.module.sass';
 import { default as ImageFuture } from 'next/future/image';
 import ActiveCheckBlue from '../../../../public/assets/svgs/globalIcons/active-check-blue.svg';
@@ -47,8 +47,9 @@ import VehiculeGray from '../../../../public/assets/svgs/categoryIcons/vehicule-
 import VoyageGray from '../../../../public/assets/svgs/categoryIcons/voyage-gray.svg';
 import { Stack, Box } from '@mui/material';
 import { OfferCategoriesType } from '../../../../types/offer/offerTypes';
-import { useAppDispatch } from '../../../../utils/hooks';
+import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
 import { setOfferCategories } from "../../../../store/actions/offer/offerActions";
+import { getLocalOfferCategories } from "../../../../store/selectors";
 
 type CategoriesObjProps = {
 	code: OfferCategoriesType;
@@ -59,10 +60,18 @@ type CategoriesObjProps = {
 
 const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps) => {
 	const dispatch = useAppDispatch();
+	const pickedCategories: Array<OfferCategoriesType> = useAppSelector(getLocalOfferCategories);
 	const [active, setActive] = useState<boolean>(false);
+	const {code} = props;
+
+	useEffect(() => {
+		if (pickedCategories.includes(code)){
+			setActive(true);
+		}
+	}, [pickedCategories, code]);
 
 	const categoryItemClickHandler = () => {
-		dispatch(setOfferCategories(props.code));
+		dispatch(setOfferCategories(code));
 		setActive((prevState) => !prevState);
 	};
 
@@ -94,6 +103,7 @@ type Props = {
 };
 
 const CategoriesList: React.FC<Props> = (props: Props) => {
+
 	const categoriesLeftObj: Array<CategoriesObjProps> = [
 		{
 			code: 'AC',
