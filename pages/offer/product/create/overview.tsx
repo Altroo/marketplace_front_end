@@ -116,7 +116,7 @@ const Overview: NextPage = () => {
 	const color_code = useAppSelector(getShopColorCode);
 	const border = useAppSelector(getShopBorder);
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
-	const [selectedImage, setSelectedImage] = useState<string>(pictures[0].dataURL as string);
+	const [selectedImage, setSelectedImage] = useState<string>(pictures.length >= 1 && pictures[0]?.dataURL ? pictures[0].dataURL : '');
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
 	const [colorsListString, setColorsListString] = useState<Array<string>>([]);
 	const [forWhomListString, setForWhomListString] = useState<Array<string>>([]);
