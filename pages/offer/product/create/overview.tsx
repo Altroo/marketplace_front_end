@@ -13,7 +13,13 @@ import CloseBlackSVG from '../../../../public/assets/svgs/globalIcons/close-blac
 import { Stack, ThemeProvider, ImageListItem, Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
 import { useRouter } from 'next/router';
-import { getShopObj, getUserLocalOffer } from '../../../../store/selectors';
+import {
+	getShopBgColorCode, getShopBorder,
+	getShopColorCode,
+	getShopName,
+	getShopObj,
+	getUserLocalOffer
+} from "../../../../store/selectors";
 import {
 	OfferForWhomType,
 	OfferProductColors,
@@ -104,7 +110,11 @@ const Overview: NextPage = () => {
 		// picture_3,
 		// picture_4,
 	} = useAppSelector<UserLocalOfferType>(getUserLocalOffer);
-	const { shop_name, bg_color_code, color_code, border } = useAppSelector(getShopObj);
+	// const { shop_name, bg_color_code, color_code, border } = useAppSelector(getShopObj);
+	const shop_name = useAppSelector(getShopName);
+	const bg_color_code = useAppSelector(getShopBgColorCode);
+	const color_code = useAppSelector(getShopColorCode);
+	const border = useAppSelector(getShopBorder);
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string>(pictures[0].dataURL as string);
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
