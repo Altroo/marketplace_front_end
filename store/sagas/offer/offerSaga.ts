@@ -25,8 +25,8 @@ import {
 	OfferPostSolderResponseType,
 	OfferPostSolderType,
 	OfferGetVuesResponseType,
-	OfferCategoriesType,
-} from '../../../types/offer/offerTypes';
+	OfferCategoriesType, OfferPostPinResponseType
+} from "../../../types/offer/offerTypes";
 import {
 	appendPostOfferState,
 	setOfferLastThreeUsedDeliveries,
@@ -45,14 +45,17 @@ import {
 	setLocalOfferDescription,
 	setLocalOfferPrice,
 	setLocalOfferClickAndCollect,
-	setLocalOfferDeliveries, emptyLocalOfferDeliveryClickAndCollect, emptyLocalOfferDeliveries
+	setLocalOfferDeliveries,
+	emptyLocalOfferDeliveryClickAndCollect,
+	emptyLocalOfferDeliveries,
+	setMyOffersFirstPageList,
+	setPinOffer
 } from "../../slices/offer/offerSlice";
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
 import {
-	OFFER_ADD_PRODUCT_LIVRAISON, OFFER_ADD_PRODUCT_OVERVIEW,
+	OFFER_ADD_PRODUCT_LIVRAISON,
 	OFFER_ADD_PRODUCT_PRICE,
-	SHOP_ADD_AVATAR,
 	SHOP_EDIT_INDEX
 } from "../../../utils/routes";
 import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
@@ -89,7 +92,6 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 		picture_3,
 		picture_4
 	}
-	console.log(dataToSend);
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const instance = yield* call(() =>
@@ -101,7 +103,7 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 			if (response.status === 200) {
 				// update state
 				yield* put(appendPostOfferState(response.data));
-				yield* call(() => payload.router.push(OFFER_ADD_PRODUCT_OVERVIEW));
+				yield* call(() => payload.router.push(SHOP_EDIT_INDEX));
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance('multipart/form-data'));
@@ -110,7 +112,7 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 			);
 			if (response.status === 200) {
 				yield* put(appendPostOfferState(response.data));
-				yield* call(() => payload.router.push(OFFER_ADD_PRODUCT_OVERVIEW));
+				yield* call(() => payload.router.push(SHOP_EDIT_INDEX));
 			}
 		}
 	} catch (e) {
@@ -132,9 +134,6 @@ function* offerGetRootSaga(payload: OfferPkRootType) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setSelectedOffer(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		} else {
 			const instance = yield* call(() => allowAnyInstance());
@@ -143,9 +142,6 @@ function* offerGetRootSaga(payload: OfferPkRootType) {
 			);
 			if (response.status === 200) {
 				yield* put(setSelectedOffer(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		}
 	} catch (e) {
@@ -181,9 +177,6 @@ function* offerGetLastUsedLocalisationSaga(payload: { type: string; offer_type: 
 				if (response.data) {
 					yield* put(setOfferLastUsedLocalisation(response.data));
 				}
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -193,9 +186,6 @@ function* offerGetLastUsedLocalisationSaga(payload: { type: string; offer_type: 
 				if (response.data) {
 					yield* put(setOfferLastUsedLocalisation(response.data));
 				}
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		}
 	} catch (e) {
@@ -256,9 +246,6 @@ function* offerGetMyOffersSaga() {
 			const response: OfferGetMyOffersResponseType = yield* call(() => getApi(url, instance));
 			if (response.status === 200 && response.data) {
 				yield* put(setMyOffersList(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -269,9 +256,37 @@ function* offerGetMyOffersSaga() {
 			const response: OfferGetMyOffersResponseType = yield* call(() => getApi(url, instance));
 			if (response.status === 200 && response.data) {
 				yield* put(setMyOffersList(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
+			}
+		}
+	} catch (e) {
+		const errors = e as ApiErrorResponseType;
+		console.log(errors);
+	}
+}
+
+function* offerGetMyOffersFirstPageSaga() {
+	const authSagaContext = yield* call(() => ctxAuthSaga());
+	let url = `${process.env.NEXT_PUBLIC_OFFER_MY_OFFERS}`;
+	const pageUrl = "?page=1";
+	try {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+			const instance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+			// if (payload.page) {
+			url += pageUrl;
+			// }
+			const response: OfferGetMyOffersResponseType = yield* call(() => getApi(url, instance));
+			if (response.status === 200 && response.data) {
+				yield* put(setMyOffersFirstPageList(response.data));
+			}
+		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+			const instance = yield* call(() => allowAnyInstance());
+			url += `${authSagaContext.initStateUniqueID.unique_id}/`;
+			// if (payload.page) {
+			url += pageUrl;
+			// }
+			const response: OfferGetMyOffersResponseType = yield* call(() => getApi(url, instance));
+			if (response.status === 200 && response.data) {
+				yield* put(setMyOffersFirstPageList(response.data));
 			}
 		}
 	} catch (e) {
@@ -379,6 +394,36 @@ function* offerPostSolderSaga(payload: OfferPostSolderType) {
 			} else {
 				// set error state
 				console.log(response.status);
+			}
+		}
+	} catch (e) {
+		const errors = e as ApiErrorResponseType;
+		console.log(errors);
+		// set error state
+	}
+}
+
+function* offerPostPinSaga(payload: {type: string, offer_pk: number}) {
+	// pin/<uuid:unique_id>/
+	const authSagaContext = yield* call(() => ctxAuthSaga());
+	let url = `${process.env.NEXT_PUBLIC_OFFER_PIN}`;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { type, ...payloadData } = payload;
+	try {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+			const instance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+			url += `${payload.offer_pk}/`;
+			const response: OfferPostPinResponseType = yield* call(() => postApi(url, instance, payloadData));
+			if (response.status === 200) {
+				// update state
+				yield* put(setPinOffer(response.data));
+			}
+		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+			const instance = yield* call(() => allowAnyInstance());
+			url += `${authSagaContext.initStateUniqueID.unique_id}/${payload.offer_pk}/`;
+			const response: OfferPostPinResponseType = yield* call(() => postApi(url, instance, payloadData));
+			if (response.status === 200) {
+				yield* put(setPinOffer(response.data));
 			}
 		}
 	} catch (e) {
@@ -604,6 +649,8 @@ export function* watchOffer() {
 	yield* takeLatest(Types.OFFER_GET_LOCALISATION, offerGetLastUsedLocalisationSaga);
 	yield* takeLatest(Types.OFFER_GET_DELIVERIES, offerGetLastThreeUsedDeliveriesSaga);
 	yield* takeLatest(Types.OFFER_GET_MY_OFFERS, offerGetMyOffersSaga);
+	yield* takeLatest(Types.OFFER_GET_MY_OFFERS_FIRST_PAGE, offerGetMyOffersFirstPageSaga);
+	yield* takeLatest(Types.OFFER_POST_PIN, offerPostPinSaga);
 	yield* takeLatest(Types.OFFER_POST_SOLDER, offerPostSolderSaga);
 	yield* takeLatest(Types.OFFER_GET_SOLDER, offerGetSolderSaga);
 	yield* takeLatest(Types.OFFER_PATCH_SOLDER, offerPatchSolderSaga);

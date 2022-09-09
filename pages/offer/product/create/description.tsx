@@ -56,10 +56,9 @@ import {
 // import { setSelectedOfferTags } from '../../../../store/slices/offer/offerSlice';
 import {
 	forWhomData,
-	getColorsDataArray,
 	getForWhomDataArray,
-	getForWhomLocalDataArray,
 } from '../../../../utils/rawData';
+import { OfferForWhomType } from "../../../../types/offer/offerTypes";
 // import { OfferForWhomType, OfferProductColors } from '../../../../types/offer/offerTypes';
 // import {
 // 	getLocalOfferColors, getLocalOfferDescription,
@@ -194,7 +193,7 @@ const Description: NextPage = () => {
 			setOfferTags(pickedTags.split(','));
 		}
 		if (typeof pickedForWhom === 'string') {
-			setForWhomChoice(getForWhomLocalDataArray(pickedForWhom.split(',') as Array<string>));
+			setForWhomChoice(getForWhomDataArray(pickedForWhom.split(',') as Array<OfferForWhomType>));
 		}
 		if (pickedColorsList) {
 			setselectedColorsList(pickedColorsList.split(','));

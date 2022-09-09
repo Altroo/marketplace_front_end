@@ -12,9 +12,6 @@ const nextConfig = {
 		domains: [`${process.env.API_ROOT_URL}`]
 	},
 	experimental: {
-		images: {
-			allowFutureImage: true
-		},
 		swcMinifyDebugOptions: {
 			compress: {
 				defaults: true,

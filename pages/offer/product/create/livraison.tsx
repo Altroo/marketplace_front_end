@@ -60,7 +60,6 @@ import DeliveryOptionElements from '../../../../components/groupedComponents/off
 import SharedStyles from "../../../../styles/shop/create/shopCreateShared.module.sass";
 import PrimaryButton from "../../../../components/htmlElements/buttons/primaryButton/primaryButton";
 import {
-	OFFER_ADD_PRODUCT_OVERVIEW,
 	OFFER_ADD_PRODUCT_PRICE,
 	SHOP_EDIT_INDEX
 } from "../../../../utils/routes";
@@ -553,7 +552,7 @@ const Livraison: NextPage = () => {
 					<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
 							<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 								<PrimaryButton
-									buttonText="Continuer"
+									buttonText="Publier"
 									active={submitActive}
 									onClick={handleSubmit}
 									type="submit"

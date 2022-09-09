@@ -26,11 +26,77 @@
   color: $primary !important
 .infoSubHeader
   color: $primary !important
+.gridButtonAddAnOfferWrapper
+  width: auto
+.thumbnailWrapper
+  width: 100%
+  height: 100%
+  position: relative
+.thumbnailActionIcon
+  position: absolute
+  top: 5px
+  right: 5px
+  box-shadow: 0 2.80058px 11.2023px rgba(13, 7, 11, 0.2)
+  border-radius: 50px
 
+.offerThumb
+  border-radius: 18px
+  width: 250px
+  height: 165px
+  //width: auto
+  //height: auto
+  //position: absolute
+  //top: 0
+  //right: 0
+  object-fit: cover
+  //overflow: hidden
+.offerTitle
+  width: 100%
+  +Medium
+  font-size: 17px
+  color: $primary
+  word-break: break-word
+.offerRating
+  +Regular
+  font-size: 14px
+  color: #525256
+.offerPrice
+  +Medium
+  font-size: 17px
+  color: $primary
+.oldPrice
+  color: #E12D3D
+  text-decoration: line-through
+.solderPrice
+  +Medium
+  font-size: 17px
+  color: #E12D3D
 @media #{$desktop}
   .shopAddOfferWrapper
     flex: 1
     min-height: 100%
     justify-content: space-around
+// @media #{$tablette}
+
+@media #{$mobile}
+  .gridButtonAddAnOfferWrapper
+    width: 100%
+    height: 56px
+  .gridCardOfferWrapper
+    width: 100%
+  .offerThumb
+    width: 100%
+  //.mobileFilterButton
+  //  position: absolute
+  //  left: 0
+  //  right: 0
+  //  bottom: 50px
+  //  margin: 0 auto
+  //  width: 100%
+  //  height: 100vh
+  //.thumbnailWrapper
+  //  width: 100%
+  //  height: 100%
+  //  position: relative
 // @media #{}
 // @media #{}

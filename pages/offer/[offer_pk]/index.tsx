@@ -1,38 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { default as ImageFuture } from 'next/future/image';
-import Styles from '../../../../styles/offer/create/overview.module.sass';
-import DesktopPublishEditNavbar from '../../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
-import { DropDownActionType } from '../../../../types/ui/uiTypes';
-import EditGraySVG from '../../../../public/assets/svgs/globalIcons/edit-gray.svg';
-import PinGraySVG from '../../../../public/assets/svgs/globalIcons/pin-gray.svg';
-import SolderGraySVG from '../../../../public/assets/svgs/globalIcons/solder-gray.svg';
-import PromoRefGraySVG from '../../../../public/assets/svgs/globalIcons/promo-ref-gray.svg';
-import DuplicateGraySVG from '../../../../public/assets/svgs/globalIcons/duplicate-gray.svg';
-import CloseBlackSVG from '../../../../public/assets/svgs/globalIcons/close-black.svg';
+import Styles from '../../../styles/offer/create/overview.module.sass';
+import DesktopPublishEditNavbar from '../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
+import { DropDownActionType } from '../../../types/ui/uiTypes';
+import EditGraySVG from '../../../public/assets/svgs/globalIcons/edit-gray.svg';
+import PinGraySVG from '../../../public/assets/svgs/globalIcons/pin-gray.svg';
+import SolderGraySVG from '../../../public/assets/svgs/globalIcons/solder-gray.svg';
+import PromoRefGraySVG from '../../../public/assets/svgs/globalIcons/promo-ref-gray.svg';
+import DuplicateGraySVG from '../../../public/assets/svgs/globalIcons/duplicate-gray.svg';
+import CloseBlackSVG from '../../../public/assets/svgs/globalIcons/close-black.svg';
 import { Stack, ThemeProvider, ImageListItem, Box } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
+import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import { useRouter } from 'next/router';
 import {
-	getShopBgColorCode, getShopBorder,
+	getShopBgColorCode,
+	getShopBorder,
 	getShopColorCode,
 	getShopName,
-	getShopObj,
-	getUserLocalOffer
-} from "../../../../store/selectors";
+	getUserLocalOffer,
+} from '../../../store/selectors';
 import {
 	OfferForWhomType,
 	OfferProductColors,
 	OfferProductPriceByType,
 	OfferProductSizes,
 	UserLocalOfferType,
-} from '../../../../types/offer/offerTypes';
-import { cookiesPoster } from '../../../../store/services/_init/_initAPI';
+} from '../../../types/offer/offerTypes';
+import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import Image from 'next/image';
-import BlackStarSVG from '../../../../public/assets/svgs/globalIcons/black-star.svg';
-import GrayRatingSVG from '../../../../public/assets/svgs/globalIcons/gray-rating.svg';
-import DeliverySVG from '../../../../public/assets/svgs/globalIcons/delivery-icon-white.svg';
-import ClickAndCollectSVG from '../../../../public/assets/svgs/globalIcons/click-and-collect-icon-white.svg';
+import BlackStarSVG from '../../../public/assets/svgs/globalIcons/black-star.svg';
+import GrayRatingSVG from '../../../public/assets/svgs/globalIcons/gray-rating.svg';
+import DeliverySVG from '../../../public/assets/svgs/globalIcons/delivery-icon-white.svg';
+import ClickAndCollectSVG from '../../../public/assets/svgs/globalIcons/click-and-collect-icon-white.svg';
 import Chip from '@mui/material/Chip';
 import {
 	dayNames,
@@ -42,13 +42,13 @@ import {
 	getProductPriceByData,
 	getSizesDataArray,
 	monthNames,
-} from '../../../../utils/rawData';
+} from '../../../utils/rawData';
 import Link from 'next/link';
-import { SHOP_EDIT_INDEX } from '../../../../utils/routes';
-import SharedStyles from '../../../../styles/shop/create/shopCreateShared.module.sass';
-import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import { SHOP_EDIT_INDEX } from '../../../utils/routes';
+import SharedStyles from '../../../styles/shop/create/shopCreateShared.module.sass';
+import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
-import { OfferThumbnailsTheme } from '../../../../utils/themes';
+import { OfferThumbnailsTheme } from '../../../utils/themes';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -89,7 +89,7 @@ type deliveriesObj = {
 	delivery_days: string | null;
 };
 
-const Overview: NextPage = () => {
+const Index: NextPage = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const {
@@ -110,13 +110,14 @@ const Overview: NextPage = () => {
 		// picture_3,
 		// picture_4,
 	} = useAppSelector<UserLocalOfferType>(getUserLocalOffer);
-	// const { shop_name, bg_color_code, color_code, border } = useAppSelector(getShopObj);
 	const shop_name = useAppSelector(getShopName);
 	const bg_color_code = useAppSelector(getShopBgColorCode);
 	const color_code = useAppSelector(getShopColorCode);
 	const border = useAppSelector(getShopBorder);
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
-	const [selectedImage, setSelectedImage] = useState<string>(pictures.length >= 1 && pictures[0]?.dataURL ? pictures[0].dataURL : '');
+	const [selectedImage, setSelectedImage] = useState<string>(
+		pictures.length >= 1 && pictures[0]?.dataURL ? pictures[0].dataURL : '',
+	);
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
 	const [colorsListString, setColorsListString] = useState<Array<string>>([]);
 	const [forWhomListString, setForWhomListString] = useState<Array<string>>([]);
@@ -165,23 +166,13 @@ const Overview: NextPage = () => {
 
 	useEffect(() => {
 		const availableImages: Array<string> = [];
-		if (pictures.length >= 1){
+		if (pictures.length >= 1) {
 			pictures.map((picture) => {
 				if (picture.dataURL) {
 					availableImages.push(picture.dataURL);
 				}
-
-			})
+			});
 		}
-		// if (picture_2) {
-		// 	availableImages.push(picture_2);
-		// }
-		// if (picture_3) {
-		// 	availableImages.push(picture_3);
-		// }
-		// if (picture_4) {
-		// 	availableImages.push(picture_4);
-		// }
 		// set images
 		setAvailableImages(availableImages);
 		// set categories
@@ -297,6 +288,7 @@ const Overview: NextPage = () => {
 														width={80}
 														height={80}
 														onClick={() => showThumbnail(image)}
+														alt=""
 													/>
 												) : null}
 											</ImageListItem>
@@ -308,6 +300,7 @@ const Overview: NextPage = () => {
 									unoptimized={true}
 									width={500}
 									height={500}
+									alt=""
 								/>
 							</Stack>
 							{noCommentsAvailableContent()}
@@ -325,19 +318,21 @@ const Overview: NextPage = () => {
 									scrollbar={{ enabled: false }}
 									className={Styles.swiperSlide}
 								>
-									{availableImages.length > 0 && availableImages.map((image, index) => {
-										return (
-											<SwiperSlide key={index}>
-												<ImageFuture
-													className={Styles.selectedImage}
-													src={image}
-													unoptimized={true}
-													width={365}
-													height={240}
-												/>
-											</SwiperSlide>
-										);
-									})}
+									{availableImages.length > 0 &&
+										availableImages.map((image, index) => {
+											return (
+												<SwiperSlide key={index}>
+													<ImageFuture
+														className={Styles.selectedImage}
+														src={image}
+														unoptimized={true}
+														width={365}
+														height={240}
+														alt=""
+													/>
+												</SwiperSlide>
+											);
+										})}
 								</Swiper>
 							</>
 						</div>
@@ -463,7 +458,8 @@ const Overview: NextPage = () => {
 																: delivery.delivery_price + 'DH'}
 														</span>
 													</Stack>
-												)}) : null}
+												)})
+										: null}
 								</Stack>
 							</Box>
 							<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
@@ -478,4 +474,6 @@ const Overview: NextPage = () => {
 	);
 };
 
-export default Overview;
+
+
+export default Index;

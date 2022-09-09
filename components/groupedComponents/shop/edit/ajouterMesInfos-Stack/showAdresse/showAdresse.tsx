@@ -25,8 +25,11 @@ const ShowAdresse: React.FC<Props> = (props: Props) => {
 					className={Styles.editButton}
 					onClick={props.onClick}
 					src={MapEditSVG}
-					width={40}
-					height={40}
+					// width={40}
+					// height={40}
+					width="0"
+					height="0"
+					sizes="100vw"
 					alt=""
 				/>
 				<CustomMap

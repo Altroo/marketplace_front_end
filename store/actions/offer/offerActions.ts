@@ -390,6 +390,19 @@ export const offerGetDeliveriesAction = () => {
 	};
 };
 
+export const offerGetMyOffersFirstPageAction = () => {
+	return {
+		type: Types.OFFER_GET_MY_OFFERS_FIRST_PAGE,
+	};
+};
+
+export const offerPostPinAction = (offer_pk: number) => {
+	return {
+		type: Types.OFFER_POST_PIN,
+		offer_pk,
+	};
+};
+
 export const offerGetMyOffersAction = () => {
 	return {
 		type: Types.OFFER_GET_MY_OFFERS,
@@ -404,6 +417,8 @@ export const offerPostSolderAction = (offer_pk: number, solder_type: OfferSolder
 		solder_value,
 	};
 };
+
+
 
 export const offerGetSolderAction = (offer_pk: number) => {
 	return {

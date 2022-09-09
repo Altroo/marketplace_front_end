@@ -7,15 +7,15 @@ import {
 	OfferGetMyOffersServiceInterface,
 	OfferGetRootProductInterface,
 	OfferGetRootServiceInterface,
-	OfferGetVuesType,
+	OfferGetVuesType, OfferPinType,
 	OfferProductInterface,
 	OfferProductLocalisation,
 	OfferServiceInterface,
 	OfferServiceLocalisation,
 	OfferSolderInterface,
 	OfferStateInterface,
-	OfferTagsType,
-} from '../../../types/offer/offerTypes';
+	OfferTagsType
+} from "../../../types/offer/offerTypes";
 import { PaginationResponseType } from '../../../types/_init/_initTypes';
 // import { HYDRATE } from "next-redux-wrapper";
 
@@ -152,6 +152,17 @@ const OfferSlice = createSlice({
 			}
 			return state;
 		},
+		setMyOffersFirstPageList: (state, action: PayloadAction<
+				PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
+			>,
+		) => {
+			const { next, previous, count, results } = action.payload;
+			state.userOffersList.count = count;
+			state.userOffersList.next = next;
+			state.userOffersList.previous = previous;
+			state.userOffersList.results = results;
+			return state;
+		},
 		setPutOffer: (state, action: PayloadAction<OfferProductInterface | OfferServiceInterface>) => {
 			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.pk);
 			if (userOffersindex >= 0) {
@@ -163,39 +174,39 @@ const OfferSlice = createSlice({
 				updatedOffer.title = action.payload.title;
 				//*** thumbnail will be updated via ws
 				// updatedOffer.thumbnail = action.payload.picture_1_thumb
-				updatedOffer.price = action.payload.price;
-				const detailsOffer = updatedOffer.details_offer;
+				updatedOffer.price = parseInt(action.payload.price as string);
+				// const detailsOffer = updatedOffer.details_offer;
 				// check if it's a product
-				if (
-					action.payload.offer_type === 'V' &&
-					'product_quantity' in detailsOffer &&
-					'product_quantity' in action.payload
-				) {
-					detailsOffer.product_quantity = action.payload.product_quantity;
-					detailsOffer.product_price_by = action.payload.product_price_by;
-					detailsOffer.product_longitude = action.payload.product_longitude;
-					detailsOffer.product_latitude = action.payload.product_latitude;
-					detailsOffer.product_address = action.payload.product_address;
-					detailsOffer.product_colors = action.payload.product_colors;
-					detailsOffer.product_sizes = action.payload.product_sizes;
-					// check if it's a service
-				} else if (
-					action.payload.offer_type === 'S' &&
-					'service_availability_days' in detailsOffer &&
-					'service_availability_days' in action.payload
-				) {
-					detailsOffer.service_availability_days = action.payload.service_availability_days;
-					detailsOffer.service_morning_hour_from = action.payload.service_morning_hour_from;
-					detailsOffer.service_morning_hour_to = action.payload.service_morning_hour_to;
-					detailsOffer.service_afternoon_hour_from = action.payload.service_afternoon_hour_from;
-					detailsOffer.service_afternoon_hour_to = action.payload.service_afternoon_hour_to;
-					detailsOffer.service_zone_by = action.payload.service_zone_by;
-					detailsOffer.service_price_by = action.payload.service_price_by;
-					detailsOffer.service_longitude = action.payload.service_longitude;
-					detailsOffer.service_latitude = action.payload.service_latitude;
-					detailsOffer.service_address = action.payload.service_address;
-					detailsOffer.service_km_radius = action.payload.service_km_radius;
-				}
+				// if (
+				// 	action.payload.offer_type === 'V' &&
+				// 	'product_quantity' in detailsOffer &&
+				// 	'product_quantity' in action.payload
+				// ) {
+				// 	detailsOffer.product_quantity = action.payload.product_quantity;
+				// 	detailsOffer.product_price_by = action.payload.product_price_by;
+				// 	detailsOffer.product_longitude = action.payload.product_longitude;
+				// 	detailsOffer.product_latitude = action.payload.product_latitude;
+				// 	detailsOffer.product_address = action.payload.product_address;
+				// 	detailsOffer.product_colors = action.payload.product_colors;
+				// 	detailsOffer.product_sizes = action.payload.product_sizes;
+				// 	// check if it's a service
+				// } else if (
+				// 	action.payload.offer_type === 'S' &&
+				// 	'service_availability_days' in detailsOffer &&
+				// 	'service_availability_days' in action.payload
+				// ) {
+				// 	detailsOffer.service_availability_days = action.payload.service_availability_days;
+				// 	detailsOffer.service_morning_hour_from = action.payload.service_morning_hour_from;
+				// 	detailsOffer.service_morning_hour_to = action.payload.service_morning_hour_to;
+				// 	detailsOffer.service_afternoon_hour_from = action.payload.service_afternoon_hour_from;
+				// 	detailsOffer.service_afternoon_hour_to = action.payload.service_afternoon_hour_to;
+				// 	detailsOffer.service_zone_by = action.payload.service_zone_by;
+				// 	detailsOffer.service_price_by = action.payload.service_price_by;
+				// 	detailsOffer.service_longitude = action.payload.service_longitude;
+				// 	detailsOffer.service_latitude = action.payload.service_latitude;
+				// 	detailsOffer.service_address = action.payload.service_address;
+				// 	detailsOffer.service_km_radius = action.payload.service_km_radius;
+				// }
 			}
 			return state;
 		},
@@ -365,6 +376,23 @@ const OfferSlice = createSlice({
 			}
 			return state;
 		},
+		setPinOffer: (state, action: PayloadAction<OfferPinType>) => {
+			// update userOffers
+			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.offer_pk);
+			if (userOffersindex >= 0) {
+				state.userOffers[userOffersindex].pinned = action.payload.pinned;
+				state.userOffers.sort((a, b) => Number(b.pinned) - Number(a.pinned));
+			}
+			// update userOffersList results
+			const userOffersListIndex = state.userOffersList.results.findIndex(
+				(item) => item.pk === action.payload.offer_pk,
+			);
+			if (userOffersListIndex >= 0) {
+				state.userOffersList.results[userOffersListIndex].pinned = action.payload.pinned;
+				state.userOffersList.results.sort((a, b) => Number(b.pinned) - Number(a.pinned));
+			}
+			return state;
+		},
 		initOffer: () => {
 			return initialState;
 		},
@@ -382,6 +410,7 @@ export const {
 	setSelectedOfferTags,
 	setOfferLastUsedLocalisation,
 	setOfferLastThreeUsedDeliveries,
+	setMyOffersFirstPageList,
 	setMyOffersList,
 	setPutOffer,
 	deleteUserOffer,
@@ -399,6 +428,7 @@ export const {
 	setLocalOfferDeliveries,
 	emptyLocalOfferDeliveryClickAndCollect,
 	emptyLocalOfferDeliveries,
+	setPinOffer,
 } = OfferSlice.actions;
 
 export default OfferSlice.reducer;

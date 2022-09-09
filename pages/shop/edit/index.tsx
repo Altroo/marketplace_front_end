@@ -65,6 +65,7 @@ import {
 	getShopInstagramLink,
 	getShopWhatsapp,
 	getShopAddressName,
+	getMyOffersList,
 } from '../../../store/selectors';
 import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
 import InfoIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-info.svg';
@@ -82,6 +83,12 @@ import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/shop/create/fontPicker/fontPicker';
+import { offerGetMyOffersFirstPageAction } from '../../../store/actions/offer/offerActions';
+import { SHOP_EDIT_INDEX } from '../../../utils/routes';
+
+// type PageProps = {
+// 	state: RootState;
+// };
 
 const Index: NextPage = () => {
 	const router = useRouter();
@@ -128,8 +135,8 @@ const Index: NextPage = () => {
 	const [promoCheck, setPromoCheck] = useState(false);
 	// For whom states
 	const [enfantCheck, setEnfantCheck] = useState(false);
-	const [femmeCheck, setFemmeCheck] = useState(true);
-	const [hommeCheck, setHommeCheck] = useState(true);
+	const [femmeCheck, setFemmeCheck] = useState(false);
+	const [hommeCheck, setHommeCheck] = useState(false);
 	// modals
 	const [openContacterModal, setContacterModalOpen] = useState<boolean>(false);
 	const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
@@ -186,7 +193,7 @@ const Index: NextPage = () => {
 	const chipCategoriesAction: chipActionsType = [
 		{
 			buttonText: 'Bien-être',
-			selected: true,
+			selected: false,
 			border: border,
 			textColor: colorCode,
 			backgroundColor: bgColorCode,
@@ -206,7 +213,7 @@ const Index: NextPage = () => {
 		},
 		{
 			buttonText: 'Sport',
-			selected: true,
+			selected: false,
 			border: border,
 			textColor: colorCode,
 			backgroundColor: bgColorCode,
@@ -357,7 +364,20 @@ const Index: NextPage = () => {
 		},
 	];
 
+	const [hideAsideNav, setHideAsideNav] = useState<boolean>(true);
+	const userOffersList = useAppSelector(getMyOffersList);
+	// const [userOffersFetched, setUserOffersFetched] = useState<boolean>(userOffersList.length > 0);
+
 	useEffect(() => {
+		// if (!userOffersFetched) {
+		// 	dispatch(offerGetMyOffersFirstPageAction());
+		// 	setUserOffersFetched(true);
+		// }
+		// console.log(userOffersFetched);
+		if (userOffersList) {
+			setModalDismissed(true);
+			setHideAsideNav(false);
+		}
 		// avatar
 		if (shopAvatar) {
 			setPreview(shopAvatar);
@@ -406,19 +426,19 @@ const Index: NextPage = () => {
 			}
 		}
 	}, [
+		dispatch,
 		shopAvatar,
 		shopBgColorCode,
-		shopColorCode,
 		shopBorder,
-		shopIconColor,
+		shopColorCode,
+		shopContactMode,
 		shopFontName,
-		dispatch,
-		whatsappCode,
+		shopIconColor,
 		shopPhoneContact,
+		shopPhoneContactCode,
 		shopWhatsappContact,
 		shopWhatsappContactCode,
-		shopPhoneContactCode,
-		shopContactMode,
+		userOffersList,
 	]);
 
 	// save phone contact modal button
@@ -526,7 +546,10 @@ const Index: NextPage = () => {
 					body="Vous pouvez désormais publier votre boutique ou continuer à la peaufiner."
 					visible={!modalDismissed}
 					buttonText="Compris !"
-					dismissHandler={() => setModalDismissed(true)}
+					dismissHandler={() => {
+						setModalDismissed(true);
+						router.replace(SHOP_EDIT_INDEX, undefined, { shallow: true }).then();
+					}}
 				/>
 			)}
 			<main className={Styles.main}>
@@ -676,7 +699,7 @@ const Index: NextPage = () => {
 											promoCheckAction={promoCheckAction}
 											checkBoxForWhomAction={checkBoxesForWhomAction}
 											activeColor={bgColorCode}
-											hidden={true}
+											hidden={hideAsideNav}
 										/>
 									}
 									InfoContent={
@@ -883,6 +906,12 @@ const Index: NextPage = () => {
 	);
 };
 
+// Index.getInitialProps = async (ctx) => {
+//   const res = await fetch('https://api.github.com/repos/vercel/next.js')
+//   const json = await res.json()
+//   return { stars: json.stargazers_count }
+// }
+
 // export const getServerSideProps = wrapper.getServerSideProps(({ store }) => {
 //   store.dispatch(tickClock(false))
 //
@@ -893,17 +922,19 @@ const Index: NextPage = () => {
 //
 //   await store.sagaTask.toPromise()
 // })
-// export const getServerSideProps = wrapper.getServerSideProps(store => async context => {
-// 	// store.dispatch(placesGetCountriesAction());
-// 	store.dispatch(shopGetRootAction());
-// 	// console.log('dispatched');
-// 	// end the saga
-// 	if (context.req) {
-// 		await store.dispatch(END);
-// 		await (store as SagaStore).sagaTask?.toPromise();
-// 	}
+// export const getStaticProps = wrapper.getStaticProps(store => async context => {
+// 	store.dispatch(offerGetMyOffersAction());
+// 	// if (context) {
+// 	// 	// end the saga
+// 	// 	await store.dispatch(END);
+// 	// 	await (store as SagaStore).sagaTask?.toPromise();
+// 	// }
+// 	console.log('getStaticProps called');
+// 	console.log(store.getState());
 // 	return {
-// 		props: store.getState(),
+// 		props: {
+// 			state: store.getState(),
+// 		},
 // 	};
 // });
 

@@ -77,6 +77,7 @@ export const getPlacesApiFetchPromiseStatus = (state: RootState) => state.places
 // Account
 export const getCheckUserHasShop = (state: RootState) => state.account.check_account?.has_shop as boolean;
 // Offers
+export const getMyOffersList = (state: RootState) => state.offer.userOffersList.results;
 export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersList.next;
 export const getOfferVuesNextPage = (state: RootState) => state.offer.offerVuesList.next;
 export const getOfferTags = (state: RootState) => state.offer.selectedTags;

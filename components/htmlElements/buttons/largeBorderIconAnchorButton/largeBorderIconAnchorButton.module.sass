@@ -1,0 +1,67 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.anchor
+  width: 250px
+  height: 165px
+  display: flex
+  align-items: center
+  justify-content: center
+.button
+  +Medium
+  font-size: 19px
+  cursor: pointer
+  display: flex
+  justify-content: center
+  width: 100%
+  height: 100%
+  border: 2px dashed $buttonTextDisabled
+  border-radius: 30px
+  background-color: $white
+  text-transform: none
+.activated
+  border: 2px dashed $blue
+
+.textActivated
+  color: $blue !important
+.desactivatedButton
+  cursor: default
+//@media #{$tablette}
+//  .anchor
+//    width: 100%
+@media #{$mobile}
+  .anchor
+    width: 100%
+    height: 56px
+  .buttonIconTextWrapper
+    width: 100%
+    flex-direction: row
+    align-items: center
+    justify-content: space-evenly
+    img
+      width: 19px !important
+      height: 19px !important
+  .textActivated
+    margin-top: 0 !important
+
+//.container
+//  display: flex
+//  flex-direction: row
+//  align-items: center
+//  margin: 8px 56px 8px 56px
+//  span
+//    +Medium
+//    font-size: 19px
+//    padding-left: 20px
+//    color: $buttonTextDisabled
+//
+//@media #{$tablette}
+//  .button
+//    height: 50px
+//    margin-top: 32px
+//    width: 330px
+//@media #{$mobile}
+//  .button
+//    width: 280px

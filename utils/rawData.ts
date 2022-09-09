@@ -122,7 +122,7 @@ export const getColorsDataArray = (colorCodes: Array<OfferProductColors>) => {
 	return colorsArray;
 };
 
-export const getForWhomLocalDataArray = (forWhom: Array<string>) => {
+export const getForWhomDataArray = (forWhom: Array<OfferForWhomType>) => {
 	const forWhomArray: Array<string> = [];
 	forWhom.map((forWho) => {
 		switch (forWho) {
@@ -143,26 +143,26 @@ export const getForWhomLocalDataArray = (forWhom: Array<string>) => {
 	return forWhomArray;
 };
 
-export const getForWhomDataArray = (forWhom: Array<OfferForWhomType>) => {
-	const forWhomArray: Array<string> = [];
-	forWhom.map((forWho) => {
-		switch (forWho) {
-			case 'A':
-				forWhomArray.push('Tout le monde');
-				break;
-			case 'K':
-				forWhomArray.push('Enfant');
-				break;
-			case 'F':
-				forWhomArray.push('Femme');
-				break;
-			case 'M':
-				forWhomArray.push('Homme');
-				break;
-		}
-	});
-	return forWhomArray;
-};
+// export const getForWhomDataArray = (forWhom: Array<OfferForWhomType>) => {
+// 	const forWhomArray: Array<string> = [];
+// 	forWhom.map((forWho) => {
+// 		switch (forWho) {
+// 			case 'T':
+// 				forWhomArray.push('Tout le monde');
+// 				break;
+// 			case 'E':
+// 				forWhomArray.push('Enfant');
+// 				break;
+// 			case 'F':
+// 				forWhomArray.push('Femme');
+// 				break;
+// 			case 'H':
+// 				forWhomArray.push('Homme');
+// 				break;
+// 		}
+// 	});
+// 	return forWhomArray;
+// };
 
 export const getSizesDataArray = (sizes: Array<OfferProductSizes>) => {
 	const sizesArray: Array<string> = [];

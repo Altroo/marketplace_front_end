@@ -5,8 +5,8 @@ import { ImageListType as ImageUploadingType } from "react-images-uploading/dist
 
 // ('V', 'Produit'), ('S', 'Service'), ('L', 'Location') <- 'L' Not yet available,
 export type OfferOfferTypeType = 'V' | 'S' | 'L';
-// ('A','All'), ('K','Kid'), ('F','Female'), ('M','Man')
-export type OfferForWhomType = 'A' | 'K' | 'F' | 'M';
+// ('T','Tout le monde'), ('E','Enfant'), ('F','Femme'), ('H','Homme')
+export type OfferForWhomType = 'T' | 'E' | 'F' | 'H';
 // ('U', 'Unity'), ('K', 'Kilogram'), ('L', 'Liter'),
 export type OfferProductPriceByType = 'U' | 'K' | 'L';
 // ('A', 'Address'), ('S', 'Sector')
@@ -146,20 +146,27 @@ export interface OfferProductInterface
 		| 'delivery_price_1'
 		| 'delivery_price_2'
 		| 'delivery_price_3'
+		| 'title'
+
 	> {
 	pk: number;
+	title: string;
 	picture_1_thumb: string | null;
 	picture_2_thumb: string | null;
 	picture_3_thumb: string | null;
-	// picture_4_thumb: string | null;
+	picture_4_thumb: string | null;
 	deliveries: Array<DeliveriesResponseType>;
+	pinned: boolean;
 }
 
-export interface OfferServiceInterface extends OfferServiceClass {
+export interface OfferServiceInterface extends Omit<OfferServiceClass, | 'title'> {
 	pk: number;
+	title: string;
 	picture_1_thumb: string | null;
 	picture_2_thumb: string | null;
 	picture_3_thumb: string | null;
+	picture_4_thumb: string | null;
+	pinned: boolean;
 }
 
 export type OfferProductColorsArray = Array<{ pk: number; code_color: OfferProductColors; name_color: string }>;
@@ -214,12 +221,13 @@ export interface OfferGetRootProductInterface
 	picture_1_thumb: string | null;
 	picture_2_thumb: string | null;
 	picture_3_thumb: string | null;
+	picture_4_thumb: string | null;
 	for_whom: OfferForWhomArray;
+	details_offer: DetailsOfferProductType;
 	creator_label?: boolean | null;
 	made_in_label?: string | null;
-	// picture_4_thumb: string | null;
-	details_offer: DetailsOfferProductType;
 	// details_offer: T;
+	pinned: boolean;
 	deliveries?: Array<DeliveriesResponseType> | [];
 	exists_in_cart?: boolean;
 }
@@ -231,12 +239,13 @@ export interface OfferGetRootServiceInterface extends Omit<OfferServiceClass, 'o
 	picture_1_thumb: string | null;
 	picture_2_thumb: string | null;
 	picture_3_thumb: string | null;
+	picture_4_thumb: string | null;
 	for_whom: OfferForWhomArray;
+	details_offer: DetailsOfferServiceType;
 	creator_label?: boolean | null;
 	made_in_label?: string | null;
-	// picture_4_thumb: string | null;
-	details_offer: DetailsOfferServiceType;
-	exists_in_cart: boolean;
+	pinned: boolean;
+	exists_in_cart?: boolean;
 }
 
 export type OfferProductLocalisation = {
@@ -345,23 +354,28 @@ export interface OfferSolderInterface {
 
 export type OfferPostSolderResponseType = ResponseDataInterface<OfferSolderInterface>;
 
-type OfferGetMyOffersProductServiceType = {
+export type OfferGetMyOffersProductServiceType = {
 	pk: number;
 	thumbnail: string;
-	title: string | null;
-	price: string | null;
+	title: string;
+	price: number;
 	solder_type: OfferSolderByType | null;
 	solder_value: number | null;
-	creator_label: boolean;
+	pinned: boolean;
+	// creator_label: boolean;
 };
 
-export interface OfferGetMyOffersProductInterface extends OfferGetMyOffersProductServiceType {
-	details_offer: DetailsOfferProductType;
-}
+// export interface OfferGetMyOffersProductInterface extends OfferGetMyOffersProductServiceType {
+// 	details_offer: DetailsOfferProductType;
+// }
 
-export interface OfferGetMyOffersServiceInterface extends OfferGetMyOffersProductServiceType {
-	details_offer: DetailsOfferServiceType;
-}
+export type OfferGetMyOffersProductInterface = OfferGetMyOffersProductServiceType;
+
+export type OfferGetMyOffersServiceInterface = OfferGetMyOffersProductServiceType;
+
+// export interface OfferGetMyOffersServiceInterface extends OfferGetMyOffersProductServiceType {
+// 	details_offer: DetailsOfferServiceType;
+// }
 
 export type OfferGetMyOffersResponseType = ResponseDataInterface<
 	PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
@@ -373,6 +387,13 @@ export interface OfferPostSolderType extends Omit<OfferSolderInterface, 'offer'>
 }
 
 export type OfferGetVuesResponseType = ResponseDataInterface<OfferGetVuesType>;
+
+export type OfferPinType = {
+	offer_pk: number;
+	pinned: boolean;
+}
+
+export type OfferPostPinResponseType = ResponseDataInterface<OfferPinType>;
 
 // local offer types
 export type LocalOfferDescriptionPageType = {

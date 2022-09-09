@@ -17,6 +17,7 @@ import { accountGetCheckAccountAction } from '../store/actions/account/accountAc
 import { cookiesFetcher } from '../store/services/_init/_initAPI';
 import { getCheckUserHasShop, getInitStateToken, getInitStateUniqueID, getTokenType } from "../store/selectors";
 import { placesGetCitiesAction } from "../store/actions/places/placesActions";
+import { offerGetMyOffersFirstPageAction } from "../store/actions/offer/offerActions";
 
 const InitContext = createContext<InitStateInterface<InitStateToken, InitStateUniqueID>>({
 	tokenType: null,
@@ -59,17 +60,19 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 		// or refreshed the page in the middle of the process
 		dispatch(loadNewAddedShopAction());
 		if (tokenType === 'TOKEN' && token !== null) {
-			// moved to init Saga or in it's page.
+			// moved to init Saga or in it's page. (in it's page causes infinite loop)
 			// dispatch(accountGetProfilAction());
 			// dispatch(cartGetAllAction());
 			// Required by userHasShop
 			dispatch(accountGetCheckAccountAction());
 			if (userHasShop) {
 				dispatch(shopGetRootAction());
+				dispatch(offerGetMyOffersFirstPageAction());
 			}
 		} else if (tokenType === 'UNIQUE_ID' && uniqueID !== null) {
 			// try to get unique ID shop if exists.
 			dispatch(shopGetRootAction());
+			dispatch(offerGetMyOffersFirstPageAction());
 		}
 	}, [dispatch, tokenType, token, uniqueID, userHasShop, appTokenCookiesLoaded, newShopCookiesLoaded]);
 
