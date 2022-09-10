@@ -65,11 +65,10 @@
   font-size: 17px
   color: $primary
 .oldPrice
-  color: #E12D3D
+  color: $primary
   text-decoration: line-through
 .solderPrice
-  +Medium
-  font-size: 17px
+  @extend .offerPrice
   color: #E12D3D
 @media #{$desktop}
   .shopAddOfferWrapper

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { InitStateInterface, InitStateToken, InitStateUniqueID } from '../../../types/_init/_initTypes';
+import { HYDRATE } from "next-redux-wrapper";
 
 export const apiErrorInitialState = {
 	error: {
@@ -63,6 +64,11 @@ const _initSlice = createSlice({
 			return initialState;
 		},
 	},
+	// extraReducers: {
+	// 	[HYDRATE]: (state, action) => {
+	// 		return { ...state, ...action.payload._init };
+	// 	}
+	// },
 });
 
 export const { setInitState, setTokenState, setEmptyUniqueIDState, initToken } = _initSlice.actions;

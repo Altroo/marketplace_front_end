@@ -42,6 +42,7 @@
   margin-top: 0
   margin-bottom: 0
   color: $primary
+  word-wrap: anywhere
 .rating
   +Regular
   font-size: 15px
@@ -73,6 +74,12 @@
   +SemiBold
   font-size: 32px
   color: $primary
+.oldPrice
+  color: $primary
+  text-decoration: line-through
+.solderPrice
+  @extend .price
+  color: #E12D3D
 .priceBy
   +Regular
   font-size: 13px
@@ -138,6 +145,7 @@
     object-fit: cover
     width: 100% !important
     height: 100% !important
+    max-height: 200px !important
   .imagesWrapper
     flex-direction: column !important
 @media #{$mobile}

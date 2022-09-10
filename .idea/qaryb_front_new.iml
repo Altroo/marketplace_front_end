@@ -217,6 +217,8 @@
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/buttons" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/buttons/mobileOffersFilterButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/offer/[offer_pk]" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars/desktopOfferDetailTopNavBar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars/desktopTopSaveShareNavBar" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />

@@ -67,12 +67,12 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 			dispatch(accountGetCheckAccountAction());
 			if (userHasShop) {
 				dispatch(shopGetRootAction());
-				dispatch(offerGetMyOffersFirstPageAction());
+				// dispatch(offerGetMyOffersFirstPageAction());
 			}
 		} else if (tokenType === 'UNIQUE_ID' && uniqueID !== null) {
 			// try to get unique ID shop if exists.
 			dispatch(shopGetRootAction());
-			dispatch(offerGetMyOffersFirstPageAction());
+			// dispatch(offerGetMyOffersFirstPageAction());
 		}
 	}, [dispatch, tokenType, token, uniqueID, userHasShop, appTokenCookiesLoaded, newShopCookiesLoaded]);
 

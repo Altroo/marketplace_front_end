@@ -173,13 +173,13 @@ export type OfferProductColorsArray = Array<{ pk: number; code_color: OfferProdu
 export type OfferProductSizesArray = Array<{ pk: number; code_size: OfferProductSizes; name_size: string }>;
 
 export type DetailsOfferProductType = {
-	product_quantity: number | null;
-	product_price_by: OfferProductPriceByType | null;
+	product_quantity: number;
+	product_price_by: OfferProductPriceByType;
 	product_longitude: number | null;
 	product_latitude: number | null;
 	product_address: string | null;
-	product_colors: string | null;
-	product_sizes: string | null;
+	product_colors: Array<OfferProductColors>;
+	product_sizes: Array<OfferProductSizes>;
 };
 
 export type OfferServiceAvailabilityDaysArray = Array<{ pk: number; code_day: OfferServiceDaysType; name_day: string }>;
@@ -214,33 +214,49 @@ export interface OfferGetRootProductInterface
 		| 'delivery_price_3'
 		| 'offer_categories'
 		| 'for_whom'
+		| 'pictures'
 	> {
 	pk: number;
-	offer_categories: OfferCategoriesArray;
+	offer_categories: Array<OfferCategoriesType>;
 	shop_name: string;
+	picture_1: string | null;
+	picture_2: string | null;
+	picture_3: string | null;
+	picture_4: string | null;
 	picture_1_thumb: string | null;
 	picture_2_thumb: string | null;
 	picture_3_thumb: string | null;
 	picture_4_thumb: string | null;
-	for_whom: OfferForWhomArray;
+	for_whom: Array<OfferForWhomType>;
 	details_offer: DetailsOfferProductType;
 	creator_label?: boolean | null;
 	made_in_label?: string | null;
 	// details_offer: T;
 	pinned: boolean;
-	deliveries?: Array<DeliveriesResponseType> | [];
+	deliveries: Array<DeliveriesFlatResponseType> | [];
 	exists_in_cart?: boolean;
 }
 
-export interface OfferGetRootServiceInterface extends Omit<OfferServiceClass, 'offer_categories' | 'for_whom'> {
+export type DeliveriesFlatResponseType = {
+	delivery_city: Array<string>;
+	all_cities: boolean;
+	delivery_price: number;
+	delivery_days: number;
+}
+
+export interface OfferGetRootServiceInterface extends Omit<OfferServiceClass, 'offer_categories' | 'for_whom' | 'pictures'> {
 	pk: number;
-	offer_categories: OfferCategoriesArray;
+	offer_categories: Array<OfferCategoriesType>;
 	shop_name: string;
+	picture_1: string | null;
+	picture_2: string | null;
+	picture_3: string | null;
+	picture_4: string | null;
 	picture_1_thumb: string | null;
 	picture_2_thumb: string | null;
 	picture_3_thumb: string | null;
 	picture_4_thumb: string | null;
-	for_whom: OfferForWhomArray;
+	for_whom: Array<OfferForWhomType>;
 	details_offer: DetailsOfferServiceType;
 	creator_label?: boolean | null;
 	made_in_label?: string | null;
@@ -329,7 +345,7 @@ export interface OfferStateInterface {
 	userOffers: Array<OfferProductInterface | OfferServiceInterface>;
 	userOffersList: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
 	offerVuesList: OfferGetVuesType;
-	selectedOffer: OfferGetRootProductInterface | OfferGetRootServiceInterface | Record<string, unknown>;
+	selectedOffer: OfferGetRootProductInterface | OfferGetRootServiceInterface | null;
 	selectedSolder: Nullable<OfferSolderInterface> | Record<string, unknown>;
 	selectedTags: OfferTagsType;
 	lastUsedLocalisation: OfferProductLocalisation | OfferServiceLocalisation | Record<string, unknown>;

@@ -17,6 +17,7 @@ import {
 	OfferTagsType
 } from "../../../types/offer/offerTypes";
 import { PaginationResponseType } from '../../../types/_init/_initTypes';
+import { HYDRATE } from "next-redux-wrapper";
 // import { HYDRATE } from "next-redux-wrapper";
 
 const clickAndCollectInitial = {
@@ -80,7 +81,7 @@ const initialState: OfferStateInterface = {
 		this_month: null,
 		pourcentage: null,
 	},
-	selectedOffer: {},
+	selectedOffer: null,
 	selectedSolder: {},
 	selectedTags: [],
 	lastUsedLocalisation: {},
@@ -110,6 +111,13 @@ const initialState: OfferStateInterface = {
 const OfferSlice = createSlice({
 	name: 'offer',
 	initialState: initialState,
+	// extraReducers: {
+	// 	[HYDRATE]: (state, action) => {
+	// 		console.log('current state : ', state);
+	// 		console.log('action payload: ', action);
+	// 		return { ...state, ...action.payload.offer };
+	// 	}
+	// },
 	reducers: {
 		appendPostOfferState: (state, action: PayloadAction<OfferProductInterface | OfferServiceInterface>) => {
 			state.userOffers.push(action.payload);
@@ -282,14 +290,19 @@ const OfferSlice = createSlice({
 			if (userOffersListIndex >= 0) {
 				state.userOffersList.results[userOffersListIndex].thumbnail = action.payload.offer_thumbnail;
 			}
-			if (state.selectedOffer.pk === action.payload.offer_pk) {
-				state.selectedOffer.picture_1_thumb = action.payload.offer_thumbnail;
-			}
+			if (state.selectedOffer) {
+				if (state.selectedOffer.pk === action.payload.offer_pk) {
+					state.selectedOffer.picture_1_thumb = action.payload.offer_thumbnail;
+				}
 			return state;
+			}
+
 		},
 		setExistsInCart: (state, action: PayloadAction<{ offer_pk: number; exists_in_cart: boolean }>) => {
-			if (state.selectedOffer.pk === action.payload.offer_pk) {
-				state.selectedOffer.exists_in_cart = action.payload.exists_in_cart;
+			if (state.selectedOffer) {
+				if (state.selectedOffer.pk === action.payload.offer_pk) {
+					state.selectedOffer.exists_in_cart = action.payload.exists_in_cart;
+				}
 			}
 			return state;
 		},

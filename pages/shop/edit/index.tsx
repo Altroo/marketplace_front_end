@@ -77,14 +77,16 @@ import AjouterMesInfosStack from '../../../components/groupedComponents/shop/edi
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../create/color';
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
-import { IconColorType } from '../../../types/_init/_initTypes';
+import { AppTokensCookieType, IconColorType, NewShopCookieType } from "../../../types/_init/_initTypes";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/shop/create/fontPicker/fontPicker';
-import { offerGetMyOffersFirstPageAction } from '../../../store/actions/offer/offerActions';
+import { offerGetMyOffersFirstPageAction, offerGetRootAction } from "../../../store/actions/offer/offerActions";
 import { SHOP_EDIT_INDEX } from '../../../utils/routes';
+import { wrapper } from "../../../store/store";
+import { initAppCookieTokensAction, initNewShopBorderIconAction } from "../../../store/actions/_init/_initActions";
 
 // type PageProps = {
 // 	state: RootState;
@@ -906,36 +908,12 @@ const Index: NextPage = () => {
 	);
 };
 
-// Index.getInitialProps = async (ctx) => {
-//   const res = await fetch('https://api.github.com/repos/vercel/next.js')
-//   const json = await res.json()
-//   return { stars: json.stargazers_count }
-// }
-
-// export const getServerSideProps = wrapper.getServerSideProps(({ store }) => {
-//   store.dispatch(tickClock(false))
-//
-//   if (!store.getState().placeholderData) {
-//     store.dispatch(loadData())
-//     store.dispatch(END)
-//   }
-//
-//   await store.sagaTask.toPromise()
-// })
-// export const getStaticProps = wrapper.getStaticProps(store => async context => {
-// 	store.dispatch(offerGetMyOffersAction());
-// 	// if (context) {
-// 	// 	// end the saga
-// 	// 	await store.dispatch(END);
-// 	// 	await (store as SagaStore).sagaTask?.toPromise();
-// 	// }
-// 	console.log('getStaticProps called');
-// 	console.log(store.getState());
-// 	return {
-// 		props: {
-// 			state: store.getState(),
-// 		},
-// 	};
-// });
+export const getStaticProps = wrapper.getStaticProps((store) => async (context) => {
+	store.dispatch(offerGetMyOffersFirstPageAction());
+	// await store.sagaTask?.toPromise();
+	return {
+		props: {},
+	};
+});
 
 export default Index;

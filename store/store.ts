@@ -75,6 +75,7 @@ export interface SagaStore extends Store {
 // 	}
 // };
 
+/* Reducers without Hydrate */
 // const reducers: typeof combinedReducers = (state, action) => {
 //    return combinedReducers(state, action);
 // };
