@@ -44,86 +44,86 @@ const accountSlice = createSlice({
 	reducers: {
 		setEmailExistsStatus: (state, action: PayloadAction<boolean>) => {
 			state.email_exists = action.payload;
-			return state;
+			// return state;
 		},
 		setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
 			state.isLoggedIn = action.payload;
-			return state;
+			// return state;
 		},
 		setProfilGETLoading: (state) => {
 			state.profilApi.isFetchInProgress = true;
 			state.profilApi.fetchPromiseStatus = 'PENDING';
 			state.profilApi.error = apiErrorInitialState.error;
-			return state;
+			// return state;
 		},
 		setProfil: (state, action: PayloadAction<UserClass>) => {
 			state.profil = action.payload;
 			state.profilApi.fetchPromiseStatus = 'RESOLVED';
 			state.profilApi.isFetchInProgress = false;
-			return state;
+			// return state;
 		},
 		setSelectedProfil: (state, action: PayloadAction<UserClass>) => {
 			state.selectedProfil = action.payload;
-			return state;
+			// return state;
 		},
 		setSocials: (state, action: PayloadAction<AccountGetSocialsType>) => {
 			state.socials = action.payload;
-			return state;
+			// return state;
 		},
 		setBlockedList: (state, action: PayloadAction<AccountBlockType>) => {
 			state.blockedList = action.payload;
-			return state;
+			// return state;
 		},
 		setCheckAccountGETLoading: (state) => {
 			state.check_accountApi.isFetchInProgress = true;
 			state.check_accountApi.fetchPromiseStatus = 'PENDING';
 			state.check_accountApi.error = apiErrorInitialState.error;
-			return state;
+			// return state;
 		},
 		setCheckAccount: (state, action: PayloadAction<AccountCheckAccountType>) => {
 			state.check_account = action.payload;
 			// state.email = action.payload.email;
-			return state;
+			// return state;
 		},
 		setAddresses: (state, action: PayloadAction<Array<AccountAddress>>) => {
 			state.addresses = action.payload;
-			return state;
+			// return state;
 		},
 		appendPostAddress: (state, action: PayloadAction<AccountAddress>) => {
 			state.addresses.push(action.payload);
-			return state;
+			// return state;
 		},
 		setPatchAddress: (state, action: PayloadAction<AccountAddress>) => {
 			const addressindex = state.addresses.findIndex((item) => item.pk === action.payload.pk);
 			if (addressindex >= 0) {
 				state.addresses[addressindex] = action.payload;
 			}
-			return state;
+			// return state;
 		},
 		setSelectedAddress: (state, action: PayloadAction<AccountAddress>) => {
 			state.selectedAddress = action.payload;
-			return state;
+			// return state;
 		},
 		setVerifiedAccount: (state, action: PayloadAction<boolean>) => {
 			state.verifiedAccount = action.payload;
 			state.check_account.verified = action.payload;
-			return state;
+			// return state;
 		},
 		setResendVerification: (state, action: PayloadAction<boolean>) => {
 			state.verificationCodeSent = action.payload;
-			return state;
+			// return state;
 		},
 		setPasswordChanged: (state, action: PayloadAction<boolean>) => {
 			state.passwordChanged = action.payload;
-			return state;
+			// return state;
 		},
 		setPasswordResetSent: (state, action: PayloadAction<boolean>) => {
 			state.passwordResetCodeSent = action.payload;
-			return state;
+			// return state;
 		},
 		setPasswordResetValidCode: (state, action: PayloadAction<boolean>) => {
 			state.passwordResetValidCode = action.payload;
-			return state;
+			// return state;
 		},
 		setEmailChanged: (state, action: PayloadAction<{ new_email: string; changed: boolean }>) => {
 			state.emailChanged = action.payload.changed;
@@ -132,12 +132,12 @@ const accountSlice = createSlice({
 			state.check_account.email = action.payload.new_email;
 			state.check_account.verified = false;
 			state.check_account.has_password = true;
-			return state;
+			// return state;
 		},
 		setWSUserAvatar: (state, action: PayloadAction<string>) => {
 			// payload has user_avatar
 			state.profil.avatar_thumbnail = action.payload;
-			return state;
+			// return state;
 		},
 		initAccount: () => {
 			return initialState;
@@ -149,13 +149,13 @@ const accountSlice = createSlice({
 				state.profilApi.error = action.payload.error;
 				state.profilApi.fetchPromiseStatus = 'REJECTED';
 				state.profilApi.isFetchInProgress = false;
-				return state;
+				// return state;
 			})
 			.addCase(check_accountGETApiErrorAction, (state, action) => {
 				state.check_accountApi.error = action.payload.error;
 				state.check_accountApi.fetchPromiseStatus = 'REJECTED';
 				state.check_accountApi.isFetchInProgress = false;
-				return state;
+				// return state;
 			});
 	},
 	// extraReducers: {

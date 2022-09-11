@@ -33,18 +33,18 @@ const versionSlice = createSlice({
 				status_code: null,
 				message: null,
 			};
-			return state;
+			// return state;
 		},
 		setCurrentVersion: (state, action: PayloadAction<VersionStateInterface>) => {
 			state.current_version = action.payload.current_version;
 			state.maintenance = action.payload.maintenance;
 			state.api.fetchPromiseStatus = 'RESOLVED';
 			state.api.isFetchInProgress = false;
-			return state;
+			// return state;
 		},
 		setWSMaintenance: (state, action: PayloadAction<boolean>) => {
 			state.maintenance = action.payload;
-			return state;
+			// return state;
 		},
 		initVersion: () => {
 			return initialState;
@@ -55,7 +55,7 @@ const versionSlice = createSlice({
 			state.api.error = action.payload.error;
 			state.api.fetchPromiseStatus = 'REJECTED';
 			state.api.isFetchInProgress = false;
-			return state;
+			// return state;
 		});
 	},
 

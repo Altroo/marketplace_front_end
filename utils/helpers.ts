@@ -8,11 +8,19 @@ import {
 	InitStateUniqueID,
 	ResponseDataTokenRefreshType,
 } from '../types/_init/_initTypes';
-import { emptyInitStateToken, emptyInitStateUniqueID, setInitState } from '../store/slices/_init/_initSlice';
+import {
+	emptyInitStateToken,
+	emptyInitStateUniqueID,
+	initialState,
+	setInitState
+} from "../store/slices/_init/_initSlice";
 import { cookiesDeleter, cookiesFetcher, cookiesPoster, tokenRefreshApi } from '../store/services/_init/_initAPI';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store/store';
 import { ShopFontNameType } from '../types/shop/shopTypes';
+import { GetServerSidePropsContext, PreviewData } from "next";
+import { ParsedUrlQuery } from "querystring";
+import { getCookie } from "cookies-next";
 
 // export const loadAppToken = (): InitStateInterface<InitStateToken, InitStateUniqueID> => {
 // 	// load required data from storage
@@ -179,7 +187,7 @@ export const isAuthenticatedInstance = (
 								},
 								initStateUniqueID: emptyInitStateUniqueID,
 							};
-							setRemoteCookiesAppToken(newInitStateToken);
+							await setRemoteCookiesAppToken(newInitStateToken);
 							store.dispatch(setInitState(newInitStateToken));
 							return instance(originalConfig);
 						}
@@ -230,7 +238,6 @@ export const allowAnyInstance = (
 		(error) => {
 			if (error.response) {
 				let errorObj;
-				console.log(error);
 				if ('code' in error && error.code !== 'ERR_BAD_REQUEST') {
 					errorObj = {
 						error: {
@@ -427,3 +434,30 @@ export const hexToRGB = (hex: string, alpha: number) => {
 		return 'rgb(' + r + ', ' + g + ', ' + b + ')';
 	}
 };
+
+export const getServerSideCookieTokens = (context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => {
+	const tokenCookies = {
+		'@tokenType': getCookie('@tokenType', { req: context.req, res: context.res }),
+		'@initStateToken': getCookie('@initStateToken', { req: context.req, res: context.res }),
+		'@initStateUniqueID': getCookie('@initStateUniqueID', { req: context.req, res: context.res }),
+	};
+	const tokenType = tokenCookies['@tokenType'];
+	const stateToken = tokenCookies['@initStateToken'];
+	const stateUniqueID = tokenCookies['@initStateUniqueID'];
+	let appToken = initialState;
+
+	if (tokenType === 'TOKEN' && stateToken !== undefined) {
+		appToken = {
+			tokenType: 'TOKEN',
+			initStateToken: JSON.parse(stateToken as string) as InitStateToken,
+			initStateUniqueID: emptyInitStateUniqueID,
+		};
+	} else if (tokenType === 'UNIQUE_ID' && stateUniqueID !== undefined) {
+		appToken = {
+			tokenType: 'UNIQUE_ID',
+			initStateToken: emptyInitStateToken,
+			initStateUniqueID: JSON.parse(stateUniqueID as string) as InitStateUniqueID,
+		};
+	}
+	return appToken;
+}

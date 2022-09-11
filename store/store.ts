@@ -76,21 +76,21 @@ export interface SagaStore extends Store {
 // };
 
 /* Reducers without Hydrate */
-// const reducers: typeof combinedReducers = (state, action) => {
-//    return combinedReducers(state, action);
-// };
+const reducers: typeof combinedReducers = (state, action) => {
+   return combinedReducers(state, action);
+};
 
 /* Reducers using Hydrate */
-const reducers: typeof combinedReducers = (state, {type, payload}) => {
-	if (type === HYDRATE) {
-		return {
-			...state,
-			...payload,
-		};
-	} else {
-		return combinedReducers(state, {type, payload});
-	}
-};
+// const reducers: typeof combinedReducers = (state, {type, payload}) => {
+// 	if (type === HYDRATE) {
+// 		return {
+// 			...state,
+// 			...payload,
+// 		};
+// 	} else {
+// 		return combinedReducers(state, {type, payload});
+// 	}
+// };
 
 export const store: SagaStore = configureStore({
 	reducer: reducers,
@@ -99,7 +99,7 @@ export const store: SagaStore = configureStore({
 			serializableCheck: false,
 			thunk: true,
 		}).prepend(SagaMiddleware),
-			// .concat(logger),
+		// .concat(logger),
 	devTools: process.env.NODE_ENV !== 'production',
 });
 

@@ -1,5 +1,5 @@
 import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CitiesType, CountriesType, LocalisationType, PlacesStateInterface } from '../../../types/places/placesTypes';
+import { CountriesType, LocalisationType, PlacesStateInterface } from '../../../types/places/placesTypes';
 import { apiErrorInitialState } from '../_init/_initSlice';
 import { ApiErrorResponseType } from "../../../types/_init/_initTypes";
 // import { HYDRATE } from 'next-redux-wrapper';
@@ -22,25 +22,25 @@ const placesSlice = createSlice({
 			state.placesApi.isFetchInProgress = true;
 			state.placesApi.fetchPromiseStatus = 'PENDING';
 			state.placesApi.error = apiErrorInitialState.error;
-			return state;
+			// return state;
 		},
 		setGetLocalisation: (state, action: PayloadAction<LocalisationType>) => {
 			state.localisation_name = action.payload.localisation_name;
 			state.placesApi.fetchPromiseStatus = 'RESOLVED';
 			state.placesApi.isFetchInProgress = false;
-			return state;
+			// return state;
 		},
 		setGetCountries: (state, action: PayloadAction<Array<CountriesType>>) => {
 			state.countries = action.payload;
-			return state;
+			// return state;
 		},
 		setGetCities: (state, action: PayloadAction<Array<string>>) => {
 			state.cities = action.payload;
-			return state;
+			// return state;
 		},
 		setEmptyGetLocalisation: (state) => {
 			state.localisation_name = null;
-			return state;
+			// return state;
 		},
 		initPlaces: () => {
 			return initialState;
@@ -52,7 +52,7 @@ const placesSlice = createSlice({
 			state.placesApi.fetchPromiseStatus = 'REJECTED';
 			state.placesApi.isFetchInProgress = false;
 			state.localisation_name = null;
-			return state;
+			// return state;
 		});
 	},
 	// extraReducers: {

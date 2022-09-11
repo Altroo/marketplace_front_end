@@ -12,8 +12,8 @@ import {
 	getNewShopApiError,
 } from '../../../../../../store/selectors';
 import { shopPatchShopNameAction } from '../../../../../../store/actions/shop/shopActions';
-import ApiAlert from '../../../../../formikElements/apiResponse/apiAlert/apiAlert';
-import ApiProgress from '../../../../../formikElements/apiResponse/apiProgress/apiProgress';
+import ApiAlert from '../../../../../formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
+import ApiProgress from '../../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
 import { shopNameSchema } from '../../../../../../utils/formValidationSchemas';
 import CustomTextInput from '../../../../../formikElements/customTextInput/customTextInput';

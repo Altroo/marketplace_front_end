@@ -129,9 +129,6 @@
       <sourceFolder url="file://$MODULE_DIR$/store/slices/_api_promises" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/shop" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiResponse" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiResponse/apiAlert" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiResponse/apiProgress" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/map/localisationNamePopup" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/map/zoneByNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/offer" isTestSource="false" />
@@ -219,6 +216,9 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/offer/[offer_pk]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars/desktopOfferDetailTopNavBar" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/navbars/desktopTopSaveShareNavBar" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiLoadingResponseOrError" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiLoadingResponseOrError/apiAlert" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiLoadingResponseOrError/apiProgress" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />

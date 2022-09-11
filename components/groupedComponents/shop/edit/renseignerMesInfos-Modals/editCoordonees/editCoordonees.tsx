@@ -18,8 +18,8 @@ import { shopCoordonneeSchema } from '../../../../../../utils/formValidationSche
 import { Stack, Divider } from '@mui/material';
 import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
 import HelperDescriptionHeader from '../../../../../headers/helperDescriptionHeader/helperDescriptionHeader';
-import ApiProgress from '../../../../../formikElements/apiResponse/apiProgress/apiProgress';
-import ApiAlert from '../../../../../formikElements/apiResponse/apiAlert/apiAlert';
+import ApiProgress from '../../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
+import ApiAlert from '../../../../../formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
 import { shopPatchContactAction } from '../../../../../../store/actions/shop/shopActions';
 import PhoneCircularSVG from '../../../../../../public/assets/svgs/globalIcons/phone-circular.svg';
 import EmailCircularSVG from '../../../../../../public/assets/svgs/globalIcons/email-circular.svg';

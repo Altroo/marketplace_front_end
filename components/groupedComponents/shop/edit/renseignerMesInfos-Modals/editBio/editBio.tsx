@@ -11,8 +11,8 @@ import { shopPatchBioAction } from '../../../../../../store/actions/shop/shopAct
 import { Stack } from '@mui/material';
 import { Form, Formik } from 'formik';
 import HelperDescriptionHeader from '../../../../../headers/helperDescriptionHeader/helperDescriptionHeader';
-import ApiProgress from '../../../../../formikElements/apiResponse/apiProgress/apiProgress';
-import ApiAlert from '../../../../../formikElements/apiResponse/apiAlert/apiAlert';
+import ApiProgress from '../../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
+import ApiAlert from '../../../../../formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
 import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
 import { shopBioSchema } from '../../../../../../utils/formValidationSchemas';
 import { bioTextAreaTheme } from '../../../../../../utils/themes';

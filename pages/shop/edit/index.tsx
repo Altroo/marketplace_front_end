@@ -66,6 +66,7 @@ import {
 	getShopWhatsapp,
 	getShopAddressName,
 	getMyOffersList,
+	getMyOffersFirstPageApi,
 } from '../../../store/selectors';
 import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
 import InfoIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-info.svg';
@@ -77,20 +78,17 @@ import AjouterMesInfosStack from '../../../components/groupedComponents/shop/edi
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../create/color';
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
-import { AppTokensCookieType, IconColorType, NewShopCookieType } from "../../../types/_init/_initTypes";
+import { IconColorType } from '../../../types/_init/_initTypes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/shop/create/fontPicker/fontPicker';
-import { offerGetMyOffersFirstPageAction, offerGetRootAction } from "../../../store/actions/offer/offerActions";
 import { SHOP_EDIT_INDEX } from '../../../utils/routes';
-import { wrapper } from "../../../store/store";
-import { initAppCookieTokensAction, initNewShopBorderIconAction } from "../../../store/actions/_init/_initActions";
-
-// type PageProps = {
-// 	state: RootState;
-// };
+import { offerGetMyOffersFirstPageAction } from '../../../store/actions/offer/offerActions';
+import ApiLoadingResponseOrError from '../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
+import { wrapper } from '../../../store/store';
+import { END } from 'redux-saga';
 
 const Index: NextPage = () => {
 	const router = useRouter();
@@ -98,6 +96,8 @@ const Index: NextPage = () => {
 	const dispatch = useAppDispatch();
 	const avatarInputRef = useRef<HTMLInputElement>(null);
 	const [modalDismissed, setModalDismissed] = useState(false);
+	const offerApi = useAppSelector(getMyOffersFirstPageApi);
+
 	const shopName = useAppSelector(getShopName);
 	const bio = useAppSelector(getShopBio);
 	const opening_days = useAppSelector(getShopOpeningDays);
@@ -366,18 +366,18 @@ const Index: NextPage = () => {
 		},
 	];
 
-	const [hideAsideNav, setHideAsideNav] = useState<boolean>(true);
 	const userOffersList = useAppSelector(getMyOffersList);
-	// const [userOffersFetched, setUserOffersFetched] = useState<boolean>(userOffersList.length > 0);
+	const [hideAsideNav, setHideAsideNav] = useState<boolean>(userOffersList.length > 0);
+	const [userOffersFetched, setUserOffersFetched] = useState<boolean>(userOffersList.length > 0);
 
 	useEffect(() => {
-		// if (!userOffersFetched) {
-		// 	dispatch(offerGetMyOffersFirstPageAction());
+		if (!userOffersFetched) {
+			dispatch(offerGetMyOffersFirstPageAction());
+		}
+		// if (offerApi.fetchPromiseStatus === 'RESOLVED') {
 		// 	setUserOffersFetched(true);
 		// }
-		// console.log(userOffersFetched);
 		if (userOffersList) {
-			setModalDismissed(true);
 			setHideAsideNav(false);
 		}
 		// avatar
@@ -427,8 +427,17 @@ const Index: NextPage = () => {
 				setPhoneSwitchHandler(true);
 			}
 		}
+		return () => {
+			if (offerApi.fetchPromiseStatus === 'RESOLVED') {
+				setUserOffersFetched(true);
+			}
+			if (userOffersList) {
+				setHideAsideNav(true);
+			}
+		}
 	}, [
 		dispatch,
+		offerApi.fetchPromiseStatus,
 		shopAvatar,
 		shopBgColorCode,
 		shopBorder,
@@ -440,6 +449,7 @@ const Index: NextPage = () => {
 		shopPhoneContactCode,
 		shopWhatsappContact,
 		shopWhatsappContactCode,
+		userOffersFetched,
 		userOffersList,
 	]);
 
@@ -903,17 +913,98 @@ const Index: NextPage = () => {
 						</Backdrop>
 					</>
 				)}
+				<ApiLoadingResponseOrError
+					inProgress={offerApi.isFetchInProgress}
+					promiseStatus={offerApi.fetchPromiseStatus}
+					error={offerApi.error}
+				/>
 			</main>
 		</>
 	);
 };
 
-export const getStaticProps = wrapper.getStaticProps((store) => async (context) => {
-	store.dispatch(offerGetMyOffersFirstPageAction());
-	// await store.sagaTask?.toPromise();
-	return {
-		props: {},
-	};
-});
+// export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+// 	store.dispatch(offerGetMyOffersFirstPageAction());
+// 	// store.dispatch(END);
+// 	// await store.sagaTask?.toPromise();
+// 	// if (store.getState().offer.selectedOffer !== null){
+// 	// 	store.dispatch(setEmptySelectedOffer());
+// 	// }
+// 	// store.dispatch(END);
+// 	// await store.sagaTask?.toPromise();
+// 	return {
+// 		props: {},
+// 	};
+// });
+
+// export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+// 	if(store.getState().offer.userOffersList.results.length <= 0){
+// 		store.dispatch(offerGetMyOffersFirstPageAction());
+// 	}
+// 	if (context.req) {
+// 		store.dispatch(END);
+//
+// 	}
+// 	await store.sagaTask?.toPromise();
+// 	// if (store.getState().offer.selectedOffer !== null){
+// 	// 	store.dispatch(setEmptySelectedOffer());
+// 	// }
+// 	// store.dispatch(END);
+// 	// await store.sagaTask?.toPromise();
+// 	return {
+// 		props: {},
+// 	};
+// 	// let url = `${process.env.NEXT_PUBLIC_OFFER_MY_OFFERS}`;
+// 	// const pageUrl = "?page=1";
+// 	// const appToken = getServerSideCookieTokens(context);
+// 	// try {
+// 	// 	if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+// 	// 		const instance = isAuthenticatedInstance(appToken.initStateToken);
+// 	// 		url += pageUrl;
+// 	// 		const response: OfferGetMyOffersResponseType = await getApi(
+// 	// 			url,
+// 	// 			instance,
+// 	// 		);
+// 	// 		if (response.status === 200) {
+// 	// 			return {
+// 	// 				props: {
+// 	// 					data: response.data,
+// 	// 				},
+// 	// 			};
+// 	// 		}
+// 	// 	} else {
+// 	// 		const instance = allowAnyInstance();
+// 	// 		url += `${appToken.initStateUniqueID.unique_id}/`;
+// 	// 		url += pageUrl;
+// 	// 		const response: OfferGetMyOffersResponseType = await getApi(
+// 	// 			url,
+// 	// 			instance,
+// 	// 		);
+// 	// 		if (response.status === 200) {
+// 	// 			return {
+// 	// 				props: {
+// 	// 					data: response.data,
+// 	// 				},
+// 	// 			};
+// 	// 		}
+// 	// 	}
+// 	// } catch (e) {
+// 	// 	// Redirect to 404
+// 	// 	return {
+// 	// 		redirect: {
+// 	// 			permanent: false,
+// 	// 			destination: SHOP_EDIT_INDEX,
+// 	// 		},
+// 	// 		props: {},
+// 	// 	};
+// 	// }
+// 	// return {
+// 	// 	redirect: {
+// 	// 		permanent: false,
+// 	// 		destination: SHOP_EDIT_INDEX,
+// 	// 	},
+// 	// 	props: {},
+// 	// };
+// });
 
 export default Index;

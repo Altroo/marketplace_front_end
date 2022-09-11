@@ -71,10 +71,10 @@ export const getShopObj = (state: RootState) => (state.shop.userShop as ShopGetR
 // Places
 export const getLocalisationName = (state: RootState) => state.places.localisation_name;
 export const getPlacesApiError = (state: RootState) => state.places.placesApi.error;
+export const getPlacesApiFetchPromiseStatus = (state: RootState) => state.places.placesApi.fetchPromiseStatus;
 export const getAvailableCities = (state: RootState) => state.places.cities;
 
 // export const getPlacesApiFetchInProgress = (state: RootState) => state.places.placesApi.isFetchInProgress;
-export const getPlacesApiFetchPromiseStatus = (state: RootState) => state.places.placesApi.fetchPromiseStatus;
 // Account
 export const getCheckUserHasShop = (state: RootState) => state.account.check_account?.has_shop as boolean;
 // Offers
@@ -117,6 +117,8 @@ export const getLocalOfferDeliveryPrice3 = (state: RootState) => state.offer.use
 export const getLocalOfferDeliveryDays3 = (state: RootState) => state.offer.userLocalOffer.deliveries?.delivery_days_3;
 
 // Offer by pk
+export const getMyOffersFirstPageApi = (state: RootState) => state.offer.offerApi;
+// export const getMyOffersFirstPageApiFetchPromiseStatus = (state: RootState) => state.offer.offerApi;
 export const getSelectedOfferPk = (state: RootState) => state.offer.selectedOffer?.pk;
 export const getSelectedOfferTitle = (state: RootState) => state.offer.selectedOffer?.title;
 export const getSelectedOfferOfferType = (state: RootState) => state.offer.selectedOffer?.offer_type;

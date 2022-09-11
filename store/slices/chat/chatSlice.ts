@@ -37,7 +37,7 @@ const chatSlice = createSlice({
 			for (let i = 0; i < results.length; i++) {
 				state.conversationsList.results.push(results[i]);
 			}
-			return state;
+			// return state;
 		},
 		setPostMessage: (state, action: PayloadAction<ChatPostMessageOutput>) => {
 			// preppend to selected conversation
@@ -53,7 +53,7 @@ const chatSlice = createSlice({
 				state.conversationsList.results[conversationListindex].body = action.payload.body;
 			}
 			// else reloads conversation list inside sagas.
-			return state;
+			// return state;
 		},
 		setGetWSMessage: (state, action: PayloadAction<ChatGetMessageOutput>) => {
 			if (state.selectedConversation.receiver !== null && state.selectedConversation.receiver.pk === action.payload.user) {
@@ -63,7 +63,7 @@ const chatSlice = createSlice({
 			if (conversationListindex >= 0 && action.payload.body){
 				state.conversationsList.results[conversationListindex].body = action.payload.body;
 			}
-			return state;
+			// return state;
 		},
 		setPostArchiveConversation: (state, action: PayloadAction<number>) => {
 			// find from conversationList with recipient_pk & delete it.
@@ -74,11 +74,11 @@ const chatSlice = createSlice({
 			}
 			// empty selectedConversation
 			state.selectedConversation = initialState.selectedConversation;
-			return state;
+			// return state;
 		},
 		setSelectedConversation: (state, action: PayloadAction<ChatGetMessagesOfTargetInterface>) => {
 			state.selectedConversation = action.payload;
-			return state;
+			// return state;
 		},
 		setPatchMessageAsViewed: (state, action: PayloadAction<number>) => {
 			// payload has pk = message_pk
@@ -93,7 +93,7 @@ const chatSlice = createSlice({
 					chatMessage.viewed = true;
 				}
 			}
-			return state;
+			// return state;
 		},
 		setWSUserStatus: (state, action: PayloadAction<{user_pk: number, status: boolean}>) => {
 			// from conversationList
@@ -105,7 +105,7 @@ const chatSlice = createSlice({
 			if (state.selectedConversation.receiver !== null && state.selectedConversation.receiver.pk === action.payload.user_pk) {
 				state.selectedConversation.receiver.online = action.payload.status;
 			}
-			return state;
+			// return state;
 		},
 		initChat: () => {
 			return initialState;

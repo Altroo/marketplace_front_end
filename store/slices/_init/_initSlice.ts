@@ -49,16 +49,16 @@ const _initSlice = createSlice({
 			state.tokenType = action.payload.tokenType;
 			state.initStateToken = action.payload.initStateToken;
 			state.initStateUniqueID = action.payload.initStateUniqueID;
-			return state;
+			// return state;
 		},
 		setTokenState: (state, action: PayloadAction<InitStateToken>) => {
 			state.tokenType = 'TOKEN';
 			state.initStateToken = action.payload;
-			return state;
+			// return state;
 		},
 		setEmptyUniqueIDState: (state) => {
 			state.initStateUniqueID = emptyInitStateUniqueID;
-			return state;
+			// return state;
 		},
 		initToken: () => {
 			return initialState;

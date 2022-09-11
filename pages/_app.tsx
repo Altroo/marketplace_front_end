@@ -1,7 +1,7 @@
 import '../styles/globals.sass';
 import React from 'react';
 import { AppProps } from 'next/app';
-import { wrapper } from '../store/store';
+import { SagaStore, wrapper } from "../store/store";
 import { InitContextProvider } from '../contexts/InitContext';
 import Head from 'next/head';
 import { ThemeProvider } from '@mui/material/styles';
@@ -23,6 +23,8 @@ import { getCookie } from "cookies-next";
 import { placesGetCitiesAction } from "../store/actions/places/placesActions";
 import { loadNewAddedShopAction, shopGetRootAction } from "../store/actions/shop/shopActions";
 import { accountGetCheckAccountAction } from "../store/actions/account/accountActions";
+import { offerGetMyOffersFirstPageAction } from "../store/actions/offer/offerActions";
+import { END } from "redux-saga";
 // import {
 // 	initAppAction,
 // 	initAppCookieTokensAction,
@@ -41,88 +43,90 @@ interface EntryPointProps extends AppProps {
 }
 
 // Emotion cache Alone
-// const EntryPoint: React.FC<EntryPointProps> = (props: EntryPointProps) => {
-//   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-//   return (
-//     <CacheProvider value={emotionCache}>
-//       <Head>
-//         <meta name="viewport" content="initial-scale=1, width=device-width" />
-//       </Head>
-//       <ThemeProvider theme={getDefaultTheme()}>
-//         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-//         <CssBaseline />
-// 				<InitContextProvider>
-// 					<Component {...pageProps} />
-// 				</InitContextProvider>
-//       </ThemeProvider>
-//     </CacheProvider>
-//   );
-// };
-// export default wrapper.withRedux(EntryPoint);
+const EntryPoint: React.FC<EntryPointProps> = (props: EntryPointProps) => {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  return (
+    <CacheProvider value={emotionCache}>
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <ThemeProvider theme={getDefaultTheme()}>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+				<InitContextProvider>
+					<Component {...pageProps} />
+				</InitContextProvider>
+      </ThemeProvider>
+    </CacheProvider>
+  );
+};
+export default wrapper.withRedux(EntryPoint);
 
 // Emotion cache With redux saga
 
-class EntryPoint extends React.Component<EntryPointProps> {
-	public static getInitialProps = wrapper.getInitialAppProps((store) => async (context) => {
-		// Replaces the INIT CONTEXT
-		const tokenCookies = {
-			"@tokenType": getCookie('@tokenType', {req: context.ctx.req, res: context.ctx.res}),
-			"@initStateToken": getCookie('@initStateToken', {req: context.ctx.req, res: context.ctx.res}),
-			"@initStateUniqueID": getCookie('@initStateUniqueID', {req: context.ctx.req, res: context.ctx.res}),
-		}
-		store.dispatch(initAppCookieTokensAction(tokenCookies as AppTokensCookieType));
-		const shopCookies = {
-			"@shop_name": getCookie('@shop_name', {req: context.ctx.req, res: context.ctx.res}),
-			"@avatar": getCookie('@avatar', {req: context.ctx.req, res: context.ctx.res}),
-			"@color_code": getCookie('@color_code', {req: context.ctx.req, res: context.ctx.res}),
-			"@bg_color_code":getCookie('@bg_color_code', {req: context.ctx.req, res: context.ctx.res}),
-			"@font_name": getCookie('@font_name', {req: context.ctx.req, res: context.ctx.res}),
-			"@border": getCookie('@border', {req: context.ctx.req, res: context.ctx.res}),
-			"@icon_color": getCookie('@icon_color', {req: context.ctx.req, res: context.ctx.res}),
-		}
-		store.dispatch(initNewShopBorderIconAction(shopCookies as NewShopCookieType));
-		store.dispatch(initAppAction());
-		store.dispatch(placesGetCitiesAction('MA'));
-		store.dispatch(loadNewAddedShopAction());
-		if (tokenCookies["@tokenType"] === 'TOKEN' && tokenCookies["@initStateToken"] !== null){
-			store.dispatch(accountGetCheckAccountAction());
-			if (store.getState().account.check_account.has_shop){
-				store.dispatch(shopGetRootAction());
-			}
-		}else if (tokenCookies["@tokenType"] === 'UNIQUE_ID' && tokenCookies["@initStateUniqueID"] !== null) {
-			store.dispatch(shopGetRootAction());
-		}
-
-		const pageProps = {
-			...(await App.getInitialProps(context)).pageProps,
-		};
-		// if (context.ctx.req) {
-		// 	// Example set cookie
-		// 	// const req = context.ctx.req;
-		// 	// const res = context.ctx.res;
-		// 	await store.dispatch(END);
-		// 	await (store as SagaStore).sagaTask?.toPromise();
-		// }
-		return { pageProps };
-	});
-
-	render() {
-		const { Component, emotionCache = clientSideEmotionCache, pageProps } = this.props;
-		return (
-			<CacheProvider value={emotionCache}>
-				<Head>
-					<meta name="viewport" content="initial-scale=1, width=device-width" />
-				</Head>
-				<ThemeProvider theme={getDefaultTheme()}>
-					{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-					<CssBaseline />
-					{/*<InitContextProvider>*/}
-						<Component {...pageProps} />
-					{/*</InitContextProvider>*/}
-				</ThemeProvider>
-			</CacheProvider>
-		);
-	}
-}
-
-export default wrapper.withRedux(EntryPoint);
+// class EntryPoint extends React.Component<EntryPointProps> {
+// 	public static getInitialProps = wrapper.getInitialAppProps((store) => async (context) => {
+// 		// Replaces the INIT CONTEXT
+// 		const tokenCookies = {
+// 			"@tokenType": getCookie('@tokenType', {req: context.ctx.req, res: context.ctx.res}),
+// 			"@initStateToken": getCookie('@initStateToken', {req: context.ctx.req, res: context.ctx.res}),
+// 			"@initStateUniqueID": getCookie('@initStateUniqueID', {req: context.ctx.req, res: context.ctx.res}),
+// 		}
+// 		store.dispatch(initAppCookieTokensAction(tokenCookies as AppTokensCookieType));
+// 		const shopCookies = {
+// 			"@shop_name": getCookie('@shop_name', {req: context.ctx.req, res: context.ctx.res}),
+// 			"@avatar": getCookie('@avatar', {req: context.ctx.req, res: context.ctx.res}),
+// 			"@color_code": getCookie('@color_code', {req: context.ctx.req, res: context.ctx.res}),
+// 			"@bg_color_code":getCookie('@bg_color_code', {req: context.ctx.req, res: context.ctx.res}),
+// 			"@font_name": getCookie('@font_name', {req: context.ctx.req, res: context.ctx.res}),
+// 			"@border": getCookie('@border', {req: context.ctx.req, res: context.ctx.res}),
+// 			"@icon_color": getCookie('@icon_color', {req: context.ctx.req, res: context.ctx.res}),
+// 		}
+// 		store.dispatch(initNewShopBorderIconAction(shopCookies as NewShopCookieType));
+// 		store.dispatch(initAppAction());
+// 		store.dispatch(placesGetCitiesAction('MA'));
+// 		store.dispatch(loadNewAddedShopAction());
+// 		if (tokenCookies["@tokenType"] === 'TOKEN' && tokenCookies["@initStateToken"] !== null){
+// 			store.dispatch(accountGetCheckAccountAction());
+// 			if (store.getState().account.check_account.has_shop){
+// 				store.dispatch(shopGetRootAction());
+// 				// store.dispatch(offerGetMyOffersFirstPageAction());
+// 			}
+// 		}else if (tokenCookies["@tokenType"] === 'UNIQUE_ID' && tokenCookies["@initStateUniqueID"] !== null) {
+// 			store.dispatch(shopGetRootAction());
+// 			// store.dispatch(offerGetMyOffersFirstPageAction());
+// 		}
+//
+// 		const pageProps = {
+// 			...(await App.getInitialProps(context)).pageProps,
+// 		};
+// 		// if (context.ctx.req) {
+// 		// 	// Example set cookie
+// 		// 	// const req = context.ctx.req;
+// 		// 	// const res = context.ctx.res;
+// 		// 	await store.dispatch(END);
+// 		// 	await (store as SagaStore).sagaTask?.toPromise();
+// 		// }
+// 		return { pageProps };
+// 	});
+//
+// 	render() {
+// 		const { Component, emotionCache = clientSideEmotionCache, pageProps } = this.props;
+// 		return (
+// 			<CacheProvider value={emotionCache}>
+// 				<Head>
+// 					<meta name="viewport" content="initial-scale=1, width=device-width" />
+// 				</Head>
+// 				<ThemeProvider theme={getDefaultTheme()}>
+// 					{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+// 					<CssBaseline />
+// 					{/*<InitContextProvider>*/}
+// 						<Component {...pageProps} />
+// 					{/*</InitContextProvider>*/}
+// 				</ThemeProvider>
+// 			</CacheProvider>
+// 		);
+// 	}
+// }
+//
+// export default wrapper.withRedux(EntryPoint);

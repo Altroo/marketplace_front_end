@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
 	LocalOfferDescriptionPageType,
 	OfferCategoriesType,
@@ -16,38 +16,19 @@ import {
 	OfferStateInterface,
 	OfferTagsType
 } from "../../../types/offer/offerTypes";
-import { PaginationResponseType } from '../../../types/_init/_initTypes';
+import { ApiErrorResponseType, PaginationResponseType } from "../../../types/_init/_initTypes";
+import { apiErrorInitialState } from "../_init/_initSlice";
 import { HYDRATE } from "next-redux-wrapper";
 // import { HYDRATE } from "next-redux-wrapper";
+
+export const myOffersListGETApiErrorAction = createAction<ApiErrorResponseType>('myOffersListGETApiErrorAction');
+
 
 const clickAndCollectInitial = {
 	longitude: null,
 	latitude: null,
 	address_name: null,
 }
-
-const deliveryOneInitial = {
-	delivery_city_1: null,
-	all_cities_1: null,
-	delivery_price_1: null,
-	delivery_days_1:null,
-}
-
-const deliveryTwoInitial = {
-	delivery_city_2: null,
-	all_cities_2: null,
-	delivery_price_2: null,
-	delivery_days_2:null,
-}
-
-const deliveryThreeInitial = {
-	delivery_city_3: null,
-	all_cities_3: null,
-	delivery_price_3: null,
-	delivery_days_3:null,
-}
-
-
 
 const deliveriesInitial = {
 	delivery_city_1: null,
@@ -64,14 +45,16 @@ const deliveriesInitial = {
 	delivery_days_3:null,
 }
 
+const userOffersInitial = {
+	next: null,
+	previous: null,
+	count: null,
+	results: [],
+}
+
 const initialState: OfferStateInterface = {
 	userOffers: [],
-	userOffersList: {
-		next: null,
-		previous: null,
-		count: null,
-		results: [],
-	},
+	userOffersList: userOffersInitial,
 	offerVuesList: {
 		next: null,
 		previous: null,
@@ -106,44 +89,38 @@ const initialState: OfferStateInterface = {
 		clickAndCollect: clickAndCollectInitial,
 		deliveries: deliveriesInitial
 	},
+	offerApi: apiErrorInitialState,
 };
 
 const OfferSlice = createSlice({
 	name: 'offer',
 	initialState: initialState,
-	// extraReducers: {
-	// 	[HYDRATE]: (state, action) => {
-	// 		console.log('current state : ', state);
-	// 		console.log('action payload: ', action);
-	// 		return { ...state, ...action.payload.offer };
-	// 	}
-	// },
 	reducers: {
 		appendPostOfferState: (state, action: PayloadAction<OfferProductInterface | OfferServiceInterface>) => {
 			state.userOffers.push(action.payload);
-			return state;
+			// return state;
 		},
 		setSelectedOffer: (
 			state,
 			action: PayloadAction<OfferGetRootProductInterface | OfferGetRootServiceInterface>,
 		) => {
 			state.selectedOffer = action.payload;
-			return state;
+			// return state;
 		},
 		setSelectedOfferTags: (state, action: PayloadAction<OfferTagsType>) => {
 			state.selectedTags = action.payload;
-			return state;
+			// return state;
 		},
 		setOfferLastUsedLocalisation: (
 			state,
 			action: PayloadAction<OfferProductLocalisation | OfferServiceLocalisation>,
 		) => {
 			state.lastUsedLocalisation = action.payload;
-			return state;
+			// return state;
 		},
 		setOfferLastThreeUsedDeliveries: (state, action: PayloadAction<OfferDeliveries>) => {
 			state.lastUsedDeliveries = action.payload.deliveries;
-			return state;
+			// return state;
 		},
 		setMyOffersList: (
 			state,
@@ -158,7 +135,13 @@ const OfferSlice = createSlice({
 			for (let i = 0; i < results.length; i++) {
 				state.userOffersList.results.push(results[i]);
 			}
-			return state;
+			// return state;
+		},
+		setMyOffersFirstPageListIsLoading: (state) => {
+			state.offerApi.isFetchInProgress = true;
+			state.offerApi.fetchPromiseStatus = 'PENDING';
+			state.offerApi.error = apiErrorInitialState.error;
+			// return state;
 		},
 		setMyOffersFirstPageList: (state, action: PayloadAction<
 				PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
@@ -169,7 +152,16 @@ const OfferSlice = createSlice({
 			state.userOffersList.next = next;
 			state.userOffersList.previous = previous;
 			state.userOffersList.results = results;
-			return state;
+			state.offerApi.fetchPromiseStatus = 'RESOLVED';
+			state.offerApi.isFetchInProgress = false;
+			// return state;
+		},
+		setMyOffersFirstPageListError: (state, action: PayloadAction<ApiErrorResponseType>) => {
+			state.offerApi.error = action.payload.error;
+			state.offerApi.fetchPromiseStatus = 'REJECTED';
+			state.offerApi.isFetchInProgress = false;
+			state.userOffersList = userOffersInitial;
+			// return state;
 		},
 		setPutOffer: (state, action: PayloadAction<OfferProductInterface | OfferServiceInterface>) => {
 			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.pk);
@@ -216,7 +208,7 @@ const OfferSlice = createSlice({
 				// 	detailsOffer.service_km_radius = action.payload.service_km_radius;
 				// }
 			}
-			return state;
+			// return state;
 		},
 		deleteUserOffer: (state, action: PayloadAction<{ offer_pk: number }>) => {
 			// update userOffers
@@ -225,7 +217,7 @@ const OfferSlice = createSlice({
 			state.userOffersList.results = state.userOffersList.results.filter(
 				(item) => item.pk !== action.payload.offer_pk,
 			);
-			return state;
+			// return state;
 		},
 		setSolderOffer: (state, action: PayloadAction<OfferSolderInterface>) => {
 			// update userOffers
@@ -242,11 +234,11 @@ const OfferSlice = createSlice({
 				state.userOffersList.results[userOffersListIndex].solder_type = action.payload.solder_type;
 				state.userOffersList.results[userOffersListIndex].solder_value = action.payload.solder_value;
 			}
-			return state;
+			// return state;
 		},
 		setGetSolderOffer: (state, action: PayloadAction<OfferSolderInterface>) => {
 			state.selectedSolder = action.payload;
-			return state;
+			// return state;
 		},
 		deleteSolderOffer: (state, action: PayloadAction<{ offer_pk: number }>) => {
 			// update userOffers
@@ -264,7 +256,7 @@ const OfferSlice = createSlice({
 				state.userOffersList.results[userOffersListIndex].solder_value = null;
 			}
 			//? update selectedSolder ?
-			return state;
+			// return state;
 		},
 		setOfferVuesList: (state, action: PayloadAction<OfferGetVuesType>) => {
 			const { next, previous, count, results, total_vues, pourcentage, this_month } = action.payload;
@@ -277,7 +269,7 @@ const OfferSlice = createSlice({
 			for (let i = 0; i < results.length; i++) {
 				state.offerVuesList.results.push(results[i]);
 			}
-			return state;
+			// return state;
 		},
 		setWSOfferThumbnail: (state, action: PayloadAction<{ offer_pk: number; offer_thumbnail: string }>) => {
 			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.offer_pk);
@@ -294,7 +286,7 @@ const OfferSlice = createSlice({
 				if (state.selectedOffer.pk === action.payload.offer_pk) {
 					state.selectedOffer.picture_1_thumb = action.payload.offer_thumbnail;
 				}
-			return state;
+			// return state;
 			}
 
 		},
@@ -304,7 +296,7 @@ const OfferSlice = createSlice({
 					state.selectedOffer.exists_in_cart = action.payload.exists_in_cart;
 				}
 			}
-			return state;
+			// return state;
 		},
 		setLocalOfferCategories: (state, action: PayloadAction<OfferCategoriesType>) => {
 			if (!state.userLocalOffer.categoriesList.includes(action.payload)) {
@@ -315,7 +307,7 @@ const OfferSlice = createSlice({
 					state.userLocalOffer.categoriesList.splice(index, 1);
 				}
 			}
-			return state;
+			// return state;
 		},
 		setLocalOfferDescription: (state, action: PayloadAction<LocalOfferDescriptionPageType>) => {
 			state.userLocalOffer.title = action.payload.title;
@@ -330,12 +322,12 @@ const OfferSlice = createSlice({
 			state.userLocalOffer.sizes = action.payload.product_sizes;
 			state.userLocalOffer.quantity = action.payload.product_quantity;
 			state.userLocalOffer.tags = action.payload.tags;
-			return state;
+			// return state;
 		},
 		setLocalOfferPrice: (state, action: PayloadAction<{ price: string; price_by: 'U' | 'K' | 'L' }>) => {
 			state.userLocalOffer.prix = action.payload.price;
 			state.userLocalOffer.prix_par = action.payload.price_by;
-			return state;
+			// return state;
 		},
 		setLocalOfferClickAndCollect: (
 			state,
@@ -344,7 +336,7 @@ const OfferSlice = createSlice({
 			state.userLocalOffer.clickAndCollect.longitude = action.payload.longitude;
 			state.userLocalOffer.clickAndCollect.latitude = action.payload.latitude;
 			state.userLocalOffer.clickAndCollect.address_name = action.payload.address_name;
-			return state;
+			// return state;
 		},
 		setLocalOfferDeliveries: (
 			state,
@@ -364,11 +356,11 @@ const OfferSlice = createSlice({
 			}>,
 		) => {
 			state.userLocalOffer.deliveries = {...action.payload};
-			return state;
+			// return state;
 		},
 		emptyLocalOfferDeliveryClickAndCollect: (state) => {
 			state.userLocalOffer.clickAndCollect = clickAndCollectInitial;
-			return state;
+			// return state;
 		},
 		emptyLocalOfferDeliveries: (state, action: PayloadAction<"1" | "2" | "3">) => {
 			if (action.payload === '1') {
@@ -387,7 +379,7 @@ const OfferSlice = createSlice({
 				state.userLocalOffer.deliveries.delivery_price_3 = null;
 				state.userLocalOffer.deliveries.delivery_days_3 = null;
 			}
-			return state;
+			// return state;
 		},
 		setPinOffer: (state, action: PayloadAction<OfferPinType>) => {
 			// update userOffers
@@ -404,11 +396,24 @@ const OfferSlice = createSlice({
 				state.userOffersList.results[userOffersListIndex].pinned = action.payload.pinned;
 				state.userOffersList.results.sort((a, b) => Number(b.pinned) - Number(a.pinned));
 			}
-			return state;
+			// return state;
 		},
+		// setEmptySelectedOfferState: (state) => {
+		// 	state.selectedOffer = null;
+		// 	return state;
+		// },
 		initOffer: () => {
 			return initialState;
 		},
+	},
+	extraReducers: (builder) => {
+		builder.addCase(myOffersListGETApiErrorAction, (state, action) => {
+			state.offerApi.error = action.payload.error;
+			state.offerApi.fetchPromiseStatus = 'REJECTED';
+			state.offerApi.isFetchInProgress = false;
+			state.userOffersList = userOffersInitial;
+			// return state;
+		});
 	},
 	// extraReducers: {
 	// 	[HYDRATE]: (state, action) => {
@@ -421,6 +426,8 @@ export const {
 	appendPostOfferState,
 	setSelectedOffer,
 	setSelectedOfferTags,
+	setMyOffersFirstPageListIsLoading,
+	setMyOffersFirstPageListError,
 	setOfferLastUsedLocalisation,
 	setOfferLastThreeUsedDeliveries,
 	setMyOffersFirstPageList,

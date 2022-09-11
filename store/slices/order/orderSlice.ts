@@ -31,7 +31,7 @@ const orderSlice = createSlice({
 			for (let i = 0; i < results.length; i++) {
 				state.buyingsList.results.unshift(results[i]);
 			}
-			return state;
+			// return state;
 		},
 		setSellingsListState: (state, action: PayloadAction<PaginationResponseType<BuyingsSellingsList>>) => {
 			const { next, previous, count, results } = action.payload;
@@ -42,7 +42,7 @@ const orderSlice = createSlice({
 			for (let i = 0; i < results.length; i++) {
 				state.sellingsList.results.unshift(results[i]);
 			}
-			return state;
+			// return state;
 		},
 	},
 	// extraReducers: {

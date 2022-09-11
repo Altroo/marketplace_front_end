@@ -80,7 +80,10 @@ const StyledOption = styled(OptionUnstyled)(
 );
 
 const StyledPopper = styled(PopperUnstyled)`
+	color: #0D070B;
+	background-color: white;
 	z-index: 1;
+	border-radius: 0.45em;
 `;
 
 function CustomSelect(props: SelectUnstyledProps<string>) {

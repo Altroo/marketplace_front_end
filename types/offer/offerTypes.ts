@@ -1,7 +1,8 @@
 import { OfferProductClass, OfferServiceClass } from '../../models/offer/OfferProductClass';
-import { Nullable, ResponseDataInterface, PaginationResponseType } from '../_init/_initTypes';
+import { Nullable, ResponseDataInterface, PaginationResponseType, GlobalApiPromiseError } from "../_init/_initTypes";
 import { NextRouter } from 'next/router';
 import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
+import { apiErrorInitialState } from "../../store/slices/_init/_initSlice";
 
 // ('V', 'Produit'), ('S', 'Service'), ('L', 'Location') <- 'L' Not yet available,
 export type OfferOfferTypeType = 'V' | 'S' | 'L';
@@ -351,6 +352,7 @@ export interface OfferStateInterface {
 	lastUsedLocalisation: OfferProductLocalisation | OfferServiceLocalisation | Record<string, unknown>;
 	lastUsedDeliveries: Array<DeliveriesResponseType> | Record<string, unknown>;
 	userLocalOffer: UserLocalOfferType;
+	offerApi: GlobalApiPromiseError;
 }
 
 export type OfferPostRootProductResponseType = ResponseDataInterface<OfferProductInterface>;

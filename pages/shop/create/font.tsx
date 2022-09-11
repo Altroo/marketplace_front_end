@@ -44,8 +44,8 @@ import {
 	getNewShopApiError,
 	getNewShopAddPromiseStatus,
 } from '../../../store/selectors';
-import ApiAlert from '../../../components/formikElements/apiResponse/apiAlert/apiAlert';
-import ApiProgress from '../../../components/formikElements/apiResponse/apiProgress/apiProgress';
+import ApiAlert from '../../../components/formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
+import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import { SHOP_ADD_COLOR, SITE_ROOT } from "../../../utils/routes";
 
 export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [

@@ -370,6 +370,12 @@ export const offerGetRootAction = (pk: number) => {
 	};
 };
 
+export const setEmptySelectedOffer = () => {
+	return {
+		type: Types.OFFER_SET_EMPTY_SELECTED_OFFER,
+	};
+}
+
 export const offerDeleteRootAction = (pk: number) => {
 	return {
 		type: Types.OFFER_DELETE_ROOT,

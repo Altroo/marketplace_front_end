@@ -38,22 +38,22 @@ const cartSlice = createSlice({
 			action: PayloadAction<CartTopPaginationResponseType<SingleCartClass | MultiCartClass>>,
 		) => {
 			state.cartOffers = action.payload;
-			return state;
+			// return state;
 		},
 		setCoordinates: (state, action: PayloadAction<CartGetCoordinates>) => {
 			state.selectedCoordinates = action.payload;
-			return state;
+			// return state;
 		},
 		setCartSelectedDetails: (
 			state,
 			action: PayloadAction<CartTopPaginationResponseType<SingleCartDetailsClass | MultiCartDetailsClass>>,
 		) => {
 			state.selectedCartDetails = action.payload;
-			return state;
+			// return state;
 		},
 		setCartOrderStatus: (state, action: PayloadAction<cartOrderStatus>) => {
 			state.orderStatus = action.payload;
-			return state;
+			// return state;
 		},
 		initCart: () => {
 			return initialState;

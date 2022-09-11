@@ -49,7 +49,9 @@ import {
 	emptyLocalOfferDeliveryClickAndCollect,
 	emptyLocalOfferDeliveries,
 	setMyOffersFirstPageList,
-	setPinOffer
+	setPinOffer,
+	setMyOffersFirstPageListIsLoading,
+	setMyOffersFirstPageListError, myOffersListGETApiErrorAction
 } from "../../slices/offer/offerSlice";
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
@@ -265,6 +267,8 @@ function* offerGetMyOffersSaga() {
 }
 
 function* offerGetMyOffersFirstPageSaga() {
+	// create is loading
+	yield* put(setMyOffersFirstPageListIsLoading());
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_OFFER_MY_OFFERS}`;
 	const pageUrl = "?page=1";
@@ -290,8 +294,10 @@ function* offerGetMyOffersFirstPageSaga() {
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
+		const apiError = e as ApiErrorResponseType;
+		// create is error.
+		// yield* put(setMyOffersFirstPageListError(apiError));
+		yield* put(yield* call(() => myOffersListGETApiErrorAction(apiError)));
 	}
 }
 
@@ -633,6 +639,10 @@ function* emptyOfferDeliveriesSaga(payload: {type: string, option: "1" | "2" | "
 	yield* put(emptyLocalOfferDeliveries(payload.option));
 }
 
+// function* offerSetEmptySelectedOfferSaga() {
+// 	yield* put(setEmptySelectedOfferState());
+// }
+
 
 export function* watchOffer() {
 	yield* takeLatest(Types.SET_OFFER_CATEGORIES_PAGE, setOfferCategoriesPageSaga);
@@ -644,6 +654,7 @@ export function* watchOffer() {
 	yield* takeLatest(Types.EMPTY_OFFER_DELIVERIES, emptyOfferDeliveriesSaga);
 	yield* takeLatest(Types.OFFER_POST_ROOT, offerPostRootSaga);
 	yield* takeLatest(Types.OFFER_GET_ROOT, offerGetRootSaga);
+	// yield* takeLatest(Types.OFFER_SET_EMPTY_SELECTED_OFFER, offerSetEmptySelectedOfferSaga);
 	yield* takeLatest(Types.OFFER_PUT_ROOT, offerPutRootSaga);
 	yield* takeLatest(Types.OFFER_GET_TAGS, offerGetTagsSaga);
 	yield* takeLatest(Types.OFFER_GET_LOCALISATION, offerGetLastUsedLocalisationSaga);
