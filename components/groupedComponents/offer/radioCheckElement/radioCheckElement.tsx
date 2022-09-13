@@ -24,11 +24,12 @@ const RadioCheckElement: React.FC<Props> = (props: Props) => {
 		if (title === 'Click & collect' || title === 'Livraison') {
 			setShowOptional(false);
 		}
-		if (!open) {
-			if (emptyStates) {
-				emptyStates();
-			}
-		}
+		// if (!open) {
+		// 	if (emptyStates) {
+		// 		console.log('EMPTY STATES CALLED');
+		// 		emptyStates();
+		// 	}
+		// }
 		if(defaultValue && !switchOpenHasRun) {
 			setOpen(defaultValue);
 			setSwitchOpenHasRun(true);

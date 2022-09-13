@@ -83,6 +83,7 @@ export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersL
 export const getOfferVuesNextPage = (state: RootState) => state.offer.offerVuesList.next;
 export const getOfferTags = (state: RootState) => state.offer.selectedTags;
 // Local offers
+export const getUserLocalOfferEditPK = (state: RootState) => state.offer.userLocalOffer.pk;
 export const getUserLocalOffer = (state: RootState) => state.offer.userLocalOffer;
 export const getLocalOfferCategories = (state: RootState) => state.offer.userLocalOffer.categoriesList;
 export const getLocalOfferTitle = (state: RootState) => state.offer.userLocalOffer?.title;
@@ -116,43 +117,44 @@ export const getLocalOfferDeliveryAllCities3 = (state: RootState) => state.offer
 export const getLocalOfferDeliveryPrice3 = (state: RootState) => state.offer.userLocalOffer.deliveries?.delivery_price_3;
 export const getLocalOfferDeliveryDays3 = (state: RootState) => state.offer.userLocalOffer.deliveries?.delivery_days_3;
 
+
 // Offer by pk
 export const getMyOffersFirstPageApi = (state: RootState) => state.offer.offerApi;
 // export const getMyOffersFirstPageApiFetchPromiseStatus = (state: RootState) => state.offer.offerApi;
-export const getSelectedOfferPk = (state: RootState) => state.offer.selectedOffer?.pk;
-export const getSelectedOfferTitle = (state: RootState) => state.offer.selectedOffer?.title;
-export const getSelectedOfferOfferType = (state: RootState) => state.offer.selectedOffer?.offer_type;
-export const getSelectedOfferOfferCategories = (state: RootState) => state.offer.selectedOffer?.offer_categories;
-export const getSelectedOfferShopName = (state: RootState) => state.offer.selectedOffer?.shop_name;
-export const getSelectedOfferPicture1 = (state: RootState) => state.offer.selectedOffer?.picture_1;
-export const getSelectedOfferPicture2 = (state: RootState) => state.offer.selectedOffer?.picture_2;
-export const getSelectedOfferPicture3 = (state: RootState) => state.offer.selectedOffer?.picture_3;
-export const getSelectedOfferPicture4 = (state: RootState) => state.offer.selectedOffer?.picture_4;
-export const getSelectedOfferPicture1Thumb = (state: RootState) => state.offer.selectedOffer?.picture_1_thumb;
-export const getSelectedOfferPicture2Thumb = (state: RootState) => state.offer.selectedOffer?.picture_2_thumb;
-export const getSelectedOfferPicture3Thumb = (state: RootState) => state.offer.selectedOffer?.picture_3_thumb;
-export const getSelectedOfferPicture4Thumb = (state: RootState) => state.offer.selectedOffer?.picture_4_thumb;
-export const getSelectedOfferDescription = (state: RootState) => state.offer.selectedOffer?.description;
-export const getSelectedOfferForWhom = (state: RootState) => state.offer.selectedOffer?.for_whom;
-export const getSelectedOfferPrice = (state: RootState) => state.offer.selectedOffer?.price;
-export const getSelectedOfferPrixPar = (state: RootState) =>
-	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_price_by;
-export const getSelectedOfferQuantity = (state: RootState) =>
-	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_quantity;
-export const getSelectedOfferLongitude = (state: RootState) =>
-	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_longitude;
-export const getSelectedOfferLatitude = (state: RootState) =>
-	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_latitude;
-export const getSelectedOfferAddress = (state: RootState) =>
-	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_address;
-export const getSelectedOfferColors = (state: RootState) =>
-	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_colors;
-export const getSelectedOfferSizes = (state: RootState) =>
-	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_sizes;
-export const getSelectedOfferDeliveries = (state: RootState) => (state.offer.selectedOffer as OfferGetRootProductInterface)?.deliveries;
-export const getSelectedOfferPinned = (state: RootState) => state.offer.selectedOffer?.pinned;
-export const getSelectedOfferSolderType = (state: RootState) => state.offer.selectedOffer?.solder_type;
-export const getSelectedOfferSolderValue = (state: RootState) => state.offer.selectedOffer?.solder_value;
+// export const getSelectedOfferPk = (state: RootState) => state.offer.selectedOffer?.pk;
+// export const getSelectedOfferTitle = (state: RootState) => state.offer.selectedOffer?.title;
+// export const getSelectedOfferOfferType = (state: RootState) => state.offer.selectedOffer?.offer_type;
+// export const getSelectedOfferOfferCategories = (state: RootState) => state.offer.selectedOffer?.offer_categories;
+// export const getSelectedOfferShopName = (state: RootState) => state.offer.selectedOffer?.shop_name;
+// export const getSelectedOfferPicture1 = (state: RootState) => state.offer.selectedOffer?.picture_1;
+// export const getSelectedOfferPicture2 = (state: RootState) => state.offer.selectedOffer?.picture_2;
+// export const getSelectedOfferPicture3 = (state: RootState) => state.offer.selectedOffer?.picture_3;
+// export const getSelectedOfferPicture4 = (state: RootState) => state.offer.selectedOffer?.picture_4;
+// export const getSelectedOfferPicture1Thumb = (state: RootState) => state.offer.selectedOffer?.picture_1_thumb;
+// export const getSelectedOfferPicture2Thumb = (state: RootState) => state.offer.selectedOffer?.picture_2_thumb;
+// export const getSelectedOfferPicture3Thumb = (state: RootState) => state.offer.selectedOffer?.picture_3_thumb;
+// export const getSelectedOfferPicture4Thumb = (state: RootState) => state.offer.selectedOffer?.picture_4_thumb;
+// export const getSelectedOfferDescription = (state: RootState) => state.offer.selectedOffer?.description;
+// export const getSelectedOfferForWhom = (state: RootState) => state.offer.selectedOffer?.for_whom;
+// export const getSelectedOfferPrice = (state: RootState) => state.offer.selectedOffer?.price;
+// export const getSelectedOfferPrixPar = (state: RootState) =>
+// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_price_by;
+// export const getSelectedOfferQuantity = (state: RootState) =>
+// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_quantity;
+// export const getSelectedOfferLongitude = (state: RootState) =>
+// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_longitude;
+// export const getSelectedOfferLatitude = (state: RootState) =>
+// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_latitude;
+// export const getSelectedOfferAddress = (state: RootState) =>
+// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_address;
+// export const getSelectedOfferColors = (state: RootState) =>
+// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_colors;
+// export const getSelectedOfferSizes = (state: RootState) =>
+// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_sizes;
+// export const getSelectedOfferDeliveries = (state: RootState) => (state.offer.selectedOffer as OfferGetRootProductInterface)?.deliveries;
+// export const getSelectedOfferPinned = (state: RootState) => state.offer.selectedOffer?.pinned;
+// export const getSelectedOfferSolderType = (state: RootState) => state.offer.selectedOffer?.solder_type;
+// export const getSelectedOfferSolderValue = (state: RootState) => state.offer.selectedOffer?.solder_value;
 
 // Chat
 export const getMyConversationsResults = (state: RootState) => state.chat.conversationsList.results;

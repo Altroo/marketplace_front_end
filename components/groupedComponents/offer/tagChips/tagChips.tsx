@@ -17,7 +17,8 @@ import { filter } from "dom7";
 
 type Props = {
 	pickedTags: Array<string>;
-	setPickedTags: React.Dispatch<React.SetStateAction<Array<string>>>;
+	// setPickedTags: React.Dispatch<React.SetStateAction<Array<string>>>;
+	onChange: (event: React.SyntheticEvent<Element, Event>, values: Array<string>) => void;
 	children?: React.ReactNode;
 };
 
@@ -35,10 +36,7 @@ const TagChips: React.FC<Props> = (props: Props) => {
 				</span>
 				<Autocomplete
 					value={props.pickedTags ? props.pickedTags : []}
-					onChange={(event, values: Array<string>) => {
-							props.setPickedTags(values);
-						}
-					}
+					onChange={props.onChange}
 					multiple
 					id="tags-filled"
 					options={ availableTags ? availableTags : []}

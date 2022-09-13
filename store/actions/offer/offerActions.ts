@@ -10,6 +10,8 @@ import {
 } from '../../../types/offer/offerTypes';
 import { NextRouter } from "next/router";
 import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
+import { setOfferToEditPayloadType } from "../../sagas/offer/offerSaga";
+import { EMPTY_OFFER_USER_LOCAL_OFFER } from "../index";
 
 export const setOfferCategories = (categories: OfferCategoriesType) => {
 	return {
@@ -33,10 +35,6 @@ export const setOfferDescriptionPage = (
 		type: Types.SET_OFFER_DESCRIPTION_PAGE,
 		title,
 		pictures,
-		// picture_1,
-		// picture_2,
-		// picture_3,
-		// picture_4,
 		description,
 		for_whom,
 		product_colors,
@@ -66,6 +64,15 @@ export const setOfferDeliveryClickAndCollect = (
 		longitude,
 		latitude,
 		address_name
+	}
+}
+
+export const setOfferToEdit = (
+	payload: Omit<setOfferToEditPayloadType, 'type'>
+) => {
+	return {
+		type: Types.SET_OFFER_TO_EDIT,
+		...payload,
 	}
 }
 
@@ -117,10 +124,6 @@ export const offerPostRootProductAction = (
 	offer_type: OfferOfferTypeType,
 	offer_categories: string,
 	title: string | null,
-	// picture_1: File | string,
-	// picture_2: File | string | null,
-	// picture_3: File | string | null,
-	// picture_4: File | string | null,
 	pictures: ImageUploadingType,
 	description: string | null,
 	for_whom: string | null,
@@ -154,10 +157,6 @@ export const offerPostRootProductAction = (
 		offer_type,
 		offer_categories,
 		title,
-		// picture_1,
-		// picture_2,
-		// picture_3,
-		// picture_4,
 		pictures,
 		description,
 		for_whom,
@@ -244,45 +243,43 @@ export const offerPostRootServiceAction = (
 };
 
 export const offerPutRootProductAction = (
-	pk: number,
+	offer_pk: number,
 	offer_categories: string,
-	title: string,
-	picture_1: File | string,
-	picture_2: File | string | null,
-	picture_3: File | string | null,
-	picture_4: File | string | null,
-	description: string,
+	title: string | null,
+	pictures: ImageUploadingType,
+	description: string | null,
 	for_whom: string | null,
 	product_colors: string | null,
 	product_sizes: string | null,
 	product_quantity: number | null,
-	price: number,
-	product_price_by: OfferProductPriceByType,
+	price: string | null,
+	product_price_by: OfferProductPriceByType | null,
+	product_address: string | null,
 	product_longitude: number | null,
 	product_latitude: number | null,
-	product_address: string | null,
 	delivery_city_1: string | null,
-	delivery_price_1: number | null,
-	delivery_days_1: number | null,
+	all_cities_1: boolean | null,
+	delivery_price_1: string | null,
+	delivery_days_1: string | null,
 	delivery_city_2: string | null,
-	delivery_price_2: number | null,
-	delivery_days_2: number | null,
+	all_cities_2: boolean | null,
+	delivery_price_2: string | null,
+	delivery_days_2: string | null,
 	delivery_city_3: string | null,
-	delivery_price_3: number | null,
-	delivery_days_3: number | null,
+	all_cities_3: boolean | null,
+	delivery_price_3: string | null,
+	delivery_days_3: string | null,
 	tags: string | null,
+	router: NextRouter,
 	creator_label?: boolean,
 	made_in_label?: string,
 ) => {
 	return {
 		type: Types.OFFER_PUT_ROOT,
-		pk,
+		offer_pk,
 		offer_categories,
 		title,
-		picture_1,
-		picture_2,
-		picture_3,
-		picture_4,
+		pictures,
 		description,
 		for_whom,
 		product_colors,
@@ -303,6 +300,7 @@ export const offerPutRootProductAction = (
 		delivery_price_3,
 		delivery_days_3,
 		tags,
+		router,
 		creator_label,
 		made_in_label,
 	};
@@ -374,7 +372,13 @@ export const setEmptySelectedOffer = () => {
 	return {
 		type: Types.OFFER_SET_EMPTY_SELECTED_OFFER,
 	};
-}
+};
+
+export const setEmptyUserLocalOffer = () => {
+	return {
+		type: Types.EMPTY_OFFER_USER_LOCAL_OFFER,
+	};
+};
 
 export const offerDeleteRootAction = (pk: number) => {
 	return {

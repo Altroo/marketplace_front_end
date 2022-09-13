@@ -25,7 +25,7 @@ import {
 	OfferPostSolderResponseType,
 	OfferPostSolderType,
 	OfferGetVuesResponseType,
-	OfferCategoriesType, OfferPostPinResponseType
+	OfferCategoriesType, OfferPostPinResponseType, UserLocalOfferType
 } from "../../../types/offer/offerTypes";
 import {
 	appendPostOfferState,
@@ -51,7 +51,13 @@ import {
 	setMyOffersFirstPageList,
 	setPinOffer,
 	setMyOffersFirstPageListIsLoading,
-	setMyOffersFirstPageListError, myOffersListGETApiErrorAction
+	myOffersListGETApiErrorAction,
+	setLocalOfferMultiCategories,
+	setLocalOfferToEditPk,
+	setPutOfferIsLoading,
+	offersPUTApiErrorAction,
+	appendPostOfferIsLoading,
+	offersPOSTApiErrorAction, emptyUserLocalOffer
 } from "../../slices/offer/offerSlice";
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
@@ -63,6 +69,7 @@ import {
 import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
 
 function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootServiceType) {
+	yield* put(appendPostOfferIsLoading());
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/`;
 	const { type, ...payloadData } = payload;
@@ -118,9 +125,8 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-		// set error state
+		const apiError = e as ApiErrorResponseType;
+		yield* put(yield* call(() => offersPOSTApiErrorAction(apiError)));
 	}
 }
 
@@ -302,39 +308,66 @@ function* offerGetMyOffersFirstPageSaga() {
 }
 
 function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServiceType) {
+	yield* put(setPutOfferIsLoading());
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/`;
+	const { type, ...payloadData } = payload;
+	const {pictures, ...remainingData} = payloadData;
+	// const pictures = payloadData.pictures;
+	let picture_1 = null;
+	let picture_2 = null;
+	let picture_3 = null;
+	let picture_4 = null;
+	if (pictures.length === 1){
+		picture_1 = pictures[0].dataURL;
+	}else if (pictures.length === 2){
+		picture_1 = pictures[0].dataURL;
+		picture_2 = pictures[1].dataURL;
+	} else if (pictures.length === 3){
+		picture_1 = pictures[0].dataURL;
+		picture_2 = pictures[1].dataURL;
+		picture_3 = pictures[2].dataURL;
+	} else if (pictures.length === 4){
+		picture_1 = pictures[0].dataURL;
+		picture_2 = pictures[1].dataURL;
+		picture_3 = pictures[2].dataURL;
+		picture_4 = pictures[3].dataURL;
+	}
+	const dataToSend = {
+		...remainingData,
+		picture_1,
+		picture_2,
+		picture_3,
+		picture_4
+	}
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const instance = yield* call(() =>
 				isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
 			);
 			const response: OfferPutRootProductResponseType | OfferPutRootServiceResponseType = yield* call(() =>
-				putFormDataApi(url, instance, payload),
+				putFormDataApi(url, instance, {...dataToSend}),
 			);
 			if (response.status === 200) {
 				// update state
 				yield* put(setPutOffer(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
+				yield* call(() => payload.router.push(SHOP_EDIT_INDEX));
+				yield* put(emptyUserLocalOffer());
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance('multipart/form-data'));
 			const response: OfferPutRootProductResponseType | OfferPutRootServiceResponseType = yield* call(() =>
-				putFormDataApi(url, instance, payload, authSagaContext.initStateUniqueID.unique_id),
+				putFormDataApi(url, instance, {...dataToSend}, authSagaContext.initStateUniqueID.unique_id),
 			);
 			if (response.status === 200) {
 				yield* put(setPutOffer(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
+				yield* call(() => payload.router.push(SHOP_EDIT_INDEX));
+				yield* put(emptyUserLocalOffer());
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-		// set error state
+		const apiError = e as ApiErrorResponseType;
+		yield* put(yield* call(() => offersPUTApiErrorAction(apiError)));
 	}
 }
 
@@ -639,6 +672,60 @@ function* emptyOfferDeliveriesSaga(payload: {type: string, option: "1" | "2" | "
 	yield* put(emptyLocalOfferDeliveries(payload.option));
 }
 
+
+export interface setOfferToEditPayloadType extends UserLocalOfferType {
+	type: string;
+}
+
+function* setOfferToEditSaga(payload: setOfferToEditPayloadType) {
+	// Set categories page
+	yield* put(setLocalOfferToEditPk(payload.pk as number));
+	yield* put(setLocalOfferMultiCategories(payload.categoriesList));
+	// Set description page
+	const description = {
+		type: payload.type,
+		title: payload.title as string,
+		description: payload.description as string,
+		pictures: payload.pictures,
+		for_whom: payload.forWhom,
+		product_colors: payload.colors,
+		product_sizes: payload.sizes,
+		product_quantity: payload.quantity,
+		tags: payload.tags,
+	}
+	yield* put(
+		setLocalOfferDescription({...description}),
+	);
+	// Set price page
+	yield* put(setLocalOfferPrice({price: payload.prix as string, price_by: payload.prix_par as "L" | "U" | "K"}));
+	// Set deliveries page
+	const clickAndCollect = {
+		longitude: payload.clickAndCollect.longitude,
+		latitude: payload.clickAndCollect.latitude,
+		address_name: payload.clickAndCollect.address_name,
+	}
+	yield* put(setLocalOfferClickAndCollect(clickAndCollect));
+	const deliveries = {
+		delivery_city_1: payload.deliveries.delivery_city_1 as string,
+		all_cities_1: payload.deliveries.all_cities_1 as boolean,
+		delivery_price_1: payload.deliveries.delivery_price_1 as string,
+		delivery_days_1: payload.deliveries.delivery_days_1 as string,
+		delivery_city_2: payload.deliveries.delivery_city_2 as string,
+		all_cities_2: payload.deliveries.all_cities_2 as boolean,
+		delivery_price_2: payload.deliveries.delivery_price_2 as string,
+		delivery_days_2: payload.deliveries.delivery_days_2 as string,
+		delivery_city_3: payload.deliveries.delivery_city_3 as string,
+		all_cities_3: payload.deliveries.all_cities_3 as boolean,
+		delivery_price_3: payload.deliveries.delivery_price_3 as string,
+		delivery_days_3: payload.deliveries.delivery_days_3 as string,
+	}
+	yield* put(setLocalOfferDeliveries(deliveries));
+}
+
+function* offerSetEmptyUserLocalOfferSaga() {
+	yield* put(emptyUserLocalOffer());
+}
+
 // function* offerSetEmptySelectedOfferSaga() {
 // 	yield* put(setEmptySelectedOfferState());
 // }
@@ -652,6 +739,8 @@ export function* watchOffer() {
 	yield* takeLatest(Types.SET_OFFER_DELIVERY_PAGE_DELIVERIES, setOfferDeliveryPageDeliveriesSaga);
 	yield* takeLatest(Types.EMPTY_OFFER_DELIVERY_CLICK_AND_COLLECT, emptyOfferDeliveryClickAndCollectSaga);
 	yield* takeLatest(Types.EMPTY_OFFER_DELIVERIES, emptyOfferDeliveriesSaga);
+	yield* takeLatest(Types.EMPTY_OFFER_USER_LOCAL_OFFER, offerSetEmptyUserLocalOfferSaga);
+	yield* takeLatest(Types.SET_OFFER_TO_EDIT, setOfferToEditSaga);
 	yield* takeLatest(Types.OFFER_POST_ROOT, offerPostRootSaga);
 	yield* takeLatest(Types.OFFER_GET_ROOT, offerGetRootSaga);
 	// yield* takeLatest(Types.OFFER_SET_EMPTY_SELECTED_OFFER, offerSetEmptySelectedOfferSaga);

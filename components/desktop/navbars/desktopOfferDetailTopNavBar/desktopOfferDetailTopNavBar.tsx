@@ -7,14 +7,16 @@ import SolderEditActiveSVG from '../../../../public/assets/svgs/globalIcons/sold
 import SolderEditInactiveSVG from '../../../../public/assets/svgs/globalIcons/solder-edit-inactive.svg';
 import EpinglerActiveSVG from '../../../../public/assets/svgs/globalIcons/epingler-active.svg';
 import EpinglerInactiveSVG from '../../../../public/assets/svgs/globalIcons/epingler-inactive.svg';
-// same as promouvoir
-import ReferencerActiveSVG from '../../../../public/assets/svgs/globalIcons/referencer-active.svg';
-import ReferencerInactiveSVG from '../../../../public/assets/svgs/globalIcons/referencer-inactive.svg';
-import DupliquerSVG from '../../../../public/assets/svgs/globalIcons/dupliquer-icon.svg';
 import SupprimerSVG from '../../../../public/assets/svgs/globalIcons/close-black.svg';
-
+// same as promouvoir
+// import ReferencerActiveSVG from '../../../../public/assets/svgs/globalIcons/referencer-active.svg';
+import ReferencerInactiveSVG from '../../../../public/assets/svgs/globalIcons/referencer-inactive.svg';
+// import DupliquerSVG from '../../../../public/assets/svgs/globalIcons/dupliquer-icon.svg';
 import { CustomTheme } from "../../../../utils/themes";
 import Button from "@mui/material/Button";
+import { useRouter } from "next/router";
+import { useAppDispatch } from "../../../../utils/hooks";
+import { offerPostPinAction } from "../../../../store/actions/offer/offerActions";
 
 type Props = {
 	offer_pk?: number;
@@ -25,12 +27,34 @@ type Props = {
 }
 
 const DesktopOfferDetailTopNavBar: React.FC<Props> = (props: Props) => {
+	const router = useRouter();
+	const dispatch = useAppDispatch();
+
+	const editOfferHandler = () => {
+
+	};
+
+	const editOfferSolderHandler = () => {
+
+	};
+
+	const togglePinOfferHandler = () => {
+		if (props.offer_pk) {
+			dispatch(offerPostPinAction(props.offer_pk));
+			router.replace(router.asPath).then();
+		}
+	}
+
+	const deleteOfferHandler = () => {
+
+	};
+
 	const customTheme = CustomTheme();
 	return (
 		<ThemeProvider theme={customTheme}>
 			<Stack direction="row" justifyContent="space-between" className={Styles.stackWrapper}>
 				<Button
-					onClick={() => {}}
+					onClick={editOfferHandler}
 					color="primary"
 					className={`${Styles.iconButton} ${Styles.active}`}
 					>
@@ -44,7 +68,7 @@ const DesktopOfferDetailTopNavBar: React.FC<Props> = (props: Props) => {
 					Modifier
 				</Button>
 				<Button
-					onClick={() => {}}
+					onClick={editOfferSolderHandler}
 					color="primary"
 					className={`${Styles.iconButton} ${Styles.active}`}
 					>
@@ -55,10 +79,10 @@ const DesktopOfferDetailTopNavBar: React.FC<Props> = (props: Props) => {
 						height="0"
 						sizes="100vw"
 						className={Styles.icon} />
-					Modifier
+					Solder
 				</Button>
 				<Button
-					onClick={() => {}}
+					onClick={togglePinOfferHandler}
 					color="primary"
 					className={`${Styles.iconButton} ${Styles.active}`}
 					>
@@ -71,53 +95,54 @@ const DesktopOfferDetailTopNavBar: React.FC<Props> = (props: Props) => {
 						className={Styles.icon} />
 					Epingler
 				</Button>
+				{/*<Button*/}
+				{/*	disabled={true}*/}
+				{/*	onClick={() => {}}*/}
+				{/*	color="primary"*/}
+				{/*	className={`${Styles.iconButton} ${Styles.active}`}*/}
+				{/*	>*/}
+				{/*	<ImageFuture*/}
+				{/*		src={ReferencerInactiveSVG}*/}
+				{/*		alt=""*/}
+				{/*		width="0"*/}
+				{/*		height="0"*/}
+				{/*		sizes="100vw"*/}
+				{/*		className={Styles.icon} />*/}
+				{/*	Référencer*/}
+				{/*</Button>*/}
+				{/*<Button*/}
+				{/*	disabled={true}*/}
+				{/*	onClick={() => {}}*/}
+				{/*	color="primary"*/}
+				{/*	className={`${Styles.iconButton} ${Styles.active}`}*/}
+				{/*	>*/}
+				{/*	<ImageFuture*/}
+				{/*		src={ReferencerInactiveSVG}*/}
+				{/*		alt=""*/}
+				{/*		width="0"*/}
+				{/*		height="0"*/}
+				{/*		sizes="100vw"*/}
+				{/*		className={Styles.icon} />*/}
+				{/*	Promouvoir*/}
+				{/*</Button>*/}
+				{/*<Button*/}
+				{/*	onClick={() => {}}*/}
+				{/*	color="primary"*/}
+				{/*	className={`${Styles.iconButton} ${Styles.active}`}*/}
+				{/*	>*/}
+				{/*	<ImageFuture*/}
+				{/*		src={DupliquerSVG}*/}
+				{/*		alt=""*/}
+				{/*		width="0"*/}
+				{/*		height="0"*/}
+				{/*		sizes="100vw"*/}
+				{/*		className={Styles.icon} />*/}
+				{/*	Duppliquer*/}
+				{/*</Button>*/}
 				<Button
-					disabled={true}
-					onClick={() => {}}
-					color="primary"
-					className={`${Styles.iconButton} ${Styles.active}`}
-					>
-					<ImageFuture
-						src={ReferencerInactiveSVG}
-						alt=""
-						width="0"
-						height="0"
-						sizes="100vw"
-						className={Styles.icon} />
-					Référencer
-				</Button>
-				<Button
-					onClick={() => {}}
-					color="primary"
-					className={`${Styles.iconButton} ${Styles.active}`}
-					>
-					<ImageFuture
-						src={ReferencerInactiveSVG}
-						alt=""
-						width="0"
-						height="0"
-						sizes="100vw"
-						className={Styles.icon} />
-					Promouvoir
-				</Button>
-				<Button
-					onClick={() => {}}
-					color="primary"
-					className={`${Styles.iconButton} ${Styles.active}`}
-					>
-					<ImageFuture
-						src={DupliquerSVG}
-						alt=""
-						width="0"
-						height="0"
-						sizes="100vw"
-						className={Styles.icon} />
-					Duppliquer
-				</Button>
-				<Button
-					onClick={() => {}}
-					color="primary"
-					className={`${Styles.iconButton} ${Styles.active}`}
+					onClick={deleteOfferHandler}
+					color="error"
+					className={`${Styles.iconButton} ${Styles.active} ${Styles.deleteButton}`}
 					>
 					<ImageFuture
 						src={SupprimerSVG}

@@ -54,11 +54,8 @@ import {
 	getLocalOfferTitle,
 } from '../../../../store/selectors';
 // import { setSelectedOfferTags } from '../../../../store/slices/offer/offerSlice';
-import {
-	forWhomData,
-	getForWhomDataArray,
-} from '../../../../utils/rawData';
-import { OfferForWhomType } from "../../../../types/offer/offerTypes";
+import { forWhomData, getForWhomDataArray } from '../../../../utils/rawData';
+import { OfferForWhomType } from '../../../../types/offer/offerTypes';
 // import { OfferForWhomType, OfferProductColors } from '../../../../types/offer/offerTypes';
 // import {
 // 	getLocalOfferColors, getLocalOfferDescription,
@@ -82,6 +79,10 @@ const Description: NextPage = () => {
 	const [selectedColorsList, setselectedColorsList] = useState<Array<string>>([]);
 	const [offerTitle, setOfferTitle] = useState<string>('');
 	const [offerDescription, setOfferDescription] = useState<string>('');
+	const [typingTitle, setTypingTitle] = useState<boolean>(false);
+	const [typingDescription, setTypingDescription] = useState<boolean>(false);
+	const [pickingImages, setPickingImages] = useState<boolean>(false);
+	const [pickingTags, setPickingTags] = useState<boolean>(false);
 	const [offerTags, setOfferTags] = useState<Array<string>>([]);
 	// const [offerImageOne, setOfferImageOne] = useState<string>('');
 	// const [offerImageTwo, setOfferImageTwo] = useState<string | null>(null);
@@ -180,16 +181,16 @@ const Description: NextPage = () => {
 	const [quantitySwitchOpen, setQuantitySwitchOpen] = useState<boolean>(false);
 
 	useEffect(() => {
-		if (pickedTitle) {
+		if (pickedTitle && !typingTitle) {
 			setOfferTitle(pickedTitle);
 		}
-		if (pickedPictures.length > 0) {
+		if (pickedPictures.length > 0 && !pickingImages) {
 			setImages(pickedPictures);
 		}
-		if (pickedDescription) {
+		if (pickedDescription && !typingDescription) {
 			setOfferDescription(pickedDescription);
 		}
-		if (typeof pickedTags === 'string') {
+		if (typeof pickedTags === 'string' && !pickingTags) {
 			setOfferTags(pickedTags.split(','));
 		}
 		if (typeof pickedForWhom === 'string') {
@@ -227,7 +228,7 @@ const Description: NextPage = () => {
 				});
 			}
 		}
-		if (pickedQuantity){
+		if (pickedQuantity) {
 			setQuantity(pickedQuantity);
 			setQuantitySwitchOpen(true);
 		}
@@ -246,6 +247,10 @@ const Description: NextPage = () => {
 		pickedTags,
 		pickedTitle,
 		pickedSizesList,
+		typingTitle,
+		pickingImages,
+		typingDescription,
+		pickingTags,
 	]);
 
 	// submit handler
@@ -376,6 +381,7 @@ const Description: NextPage = () => {
 														label="Titre"
 														value={values.title ? values.title : ''}
 														onChange={(e) => {
+															setTypingTitle(true);
 															handleChange('title')(e);
 															setOfferTitle(e.target.value);
 														}}
@@ -395,6 +401,7 @@ const Description: NextPage = () => {
 										<CustomSquareImageUploading
 											images={images}
 											onChange={(e) => {
+												setPickingImages(true);
 												imagesOnChangeHandler(e);
 												setFieldValue('images', e);
 											}}
@@ -406,6 +413,7 @@ const Description: NextPage = () => {
 											label="Description"
 											value={values.description ? values.description : ''}
 											onChange={(e) => {
+												setTypingDescription(true);
 												handleChange('description')(e);
 												setOfferDescription(e.target.value);
 											}}
@@ -455,11 +463,16 @@ const Description: NextPage = () => {
 												/>
 											</Grid>
 										</Grid>
-										<TagChips setPickedTags={setOfferTags} pickedTags={offerTags} />
+										<TagChips pickedTags={offerTags} onChange={(e, values) => {
+											setPickingTags(true);
+											setOfferTags(values);
+										}} />
 									</Stack>
 									<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
-										<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton} 
-										${Styles.marginBottom}`}>
+										<div
+											className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton} 
+										${Styles.marginBottom}`}
+										>
 											<PrimaryButton
 												buttonText="Continuer"
 												active={isValid && !isSubmitting}

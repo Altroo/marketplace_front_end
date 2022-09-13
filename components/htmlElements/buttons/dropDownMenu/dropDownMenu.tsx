@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { DropDownActionType, DropDownVariantType } from '../../../../types/ui/uiTypes';
 import { ThemeProvider } from '@mui/material';
 import { getDropDownMenuTheme } from '../../../../utils/themes';
+import { default as ImageFuture } from 'next/future/image';
 
 type Props = {
 	menuID: string;
@@ -69,7 +70,13 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 									action.text === 'Supprimer' ? Styles.deleteColor : null
 								} `}
 							>
-								{action.icon && <Image src={action.icon} alt="" />}
+								{action.icon && <ImageFuture
+											src={action.icon}
+											alt=""
+											width="0"
+											height="0"
+											sizes="100vw"
+											className={Styles.icon}/>}
 								{action.text}
 							</MenuItem>
 						);

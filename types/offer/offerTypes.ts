@@ -176,8 +176,8 @@ export type OfferProductSizesArray = Array<{ pk: number; code_size: OfferProduct
 export type DetailsOfferProductType = {
 	product_quantity: number;
 	product_price_by: OfferProductPriceByType;
-	product_longitude: number | null;
-	product_latitude: number | null;
+	product_longitude: string | null;
+	product_latitude: string | null;
 	product_address: string | null;
 	product_colors: Array<OfferProductColors>;
 	product_sizes: Array<OfferProductSizes>;
@@ -216,6 +216,7 @@ export interface OfferGetRootProductInterface
 		| 'offer_categories'
 		| 'for_whom'
 		| 'pictures'
+		| 'tags'
 	> {
 	pk: number;
 	offer_categories: Array<OfferCategoriesType>;
@@ -230,6 +231,7 @@ export interface OfferGetRootProductInterface
 	picture_4_thumb: string | null;
 	for_whom: Array<OfferForWhomType>;
 	details_offer: DetailsOfferProductType;
+	tags: Array<string>;
 	creator_label?: boolean | null;
 	made_in_label?: string | null;
 	// details_offer: T;
@@ -322,6 +324,7 @@ export type deliveries = {
 	delivery_days_3: string | null;
 }
 export interface UserLocalOfferType {
+	pk: number | null;
 	categoriesList: Array<OfferCategoriesType>;
 	title: string | null;
 	description: string | null;

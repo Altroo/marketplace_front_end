@@ -7,7 +7,8 @@ import {
 	OfferGetMyOffersServiceInterface,
 	OfferGetRootProductInterface,
 	OfferGetRootServiceInterface,
-	OfferGetVuesType, OfferPinType,
+	OfferGetVuesType,
+	OfferPinType,
 	OfferProductInterface,
 	OfferProductLocalisation,
 	OfferServiceInterface,
@@ -21,36 +22,54 @@ import { apiErrorInitialState } from "../_init/_initSlice";
 import { HYDRATE } from "next-redux-wrapper";
 // import { HYDRATE } from "next-redux-wrapper";
 
-export const myOffersListGETApiErrorAction = createAction<ApiErrorResponseType>('myOffersListGETApiErrorAction');
-
+export const myOffersListGETApiErrorAction = createAction<ApiErrorResponseType>("myOffersListGETApiErrorAction");
+export const offersPUTApiErrorAction = createAction<ApiErrorResponseType>("offersPUTApiErrorAction");
+export const offersPOSTApiErrorAction = createAction<ApiErrorResponseType>("offersPOSTApiErrorAction");
 
 const clickAndCollectInitial = {
 	longitude: null,
 	latitude: null,
-	address_name: null,
-}
+	address_name: null
+};
 
 const deliveriesInitial = {
 	delivery_city_1: null,
 	all_cities_1: null,
 	delivery_price_1: null,
-	delivery_days_1:null,
+	delivery_days_1: null,
 	delivery_city_2: null,
 	all_cities_2: null,
 	delivery_price_2: null,
-	delivery_days_2:null,
+	delivery_days_2: null,
 	delivery_city_3: null,
 	all_cities_3: null,
 	delivery_price_3: null,
-	delivery_days_3:null,
-}
+	delivery_days_3: null
+};
 
 const userOffersInitial = {
 	next: null,
 	previous: null,
 	count: null,
-	results: [],
-}
+	results: []
+};
+
+const userLocalOfferInitial = {
+	pk: null,
+	categoriesList: [],
+	title: null,
+	description: null,
+	pictures: [],
+	forWhom: null,
+	colors: null,
+	sizes: null,
+	quantity: null,
+	tags: null,
+	prix: null,
+	prix_par: null,
+	clickAndCollect: clickAndCollectInitial,
+	deliveries: deliveriesInitial
+};
 
 const initialState: OfferStateInterface = {
 	userOffers: [],
@@ -62,7 +81,7 @@ const initialState: OfferStateInterface = {
 		results: [],
 		total_vues: null,
 		this_month: null,
-		pourcentage: null,
+		pourcentage: null
 	},
 	selectedOffer: null,
 	selectedSolder: {},
@@ -70,39 +89,28 @@ const initialState: OfferStateInterface = {
 	lastUsedLocalisation: {},
 	lastUsedDeliveries: {},
 	// local states
-	userLocalOffer: {
-		categoriesList: [],
-		title: null,
-		description: null,
-		// picture_1: null,
-		// picture_2: null,
-		// picture_3: null,
-		// picture_4: null,
-		pictures: [],
-		forWhom: null,
-		colors: null,
-		sizes: null,
-		quantity: null,
-		tags: null,
-		prix: null,
-		prix_par: null,
-		clickAndCollect: clickAndCollectInitial,
-		deliveries: deliveriesInitial
-	},
-	offerApi: apiErrorInitialState,
+	userLocalOffer: userLocalOfferInitial,
+	offerApi: apiErrorInitialState
 };
 
 const OfferSlice = createSlice({
-	name: 'offer',
+	name: "offer",
 	initialState: initialState,
 	reducers: {
+		appendPostOfferIsLoading: (state) => {
+			state.offerApi.isAddInProgress = true;
+			state.offerApi.addPromiseStatus = "PENDING";
+			state.offerApi.error = apiErrorInitialState.error;
+		},
 		appendPostOfferState: (state, action: PayloadAction<OfferProductInterface | OfferServiceInterface>) => {
 			state.userOffers.push(action.payload);
+			state.offerApi.addPromiseStatus = "RESOLVED";
+			state.offerApi.isAddInProgress = false;
 			// return state;
 		},
 		setSelectedOffer: (
 			state,
-			action: PayloadAction<OfferGetRootProductInterface | OfferGetRootServiceInterface>,
+			action: PayloadAction<OfferGetRootProductInterface | OfferGetRootServiceInterface>
 		) => {
 			state.selectedOffer = action.payload;
 			// return state;
@@ -113,7 +121,7 @@ const OfferSlice = createSlice({
 		},
 		setOfferLastUsedLocalisation: (
 			state,
-			action: PayloadAction<OfferProductLocalisation | OfferServiceLocalisation>,
+			action: PayloadAction<OfferProductLocalisation | OfferServiceLocalisation>
 		) => {
 			state.lastUsedLocalisation = action.payload;
 			// return state;
@@ -124,9 +132,7 @@ const OfferSlice = createSlice({
 		},
 		setMyOffersList: (
 			state,
-			action: PayloadAction<
-				PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
-			>,
+			action: PayloadAction<PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>>
 		) => {
 			const { next, previous, count, results } = action.payload;
 			state.userOffersList.count = count;
@@ -139,29 +145,34 @@ const OfferSlice = createSlice({
 		},
 		setMyOffersFirstPageListIsLoading: (state) => {
 			state.offerApi.isFetchInProgress = true;
-			state.offerApi.fetchPromiseStatus = 'PENDING';
+			state.offerApi.fetchPromiseStatus = "PENDING";
 			state.offerApi.error = apiErrorInitialState.error;
 			// return state;
 		},
-		setMyOffersFirstPageList: (state, action: PayloadAction<
-				PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
-			>,
+		setMyOffersFirstPageList: (
+			state,
+			action: PayloadAction<PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>>
 		) => {
 			const { next, previous, count, results } = action.payload;
 			state.userOffersList.count = count;
 			state.userOffersList.next = next;
 			state.userOffersList.previous = previous;
 			state.userOffersList.results = results;
-			state.offerApi.fetchPromiseStatus = 'RESOLVED';
+			state.offerApi.fetchPromiseStatus = "RESOLVED";
 			state.offerApi.isFetchInProgress = false;
 			// return state;
 		},
 		setMyOffersFirstPageListError: (state, action: PayloadAction<ApiErrorResponseType>) => {
 			state.offerApi.error = action.payload.error;
-			state.offerApi.fetchPromiseStatus = 'REJECTED';
+			state.offerApi.fetchPromiseStatus = "REJECTED";
 			state.offerApi.isFetchInProgress = false;
 			state.userOffersList = userOffersInitial;
 			// return state;
+		},
+		setPutOfferIsLoading: (state) => {
+			state.offerApi.isEditInProgress = true;
+			state.offerApi.editPromiseStatus = "PENDING";
+			state.offerApi.error = apiErrorInitialState.error;
 		},
 		setPutOffer: (state, action: PayloadAction<OfferProductInterface | OfferServiceInterface>) => {
 			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.pk);
@@ -208,6 +219,8 @@ const OfferSlice = createSlice({
 				// 	detailsOffer.service_km_radius = action.payload.service_km_radius;
 				// }
 			}
+			state.offerApi.editPromiseStatus = "RESOLVED";
+			state.offerApi.isEditInProgress = false;
 			// return state;
 		},
 		deleteUserOffer: (state, action: PayloadAction<{ offer_pk: number }>) => {
@@ -215,7 +228,7 @@ const OfferSlice = createSlice({
 			state.userOffers = state.userOffers.filter((item) => item.pk !== action.payload.offer_pk);
 			// update userOffersList results
 			state.userOffersList.results = state.userOffersList.results.filter(
-				(item) => item.pk !== action.payload.offer_pk,
+				(item) => item.pk !== action.payload.offer_pk
 			);
 			// return state;
 		},
@@ -228,7 +241,7 @@ const OfferSlice = createSlice({
 			}
 			// update userOffersList results
 			const userOffersListIndex = state.userOffersList.results.findIndex(
-				(item) => item.pk === action.payload.offer,
+				(item) => item.pk === action.payload.offer
 			);
 			if (userOffersListIndex >= 0) {
 				state.userOffersList.results[userOffersListIndex].solder_type = action.payload.solder_type;
@@ -249,7 +262,7 @@ const OfferSlice = createSlice({
 			}
 			// update userOffersList results
 			const userOffersListIndex = state.userOffersList.results.findIndex(
-				(item) => item.pk === action.payload.offer_pk,
+				(item) => item.pk === action.payload.offer_pk
 			);
 			if (userOffersListIndex >= 0) {
 				state.userOffersList.results[userOffersListIndex].solder_type = null;
@@ -277,7 +290,7 @@ const OfferSlice = createSlice({
 				state.userOffers[userOffersindex].picture_1_thumb = action.payload.offer_thumbnail;
 			}
 			const userOffersListIndex = state.userOffersList.results.findIndex(
-				(item) => item.pk === action.payload.offer_pk,
+				(item) => item.pk === action.payload.offer_pk
 			);
 			if (userOffersListIndex >= 0) {
 				state.userOffersList.results[userOffersListIndex].thumbnail = action.payload.offer_thumbnail;
@@ -286,9 +299,8 @@ const OfferSlice = createSlice({
 				if (state.selectedOffer.pk === action.payload.offer_pk) {
 					state.selectedOffer.picture_1_thumb = action.payload.offer_thumbnail;
 				}
-			// return state;
+				// return state;
 			}
-
 		},
 		setExistsInCart: (state, action: PayloadAction<{ offer_pk: number; exists_in_cart: boolean }>) => {
 			if (state.selectedOffer) {
@@ -297,6 +309,9 @@ const OfferSlice = createSlice({
 				}
 			}
 			// return state;
+		},
+		setLocalOfferToEditPk: (state, action: PayloadAction<number>) => {
+			state.userLocalOffer.pk = action.payload;
 		},
 		setLocalOfferCategories: (state, action: PayloadAction<OfferCategoriesType>) => {
 			if (!state.userLocalOffer.categoriesList.includes(action.payload)) {
@@ -309,7 +324,19 @@ const OfferSlice = createSlice({
 			}
 			// return state;
 		},
-		setLocalOfferDescription: (state, action: PayloadAction<LocalOfferDescriptionPageType>) => {
+		setLocalOfferMultiCategories: (state, action: PayloadAction<Array<OfferCategoriesType>>) => {
+			action.payload.map((category) => {
+				if (!state.userLocalOffer.categoriesList.includes(category)) {
+					state.userLocalOffer.categoriesList.push(category);
+				} else {
+					const index = state.userLocalOffer.categoriesList.indexOf(category);
+					if (index !== -1) {
+						state.userLocalOffer.categoriesList.splice(index, 1);
+					}
+				}
+			});
+		},
+		setLocalOfferDescription: (state, action: PayloadAction<Omit<LocalOfferDescriptionPageType, "router">>) => {
 			state.userLocalOffer.title = action.payload.title;
 			state.userLocalOffer.description = action.payload.description;
 			state.userLocalOffer.pictures = action.payload.pictures;
@@ -324,14 +351,14 @@ const OfferSlice = createSlice({
 			state.userLocalOffer.tags = action.payload.tags;
 			// return state;
 		},
-		setLocalOfferPrice: (state, action: PayloadAction<{ price: string; price_by: 'U' | 'K' | 'L' }>) => {
+		setLocalOfferPrice: (state, action: PayloadAction<{ price: string; price_by: "U" | "K" | "L" }>) => {
 			state.userLocalOffer.prix = action.payload.price;
 			state.userLocalOffer.prix_par = action.payload.price_by;
 			// return state;
 		},
 		setLocalOfferClickAndCollect: (
 			state,
-			action: PayloadAction<{ longitude: number; latitude: number; address_name: string | null }>,
+			action: PayloadAction<{ longitude: number | null; latitude: number | null; address_name: string | null }>
 		) => {
 			state.userLocalOffer.clickAndCollect.longitude = action.payload.longitude;
 			state.userLocalOffer.clickAndCollect.latitude = action.payload.latitude;
@@ -353,9 +380,9 @@ const OfferSlice = createSlice({
 				all_cities_3: boolean;
 				delivery_price_3: string;
 				delivery_days_3: string;
-			}>,
+			}>
 		) => {
-			state.userLocalOffer.deliveries = {...action.payload};
+			state.userLocalOffer.deliveries = { ...action.payload };
 			// return state;
 		},
 		emptyLocalOfferDeliveryClickAndCollect: (state) => {
@@ -363,12 +390,12 @@ const OfferSlice = createSlice({
 			// return state;
 		},
 		emptyLocalOfferDeliveries: (state, action: PayloadAction<"1" | "2" | "3">) => {
-			if (action.payload === '1') {
+			if (action.payload === "1") {
 				state.userLocalOffer.deliveries.delivery_city_1 = null;
 				state.userLocalOffer.deliveries.all_cities_1 = null;
 				state.userLocalOffer.deliveries.delivery_price_1 = null;
 				state.userLocalOffer.deliveries.delivery_days_1 = null;
-			} else if (action.payload === '2') {
+			} else if (action.payload === "2") {
 				state.userLocalOffer.deliveries.delivery_city_2 = null;
 				state.userLocalOffer.deliveries.all_cities_2 = null;
 				state.userLocalOffer.deliveries.delivery_price_2 = null;
@@ -381,6 +408,9 @@ const OfferSlice = createSlice({
 			}
 			// return state;
 		},
+		emptyUserLocalOffer: (state) => {
+			state.userLocalOffer = userLocalOfferInitial;
+		},
 		setPinOffer: (state, action: PayloadAction<OfferPinType>) => {
 			// update userOffers
 			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.offer_pk);
@@ -390,7 +420,7 @@ const OfferSlice = createSlice({
 			}
 			// update userOffersList results
 			const userOffersListIndex = state.userOffersList.results.findIndex(
-				(item) => item.pk === action.payload.offer_pk,
+				(item) => item.pk === action.payload.offer_pk
 			);
 			if (userOffersListIndex >= 0) {
 				state.userOffersList.results[userOffersListIndex].pinned = action.payload.pinned;
@@ -404,17 +434,25 @@ const OfferSlice = createSlice({
 		// },
 		initOffer: () => {
 			return initialState;
-		},
+		}
 	},
 	extraReducers: (builder) => {
 		builder.addCase(myOffersListGETApiErrorAction, (state, action) => {
 			state.offerApi.error = action.payload.error;
-			state.offerApi.fetchPromiseStatus = 'REJECTED';
+			state.offerApi.fetchPromiseStatus = "REJECTED";
 			state.offerApi.isFetchInProgress = false;
 			state.userOffersList = userOffersInitial;
 			// return state;
+		}).addCase(offersPUTApiErrorAction, (state, action) => {
+			state.offerApi.error = action.payload.error;
+			state.offerApi.editPromiseStatus = "REJECTED";
+			state.offerApi.isEditInProgress = false;
+		}).addCase(offersPOSTApiErrorAction, (state, action) => {
+			state.offerApi.error = action.payload.error;
+			state.offerApi.addPromiseStatus = "REJECTED";
+			state.offerApi.isAddInProgress = false;
 		});
-	},
+	}
 	// extraReducers: {
 	// 	[HYDRATE]: (state, action) => {
 	// 		return { ...state, ...action.payload.offer };
@@ -423,11 +461,13 @@ const OfferSlice = createSlice({
 });
 
 export const {
+	appendPostOfferIsLoading,
 	appendPostOfferState,
 	setSelectedOffer,
 	setSelectedOfferTags,
 	setMyOffersFirstPageListIsLoading,
 	setMyOffersFirstPageListError,
+	setPutOfferIsLoading,
 	setOfferLastUsedLocalisation,
 	setOfferLastThreeUsedDeliveries,
 	setMyOffersFirstPageList,
@@ -442,13 +482,16 @@ export const {
 	setWSOfferThumbnail,
 	setExistsInCart,
 	setLocalOfferCategories,
+	setLocalOfferToEditPk,
+	setLocalOfferMultiCategories,
 	setLocalOfferDescription,
 	setLocalOfferPrice,
 	setLocalOfferClickAndCollect,
 	setLocalOfferDeliveries,
 	emptyLocalOfferDeliveryClickAndCollect,
 	emptyLocalOfferDeliveries,
-	setPinOffer,
+	emptyUserLocalOffer,
+	setPinOffer
 } = OfferSlice.actions;
 
 export default OfferSlice.reducer;

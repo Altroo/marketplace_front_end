@@ -2,70 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { default as ImageFuture } from 'next/future/image';
 import Styles from '../../../styles/offer/create/overview.module.sass';
-// import DesktopPublishEditNavbar from '../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
-// import { DropDownActionType } from '../../../types/ui/uiTypes';
-// import EditGraySVG from '../../../public/assets/svgs/globalIcons/edit-gray.svg';
-// import PinGraySVG from '../../../public/assets/svgs/globalIcons/pin-gray.svg';
-// import SolderGraySVG from '../../../public/assets/svgs/globalIcons/solder-gray.svg';
-// import PromoRefGraySVG from '../../../public/assets/svgs/globalIcons/promo-ref-gray.svg';
-// import DuplicateGraySVG from '../../../public/assets/svgs/globalIcons/duplicate-gray.svg';
-// import CloseBlackSVG from '../../../public/assets/svgs/globalIcons/close-black.svg';
-import { Stack, ThemeProvider, ImageListItem, Box, Container } from '@mui/material';
+import EditBlackSVG from '../../../public/assets/svgs/globalIcons/edit-black.svg';
+import SolderEditActiveSVG from '../../../public/assets/svgs/globalIcons/solder-edit-active.svg';
+import SolderEditInactiveSVG from '../../../public/assets/svgs/globalIcons/solder-edit-inactive.svg';
+import EpinglerActiveSVG from '../../../public/assets/svgs/globalIcons/epingler-active.svg';
+import EpinglerInactiveSVG from '../../../public/assets/svgs/globalIcons/epingler-inactive.svg';
+import SupprimerSVG from '../../../public/assets/svgs/globalIcons/close-black.svg';
+import { Stack, ThemeProvider, ImageListItem, Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import { useRouter } from 'next/router';
-import {
-	getShopBgColorCode,
-	getShopBorder,
-	getShopColorCode,
-	// getShopName,
-	// getUserLocalOffer,
-	// getSelectedOfferObj,
-	getSelectedOfferPk,
-	getSelectedOfferTitle,
-	getSelectedOfferOfferType,
-	getSelectedOfferOfferCategories,
-	getSelectedOfferShopName,
-	getSelectedOfferPicture1,
-	getSelectedOfferPicture2,
-	getSelectedOfferPicture3,
-	getSelectedOfferPicture4,
-	getSelectedOfferPicture1Thumb,
-	getSelectedOfferPicture3Thumb,
-	getSelectedOfferPicture2Thumb,
-	getSelectedOfferPicture4Thumb,
-	getSelectedOfferDescription,
-	getSelectedOfferForWhom,
-	getSelectedOfferPrice,
-	getSelectedOfferPrixPar,
-	getSelectedOfferQuantity,
-	getSelectedOfferLongitude,
-	getSelectedOfferLatitude,
-	getSelectedOfferAddress,
-	getSelectedOfferColors,
-	getSelectedOfferSizes,
-	getSelectedOfferDeliveries,
-	getSelectedOfferPinned,
-	getSelectedOfferSolderType,
-	getSelectedOfferSolderValue,
-} from '../../../store/selectors';
+import { getLocalOfferTitle, getShopBgColorCode, getShopBorder, getShopColorCode } from "../../../store/selectors";
 import {
 	DetailsOfferProductType,
 	OfferGetRootProductInterface,
 	OfferGetRootProductResponseType,
 	OfferGetRootServiceInterface,
 	OfferGetRootServiceResponseType,
-	// DeliveriesFlatResponseType,
-	// OfferCategoriesArray,
-	// OfferCategoriesType,
-	// OfferForWhomType,
-	// OfferGetRootProductInterface,
-	// OfferGetRootServiceInterface,
-	// OfferProductColors,
 	OfferProductPriceByType,
-	// OfferProductSizes,
-	// UserLocalOfferType,
 } from '../../../types/offer/offerTypes';
-// import { cookiesFetcher, cookiesPoster } from '../../../store/services/_init/_initAPI';
 import Image from 'next/image';
 import BlackStarSVG from '../../../public/assets/svgs/globalIcons/black-star.svg';
 import GrayRatingSVG from '../../../public/assets/svgs/globalIcons/gray-rating.svg';
@@ -82,7 +36,7 @@ import {
 	monthNames,
 } from '../../../utils/rawData';
 import Link from 'next/link';
-import { SHOP_EDIT_INDEX } from '../../../utils/routes';
+import { OFFER_ADD_PRODUCT_CATEGORIES, SHOP_EDIT_INDEX } from "../../../utils/routes";
 import SharedStyles from '../../../styles/shop/create/shopCreateShared.module.sass';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
@@ -93,41 +47,19 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/lazy';
-import { offerGetMyOffersFirstPageAction, offerGetRootAction } from '../../../store/actions/offer/offerActions';
-// import prix from '../product/create/prix';
-// import description from '../product/create/description';
-// import categoriesList from '../../../components/groupedComponents/offer/categoriesList/categoriesList';
-import DesktopOfferDetailTopNavBar from '../../../components/desktop/navbars/desktopOfferDetailTopNavBar/desktopOfferDetailTopNavBar';
-import DesktopTopSaveShareNavBar from '../../../components/desktop/navbars/desktopTopSaveShareNavBar/desktopTopSaveShareNavBar';
-// import { END } from 'redux-saga';
+// import DesktopOfferDetailTopNavBar from '../../../components/desktop/navbars/desktopOfferDetailTopNavBar/desktopOfferDetailTopNavBar';
+// import DesktopTopSaveShareNavBar from '../../../components/desktop/navbars/desktopTopSaveShareNavBar/desktopTopSaveShareNavBar';
 import { wrapper } from '../../../store/store';
-import { END } from 'redux-saga';
-import { call, put } from 'typed-redux-saga';
-import { ctxAuthSaga } from '../../../store/sagas/_init/_initSaga';
-import {
-	allowAnyInstance,
-	getServerSideCookieTokens,
-	isAuthenticatedInstance
-} from "../../../utils/helpers";
+import { allowAnyInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { getApi } from '../../../store/services/_init/_initAPI';
-import { setSelectedOffer } from '../../../store/slices/offer/offerSlice';
-import { ApiErrorResponseType, InitStateToken, InitStateUniqueID } from '../../../types/_init/_initTypes';
-import { getCookie } from 'cookies-next';
+import { DropDownActionType } from '../../../types/ui/uiTypes';
+import DesktopPublishEditNavbar from '../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
 import {
-	emptyInitStateToken,
-	emptyInitStateUniqueID,
-	initialState,
-	setInitState,
-} from '../../../store/slices/_init/_initSlice';
-import { setIsLoggedIn } from '../../../store/slices/account/accountSlice';
-// import { AppTokensCookieType, NewShopCookieType } from '../../../types/_init/_initTypes';
-// import {
-// 	initAppAction,
-// 	initAppCookieTokensAction,
-// 	initNewShopBorderIconAction,
-// } from '../../../store/actions/_init/_initActions';
-// import { placesGetCitiesAction } from '../../../store/actions/places/placesActions';
-// import { loadNewAddedShopAction, shopGetRootAction } from '../../../store/actions/shop/shopActions';
+	offerGetMyOffersFirstPageAction,
+	offerPostPinAction, setEmptyUserLocalOffer,
+	setOfferToEdit
+} from "../../../store/actions/offer/offerActions";
+import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
 
 const noCommentsAvailableContent = () => {
 	return (
@@ -175,7 +107,7 @@ const Index: NextPage<PropsType> = ({ data }) => {
 		title,
 		description,
 		offer_categories,
-		offer_type,
+		// offer_type,
 		picture_1,
 		picture_2,
 		picture_3,
@@ -192,9 +124,7 @@ const Index: NextPage<PropsType> = ({ data }) => {
 		shop_name,
 		deliveries,
 		for_whom,
-		product_quantity,
-		product_price_by,
-		product_address,
+		tags,
 	} = data as OfferGetRootProductInterface;
 	// const pk = useAppSelector(getSelectedOfferPk);
 	// const title = useAppSelector(getSelectedOfferTitle);
@@ -223,7 +153,6 @@ const Index: NextPage<PropsType> = ({ data }) => {
 	// const offerPinned = useAppSelector(getSelectedOfferPinned);
 	// const offerSolderType = useAppSelector(getSelectedOfferSolderType);
 	// const offerSolderValue = useAppSelector(getSelectedOfferSolderValue);
-
 	const bg_color_code = useAppSelector(getShopBgColorCode);
 	const color_code = useAppSelector(getShopColorCode);
 	const border = useAppSelector(getShopBorder);
@@ -239,45 +168,166 @@ const Index: NextPage<PropsType> = ({ data }) => {
 	// const navigateToEditePage = () => {};
 	// const deleteOffer = () => {};
 
-	// const dropDownActions: DropDownActionType = [
-	// 	{
-	// 		icon: EditGraySVG,
-	// 		text: 'Modifier',
-	// 		onClick: navigateToEditePage,
-	// 	},
-	// 	{
-	// 		icon: PinGraySVG,
-	// 		text: 'Épingler l’offre',
-	// 		disabled: true,
-	// 	},
-	// 	{
-	// 		icon: SolderGraySVG,
-	// 		text: 'Référencer l’offre',
-	// 		disabled: true,
-	// 	},
-	// 	{
-	// 		icon: PromoRefGraySVG,
-	// 		text: 'Solder cette offre',
-	// 		disabled: true,
-	// 	},
-	// 	{
-	// 		icon: PromoRefGraySVG,
-	// 		text: 'Promouvoir',
-	// 		disabled: true,
-	// 	},
-	// 	{
-	// 		icon: DuplicateGraySVG,
-	// 		text: 'Duppliquer',
-	// 		disabled: true,
-	// 	},
-	// 	{
-	// 		icon: CloseBlackSVG,
-	// 		text: 'Supprimer',
-	// 		onClick: deleteOffer,
-	// 	},
-	// ];
+	const editOfferHandler = () => {
+		const pictures: ImageUploadingType = [];
+		if (picture_1) {
+			pictures.push({
+				dataURL: picture_1,
+			});
+		}
+		if (picture_2) {
+			pictures.push({
+				dataURL: picture_2,
+			});
+		}
+		if (picture_3) {
+			pictures.push({
+				dataURL: picture_3,
+			});
+		}
+		if (picture_4) {
+			pictures.push({
+				dataURL: picture_4,
+			});
+		}
+		const deliveriesObjList: {
+			delivery_city_1: string;
+			all_cities_1: boolean;
+			delivery_price_1: string;
+			delivery_days_1: string;
+			delivery_city_2: string;
+			all_cities_2: boolean;
+			delivery_price_2: string;
+			delivery_days_2: string;
+			delivery_city_3: string;
+			all_cities_3: boolean ;
+			delivery_price_3: string;
+			delivery_days_3: string;
+		} = {
+			delivery_city_1: '',
+			all_cities_1: false,
+			delivery_price_1: '',
+			delivery_days_1: '',
+			delivery_city_2: '',
+			all_cities_2: false,
+			delivery_price_2: '',
+			delivery_days_2: '',
+			delivery_city_3: '',
+			all_cities_3: false,
+			delivery_price_3: '',
+			delivery_days_3: '',
+		};
+		if (deliveries.length === 1){
+			if (deliveries[0].delivery_city){
+				deliveriesObjList.delivery_city_1 = deliveries[0].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_1 = deliveries[0].all_cities;
+			deliveriesObjList.delivery_price_1 = deliveries[0].delivery_price.toString();
+			deliveriesObjList.delivery_days_1 = deliveries[0].delivery_days.toString();
+		}
+		else if (deliveries.length === 2){
+			if (deliveries[0].delivery_city){
+				deliveriesObjList.delivery_city_1 = deliveries[0].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_1 = deliveries[0].all_cities;
+			deliveriesObjList.delivery_price_1 = deliveries[0].delivery_price.toString();
+			deliveriesObjList.delivery_days_1 = deliveries[0].delivery_days.toString();
+
+			if (deliveries[1].delivery_city){
+				deliveriesObjList.delivery_city_2 = deliveries[1].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_2 = deliveries[1].all_cities;
+			deliveriesObjList.delivery_price_2 = deliveries[1].delivery_price.toString();
+			deliveriesObjList.delivery_days_2 = deliveries[1].delivery_days.toString();
+		}
+		else if (deliveries.length === 3){
+			if (deliveries[0].delivery_city){
+				deliveriesObjList.delivery_city_1 = deliveries[0].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_1 = deliveries[0].all_cities;
+			deliveriesObjList.delivery_price_1 = deliveries[0].delivery_price.toString();
+			deliveriesObjList.delivery_days_1 = deliveries[0].delivery_days.toString();
+
+			if (deliveries[1].delivery_city){
+				deliveriesObjList.delivery_city_2 = deliveries[1].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_2 = deliveries[1].all_cities;
+			deliveriesObjList.delivery_price_2 = deliveries[1].delivery_price.toString();
+			deliveriesObjList.delivery_days_2 = deliveries[1].delivery_days.toString();
+
+			if (deliveries[2].delivery_city){
+				deliveriesObjList.delivery_city_3 = deliveries[2].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_3 = deliveries[2].all_cities;
+			deliveriesObjList.delivery_price_3 = deliveries[2].delivery_price.toString();
+			deliveriesObjList.delivery_days_3 = deliveries[2].delivery_days.toString();
+		}
+		dispatch(
+			setOfferToEdit({
+				pk: pk,
+				categoriesList: offer_categories,
+				title: title,
+				description: description,
+				pictures: pictures,
+				forWhom: for_whom.join(','),
+				colors: details_offer.product_colors.join(','),
+				sizes: details_offer.product_sizes.join(','),
+				quantity: details_offer.product_quantity,
+				tags: tags.join(','),
+				prix: price,
+				prix_par: details_offer.product_price_by,
+				clickAndCollect: {
+					longitude: details_offer.product_longitude ? parseFloat(details_offer.product_longitude) : null,
+					latitude: details_offer.product_latitude ? parseFloat(details_offer.product_latitude) : null,
+					address_name: details_offer.product_address,
+				},
+				deliveries: deliveriesObjList,
+			}),
+		);
+		router.push(OFFER_ADD_PRODUCT_CATEGORIES).then();
+	};
+
+	const showSolderNav = () => {};
+
+	const togglePinOfferHandler = () => {
+		dispatch(offerPostPinAction(pk));
+		router.replace(router.asPath).then();
+	};
+
+	const deleteOfferHandler = () => {};
+
+	const showDeleteOfferModal = () => {};
+
+	const dropDownActions: DropDownActionType = [
+		{
+			icon: EditBlackSVG,
+			text: 'Modifier',
+			onClick: editOfferHandler,
+		},
+		{
+			icon: pinned ? EpinglerActiveSVG : EpinglerInactiveSVG,
+			text: 'Épingler',
+			onClick: togglePinOfferHandler,
+		},
+		{
+			icon: newPrice !== null ? SolderEditActiveSVG : SolderEditInactiveSVG,
+			text: 'Solder',
+			onClick: showSolderNav,
+		},
+		{
+			icon: SupprimerSVG,
+			text: 'Supprimer',
+			onClick: showDeleteOfferModal,
+		},
+	];
+
+	const localOfferTitle = useAppSelector(getLocalOfferTitle);
 
 	useEffect(() => {
+		// empty selected offer to reduce state size
+		if (localOfferTitle) {
+			dispatch(setEmptyUserLocalOffer());
+		}
 		const availableImages: Array<string> = [];
 		if (picture_1) {
 			availableImages.push(picture_1);
@@ -316,10 +366,7 @@ const Index: NextPage<PropsType> = ({ data }) => {
 		}
 		// set colors
 		let colorsArrayString: Array<string> = [];
-		const {
-			product_colors,
-			product_sizes,
-		} = details_offer as DetailsOfferProductType;
+		const { product_colors, product_sizes } = details_offer as DetailsOfferProductType;
 		if (product_colors) {
 			colorsArrayString = getColorsDataArray(product_colors);
 			setColorsListString(colorsArrayString);
@@ -394,252 +441,241 @@ const Index: NextPage<PropsType> = ({ data }) => {
 	return (
 		<ThemeProvider theme={customTheme}>
 			<main className={Styles.main}>
-				{/* /!*both desktop and mobile *!/*/}
-				{/*<DesktopPublishEditNavbar*/}
-				{/*	dropDownText="Modifier"*/}
-				{/*	actions={dropDownActions}*/}
-				{/*	onClick={() => {*/}
-				{/*		console.log('Clicked');*/}
-				{/*	}}*/}
-				{/*	menuID="desktop-validate-menu"*/}
-				{/*	buttonID="desktop-validate-menu-btn"*/}
-				{/*	buttonTitle="Valider"*/}
+				{/*both desktop and mobile */}
+				<DesktopPublishEditNavbar
+					dropDownText="Modifier"
+					actions={dropDownActions}
+					onClick={() => {
+						router.back();
+					}}
+					menuID="desktop-validate-menu"
+					buttonID="desktop-validate-menu-btn"
+					buttonTitle="Valider"
+				/>
+				{/*<DesktopTopSaveShareNavBar onClickSave={() => {}} onClickShare={() => {}} onClickClose={() => {}} />*/}
+				{/*<DesktopOfferDetailTopNavBar*/}
+				{/*	offer_pk={pk}*/}
+				{/*	epinglerActive={pinned}*/}
+				{/*	solderActive={newPrice !== null}*/}
+				{/*	referencerActive={false}*/}
 				{/*/>*/}
-				<Container maxWidth="lg">
-					<DesktopTopSaveShareNavBar onClickSave={() => {}} onClickShare={() => {}} onClickClose={() => {}} />
-					<DesktopOfferDetailTopNavBar
-						offer_pk={pk}
-						epinglerActive={pinned}
-						solderActive={newPrice !== null}
-						referencerActive={false}
-					/>
-					<Box className={Styles.pageWrapper}>
-						<Stack direction="row" spacing={10} className={Styles.imagesWrapper}>
-							{/* DESKTOP Only */}
-							<Stack direction="column" spacing={3} className={Styles.desktopOnly}>
-								<Stack direction="row" spacing={3}>
-									<Stack direction="column" spacing={1.8}>
-										{availableImages.length > 0 &&
-											availableImages.map((image, index) => (
-												<ImageListItem key={index}>
-													{image ? (
-														<ImageFuture
-															className={`${Styles.thumbnails} ${
-																image === selectedImage
-																	? Styles.selectedThumbnail
-																	: null
-															}`}
-															unoptimized={true}
-															src={image}
-															width={80}
-															height={80}
-															onClick={() => showThumbnail(image)}
-															alt=""
-															loading="lazy"
-															decoding="async"
-														/>
-													) : null}
-												</ImageListItem>
-											))}
-									</Stack>
-									{selectedImage ? (
-										<ImageFuture
-											className={Styles.selectedImage}
-											src={selectedImage}
-											unoptimized={true}
-											width={500}
-											height={500}
-											alt=""
-											loading="lazy"
-											decoding="async"
-										/>
-									) : null}
+				<Box className={Styles.pageWrapper}>
+					<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
+						{/* DESKTOP Only */}
+						<Stack direction="column" spacing={3} className={Styles.desktopOnly}>
+							<Stack direction="row" spacing={3}>
+								<Stack direction="column" spacing={1.8}>
+									{availableImages.length > 0 &&
+										availableImages.map((image, index) => (
+											<ImageListItem key={index}>
+												{image ? (
+													<ImageFuture
+														className={`${Styles.thumbnails} ${
+															image === selectedImage ? Styles.selectedThumbnail : null
+														}`}
+														unoptimized={true}
+														src={image}
+														width={80}
+														height={80}
+														onClick={() => showThumbnail(image)}
+														alt=""
+														loading="lazy"
+														decoding="async"
+													/>
+												) : null}
+											</ImageListItem>
+										))}
 								</Stack>
+								{selectedImage ? (
+									<ImageFuture
+										className={Styles.selectedImage}
+										src={selectedImage}
+										unoptimized={true}
+										width={500}
+										height={500}
+										alt=""
+										loading="lazy"
+										decoding="async"
+									/>
+								) : null}
+							</Stack>
+							{noCommentsAvailableContent()}
+						</Stack>
+						<div className={Styles.mobileOnly} style={{ display: 'block', marginLeft: '0' }}>
+							<>
+								<Swiper
+									pagination={{
+										clickable: true,
+										enabled: true,
+										bulletActiveClass: 'activekOfferBullet',
+										clickableClass: 'paginationOfferBullet',
+									}}
+									modules={[Navigation, Pagination, Lazy]}
+									scrollbar={{ enabled: false }}
+									className={Styles.swiperSlide}
+								>
+									{availableImages.length > 0 &&
+										availableImages.map((image, index) => {
+											return (
+												<SwiperSlide key={index}>
+													<ImageFuture
+														className={Styles.selectedImage}
+														src={image}
+														unoptimized={true}
+														width={365}
+														height={240}
+														alt=""
+													/>
+												</SwiperSlide>
+											);
+										})}
+								</Swiper>
+							</>
+						</div>
+						<Stack direction="column" spacing={1} className={Styles.offerWrapper}>
+							<h1 className={Styles.title}>{title}</h1>
+							<Stack direction="row">
+								<Image src={BlackStarSVG} width={20} height={20} alt="" />
+								<span className={Styles.rating}>0 (0 notes)</span>
+							</Stack>
+							<Link href={SHOP_EDIT_INDEX} passHref prefetch={false} target="_blank" rel="noreferrer">
+								<a target="_blank" rel="noreferrer">
+									<span className={Styles.shopName}>{shop_name}</span>
+								</a>
+							</Link>
+							<Stack direction="row" flexWrap="wrap" gap={1}>
+								{categoriesListString.map((category, index) => {
+									return (
+										<Chip key={index} label={category} variant="filled" className={Styles.chip} />
+									);
+								})}
+							</Stack>
+							<Stack direction="column" spacing={1} className={Styles.descriptionWrapper}>
+								<span className={Styles.descriptionTitle}>Description</span>
+								<p className={Styles.descriptionBody}>{description}</p>
+								{colorsListString.length > 0 ? (
+									<p className={Styles.colorBody}>
+										<span className={Styles.colorTitle}>Couleurs : </span>
+										{colorsListString.join(', ')}
+									</p>
+								) : null}
+								{sizesListString.length > 0 ? (
+									<p className={Styles.sizesBody}>
+										<span className={Styles.sizesTitle}>Taille : </span>
+										{sizesListString.join(', ')}
+									</p>
+								) : null}
+								{forWhomListString.length > 0 ? (
+									<p className={Styles.forWhomBody}>
+										<span className={Styles.forWhomTitle}>Pour : </span>
+										{forWhomListString.join(',')}
+									</p>
+								) : null}
+							</Stack>
+							<Stack direction="column" className={Styles.priceWrapper}>
+								<Stack direction="row" spacing={1}>
+									<span className={`${Styles.price} ${solder_value !== null && Styles.oldPrice}`}>
+										{price + ' DH'}
+									</span>
+									<span className={Styles.solderPrice}>
+										{solder_value !== null ? newPrice + ' DH' : null}
+									</span>
+								</Stack>
+								<Stack direction="row" justifyContent="space-between">
+									<span className={Styles.priceBy}>
+										par{' '}
+										{getProductPriceByData(
+											details_offer.product_price_by as OfferProductPriceByType,
+										)}
+									</span>
+									<span className={Styles.quantity}>{details_offer.product_quantity} restant</span>
+								</Stack>
+							</Stack>
+							<Stack direction="column" justifyContent="center" alignItems="center" spacing={1}>
+								<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+									<PrimaryButton buttonText="Ajouter au panier" active={false} type="submit" />
+								</div>
+							</Stack>
+							<Box className={Styles.clickAnddeliveriesWrapper}>
+								<Stack
+									direction="column"
+									divider={<Divider orientation="horizontal" flexItem className={Styles.divider} />}
+								>
+									{details_offer.product_address ? (
+										<Stack
+											direction="row"
+											justifyContent="space-between"
+											className={Styles.deliveryRow}
+											alignItems="center"
+										>
+											<Stack direction="row" alignItems="center">
+												<ImageFuture
+													src={ClickAndCollectSVG}
+													width={40}
+													height={40}
+													alt=""
+													className={Styles.clickAndCollectSVG}
+												/>
+												<Stack direction="column">
+													<span className={Styles.deliveriesTitle}>Click & collect</span>
+													<span className={Styles.deliveryDetails}>Dès demain</span>
+													<span className={Styles.deliveryDetails}>
+														{details_offer.product_address}
+													</span>
+												</Stack>
+											</Stack>
+											<span className={Styles.deliveryPrice}>Gratuite</span>
+										</Stack>
+									) : null}
+									{deliveriesListString.length > 0
+										? deliveriesListString.map((delivery, index) => {
+												return (
+													<Stack
+														key={index}
+														direction="row"
+														justifyContent="space-between"
+														className={Styles.deliveryRow}
+														alignItems="center"
+													>
+														<Stack direction="row" alignItems="center">
+															<ImageFuture
+																src={DeliverySVG}
+																width={40}
+																height={40}
+																alt=""
+																className={Styles.deliverySVG}
+															/>
+															<Stack direction="column">
+																<span className={Styles.deliveriesTitle}>
+																	{delivery.all_cities
+																		? 'Tout le Maroc'
+																		: delivery.delivery_city?.split(',').join(', ')}
+																</span>
+																<span className={Styles.deliveryDetails}>
+																	{getDate(
+																		parseInt(delivery.delivery_days as string),
+																	)}
+																</span>
+															</Stack>
+														</Stack>
+														<span className={Styles.deliveryPrice}>
+															{delivery.delivery_price === '0'
+																? 'Gratuite'
+																: delivery.delivery_price + 'DH'}
+														</span>
+													</Stack>
+												);
+										  })
+										: null}
+								</Stack>
+							</Box>
+							<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
+								<Divider orientation="horizontal" flexItem className={Styles.divider} />
 								{noCommentsAvailableContent()}
 							</Stack>
-							<div className={Styles.mobileOnly} style={{ display: 'block', marginLeft: '0' }}>
-								<>
-									<Swiper
-										pagination={{
-											clickable: true,
-											enabled: true,
-											bulletActiveClass: 'activekOfferBullet',
-											clickableClass: 'paginationOfferBullet',
-										}}
-										modules={[Navigation, Pagination, Lazy]}
-										scrollbar={{ enabled: false }}
-										className={Styles.swiperSlide}
-									>
-										{availableImages.length > 0 &&
-											availableImages.map((image, index) => {
-												return (
-													<SwiperSlide key={index}>
-														<ImageFuture
-															className={Styles.selectedImage}
-															src={image}
-															unoptimized={true}
-															width={365}
-															height={240}
-															alt=""
-														/>
-													</SwiperSlide>
-												);
-											})}
-									</Swiper>
-								</>
-							</div>
-							<Stack direction="column" spacing={1} className={Styles.offerWrapper}>
-								<h1 className={Styles.title}>{title}</h1>
-								<Stack direction="row">
-									<Image src={BlackStarSVG} width={20} height={20} alt="" />
-									<span className={Styles.rating}>0 (0 notes)</span>
-								</Stack>
-								<Link href={SHOP_EDIT_INDEX} passHref prefetch={false} target="_blank" rel="noreferrer">
-									<a target="_blank" rel="noreferrer">
-										<span className={Styles.shopName}>{shop_name}</span>
-									</a>
-								</Link>
-								<Stack direction="row" flexWrap="wrap" gap={1}>
-									{categoriesListString.map((category, index) => {
-										return (
-											<Chip
-												key={index}
-												label={category}
-												variant="filled"
-												className={Styles.chip}
-											/>
-										);
-									})}
-								</Stack>
-								<Stack direction="column" spacing={1} className={Styles.descriptionWrapper}>
-									<span className={Styles.descriptionTitle}>Description</span>
-									<p className={Styles.descriptionBody}>{description}</p>
-									{colorsListString.length > 0 ? (
-										<p className={Styles.colorBody}>
-											<span className={Styles.colorTitle}>Couleurs : </span>
-											{colorsListString.join(', ')}
-										</p>
-									) : null}
-									{sizesListString.length > 0 ? (
-										<p className={Styles.sizesBody}>
-											<span className={Styles.sizesTitle}>Taille : </span>
-											{sizesListString.join(', ')}
-										</p>
-									) : null}
-									{forWhomListString.length > 0 ? (
-										<p className={Styles.forWhomBody}>
-											<span className={Styles.forWhomTitle}>Pour : </span>
-											{forWhomListString.join(',')}
-										</p>
-									) : null}
-								</Stack>
-								<Stack direction="column" className={Styles.priceWrapper}>
-									<Stack direction="row" spacing={1}>
-										<span
-											className={`${Styles.price} ${
-												solder_value !== null && Styles.oldPrice
-											}`}
-										>
-											{price + ' DH'}
-										</span>
-										<span className={Styles.solderPrice}>
-											{solder_value !== null ? newPrice + ' DH' : null}
-										</span>
-									</Stack>
-									<Stack direction="row" justifyContent="space-between">
-										<span className={Styles.priceBy}>
-											par {getProductPriceByData(product_price_by as OfferProductPriceByType)}
-										</span>
-										<span className={Styles.quantity}>{product_quantity} restant</span>
-									</Stack>
-								</Stack>
-								<Stack direction="column" justifyContent="center" alignItems="center" spacing={1}>
-									<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-										<PrimaryButton buttonText="Ajouter au panier" active={false} type="submit" />
-									</div>
-								</Stack>
-								<Box className={Styles.clickAnddeliveriesWrapper}>
-									<Stack
-										direction="column"
-										divider={
-											<Divider orientation="horizontal" flexItem className={Styles.divider} />
-										}
-									>
-										{product_address ? (
-											<Stack
-												direction="row"
-												justifyContent="space-between"
-												className={Styles.deliveryRow}
-												alignItems="center"
-											>
-												<Stack direction="row" alignItems="center">
-													<ImageFuture
-														src={ClickAndCollectSVG}
-														width={40}
-														height={40}
-														alt=""
-														className={Styles.clickAndCollectSVG}
-													/>
-													<Stack direction="column">
-														<span className={Styles.deliveriesTitle}>Click & collect</span>
-														<span className={Styles.deliveryDetails}>Dès demain</span>
-														<span className={Styles.deliveryDetails}>{product_address}</span>
-													</Stack>
-												</Stack>
-												<span className={Styles.deliveryPrice}>Gratuite</span>
-											</Stack>
-										) : null}
-										{deliveriesListString.length > 0
-											? deliveriesListString.map((delivery, index) => {
-													return (
-														<Stack
-															key={index}
-															direction="row"
-															justifyContent="space-between"
-															className={Styles.deliveryRow}
-															alignItems="center"
-														>
-															<Stack direction="row" alignItems="center">
-																<ImageFuture
-																	src={DeliverySVG}
-																	width={40}
-																	height={40}
-																	alt=""
-																	className={Styles.deliverySVG}
-																/>
-																<Stack direction="column">
-																	<span className={Styles.deliveriesTitle}>
-																		{delivery.all_cities
-																			? 'Tout le Maroc'
-																			: delivery.delivery_city
-																					?.split(',')
-																					.join(', ')}
-																	</span>
-																	<span className={Styles.deliveryDetails}>
-																		{getDate(
-																			parseInt(delivery.delivery_days as string),
-																		)}
-																	</span>
-																</Stack>
-															</Stack>
-															<span className={Styles.deliveryPrice}>
-																{delivery.delivery_price === '0'
-																	? 'Gratuite'
-																	: delivery.delivery_price + 'DH'}
-															</span>
-														</Stack>
-													);})
-											: null}
-									</Stack>
-								</Box>
-								<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
-									<Divider orientation="horizontal" flexItem className={Styles.divider} />
-									{noCommentsAvailableContent()}
-								</Stack>
-							</Stack>
 						</Stack>
-					</Box>
-				</Container>
+					</Stack>
+				</Box>
 			</main>
 		</ThemeProvider>
 	);

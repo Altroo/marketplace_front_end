@@ -114,6 +114,13 @@
   margin-bottom: .5rem
 .mobileOnly
   display: none !important
+// necessary custom media queries
+@media only screen and (min-width: 1065px) and (max-width: 1254px)
+  .selectedImage
+    width: 400px !important
+@media only screen and (min-width: 992px) and (max-width: 1065px)
+  .selectedImage
+    width: 300px !important
 @media #{$tablette}
   .main
     width: 100%
