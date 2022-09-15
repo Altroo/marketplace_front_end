@@ -77,6 +77,7 @@ export const getAvailableCities = (state: RootState) => state.places.cities;
 // export const getPlacesApiFetchInProgress = (state: RootState) => state.places.placesApi.isFetchInProgress;
 // Account
 export const getCheckUserHasShop = (state: RootState) => state.account.check_account?.has_shop as boolean;
+export const getUserIsLoggedIn = (state: RootState) => state.account.isLoggedIn;
 // Offers
 export const getMyOffersList = (state: RootState) => state.offer.userOffersList.results;
 export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersList.next;
@@ -119,7 +120,7 @@ export const getLocalOfferDeliveryDays3 = (state: RootState) => state.offer.user
 
 
 // Offer by pk
-export const getMyOffersFirstPageApi = (state: RootState) => state.offer.offerApi;
+export const getOfferOfferApi = (state: RootState) => state.offer.offerApi;
 // export const getMyOffersFirstPageApiFetchPromiseStatus = (state: RootState) => state.offer.offerApi;
 // export const getSelectedOfferPk = (state: RootState) => state.offer.selectedOffer?.pk;
 // export const getSelectedOfferTitle = (state: RootState) => state.offer.selectedOffer?.title;

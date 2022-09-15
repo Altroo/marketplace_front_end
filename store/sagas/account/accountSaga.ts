@@ -102,7 +102,7 @@ function* accountPostRegisterSaga(payload: AccountPostRegisterType) {
 				const transferShopUrl = `${process.env.NEXT_PUBLIC_SHOP_TRANSFER_SHOP}`;
 				// call is authenticated instance (require real token from localStorage previously set)
 				const authInstance = yield* call(() =>
-					isAuthenticatedInstance(response.data, 'application/json', true),
+					isAuthenticatedInstance(response.data),
 				);
 				// Get transfer shop response
 				const transferResponse: ResponseDataErrorInterface = yield* call(() =>
@@ -151,7 +151,7 @@ function* accountPostLoginSaga(payload: AccountPostLoginType) {
 		const instance = yield* call(() => allowAnyInstance());
 		const response: AccountPostLoginResponseType = yield* call(() => postApi(url, instance, payloadData));
 		if (response.status === 200) {
-			// set localStorage token only
+			// set remote cookie token only
 			yield* call(() => setRemoteCookiesTokenOnly(response.data));
 			// Empty unique ID state & localStorage in case
 			yield* put(setEmptyUniqueIDState());

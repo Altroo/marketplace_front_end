@@ -93,25 +93,28 @@ const refreshToken = async (refresh_token: string): Promise<ResponseDataTokenRef
 // 	return null;
 // };
 
-const loadAccessTokenCookie: () => string | null | undefined = () => {
-	cookiesFetcher('/cookies').then((value: { data: { cookies: AppTokensCookieType }; status: number }) => {
-		if (value.status === 200) {
-			const localStateToken = value.data.cookies['@initStateToken'];
-			if (localStateToken !== null) {
-				if (typeof localStateToken === 'string') {
-					const stateToken: InitStateToken = JSON.parse(localStateToken) as InitStateToken;
-					return stateToken.access_token;
-				}
-			}
-		}
-	});
-	return null;
-};
+// const loadAccessTokenCookie: () => string | null = () => {
+// 	cookiesFetcher('/cookies').then((value: { data: { cookies: AppTokensCookieType }; status: number }) => {
+// 		if (value.status === 200) {
+// 			const localStateToken = value.data.cookies['@initStateToken'];
+// 			if (localStateToken !== null) {
+// 				if (typeof localStateToken === 'string') {
+// 					const stateToken: InitStateToken = JSON.parse(localStateToken) as InitStateToken;
+// 					return stateToken.access_token;
+// 				}
+// 			}
+// 		}else {
+// 			return null;
+// 		}
+// 	});
+// 	// console.log('Returned null');
+// 	// return null;
+// };
 
 export const isAuthenticatedInstance = (
 	initStateToken: InitStateToken,
 	contentType: APIContentTypeInterface = 'application/json',
-	useTokenParam = false,
+	// useTokenParam = false,
 ) => {
 	const instance: AxiosInstance = axios.create({
 		baseURL: `${process.env.NEXT_PUBLIC_ROOT_API_URL}`,
@@ -123,17 +126,19 @@ export const isAuthenticatedInstance = (
 		(config: AxiosRequestConfig) => {
 			/* initStateToken might be using the old access_token. */
 			// load new access token from storage instead.
-			if (useTokenParam) {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				config.headers!['Authorization'] = 'Bearer ' + initStateToken.access_token;
-			} else {
-				// const access_token: string | null = loadAccessToken();
-				const access_token: string | null | undefined = loadAccessTokenCookie();
-				if (typeof access_token === 'string') {
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					config.headers!['Authorization'] = 'Bearer ' + access_token;
-				}
-			}
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			config.headers!['Authorization'] = 'Bearer ' + initStateToken.access_token;
+			// if (useTokenParam) {
+			// 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			// 	config.headers!['Authorization'] = 'Bearer ' + initStateToken.access_token;
+			// } else {
+			// 	// const access_token: string | null = loadAccessToken();
+			// 	const access_token: string | null | undefined = loadAccessTokenCookie();
+			// 	if (typeof access_token === 'string') {
+			// 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			// 		config.headers!['Authorization'] = 'Bearer ' + access_token;
+			// 	}
+			// }
 			return config;
 		},
 		(error) => {

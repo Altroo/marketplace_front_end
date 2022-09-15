@@ -8,7 +8,7 @@ import Styles from './actionModals.module.sass';
 type Props = {
 	title: string;
 	actions: Array<{ active: boolean; text: string; onClick: () => void }>;
-	actionsStyle: Array<string>;
+	actionsStyle?: Array<string>;
 	comingSoon?: boolean;
 	body?: string;
 	children?: React.ReactNode;
@@ -25,7 +25,7 @@ const ActionModals: React.FC<Props> = (props: Props) => {
 					)}
 					<span className={Styles.modalTitle}>{props.title}</span>
 					{props.body && <span className={Styles.modalBody}>{props.body}</span>}
-					<div className={`${props.actionsStyle}`}>
+					<div className={`${props.actionsStyle && props.actionsStyle}`}>
 						{props.actions.map((action: {active: boolean, text: string, onClick: () => void}, index: number) => {
 							return (
 								<button

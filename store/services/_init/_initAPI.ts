@@ -6,6 +6,8 @@ axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
 export const tokenRefreshApi = async (refresh: string) => {
 	const response = await axios.post(`${process.env.NEXT_PUBLIC_ACCOUNT_TOKEN_REFRESH}`, {
 		refresh: refresh,
+	}, {
+		baseURL: `${process.env.NEXT_PUBLIC_ROOT_API_URL}`,
 	});
 	return {
 		data: response.data,

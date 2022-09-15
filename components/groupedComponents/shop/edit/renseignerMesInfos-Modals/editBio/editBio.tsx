@@ -54,6 +54,7 @@ const EditBio: React.FC<Props> = (props: Props) => {
 					<Form>
 						<Stack direction="column" justifyContent="space-between" alignContent="space-between">
 							<TopBarSaveClose
+								buttonText="Enregistrer"
 								handleClose={props.handleClose}
 								handleSubmit={handleSubmit}
 								isSubmitting={isSubmitting}

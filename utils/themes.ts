@@ -462,3 +462,165 @@ export const OfferThumbnailsTheme = (backgroundColor: string, textColor: string,
 		},
 	});
 };
+
+export const doubleTabNavigationTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiBottomNavigation: {
+				styleOverrides: {
+					root: {
+						width: '300px',
+						margin: '0 auto',
+						backgroundColor: '#F2F2F3',
+						borderRadius: '30px',
+						marginBottom: '10px',
+					}
+				}
+			},
+			MuiBottomNavigationAction: {
+				styleOverrides: {
+					root: {
+						'&.MuiBottomNavigationAction-label.Mui-selected': {
+							color: '#0D070B',
+							fontFamily: 'Poppins-Medium',
+							fontSize: '19px',
+						},
+						'&.Mui-selected': {
+							backgroundColor: '#FFFFFF',
+							borderRadius: '40px',
+							margin: '5px',
+						},
+						'&:not(Mui-selected)': {
+							backgroundColor: '#f2f2f3',
+							borderRadius: '40px',
+							margin: '5px',
+						}
+					},
+					label: {
+						color: '#0D070B',
+						fontFamily: 'Poppins-Medium',
+						fontSize: '17px',
+						'&.MuiBottomNavigationAction-label.Mui-selected': {
+							color: '#0D070B',
+							fontFamily: 'Poppins-Medium',
+							fontSize: '19px',
+						},
+					},
+				},
+			},
+		},
+	});
+};
+
+export const solderPourcentageInputTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	const blueColor = '#0274d7';
+
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						'& fieldset': {
+							borderRadius: '16px',
+							border: '2px solid #A3A3AD',
+						},
+					},
+					input: {
+						fontFamily: 'Poppins',
+						fontSize: '19px',
+						caretColor: blueColor,
+						width: '100%',
+					},
+				},
+			},
+			MuiFormControl: {
+				styleOverrides: {
+					root: {
+						width: '50%',
+						'& .MuiFormLabel-root': {
+							fontFamily: 'Poppins',
+							fontSize: '16px',
+						},
+					},
+				},
+			},
+		},
+	});
+};
+
+export const SolderPourcentageChipTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		components: {
+			...defaultTheme,
+			MuiChip: {
+				styleOverrides: {
+					root: {
+						fontFamily: 'Poppins',
+						fontSize: '19px',
+						paddingTop: '10px',
+						paddingBottom: '10px',
+						height: '43px',
+						width: '102px',
+						border: '1px solid #0D070B',
+						borderRadius: '40px',
+					},
+					outlined: {
+						'&:hover': {
+							backgroundColor: 'rgba(0, 0, 0, 0.17)',
+						},
+					},
+					filled: {
+						backgroundColor: '#0D070B',
+						color: 'white',
+						'&:hover': {
+							backgroundColor: 'rgba(0, 0, 0, 0.7)',
+						},
+					},
+				},
+			},
+		},
+	});
+};
+
+export const solderPourcentageCustomInputTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiInputBase: {
+				styleOverrides: {
+					// input wrapper (div)
+					root: {
+						fontFamily: 'Poppins',
+						fontSize: '19px',
+						height: '55px',
+						// padding: '10px',
+						width: '100%',
+						'& fieldset': {
+							// padding: '10px 18px',
+							height: '59px',
+							fontFamily: 'Poppins',
+							fontSize: '19px',
+							borderRadius: '16px',
+							border: '2px solid #A3A3AD',
+						},
+					},
+				},
+			},
+			MuiFormControl: {
+				styleOverrides: {
+					root: {
+						width: '50%',
+						height: '100%',
+					},
+				},
+			},
+		},
+	});
+};

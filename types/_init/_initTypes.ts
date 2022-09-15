@@ -50,11 +50,11 @@ export type ApiErrorType = {
 	status_code: number | null;
 	message: string | null;
 	details: Record<string, Array<string>> | { error: Array<string> } | null;
-}
+};
 
 export type ApiErrorResponseType = {
 	error: ApiErrorType;
-}
+};
 
 export type ApiPromiseStatus = 'PENDING' | 'RESOLVED' | 'REJECTED' | null;
 
@@ -118,7 +118,12 @@ export type InitStateNonNullableToken = {
 	access_token_expiration: string;
 	refresh_token_expiration: string;
 };
-
+export type tokenUser = {
+	pk: number;
+	email: string;
+	first_name: string;
+	last_name: string;
+};
 //!- Init State
 export type InitStateToken = {
 	access_token: string | null;

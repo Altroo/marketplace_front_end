@@ -405,6 +405,7 @@ export type OfferGetMyOffersResponseType = ResponseDataInterface<
 export interface OfferPostSolderType extends Omit<OfferSolderInterface, 'offer'> {
 	type: string;
 	offer_pk: number;
+	router: NextRouter;
 }
 
 export type OfferGetVuesResponseType = ResponseDataInterface<OfferGetVuesType>;

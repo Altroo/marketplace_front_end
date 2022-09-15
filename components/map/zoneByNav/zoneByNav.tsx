@@ -3,7 +3,7 @@ import Styles from './zoneByNav.module.sass';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { createTheme, ThemeProvider } from '@mui/material';
-import {CustomTheme} from '../../../utils/themes';
+import { CustomTheme, doubleTabNavigationTheme } from "../../../utils/themes";
 import { ShopZoneByType } from "../../../types/shop/shopTypes";
 
 type Props = {
@@ -13,60 +13,11 @@ type Props = {
 };
 
 const ZoneByNav: React.FC<Props> = (props: Props) => {
-	const blueColor = '#0274d7';
-	const customTheme = CustomTheme(blueColor);
-
-	const navigationTheme = createTheme({
-		...customTheme,
-		components: {
-			MuiBottomNavigation: {
-				styleOverrides: {
-					root: {
-						width: '300px',
-						margin: '0 auto',
-						backgroundColor: '#F2F2F3',
-						borderRadius: '30px',
-						marginBottom: '10px',
-					}
-				}
-			},
-			MuiBottomNavigationAction: {
-				styleOverrides: {
-					root: {
-						'&.MuiBottomNavigationAction-label.Mui-selected': {
-							color: '#0D070B',
-							fontFamily: 'Poppins-Medium',
-							fontSize: '19px',
-						},
-						'&.Mui-selected': {
-							backgroundColor: '#FFFFFF',
-							borderRadius: '40px',
-							margin: '5px',
-						},
-						'&:not(Mui-selected)': {
-							backgroundColor: '#f2f2f3',
-							borderRadius: '40px',
-							margin: '5px',
-						}
-					},
-					label: {
-						color: '#0D070B',
-						fontFamily: 'Poppins-Medium',
-						fontSize: '17px',
-						'&.MuiBottomNavigationAction-label.Mui-selected': {
-							color: '#0D070B',
-							fontFamily: 'Poppins-Medium',
-							fontSize: '19px',
-						},
-					},
-				},
-			},
-		},
-	});
-
 	const handleChange = (event: React.SyntheticEvent, newValue: ShopZoneByType) => {
 		props.zoneByHandler(newValue);
 	};
+
+	const navigationTheme = doubleTabNavigationTheme();
 
 	return (
 		<ThemeProvider theme={navigationTheme}>

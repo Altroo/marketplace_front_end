@@ -66,7 +66,7 @@ import {
 	getShopWhatsapp,
 	getShopAddressName,
 	getMyOffersList,
-	getMyOffersFirstPageApi,
+	getOfferOfferApi,
 } from '../../../store/selectors';
 import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
 import InfoIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-info.svg';
@@ -84,7 +84,7 @@ import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/shop/create/fontPicker/fontPicker';
-import { SHOP_EDIT_INDEX } from '../../../utils/routes';
+import { AUTH_LOGIN, SHOP_EDIT_INDEX } from "../../../utils/routes";
 import { offerGetMyOffersFirstPageAction } from '../../../store/actions/offer/offerActions';
 import ApiLoadingResponseOrError from '../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
 import { wrapper } from '../../../store/store';
@@ -96,7 +96,7 @@ const Index: NextPage = () => {
 	const dispatch = useAppDispatch();
 	const avatarInputRef = useRef<HTMLInputElement>(null);
 	const [modalDismissed, setModalDismissed] = useState(false);
-	const offerApi = useAppSelector(getMyOffersFirstPageApi);
+	const offerApi = useAppSelector(getOfferOfferApi);
 
 	const shopName = useAppSelector(getShopName);
 	const bio = useAppSelector(getShopBio);
@@ -572,7 +572,7 @@ const Index: NextPage = () => {
 						buttonTitle="Publier"
 						actions={dropDownActions}
 						onClick={() => {
-							console.log('Clicked');
+							router.push(AUTH_LOGIN).then();
 						}}
 						menuID="desktop-edit-menu"
 						buttonID="desktop-edit-menu-btn"
@@ -936,7 +936,6 @@ const Index: NextPage = () => {
 // 		props: {},
 // 	};
 // });
-
 // export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
 // 	if(store.getState().offer.userOffersList.results.length <= 0){
 // 		store.dispatch(offerGetMyOffersFirstPageAction());

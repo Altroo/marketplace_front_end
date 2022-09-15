@@ -55,7 +55,7 @@ import {
 	setPostShopIsLoading,
 	setPatchShopDataIsLoading,
 	userShopPATCHApiErrorAction,
-} from "../../slices/shop/shopSlice";
+} from '../../slices/shop/shopSlice';
 import {
 	allowAnyInstance,
 	isAuthenticatedInstance,
@@ -65,13 +65,14 @@ import {
 	loadLocalStorageNewShopData,
 	setLocalStorageNewShopColor,
 	setLocalStorageNewShopName,
-	setRemoteCookiesAppToken, deleteCookieStorageNewShopData
-} from "../../../utils/helpers";
+	setRemoteCookiesAppToken,
+	deleteCookieStorageNewShopData,
+} from '../../../utils/helpers';
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
-import { SHOP_ADD_AVATAR, SHOP_ADD_COLOR, SHOP_ADD_FONT, SHOP_EDIT_INDEX } from "../../../utils/routes";
-import { NextRouter } from "next/router";
+import { SHOP_ADD_AVATAR, SHOP_ADD_COLOR, SHOP_ADD_FONT, SHOP_EDIT_INDEX } from '../../../utils/routes';
+import { NextRouter } from 'next/router';
 
 // interface TokenNoAuthSagaBaseGeneratorParams {
 //     payloadRecord: Record<string, unknown>;
@@ -129,9 +130,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 		} else {
 			// User is not authenticated
 			const instance = yield* call(() => allowAnyInstance('multipart/form-data', true));
-			const response: ShopPostRootUniqueIDResponseType = yield* call(() =>
-				postFormDataApi(url, instance, payload),
-			);
+			const response: ShopPostRootUniqueIDResponseType = yield* call(() => postFormDataApi(url, instance, payload));
 			if (response.status === 200) {
 				// set UNIQUE_ID to local storage & states
 				const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
@@ -541,13 +540,13 @@ function* wsShopAvatarSaga(payload: { type: string; pk: number; shop_avatar: str
 }
 
 // Create Temporary shop
-function* setShopLocalShopNameSaga(payload: { type: string; shop_name: string, router: NextRouter }) {
+function* setShopLocalShopNameSaga(payload: { type: string; shop_name: string; router: NextRouter }) {
 	yield* put(setNewShopName(payload.shop_name));
 	yield* call(() => setLocalStorageNewShopName(payload.shop_name));
 	yield* call(() => payload.router.push(SHOP_ADD_AVATAR));
 }
 
-function* setShopLocalAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string, router: NextRouter }) {
+function* setShopLocalAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string; router: NextRouter }) {
 	yield* put(setNewShopAvatar(payload.avatar));
 	yield* call(() => setLocalStorageNewShopAvatar(payload.avatar as string));
 	yield* call(() => payload.router.push(SHOP_ADD_COLOR));

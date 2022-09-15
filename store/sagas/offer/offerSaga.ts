@@ -57,7 +57,7 @@ import {
 	setPutOfferIsLoading,
 	offersPUTApiErrorAction,
 	appendPostOfferIsLoading,
-	offersPOSTApiErrorAction, emptyUserLocalOffer
+	offersPOSTApiErrorAction, emptyUserLocalOffer, offersDELETEApiErrorAction, setDeleteOfferIsLoading
 } from "../../slices/offer/offerSlice";
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
@@ -371,11 +371,11 @@ function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServic
 	}
 }
 
-function* offerDeleteRootSaga(payload: { type: string; pk: number }) {
+function* offerDeleteRootSaga(payload: { type: string; pk: number, router: NextRouter }) {
 	// /<uuid:unique_id>/<int:offer_pk>/
+	yield* put(setDeleteOfferIsLoading());
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/`;
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const instance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
@@ -384,9 +384,7 @@ function* offerDeleteRootSaga(payload: { type: string; pk: number }) {
 			if (response.status === 204) {
 				// update state
 				yield* put(deleteUserOffer({ offer_pk: payload.pk }));
-			} else {
-				// set error state
-				console.log(response.status);
+				yield* call(() => payload.router.replace(SHOP_EDIT_INDEX));
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -394,14 +392,12 @@ function* offerDeleteRootSaga(payload: { type: string; pk: number }) {
 			const response: ResponseOnlyInterface = yield* call(() => deleteApi(url, instance));
 			if (response.status === 204) {
 				yield* put(deleteUserOffer({ offer_pk: payload.pk }));
-			} else {
-				// set error state
-				console.log(response.status);
+				yield* call(() => payload.router.replace(SHOP_EDIT_INDEX));
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
+		const apiError = e as ApiErrorResponseType;
+		yield* put(yield* call(() => offersDELETEApiErrorAction(apiError)));
 		// set error state
 	}
 }
@@ -420,9 +416,8 @@ function* offerPostSolderSaga(payload: OfferPostSolderType) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setSolderOffer(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
+				// reload page
+				yield* call(() => payload.router.replace(payload.router.asPath));
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -430,9 +425,7 @@ function* offerPostSolderSaga(payload: OfferPostSolderType) {
 			const response: OfferPostSolderResponseType = yield* call(() => postApi(url, instance, payloadData));
 			if (response.status === 200) {
 				yield* put(setSolderOffer(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
+				yield* call(() => payload.router.replace(payload.router.asPath));
 			}
 		}
 	} catch (e) {
@@ -520,9 +513,7 @@ function* offerPatchSolderSaga(payload: OfferPostSolderType) {
 			if (response.status === 200) {
 				// update state
 				yield* put(setSolderOffer(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
+				yield* call(() => payload.router.replace(payload.router.asPath));
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -530,9 +521,7 @@ function* offerPatchSolderSaga(payload: OfferPostSolderType) {
 			const response: OfferPostSolderResponseType = yield* call(() => patchApi(url, instance, payloadData));
 			if (response.status === 200) {
 				yield* put(setSolderOffer(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
+				yield* call(() => payload.router.replace(payload.router.asPath));
 			}
 		}
 	} catch (e) {
@@ -542,7 +531,7 @@ function* offerPatchSolderSaga(payload: OfferPostSolderType) {
 	}
 }
 
-function* offerDeleteSolderSaga(payload: { type: string; offer_pk: number }) {
+function* offerDeleteSolderSaga(payload: { type: string; offer_pk: number, router: NextRouter }) {
 	// solder/<uuid:unique_id>/<int:offer_pk>/
 	const authSagaContext = yield* call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_OFFER_SOLDER}`;
@@ -555,9 +544,7 @@ function* offerDeleteSolderSaga(payload: { type: string; offer_pk: number }) {
 			if (response.status === 204) {
 				// update state
 				yield* put(deleteSolderOffer({ offer_pk: payload.offer_pk }));
-			} else {
-				// set error state
-				console.log(response.status);
+				yield* call(() => payload.router.replace(payload.router.asPath));
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -565,9 +552,7 @@ function* offerDeleteSolderSaga(payload: { type: string; offer_pk: number }) {
 			const response: ResponseOnlyInterface = yield* call(() => deleteApi(url, instance));
 			if (response.status === 204) {
 				yield* put(deleteSolderOffer({ offer_pk: payload.offer_pk }));
-			} else {
-				// set error state
-				console.log(response.status);
+				yield* call(() => payload.router.replace(payload.router.asPath));
 			}
 		}
 	} catch (e) {

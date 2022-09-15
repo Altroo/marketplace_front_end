@@ -380,10 +380,11 @@ export const setEmptyUserLocalOffer = () => {
 	};
 };
 
-export const offerDeleteRootAction = (pk: number) => {
+export const offerDeleteRootAction = (pk: number, router: NextRouter) => {
 	return {
 		type: Types.OFFER_DELETE_ROOT,
 		pk,
+		router
 	};
 };
 
@@ -419,12 +420,18 @@ export const offerGetMyOffersAction = () => {
 	};
 };
 
-export const offerPostSolderAction = (offer_pk: number, solder_type: OfferSolderByType, solder_value: number) => {
+export const offerPostSolderAction = (
+	offer_pk: number,
+	solder_type: OfferSolderByType,
+	solder_value: number,
+	router: NextRouter,
+) => {
 	return {
 		type: Types.OFFER_POST_SOLDER,
 		offer_pk,
 		solder_type,
 		solder_value,
+		router,
 	};
 };
 
@@ -437,19 +444,26 @@ export const offerGetSolderAction = (offer_pk: number) => {
 	};
 };
 
-export const offerPatchSolderAction = (offer_pk: number, solder_type: OfferSolderByType, solder_value: number) => {
+export const offerPatchSolderAction = (
+	offer_pk: number,
+	solder_type: OfferSolderByType,
+	solder_value: number,
+	router: NextRouter,
+) => {
 	return {
 		type: Types.OFFER_PATCH_SOLDER,
 		offer_pk,
 		solder_type,
 		solder_value,
+		router,
 	};
 };
 
-export const offerDeleteSolderAction = (offer_pk: number) => {
+export const offerDeleteSolderAction = (offer_pk: number, router: NextRouter) => {
 	return {
 		type: Types.OFFER_DELETE_SOLDER,
 		offer_pk,
+		router
 	};
 };
 

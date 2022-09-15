@@ -49,7 +49,7 @@ import {
 	getLocalOfferPrice,
 	getLocalOfferPriceBy,
 	getLocalOfferTags,
-	getUserLocalOfferEditPK, getMyOffersFirstPageApi
+	getUserLocalOfferEditPK, getOfferOfferApi
 } from "../../../../store/selectors";
 import { PositionType } from '../../../../components/map/customMap';
 import TopBarSaveClose from '../../../../components/groupedComponents/shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
@@ -124,7 +124,7 @@ const Livraison: NextPage = () => {
 	const pickedAddressName = useAppSelector(getLocalOfferAddressName);
 
 	// Api selectors
-	const offerApi = useAppSelector(getMyOffersFirstPageApi);
+	const offerApi = useAppSelector(getOfferOfferApi);
 
 	if (latitude && longitude) {
 		CENTER = {
@@ -501,6 +501,7 @@ const Livraison: NextPage = () => {
 														sx={{ height: '100%' }}
 													>
 														<TopBarSaveClose
+															buttonText="Enregistrer"
 															handleClose={() => setOpenClick(false)}
 															handleSubmit={handleSubmit}
 															isValid={isValid}
@@ -631,6 +632,7 @@ const Livraison: NextPage = () => {
 									<Stack direction="column" spacing={2} justifyContent="flex-start">
 										<Stack direction="column" sx={{ height: '100%' }}>
 											<TopBarSaveClose
+												buttonText="Enregistrer"
 												handleClose={() => setOpenDelivery(false)}
 												handleSubmit={addDeliveriesHandler}
 												isValid={

@@ -6,6 +6,7 @@ import CloseSVG from '../../../../../../public/assets/svgs/navigationIcons/close
 import { Stack } from "@mui/material";
 
 type Props = {
+	buttonText: string;
 	handleSubmit: (e?: (React.FormEvent<HTMLFormElement> | undefined)) => void;
 	handleClose: () => void;
 	isValid: boolean;
@@ -18,7 +19,7 @@ const TopBarSaveClose: React.FC<Props> = (props: Props) => {
 	return (
 		<Stack direction="row" justifyContent="space-between" alignContent="flex-start" className={props.cssClasses}>
 			<PrimaryButton
-				buttonText="Enregistrer"
+				buttonText={props.buttonText}
 				active={props.isValid && !props.isSubmitting}
 				onClick={props.handleSubmit}
 				type="submit"

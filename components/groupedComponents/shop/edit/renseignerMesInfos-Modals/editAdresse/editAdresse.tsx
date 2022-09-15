@@ -171,6 +171,7 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 							style={{ height: '100%' }}
 						>
 							<TopBarSaveClose
+								buttonText="Enregistrer"
 								handleClose={props.handleClose}
 								handleSubmit={handleSubmit}
 								isSubmitting={isSubmitting}

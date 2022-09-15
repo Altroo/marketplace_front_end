@@ -3,6 +3,8 @@ import {
 	AppTokensCookieType,
 	NewShopCookieType
 } from "../../../types/_init/_initTypes";
+import { Session } from "next-auth";
+import { REFRESH_APP_TOKEN_STATES } from "../index";
 
 export const initAppAction = () => {
 	return {
@@ -15,6 +17,13 @@ export const initAppCookieTokensAction = (cookies: AppTokensCookieType) => {
 		type: types.INIT_APP_COOKIE_TOKENS,
 		cookies,
 	};
+}
+
+export const refreshAppTokenStatesAction = (session: Record<string, unknown>) => {
+	return {
+		type: types.REFRESH_APP_TOKEN_STATES,
+		session,
+	}
 }
 
 export const initNewShopBorderIconAction = (cookies: NewShopCookieType) => {

@@ -1,7 +1,7 @@
 import '../styles/globals.sass';
 import React from 'react';
-import { AppProps } from 'next/app';
-import { SagaStore, wrapper } from "../store/store";
+import type { AppProps } from "next/app"
+import { wrapper } from '../store/store';
 import { InitContextProvider } from '../contexts/InitContext';
 import Head from 'next/head';
 import { ThemeProvider } from '@mui/material/styles';
@@ -9,22 +9,25 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { getDefaultTheme } from '../utils/themes';
 import createEmotionCache from '../utils/createEmotionCache';
-import App from 'next/app';
+import { SessionProvider } from 'next-auth/react';
+import { Session } from "next-auth";
+// import { Session } from "next-auth/core/types";
+// import App from 'next/app';
 // import { SagaStore } from '../store/store';
 // import { END } from 'redux-saga';
-import {
-	initAppAction,
-	initAppCookieTokensAction,
-	initNewShopBorderIconAction
-} from "../store/actions/_init/_initActions";
-import { AppTokensCookieType, NewShopCookieType } from '../types/_init/_initTypes';
+// import {
+// 	initAppAction,
+// 	initAppCookieTokensAction,
+// 	initNewShopBorderIconAction
+// } from "../store/actions/_init/_initActions";
+// import { AppTokensCookieType, NewShopCookieType } from '../types/_init/_initTypes';
 // import { cookiesFetcher } from '../store/services/_init/_initAPI';
-import { getCookie } from "cookies-next";
-import { placesGetCitiesAction } from "../store/actions/places/placesActions";
-import { loadNewAddedShopAction, shopGetRootAction } from "../store/actions/shop/shopActions";
-import { accountGetCheckAccountAction } from "../store/actions/account/accountActions";
-import { offerGetMyOffersFirstPageAction } from "../store/actions/offer/offerActions";
-import { END } from "redux-saga";
+// import { getCookie } from "cookies-next";
+// import { placesGetCitiesAction } from "../store/actions/places/placesActions";
+// import { loadNewAddedShopAction, shopGetRootAction } from "../store/actions/shop/shopActions";
+// import { accountGetCheckAccountAction } from "../store/actions/account/accountActions";
+// import { offerGetMyOffersFirstPageAction } from "../store/actions/offer/offerActions";
+// import { END } from "redux-saga";
 // import {
 // 	initAppAction,
 // 	initAppCookieTokensAction,
@@ -40,25 +43,33 @@ const clientSideEmotionCache = createEmotionCache();
 
 interface EntryPointProps extends AppProps {
 	emotionCache?: EmotionCache;
+	session: Session;
 }
 
 // Emotion cache Alone
 const EntryPoint: React.FC<EntryPointProps> = (props: EntryPointProps) => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <ThemeProvider theme={getDefaultTheme()}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-				<InitContextProvider>
-					<Component {...pageProps} />
-				</InitContextProvider>
-      </ThemeProvider>
-    </CacheProvider>
-  );
+	const { Component, emotionCache = clientSideEmotionCache } = props;
+	const { session, ...pageProps } = props;
+	return (
+		<CacheProvider value={emotionCache}>
+			<Head>
+				<meta name="viewport" content="initial-scale=1, width=device-width" />
+			</Head>
+			<ThemeProvider theme={getDefaultTheme()}>
+				{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+				<CssBaseline />
+				<SessionProvider
+					// Provider options are not required but can be useful in situations where
+					// you have a short session maxAge time. Shown here with default values.
+					session={session}
+				>
+					<InitContextProvider>
+						<Component {...pageProps} />
+					</InitContextProvider>
+				</SessionProvider>
+			</ThemeProvider>
+		</CacheProvider>
+	);
 };
 export default wrapper.withRedux(EntryPoint);
 

@@ -17,3 +17,6 @@ export const OFFER_ADD_PRODUCT_DESCRIPTION = '/offer/product/create/description'
 export const OFFER_ADD_PRODUCT_PRICE = '/offer/product/create/prix';
 export const OFFER_ADD_PRODUCT_LIVRAISON = '/offer/product/create/livraison';
 export const OFFER_ADD_PRODUCT_OVERVIEW = '/offer/[offer_pk]/';
+
+// Auth Routes
+export const AUTH_LOGIN = '/login/';

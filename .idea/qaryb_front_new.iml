@@ -219,6 +219,8 @@
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiLoadingResponseOrError" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiLoadingResponseOrError/apiAlert" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiLoadingResponseOrError/apiProgress" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/api/auth" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/login" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />
@@ -232,6 +234,7 @@
       <excludeFolder url="file://$MODULE_DIR$/components/archives/shopNameField" />
       <excludeFolder url="file://$MODULE_DIR$/components/archives/editShopBioField" />
       <excludeFolder url="file://$MODULE_DIR$/components/archives/shop/edit" />
+      <excludeFolder url="file://$MODULE_DIR$/components/archives/auth" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

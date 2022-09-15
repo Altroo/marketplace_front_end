@@ -8,7 +8,7 @@ import {
 	OfferServicePriceByType, OfferSolderByType, OfferTagsType,
 	OfferZoneByType,
 } from '../../types/offer/offerTypes';
-import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
+import { ImageListType, ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
 
 export class Offers {
 	constructor(
@@ -19,15 +19,15 @@ export class Offers {
 		// public picture_2: File | string | null,
 		// public picture_3: File | string | null,
 		// public picture_4: File | string | null,
-		public pictures: ImageUploadingType,
+		public pictures: ImageListType,
 		public description: string | null,
 		public for_whom: string | null,
-		public tags: string | null,
-		public price: string | null,
-		public solder_type?: OfferSolderByType | null,
-		public solder_value?: number | null,
-		public creator_label?: boolean | null,
-		public made_in_label?: string | null,
+		public tags: string | number | null,
+		public price: string | number | null,
+		public solder_type?: OfferSolderByType | null | undefined,
+		public solder_value?: number | null | undefined,
+		public creator_label?: boolean | null | undefined,
+		public made_in_label?: string | null | undefined,
 	) {}
 }
 
@@ -48,7 +48,7 @@ export class OfferProductClass extends Offers {
 		public product_colors: string | null,
 		public product_sizes: string | null,
 		public product_quantity: number | null,
-		price: string | null,
+		price: string | number | null,
 		public product_price_by: OfferProductPriceByType | null,
 		public product_address: string | null,
 		public product_longitude: number | null,
@@ -107,7 +107,7 @@ export class OfferServiceClass extends Offers {
 		description: string | null,
 		for_whom: string | null,
 		tags: string | null,
-		price: string | null,
+		price: string | number | null,
 		public service_availability_days: string | OfferServiceAvailabilityDaysArray,
 		public service_morning_hour_from: string,
 		public service_morning_hour_to: string,
@@ -128,10 +128,6 @@ export class OfferServiceClass extends Offers {
 			offer_type,
 			offer_categories,
 			title,
-			// picture_1,
-			// picture_2,
-			// picture_3,
-			// picture_4,
 			pictures,
 			description,
 			for_whom,

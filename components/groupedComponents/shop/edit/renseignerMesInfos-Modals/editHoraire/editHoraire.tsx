@@ -268,6 +268,7 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 								rowGap={0}
 							>
 								<TopBarSaveClose
+									buttonText="Enregistrer"
 									handleClose={props.handleClose}
 									handleSubmit={handleSubmit}
 									isSubmitting={isSubmitting}

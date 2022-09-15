@@ -1,21 +1,24 @@
 import { put, call, takeLatest, select } from 'typed-redux-saga/macro';
 import * as Types from '../../actions';
 import {
-	AppTokensCookieType, IconColorType,
+	AppTokensCookieType,
+	IconColorType, InitStateInterface,
 	InitStateToken,
-	InitStateUniqueID, NewShopCookieType
+	InitStateUniqueID,
+	NewShopCookieType
 } from "../../../types/_init/_initTypes";
 import { emptyInitStateToken, emptyInitStateUniqueID, initialState, setInitState } from '../../slices/_init/_initSlice';
 import { getInitStateToken, getInitStateUniqueID, getTokenType } from '../../selectors';
 import { versionSaga } from '../version/versionSaga';
 import { initAccount, setIsLoggedIn } from '../../slices/account/accountSlice';
-import { initShop, setBorderIconColor } from "../../slices/shop/shopSlice";
+import { initShop, setBorderIconColor } from '../../slices/shop/shopSlice';
 import { initOffer } from '../../slices/offer/offerSlice';
 import { initPlaces } from '../../slices/places/placesSlice';
 import { initVersion } from '../../slices/version/versionSlice';
 import { initCart } from '../../slices/cart/cartSlice';
 import { initChat } from '../../slices/chat/chatSlice';
-import { shopGetPhoneCodesSaga } from "../shop/shopSaga";
+import { shopGetPhoneCodesSaga } from '../shop/shopSaga';
+import { Session } from 'next-auth';
 
 // or use fork instead
 // fork(initAppSaga, Types.INIT_APP)
@@ -120,7 +123,7 @@ function* initCookieBorderIconSaga(payload: { type: string; cookies: NewShopCook
 	const border: string | undefined = payload.cookies['@border'];
 	const iconColor: IconColorType | undefined = payload.cookies['@icon_color'];
 	if (border && iconColor) {
-		yield* put(setBorderIconColor({border: border, iconColor: iconColor}));
+		yield* put(setBorderIconColor({ border: border, iconColor: iconColor }));
 	}
 }
 
@@ -145,6 +148,45 @@ export function* ctxAuthSaga() {
 	};
 }
 
+function* refreshAppTokenStatesSaga(payload: { type: string; session: Record<string, unknown> }) {
+	const accessToken: string = payload.session['accessToken'] as string;
+	const refreshToken: string = payload.session['refreshToken'] as string;
+	const accessTokenExpiration = payload.session['accessTokenExpiration'] as string;
+	const refreshTokenExpiration = payload.session['refreshTokenExpiration'] as string;
+	const userObj: {
+		pk: number;
+		email: string;
+		first_name: string;
+		last_name: string;
+	} = payload.session['user'] as {
+		pk: number;
+		email: string;
+		first_name: string;
+		last_name: string;
+	};
+	const appToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
+		tokenType: 'TOKEN',
+		initStateToken: {
+			access_token: accessToken,
+			refresh_token: refreshToken,
+			user: {
+				pk: userObj.pk as number,
+				email: userObj.email as string,
+				first_name: userObj.first_name as string,
+				last_name: userObj.last_name as string,
+			},
+			refresh_token_expiration: accessTokenExpiration,
+			access_token_expiration: refreshTokenExpiration,
+		},
+		initStateUniqueID: emptyInitStateUniqueID,
+	};
+	if (appToken) {
+		yield* put(setInitState(appToken));
+		yield* put(setIsLoggedIn(true));
+	}
+	console.log('refreshAppTokenStatesSaga Called');
+}
+
 export function* watchInit() {
 	// using fork to let initAppSaga sets the token state
 	// before proceeding to the rest of the watchers that needs the token state
@@ -152,5 +194,6 @@ export function* watchInit() {
 	yield* takeLatest(Types.INIT_APP, initAppSaga);
 	yield* takeLatest(Types.INIT_APP_COOKIE_TOKENS, initAppCookieTokensSaga);
 	yield* takeLatest(Types.INIT_COOKIE_BORDER_ICON, initCookieBorderIconSaga);
+	yield* takeLatest(Types.REFRESH_APP_TOKEN_STATES, refreshAppTokenStatesSaga);
 	// yield* fork(initAppSaga, Types.INIT_APP);
 }

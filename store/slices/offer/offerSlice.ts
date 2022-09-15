@@ -25,6 +25,7 @@ import { HYDRATE } from "next-redux-wrapper";
 export const myOffersListGETApiErrorAction = createAction<ApiErrorResponseType>("myOffersListGETApiErrorAction");
 export const offersPUTApiErrorAction = createAction<ApiErrorResponseType>("offersPUTApiErrorAction");
 export const offersPOSTApiErrorAction = createAction<ApiErrorResponseType>("offersPOSTApiErrorAction");
+export const offersDELETEApiErrorAction = createAction<ApiErrorResponseType>("offersDELETEApiErrorAction");
 
 const clickAndCollectInitial = {
 	longitude: null,
@@ -92,7 +93,10 @@ const initialState: OfferStateInterface = {
 	userLocalOffer: userLocalOfferInitial,
 	offerApi: apiErrorInitialState
 };
-
+/*
+setDeleteOfferIsLoading()
+		offersDELETEApiErrorAction()
+ */
 const OfferSlice = createSlice({
 	name: "offer",
 	initialState: initialState,
@@ -223,6 +227,11 @@ const OfferSlice = createSlice({
 			state.offerApi.isEditInProgress = false;
 			// return state;
 		},
+		setDeleteOfferIsLoading: (state) => {
+			state.offerApi.isDeleteInProgress = true;
+			state.offerApi.deletePromiseStatus = "PENDING";
+			state.offerApi.error = apiErrorInitialState.error;
+		},
 		deleteUserOffer: (state, action: PayloadAction<{ offer_pk: number }>) => {
 			// update userOffers
 			state.userOffers = state.userOffers.filter((item) => item.pk !== action.payload.offer_pk);
@@ -230,6 +239,8 @@ const OfferSlice = createSlice({
 			state.userOffersList.results = state.userOffersList.results.filter(
 				(item) => item.pk !== action.payload.offer_pk
 			);
+			state.offerApi.deletePromiseStatus = "RESOLVED";
+			state.offerApi.isDeleteInProgress = false;
 			// return state;
 		},
 		setSolderOffer: (state, action: PayloadAction<OfferSolderInterface>) => {
@@ -451,6 +462,10 @@ const OfferSlice = createSlice({
 			state.offerApi.error = action.payload.error;
 			state.offerApi.addPromiseStatus = "REJECTED";
 			state.offerApi.isAddInProgress = false;
+		}).addCase(offersDELETEApiErrorAction, (state, action) => {
+			state.offerApi.error = action.payload.error;
+			state.offerApi.deletePromiseStatus = "REJECTED";
+			state.offerApi.isDeleteInProgress = false;
 		});
 	}
 	// extraReducers: {
@@ -473,6 +488,7 @@ export const {
 	setMyOffersFirstPageList,
 	setMyOffersList,
 	setPutOffer,
+	setDeleteOfferIsLoading,
 	deleteUserOffer,
 	setSolderOffer,
 	setGetSolderOffer,
