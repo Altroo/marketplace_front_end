@@ -15,7 +15,7 @@ import {
 	setBlockedList,
 	setCheckAccount, setCheckAccountGETLoading,
 	setEmailChanged,
-	setEmailExistsStatus,
+	setEmailExistsStatus, setFbEmailSet,
 	setIsLoggedIn,
 	setPasswordChanged,
 	setPasswordResetSent,
@@ -31,10 +31,10 @@ import {
 	setWSUserAvatar
 } from "../../slices/account/accountSlice";
 import {
-	ApiErrorResponseType,
+	ApiErrorResponseType, InitStateNonNullableToken,
 	ResponseDataErrorInterface,
-	ResponseOnlyInterface,
-} from '../../../types/_init/_initTypes';
+	ResponseOnlyInterface
+} from "../../../types/_init/_initTypes";
 import {
 	AccountGetAddressesResponseType,
 	AccountGetAddressResponseType,
@@ -58,7 +58,7 @@ import {
 	AccountPostRegisterType,
 	AccountPostVerifyAccountType,
 } from '../../../types/account/accountTypes';
-import { setTokenState, setEmptyUniqueIDState, initToken } from '../../slices/_init/_initSlice';
+import { setTokenState, setEmptyUniqueIDState, initToken, setFbEmailInInit } from "../../slices/_init/_initSlice";
 import { ctxAuthSaga, initEmptyStatesSaga } from '../_init/_initSaga';
 
 function* accountPostCheckEmailSaga(payload: { type: string; email: string }) {
@@ -69,10 +69,6 @@ function* accountPostCheckEmailSaga(payload: { type: string; email: string }) {
 		if (response.status === 204) {
 			yield* put(setEmailExistsStatus(false));
 		}
-		// else {
-		// 	yield* put(setEmailExistsStatus(true));
-		// 	console.log(response.status);
-		// }
 	} catch (e) {
 		yield* put(setEmailExistsStatus(true));
 		const errors = e as ApiErrorResponseType;
@@ -81,67 +77,67 @@ function* accountPostCheckEmailSaga(payload: { type: string; email: string }) {
 	}
 }
 
-function* accountPostRegisterSaga(payload: AccountPostRegisterType) {
-	const authSagaContext = yield* call(() => ctxAuthSaga());
-	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_REGISTER}`;
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	// const { type, ...payloadData } = payload;
-	const payloadData: Omit<AccountPostRegisterType, 'type'> = payload;
-	try {
-		// Call allow any instance to register
-		const instance = yield* call(() => allowAnyInstance());
-		// Get register response which has stateToken
-		const response: AccountPostRegisterResponseType = yield* call(() => postApi(url, instance, payloadData));
-		if (response.status === 200) {
-			// Check if previous init state has unique_id (user own a temporary shop)
-			const uniqueID = authSagaContext.initStateUniqueID.unique_id;
-			if (authSagaContext.tokenType === 'UNIQUE_ID' && uniqueID !== null) {
-				// set localStorage token only
-				yield* call(() => setRemoteCookiesTokenOnly(response.data));
-				// construct transfer shop url
-				const transferShopUrl = `${process.env.NEXT_PUBLIC_SHOP_TRANSFER_SHOP}`;
-				// call is authenticated instance (require real token from localStorage previously set)
-				const authInstance = yield* call(() =>
-					isAuthenticatedInstance(response.data),
-				);
-				// Get transfer shop response
-				const transferResponse: ResponseDataErrorInterface = yield* call(() =>
-					postApi(transferShopUrl, authInstance, { unique_id: uniqueID }),
-				);
-				if (transferResponse.status === 204) {
-					// Transfer complete
-					// localStorage token was previously set
-					// Set new token state
-					yield* put(setTokenState(response.data));
-					// Empty unique ID state
-					yield* put(setEmptyUniqueIDState());
-					// Empty unique ID localStorage
-					yield* call(() => emptyRemoteCookiesUniqueIDOnly());
-					yield* put(setIsLoggedIn(true));
-				} else {
-					console.log(transferResponse.data);
-					console.log(transferResponse.status);
-				}
-				// Previous init state is null (user don't own a temporary shop)
-			} else {
-				// Set new token state
-				yield* put(setTokenState(response.data));
-				// set localStorage token only
-				yield* call(() => setRemoteCookiesTokenOnly(response.data));
-				// Empty unique ID state & localStorage in case
-				yield* put(setEmptyUniqueIDState());
-				yield* call(() => emptyRemoteCookiesUniqueIDOnly());
-				yield* put(setIsLoggedIn(true));
-			}
-		} else {
-			console.log(response.status);
-			console.log(response.data);
-		}
-	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-	}
-}
+// function* accountPostRegisterSaga(payload: AccountPostRegisterType) {
+// 	const authSagaContext = yield* call(() => ctxAuthSaga());
+// 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_REGISTER}`;
+// 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// 	// const { type, ...payloadData } = payload;
+// 	const payloadData: Omit<AccountPostRegisterType, 'type'> = payload;
+// 	try {
+// 		// Call allow any instance to register
+// 		const instance = yield* call(() => allowAnyInstance());
+// 		// Get register response which has stateToken
+// 		const response: AccountPostRegisterResponseType = yield* call(() => postApi(url, instance, payloadData));
+// 		if (response.status === 200) {
+// 			// Check if previous init state has unique_id (user own a temporary shop)
+// 			const uniqueID = authSagaContext.initStateUniqueID.unique_id;
+// 			if (authSagaContext.tokenType === 'UNIQUE_ID' && uniqueID !== null) {
+// 				// set cookie token only
+// 				yield* call(() => setRemoteCookiesTokenOnly(response.data));
+// 				// construct transfer shop url
+// 				const transferShopUrl = `${process.env.NEXT_PUBLIC_SHOP_TRANSFER_SHOP}`;
+// 				// call is authenticated instance (require real token from localStorage previously set)
+// 				const authInstance = yield* call(() =>
+// 					isAuthenticatedInstance(response.data),
+// 				);
+// 				// Get transfer shop response
+// 				const transferResponse: ResponseDataErrorInterface = yield* call(() =>
+// 					postApi(transferShopUrl, authInstance, { unique_id: uniqueID }),
+// 				);
+// 				if (transferResponse.status === 204) {
+// 					// Transfer complete
+// 					// localStorage token was previously set
+// 					// Set new token state
+// 					yield* put(setTokenState(response.data));
+// 					// Empty unique ID state
+// 					yield* put(setEmptyUniqueIDState());
+// 					// Empty unique ID localStorage
+// 					yield* call(() => emptyRemoteCookiesUniqueIDOnly());
+// 					yield* put(setIsLoggedIn(true));
+// 				} else {
+// 					console.log(transferResponse.data);
+// 					console.log(transferResponse.status);
+// 				}
+// 				// Previous init state is null (user don't own a temporary shop)
+// 			} else {
+// 				// Set new token state
+// 				yield* put(setTokenState(response.data));
+// 				// set localStorage token only
+// 				yield* call(() => setRemoteCookiesTokenOnly(response.data));
+// 				// Empty unique ID state & cookies in case
+// 				yield* put(setEmptyUniqueIDState());
+// 				yield* call(() => emptyRemoteCookiesUniqueIDOnly());
+// 				yield* put(setIsLoggedIn(true));
+// 			}
+// 		} else {
+// 			console.log(response.status);
+// 			console.log(response.data);
+// 		}
+// 	} catch (e) {
+// 		const errors = e as ApiErrorResponseType;
+// 		console.log(errors);
+// 	}
+// }
 
 function* accountPostLoginSaga(payload: AccountPostLoginType) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_LOGIN}`;
@@ -827,9 +823,41 @@ function* accountPutChangeEmailNotHasPasswordSaga(payload: {
 	}
 }
 
+function* accountSetFacebookEmailSaga(payload: {type: string, email :string}) {
+	// change email in account slice
+	yield* put(setFbEmailSet({ email: payload.email }));
+	// change email in init slice
+	yield* put(setFbEmailInInit({ email: payload.email }));
+}
+
 function* wsUserAvatarSaga(payload: { type: string; pk: number; avatar_thumbnail: string }) {
 	yield* put(setWSUserAvatar(payload.avatar_thumbnail));
 }
+
+function* accountPostRegisterSaga(payload: {type: string, unique_id_exists: boolean, tokens: InitStateNonNullableToken}) {
+	if (payload.unique_id_exists) {
+		// Transfer complete
+		// localStorage token was previously set
+		// Set new token state
+		yield* put(setTokenState(payload.tokens));
+		// Empty unique ID state
+		yield* put(setEmptyUniqueIDState());
+		// Empty unique ID localStorage
+		yield* call(() => emptyRemoteCookiesUniqueIDOnly());
+		yield* put(setIsLoggedIn(true));
+	} else {
+		// this part is used in login also.
+		// Set new token state
+		yield* put(setTokenState(payload.tokens));
+		// set localStorage token only
+		yield* call(() => setRemoteCookiesTokenOnly(payload.tokens));
+		// Empty unique ID state & cookies in case
+		yield* put(setEmptyUniqueIDState());
+		yield* call(() => emptyRemoteCookiesUniqueIDOnly());
+		yield* put(setIsLoggedIn(true));
+	}
+}
+
 
 export function* watchAccount() {
 	yield* takeLatest(Types.ACCOUNT_POST_CHECK_EMAIL, accountPostCheckEmailSaga);
@@ -864,5 +892,6 @@ export function* watchAccount() {
 	yield* takeLatest(Types.ACCOUNT_PUT_PASSWORD_RESET, accountPutPasswordResetSaga);
 	yield* takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_HAS_PASSWORD, accountPutChangeEmailHasPasswordSaga);
 	yield* takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_NOT_HAS_PASSWORD, accountPutChangeEmailNotHasPasswordSaga);
+	yield* takeLatest(Types.ACCOUNT_SET_FACEBOOK_EMAIL, accountSetFacebookEmailSaga);
 	yield* takeLatest(Types.WS_USER_AVATAR, wsUserAvatarSaga);
 }

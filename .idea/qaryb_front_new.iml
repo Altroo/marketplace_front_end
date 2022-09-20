@@ -220,7 +220,22 @@
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiLoadingResponseOrError/apiAlert" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/apiLoadingResponseOrError/apiProgress" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/api/auth" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/login" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/facebookSignInButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/googleSignInButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/auth" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/auth/register" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/auth" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/auth/register" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/auth" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/auth/login" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/auth/missing" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/auth/welcome" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customPasswordInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customOutlinedText" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/textButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/auth/reset-password" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/auth/login" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/auth/reset-password" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />

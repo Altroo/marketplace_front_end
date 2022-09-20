@@ -1,0 +1,64 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.desktopOnly
+  display: flex
+.mobileOnly
+  display: none
+.rootStack
+  width: 364px
+  height: calc(100% - 4rem)
+  margin: 0 auto
+.header
+  +Bold
+  font-size: 32px
+  color: $primary
+.subHeader
+  +Regular
+  font-size: 17px
+  color: #84848A
+.registerButton
+  width: 100% !important
+@media #{$tablette}
+  .main
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    width: 100%
+    height: 100%
+  .desktopOnly
+    display: none
+  .mobileOnly
+    display: flex
+    width: 100%
+    height: 100%
+  .rootStack
+    width: 100% !important
+    height: 100% !important
+    margin: 0 auto
+  .registerButton
+    margin: 1rem auto 0 !important
+    width: 70vw
+  .mobileInput
+    width: 100%
+    margin-left: 2rem !important
+    margin-right: 2rem !important
+  .bottomLinks
+    +Regular
+    font-size: 15px
+    color: #525256
+    a
+      color: #0274d7
+@media #{$mobile}
+  .mobileInput
+    width: inherit
+    margin-left: 2rem !important
+    margin-right: 2rem !important
+  .subHeader
+    margin-left: 2rem !important
+    margin-right: 2rem !important
+  .registerButton
+    width: calc(100vw - 4rem) !important
+// @media #{}

@@ -1,8 +1,11 @@
 import { RootState } from '../store';
 import { ShopFontNameType, ShopGetRootUniqueIDType } from "../../types/shop/shopTypes";
 import { IconColorType, TokenChoices } from "../../types/_init/_initTypes";
-import { DetailsOfferProductType, OfferGetRootProductInterface } from "../../types/offer/offerTypes";
+// import { DetailsOfferProductType, OfferGetRootProductInterface } from "../../types/offer/offerTypes";
+import { createSelector } from "reselect";
 
+// For createSelector
+const selectSelf = (state: RootState) => state;
 // _Init
 export const getTokenType = (state: RootState) => state._init.tokenType as TokenChoices;
 export const getInitStateToken = (state: RootState) => state._init.initStateToken;
@@ -77,7 +80,10 @@ export const getAvailableCities = (state: RootState) => state.places.cities;
 // export const getPlacesApiFetchInProgress = (state: RootState) => state.places.placesApi.isFetchInProgress;
 // Account
 export const getCheckUserHasShop = (state: RootState) => state.account.check_account?.has_shop as boolean;
+export const getCheckUserHasPassword = (state: RootState) => state.account.check_account?.has_password as boolean;
 export const getUserIsLoggedIn = (state: RootState) => state.account.isLoggedIn;
+export const getCheckEmailAlreadyExists = createSelector(selectSelf, (state: RootState) => state.account.email_exists);
+
 // Offers
 export const getMyOffersList = (state: RootState) => state.offer.userOffersList.results;
 export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersList.next;

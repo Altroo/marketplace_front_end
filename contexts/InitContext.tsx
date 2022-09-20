@@ -17,7 +17,7 @@ import { accountGetCheckAccountAction } from '../store/actions/account/accountAc
 import { cookiesFetcher } from '../store/services/_init/_initAPI';
 import { getCheckUserHasShop, getInitStateToken, getInitStateUniqueID, getTokenType } from "../store/selectors";
 import { placesGetCitiesAction } from "../store/actions/places/placesActions";
-import { offerGetMyOffersFirstPageAction } from "../store/actions/offer/offerActions";
+// import { offerGetMyOffersFirstPageAction } from "../store/actions/offer/offerActions";
 // import { offerGetMyOffersFirstPageAction } from "../store/actions/offer/offerActions";
 
 const InitContext = createContext<InitStateInterface<InitStateToken, InitStateUniqueID>>({

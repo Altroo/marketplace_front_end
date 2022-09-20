@@ -14,10 +14,11 @@ import {
 	InitStateInterface,
 	InitStateToken,
 	InitStateUniqueID,
-	tokenUser,
-} from '../../../types/_init/_initTypes';
+	tokenUser
+} from "../../../types/_init/_initTypes";
 import { emptyInitStateUniqueID } from '../../../store/slices/_init/_initSlice';
 import { setAuthTokenCookie } from '../../../utils/cookies';
+import axios from 'axios';
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -41,27 +42,31 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		// https://next-auth.js.org/configuration/providers
 		providers: [
 			FacebookProvider({
-				// idToken: true,
+				idToken: true,
 				clientId: `${process.env.FACEBOOK_ID}`,
 				clientSecret: `${process.env.FACEBOOK_SECRET}`,
-				// authorization: {
-				// 	url: "https://www.facebook.com/v11.0/dialog/oauth?scope=email",
-				// 	params: {
-				// 		scope: "openid email public_profile",
-				// 	},
-				// },
-				// userinfo: {
-				// 	url: "https://graph.facebook.com/me",
-				// 	params: {
-				// 		fields: "id,name,email,picture"
-				// 	},
-				// },
-				// // scopes: ["email"],
-				// // profileFields: ["id", "name", "email", "picture"],
-				// issuer: 'https://www.facebook.com',
+				checks: ['pkce', 'state'],
+				token: {
+					url: 'https://graph.facebook.com/oauth/access_token',
+					async request(context) {
+						// request to https://graph.facebook.com/oauth/access_token?code_verifier=""&code=""&client_id=""&redirect_uri=""&client_secret=""
+						const response = await axios.get('https://graph.facebook.com/oauth/access_token', {
+							params: {
+								code_verifier: context.checks.code_verifier,
+								code: context.params.code,
+								client_id: context.provider.clientId,
+								redirect_uri: context.provider.callbackUrl,
+								client_secret: context.provider.clientSecret,
+							},
+						});
+
+						const tokens = response.data;
+						return { tokens };
+					},
+				},
 			}),
 			GoogleProvider({
-				// idToken: true,
+				idToken: true,
 				clientId: `${process.env.GOOGLE_ID}`,
 				clientSecret: `${process.env.GOOGLE_SECRET}`,
 				authorization: {
@@ -119,7 +124,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		// The secret should be set to a reasonably long random string.
 		// It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
 		// a separate secret is defined explicitly for encrypting the JWT.
-		secret: process.env.SECRET,
+		secret: process.env.NEXTAUTH_SECRET,
 
 		session: {
 			// Use JSON Web Tokens for session instead of database sessions.
@@ -141,7 +146,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		// https://next-auth.js.org/configuration/options#jwt
 		jwt: {
 			// A secret to use for key generation (you should set this explicitly)
-			secret: process.env.SECRET,
+			secret: process.env.NEXTAUTH_SECRET,
 			// Set to true to use encryption (default: false)
 			// encryption: true,
 			// You can define your own encode/decode functions for signing and encryption
@@ -156,9 +161,9 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		// pages is not specified for that route.
 		// https://next-auth.js.org/configuration/pages
 		pages: {
-			signIn: '/login/index', // Displays signin buttons
+			signIn: '/auth/register', // Displays signin buttons
 			// signOut: '/auth/signout', // Displays form with sign out button
-			// error: '/auth/error', // Error code passed in query string as ?error=
+			error: '/auth/register', // Error code passed in query string as ?error=
 			// verifyRequest: '/auth/verify-request', // Used for check email page
 			// newUser: null // If set, new users will be directed here on first sign in
 		},

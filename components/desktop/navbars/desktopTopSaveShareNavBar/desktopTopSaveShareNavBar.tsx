@@ -33,13 +33,13 @@ const DesktopTopSaveShareNavBar: React.FC<Props> = (props: Props) => {
 						className={Styles.shareBtn}>
 						<Stack direction="row" alignItems="center">
 							<ImageFuture
-							src={ShareSVG}
-							alt=""
-							width="0"
-							height="0"
-							sizes="100vw"
-							className={Styles.icon}
-						/>
+								src={ShareSVG}
+								alt=""
+								width="0"
+								height="0"
+								sizes="100vw"
+								className={Styles.icon}
+							/>
 							<span className={Styles.shareTxt}>Partager</span>
 						</Stack>
 					</Button>

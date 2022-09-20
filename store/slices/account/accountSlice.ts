@@ -127,12 +127,16 @@ const accountSlice = createSlice({
 		},
 		setEmailChanged: (state, action: PayloadAction<{ new_email: string; changed: boolean }>) => {
 			state.emailChanged = action.payload.changed;
-			// state.email = action.payload.new_email;
 			state.verifiedAccount = false;
 			state.check_account.email = action.payload.new_email;
 			state.check_account.verified = false;
 			state.check_account.has_password = true;
 			// return state;
+		},
+		setFbEmailSet: (state, action: PayloadAction<{email: string}>) => {
+			state.verifiedAccount = false;
+			state.check_account.email = action.payload.email;
+			state.check_account.verified = false;
 		},
 		setWSUserAvatar: (state, action: PayloadAction<string>) => {
 			// payload has user_avatar
@@ -185,6 +189,7 @@ export const {
 	setPasswordResetSent,
 	setPasswordResetValidCode,
 	setEmailChanged,
+	setFbEmailSet,
 	setWSUserAvatar,
 	initAccount,
 } = accountSlice.actions;

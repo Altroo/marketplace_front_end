@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from "next";
 import Styles from '../../../../styles/offer/create/offerCreateShared.module.sass';
 import SharedStyles from '../../../../styles/shop/create/shopCreateShared.module.sass';
 import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
@@ -12,7 +12,13 @@ import { Stack, Box } from '@mui/material';
 import { useAppSelector } from '../../../../utils/hooks';
 import { getLocalOfferCategories } from '../../../../store/selectors';
 import PrimaryAnchorButton from "../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton";
-import { OFFER_ADD_INDEX, OFFER_ADD_PRODUCT_DESCRIPTION, SHOP_EDIT_INDEX } from "../../../../utils/routes";
+import {
+	OFFER_ADD_INDEX,
+	OFFER_ADD_PRODUCT_DESCRIPTION,
+	SHOP_ADD_SHOP_NAME,
+	SHOP_EDIT_INDEX
+} from "../../../../utils/routes";
+import { getCookie } from "cookies-next";
 
 const Index: NextPage = () => {
 	const pickedCategories = useAppSelector(getLocalOfferCategories);
@@ -51,5 +57,20 @@ const Index: NextPage = () => {
 		</>
 	);
 };
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
+	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: SHOP_ADD_SHOP_NAME,
+			},
+		};
+	}
+	return {
+		props: {},
+	}
+}
 
 export default Index;

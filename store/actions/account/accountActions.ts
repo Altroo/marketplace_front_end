@@ -1,5 +1,6 @@
 import * as types from '../index';
 import { AccountDeleteType, AccountEncloseType, AccountGenderType } from '../../../types/account/accountTypes';
+import { InitStateNonNullableToken } from "../../../types/_init/_initTypes";
 
 export const accountPostFacebookAction = (access_token: string) => {
 	return {
@@ -15,6 +16,7 @@ export const accountPostGoogleAction = (access_token: string) => {
 	};
 };
 
+// No longer used (since it's using async)
 export const accountPostCheckEmailAction = (email: string) => {
 	return {
 		type: types.ACCOUNT_POST_CHECK_EMAIL,
@@ -63,22 +65,40 @@ export const accountPostLogoutAction = () => {
 	};
 };
 
+// export const accountPostRegisterAction = (
+// 	email: string,
+// 	password: string,
+// 	password2: string,
+// 	first_name: string,
+// 	last_name: string,
+// ) => {
+// 	return {
+// 		type: types.ACCOUNT_POST_REGISTER,
+// 		email,
+// 		password,
+// 		password2,
+// 		first_name,
+// 		last_name,
+// 	};
+// };
+
 export const accountPostRegisterAction = (
-	email: string,
-	password: string,
-	password2: string,
-	first_name: string,
-	last_name: string,
+	unique_id_exists: boolean,
+	tokens: InitStateNonNullableToken
 ) => {
 	return {
 		type: types.ACCOUNT_POST_REGISTER,
-		email,
-		password,
-		password2,
-		first_name,
-		last_name,
+		unique_id_exists,
+		tokens,
 	};
 };
+
+export const accountSetFacebookEmailAction = (email: string) => {
+	return {
+		type: types.ACCOUNT_SET_FACEBOOK_EMAIL,
+		email,
+	};
+}
 
 export const accountPostVerifyAccountAction = (email: string, code: number) => {
 	return {

@@ -7,6 +7,7 @@ type Props = {
 	active: boolean,
 	nextPage?: string,
 	onClick?: () => void,
+	cssClass?: string,
 	children?: React.ReactNode;
 };
 
@@ -15,7 +16,9 @@ const PrimaryAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, 
 		<Link href={props.nextPage} passHref>
 			<a ref={ref}>
 				<button
-					className={`${Styles.primaryButtonDisabled} ${props.active ? `${Styles.primaryButtonActive}` : ''}`}
+					className={`${Styles.primaryButtonDisabled} 
+					${props.active ? `${Styles.primaryButtonActive}` : ''}
+					${props.cssClass && `${props.cssClass}`}`}
 					onClick={props.onClick}
 					disabled={!props.active}>
 					{props.buttonText}

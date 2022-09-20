@@ -8,7 +8,7 @@ import {
 	INPUT_PONE,
 	INPUT_REQUIRED,
 	INPUT_URL,
-	INPUT_INSTAGRAM_URL, INPUT_IMG_MIN
+	INPUT_INSTAGRAM_URL, INPUT_IMG_MIN, INPUT_PASSWORD_MIN, SHORT_INPUT_REQUIRED
 } from "./formValidationErrorMessages";
 
 export const shopNameSchema = Yup.object().shape({
@@ -17,6 +17,10 @@ export const shopNameSchema = Yup.object().shape({
 
 export const shopBioSchema = Yup.object().shape({
 	bio: Yup.string().max(300, INPUT_MAX(300)).nullable(),
+});
+
+export const emailSchema = Yup.object().shape({
+	email: Yup.string().email(INPUT_EMAIL).required(INPUT_REQUIRED),
 });
 
 export const shopAvailabilityDaysSchema = Yup.object().shape({
@@ -77,4 +81,31 @@ export const clickAndCollectSchema = Yup.object().shape({
 	longitude: Yup.number().nullable().notRequired(),
 	latitude: Yup.number().nullable().notRequired(),
 	address_name: Yup.string().nullable().required(),
+});
+
+export const tellUsMoreSchema = Yup.object().shape({
+	first_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	last_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	password: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
+	password2: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
+});
+
+export const loginSchema = Yup.object().shape({
+	email: Yup.string().email(INPUT_EMAIL).required(INPUT_REQUIRED),
+	password: Yup.string().required(INPUT_REQUIRED),
+	globalError: Yup.string().notRequired().nullable(),
+});
+
+export const passwordResetCodeSchema = Yup.object().shape({
+	one: Yup.number().required(SHORT_INPUT_REQUIRED),
+	two: Yup.number().required(SHORT_INPUT_REQUIRED),
+	three: Yup.number().required(SHORT_INPUT_REQUIRED),
+	four: Yup.number().required(SHORT_INPUT_REQUIRED),
+	globalError: Yup.string().notRequired().nullable(),
+});
+
+export const passwordResetConfirmationSchema = Yup.object().shape({
+	new_password: Yup.string().required(INPUT_REQUIRED),
+	new_password2: Yup.string().required(INPUT_REQUIRED),
+	globalError: Yup.string().notRequired().nullable(),
 });

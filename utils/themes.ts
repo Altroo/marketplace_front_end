@@ -624,3 +624,58 @@ export const solderPourcentageCustomInputTheme = (primaryColor: string | undefin
 		},
 	});
 };
+
+export const codeTextInputTheme = (error: boolean | undefined) => {
+	const blueColor = '#07CBAD';
+	const defaultTheme = getDefaultTheme(blueColor);
+	let borderColor = '#D9D9DD';
+	if (error){
+		borderColor = '#E12D3D';
+	}
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						'& fieldset': {
+							borderTop: '2px solid',
+							borderRight: '2px solid',
+							borderLeft: '2px solid',
+							borderBottom: `2px solid ${borderColor}`,
+						},
+					},
+					input: {
+						textAlign: 'center',
+						fontFamily: 'Poppins',
+						fontSize: '42px',
+						caretColor: blueColor,
+					},
+				},
+			},
+			MuiOutlinedInput: {
+				styleOverrides: {
+					notchedOutline: {
+						borderRadius: '0px !important',
+						borderTop: '2px solid transparent !important',
+						borderRight: '2px solid transparent !important',
+						borderLeft: '2px solid transparent !important',
+						borderBottom: `2px solid ${borderColor}`,
+						// '&.Mui-focused': {
+						// 	borderColor: `${hexToRGB('#07CBAD', 1)} !important`,
+						// },
+					},
+				}
+			},
+			// MuiFormControl: {
+			// 	styleOverrides: {
+			// 		root: {
+			// 			'& fieldset.Mui-focused': {
+			// 				borderColor: `${hexToRGB('#07CBAD', 1)} !important`,
+			// 			},
+			// 		}
+			// 	}
+			// }
+		},
+	});
+};

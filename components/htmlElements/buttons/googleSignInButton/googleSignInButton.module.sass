@@ -1,0 +1,27 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.button
+  border: 1px solid #A3A3AD
+  border-radius: 60px
+  text-transform: none
+  width: 363px
+  height: 56px
+.icon
+  width: 32px
+  height: 32px
+  margin-right: 10px
+.text
+  +Medium
+  font-size: 19px
+  color: $primary
+@media #{$tablette}
+  .button
+    width: 50vw
+@media #{$mobile}
+  .button
+    width: calc(100vw - 4rem)
+// @media #{}
+// @media #{}

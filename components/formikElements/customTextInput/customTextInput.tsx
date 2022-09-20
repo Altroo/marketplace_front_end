@@ -18,6 +18,7 @@ type Props = {
 	fullWidth?: boolean;
 	size?: "small" | "medium";
 	disabled?: boolean;
+	variant?: "filled" | "standard" | "outlined";
 	onClick?: () => void;
 };
 
@@ -29,7 +30,7 @@ const CustomTextInput = forwardRef<HTMLInputElement, Props>((props:Props, ref: F
 		<ThemeProvider theme={theme}>
 			<TextField
 				ref={ref}
-				{...restOfProps}
+				variant={props.variant}
 				type={props.type}
 				id={props.id}
 				value={props.value}

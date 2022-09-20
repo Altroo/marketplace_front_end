@@ -17,6 +17,7 @@ export type AccountCheckAccountType = {
 	verified: boolean,
 	has_password: boolean,
 	has_shop: boolean,
+	is_new: boolean,
 }
 
 //!- Account State

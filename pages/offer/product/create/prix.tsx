@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from "next";
 import OfferStyles from '../../../../styles/offer/create/offerCreateShared.module.sass';
 import ShopStyles from '../../../../styles/shop/create/shopCreateShared.module.sass';
 import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import Styles from '../../../../styles/offer/create/price.module.sass';
 import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import { OFFER_ADD_PRODUCT_DESCRIPTION, SHOP_EDIT_INDEX } from "../../../../utils/routes";
+import { OFFER_ADD_PRODUCT_DESCRIPTION, SHOP_ADD_SHOP_NAME, SHOP_EDIT_INDEX } from "../../../../utils/routes";
 import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import { Box, Stack, ThemeProvider } from '@mui/material';
@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
 import { setOfferPricePage } from "../../../../store/actions/offer/offerActions";
 import { useRouter } from "next/router";
 import { getLocalOfferPrice, getLocalOfferPriceBy } from "../../../../store/selectors";
+import { getCookie } from "cookies-next";
 
 const Prix: NextPage = () => {
 	const activeStep = '3';
@@ -160,5 +161,20 @@ const Prix: NextPage = () => {
 		</>
 	);
 };
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
+	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: SHOP_ADD_SHOP_NAME,
+			},
+		};
+	}
+	return {
+		props: {},
+	}
+}
 
 export default Prix;

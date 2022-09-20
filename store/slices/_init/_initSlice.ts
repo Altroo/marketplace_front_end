@@ -56,10 +56,14 @@ const _initSlice = createSlice({
 			state.initStateToken = action.payload;
 			// return state;
 		},
+		setFbEmailInInit: (state, action: PayloadAction<{email : string}>) => {
+			state.initStateToken.user.email = action.payload.email;
+		},
 		setEmptyUniqueIDState: (state) => {
 			state.initStateUniqueID = emptyInitStateUniqueID;
 			// return state;
 		},
+
 		initToken: () => {
 			return initialState;
 		},
@@ -71,6 +75,6 @@ const _initSlice = createSlice({
 	// },
 });
 
-export const { setInitState, setTokenState, setEmptyUniqueIDState, initToken } = _initSlice.actions;
+export const { setInitState, setTokenState, setEmptyUniqueIDState, initToken, setFbEmailInInit } = _initSlice.actions;
 
 export default _initSlice.reducer;

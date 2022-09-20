@@ -85,6 +85,27 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 				...options,
 			});
 		}
+		if ('new_email' in query) {
+			setCookie(res, '@new_email', query.new_email, {
+				maxAge: query.maxAge,
+				sameSite: 'none',
+				...options,
+			});
+		}
+		if ('code' in query) {
+			setCookie(res, '@code', query.code, {
+				maxAge: query.maxAge,
+				sameSite: 'none',
+				...options,
+			});
+		}
+		if ('pass_updated' in query) {
+			setCookie(res, '@pass_updated', query.pass_updated, {
+				maxAge: query.maxAge,
+				sameSite: 'none',
+				...options,
+			});
+		}
 		// Return created with cookies set.
 		res.status(204);
 		res.end(res.getHeader('Set-Cookie'));
@@ -139,6 +160,24 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		}
 		if ('initStateUniqueID' in query) {
 			deleteCookie(res, '@initStateUniqueID', {
+				sameSite: 'none',
+				...options,
+			});
+		}
+		if ('new_email' in query) {
+			deleteCookie(res, '@new_email', {
+				sameSite: 'none',
+				...options,
+			});
+		}
+		if ('code' in query) {
+			deleteCookie(res, '@code', {
+				sameSite: 'none',
+				...options,
+			});
+		}
+		if ('pass_updated' in query) {
+			deleteCookie(res, '@pass_updated', {
 				sameSite: 'none',
 				...options,
 			});

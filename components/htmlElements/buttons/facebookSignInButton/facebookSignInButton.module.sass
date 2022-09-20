@@ -1,0 +1,30 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.button
+  background: #006AD7
+  border-radius: 60px
+  text-transform: none
+  width: 363px
+  height: 56px
+  &:hover
+    background-color: rgba(0, 106, 215, 0.7) !important
+.icon
+  width: 32px
+  height: 32px
+  margin-right: 10px
+.text
+  +Medium
+  font-size: 19px
+  color: white
+@media #{$tablette}
+  .button
+    width: 50vw
+@media #{$mobile}
+  .button
+    width: calc(100vw - 4rem)
+// @media #{}
+// @media #{}
+// @media #{}

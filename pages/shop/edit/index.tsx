@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from "next";
 import Styles from '../../../styles/shop/edit/editIndex.module.sass';
 import SharedStyles from '../../../styles/shop/create/shopCreateShared.module.sass';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
@@ -84,11 +84,13 @@ import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/shop/create/fontPicker/fontPicker';
-import { AUTH_LOGIN, SHOP_EDIT_INDEX } from "../../../utils/routes";
+import { AUTH_REGISTER, SHOP_ADD_COLOR, SHOP_ADD_SHOP_NAME, SHOP_EDIT_INDEX } from "../../../utils/routes";
 import { offerGetMyOffersFirstPageAction } from '../../../store/actions/offer/offerActions';
 import ApiLoadingResponseOrError from '../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
 import { wrapper } from '../../../store/store';
 import { END } from 'redux-saga';
+import { getCookie } from "cookies-next";
+import { getServerSideCookieTokens } from "../../../utils/helpers";
 
 const Index: NextPage = () => {
 	const router = useRouter();
@@ -572,7 +574,7 @@ const Index: NextPage = () => {
 						buttonTitle="Publier"
 						actions={dropDownActions}
 						onClick={() => {
-							router.push(AUTH_LOGIN).then();
+							router.push(AUTH_REGISTER).then();
 						}}
 						menuID="desktop-edit-menu"
 						buttonID="desktop-edit-menu-btn"
@@ -923,87 +925,19 @@ const Index: NextPage = () => {
 	);
 };
 
-// export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-// 	store.dispatch(offerGetMyOffersFirstPageAction());
-// 	// store.dispatch(END);
-// 	// await store.sagaTask?.toPromise();
-// 	// if (store.getState().offer.selectedOffer !== null){
-// 	// 	store.dispatch(setEmptySelectedOffer());
-// 	// }
-// 	// store.dispatch(END);
-// 	// await store.sagaTask?.toPromise();
-// 	return {
-// 		props: {},
-// 	};
-// });
-// export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-// 	if(store.getState().offer.userOffersList.results.length <= 0){
-// 		store.dispatch(offerGetMyOffersFirstPageAction());
-// 	}
-// 	if (context.req) {
-// 		store.dispatch(END);
-//
-// 	}
-// 	await store.sagaTask?.toPromise();
-// 	// if (store.getState().offer.selectedOffer !== null){
-// 	// 	store.dispatch(setEmptySelectedOffer());
-// 	// }
-// 	// store.dispatch(END);
-// 	// await store.sagaTask?.toPromise();
-// 	return {
-// 		props: {},
-// 	};
-// 	// let url = `${process.env.NEXT_PUBLIC_OFFER_MY_OFFERS}`;
-// 	// const pageUrl = "?page=1";
-// 	// const appToken = getServerSideCookieTokens(context);
-// 	// try {
-// 	// 	if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
-// 	// 		const instance = isAuthenticatedInstance(appToken.initStateToken);
-// 	// 		url += pageUrl;
-// 	// 		const response: OfferGetMyOffersResponseType = await getApi(
-// 	// 			url,
-// 	// 			instance,
-// 	// 		);
-// 	// 		if (response.status === 200) {
-// 	// 			return {
-// 	// 				props: {
-// 	// 					data: response.data,
-// 	// 				},
-// 	// 			};
-// 	// 		}
-// 	// 	} else {
-// 	// 		const instance = allowAnyInstance();
-// 	// 		url += `${appToken.initStateUniqueID.unique_id}/`;
-// 	// 		url += pageUrl;
-// 	// 		const response: OfferGetMyOffersResponseType = await getApi(
-// 	// 			url,
-// 	// 			instance,
-// 	// 		);
-// 	// 		if (response.status === 200) {
-// 	// 			return {
-// 	// 				props: {
-// 	// 					data: response.data,
-// 	// 				},
-// 	// 			};
-// 	// 		}
-// 	// 	}
-// 	// } catch (e) {
-// 	// 	// Redirect to 404
-// 	// 	return {
-// 	// 		redirect: {
-// 	// 			permanent: false,
-// 	// 			destination: SHOP_EDIT_INDEX,
-// 	// 		},
-// 	// 		props: {},
-// 	// 	};
-// 	// }
-// 	// return {
-// 	// 	redirect: {
-// 	// 		permanent: false,
-// 	// 		destination: SHOP_EDIT_INDEX,
-// 	// 	},
-// 	// 	props: {},
-// 	// };
-// });
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
+	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: SHOP_ADD_SHOP_NAME,
+			},
+		};
+	}
+	return {
+		props: {},
+	}
+}
 
 export default Index;

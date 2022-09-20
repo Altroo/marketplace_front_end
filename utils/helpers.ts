@@ -1,7 +1,6 @@
 import {
 	APIContentTypeInterface,
 	ApiErrorResponseType,
-	AppTokensCookieType,
 	IconColorType,
 	InitStateInterface,
 	InitStateToken,
@@ -12,15 +11,14 @@ import {
 	emptyInitStateToken,
 	emptyInitStateUniqueID,
 	initialState,
-	setInitState
-} from "../store/slices/_init/_initSlice";
-import { cookiesDeleter, cookiesFetcher, cookiesPoster, tokenRefreshApi } from '../store/services/_init/_initAPI';
+	setInitState,
+} from '../store/slices/_init/_initSlice';
+import { cookiesDeleter, cookiesPoster, tokenRefreshApi } from '../store/services/_init/_initAPI';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store/store';
 import { ShopFontNameType } from '../types/shop/shopTypes';
-import { GetServerSidePropsContext, PreviewData } from "next";
-import { ParsedUrlQuery } from "querystring";
-import { getCookie } from "cookies-next";
+import { GetServerSidePropsContext } from 'next';
+import { getCookie } from 'cookies-next';
 
 // export const loadAppToken = (): InitStateInterface<InitStateToken, InitStateUniqueID> => {
 // 	// load required data from storage
@@ -160,10 +158,10 @@ export const isAuthenticatedInstance = (
 							status_code: 502,
 							message: 'Network error.',
 							details: {
-								error: ["It looks like we are unable to connect. Please check your network connection and try again."]
-							}
-						}
-					}
+								error: ['It looks like we are unable to connect. Please check your network connection and try again.'],
+							},
+						},
+					};
 					return Promise.reject(errorObj);
 				}
 				if (error.response.status === 401 && !originalConfig._retry) {
@@ -249,9 +247,9 @@ export const allowAnyInstance = (
 							status_code: 502,
 							message: 'Network error.',
 							details: {
-								error: ["It looks like we are unable to connect. Please check your network connection and try again."]
-							}
-						}
+								error: ['It looks like we are unable to connect. Please check your network connection and try again.'],
+							},
+						},
 					};
 				} else {
 					errorObj = {
@@ -298,9 +296,9 @@ export const defaultInstance = (BaseUrl: string, contentType: APIContentTypeInte
 							status_code: 502,
 							message: 'Network error.',
 							details: {
-								error: ["It looks like we are unable to connect. Please check your network connection and try again."]
-							}
-						}
+								error: ['It looks like we are unable to connect. Please check your network connection and try again.'],
+							},
+						},
 					};
 				} else {
 					errorObj = {
@@ -401,7 +399,9 @@ export const deleteCookieStorageNewShopData = () => {
 };
 
 // Set Server token cookies
-export const setRemoteCookiesAppToken = async (newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID>) => {
+export const setRemoteCookiesAppToken = async (
+	newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID>,
+) => {
 	await cookiesPoster('/cookies', { tokenType: newInitStateToken.tokenType }).then(async () => {
 		cookiesPoster('/cookies', { initStateToken: newInitStateToken.initStateToken }).then(async () => {
 			cookiesPoster('/cookies', { initStateUniqueID: newInitStateToken.initStateUniqueID }).then();
@@ -440,7 +440,7 @@ export const hexToRGB = (hex: string, alpha: number) => {
 	}
 };
 
-export const getServerSideCookieTokens = (context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => {
+export const getServerSideCookieTokens = (context: GetServerSidePropsContext) => {
 	const tokenCookies = {
 		'@tokenType': getCookie('@tokenType', { req: context.req, res: context.res }),
 		'@initStateToken': getCookie('@initStateToken', { req: context.req, res: context.res }),
@@ -465,4 +465,27 @@ export const getServerSideCookieTokens = (context: GetServerSidePropsContext<Par
 		};
 	}
 	return appToken;
-}
+};
+
+type formikAutoErrors = {
+	e: unknown;
+	setFieldError: (field: string, message: string | undefined) => void;
+};
+
+export const setFormikAutoErrors = (props: formikAutoErrors) => {
+	const {e, setFieldError} = props;
+	const errors = e as ApiErrorResponseType;
+	if (errors.error.details) {
+		if (errors.error.details.error) {
+			// requires globalError field in formik initialValues
+			setFieldError('globalError', errors.error.details.error[0]);
+		}
+		if (typeof errors.error.details === 'object') {
+			for (const [key, value] of Object.entries(errors.error.details)) {
+				value.map((singleError) => {
+					setFieldError(key, singleError);
+				});
+			}
+		}
+	}
+};

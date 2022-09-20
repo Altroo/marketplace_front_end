@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from 'next/router';
 import Styles from '../../../styles/shop/create/shopCreateShared.module.sass';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
@@ -46,7 +46,8 @@ import {
 } from '../../../store/selectors';
 import ApiAlert from '../../../components/formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
-import { SHOP_ADD_COLOR, SITE_ROOT } from "../../../utils/routes";
+import { SHOP_ADD_COLOR, SHOP_ADD_SHOP_NAME, SITE_ROOT } from "../../../utils/routes";
+import { getCookie } from "cookies-next";
 
 export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
 	{
@@ -332,5 +333,21 @@ const Font: NextPage = () => {
 		</>
 	);
 };
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const color_code = getCookie('@color_code', {req: context.req, res: context.res});
+	const bg_color_code = getCookie('@bg_color_code', {req: context.req, res: context.res});
+	if (!color_code && !bg_color_code) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: SHOP_ADD_COLOR,
+			},
+		};
+	}
+	return {
+		props: {},
+	}
+}
 
 export default Font;

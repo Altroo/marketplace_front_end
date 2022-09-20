@@ -8,6 +8,9 @@ type Props = {
 	buttonText: string;
 	onClick?: () => void;
 	backgroundColor?: string;
+	active?: boolean,
+	type?: 'submit' | 'reset' | 'button' | undefined;
+	cssClass?: string;
 	children?: React.ReactNode;
 };
 
@@ -20,9 +23,19 @@ const OutlineButton: React.FC<Props> = (props: Props) => {
 				variant="outlined"
 				size="medium"
 				onClick={props.onClick}
-				className={Styles.outlineButton}>
+				type={props.type}
+				disabled={!props.active}
+				className={`${Styles.outlineButton} 
+					${props.cssClass && `${props.cssClass}`}`}>
 				{props.buttonText}
 			</Button>
+			{/*<OutlineButton*/}
+			{/*	buttonText="Renvoyer le code"*/}
+			{/*	active={formik.isValid && !formik.isSubmitting}*/}
+			{/*	onClick={formik.handleSubmit}*/}
+			{/*	type="submit"*/}
+			{/*	cssClass={Styles.emailRegisterButton}*/}
+			{/*/>*/}
 		</ThemeProvider>
 	);
 };

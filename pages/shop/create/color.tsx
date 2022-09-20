@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from "next";
 import Styles from '../../../styles/shop/create/shopCreateShared.module.sass';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
@@ -38,9 +38,11 @@ import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
-import { SHOP_ADD_AVATAR, SITE_ROOT } from "../../../utils/routes";
+import { SHOP_ADD_AVATAR, SHOP_ADD_SHOP_NAME, SITE_ROOT } from "../../../utils/routes";
 import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
 import { useRouter } from "next/router";
+import { wrapper } from "../../../store/store";
+import { getCookie } from "cookies-next";
 
 export const colors = [
 	'#FF5D6B',
@@ -323,5 +325,20 @@ const Color: NextPage = () => {
 		</>
 	);
 };
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const avatar = getCookie('@avatar', {req: context.req, res: context.res});
+	if (!avatar) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: SHOP_ADD_AVATAR,
+			},
+		};
+	}
+	return {
+		props: {},
+	}
+}
 
 export default Color;

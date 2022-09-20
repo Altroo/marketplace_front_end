@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from "next";
 // import Image from "next/image";
 // import { default as ImageFuture } from "next/future/image";
 import Styles from '../../../../styles/offer/create/offerCreateShared.module.sass';
@@ -7,7 +7,7 @@ import SharedStyles from '../../../../styles/shop/create/shopCreateShared.module
 import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
 import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import { OFFER_ADD_PRODUCT_CATEGORIES, SHOP_EDIT_INDEX } from '../../../../utils/routes';
+import { OFFER_ADD_PRODUCT_CATEGORIES, SHOP_ADD_SHOP_NAME, SHOP_EDIT_INDEX } from "../../../../utils/routes";
 import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperDescriptionHeader from '../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
@@ -56,6 +56,7 @@ import {
 // import { setSelectedOfferTags } from '../../../../store/slices/offer/offerSlice';
 import { forWhomData, getForWhomDataArray } from '../../../../utils/rawData';
 import { OfferForWhomType } from '../../../../types/offer/offerTypes';
+import { getCookie } from "cookies-next";
 // import { OfferForWhomType, OfferProductColors } from '../../../../types/offer/offerTypes';
 // import {
 // 	getLocalOfferColors, getLocalOfferDescription,
@@ -490,5 +491,20 @@ const Description: NextPage = () => {
 		</>
 	);
 };
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
+	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: SHOP_ADD_SHOP_NAME,
+			},
+		};
+	}
+	return {
+		props: {},
+	}
+}
 
 export default Description;

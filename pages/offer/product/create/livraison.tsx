@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from "next";
 import OfferStyles from '../../../../styles/offer/create/offerCreateShared.module.sass';
 import ShopStyles from '../../../../styles/shop/create/shopCreateShared.module.sass';
 import Styles from '../../../../styles/offer/create/livraison.module.sass';
@@ -66,11 +66,12 @@ import {
 import DeliveryOptionElements from '../../../../components/groupedComponents/offer/deliveryOptionElements/deliveryOptionElements';
 import SharedStyles from '../../../../styles/shop/create/shopCreateShared.module.sass';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import { OFFER_ADD_PRODUCT_PRICE, SHOP_EDIT_INDEX } from '../../../../utils/routes';
+import { OFFER_ADD_PRODUCT_PRICE, SHOP_ADD_SHOP_NAME, SHOP_EDIT_INDEX } from "../../../../utils/routes";
 import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import ApiLoadingResponseOrError
 	from "../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError";
+import { getCookie } from "cookies-next";
 
 const CustomMap = dynamic(() => import('../../../../components/map/customMap'), {
 	ssr: false,
@@ -730,5 +731,20 @@ const Livraison: NextPage = () => {
 		</ThemeProvider>
 	);
 };
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
+	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: SHOP_ADD_SHOP_NAME,
+			},
+		};
+	}
+	return {
+		props: {},
+	}
+}
 
 export default Livraison;

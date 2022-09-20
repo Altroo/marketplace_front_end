@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from "next";
 import { default as ImageFuture } from 'next/future/image';
 import Styles from '../../../styles/offer/create/overview.module.sass';
 import EditBlackSVG from '../../../public/assets/svgs/globalIcons/edit-black.svg';
@@ -44,7 +44,7 @@ import {
 	monthNames,
 } from '../../../utils/rawData';
 import Link from 'next/link';
-import { OFFER_ADD_PRODUCT_CATEGORIES, SHOP_EDIT_INDEX } from '../../../utils/routes';
+import { OFFER_ADD_PRODUCT_CATEGORIES, SHOP_ADD_SHOP_NAME, SHOP_EDIT_INDEX } from "../../../utils/routes";
 import SharedStyles from '../../../styles/shop/create/shopCreateShared.module.sass';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
@@ -96,6 +96,7 @@ import { ShopZoneByType } from '../../../types/shop/shopTypes';
 import CurrencyInput from 'react-currency-input-field';
 import Button from '@mui/material/Button';
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
+import { getCookie } from "cookies-next";
 
 const noCommentsAvailableContent = () => {
 	return (
@@ -1079,7 +1080,17 @@ const Index: NextPage<PropsType> = ({ data }) => {
 // 	};
 // }
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
+	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: SHOP_ADD_SHOP_NAME,
+			},
+		};
+	}
+
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/${context.params?.offer_pk}/`;
 	const appToken = getServerSideCookieTokens(context);
 	try {
@@ -1114,13 +1125,6 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 			props: {},
 		};
 	}
-	return {
-		redirect: {
-			permanent: false,
-			destination: SHOP_EDIT_INDEX,
-		},
-		props: {},
-	};
-});
+}
 
 export default Index;
