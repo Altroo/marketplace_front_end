@@ -58,6 +58,12 @@ export type ApiErrorResponseType = {
 
 export type ApiPromiseStatus = 'PENDING' | 'RESOLVED' | 'REJECTED' | null;
 
+export type SagaCallBackOnCompleteBoolType = {
+	error: ApiErrorResponseType;
+	cancelled: boolean;
+	data: boolean;
+};
+
 export interface GlobalApiPromiseError extends ApiErrorResponseType {
 	isAddInProgress: boolean;
 	isFetchInProgress: boolean;

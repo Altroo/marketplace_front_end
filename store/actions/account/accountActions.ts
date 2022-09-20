@@ -123,7 +123,7 @@ export const accountPostPasswordChangeAction = (new_password1: string, new_passw
 	};
 };
 
-export const accountPostSendPasswordResetAction = (email: string) => {
+export const accountPostSendPasswordResetAction = (email: string ) => {
 	return {
 		type: types.ACCOUNT_POST_SEND_PASSWORD_RESET,
 		email,

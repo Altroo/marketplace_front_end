@@ -54,12 +54,13 @@ import {
 	AccountPostGoogleResponseType,
 	AccountPostLoginResponseType,
 	AccountPostLoginType,
-	AccountPostRegisterResponseType,
-	AccountPostRegisterType,
+	// AccountPostRegisterResponseType,
+	// AccountPostRegisterType,
 	AccountPostVerifyAccountType,
 } from '../../../types/account/accountTypes';
 import { setTokenState, setEmptyUniqueIDState, initToken, setFbEmailInInit } from "../../slices/_init/_initSlice";
 import { ctxAuthSaga, initEmptyStatesSaga } from '../_init/_initSaga';
+import { withCallback } from 'redux-saga-callback';
 
 function* accountPostCheckEmailSaga(payload: { type: string; email: string }) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_EMAIL}`;
@@ -725,12 +726,10 @@ function* accountPostSendPasswordResetSaga(payload: { type: string; email: strin
 		const response: ResponseOnlyInterface = yield* call(() => postApi(url, instance, { email: payload.email }));
 		if (response.status === 204) {
 			yield* put(setPasswordResetSent(true));
-		} else {
-			console.log(response.status);
+			return true;
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
+		return e as ApiErrorResponseType;
 	}
 }
 
@@ -887,7 +886,7 @@ export function* watchAccount() {
 	yield* takeLatest(Types.ACCOUNT_POST_VERIFY_ACCOUNT, accountPostVerifyAccountSaga);
 	yield* takeLatest(Types.ACCOUNT_POST_RESEND_VERIFICATION, accountPostResendVerificationSaga);
 	yield* takeLatest(Types.ACCOUNT_POST_PASSWORD_CHANGE, accountPostPasswordChangeSaga);
-	yield* takeLatest(Types.ACCOUNT_POST_SEND_PASSWORD_RESET, accountPostSendPasswordResetSaga);
+	yield* takeLatest(Types.ACCOUNT_POST_SEND_PASSWORD_RESET, withCallback(accountPostSendPasswordResetSaga));
 	yield* takeLatest(Types.ACCOUNT_GET_PASSWORD_RESET, accountGetPasswordResetSaga);
 	yield* takeLatest(Types.ACCOUNT_PUT_PASSWORD_RESET, accountPutPasswordResetSaga);
 	yield* takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_HAS_PASSWORD, accountPutChangeEmailHasPasswordSaga);

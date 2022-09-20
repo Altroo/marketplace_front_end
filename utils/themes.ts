@@ -626,8 +626,8 @@ export const solderPourcentageCustomInputTheme = (primaryColor: string | undefin
 };
 
 export const codeTextInputTheme = (error: boolean | undefined) => {
-	const blueColor = '#07CBAD';
-	const defaultTheme = getDefaultTheme(blueColor);
+	const validColor = '#07CBAD';
+	const defaultTheme = getDefaultTheme(validColor);
 	let borderColor = '#D9D9DD';
 	if (error){
 		borderColor = '#E12D3D';
@@ -649,7 +649,7 @@ export const codeTextInputTheme = (error: boolean | undefined) => {
 						textAlign: 'center',
 						fontFamily: 'Poppins',
 						fontSize: '42px',
-						caretColor: blueColor,
+						caretColor: validColor,
 					},
 				},
 			},
@@ -661,21 +661,9 @@ export const codeTextInputTheme = (error: boolean | undefined) => {
 						borderRight: '2px solid transparent !important',
 						borderLeft: '2px solid transparent !important',
 						borderBottom: `2px solid ${borderColor}`,
-						// '&.Mui-focused': {
-						// 	borderColor: `${hexToRGB('#07CBAD', 1)} !important`,
-						// },
 					},
 				}
 			},
-			// MuiFormControl: {
-			// 	styleOverrides: {
-			// 		root: {
-			// 			'& fieldset.Mui-focused': {
-			// 				borderColor: `${hexToRGB('#07CBAD', 1)} !important`,
-			// 			},
-			// 		}
-			// 	}
-			// }
 		},
 	});
 };

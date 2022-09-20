@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import Styles from '../../../styles/auth/reset-password/enter-code.module.sass';
 import { GetServerSidePropsContext } from 'next';
 import {
@@ -17,16 +17,19 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import { passwordResetCodeSchema } from '../../../utils/formValidationSchemas';
-import { ResponseOnlyInterface } from '../../../types/_init/_initTypes';
+import {
+	ResponseOnlyInterface,
+	SagaCallBackOnCompleteBoolType
+} from "../../../types/_init/_initTypes";
 // import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
 // import OutlineButton from '../../../components/htmlElements/buttons/outlineButton/outlineButton';
 import { codeTextInputTheme } from '../../../utils/themes';
 import CustomOutlinedText from '../../../components/formikElements/customOutlinedText/customOutlinedText';
-import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
-import TextButton from "../../../components/htmlElements/buttons/textButton/textButton";
-import { useAppDispatch } from "../../../utils/hooks";
+import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import TextButton from '../../../components/htmlElements/buttons/textButton/textButton';
+import { useAppDispatch } from '../../../utils/hooks';
+import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import { accountPostSendPasswordResetAction } from "../../../store/actions/account/accountActions";
-import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 type enterCodePageContentProps = {
 	email: string;
@@ -40,11 +43,17 @@ const EnterCodePageContent = (props: enterCodePageContentProps) => {
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const renvoyerLeCodeHandler = () => {
-		dispatch(accountPostSendPasswordResetAction(email));
 		setLoading(true);
-		setTimeout(() => {
-			setLoading(false);
-		}, 1000);
+		// dispatch with callback
+		const action = accountPostSendPasswordResetAction(email);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
+				if (!error && !cancelled && data) {
+					setLoading(false);
+				}
+			},
+		});
 	};
 
 	const formik = useFormik({
@@ -76,92 +85,102 @@ const EnterCodePageContent = (props: enterCodePageContentProps) => {
 		},
 	});
 
-	// const codeTheme = codeTextInputTheme();
-
 	return (
 		<>
-			<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.contentWrapper} spacing={4}>
-			{loading && <ApiProgress cssStyle={{ position: "absolute", top: "50%", left: "50%" }} />}
-			<Stack direction="column" spacing={1}>
-				<span className={Styles.content}>Rentrez le code</span>
-				<span className={Styles.paragraphe}>
-					Un code a été envoyé au <span className={Styles.email}>{email}</span>
-				</span>
-			</Stack>
-			<form>
-				<Stack direction="column" spacing={8}>
-					<Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1} className={Styles.mobileCodeRootWrapper}>
-						<CustomOutlinedText
-							id="one"
-							value={formik.values.one}
-							onChange={formik.handleChange('one')}
-							onBlur={formik.handleBlur('one')}
-							// helperText={formik.touched.one ? formik.errors.one : ''}
-							error={formik.touched.one && Boolean(formik.errors.one)}
-							fullWidth={false}
-							size="medium"
-							type="tel"
-							inputProps={{ maxLength: 1 }}
-							theme={codeTextInputTheme(formik.touched.one && Boolean(formik.errors.one))}
-						/>
-						<CustomOutlinedText
-							id="two"
-							value={formik.values.two}
-							onChange={formik.handleChange('two')}
-							onBlur={formik.handleBlur('two')}
-							// helperText={formik.touched.two ? formik.errors.two : ''}
-							error={formik.touched.two && Boolean(formik.errors.two)}
-							fullWidth={false}
-							size="medium"
-							type="tel"
-							inputProps={{ maxLength: 1 }}
-							theme={codeTextInputTheme(formik.touched.two && Boolean(formik.errors.two))}
-						/>
-						<CustomOutlinedText
-							id="three"
-							value={formik.values.three}
-							onChange={formik.handleChange('three')}
-							onBlur={formik.handleBlur('three')}
-							// helperText={formik.touched.three ? formik.errors.three : ''}
-							error={formik.touched.three && Boolean(formik.errors.three)}
-							fullWidth={false}
-							size="medium"
-							type="tel"
-							inputProps={{ maxLength: 1 }}
-							theme={codeTextInputTheme(formik.touched.three && Boolean(formik.errors.three))}
-						/>
-						<CustomOutlinedText
-							id="four"
-							value={formik.values.four}
-							onChange={formik.handleChange('four')}
-							onBlur={formik.handleBlur('four')}
-							// helperText={formik.touched.four ? formik.errors.four : ''}
-							error={formik.touched.four && Boolean(formik.errors.four)}
-							fullWidth={false}
-							size="medium"
-							type="tel"
-							inputProps={{ maxLength: 1 }}
-							theme={codeTextInputTheme(formik.touched.four && Boolean(formik.errors.four))}
-						/>
-					</Stack>
-					{formik.errors.globalError && <span className={Styles.errorMessage}>{formik.errors.globalError}</span>}
-					<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
-						<PrimaryButton
-							buttonText="Confirmer le code"
-							active={formik.isValid && !formik.isSubmitting}
-							onClick={formik.handleSubmit}
-							cssClass={Styles.emailRegisterButton}
-							type="submit"
-						/>
-						<TextButton
-							buttonText="Renvoyer le code"
-							onClick={renvoyerLeCodeHandler}
-							cssClass={Styles.resendCodeButton}
-						/>
-					</Stack>
+			<Stack
+				direction="column"
+				justifyContent="center"
+				alignItems="center"
+				className={Styles.contentWrapper}
+				spacing={4}
+			>
+				{loading && <ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} />}
+				<Stack direction="column" spacing={1}>
+					<span className={Styles.content}>Rentrez le code</span>
+					<span className={Styles.paragraphe}>
+						Un code a été envoyé au <span className={Styles.email}>{email}</span>
+					</span>
 				</Stack>
-			</form>
-		</Stack>
+				<form>
+					<Stack direction="column" spacing={8}>
+						<Stack
+							direction="row"
+							justifyContent="space-between"
+							alignItems="center"
+							spacing={1}
+							className={Styles.mobileCodeRootWrapper}
+						>
+							<CustomOutlinedText
+								id="one"
+								value={formik.values.one}
+								onChange={formik.handleChange('one')}
+								onBlur={formik.handleBlur('one')}
+								// helperText={formik.touched.one ? formik.errors.one : ''}
+								error={formik.touched.one && Boolean(formik.errors.one)}
+								fullWidth={false}
+								size="medium"
+								type="tel"
+								inputProps={{ maxLength: 1 }}
+								theme={codeTextInputTheme(formik.touched.one && Boolean(formik.errors.one))}
+							/>
+							<CustomOutlinedText
+								id="two"
+								value={formik.values.two}
+								onChange={formik.handleChange('two')}
+								onBlur={formik.handleBlur('two')}
+								// helperText={formik.touched.two ? formik.errors.two : ''}
+								error={formik.touched.two && Boolean(formik.errors.two)}
+								fullWidth={false}
+								size="medium"
+								type="tel"
+								inputProps={{ maxLength: 1 }}
+								theme={codeTextInputTheme(formik.touched.two && Boolean(formik.errors.two))}
+							/>
+							<CustomOutlinedText
+								id="three"
+								value={formik.values.three}
+								onChange={formik.handleChange('three')}
+								onBlur={formik.handleBlur('three')}
+								// helperText={formik.touched.three ? formik.errors.three : ''}
+								error={formik.touched.three && Boolean(formik.errors.three)}
+								fullWidth={false}
+								size="medium"
+								type="tel"
+								inputProps={{ maxLength: 1 }}
+								theme={codeTextInputTheme(formik.touched.three && Boolean(formik.errors.three))}
+							/>
+							<CustomOutlinedText
+								id="four"
+								value={formik.values.four}
+								onChange={formik.handleChange('four')}
+								onBlur={formik.handleBlur('four')}
+								// helperText={formik.touched.four ? formik.errors.four : ''}
+								error={formik.touched.four && Boolean(formik.errors.four)}
+								fullWidth={false}
+								size="medium"
+								type="tel"
+								inputProps={{ maxLength: 1 }}
+								theme={codeTextInputTheme(formik.touched.four && Boolean(formik.errors.four))}
+							/>
+						</Stack>
+						{formik.errors.globalError && <span className={Styles.errorMessage}>{formik.errors.globalError}</span>}
+						<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+							<PrimaryButton
+								buttonText="Confirmer le code"
+								active={formik.isValid && !formik.isSubmitting}
+								onClick={formik.handleSubmit}
+								cssClass={Styles.emailRegisterButton}
+								type="submit"
+							/>
+							<TextButton
+								buttonText="Renvoyer le code"
+								onClick={renvoyerLeCodeHandler}
+								cssClass={Styles.resendCodeButton}
+							/>
+						</Stack>
+					</Stack>
+				</form>
+			</Stack>
 		</>
 	);
 };

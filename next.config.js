@@ -12,7 +12,7 @@ const nextConfig = {
 		domains: [`${process.env.API_ROOT_URL}`],
 		remotePatterns: [
 			{
-        protocol: `${process.env.HTTP}`,
+        protocol: `${process.env.HTTP_PROTOCOLE}`,
         hostname: `${process.env.API_ROOT_URL}`
       }
 		]

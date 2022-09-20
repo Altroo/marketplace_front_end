@@ -134,7 +134,7 @@ const ShopFilterSelect: React.FC<Props> = (props: Props) => {
 			<CustomSelect
 				renderValue={renderValue}
 				value={props.state}
-				onChange={(e) => (e ? props.setStateHandler(e as 'D' | 'T') : '')}
+				onChange={(e, value) => (props.setStateHandler(value as 'D' | 'T'))}
 			>
 				<StyledOption value="D">Prix décroissant</StyledOption>
 				<StyledOption value="C">Prix croissant</StyledOption>
