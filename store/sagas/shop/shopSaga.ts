@@ -71,7 +71,7 @@ import {
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
-import { SHOP_ADD_AVATAR, SHOP_ADD_COLOR, SHOP_ADD_FONT, SHOP_EDIT_INDEX } from '../../../utils/routes';
+import { TEMP_SHOP_ADD_AVATAR, TEMP_SHOP_ADD_COLOR, TEMP_SHOP_ADD_FONT, TEMP_SHOP_EDIT_INDEX } from '../../../utils/routes';
 import { NextRouter } from 'next/router';
 
 // interface TokenNoAuthSagaBaseGeneratorParams {
@@ -125,7 +125,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				// update state
 				yield* put(setPostShopState(response.data));
 				// TODO check when reach add shop while connected
-				yield* call(() => payload.router.push(`${SHOP_EDIT_INDEX}?created=true`));
+				yield* call(() => payload.router.push(`${TEMP_SHOP_EDIT_INDEX}?created=true`));
 			}
 		} else {
 			// User is not authenticated
@@ -149,7 +149,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				yield* call(() => emptyLocalStorageNewShopData());
 				// delete cookies
 				yield* call(() => deleteCookieStorageNewShopData());
-				yield* call(() => payload.router.push(`${SHOP_EDIT_INDEX}?created=true`));
+				yield* call(() => payload.router.push(`${TEMP_SHOP_EDIT_INDEX}?created=true`));
 			}
 		}
 	} catch (e) {
@@ -543,13 +543,13 @@ function* wsShopAvatarSaga(payload: { type: string; pk: number; shop_avatar: str
 function* setShopLocalShopNameSaga(payload: { type: string; shop_name: string; router: NextRouter }) {
 	yield* put(setNewShopName(payload.shop_name));
 	yield* call(() => setLocalStorageNewShopName(payload.shop_name));
-	yield* call(() => payload.router.push(SHOP_ADD_AVATAR));
+	yield* call(() => payload.router.push(TEMP_SHOP_ADD_AVATAR));
 }
 
 function* setShopLocalAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string; router: NextRouter }) {
 	yield* put(setNewShopAvatar(payload.avatar));
 	yield* call(() => setLocalStorageNewShopAvatar(payload.avatar as string));
-	yield* call(() => payload.router.push(SHOP_ADD_COLOR));
+	yield* call(() => payload.router.push(TEMP_SHOP_ADD_COLOR));
 }
 
 function* setShopLocalColorSaga(payload: {
@@ -571,7 +571,7 @@ function* setShopLocalColorSaga(payload: {
 	yield* call(() =>
 		setLocalStorageNewShopColor(payload.color_code, payload.bg_color_code, payload.border, payload.icon_color),
 	);
-	yield* call(() => payload.router.push(SHOP_ADD_FONT));
+	yield* call(() => payload.router.push(TEMP_SHOP_ADD_FONT));
 }
 
 function* setShopLocalFontSaga(payload: { type: string; font_name: ShopFontNameType }) {

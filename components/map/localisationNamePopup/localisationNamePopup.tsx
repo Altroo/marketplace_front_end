@@ -11,12 +11,16 @@ import {
 import { useAppSelector } from '../../../utils/hooks';
 
 type Props = {
+	address_name?: string;
 	children?: React.ReactNode;
 };
 
 const LocalisationNamePopup: React.FC<Props> = (props: Props) => {
 	const selectedLocalisationName = useAppSelector(getLocalisationName);
-	const address_name = useAppSelector(getShopAddressName);
+	let address_name = useAppSelector(getShopAddressName);
+	if (props.address_name) {
+		address_name = props.address_name;
+	}
 	const apiError = useAppSelector(getPlacesApiError);
 	const apiFetchPromiseStatus = useAppSelector(getPlacesApiFetchPromiseStatus);
 	const [errorMessage, setErrorMessage] = useState<Array<string> | null>(null);

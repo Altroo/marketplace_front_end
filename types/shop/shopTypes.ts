@@ -39,8 +39,10 @@ export type OpeningDaysArray = Array<{ pk: number; code_day: ShopDaysType; name_
 
 export interface ShopGetRootTokenType extends Omit<Nullable<UserShopClass>, 'opening_days'> {
 	pk: number;
+	user: number;
 	opening_days: OpeningDaysArray | null;
 	creator: boolean;
+	is_subscribed: boolean;
 }
 
 export interface ShopGetRootUniqueIDType extends Omit<Nullable<UserShopClass>, 'pk' | 'creator' | 'opening_days' | 'zone_by'> {

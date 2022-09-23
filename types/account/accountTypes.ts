@@ -13,11 +13,15 @@ export type AccountEncloseType = '' | 'A' | 'B';
 export type AccountDeleteType = '' | 'A' | 'B';
 
 export type AccountCheckAccountType = {
+	pk: number,
 	email: string,
 	verified: boolean,
 	has_password: boolean,
+	shop_url: string | boolean,
 	has_shop: boolean,
 	is_new: boolean,
+	is_subscribed: boolean,
+	picture: string,
 }
 
 //!- Account State

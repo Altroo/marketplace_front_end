@@ -15,6 +15,7 @@
             <path value="file://$PROJECT_DIR$/public/assets/svgs/navigationIcons" />
             <path value="file://$PROJECT_DIR$/public/assets/images/auth_illu" />
             <path value="file://$PROJECT_DIR$/public/assets/svgs/authIcons" />
+            <path value="file://$PROJECT_DIR$/public/assets/svgs/mainNavBarIcons" />
           </resourceRoots>
         </entryData>
       </entry>

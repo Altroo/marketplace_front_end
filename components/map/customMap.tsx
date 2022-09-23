@@ -16,6 +16,7 @@ type Props = {
 	kmRadius: number;
 	kmRadiusHandler?: (kmRadius: number) => void;
 	positionHandler?: (position: PositionType) => void;
+	address_name?: string;
 	children?: React.ReactNode;
 };
 const CustomMap: React.FC<Props> = (props: Props) => {
@@ -100,7 +101,7 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 				) : (
 					<SecteurMarker icon={secteurIcon} position={[props.position.lat, props.position.lng]} />
 				)}
-				<LocalisationNamePopup />
+				<LocalisationNamePopup address_name={props.address_name} />
 			</MapContainer>
 		</div>
 	);

@@ -1,6 +1,6 @@
 import { call, put, takeLatest, select } from 'typed-redux-saga/macro';
 import { ctxAuthSaga } from '../_init/_initSaga';
-import { allowAnyInstance, isAuthenticatedInstance } from '../../../utils/helpers';
+import { allowAnyInstance, defaultInstance, isAuthenticatedInstance } from "../../../utils/helpers";
 import { getApi, patchApi, postFormDataApi, postApi, putFormDataApi, deleteApi } from '../../services/_init/_initAPI';
 import { ApiErrorResponseType, ResponseOnlyInterface } from '../../../types/_init/_initTypes';
 import * as Types from '../../actions';
@@ -62,11 +62,12 @@ import {
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
 import {
-	OFFER_ADD_PRODUCT_LIVRAISON,
-	OFFER_ADD_PRODUCT_PRICE,
-	SHOP_EDIT_INDEX
+	TEMP_OFFER_ADD_PRODUCT_LIVRAISON,
+	TEMP_OFFER_ADD_PRODUCT_PRICE,
+	TEMP_SHOP_EDIT_INDEX
 } from "../../../utils/routes";
 import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
+import { withCallback } from "redux-saga-callback";
 
 function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootServiceType) {
 	yield* put(appendPostOfferIsLoading());
@@ -112,7 +113,7 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 			if (response.status === 200) {
 				// update state
 				yield* put(appendPostOfferState(response.data));
-				yield* call(() => payload.router.push(SHOP_EDIT_INDEX));
+				yield* call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance('multipart/form-data'));
@@ -121,7 +122,7 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 			);
 			if (response.status === 200) {
 				yield* put(appendPostOfferState(response.data));
-				yield* call(() => payload.router.push(SHOP_EDIT_INDEX));
+				yield* call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
 			}
 		}
 	} catch (e) {
@@ -307,6 +308,27 @@ function* offerGetMyOffersFirstPageSaga() {
 	}
 }
 
+function* offerGetOffersByShopIDSaga(payload: {type: string, pk: number, next_page?: string | null}) {
+	let url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${payload.pk}/`;
+	let page = 1;
+	if (payload.next_page) {
+		const queryIndex = payload.next_page.search('=');
+		page = parseInt(payload.next_page.slice(queryIndex + 1)[0]);
+	}
+	const pageUrl = `?page=${page}`;
+	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
+	const instance = yield* call(() => defaultInstance(base_url));
+	url += pageUrl;
+	try {
+		const response: OfferGetMyOffersResponseType = yield* call(() => getApi(url, instance));
+		if (response.status === 200 && response.data) {
+			return response.data;
+		}
+	} catch (e) {
+		return e as ApiErrorResponseType;
+	}
+}
+
 function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServiceType) {
 	yield* put(setPutOfferIsLoading());
 	const authSagaContext = yield* call(() => ctxAuthSaga());
@@ -351,7 +373,7 @@ function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServic
 			if (response.status === 200) {
 				// update state
 				yield* put(setPutOffer(response.data));
-				yield* call(() => payload.router.push(SHOP_EDIT_INDEX));
+				yield* call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
 				yield* put(emptyUserLocalOffer());
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
@@ -361,7 +383,7 @@ function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServic
 			);
 			if (response.status === 200) {
 				yield* put(setPutOffer(response.data));
-				yield* call(() => payload.router.push(SHOP_EDIT_INDEX));
+				yield* call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
 				yield* put(emptyUserLocalOffer());
 			}
 		}
@@ -384,7 +406,7 @@ function* offerDeleteRootSaga(payload: { type: string; pk: number, router: NextR
 			if (response.status === 204) {
 				// update state
 				yield* put(deleteUserOffer({ offer_pk: payload.pk }));
-				yield* call(() => payload.router.replace(SHOP_EDIT_INDEX));
+				yield* call(() => payload.router.replace(TEMP_SHOP_EDIT_INDEX));
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance = yield* call(() => allowAnyInstance());
@@ -392,7 +414,7 @@ function* offerDeleteRootSaga(payload: { type: string; pk: number, router: NextR
 			const response: ResponseOnlyInterface = yield* call(() => deleteApi(url, instance));
 			if (response.status === 204) {
 				yield* put(deleteUserOffer({ offer_pk: payload.pk }));
-				yield* call(() => payload.router.replace(SHOP_EDIT_INDEX));
+				yield* call(() => payload.router.replace(TEMP_SHOP_EDIT_INDEX));
 			}
 		}
 	} catch (e) {
@@ -617,13 +639,13 @@ function* setOfferDescriptionPageSaga(payload: {
 	yield* put(
 		setLocalOfferDescription({...payload}),
 	);
-	yield* call(() => payload.router.push(OFFER_ADD_PRODUCT_PRICE));
+	yield* call(() => payload.router.push(TEMP_OFFER_ADD_PRODUCT_PRICE));
 }
 
 function* setOfferPricePageSaga(payload: {type: string; price: string, price_by: 'U' | 'K' | 'L', router: NextRouter}) {
 	const { type, ...payloadData } = payload;
 	yield* put(setLocalOfferPrice(payloadData));
-	yield* call(() => payload.router.push(OFFER_ADD_PRODUCT_LIVRAISON))
+	yield* call(() => payload.router.push(TEMP_OFFER_ADD_PRODUCT_LIVRAISON))
 }
 
 function* setOfferDeliveryPageClickAndCollectSaga(payload: {type: string; longitude: number; latitude: number; address_name: string | null}) {
@@ -725,6 +747,7 @@ export function* watchOffer() {
 	yield* takeLatest(Types.EMPTY_OFFER_DELIVERY_CLICK_AND_COLLECT, emptyOfferDeliveryClickAndCollectSaga);
 	yield* takeLatest(Types.EMPTY_OFFER_DELIVERIES, emptyOfferDeliveriesSaga);
 	yield* takeLatest(Types.EMPTY_OFFER_USER_LOCAL_OFFER, offerSetEmptyUserLocalOfferSaga);
+	yield* takeLatest(Types.OFFER_GET_OFFERS_BY_SHOP_ID, withCallback(offerGetOffersByShopIDSaga));
 	yield* takeLatest(Types.SET_OFFER_TO_EDIT, setOfferToEditSaga);
 	yield* takeLatest(Types.OFFER_POST_ROOT, offerPostRootSaga);
 	yield* takeLatest(Types.OFFER_GET_ROOT, offerGetRootSaga);

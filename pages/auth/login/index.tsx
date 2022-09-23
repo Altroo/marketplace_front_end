@@ -83,7 +83,7 @@ const LoginPageContent = () => {
 	return (
 		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.contentWrapper} spacing={4}>
 			<h2 className={Styles.content}>Connection</h2>
-			<Stack direction="column" spacing={1}>
+			<Stack direction="column" spacing={2}>
 				<GoogleSignInButton onClick={googleSignIn} />
 				<FacebookSignInButton onClick={facebookSignIn} />
 				{error && <span className={Styles.errorMessage}>{error}</span>}

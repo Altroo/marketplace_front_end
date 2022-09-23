@@ -1,0 +1,58 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.main
+  width: 100%
+  height: calc(100vh - 435px)
+  padding: 2rem 60px 60px 60px
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+.illustration
+  width: 400px
+  max-width: 100%
+  height: 100%
+.rootContent
+  width: 100%
+  height: 100%
+.header
+  span
+    +Bold
+    font-size: 45px
+    color: $primary
+.paragraphe
+  span
+    +Regular
+    font-size: 19px
+@media #{$tablette}
+  .main
+    width: 100%
+    height: 100%
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem
+  .rootStack
+    flex-direction: column
+    justify-content: center
+    text-align: center
+    align-items: center
+  .rootContent
+    margin: 0 !important
+    align-items: center
+    text-align: center
+    justify-content: center
+  .header
+    span
+      font-size: 32px
+  .paragraphe
+    span
+      font-size: 17px
+  .illustration
+    width: 280px
+    height: 280px
+  .primaryButtonWrapper
+    width: 100%
+    text-align: center
+// @media #{}
+// @media #{}

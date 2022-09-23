@@ -264,7 +264,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 						initStateUniqueID: emptyInitStateUniqueID,
 					};
 					setAuthTokenCookie(res, newInitStateToken, {
-						maxAge: 86400,
+						maxAge: 30 * 24 * 60 * 60, // 30 days
 						sameSite: 'none',
 						...options,
 					});

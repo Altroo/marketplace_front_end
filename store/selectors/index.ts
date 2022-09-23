@@ -79,6 +79,8 @@ export const getAvailableCities = (state: RootState) => state.places.cities;
 
 // export const getPlacesApiFetchInProgress = (state: RootState) => state.places.placesApi.isFetchInProgress;
 // Account
+export const getUserProfilAvatar = (state: RootState) => state.account.check_account?.picture as string;
+export const getUserShopUrl = (state: RootState) => state.account.check_account?.shop_url as string | undefined | boolean;
 export const getCheckUserHasShop = (state: RootState) => state.account.check_account?.has_shop as boolean;
 export const getCheckUserHasPassword = (state: RootState) => state.account.check_account?.has_password as boolean;
 export const getUserIsLoggedIn = (state: RootState) => state.account.isLoggedIn;

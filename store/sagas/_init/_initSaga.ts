@@ -1,11 +1,13 @@
 import { put, call, takeLatest, select } from 'typed-redux-saga/macro';
+// import { put, call, takeLatest, select } from 'redux-saga/effects';
 import * as Types from '../../actions';
 import {
 	AppTokensCookieType,
 	IconColorType, InitStateInterface,
 	InitStateToken,
 	InitStateUniqueID,
-	NewShopCookieType
+	NewShopCookieType,
+	// TokenChoices
 } from "../../../types/_init/_initTypes";
 import { emptyInitStateToken, emptyInitStateUniqueID, initialState, setInitState } from '../../slices/_init/_initSlice';
 import { getInitStateToken, getInitStateUniqueID, getTokenType } from '../../selectors';
@@ -18,7 +20,6 @@ import { initVersion } from '../../slices/version/versionSlice';
 import { initCart } from '../../slices/cart/cartSlice';
 import { initChat } from '../../slices/chat/chatSlice';
 import { shopGetPhoneCodesSaga } from '../shop/shopSaga';
-import { Session } from 'next-auth';
 
 // or use fork instead
 // fork(initAppSaga, Types.INIT_APP)
@@ -146,6 +147,15 @@ export function* ctxAuthSaga() {
 		initStateToken: yield* select(getInitStateToken),
 		initStateUniqueID: yield* select(getInitStateUniqueID),
 	};
+	// return {
+	// 	tokenType: yield select(getTokenType),
+	// 	initStateToken: yield select(getInitStateToken),
+	// 	initStateUniqueID: yield select(getInitStateUniqueID),
+	// } as {
+	// 	tokenType: TokenChoices,
+	// 	initStateToken: InitStateToken,
+	// 	initStateUniqueID: InitStateUniqueID,
+	// };
 }
 
 function* refreshAppTokenStatesSaga(payload: { type: string; session: Record<string, unknown> }) {

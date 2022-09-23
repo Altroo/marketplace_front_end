@@ -233,7 +233,10 @@ export interface OfferGetRootProductInterface
 	details_offer: DetailsOfferProductType;
 	tags: Array<string>;
 	creator_label?: boolean | null;
-	made_in_label?: string | null;
+	made_in_label?: {
+		name: string;
+		code: string;
+	};
 	// details_offer: T;
 	pinned: boolean;
 	deliveries: Array<DeliveriesFlatResponseType> | [];
@@ -262,7 +265,10 @@ export interface OfferGetRootServiceInterface extends Omit<OfferServiceClass, 'o
 	for_whom: Array<OfferForWhomType>;
 	details_offer: DetailsOfferServiceType;
 	creator_label?: boolean | null;
-	made_in_label?: string | null;
+	made_in_label?: {
+		name: string;
+		code: string;
+	};
 	pinned: boolean;
 	exists_in_cart?: boolean;
 }
@@ -383,7 +389,7 @@ export type OfferGetMyOffersProductServiceType = {
 	solder_type: OfferSolderByType | null;
 	solder_value: number | null;
 	pinned: boolean;
-	// creator_label: boolean;
+	creator_label: boolean;
 };
 
 // export interface OfferGetMyOffersProductInterface extends OfferGetMyOffersProductServiceType {

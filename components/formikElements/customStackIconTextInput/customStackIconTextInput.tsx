@@ -9,7 +9,7 @@ type Props = {
 	type: React.HTMLInputTypeAttribute;
 	value: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+	onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 	theme: Theme;
 	cssClass?: string;
 	helperText?: string;

@@ -1,22 +1,37 @@
 // Site root
 export const SITE_ROOT = '/pages';
+// 404 page
+export const NOT_FOUND_404 = '/404';
 
-// Shop Routes
-export const SHOP_ROUTE = '/shop/';
-export const SHOP_ADD_SHOP_NAME = '/shop/create';
-export const SHOP_ADD_AVATAR = '/shop/create/avatar';
-export const SHOP_ADD_COLOR = '/shop/create/color';
-export const SHOP_ADD_FONT = '/shop/create/font';
-export const SHOP_EDIT_INDEX = '/shop/edit';
+/*
+shop/abc/ => index
+shop/abc/offer/1 => index
+shop/abc/offer/new => index
+ */
 
-// Offer Routes
-export const OFFER_ROUTE = '/offer/';
-export const OFFER_ADD_INDEX = '/offer/create';
-export const OFFER_ADD_PRODUCT_CATEGORIES = '/offer/product/create';
-export const OFFER_ADD_PRODUCT_DESCRIPTION = '/offer/product/create/description';
-export const OFFER_ADD_PRODUCT_PRICE = '/offer/product/create/prix';
-export const OFFER_ADD_PRODUCT_LIVRAISON = '/offer/product/create/livraison';
-export const OFFER_ADD_PRODUCT_OVERVIEW = '/offer/[offer_pk]/';
+// Temp Shop Routes
+export const TEMP_SHOP_ROUTE = '/temp-shop';
+export const TEMP_SHOP_ADD_SHOP_NAME = '/temp-shop/create';
+export const TEMP_SHOP_ADD_AVATAR = '/temp-shop/create/avatar';
+export const TEMP_SHOP_ADD_COLOR = '/temp-shop/create/color';
+export const TEMP_SHOP_ADD_FONT = '/temp-shop/create/font';
+export const TEMP_SHOP_EDIT_INDEX = '/temp-shop/edit';
+
+// Auth Shop Routes
+export const AUTH_SHOP_ROUTE = '/shop/[shop_link]';
+
+// Real Offers Routes
+export const REAL_OFFER_ROUTE = '/shop/[shop_link]/offer/[offer_pk]';
+export const REAL_OFFER_ADD_INDEX = '/shop/[shop_link]/offer/new';
+
+// Temp Offers Routes
+export const TEMP_OFFER_ROUTE = '/temp-offer';
+export const TEMP_OFFER_ADD_INDEX = '/temp-offer/create';
+export const TEMP_OFFER_ADD_PRODUCT_CATEGORIES = '/temp-offer/product/create';
+export const TEMP_OFFER_ADD_PRODUCT_DESCRIPTION = '/temp-offer/product/create/description';
+export const TEMP_OFFER_ADD_PRODUCT_PRICE = '/temp-offer/product/create/prix';
+export const TEMP_OFFER_ADD_PRODUCT_LIVRAISON = '/temp-offer/product/create/livraison';
+export const TEMP_OFFER_ADD_PRODUCT_OVERVIEW = '/temp-offer/[offer_pk]/';
 
 // Auth Routes
 export const AUTH_REGISTER = '/auth/register';
@@ -32,5 +47,11 @@ export const AUTH_RESET_PASSWORD = '/auth/reset-password';
 export const AUTH_RESET_PASSWORD_ENTER_CODE = '/auth/reset-password/enter-code';
 export const AUTH_RESET_PASSWORD_SET_PASSWORD = '/auth/reset-password/set-password';
 export const AUTH_RESET_PASSWORD_COMPLETE = '/auth/reset-password/set-password-complete';
-//
+
+// dashboard index
 export const DASHBOARD = '/user/dashboard';
+// my business (sellers only)
+export const DASHBOARD_ACCOUNT = '/user/dashboard/account';
+export const DASHBOARD_MY_BUSINESS = '/user/dashboard/business';
+export const DASHBOARD_MESSAGES = '/user/dashboard/messages';
+export const DASHBOARD_ORDERS = '/user/dashboard/orders';

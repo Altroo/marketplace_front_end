@@ -6,7 +6,7 @@ import { GetServerSidePropsContext, NextPage } from "next";
 import { useAppDispatch } from "../../../utils/hooks";
 import { refreshAppTokenStatesAction } from "../../../store/actions/_init/_initActions";
 import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
-import { Stack, Theme } from "@mui/material";
+import { Box, Container, Stack, Theme } from "@mui/material";
 import GoogleSignInButton from "../../../components/htmlElements/buttons/googleSignInButton/googleSignInButton";
 import FacebookSignInButton from "../../../components/htmlElements/buttons/facebookSignInButton/facebookSignInButton";
 import Divider from "@mui/material/Divider";
@@ -47,7 +47,7 @@ const RegisterPageContent = (props: registerPageContentProps) => {
 	return (
 		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.contentWrapper} spacing={4}>
 			<h2 className={Styles.content}>Inscription</h2>
-			<Stack direction="column" spacing={1}>
+			<Stack direction="column" spacing={2}>
 				<GoogleSignInButton onClick={props.googleSignIn} />
 				<FacebookSignInButton onClick={props.facebookSignIn} />
 				{props.error && <span className={Styles.errorMessage}>{props.error}</span>}

@@ -11,6 +11,7 @@ import { getDefaultTheme } from '../utils/themes';
 import createEmotionCache from '../utils/createEmotionCache';
 import { SessionProvider } from 'next-auth/react';
 import { Session } from "next-auth";
+import CustomContainer from "../components/layouts/customContainer/customContainer";
 // import { Session } from "next-auth/core/types";
 // import App from 'next/app';
 // import { SagaStore } from '../store/store';
@@ -61,10 +62,11 @@ const EntryPoint: React.FC<EntryPointProps> = (props: EntryPointProps) => {
 				<SessionProvider
 					// Provider options are not required but can be useful in situations where
 					// you have a short session maxAge time. Shown here with default values.
-					session={session}
-				>
+					session={session}>
 					<InitContextProvider>
-						<Component {...pageProps} />
+						<CustomContainer>
+							<Component {...pageProps} />
+						</CustomContainer>
 					</InitContextProvider>
 				</SessionProvider>
 			</ThemeProvider>

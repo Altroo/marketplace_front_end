@@ -368,6 +368,14 @@ export const offerGetRootAction = (pk: number) => {
 	};
 };
 
+export const offerGetOffersByShopIDAction = (pk: number, next_page?: string | null) => {
+	return {
+		type: Types.OFFER_GET_OFFERS_BY_SHOP_ID,
+		pk,
+		next_page,
+	};
+};
+
 export const setEmptySelectedOffer = () => {
 	return {
 		type: Types.OFFER_SET_EMPTY_SELECTED_OFFER,

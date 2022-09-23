@@ -1,0 +1,79 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.main
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  height: 100%
+  //padding: 2rem 60px 60px 60px
+  padding: 2rem 60px 0px 60px
+  width: 100%
+.avatarActionsWrapper
+  width: 100%
+.avatarWrapper
+  width: 55%
+.avatarSubWrapper
+  width: 120px
+  height: 120px
+  position: relative
+  overflow: hidden
+  border-radius: 50%
+.avatar
+  width: 100%
+  max-width: 100%
+  object-fit: cover
+  height: 100%
+.shopNameContainer
+  width: 100%
+  margin-left: 1rem
+.shopName
+  +Regular
+  font-size: 37px
+  color: $primary
+  //line-height: 43px
+  //letter-spacing: -0.03em
+  margin-left: 5px
+  margin-bottom: 0
+  margin-top: 0
+.iconButton
+  cursor: pointer !important
+  width: 220px !important
+.shopDetailsWrapper
+  width: 100%
+.shopTabs
+  width: 100%
+  margin: 20px 0
+  //min-height: 450px
+@media #{$desktop}
+  .iconButton
+    width: 180px !important
+@media #{$tablette}
+  .main
+    width: 100%
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem
+  .avatarActionsWrapper
+    flex-direction: column
+    justify-content: space-evenly
+  .avatarWrapper
+    flex-direction: column
+    justify-content: space-between
+    //align-items: center
+    align-self: center
+    margin-bottom: 20px
+    width: 60%
+  .shopNameContainer
+    margin: 5px 0
+    align-items: center
+  .shopName
+    font-size: 25px
+    margin-top: 0
+    margin-left: 0
+    text-align: center
+  .iconButton
+    width: 170px !important
+@media #{$mobile}
+  .iconButton
+    width: 140px !important

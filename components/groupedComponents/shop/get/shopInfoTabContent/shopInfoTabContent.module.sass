@@ -1,0 +1,36 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+//.BothSidesWrapper
+//  min-height: 450px
+.rightSideWrapper
+  width: 70%
+  height: 100%
+.stackTitle
+  +SemiBold
+  font-size: 19px
+  color: $primary
+.spanParagraphe
+  +Regular
+  font-size: 17px
+  color: $primary
+.infoNotFound
+  +Regular
+  font-size: 17px
+  color: #84848A
+.leftSideWrapper
+  height: 100%
+  width: 30%
+// @media #{}
+@media #{$tablette}
+  .BothSidesWrapper
+    flex-direction: column
+  .rightSideWrapper
+    width: 100%
+    margin: 0 !important
+    margin-top: 8px !important
+  .leftSideWrapper
+    width: 100%
+// @media #{}

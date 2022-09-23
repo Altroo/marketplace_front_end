@@ -41,6 +41,9 @@ export const CustomTheme = (primaryColor: string | undefined = undefined) => {
 				xl: 1920,
 			},
 		},
+		typography: {
+			fontFamily: 'Poppins',
+		}
 	});
 };
 
@@ -79,7 +82,7 @@ export const getDropDownMenuTheme = (primaryColor: string | undefined = undefine
 			},
 		},
 	});
-}
+};
 
 // Shop name text input
 export const shopNameTextInputTheme = (primaryColor: string | undefined = undefined) => {
@@ -183,6 +186,10 @@ export const offerTitleTextInputTheme = (primaryColor: string | undefined = unde
 							borderRadius: '16px',
 							border: '2px solid #A3A3AD',
 						},
+						'& fieldset > legend': { // size of red error line (label) (input size - 5px)
+							fontFamily: 'Poppins',
+							fontSize: '14px',
+						},
 					},
 				},
 			},
@@ -212,6 +219,10 @@ export const bioTextAreaTheme = (primaryColor: string | undefined = undefined) =
 						'& fieldset': {
 							borderRadius: '16px',
 							border: '2px solid #A3A3AD',
+						},
+						'& fieldset > legend': { // size of red error line (label) (input size - 5px)
+							fontFamily: 'Poppins',
+							fontSize: '12px',
 						},
 					},
 					input: {
@@ -249,6 +260,10 @@ export const coordonneeTextInputTheme = (primaryColor: string | undefined = unde
 							borderRadius: '16px',
 							border: '2px solid #A3A3AD',
 						},
+						'& fieldset > legend': { // size of red error line (label) (input size - 5px)
+							fontFamily: 'Poppins',
+							fontSize: '14px',
+						},
 					},
 					input: {
 						fontFamily: 'Poppins',
@@ -262,7 +277,8 @@ export const coordonneeTextInputTheme = (primaryColor: string | undefined = unde
 					root: {
 						'& .MuiFormLabel-root': {
 							fontFamily: 'Poppins',
-							fontSize: '16px',
+							fontSize: '19px',
+							color: '#A3A3AD'
 						},
 					},
 				},
@@ -307,6 +323,10 @@ export const offerForWhomDropdownTheme = (primaryColor: string | undefined = und
 							// borderTopLeftRadius: '21px',
 							// borderTopRightRadius: '21px',
 						},
+						'& fieldset > legend': { // size of red error line (label) (input size - 5px)
+							fontFamily: 'Poppins',
+							fontSize: '14px',
+						},
 					},
 					input: {
 						fontFamily: 'Poppins',
@@ -330,18 +350,18 @@ export const offerForWhomDropdownTheme = (primaryColor: string | undefined = und
 					gutters: {
 						fontFamily: 'Poppins',
 						fontSize: '16px',
-					}
-				}
+					},
+				},
 			},
 			MuiPaper: {
 				styleOverrides: {
 					root: {
 						border: `1px solid ${blueColor}`,
 						borderBottomLeftRadius: '21px',
-						borderBottomRightRadius: '21px'
-					}
-				}
-			}
+						borderBottomRightRadius: '21px',
+					},
+				},
+			},
 		},
 	});
 };
@@ -356,18 +376,18 @@ export const offerSwitchTheme = (primaryColor: string | undefined = undefined) =
 				styleOverrides: {
 					root: {
 						marginRight: '0px',
-					}
-				}
+					},
+				},
 			},
 			MuiSwitch: {
 				styleOverrides: {
 					root: {
 						marginRight: '0px !important',
 						marginLeft: '0px !important',
-					}
-				}
-			}
-		}
+					},
+				},
+			},
+		},
 	});
 };
 // Offer chip buttons
@@ -419,7 +439,11 @@ export const OfferQuantityFieldTheme = (primaryColor: string | undefined = undef
 						'& fieldset': {
 							borderRadius: '16px',
 							border: '2px solid #A3A3AD',
-							width: '65px'
+							width: '65px',
+						},
+						'& fieldset > legend': { // size of red error line (label) (input size - 5px)
+							fontFamily: 'Poppins',
+							fontSize: '14px',
 						},
 					},
 					input: {
@@ -429,7 +453,7 @@ export const OfferQuantityFieldTheme = (primaryColor: string | undefined = undef
 					},
 				},
 			},
-		}
+		},
 	});
 };
 
@@ -476,8 +500,8 @@ export const doubleTabNavigationTheme = (primaryColor: string | undefined = unde
 						backgroundColor: '#F2F2F3',
 						borderRadius: '30px',
 						marginBottom: '10px',
-					}
-				}
+					},
+				},
 			},
 			MuiBottomNavigationAction: {
 				styleOverrides: {
@@ -496,7 +520,7 @@ export const doubleTabNavigationTheme = (primaryColor: string | undefined = unde
 							backgroundColor: '#f2f2f3',
 							borderRadius: '40px',
 							margin: '5px',
-						}
+						},
 					},
 					label: {
 						color: '#0D070B',
@@ -527,6 +551,10 @@ export const solderPourcentageInputTheme = (primaryColor: string | undefined = u
 						'& fieldset': {
 							borderRadius: '16px',
 							border: '2px solid #A3A3AD',
+						},
+						'& fieldset > legend': { // size of red error line (label) (input size - 5px)
+							fontFamily: 'Poppins',
+							fontSize: '14px',
 						},
 					},
 					input: {
@@ -629,7 +657,7 @@ export const codeTextInputTheme = (error: boolean | undefined) => {
 	const validColor = '#07CBAD';
 	const defaultTheme = getDefaultTheme(validColor);
 	let borderColor = '#D9D9DD';
-	if (error){
+	if (error) {
 		borderColor = '#E12D3D';
 	}
 	return createTheme({
@@ -662,7 +690,79 @@ export const codeTextInputTheme = (error: boolean | undefined) => {
 						borderLeft: '2px solid transparent !important',
 						borderBottom: `2px solid ${borderColor}`,
 					},
-				}
+				},
+			},
+		},
+	});
+};
+
+export const badgeTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiBadge: {
+				styleOverrides: {
+					dot: {
+						backgroundColor: '#FF5D6B',
+						width: '20px',
+						height: '20px',
+						borderRadius: '50%',
+						top: '15%',
+					},
+					badge: {
+						backgroundColor: '#FF5D6B',
+						width: '20px',
+						height: '20px',
+						top: '15%',
+					},
+				},
+			},
+		},
+	});
+};
+
+	export const userMainNavigationBarTheme = (primaryColor: string | undefined = undefined) => {
+		const defaultTheme = getDefaultTheme(primaryColor);
+		return createTheme({
+			...defaultTheme,
+			components: {
+				MuiAppBar: {
+					styleOverrides: {
+						root: {
+							backgroundColor: 'white',
+							color: '#0D070B',
+							boxShadow: 'none',
+						},
+					},
+				},
+			},
+		});
+	};
+
+	export const OfferReadOnlyTheme = () => {
+	return createTheme({
+		components: {
+			MuiImageList: {
+				styleOverrides: {
+					root: {
+						marginTop: '0px',
+						marginBottom: '0px',
+					},
+				},
+			},
+			MuiChip: {
+				styleOverrides: {
+					root: {
+						fontFamily: 'Poppins-SemiBold',
+						fontSize: '16px',
+						borderRadius: '40px',
+					},
+					filled: {
+						backgroundColor: '#0D070B',
+						color: '#FFFFFF',
+					},
+				},
 			},
 		},
 	});

@@ -43,9 +43,9 @@ const CustomTextArea: React.FC<Props> = (props: Props) => {
 				size={props.size}
 				color="primary"
 			/>
-			{/*<Stack direction="row" justifyContent="flex-end">*/}
-			{/*	<span className={Styles.span}>{props.value.length}/300</span>*/}
-			{/*</Stack>*/}
+			{props.id === 'bio' && <Stack direction="row" justifyContent="flex-end">
+				<span className={`${Styles.span} ${props.value.length > 300 && Styles.red}`}>{props.value.length}/300</span>
+			</Stack>}
 		</ThemeProvider>
 	);
 };

@@ -20,7 +20,7 @@ export const setAuthTokenCookie = (res: NextApiResponse, value: InitStateInterfa
 	const initStateTokenValue = JSON.stringify(value.initStateToken);
 	const initStateUniqueIDValue = JSON.stringify(value.initStateUniqueID);
 	if (typeof options.maxAge === 'number') {
-		options.expires = new Date(Date.now() + options.maxAge * 1000);
+		options.expires = new Date(Date.now() + options.maxAge);
 	}
 	res.setHeader('Set-Cookie', [
 		serialize('@tokenType', tokenTypeValue, options),

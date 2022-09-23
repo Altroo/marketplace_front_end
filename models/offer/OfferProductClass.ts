@@ -27,7 +27,10 @@ export class Offers {
 		public solder_type?: OfferSolderByType | null | undefined,
 		public solder_value?: number | null | undefined,
 		public creator_label?: boolean | null | undefined,
-		public made_in_label?: string | null | undefined,
+		public made_in_label?: {
+			name: string;
+			code: string;
+		} | null | undefined,
 	) {}
 }
 
@@ -70,7 +73,10 @@ export class OfferProductClass extends Offers {
 		solder_type?: OfferSolderByType | null,
 		solder_value?: number | null,
 		creator_label?: boolean | null,
-		made_in_label?: string | null,
+		made_in_label?: {
+			name: string;
+			code: string;
+		} | null | undefined,
 	) {
 		super(
 			offer_type,
@@ -122,7 +128,10 @@ export class OfferServiceClass extends Offers {
 		solder_type?: OfferSolderByType | null,
 		solder_value?: number | null,
 		creator_label?: boolean | null,
-		made_in_label?: string | null,
+		made_in_label?: {
+			name: string;
+			code: string;
+		} | null | undefined,
 	) {
 		super(
 			offer_type,
