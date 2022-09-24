@@ -26,7 +26,7 @@ export function* watchWS() {
 			// with yield put it calles the action & passes the payload
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-			yield* put(action);
+			yield put(action);
 		}
 	}
 }
