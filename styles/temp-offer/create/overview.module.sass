@@ -6,13 +6,13 @@
 .main
   display: flex
   flex-direction: column
-  justify-content: space-between
+  //justify-content: space-between
   height: 100%
-  //overflow-y: scroll
   padding: 2rem 60px 60px 60px
   width: 100%
 .pageWrapper
-  margin-top: 2rem
+  margin-top: 4rem
+  //min-height: 70vh
 .thumbnails
   object-fit: cover
   cursor: pointer
@@ -33,11 +33,11 @@
 .selectedImage
   object-fit: cover
   border-radius: 20px
-  width: 590px !important
-  height: 388px !important
+  width: 100%
 .creatorBannerWrapper
   padding: 32px
-  max-width: 590px
+  width: 100%
+  border-radius: 20px
 .creatorImage
   width: 105px
   height: 56px
@@ -46,12 +46,9 @@
   font-style: italic
   font-size: 17px
   color: #D9D9DD
-//.creatorsLink
-//  @extend .creatorText
-//  text-decoration: underline
-//  text-decoration-color : #FFFFFF
-//  color: #FFFFFF !important
-
+.offerWrapper
+  //max-width: 480px
+  width: 480px
 .noAvailableComments
   +SemiBold
   font-size: 19px
@@ -95,10 +92,15 @@
   +SemiBold
   font-size: 19px
   color: $primary
-.descriptionBody, .colorBody, .forWhomBody, .sizesBody
+.descriptionBody
   +Regular
   font-size: 17px
   color: #525256
+.colorBody, .forWhomBody, .sizesBody
+  @extend .descriptionBody
+  font-size: 15px
+  margin-top: 0
+  margin-bottom: 0
 .colorTitle, .forWhomTitle, .sizesTitle
   +Medium
   font-size: 15px
@@ -126,7 +128,7 @@
 .clickAnddeliveriesWrapper
   border-radius: 20px
   border: 1px solid #D9D9DD
-  width: 480px
+  width: 100%
   margin: 2rem auto !important
   overflow: hidden
 .divider
@@ -135,6 +137,7 @@
   +Medium
   font-size: 15px
   color: $primary
+  word-break: break-word
 .deliveriesTitleNotFound
   @extend .deliveriesTitle
   color: #84848A !important
@@ -215,17 +218,9 @@
   text-align: center
 .primaryButton
   margin-top: 2rem
-// necessary custom media queries
-@media only screen and (min-width: 1065px) and (max-width: 1254px)
-  .selectedImage
-    width: 400px !important
-@media only screen and (min-width: 992px) and (max-width: 1065px)
-  .selectedImage
-    width: 300px !important
 @media #{$tablette}
   .creatorBannerWrapper
-    padding: 1rem
-    max-width: 412px
+    padding: 2rem
   .priceInputField
     width: 100%
   .header
@@ -237,6 +232,7 @@
   .desktopOnly
     display: none
   .offerWrapper
+    min-width: 100%
     margin-left: 0 !important
     width: 100%
   .clickAnddeliveriesWrapper
@@ -263,6 +259,8 @@
     max-height: 200px !important
   .imagesWrapper
     flex-direction: column !important
+  .primaryButtonWrapper
+    width: 356px
 @media #{$mobile}
   .main
     width: 100%

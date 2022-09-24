@@ -7,21 +7,18 @@ type Props = {
 	children?: React.ReactNode;
 };
 
-const css = { width: 'auto' };
 const CircularAvatar: React.FC<Props> = (props: Props) => {
 	return (
 		<div className={Styles.wrapper}>
-			{props.imageSrc && (
-				<ImageFuture
-					src={props.imageSrc as string}
-					alt=""
-					width={300}
-					height={300}
-					className={Styles.avatar}
-					style={css}
-					loading="lazy"
-				/>
-			)}
+			<ImageFuture
+				src={props.imageSrc as string}
+				alt=""
+				width="0"
+				height="0"
+				sizes="100vw"
+				className={Styles.avatar}
+				loading="eager"
+			/>
 		</div>
 	);
 };

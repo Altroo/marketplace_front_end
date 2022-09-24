@@ -5,7 +5,7 @@ import { ImageListType as ImageUploadingType } from "react-images-uploading/dist
 import { apiErrorInitialState } from "../../store/slices/_init/_initSlice";
 
 // ('V', 'Produit'), ('S', 'Service'), ('L', 'Location') <- 'L' Not yet available,
-export type OfferOfferTypeType = 'V' | 'S' | 'L';
+export type OfferOfferTypeType = 'V' | 'S'; //  | 'L'
 // ('T','Tout le monde'), ('E','Enfant'), ('F','Femme'), ('H','Homme')
 export type OfferForWhomType = 'T' | 'E' | 'F' | 'H';
 // ('U', 'Unity'), ('K', 'Kilogram'), ('L', 'Liter'),

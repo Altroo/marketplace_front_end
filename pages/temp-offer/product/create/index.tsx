@@ -35,8 +35,8 @@ const Index: NextPage = () => {
 
 	return (
 		<>
-			<LeftSideBar step={activeStep} which="PRODUCT" />
 			<main className={SharedStyles.main}>
+				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar backHref={TEMP_OFFER_ADD_INDEX} returnButton closeButtonHref={TEMP_SHOP_EDIT_INDEX} />
 					<MobileTopNavigationBar backHref={TEMP_OFFER_ADD_INDEX} returnButton closeButtonHref={TEMP_SHOP_EDIT_INDEX} />

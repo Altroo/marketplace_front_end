@@ -70,8 +70,8 @@ const Prix: NextPage = () => {
 	const chipTheme = OfferChipTheme();
 	return (
 		<>
-			<LeftSideBar step={activeStep} which="PRODUCT" />
 			<main className={ShopStyles.main}>
+				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.boxWrapper}>
 					<DesktopTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_EDIT_INDEX} />
 					<MobileTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_EDIT_INDEX}/>

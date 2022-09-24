@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from 'react';
 import Styles from './colorsRadioCheckContent.module.sass';
-import { Stack, Button, ThemeProvider, Grid, Box} from '@mui/material';
+import { Stack, Button, ThemeProvider, Grid, Box } from '@mui/material';
 import { OfferColorsListType } from '../../../../../types/ui/uiTypes';
 import { getDefaultTheme } from '../../../../../utils/themes';
-import RadioCheckElement from "../radioCheckElement";
-import {hexToRGB} from '../../../../../utils/helpers';
+import RadioCheckElement from '../radioCheckElement';
+import { hexToRGB } from '../../../../../utils/helpers';
 
 type Props = {
 	switchOpen: boolean;
@@ -16,10 +16,10 @@ type Props = {
 const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
 	const colorOnClickHandler = (color: string) => {
 		if (!props.selectedColorsList.includes(color)) {
-			props.setselectedColorsList(prevState => {
+			props.setselectedColorsList((prevState) => {
 				return [...prevState, color];
-			})
-		}else {
+			});
+		} else {
 			const colorsList = [...props.selectedColorsList];
 			const index = props.selectedColorsList.indexOf(color);
 			if (index > -1) {
@@ -97,33 +97,41 @@ const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<RadioCheckElement title="Couleurs" defaultValue={props.switchOpen}>
+				<Box mb={4}>
 					<Grid container>
 					{availableColorsList.map((color, index) => {
 						const rippleColor = hexToRGB(color.hex, 0.5);
 						return (
 							<Grid item md={3} sm={3} xs={4} key={index}>
 								<Stack direction="column" key={index} alignItems="center">
-									<Box className={`${Styles.colorWrapper} ${props.selectedColorsList.includes(color.code) ? Styles.colorActive : ''}`}>
-										<Button className={Styles.colorButton}
+									<Box
+										className={`${Styles.colorWrapper} ${
+											props.selectedColorsList.includes(color.code) ? Styles.colorActive : ''
+										}`}
+									>
+										<Button
+											className={Styles.colorButton}
 											sx={{
 												border: color.code === 'WT' ? '1px solid #A3A3AD' : '0',
 												background: color.hex,
 												'&:hover': {
-													backgroundColor: `${rippleColor} !important`
-												}
+													backgroundColor: `${rippleColor} !important`,
+												},
 											}}
 											size="small"
 											onClick={() => colorOnClickHandler(color.code)}
 											color="primary"
 										/>
-										</Box>
+									</Box>
 									<span className={Styles.colorValue}>{color.value}</span>
 								</Stack>
 							</Grid>
 						);
 					})}
-					</Grid>
-				</RadioCheckElement>
+				</Grid>
+				</Box>
+
+			</RadioCheckElement>
 		</ThemeProvider>
 	);
 };

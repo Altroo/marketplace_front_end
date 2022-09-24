@@ -101,71 +101,75 @@ const AboutPageContent = (props: AboutPageContent) => {
 
 	return (
 		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.rootStack} spacing={6}>
-			<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+			<Stack direction="column" spacing={2}>
 				<span className={Styles.header}>Dites-nous en plus</span>
 				<p className={Styles.subHeader}>Pour vous inscrire, nous avons besoin de quelques informations</p>
 			</Stack>
 			<form>
 				<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
-					<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
-						<CustomTextInput
-							id="first_name"
-							type="text"
-							value={formik.values.first_name}
-							onChange={formik.handleChange("first_name")}
-							onBlur={formik.handleBlur("first_name")}
-							helperText={formik.touched.first_name ? formik.errors.first_name : ""}
-							error={formik.touched.first_name && Boolean(formik.errors.first_name)}
-							fullWidth={false}
-							size="medium"
-							label="Nom"
-							placeholder="Nom"
-							cssClass={Styles.mobileInput}
-							theme={inputTheme}
-						/>
-						<CustomTextInput
-							id="last_name"
-							type="text"
-							value={formik.values.last_name}
-							onChange={formik.handleChange("last_name")}
-							onBlur={formik.handleBlur("last_name")}
-							helperText={formik.touched.last_name ? formik.errors.last_name : ""}
-							error={formik.touched.last_name && Boolean(formik.errors.last_name)}
-							fullWidth={false}
-							size="medium"
-							label="Prénom"
-							placeholder="Prénom"
-							cssClass={Styles.mobileInput}
-							theme={inputTheme}
-						/>
-						<CustomPasswordInput
-							id="password"
-							value={formik.values.password}
-							onChange={formik.handleChange("password")}
-							onBlur={formik.handleBlur("password")}
-							helperText={formik.touched.password ? formik.errors.password : ""}
-							error={formik.touched.password && Boolean(formik.errors.password)}
-							fullWidth={false}
-							size="medium"
-							label="Mot de passe"
-							placeholder="Mot de passe"
-							cssClass={Styles.mobileInput}
-							theme={inputTheme}
-						/>
-						<CustomPasswordInput
-							id="password2"
-							value={formik.values.password2}
-							onChange={formik.handleChange("password2")}
-							onBlur={formik.handleBlur("password2")}
-							helperText={formik.touched.password2 ? formik.errors.password2 : ""}
-							error={formik.touched.password2 && Boolean(formik.errors.password2)}
-							fullWidth={false}
-							size="medium"
-							label="Confirmation du mot de passe"
-							placeholder="Confirmation du mot de passe"
-							cssClass={Styles.mobileInput}
-							theme={inputTheme}
-						/>
+					<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
+						<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+							<CustomTextInput
+								id="first_name"
+								type="text"
+								value={formik.values.first_name}
+								onChange={formik.handleChange("first_name")}
+								onBlur={formik.handleBlur("first_name")}
+								helperText={formik.touched.first_name ? formik.errors.first_name : ""}
+								error={formik.touched.first_name && Boolean(formik.errors.first_name)}
+								fullWidth={false}
+								size="medium"
+								label="Nom"
+								placeholder="Nom"
+								cssClass={Styles.mobileInput}
+								theme={inputTheme}
+							/>
+							<CustomTextInput
+								id="last_name"
+								type="text"
+								value={formik.values.last_name}
+								onChange={formik.handleChange("last_name")}
+								onBlur={formik.handleBlur("last_name")}
+								helperText={formik.touched.last_name ? formik.errors.last_name : ""}
+								error={formik.touched.last_name && Boolean(formik.errors.last_name)}
+								fullWidth={false}
+								size="medium"
+								label="Prénom"
+								placeholder="Prénom"
+								cssClass={Styles.mobileInput}
+								theme={inputTheme}
+							/>
+						</Stack>
+						<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+							<CustomPasswordInput
+								id="password"
+								value={formik.values.password}
+								onChange={formik.handleChange("password")}
+								onBlur={formik.handleBlur("password")}
+								helperText={formik.touched.password ? formik.errors.password : ""}
+								error={formik.touched.password && Boolean(formik.errors.password)}
+								fullWidth={false}
+								size="medium"
+								label="Mot de passe"
+								placeholder="Mot de passe"
+								cssClass={Styles.mobileInput}
+								theme={inputTheme}
+							/>
+							<CustomPasswordInput
+								id="password2"
+								value={formik.values.password2}
+								onChange={formik.handleChange("password2")}
+								onBlur={formik.handleBlur("password2")}
+								helperText={formik.touched.password2 ? formik.errors.password2 : ""}
+								error={formik.touched.password2 && Boolean(formik.errors.password2)}
+								fullWidth={false}
+								size="medium"
+								label="Confirmation du mot de passe"
+								placeholder="Confirmation du mot de passe"
+								cssClass={Styles.mobileInput}
+								theme={inputTheme}
+							/>
+						</Stack>
 					</Stack>
 					<PrimaryButton
 						buttonText="S'inscrire"

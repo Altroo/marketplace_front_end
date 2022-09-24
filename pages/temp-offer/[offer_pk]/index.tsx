@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { GetServerSidePropsContext, NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from 'next';
 import { default as ImageFuture } from 'next/future/image';
 import Styles from '../../../styles/temp-offer/create/overview.module.sass';
 import EditBlackSVG from '../../../public/assets/svgs/globalIcons/edit-black.svg';
@@ -19,11 +19,13 @@ import {
 	getShopColorCode,
 } from '../../../store/selectors';
 import {
+	DeliveriesFlatResponseType,
 	DetailsOfferProductType,
 	OfferGetRootProductInterface,
 	OfferGetRootProductResponseType,
 	OfferGetRootServiceInterface,
 	OfferGetRootServiceResponseType,
+	OfferOfferTypeType,
 	OfferProductPriceByType,
 	OfferSolderByType,
 } from '../../../types/offer/offerTypes';
@@ -43,7 +45,11 @@ import {
 	monthNames,
 } from '../../../utils/rawData';
 import Link from 'next/link';
-import { TEMP_OFFER_ADD_PRODUCT_CATEGORIES, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_INDEX } from "../../../utils/routes";
+import {
+	TEMP_OFFER_ADD_PRODUCT_CATEGORIES,
+	TEMP_SHOP_ADD_SHOP_NAME,
+	TEMP_SHOP_EDIT_INDEX,
+} from '../../../utils/routes';
 import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
@@ -82,7 +88,10 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import CurrencyInput from 'react-currency-input-field';
 import Button from '@mui/material/Button';
-import { getCookie } from "cookies-next";
+import { getCookie } from 'cookies-next';
+import ClickAndCollectDisabledSVG from '../../../public/assets/svgs/globalIcons/click-and-collect-icon-gray.svg';
+import DeliveryDisabledSVG from '../../../public/assets/svgs/globalIcons/delivery-icon-gray.svg';
+import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 const noCommentsAvailableContent = () => {
 	return (
@@ -118,13 +127,17 @@ type deliveriesObj = {
 };
 
 type PropsType = {
-	data: OfferGetRootProductInterface | OfferGetRootServiceInterface;
+	pageProps: {
+		offer_type: OfferOfferTypeType;
+		data: OfferGetRootProductInterface | OfferGetRootServiceInterface;
+	};
 };
 
-const Index: NextPage<PropsType> = ({ data }) => {
+const Index: NextPage<PropsType> = (props: PropsType) => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	// const { offer_pk } = router.query;
+	// const { offer_type } = props.pageProps;
 	const {
 		pk,
 		title,
@@ -148,7 +161,7 @@ const Index: NextPage<PropsType> = ({ data }) => {
 		deliveries,
 		for_whom,
 		tags,
-	} = data as OfferGetRootProductInterface;
+	} = props.pageProps.data as OfferGetRootProductInterface;
 	const bg_color_code = useAppSelector(getShopBgColorCode);
 	const color_code = useAppSelector(getShopColorCode);
 	const border = useAppSelector(getShopBorder);
@@ -617,7 +630,7 @@ const Index: NextPage<PropsType> = ({ data }) => {
 				<Box className={Styles.pageWrapper}>
 					<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
 						{/* DESKTOP Only */}
-						<Stack direction="column" spacing={3} className={Styles.desktopOnly}>
+						<Stack direction="column" spacing={5} sx={{maxWidth: '55%'}} className={Styles.desktopOnly}>
 							<Stack direction="row" spacing={3}>
 								<Stack direction="column" spacing={1.8}>
 									{availableImages.length > 0 &&
@@ -648,9 +661,12 @@ const Index: NextPage<PropsType> = ({ data }) => {
 										unoptimized={true}
 										width={500}
 										height={500}
+										sizes="100vw"
 										alt=""
 										loading="lazy"
 										decoding="async"
+										// loader={<ApiProgress/>}
+										css={{width: 'auto !important'}}
 									/>
 								) : null}
 							</Stack>
@@ -679,6 +695,7 @@ const Index: NextPage<PropsType> = ({ data }) => {
 														unoptimized={true}
 														width={365}
 														height={240}
+														sizes="100vw"
 														alt=""
 													/>
 												</SwiperSlide>
@@ -688,42 +705,52 @@ const Index: NextPage<PropsType> = ({ data }) => {
 							</>
 						</div>
 						<Stack direction="column" spacing={1} className={Styles.offerWrapper}>
-							<h1 className={Styles.title}>{title}</h1>
-							<Stack direction="row">
-								<Image src={BlackStarSVG} width={20} height={20} alt="" />
-								<span className={Styles.rating}>0 (0 notes)</span>
+							<Stack direction="column" spacing={4}>
+								<Stack direction="column" spacing={2}>
+									<Stack direction="column">
+										<h1 className={Styles.title}>{title}</h1>
+										<Stack direction="row">
+											<Image src={BlackStarSVG} width={20} height={20} alt="" />
+											<span className={Styles.rating}>0 (0 notes)</span>
+										</Stack>
+										<Link href={TEMP_SHOP_EDIT_INDEX} passHref prefetch={false} target="_blank" rel="noreferrer">
+											<a target="_blank" rel="noreferrer">
+												<span className={Styles.shopName}>{shop_name}</span>
+											</a>
+										</Link>
+									</Stack>
+									<Stack direction="row" flexWrap="wrap" gap={1}>
+										{categoriesListString.map((category, index) => {
+											return <Chip key={index} label={category} variant="filled" className={Styles.chip} />;
+										})}
+									</Stack>
+								</Stack>
 							</Stack>
-							<Link href={TEMP_SHOP_EDIT_INDEX} passHref prefetch={false} target="_blank" rel="noreferrer">
-								<a target="_blank" rel="noreferrer">
-									<span className={Styles.shopName}>{shop_name}</span>
-								</a>
-							</Link>
-							<Stack direction="row" flexWrap="wrap" gap={1}>
-								{categoriesListString.map((category, index) => {
-									return <Chip key={index} label={category} variant="filled" className={Styles.chip} />;
-								})}
-							</Stack>
-							<Stack direction="column" spacing={1} className={Styles.descriptionWrapper}>
-								<span className={Styles.descriptionTitle}>Description</span>
-								<p className={Styles.descriptionBody}>{description}</p>
-								{colorsListString.length > 0 ? (
-									<p className={Styles.colorBody}>
-										<span className={Styles.colorTitle}>Couleurs : </span>
-										{colorsListString.join(', ')}
-									</p>
-								) : null}
-								{sizesListString.length > 0 ? (
-									<p className={Styles.sizesBody}>
-										<span className={Styles.sizesTitle}>Taille : </span>
-										{sizesListString.join(', ')}
-									</p>
-								) : null}
-								{forWhomListString.length > 0 ? (
-									<p className={Styles.forWhomBody}>
-										<span className={Styles.forWhomTitle}>Pour : </span>
-										{forWhomListString.join(',')}
-									</p>
-								) : null}
+							<Stack direction="column" spacing={2} className={Styles.descriptionWrapper}>
+								<Stack direction="column" spacing={1}>
+									<span className={Styles.descriptionTitle}>Description</span>
+									<p className={Styles.descriptionBody}>{description}</p>
+								</Stack>
+								<Stack direction="column" spacing={1}>
+									{colorsListString.length > 0 ? (
+										<p className={Styles.colorBody}>
+											<span className={Styles.colorTitle}>Couleurs : </span>
+											{colorsListString.join(', ')}
+										</p>
+									) : null}
+									{sizesListString.length > 0 ? (
+										<p className={Styles.sizesBody}>
+											<span className={Styles.sizesTitle}>Taille : </span>
+											{sizesListString.join(', ')}
+										</p>
+									) : null}
+									{forWhomListString.length > 0 ? (
+										<p className={Styles.forWhomBody}>
+											<span className={Styles.forWhomTitle}>Pour : </span>
+											{forWhomListString.join(',')}
+										</p>
+									) : null}
+								</Stack>
 							</Stack>
 							<Stack direction="column" className={Styles.priceWrapper}>
 								<Stack direction="row" spacing={1}>
@@ -737,7 +764,7 @@ const Index: NextPage<PropsType> = ({ data }) => {
 									<span className={Styles.quantity}>{details_offer.product_quantity} restant</span>
 								</Stack>
 							</Stack>
-							<Stack direction="column" justifyContent="center" alignItems="center" spacing={1}>
+							<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
 								<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 									<PrimaryButton buttonText="Ajouter au panier" active={false} type="submit" />
 								</div>
@@ -755,13 +782,7 @@ const Index: NextPage<PropsType> = ({ data }) => {
 											alignItems="center"
 										>
 											<Stack direction="row" alignItems="center">
-												<ImageFuture
-													src={ClickAndCollectSVG}
-													width={40}
-													height={40}
-													alt=""
-													className={Styles.clickAndCollectSVG}
-												/>
+												<ImageFuture src={ClickAndCollectSVG} width={40} height={40} alt="" />
 												<Stack direction="column">
 													<span className={Styles.deliveriesTitle}>Click & collect</span>
 													<span className={Styles.deliveryDetails}>Dès demain</span>
@@ -770,44 +791,65 @@ const Index: NextPage<PropsType> = ({ data }) => {
 											</Stack>
 											<span className={Styles.deliveryPrice}>Gratuite</span>
 										</Stack>
-									) : null}
-									{deliveriesListString.length > 0
-										? deliveriesListString.map((delivery, index) => {
-												return (
-													<Stack
-														key={index}
-														direction="row"
-														justifyContent="space-between"
-														className={Styles.deliveryRow}
-														alignItems="center"
-													>
-														<Stack direction="row" alignItems="center">
-															<ImageFuture
-																src={DeliverySVG}
-																width={40}
-																height={40}
-																alt=""
-																className={Styles.deliverySVG}
-															/>
-															<Stack direction="column">
-																<span className={Styles.deliveriesTitle}>
-																	{delivery.all_cities
-																		? 'Tout le Maroc'
-																		: delivery.delivery_city?.split(',').join(', ')}
-																</span>
-																<span className={Styles.deliveryDetails}>
-																	{getDate(parseInt(delivery.delivery_days as string))}
-																</span>
-															</Stack>
+									) : (
+										<Stack
+											direction="row"
+											justifyContent="space-between"
+											className={Styles.deliveryNotFoundRow}
+											alignItems="center"
+										>
+											<Stack direction="row" alignItems="center">
+												<ImageFuture src={ClickAndCollectDisabledSVG} width={40} height={40} alt="" />
+												<Stack direction="column">
+													<span className={Styles.deliveriesTitleNotFound}>Click & collect</span>
+													<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
+												</Stack>
+											</Stack>
+										</Stack>
+									)}
+									{deliveriesListString.length > 0 ? (
+										deliveriesListString.map((delivery, index) => {
+											return (
+												<Stack
+													key={index}
+													direction="row"
+													justifyContent="space-between"
+													className={Styles.deliveryRow}
+													alignItems="center"
+												>
+													<Stack direction="row" alignItems="center">
+														<ImageFuture src={DeliverySVG} width={40} height={40} alt="" />
+														<Stack direction="column">
+															<span className={Styles.deliveriesTitle}>
+																{delivery.all_cities ? 'Tout le Maroc' : delivery.delivery_city?.split(',').join(', ')}
+															</span>
+															<span className={Styles.deliveryDetails}>
+																{getDate(parseInt(delivery.delivery_days as string))}
+															</span>
 														</Stack>
-														<span className={Styles.deliveryPrice}>
-															{delivery.delivery_price === '0' ? 'Gratuite' : delivery.delivery_price + 'DH'}
-														</span>
 													</Stack>
-												);
-												// eslint-disable-next-line no-mixed-spaces-and-tabs
-										  })
-										: null}
+													<span className={Styles.deliveryPrice}>
+														{delivery.delivery_price === '0' ? 'Gratuite' : delivery.delivery_price + 'DH'}
+													</span>
+												</Stack>
+											);
+										})
+									) : (
+										<Stack
+											direction="row"
+											justifyContent="space-between"
+											className={Styles.deliveryNotFoundRow}
+											alignItems="center"
+										>
+											<Stack direction="row" alignItems="center">
+												<ImageFuture src={DeliveryDisabledSVG} width={40} height={40} alt="" />
+												<Stack direction="column">
+													<span className={Styles.deliveriesTitleNotFound}>Livraison</span>
+													<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
+												</Stack>
+											</Stack>
+										</Stack>
+									)}
 								</Stack>
 							</Box>
 							<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
@@ -1066,6 +1108,7 @@ const Index: NextPage<PropsType> = ({ data }) => {
 // }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+	// note needs a new routing /products/id & /services/id [waiting services]
 	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
 	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
 		return {
@@ -1075,7 +1118,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			},
 		};
 	}
-
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/${context.params?.offer_pk}/`;
 	const appToken = getServerSideCookieTokens(context);
 	try {
@@ -1085,7 +1127,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			if (response.status === 200) {
 				return {
 					props: {
-						data: response.data,
+						data: response.data as OfferGetRootProductInterface,
+						offer_type: response.data.offer_type,
 					},
 				};
 			}
@@ -1095,7 +1138,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			if (response.status === 200) {
 				return {
 					props: {
-						data: response.data,
+						data: response.data as OfferGetRootProductInterface,
+						offer_type: response.data.offer_type,
 					},
 				};
 			}

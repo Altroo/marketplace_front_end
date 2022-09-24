@@ -23,6 +23,7 @@ import DesktopPublishEditNavbar from '../../../components/desktop/navbars/deskto
 import MobilePublishEditNavbar from '../../../components/mobile/navbars/mobilePublishEditNavbar/mobilePublishEditNavbar';
 import Image from 'next/image';
 import BlackStarSVG from '../../../public/assets/svgs/globalIcons/black-star.svg';
+import EditBlueSVG from '../../../public/assets/svgs/globalIcons/edit-blue.svg';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 import PhoneSVG from '../../../public/assets/svgs/globalIcons/contact-phone.svg';
 import WtspSVG from '../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
@@ -85,6 +86,7 @@ import ShopTabContent from '../../../components/groupedComponents/shop/get/shopT
 import ShopInfoTabContent from '../../../components/groupedComponents/shop/get/shopInfoTabContent/shopInfoTabContent';
 import ShopNotVerified from '../../../components/groupedComponents/shop/get/shopNotVerified/shopNotVerified';
 import ShopVerified from '../../../components/groupedComponents/shop/get/shopVerified/shopVerified';
+import ShareSVG from '../../../public/assets/svgs/globalIcons/share-blue.svg';
 
 type ViewShopType = {
 	data: ShopGetRootTokenType;
@@ -131,6 +133,25 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 
 	return (
 		<>
+			{/* Edit shop button */}
+			{/*<Stack direction="row" spacing={1} justifyContent="flex-start" alignSelf="flex-start" alignItems="center">*/}
+			{/*	<h2*/}
+			{/*		className={Styles.shopName}*/}
+			{/*		style={{*/}
+			{/*			fontFamily:*/}
+			{/*				font_name === 'L'*/}
+			{/*					? 'Poppins-Light'*/}
+			{/*					: font_name === 'B'*/}
+			{/*					? 'Poppins-ExtraBold'*/}
+			{/*					: font_name === 'S'*/}
+			{/*					? 'Poppins-SemiBold'*/}
+			{/*					: 'Poppins',*/}
+			{/*		}}*/}
+			{/*	>*/}
+			{/*		{shop_name}*/}
+			{/*	</h2>*/}
+			{/*	<ImageFuture src={EditBlueSVG} alt="" width="32" height="32" />*/}
+			{/*</Stack>*/}
 			<h1>OWNER</h1>
 		</>
 	);
@@ -346,7 +367,7 @@ const ViewShopAsNotOwner = (props: ViewShopType) => {
 							<ShopInfoTabs
 								color={bg_color_code}
 								borderColor={bg_color_code}
-								shopContent={<ShopTabContent activeColor={bg_color_code} offersData={offersData} shop_pk={pk}/>}
+								shopContent={<ShopTabContent activeColor={bg_color_code} offersData={offersData} shop_pk={pk} />}
 								InfoContent={<ShopInfoTabContent shopInfoData={shopInfoData} />}
 							/>
 						</Stack>

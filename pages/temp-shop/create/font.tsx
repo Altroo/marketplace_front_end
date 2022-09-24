@@ -46,8 +46,9 @@ import {
 } from '../../../store/selectors';
 import ApiAlert from '../../../components/formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
-import { TEMP_SHOP_ADD_COLOR, TEMP_SHOP_ADD_SHOP_NAME, SITE_ROOT } from "../../../utils/routes";
+import { TEMP_SHOP_ADD_COLOR, SITE_ROOT } from "../../../utils/routes";
 import { getCookie } from "cookies-next";
+import { Box } from '@mui/material';
 
 export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
 	{
@@ -175,9 +176,9 @@ const Font: NextPage = () => {
 
 	return (
 		<>
-			<LeftSideBar step={activeStep} which="SHOP" />
 			<main className={Styles.main}>
-				<div>
+				<LeftSideBar step={activeStep} which="SHOP" />
+				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar backHref={TEMP_SHOP_ADD_COLOR} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileTopNavigationBar backHref={TEMP_SHOP_ADD_COLOR} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileStepsBar activeStep={activeStep} />
@@ -319,7 +320,7 @@ const Font: NextPage = () => {
 							onClick={() => fontHandler(fontName)}
 						/>
 					</div>
-				</div>
+				</Box>
 				{isAddInProgressSelector && isAddPromiseStatusSelector === 'PENDING' && (
 					<ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} />
 				)}

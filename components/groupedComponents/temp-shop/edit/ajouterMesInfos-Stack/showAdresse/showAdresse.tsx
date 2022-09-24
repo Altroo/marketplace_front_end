@@ -1,6 +1,6 @@
 import React from 'react';
 import Styles from './showAdresse.module.sass';
-import MapEditSVG from '../../../../../../public/assets/svgs/globalIcons/map-edit-blue.svg';
+import MapEditSVG from '../../../../../../public/assets/svgs/globalIcons/edit-blue.svg';
 import { Stack } from '@mui/material';
 import { useAppSelector } from '../../../../../../utils/hooks';
 import { getShopObj } from '../../../../../../store/selectors';

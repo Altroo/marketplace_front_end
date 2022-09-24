@@ -66,7 +66,7 @@ const SetPasswordPageContent = (props: setPasswordPageContentProps) => {
 	const inputTheme = coordonneeTextInputTheme();
 
 	return (
-		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.contentWrapper} spacing={4}>
+		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.contentWrapper} spacing={6}>
 			<Stack direction="column" sx={{ width: '100%' }}>
 				<span className={Styles.content}>
 					Nouveau <br />
@@ -74,7 +74,8 @@ const SetPasswordPageContent = (props: setPasswordPageContentProps) => {
 				</span>
 			</Stack>
 			<form>
-				<Stack direction="column" spacing={2}>
+				<Stack direction="column" spacing={4}>
+					<Stack direction="column" spacing={2}>
 					<CustomPasswordInput
 						id="new_password"
 						value={formik.values.new_password}
@@ -103,6 +104,7 @@ const SetPasswordPageContent = (props: setPasswordPageContentProps) => {
 						cssClass={Styles.mobileInput}
 						theme={inputTheme}
 					/>
+					</Stack>
 					{formik.errors.globalError && <span className={Styles.errorMessage}>{formik.errors.globalError}</span>}
 					<PrimaryButton
 						buttonText="Modifier"

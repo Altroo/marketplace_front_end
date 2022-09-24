@@ -38,11 +38,11 @@ import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
-import { TEMP_SHOP_ADD_AVATAR, TEMP_SHOP_ADD_SHOP_NAME, SITE_ROOT } from "../../../utils/routes";
+import { TEMP_SHOP_ADD_AVATAR, SITE_ROOT } from "../../../utils/routes";
 import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
 import { useRouter } from "next/router";
-import { wrapper } from "../../../store/store";
 import { getCookie } from "cookies-next";
+import { Box } from '@mui/material';
 
 export const colors = [
 	'#FF5D6B',
@@ -161,9 +161,10 @@ const Color: NextPage = () => {
 
 	return (
 		<>
-			<LeftSideBar step={activeStep} which="SHOP" />
+
 			<main className={Styles.main}>
-				<div>
+				<LeftSideBar step={activeStep} which="SHOP" />
+				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar backHref={TEMP_SHOP_ADD_AVATAR} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileTopNavigationBar backHref={TEMP_SHOP_ADD_AVATAR} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileStepsBar activeStep={activeStep} />
@@ -303,6 +304,7 @@ const Color: NextPage = () => {
 									className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}
 								>
 									<PrimaryButton
+										cssClass={Styles.primaryButton}
 										buttonText="Continuer"
 										active={colorCode !== undefined && bgColorCode !== undefined}
 										onClick={() => colorHandler(bgColorCode, colorCode)}
@@ -320,7 +322,7 @@ const Color: NextPage = () => {
 							type="submit"
 						/>
 					</div>
-				</div>
+				</Box>
 			</main>
 		</>
 	);

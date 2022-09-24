@@ -13,7 +13,7 @@ import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg'
 import CallIconSVG from '../../../public/assets/svgs/globalIcons/call.svg';
 import DisactivatedAddIconSVG from '../../../public/assets/svgs/globalIcons/gray-add.svg';
 import { DisactivatedTab } from '../../../components/htmlElements/tabs/tab';
-import { GetServerSidePropsContext, NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from 'next';
 import DisabledFilterDropDown from '../../../components/groupedComponents/temp-shop/create/disabledFilterDropDown/disabledFilterDropDown';
 import IconTextInput from '../../../components/htmlElements/inputs/iconTextInput/iconTextInput';
 import IosSwitch from '../../../components/htmlElements/switches/iosSwitch';
@@ -21,17 +21,15 @@ import CheckBox from '../../../components/htmlElements/checkBoxes/checkBox';
 import CenteredInfoAction from '../../../components/groupedComponents/temp-shop/create/centeredInfoAction/centeredInfoAction';
 import BorderIconAnchorButton from '../../../components/htmlElements/buttons/borderIconAnchorButton/borderIconAnchorButton';
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
+import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
-import { TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_INDEX, SITE_ROOT } from '../../../utils/routes';
+import { TEMP_SHOP_ADD_SHOP_NAME, SITE_ROOT } from '../../../utils/routes';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
-import { wrapper } from '../../../store/store';
-import { allowAnyInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
-import { OfferGetRootProductResponseType, OfferGetRootServiceResponseType } from '../../../types/offer/offerTypes';
-import { getCookie } from "cookies-next";
+import { getCookie } from 'cookies-next';
+import { Box } from '@mui/material';
 
 const Avatar: NextPage = () => {
 	const activeStep = '2';
@@ -86,9 +84,9 @@ const Avatar: NextPage = () => {
 
 	return (
 		<>
-			<LeftSideBar step={activeStep} which="SHOP" />
 			<main className={Styles.main}>
-				<div>
+				<LeftSideBar step={activeStep} which="SHOP" />
+				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar backHref={TEMP_SHOP_ADD_SHOP_NAME} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileTopNavigationBar backHref={TEMP_SHOP_ADD_SHOP_NAME} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileStepsBar activeStep={activeStep} />
@@ -149,22 +147,22 @@ const Avatar: NextPage = () => {
 							</div>
 						</div>
 					</DefaultCardSection>
-				</div>
-				<div className={Styles.primaryButtonWrapper}>
-					<PrimaryButton
-						buttonText="Continuer"
-						active={preview !== null}
-						onClick={() => avatarHandler(preview)}
-						type="submit"
-					/>
-				</div>
+					<div className={Styles.primaryButtonWrapper}>
+						<PrimaryButton
+							buttonText="Continuer"
+							active={preview !== null}
+							onClick={() => avatarHandler(preview)}
+							type="submit"
+						/>
+					</div>
+				</Box>
 			</main>
 		</>
 	);
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const shop_name = getCookie('@shop_name', {req: context.req, res: context.res});
+	const shop_name = getCookie('@shop_name', { req: context.req, res: context.res });
 	if (!shop_name) {
 		return {
 			redirect: {
@@ -175,7 +173,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	}
 	return {
 		props: {},
-	}
+	};
 }
 
 export default Avatar;

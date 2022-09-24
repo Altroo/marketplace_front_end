@@ -21,8 +21,6 @@ import {
 	ResponseOnlyInterface,
 	SagaCallBackOnCompleteBoolType
 } from "../../../types/_init/_initTypes";
-// import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
-// import OutlineButton from '../../../components/htmlElements/buttons/outlineButton/outlineButton';
 import { codeTextInputTheme } from '../../../utils/themes';
 import CustomOutlinedText from '../../../components/formikElements/customOutlinedText/customOutlinedText';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';

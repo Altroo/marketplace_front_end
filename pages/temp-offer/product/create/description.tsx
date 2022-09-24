@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GetServerSidePropsContext, NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from 'next';
 // import Image from "next/image";
 // import { default as ImageFuture } from "next/future/image";
 import Styles from '../../../../styles/temp-offer/create/offerCreateShared.module.sass';
@@ -7,7 +7,11 @@ import SharedStyles from '../../../../styles/temp-shop/create/shopCreateShared.m
 import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
 import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import { TEMP_OFFER_ADD_PRODUCT_CATEGORIES, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_INDEX } from "../../../../utils/routes";
+import {
+	TEMP_OFFER_ADD_PRODUCT_CATEGORIES,
+	TEMP_SHOP_ADD_SHOP_NAME,
+	TEMP_SHOP_EDIT_INDEX,
+} from '../../../../utils/routes';
 import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperDescriptionHeader from '../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
@@ -17,6 +21,7 @@ import { Form, Formik } from 'formik';
 import CustomTextInput from '../../../../components/formikElements/customTextInput/customTextInput';
 import {
 	bioTextAreaTheme,
+	coordonneeTextInputTheme,
 	offerForWhomDropdownTheme,
 	offerTitleTextInputTheme,
 	offerTitleTooltipTheme,
@@ -56,7 +61,7 @@ import {
 // import { setSelectedOfferTags } from '../../../../store/slices/offer/offerSlice';
 import { forWhomData, getForWhomDataArray } from '../../../../utils/rawData';
 import { OfferForWhomType } from '../../../../types/offer/offerTypes';
-import { getCookie } from "cookies-next";
+import { getCookie } from 'cookies-next';
 // import { OfferForWhomType, OfferProductColors } from '../../../../types/offer/offerTypes';
 // import {
 // 	getLocalOfferColors, getLocalOfferDescription,
@@ -310,15 +315,15 @@ const Description: NextPage = () => {
 	};
 
 	// themes
-	const titleFieldTheme = offerTitleTextInputTheme();
+	const titleFieldTheme = coordonneeTextInputTheme();
 	const titleTooltipTheme = offerTitleTooltipTheme();
-	const descriptionFieldTheme = bioTextAreaTheme();
+	const descriptionFieldTheme = coordonneeTextInputTheme();
 	const forWhomFieldTheme = offerForWhomDropdownTheme();
 
 	return (
 		<>
-			<LeftSideBar step={activeStep} which="PRODUCT" />
 			<main className={SharedStyles.main}>
+				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar
 						backHref={TEMP_OFFER_ADD_PRODUCT_CATEGORIES}
@@ -331,160 +336,174 @@ const Description: NextPage = () => {
 						closeButtonHref={TEMP_SHOP_EDIT_INDEX}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperDescriptionHeader
-						header="Décrivez votre offre"
-						description="Commencez par lui donnez un titre, une description et ajoutez quelques photos."
-						HelpText="Apprendre à créer une offre"
-					/>
-					<Stack direction="column" justifyContent="space-between" spacing={2} sx={{ height: '80%' }}>
-						<Formik
-							enableReinitialize={true}
-							initialValues={{
-								title: offerTitle,
-								images: images,
-								description: offerDescription,
-								tags: offerTags,
-							}}
-							validateOnMount={true}
-							onSubmit={(values) => {
-								addDescriptionSubmitHandler(values);
-							}}
-							validationSchema={addOfferProductSchema}
-						>
-							{({
-								handleBlur,
-								handleChange,
-								values,
-								handleSubmit,
-								setFieldValue,
-								touched,
-								errors,
-								isSubmitting,
-								isValid,
-							}) => (
-								<Form
-									className={Styles.formStyle}
-									onKeyDown={(e) => {
-										if (e.code === 'enter') e.preventDefault();
-									}}
-								>
-									<Stack direction="column" spacing={2}>
-										<ClickAwayListener onClickAway={() => setTitleTooltip(false)}>
-											<div>
-												<CustomToolTip
-													title="Soyez court et précis ! Comment écrire un titre ? En savoir plus"
-													onClose={() => setTitleTooltip(false)}
-													open={titleTooltip}
-													theme={titleTooltipTheme}
-												>
-													<CustomTextInput
-														id="title"
-														label="Titre"
-														value={values.title ? values.title : ''}
+					<Stack direction="column" spacing={4}>
+						<HelperDescriptionHeader
+							header="Décrivez votre offre"
+							description="Commencez par lui donnez un titre, une description et ajoutez quelques photos."
+							HelpText="Apprendre à créer une offre"
+						/>
+						<Stack direction="column">
+							<Formik
+								enableReinitialize={true}
+								initialValues={{
+									title: offerTitle,
+									images: images,
+									description: offerDescription,
+									tags: offerTags,
+								}}
+								validateOnMount={true}
+								onSubmit={(values) => {
+									addDescriptionSubmitHandler(values);
+								}}
+								validationSchema={addOfferProductSchema}
+							>
+								{({
+									handleBlur,
+									handleChange,
+									values,
+									handleSubmit,
+									setFieldValue,
+									touched,
+									errors,
+									isSubmitting,
+									isValid,
+								}) => (
+									<Form
+										className={Styles.formStyle}
+										onKeyDown={(e) => {
+											if (e.code === 'enter') e.preventDefault();
+										}}
+									>
+										<Stack direction="column" spacing={4}>
+											<Stack direction="column" spacing={2}>
+												<Stack direction="column" spacing={4}>
+													<ClickAwayListener onClickAway={() => setTitleTooltip(false)}>
+														<div>
+															<CustomToolTip
+																title="Soyez court et précis ! Comment écrire un titre ? En savoir plus"
+																onClose={() => setTitleTooltip(false)}
+																open={titleTooltip}
+																theme={titleTooltipTheme}
+															>
+																<CustomTextInput
+																	id="title"
+																	label="Titre"
+																	value={values.title ? values.title : ''}
+																	onChange={(e) => {
+																		setTypingTitle(true);
+																		handleChange('title')(e);
+																		setOfferTitle(e.target.value);
+																	}}
+																	onBlur={handleBlur('title')}
+																	helperText={touched.title ? errors.title : ''}
+																	error={touched.title && Boolean(errors.title)}
+																	theme={titleFieldTheme}
+																	fullWidth={false}
+																	size="medium"
+																	type="text"
+																	cssClass={Styles.titleTextField}
+																	onClick={() => setTitleTooltip(true)}
+																/>
+															</CustomToolTip>
+														</div>
+													</ClickAwayListener>
+													<CustomSquareImageUploading
+														images={images}
 														onChange={(e) => {
-															setTypingTitle(true);
-															handleChange('title')(e);
-															setOfferTitle(e.target.value);
+															setPickingImages(true);
+															imagesOnChangeHandler(e);
+															setFieldValue('images', e);
 														}}
-														onBlur={handleBlur('title')}
-														helperText={touched.title ? errors.title : ''}
-														error={touched.title && Boolean(errors.title)}
-														theme={titleFieldTheme}
-														fullWidth={false}
-														size="medium"
-														type="text"
-														cssClass={Styles.titleTextField}
-														onClick={() => setTitleTooltip(true)}
+														maxNumber={4}
 													/>
-												</CustomToolTip>
-											</div>
-										</ClickAwayListener>
-										<CustomSquareImageUploading
-											images={images}
-											onChange={(e) => {
-												setPickingImages(true);
-												imagesOnChangeHandler(e);
-												setFieldValue('images', e);
-											}}
-											maxNumber={4}
-										/>
-										<CustomTextArea
-											type="text"
-											id="description"
-											label="Description"
-											value={values.description ? values.description : ''}
-											onChange={(e) => {
-												setTypingDescription(true);
-												handleChange('description')(e);
-												setOfferDescription(e.target.value);
-											}}
-											onBlur={handleBlur('description')}
-											helperText={touched.description ? errors.description : ''}
-											error={touched.description && Boolean(errors.description)}
-											minRows={4}
-											multiline={true}
-											theme={descriptionFieldTheme}
-											fullWidth={true}
-											size="medium"
-										/>
-										<CustomDropDownChoices
-											id="forWhom"
-											label="Pour qui (optionnel)"
-											items={forWhomData}
-											theme={forWhomFieldTheme}
-											onChange={forWhomHandleChange}
-											value={forWhomChoice}
-											multiple={true}
-										/>
-										<Grid container columnSpacing={1}>
-											<Grid item md={6} sm={12} xs={12}>
-												<ColorsRadioCheckContent
-													selectedColorsList={selectedColorsList}
-													setselectedColorsList={setselectedColorsList}
-													switchOpen={colorSwitchOpen}
+													<Stack direction="column" spacing={2}>
+														<span className={Styles.spanTitle}>Description</span>
+														<CustomTextArea
+															type="text"
+															id="description"
+															label="Description"
+															value={values.description ? values.description : ''}
+															onChange={(e) => {
+																setTypingDescription(true);
+																handleChange('description')(e);
+																setOfferDescription(e.target.value);
+															}}
+															onBlur={handleBlur('description')}
+															helperText={touched.description ? errors.description : ''}
+															error={touched.description && Boolean(errors.description)}
+															minRows={4}
+															multiline={true}
+															theme={descriptionFieldTheme}
+															fullWidth={true}
+															size="medium"
+														/>
+													</Stack>
+												</Stack>
+												<CustomDropDownChoices
+													id="forWhom"
+													label="Pour qui (optionnel)"
+													items={forWhomData}
+													theme={forWhomFieldTheme}
+													onChange={forWhomHandleChange}
+													value={forWhomChoice}
+													multiple={true}
 												/>
-											</Grid>
-											<Grid item md={6} sm={12} xs={12}>
-												<CreatorRadioCheckContent />
-											</Grid>
-										</Grid>
-										<Grid container columnSpacing={1}>
-											<Grid item md={6} sm={12} xs={12}>
-												<SizesRadioCheckContent
-													switchOpen={sizesSwitchOpen}
-													sizesStates={sizesStates}
-													setSizesStates={setSizesStates}
-												/>
-											</Grid>
-											<Grid item md={6} sm={12} xs={12}>
-												<QuantityRadioCheckContent
-													switchOpen={quantitySwitchOpen}
-													quantity={quantity}
-													setQuantity={setQuantity}
-												/>
-											</Grid>
-										</Grid>
-										<TagChips pickedTags={offerTags} onChange={(e, values) => {
-											setPickingTags(true);
-											setOfferTags(values);
-										}} />
-									</Stack>
-									<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
-										<div
-											className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton} 
-										${Styles.marginBottom}`}
-										>
-											<PrimaryButton
-												buttonText="Continuer"
-												active={isValid && !isSubmitting}
-												onClick={handleSubmit}
-												type="submit"
+											</Stack>
+											<Stack direction="column" spacing={2} alignItems="flex-end">
+												<Grid container columnSpacing={1}>
+													<Grid item md={6} sm={12} xs={12}>
+														<ColorsRadioCheckContent
+															selectedColorsList={selectedColorsList}
+															setselectedColorsList={setselectedColorsList}
+															switchOpen={colorSwitchOpen}
+														/>
+													</Grid>
+													<Grid item md={6} sm={12} xs={12}>
+														<CreatorRadioCheckContent />
+													</Grid>
+												</Grid>
+												<Grid container columnSpacing={1}>
+													<Grid item md={6} sm={12} xs={12}>
+														<SizesRadioCheckContent
+															switchOpen={sizesSwitchOpen}
+															sizesStates={sizesStates}
+															setSizesStates={setSizesStates}
+														/>
+													</Grid>
+													<Grid item md={6} sm={12} xs={12}>
+														<QuantityRadioCheckContent
+															switchOpen={quantitySwitchOpen}
+															quantity={quantity}
+															setQuantity={setQuantity}
+														/>
+													</Grid>
+												</Grid>
+											</Stack>
+											<TagChips
+												pickedTags={offerTags}
+												onChange={(e, values) => {
+													setPickingTags(true);
+													setOfferTags(values);
+												}}
 											/>
-										</div>
-									</Stack>
-								</Form>
-							)}
-						</Formik>
+										</Stack>
+										<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
+											<div
+												className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton} 
+											${Styles.marginBottom}`}
+											>
+												<PrimaryButton
+													buttonText="Continuer"
+													active={isValid && !isSubmitting}
+													onClick={handleSubmit}
+													type="submit"
+												/>
+											</div>
+										</Stack>
+									</Form>
+								)}
+							</Formik>
+						</Stack>
 					</Stack>
 				</Box>
 			</main>
@@ -504,7 +523,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	}
 	return {
 		props: {},
-	}
+	};
 }
 
 export default Description;

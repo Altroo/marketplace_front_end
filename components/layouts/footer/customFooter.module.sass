@@ -3,7 +3,9 @@
 @import 'styles/sass/mixins'
 
 // Global styles
-.footer
+.mobileFooter
+  +Hidden
+.desktopFooter
   padding: 60px
   background-color: #FAFAFA
 .header
@@ -14,14 +16,32 @@
   +Regular
   font-size: 16px
   color: $primary
+.miniIcon
+  width: 24px
+  height: 24px
 .divider
   color: #D9D9DD
+.bottomFooterSpan
+  +Regular
+  font-size: 14px
+  color: #525256
 .bottomAnchor
   +Regular
   font-size: 14px
   color: #525256
 .miniDivider
   color: #525256
-// @media #{}
+@media #{$tablette}
+  .desktopFooter
+    +Hidden
+  .mobileFooter
+    display: block !important
+    padding: 60px 30px 60px 30px
+    background-color: #FAFAFA
+  .bottomFooterSpan
+    width: 100%
+  .bottomAnchor
+    width: 100%
+
 // @media #{}
 // @media #{}

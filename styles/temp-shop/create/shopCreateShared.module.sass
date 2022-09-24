@@ -5,16 +5,16 @@
 // Global styles
 // add/avatar
 .main
-  position: absolute
-  right: 0
+  position: relative
+  //position: absolute
+  //right: 0
   display: flex
-  flex-direction: column
-  justify-content: space-between
-  height: 100%
-  //overflow-y: scroll
-  padding: 0 60px 60px 60px
-  width: calc(100% - 350px)
-
+  flex-direction: row
+  //justify-content: space-between
+  height: 100vh
+  padding: 0 60px 60px 0
+  //width: calc(100% - 350px)
+  width: 100%
 .avatarActionsWrapper
   display: flex
   width: 100%
@@ -121,17 +121,20 @@
 
 .desktopContainerModal
   position: absolute
-  bottom: calc(100vh - 90%)
+  bottom: calc(100% - 90%)
   background: $white
   box-shadow: 0 0 24px rgba(0, 0, 0, 0.25)
   padding: 20px
   border-radius: 50px
   display: flex
-  min-width: 80%
+  //min-width: 80%
   justify-content: space-around
   align-items: center
   z-index: 1
-  max-width: 80%
+  //min-width: 1000px
+  //max-width: 1220px
+  //min-width: 60%
+  //max-width: 100%
   width: 100%
   left: 0
   right: 0
@@ -171,6 +174,7 @@
 .mobileSwiper
   width: 100%
   height: 100%
+  margin-bottom: -1rem
 .swiperSlide
   display: grid
   justify-items: center
@@ -182,6 +186,7 @@
   grid-template-rows: 1fr 1fr
   grid-row-gap: 20px
   text-align: center
+  margin-bottom: 2rem
 
 @media #{$desktop}
   .shopAddOfferWrapper
@@ -226,8 +231,10 @@
     +Hidden
   .primaryButtonDesktopWrapper
     +Hidden
-
-
+  .primaryButtonWrapper
+    padding-bottom: 60px
+  .primaryButton
+    width: 365px !important
 .customTextField
   margin-top: 60px
   outline: none
@@ -238,3 +245,6 @@
     font-weight: 400
     color: $grayInput
     font-size: 1.1rem
+@media #{$mobile}
+  .primaryButton
+    width: 100% !important

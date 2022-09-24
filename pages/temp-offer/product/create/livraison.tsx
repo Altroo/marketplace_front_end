@@ -425,8 +425,8 @@ const Livraison: NextPage = () => {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<LeftSideBar step={activeStep} which="PRODUCT" />
 			<main className={ShopStyles.main}>
+				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.boxWrapper}>
 					<DesktopTopNavigationBar
 						backHref={TEMP_OFFER_ADD_PRODUCT_PRICE}
@@ -711,16 +711,14 @@ const Livraison: NextPage = () => {
 							</RadioCheckElement>
 						</Stack>
 					</Stack>
-					<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
-						<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-							<PrimaryButton
-								buttonText={offer_pk ? "Modifier" : "Publier"}
-								active={submitActive}
-								onClick={handleSubmit}
-								type="submit"
-							/>
-						</div>
-					</Stack>
+					<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+						<PrimaryButton
+							buttonText={offer_pk ? "Modifier" : "Publier"}
+							active={submitActive}
+							onClick={handleSubmit}
+							type="submit"
+						/>
+					</div>
 				</Box>
 				<ApiLoadingResponseOrError
 					inProgress={offer_pk ? offerApi.isEditInProgress : offerApi.isAddInProgress}

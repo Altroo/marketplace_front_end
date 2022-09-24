@@ -29,6 +29,7 @@ const CustomTextInput = forwardRef<HTMLInputElement, Props>((props:Props, ref: F
 	return (
 		<ThemeProvider theme={theme}>
 			<TextField
+				{...restOfProps}
 				ref={ref}
 				variant={props.variant}
 				type={props.type}

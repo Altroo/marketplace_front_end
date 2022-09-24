@@ -89,6 +89,7 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 				gap={5}
 				justifyContent="space-between"
 				alignItems="center"
+				className={Styles.rootStack}
 			>
 				<ThemeProvider theme={chipTheme}>
 					<Grid container spacing={2}>

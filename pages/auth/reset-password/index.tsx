@@ -11,7 +11,6 @@ import { AccountGetCheckAccountResponseType, AccountPostLoginResponseType } from
 import { cookiesPoster, getApi, postApi } from "../../../store/services/_init/_initAPI";
 import {
 	AUTH_REGISTER,
-	AUTH_REGISTER_ABOUT_PAGE,
 	AUTH_RESET_PASSWORD_ENTER_CODE,
 	DASHBOARD
 } from "../../../utils/routes";
@@ -68,7 +67,7 @@ const ResetPasswordPageContent = () => {
 				</span>
 			</Stack>
 			<form>
-				<Stack direction="column" spacing={2}>
+				<Stack direction="column" spacing={4}>
 					<CustomTextInput
 						id="email"
 						value={formik.values.email}

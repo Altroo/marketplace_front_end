@@ -15,7 +15,7 @@ function* monitorToken(selector: (state: RootState) => string | null, previousVa
 }
 
 export function* watchWS() {
-    const token = yield* call(() => monitorToken(getAccessToken, null))
+  const token = yield* call(() => monitorToken(getAccessToken, null));
 	if (token) {
 		const channel = yield* call(() => initWebsocket(token));
 		while (true) {

@@ -88,6 +88,8 @@ import { AUTH_REGISTER, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_INDEX } from "..
 import { offerGetMyOffersFirstPageAction } from '../../../store/actions/offer/offerActions';
 import ApiLoadingResponseOrError from '../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
 import { getCookie } from "cookies-next";
+import CustomFooter from "../../../components/layouts/footer/customFooter";
+import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 
 const Index: NextPage = () => {
 	const router = useRouter();
@@ -563,361 +565,364 @@ const Index: NextPage = () => {
 					}}
 				/>
 			)}
-			<main className={Styles.main}>
-				{/* TOP BAR */}
-				<div className={Styles.desktopTopBarWrapper}>
-					<DesktopPublishEditNavbar
-						dropDownText="Éditer"
-						buttonTitle="Publier"
-						actions={dropDownActions}
-						onClick={() => {
-							router.push(AUTH_REGISTER).then();
-						}}
-						menuID="desktop-edit-menu"
-						buttonID="desktop-edit-menu-btn"
-					/>
-				</div>
-				<div className={Styles.mobileTopBarWrapper}>
-					<MobilePublishEditNavbar
-						actions={dropDownActions}
-						onPublish={() => {
-							console.log('Clicked');
-						}}
-						menuID="mobile-edit-menu"
-						buttonID="mobile-edit-menu-btn"
-					/>
-				</div>
-				<div className={Styles.pageContent}>
-					<div className={Styles.avatarActionsWrapper}>
-						<div className={Styles.avatarWrapper}>
-							<div>
-								<CircularAvatar imageSrc={preview} />
-								<input
-									type="file"
-									className={Styles.hiddenFile}
-									ref={avatarInputRef}
-									accept="image/*"
-									onChange={(e) => avatarInputOnChangeUploadHandler(e)}
-								/>
-							</div>
-							<div className={Styles.shopNameContainer}>
-								<h2
-									className={Styles.shopName}
-									style={{
-										fontFamily:
-											fontName === 'L'
-												? 'Poppins-Light'
-												: fontName === 'B'
-												? 'Poppins-ExtraBold'
-												: fontName === 'S'
-												? 'Poppins-SemiBold'
-												: 'Poppins',
-									}}
-								>
-									{shopName}
-								</h2>
-								<div className={Styles.ratingContainer}>
-									<Image src={BlackStarSVG} width={20} height={20} alt="" />
-									<span>4.2 (2 notes)</span>
+			<Stack direction="column">
+				<main className={Styles.main}>
+					{/* TOP BAR */}
+					<div className={Styles.desktopTopBarWrapper}>
+						<DesktopPublishEditNavbar
+							dropDownText="Éditer"
+							buttonTitle="Publier"
+							actions={dropDownActions}
+							onClick={() => {
+								router.push(AUTH_REGISTER).then();
+							}}
+							menuID="desktop-edit-menu"
+							buttonID="desktop-edit-menu-btn"
+						/>
+					</div>
+					<div className={Styles.mobileTopBarWrapper}>
+						<MobilePublishEditNavbar
+							actions={dropDownActions}
+							onPublish={() => {
+								console.log('Clicked');
+							}}
+							menuID="mobile-edit-menu"
+							buttonID="mobile-edit-menu-btn"
+						/>
+					</div>
+					<div className={Styles.pageContent}>
+						<div className={Styles.avatarActionsWrapper}>
+							<div className={Styles.avatarWrapper}>
+								<div>
+									<CircularAvatar imageSrc={preview} />
+									<input
+										type="file"
+										className={Styles.hiddenFile}
+										ref={avatarInputRef}
+										accept="image/*"
+										onChange={(e) => avatarInputOnChangeUploadHandler(e)}
+									/>
+								</div>
+								<div className={Styles.shopNameContainer}>
+									<h2
+										className={Styles.shopName}
+										style={{
+											fontFamily:
+												fontName === 'L'
+													? 'Poppins-Light'
+													: fontName === 'B'
+													? 'Poppins-ExtraBold'
+													: fontName === 'S'
+													? 'Poppins-SemiBold'
+													: 'Poppins',
+										}}
+									>
+										{shopName}
+									</h2>
+									<div className={Styles.ratingContainer}>
+										<Image src={BlackStarSVG} width={20} height={20} alt="" />
+										<span>4.2 (2 notes)</span>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div className={Styles.actionsWrapper}>
-							<IconAnchorButton
-								buttonText="Message"
-								svgIcon={messageIcon}
-								backgroundColor={bgColorCode}
-								textColor={colorCode}
-								border={border}
-								onClick={() => {
-									console.log('clicked');
-								}}
-								active={true}
-								cssClass={Styles.iconButton}
-							/>
-							{/* show outline icon button if no phone or whatsapp added yet, else show normal icon button */}
-							{(phoneValue || whatsappValue) !== '' ? (
-								<IconButton
-									buttonText="Contacter"
-									svgIcon={contactIcon}
-									onClick={handleContactModalOpen}
+							<div className={Styles.actionsWrapper}>
+								<IconAnchorButton
+									buttonText="Message"
+									svgIcon={messageIcon}
 									backgroundColor={bgColorCode}
 									textColor={colorCode}
 									border={border}
+									onClick={() => {
+										console.log('clicked');
+									}}
+									active={true}
 									cssClass={Styles.iconButton}
 								/>
-							) : (
-								<BorderIconButton
-									buttonText="Contacter"
-									svgIcon={ContactIconBlueSVG}
-									onClick={handleContactModalOpen}
-									cssClass={Styles.iconButton}
-								/>
-							)}
+								{/* show outline icon button if no phone or whatsapp added yet, else show normal icon button */}
+								{(phoneValue || whatsappValue) !== '' ? (
+									<IconButton
+										buttonText="Contacter"
+										svgIcon={contactIcon}
+										onClick={handleContactModalOpen}
+										backgroundColor={bgColorCode}
+										textColor={colorCode}
+										border={border}
+										cssClass={Styles.iconButton}
+									/>
+								) : (
+									<BorderIconButton
+										buttonText="Contacter"
+										svgIcon={ContactIconBlueSVG}
+										onClick={handleContactModalOpen}
+										cssClass={Styles.iconButton}
+									/>
+								)}
 
-							{/* START right side contact modal */}
-							<RightSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
-								<div className={Styles.modalContentWrapper}>
-									<div className={Styles.topBar}>
-										<Image
-											src={CloseSVG}
-											width={40}
-											height={40}
-											alt=""
-											onClick={handleContactModalClose}
+								{/* START right side contact modal */}
+								<RightSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
+									<div className={Styles.modalContentWrapper}>
+										<div className={Styles.topBar}>
+											<Image
+												src={CloseSVG}
+												width={40}
+												height={40}
+												alt=""
+												onClick={handleContactModalClose}
+											/>
+										</div>
+										<HelperDescriptionHeader
+											header="Ajouter un moyen de contact"
+											description="Choississez comment vos client peuvent vous contacter"
+										/>
+										{contacterAction.map((action, index) => {
+											return (
+												<ContacterPhoneInput
+													key={index}
+													checked={action.checked}
+													setStateHandler={action.setStateHandler}
+													label={action.label}
+													backgroundColor={action.backgroundColor}
+													icon={action.icon}
+													code={action.code}
+													setCode={action.setCode}
+													value={action.value}
+													setValue={action.setValue}
+												/>
+											);
+										})}
+									</div>
+									<div className={Styles.actionButtonWrapper}>
+										<PrimaryButton
+											buttonText="Enregistrer"
+											active={true}
+											onClick={contacterSaveHandler}
+											cssClass={Styles.actionButtonWidth}
 										/>
 									</div>
-									<HelperDescriptionHeader
-										header="Ajouter un moyen de contact"
-										description="Choississez comment vos client peuvent vous contacter"
+								</RightSwipeModal>
+								{/* END right side contact modal */}
+							</div>
+						</div>
+						<div>
+							<div className={Styles.shopDetailsWrapper}>
+								<div className={Styles.shopTabs}>
+									<ShopInfoTabs
+										shopContent={
+											<BoutiqueTabContent
+												chipCategoriesAction={chipCategoriesAction}
+												promoCheckAction={promoCheckAction}
+												checkBoxForWhomAction={checkBoxesForWhomAction}
+												activeColor={bgColorCode}
+												hidden={hideAsideNav}
+											/>
+										}
+										InfoContent={
+											<InfoTabContent
+												setOpenInfoModal={setOpenInfoModal}
+												openInfoModal={openInfoModal}
+												setOpenEditBioModal={setOpenEditBioModal}
+												setOpenEditHoraireModal={setOpenEditHoraireModal}
+												setOpenEditCoordoneeModal={setOpenEditCoordoneeModal}
+												setOpenEditAdressModal={setOpenEditAdressModal}
+												backgroundColor={bgColorCode}
+											/>
+										}
+										color={bgColorCode}
+										borderColor={bgColorCode}
 									/>
-									{contacterAction.map((action, index) => {
+								</div>
+							</div>
+						</div>
+					</div>
+					{/* Edit info modal */}
+					<RightSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}>
+						<div className={Styles.modalContentWrapper}>
+							<div className={Styles.topBar}>
+								<Image
+									src={CloseSVG}
+									width={40}
+									height={40}
+									alt=""
+									onClick={() => setOpenInfoModal(false)}
+								/>
+							</div>
+							<HelperDescriptionHeader header="Ajouter mes infos" />
+							<Stack direction="column" spacing={4}>
+								{infosStackActions.map((stack, index) => {
+									return (
+										<AjouterMesInfosStack
+											key={index}
+											title={stack.title}
+											added={stack.added}
+											content={stack.content}
+											openEditModal={stack.openEditModal}
+											setOpenEditModal={stack.setOpenEditModal}
+										/>
+									);
+								})}
+							</Stack>
+						</div>
+					</RightSwipeModal>
+					{/* Edit color modal */}
+					{openColorModal && (
+						<>
+							<Backdrop
+								sx={{
+									color: '#fff',
+									zIndex: (theme) => theme.zIndex.drawer + 1,
+									backgroundColor: 'rgba(0, 0, 0, 0.1)',
+								}}
+								open={openColorModal}
+								// onClick={() => setOpenColorModal(false)}
+							>
+								<div className={SharedStyles.desktopContainerModal}>
+									{colors.map((color: string, index: number) => {
 										return (
-											<ContacterPhoneInput
+											<DesktopColorPicker
+												color={color}
+												onClick={() => colorClickHandler(color)}
+												selectedColor={bgColorCode}
 												key={index}
-												checked={action.checked}
-												setStateHandler={action.setStateHandler}
-												label={action.label}
-												backgroundColor={action.backgroundColor}
-												icon={action.icon}
-												code={action.code}
-												setCode={action.setCode}
-												value={action.value}
-												setValue={action.setValue}
 											/>
 										);
 									})}
 								</div>
-								<div className={Styles.actionButtonWrapper}>
+								<div
+									className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}
+								>
 									<PrimaryButton
 										buttonText="Enregistrer"
-										active={true}
-										onClick={contacterSaveHandler}
-										cssClass={Styles.actionButtonWidth}
+										active={colorCode !== undefined && bgColorCode !== undefined}
+										onClick={() => editColorHandler(bgColorCode, colorCode)}
 									/>
 								</div>
-							</RightSwipeModal>
-							{/* END right side contact modal */}
-						</div>
-					</div>
-					<div>
-						<div className={Styles.shopDetailsWrapper}>
-							<div className={Styles.shopTabs}>
-								<ShopInfoTabs
-									shopContent={
-										<BoutiqueTabContent
-											chipCategoriesAction={chipCategoriesAction}
-											promoCheckAction={promoCheckAction}
-											checkBoxForWhomAction={checkBoxesForWhomAction}
-											activeColor={bgColorCode}
-											hidden={hideAsideNav}
-										/>
-									}
-									InfoContent={
-										<InfoTabContent
-											setOpenInfoModal={setOpenInfoModal}
-											openInfoModal={openInfoModal}
-											setOpenEditBioModal={setOpenEditBioModal}
-											setOpenEditHoraireModal={setOpenEditHoraireModal}
-											setOpenEditCoordoneeModal={setOpenEditCoordoneeModal}
-											setOpenEditAdressModal={setOpenEditAdressModal}
-											backgroundColor={bgColorCode}
-										/>
-									}
-									color={bgColorCode}
-									borderColor={bgColorCode}
-								/>
-							</div>
-						</div>
-					</div>
-				</div>
-				{/* Edit info modal */}
-				<RightSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}>
-					<div className={Styles.modalContentWrapper}>
-						<div className={Styles.topBar}>
-							<Image
-								src={CloseSVG}
-								width={40}
-								height={40}
-								alt=""
-								onClick={() => setOpenInfoModal(false)}
-							/>
-						</div>
-						<HelperDescriptionHeader header="Ajouter mes infos" />
-						<Stack direction="column" spacing={4}>
-							{infosStackActions.map((stack, index) => {
-								return (
-									<AjouterMesInfosStack
-										key={index}
-										title={stack.title}
-										added={stack.added}
-										content={stack.content}
-										openEditModal={stack.openEditModal}
-										setOpenEditModal={stack.setOpenEditModal}
-									/>
-								);
-							})}
-						</Stack>
-					</div>
-				</RightSwipeModal>
-				{/* Edit color modal */}
-				{openColorModal && (
-					<>
-						<Backdrop
-							sx={{
-								color: '#fff',
-								zIndex: (theme) => theme.zIndex.drawer + 1,
-								backgroundColor: 'rgba(0, 0, 0, 0.1)',
-							}}
-							open={openColorModal}
-							// onClick={() => setOpenColorModal(false)}
-						>
-							<div className={SharedStyles.desktopContainerModal}>
-								{colors.map((color: string, index: number) => {
-									return (
-										<DesktopColorPicker
-											color={color}
-											onClick={() => colorClickHandler(color)}
-											selectedColor={bgColorCode}
-											key={index}
-										/>
-									);
-								})}
-							</div>
-							<div
-								className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}
-							>
-								<PrimaryButton
-									buttonText="Enregistrer"
-									active={colorCode !== undefined && bgColorCode !== undefined}
-									onClick={() => editColorHandler(bgColorCode, colorCode)}
-								/>
-							</div>
-							<div>
-								<div className={SharedStyles.mobileContainerModal}>
-									<Swiper
-										pagination={{
-											clickable: true,
-											enabled: true,
-											bulletActiveClass: 'activekBullet',
-											clickableClass: 'paginationBullet',
-										}}
-										modules={[Navigation, Pagination, Lazy]}
-										scrollbar={{ enabled: false }}
-										className={SharedStyles.mobileSwiper}
-									>
-										<SwiperSlide className={SharedStyles.swiperSlide}>
-											{colors.slice(0, 10).map((color: string, index: number) => {
-												return (
-													<MobileColorPicker
-														color={color}
-														onClick={() => colorClickHandler(color)}
-														selectedColor={bgColorCode}
-														key={index}
-													/>
-												);
-											})}
-										</SwiperSlide>
-										<SwiperSlide className={SharedStyles.swiperSlide}>
-											{colors.slice(10, 20).map((color: string, index: number) => {
-												return (
-													<MobileColorPicker
-														color={color}
-														onClick={() => colorClickHandler(color)}
-														selectedColor={bgColorCode}
-														key={index}
-													/>
-												);
-											})}
-										</SwiperSlide>
-									</Swiper>
-									<div
-										className={`${SharedStyles.primaryButtonMobileWrapper} ${SharedStyles.primaryButtonZindexWrapper}`}
-									>
-										<PrimaryButton
-											buttonText="Enregistrer"
-											active={colorCode !== undefined && bgColorCode !== undefined}
-											onClick={() => editColorHandler(bgColorCode, colorCode)}
-										/>
-									</div>
-								</div>
-							</div>
-						</Backdrop>
-					</>
-				)}
-				{/* Edit font modal */}
-				{openFontModal && (
-					<>
-						<Backdrop
-							sx={{
-								color: '#fff',
-								zIndex: (theme) => theme.zIndex.drawer + 1,
-								backgroundColor: 'rgba(0, 0, 0, 0.1)',
-							}}
-							open={openFontModal}
-							// onClick={() => setOpenFontModal(false)}
-						>
-							<div className={Styles.desktopFontWrapper}>
-								{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
-									return (
-										<FontPicker
-											key={index}
-											pickedFontName={fontName}
-											font={font}
-											onClick={() => {
-												fontPicker(font.code);
+								<div>
+									<div className={SharedStyles.mobileContainerModal}>
+										<Swiper
+											pagination={{
+												clickable: true,
+												enabled: true,
+												bulletActiveClass: 'activekBullet',
+												clickableClass: 'paginationBullet',
 											}}
-										/>
-									);
-								})}
-							</div>
-							<div
-								className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}
-							>
-								<PrimaryButton
-									buttonText="Continuer"
-									active={fontName !== undefined}
-									onClick={() => editFontHandler(fontName)}
-								/>
-							</div>
-							<div>
-								<div className={SharedStyles.mobileFontWrapper}>
-									<div className={SharedStyles.mobileFontContainerModal}>
-										{availableFonts.map(
-											(font: { name: string; code: ShopFontNameType }, index: number) => {
-												return (
-													<FontPicker
-														key={index}
-														pickedFontName={fontName}
-														font={font}
-														onClick={() => {
-															fontPicker(font.code);
-														}}
-													/>
-												);
-											},
-										)}
-									</div>
-									<div
-										className={`${SharedStyles.primaryButtonMobileWrapper} ${SharedStyles.primaryButtonZindexWrapper}`}
-									>
-										<PrimaryButton
-											buttonText="Enregistrer"
-											active={fontName !== undefined}
-											onClick={() => editFontHandler(fontName)}
-										/>
+											modules={[Navigation, Pagination, Lazy]}
+											scrollbar={{ enabled: false }}
+											className={SharedStyles.mobileSwiper}
+										>
+											<SwiperSlide className={SharedStyles.swiperSlide}>
+												{colors.slice(0, 10).map((color: string, index: number) => {
+													return (
+														<MobileColorPicker
+															color={color}
+															onClick={() => colorClickHandler(color)}
+															selectedColor={bgColorCode}
+															key={index}
+														/>
+													);
+												})}
+											</SwiperSlide>
+											<SwiperSlide className={SharedStyles.swiperSlide}>
+												{colors.slice(10, 20).map((color: string, index: number) => {
+													return (
+														<MobileColorPicker
+															color={color}
+															onClick={() => colorClickHandler(color)}
+															selectedColor={bgColorCode}
+															key={index}
+														/>
+													);
+												})}
+											</SwiperSlide>
+										</Swiper>
+										<div
+											className={`${SharedStyles.primaryButtonMobileWrapper} ${SharedStyles.primaryButtonZindexWrapper}`}
+										>
+											<PrimaryButton
+												buttonText="Enregistrer"
+												active={colorCode !== undefined && bgColorCode !== undefined}
+												onClick={() => editColorHandler(bgColorCode, colorCode)}
+											/>
+										</div>
 									</div>
 								</div>
-							</div>
-						</Backdrop>
-					</>
-				)}
-				<ApiLoadingResponseOrError
-					inProgress={offerApi.isFetchInProgress}
-					promiseStatus={offerApi.fetchPromiseStatus}
-					error={offerApi.error}
-				/>
-			</main>
+							</Backdrop>
+						</>
+					)}
+					{/* Edit font modal */}
+					{openFontModal && (
+						<>
+							<Backdrop
+								sx={{
+									color: '#fff',
+									zIndex: (theme) => theme.zIndex.drawer + 1,
+									backgroundColor: 'rgba(0, 0, 0, 0.1)',
+								}}
+								open={openFontModal}
+								// onClick={() => setOpenFontModal(false)}
+							>
+								<div className={Styles.desktopFontWrapper}>
+									{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
+										return (
+											<FontPicker
+												key={index}
+												pickedFontName={fontName}
+												font={font}
+												onClick={() => {
+													fontPicker(font.code);
+												}}
+											/>
+										);
+									})}
+								</div>
+								<div
+									className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}
+								>
+									<PrimaryButton
+										buttonText="Continuer"
+										active={fontName !== undefined}
+										onClick={() => editFontHandler(fontName)}
+									/>
+								</div>
+								<div>
+									<div className={SharedStyles.mobileFontWrapper}>
+										<div className={SharedStyles.mobileFontContainerModal}>
+											{availableFonts.map(
+												(font: { name: string; code: ShopFontNameType }, index: number) => {
+													return (
+														<FontPicker
+															key={index}
+															pickedFontName={fontName}
+															font={font}
+															onClick={() => {
+																fontPicker(font.code);
+															}}
+														/>
+													);
+												},
+											)}
+										</div>
+										<div
+											className={`${SharedStyles.primaryButtonMobileWrapper} ${SharedStyles.primaryButtonZindexWrapper}`}
+										>
+											<PrimaryButton
+												buttonText="Enregistrer"
+												active={fontName !== undefined}
+												onClick={() => editFontHandler(fontName)}
+											/>
+										</div>
+									</div>
+								</div>
+							</Backdrop>
+						</>
+					)}
+					<ApiLoadingResponseOrError
+						inProgress={offerApi.isFetchInProgress}
+						promiseStatus={offerApi.fetchPromiseStatus}
+						error={offerApi.error}
+					/>
+				</main>
+				<CustomFooter/>
+			</Stack>
 		</>
 	);
 };

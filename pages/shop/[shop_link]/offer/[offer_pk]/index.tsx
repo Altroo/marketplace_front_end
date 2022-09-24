@@ -225,7 +225,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 					<Box className={Styles.pageWrapper}>
 						<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
 							{/* DESKTOP Only */}
-							<Stack direction="column" spacing={3} className={Styles.desktopOnly}>
+							<Stack direction="column" spacing={5} sx={{maxWidth: '55%'}} className={Styles.desktopOnly}>
 								<Stack direction="row" spacing={3}>
 									<Stack direction="column" spacing={1.8}>
 										{availableImages.length > 0 &&
@@ -257,11 +257,12 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 												unoptimized={true}
 												width={500}
 												height={500}
+												sizes="100vw"
 												alt=""
 												loading="lazy"
 												decoding="async"
 											/>
-											{creator_label &&
+											{creator_label && (
 												<ImageFuture
 													className={Styles.creatorImageTag}
 													src={CreatorIconSVG}
@@ -269,7 +270,8 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 													width="0"
 													height="0"
 													sizes="100vw"
-												/>}
+												/>
+											)}
 										</Box>
 									) : null}
 								</Stack>
@@ -290,8 +292,8 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 													className={Styles.creatorImage}
 													src={CreatorIlluSVG}
 													alt="creator"
-													width="0"
-													height="0"
+													width="105"
+													height="56"
 													sizes="100vw"
 												/>
 												<span className={Styles.creatorText}>
@@ -299,9 +301,6 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 													label pour permettre aux créateurs de notre pays d’être valorisé.
 												</span>
 											</Stack>
-											{/*<Link href="/" passHref>*/}
-											{/*	<a className={Styles.creatorsLink}>Découvrir nos créateurs</a>*/}
-											{/*</Link>*/}
 										</Stack>
 									</Box>
 								)}
@@ -332,9 +331,10 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 																unoptimized={true}
 																width={365}
 																height={240}
+																sizes="100vw"
 																alt=""
 															/>
-															{creator_label &&
+															{creator_label && (
 																<ImageFuture
 																	className={Styles.creatorImageTag}
 																	src={CreatorIconSVG}
@@ -342,7 +342,8 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 																	width="0"
 																	height="0"
 																	sizes="100vw"
-																/>}
+																/>
+															)}
 														</Box>
 													</SwiperSlide>
 												);
@@ -351,164 +352,176 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 								</>
 							</div>
 							<Stack direction="column" spacing={1} className={Styles.offerWrapper}>
-								<h1 className={Styles.title}>{title}</h1>
-								<Stack direction="row">
-									<Image src={BlackStarSVG} width={20} height={20} alt="" />
-									<span className={Styles.rating}>0 (0 notes)</span>
-								</Stack>
-								<Link
-									href={`${router.asPath.split('/offer')[0]}`}
-									passHref
-									prefetch={false}
-									target="_blank"
-									rel="noreferrer"
-								>
-									<a target="_blank" rel="noreferrer">
-										<span className={Styles.shopName}>{shop_name}</span>
-									</a>
-								</Link>
-								<Stack direction="row" flexWrap="wrap" gap={1}>
-									{categoriesListString.map((category, index) => {
-										return <Chip key={index} label={category} variant="filled" className={Styles.chip} />;
-									})}
-								</Stack>
-								{creator_label && made_in_label && (
-									<Stack direction="row" spacing={1} alignItems="center">
-										<ReactCountryFlag
-											svg
-											aria-label={made_in_label.name}
-											className={Styles.madeInFlag}
-											countryCode={made_in_label.code}
-										/>
-										<span className={Styles.madeInSpan}>Fabriqué au {made_in_label.name}</span>
+								<Stack direction="column" spacing={4}>
+									<Stack direction="column" spacing={2}>
+										<Stack direction="column">
+											<h1 className={Styles.title}>{title}</h1>
+											<Stack direction="row">
+												<Image src={BlackStarSVG} width={20} height={20} alt="" />
+												<span className={Styles.rating}>0 (0 notes)</span>
+											</Stack>
+											<Link
+												href={`${router.asPath.split('/offer')[0]}`}
+												passHref
+												prefetch={false}
+												target="_blank"
+												rel="noreferrer"
+											>
+												<a target="_blank" rel="noreferrer">
+													<span className={Styles.shopName}>{shop_name}</span>
+												</a>
+											</Link>
+										</Stack>
+										<Stack direction="column" spacing={1}>
+											<Stack direction="row" flexWrap="wrap" gap={1}>
+												{categoriesListString.map((category, index) => {
+													return <Chip key={index} label={category} variant="filled" className={Styles.chip} />;
+												})}
+											</Stack>
+											{creator_label && made_in_label && (
+												<Stack direction="row" spacing={1} alignItems="center">
+													<ReactCountryFlag
+														svg
+														aria-label={made_in_label.name}
+														className={Styles.madeInFlag}
+														countryCode={made_in_label.code}
+													/>
+													<span className={Styles.madeInSpan}>Fabriqué au {made_in_label.name}</span>
+												</Stack>
+											)}
+										</Stack>
 									</Stack>
-								)}
-								<Stack direction="column" spacing={1} className={Styles.descriptionWrapper}>
-									<span className={Styles.descriptionTitle}>Description</span>
-									<p className={Styles.descriptionBody}>{description}</p>
-									{colorsListString.length > 0 ? (
-										<p className={Styles.colorBody}>
-											<span className={Styles.colorTitle}>Couleurs : </span>
-											{colorsListString.join(', ')}
-										</p>
-									) : null}
-									{sizesListString.length > 0 ? (
-										<p className={Styles.sizesBody}>
-											<span className={Styles.sizesTitle}>Taille : </span>
-											{sizesListString.join(', ')}
-										</p>
-									) : null}
-									{forWhomListString.length > 0 ? (
-										<p className={Styles.forWhomBody}>
-											<span className={Styles.forWhomTitle}>Pour : </span>
-											{forWhomListString.join(',')}
-										</p>
-									) : null}
-								</Stack>
-								<Stack direction="column" className={Styles.priceWrapper}>
-									<Stack direction="row" spacing={1}>
-										<span className={`${Styles.price} ${solder_value !== null && Styles.oldPrice}`}>
-											{price + ' DH'}
-										</span>
-										<span className={Styles.solderPrice}>{solder_value !== null ? newPrice + ' DH' : null}</span>
+									<Stack direction="column" spacing={2} className={Styles.descriptionWrapper}>
+										<Stack direction="column" spacing={1}>
+											<span className={Styles.descriptionTitle}>Description</span>
+											<p className={Styles.descriptionBody}>{description}</p>
+										</Stack>
+										<Stack direction="column" spacing={1}>
+											{colorsListString.length > 0 ? (
+												<p className={Styles.colorBody}>
+													<span className={Styles.colorTitle}>Couleurs : </span>
+													{colorsListString.join(', ')}
+												</p>
+											) : null}
+											{sizesListString.length > 0 ? (
+												<p className={Styles.sizesBody}>
+													<span className={Styles.sizesTitle}>Taille : </span>
+													{sizesListString.join(', ')}
+												</p>
+											) : null}
+											{forWhomListString.length > 0 ? (
+												<p className={Styles.forWhomBody}>
+													<span className={Styles.forWhomTitle}>Pour : </span>
+													{forWhomListString.join(',')}
+												</p>
+											) : null}
+										</Stack>
 									</Stack>
-									<Stack direction="row" justifyContent="space-between">
-										<span className={Styles.priceBy}>
-											par {getProductPriceByData(details_offer.product_price_by as OfferProductPriceByType)}
-										</span>
-										<span className={Styles.quantity}>{details_offer.product_quantity} restant</span>
+									<Stack direction="column" className={Styles.priceWrapper}>
+										<Stack direction="row" spacing={1}>
+											<span className={`${Styles.price} ${solder_value !== null && Styles.oldPrice}`}>
+												{price + ' DH'}
+											</span>
+											<span className={Styles.solderPrice}>{solder_value !== null ? newPrice + ' DH' : null}</span>
+										</Stack>
+										<Stack direction="row" justifyContent="space-between">
+											<span className={Styles.priceBy}>
+												par {getProductPriceByData(details_offer.product_price_by as OfferProductPriceByType)}
+											</span>
+											<span className={Styles.quantity}>{details_offer.product_quantity} restant</span>
+										</Stack>
 									</Stack>
 								</Stack>
-								<Stack direction="column" justifyContent="center" alignItems="center" spacing={1}>
+								<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
 									<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 										<PrimaryButton buttonText="Ajouter au panier" active={true} type="submit" />
 									</div>
-								</Stack>
-								<Box className={Styles.clickAnddeliveriesWrapper}>
-									<Stack
-										direction="column"
-										divider={<Divider orientation="horizontal" flexItem className={Styles.divider} />}
-									>
-										{details_offer.product_address ? (
-											<Stack
-												direction="row"
-												justifyContent="space-between"
-												className={Styles.deliveryRow}
-												alignItems="center"
-											>
-												<Stack direction="row" alignItems="center">
-													<ImageFuture src={ClickAndCollectSVG} width={40} height={40} alt="" />
-													<Stack direction="column">
-														<span className={Styles.deliveriesTitle}>Click & collect</span>
-														<span className={Styles.deliveryDetails}>Dès demain</span>
-														<span className={Styles.deliveryDetails}>{details_offer.product_address}</span>
-													</Stack>
-												</Stack>
-												<span className={Styles.deliveryPrice}>Gratuite</span>
-											</Stack>
-										) : (
-											<Stack
-												direction="row"
-												justifyContent="space-between"
-												className={Styles.deliveryNotFoundRow}
-												alignItems="center"
-											>
-												<Stack direction="row" alignItems="center">
-													<ImageFuture src={ClickAndCollectDisabledSVG} width={40} height={40} alt="" />
-													<Stack direction="column">
-														<span className={Styles.deliveriesTitleNotFound}>Click & collect</span>
-														<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
-													</Stack>
-												</Stack>
-											</Stack>
-										)}
-										{deliveriesListString.length > 0 ? (
-											deliveriesListString.map((delivery, index) => {
-												return (
-													<Stack
-														key={index}
-														direction="row"
-														justifyContent="space-between"
-														className={Styles.deliveryRow}
-														alignItems="center"
-													>
-														<Stack direction="row" alignItems="center">
-															<ImageFuture src={DeliverySVG} width={40} height={40} alt="" />
-															<Stack direction="column">
-																<span className={Styles.deliveriesTitle}>
-																	{delivery.all_cities
-																		? 'Tout le Maroc'
-																		: delivery.delivery_city?.split(',').join(', ')}
-																</span>
-																<span className={Styles.deliveryDetails}>
-																	{getDate(parseInt(delivery.delivery_days as string))}
-																</span>
-															</Stack>
+									<Box className={Styles.clickAnddeliveriesWrapper}>
+										<Stack
+											direction="column"
+											divider={<Divider orientation="horizontal" flexItem className={Styles.divider} />}
+										>
+											{details_offer.product_address ? (
+												<Stack
+													direction="row"
+													justifyContent="space-between"
+													className={Styles.deliveryRow}
+													alignItems="center"
+												>
+													<Stack direction="row" alignItems="center">
+														<ImageFuture src={ClickAndCollectSVG} width={40} height={40} alt="" />
+														<Stack direction="column">
+															<span className={Styles.deliveriesTitle}>Click & collect</span>
+															<span className={Styles.deliveryDetails}>Dès demain</span>
+															<span className={Styles.deliveryDetails}>{details_offer.product_address}</span>
 														</Stack>
-														<span className={Styles.deliveryPrice}>
-															{delivery.delivery_price === '0' ? 'Gratuite' : delivery.delivery_price + 'DH'}
-														</span>
 													</Stack>
-												);
-											})
-										) : (
-											<Stack
-												direction="row"
-												justifyContent="space-between"
-												className={Styles.deliveryNotFoundRow}
-												alignItems="center"
-											>
-												<Stack direction="row" alignItems="center">
-													<ImageFuture src={DeliveryDisabledSVG} width={40} height={40} alt="" />
-													<Stack direction="column">
-														<span className={Styles.deliveriesTitleNotFound}>Livraison</span>
-														<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
+													<span className={Styles.deliveryPrice}>Gratuite</span>
+												</Stack>
+											) : (
+												<Stack
+													direction="row"
+													justifyContent="space-between"
+													className={Styles.deliveryNotFoundRow}
+													alignItems="center"
+												>
+													<Stack direction="row" alignItems="center">
+														<ImageFuture src={ClickAndCollectDisabledSVG} width={40} height={40} alt="" />
+														<Stack direction="column">
+															<span className={Styles.deliveriesTitleNotFound}>Click & collect</span>
+															<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
+														</Stack>
 													</Stack>
 												</Stack>
-											</Stack>
-										)}
-									</Stack>
-								</Box>
+											)}
+											{deliveriesListString.length > 0 ? (
+												deliveriesListString.map((delivery, index) => {
+													return (
+														<Stack
+															key={index}
+															direction="row"
+															justifyContent="space-between"
+															className={Styles.deliveryRow}
+															alignItems="center"
+														>
+															<Stack direction="row" alignItems="center">
+																<ImageFuture src={DeliverySVG} width={40} height={40} alt="" />
+																<Stack direction="column">
+																	<span className={Styles.deliveriesTitle}>
+																		{delivery.all_cities
+																			? 'Tout le Maroc'
+																			: delivery.delivery_city?.split(',').join(', ')}
+																	</span>
+																	<span className={Styles.deliveryDetails}>
+																		{getDate(parseInt(delivery.delivery_days as string))}
+																	</span>
+																</Stack>
+															</Stack>
+															<span className={Styles.deliveryPrice}>
+																{delivery.delivery_price === '0' ? 'Gratuite' : delivery.delivery_price + 'DH'}
+															</span>
+														</Stack>
+													);
+												})
+											) : (
+												<Stack
+													direction="row"
+													justifyContent="space-between"
+													className={Styles.deliveryNotFoundRow}
+													alignItems="center"
+												>
+													<Stack direction="row" alignItems="center">
+														<ImageFuture src={DeliveryDisabledSVG} width={40} height={40} alt="" />
+														<Stack direction="column">
+															<span className={Styles.deliveriesTitleNotFound}>Livraison</span>
+															<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
+														</Stack>
+													</Stack>
+												</Stack>
+											)}
+										</Stack>
+									</Box>
+								</Stack>
 								<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
 									<Divider orientation="horizontal" flexItem className={Styles.divider} />
 									{/* mobile creator banner goes here */}
@@ -528,8 +541,8 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 														className={Styles.creatorImage}
 														src={CreatorIlluSVG}
 														alt=""
-														width="0"
-														height="0"
+														width="105"
+														height="56"
 														sizes="100vw"
 													/>
 													<span className={Styles.creatorText}>
@@ -537,9 +550,6 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 														un label pour permettre aux créateurs de notre pays d’être valorisé.
 													</span>
 												</Stack>
-												{/*<Link href="/" passHref>*/}
-												{/*	<a className={Styles.creatorsLink}>Découvrir nos créateurs</a>*/}
-												{/*</Link>*/}
 											</Stack>
 										</Box>
 									)}

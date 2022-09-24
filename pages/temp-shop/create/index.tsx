@@ -43,8 +43,9 @@ const ShopName: NextPage = () => {
 
 	return (
 		<>
-			<LeftSideBar step={activeStep} which="SHOP" />
+
 			<main className={Styles.main}>
+				<LeftSideBar step={activeStep} which="SHOP" />
 				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar backHref={TEMP_SHOP_ADD_SHOP_NAME} closeButtonHref={SITE_ROOT}/>
 					<MobileTopNavigationBar backHref={TEMP_SHOP_ADD_SHOP_NAME} closeButtonHref={SITE_ROOT}/>
