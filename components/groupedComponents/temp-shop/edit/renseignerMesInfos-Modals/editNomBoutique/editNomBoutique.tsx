@@ -3,7 +3,6 @@ import Styles from './editNomBoutique.module.sass';
 import HelperDescriptionHeader from '../../../../../headers/helperDescriptionHeader/helperDescriptionHeader';
 import { Stack } from '@mui/material';
 import { Form, Formik } from 'formik';
-import EditShopNameField from '../../../../../archives/editShopNameField/editShopNameField';
 import { useAppDispatch, useAppSelector } from '../../../../../../utils/hooks';
 import {
 	getShopName,

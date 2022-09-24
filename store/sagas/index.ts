@@ -1,4 +1,4 @@
-import { all, spawn, fork } from 'typed-redux-saga/macro';
+import { all, fork } from 'redux-saga/effects';
 import { watchInit } from './_init/_initSaga';
 import { watchShop } from './shop/shopSaga';
 import { watchOffer } from './offer/offerSaga';
@@ -14,7 +14,7 @@ import { watchOrder } from './order/orderSaga';
 // we use spawn to respawn it back. (except it's unblocking)
 // fork : for blocking calls.
 export function* rootSaga() {
-	yield* all([
+	yield all([
 		// watchAccount(),
 		fork(watchInit),
 		fork(watchShop),
@@ -25,8 +25,8 @@ export function* rootSaga() {
 		fork(watchChat),
 		fork(watchCart),
 		fork(watchOrder),
-		// yield* spawn(watchOrder),
-		// yield* spawn(watchRating),
+		// yield spawn(watchOrder),
+		// yield spawn(watchRating),
 		fork(watchWS),
 	]);
 }

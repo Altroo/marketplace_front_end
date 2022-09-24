@@ -16,8 +16,8 @@
     "createDefaultProgram": true
   },
   "plugins": [
-    "@typescript-eslint",
-    "@jambit/typed-redux-saga"
+    "@typescript-eslint"
+    // "@jambit/typed-redux-saga"
     // "prettier"
   ],
   "overrides": [
@@ -27,14 +27,14 @@
       ],
       "excludedFiles": [
         "./**/*.spec.ts"
-      ],
-      "rules": {
-        "@jambit/typed-redux-saga/use-typed-effects": [
-          "error",
-          "macro"
-        ],
-        "@jambit/typed-redux-saga/delegate-effects": "error"
-      }
+      ]
+//      "rules": {
+//        "@jambit/typed-redux-saga/use-typed-effects": [
+//          "error",
+//          "macro"
+//        ],
+//        "@jambit/typed-redux-saga/delegate-effects": "error"
+//      }
     }
   ],
   "extends": [

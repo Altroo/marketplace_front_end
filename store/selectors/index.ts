@@ -1,8 +1,9 @@
 import { RootState } from '../store';
 import { ShopFontNameType, ShopGetRootUniqueIDType } from "../../types/shop/shopTypes";
 import { IconColorType, TokenChoices } from "../../types/_init/_initTypes";
-// import { DetailsOfferProductType, OfferGetRootProductInterface } from "../../types/offer/offerTypes";
 import { createSelector } from "reselect";
+import { ChatGetConversationsType } from "../../types/chat/chatTypes";
+import { OfferGetMyOffersProductServiceType, OfferTagsType } from "../../types/offer/offerTypes";
 
 // For createSelector
 const selectSelf = (state: RootState) => state;
@@ -87,10 +88,10 @@ export const getUserIsLoggedIn = (state: RootState) => state.account.isLoggedIn;
 export const getCheckEmailAlreadyExists = createSelector(selectSelf, (state: RootState) => state.account.email_exists);
 
 // Offers
-export const getMyOffersList = (state: RootState) => state.offer.userOffersList.results;
-export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersList.next;
-export const getOfferVuesNextPage = (state: RootState) => state.offer.offerVuesList.next;
-export const getOfferTags = (state: RootState) => state.offer.selectedTags;
+export const getMyOffersList = (state: RootState) => state.offer.userOffersList.results as Array<OfferGetMyOffersProductServiceType>;
+export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersList.next as string | null;
+export const getOfferVuesNextPage = (state: RootState) => state.offer.offerVuesList.next as string | null;
+export const getOfferTags = (state: RootState) => state.offer.selectedTags as OfferTagsType;
 // Local offers
 export const getUserLocalOfferEditPK = (state: RootState) => state.offer.userLocalOffer.pk;
 export const getUserLocalOffer = (state: RootState) => state.offer.userLocalOffer;
@@ -166,9 +167,9 @@ export const getOfferOfferApi = (state: RootState) => state.offer.offerApi;
 // export const getSelectedOfferSolderValue = (state: RootState) => state.offer.selectedOffer?.solder_value;
 
 // Chat
-export const getMyConversationsResults = (state: RootState) => state.chat.conversationsList.results;
-export const getMyConversationsNextPage = (state: RootState) => state.chat.conversationsList.next;
+export const getMyConversationsResults = (state: RootState) => state.chat.conversationsList.results as Array<ChatGetConversationsType>;
+export const getMyConversationsNextPage = (state: RootState) => state.chat.conversationsList.next as string | null;
 
 // Order
-export const getMyBuyingsListNextPage = (state: RootState) => state.order.buyingsList.next;
-export const getMySellingsListNextPage = (state: RootState) => state.order.sellingsList.next;
+export const getMyBuyingsListNextPage = (state: RootState) => state.order.buyingsList.next as string | null;
+export const getMySellingsListNextPage = (state: RootState) => state.order.sellingsList.next as string | null;

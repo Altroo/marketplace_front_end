@@ -106,11 +106,9 @@
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/navbars/mobileStepsBar" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/navbars/mobileTopNavigationBar" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/ui" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/archives/desktopFilterSelect" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/dropDowns" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/selects" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/selects" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/archives/categorieChip" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/modals" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/chipButton" isTestSource="false" />
@@ -146,8 +144,6 @@
       <sourceFolder url="file://$MODULE_DIR$/public/assets/svgs/globalIcons" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/public/assets/svgs/navigationIcons" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/offer" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/archives/shop/edit/index" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/archives/shop/edit/index/editShopCoordonneeField" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customDropDownChoices" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customSquareImageUploading" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customStackIconTextInput" isTestSource="false" />
@@ -267,20 +263,24 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/get/shopNotVerified" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/get/shopVerified" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/customContainer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/archives/categorieChip" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/archives/desktopFilterSelect" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/archives/shop/edit/index" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/archives/shop/edit/index/editShopCoordonneeField" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop/add" />
-      <excludeFolder url="file://$MODULE_DIR$/components/archives" />
-      <excludeFolder url="file://$MODULE_DIR$/components/archives/categorieChip" />
-      <excludeFolder url="file://$MODULE_DIR$/components/archives/desktopFilterSelect" />
-      <excludeFolder url="file://$MODULE_DIR$/components/archives/editShopNameField" />
-      <excludeFolder url="file://$MODULE_DIR$/components/archives/offerTitleField" />
-      <excludeFolder url="file://$MODULE_DIR$/components/archives/shopNameField" />
-      <excludeFolder url="file://$MODULE_DIR$/components/archives/editShopBioField" />
-      <excludeFolder url="file://$MODULE_DIR$/components/archives/shop/edit" />
-      <excludeFolder url="file://$MODULE_DIR$/components/archives/auth" />
+      <excludeFolder url="file://$MODULE_DIR$/archives" />
+      <excludeFolder url="file://$MODULE_DIR$/archives/categorieChip" />
+      <excludeFolder url="file://$MODULE_DIR$/archives/desktopFilterSelect" />
+      <excludeFolder url="file://$MODULE_DIR$/archives/auth" />
+      <excludeFolder url="file://$MODULE_DIR$/archives/editShopNameField" />
+      <excludeFolder url="file://$MODULE_DIR$/archives/editShopBioField" />
+      <excludeFolder url="file://$MODULE_DIR$/archives/shopNameField" />
+      <excludeFolder url="file://$MODULE_DIR$/archives/offerTitleField" />
+      <excludeFolder url="file://$MODULE_DIR$/archives/shop/edit" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

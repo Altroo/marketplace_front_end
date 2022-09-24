@@ -3,4 +3,4 @@
 **/out/*
 **/.swc/*
 next.config.js
-components/archives/*
+archives/*

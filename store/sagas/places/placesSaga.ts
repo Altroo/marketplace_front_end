@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'typed-redux-saga/macro';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import * as Types from '../../actions';
 import { allowAnyInstance } from '../../../utils/helpers';
 import { getApi } from '../../services/_init/_initAPI';
@@ -10,34 +10,36 @@ import {
 	PlacesGetCountriesResponseType,
 	PlacesGetLocalisationResponseType
 } from '../../../types/places/placesTypes';
+import { AxiosInstance } from "axios";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 export function* placesGetLocalisationSaga(payload: { type: string; longitude: number; latitude: number }) {
-	yield* put(setGetPlacesIsLoading());
+	yield put(setGetPlacesIsLoading());
 	const url = `${process.env.NEXT_PUBLIC_PLACES_LOCALISATION}${payload.longitude}/${payload.latitude}/`;
 	try {
-		const instance = yield* call(() => allowAnyInstance());
-		const response: PlacesGetLocalisationResponseType = yield* call(() => getApi(url, instance));
+		const instance : AxiosInstance = yield call(() => allowAnyInstance());
+		const response: PlacesGetLocalisationResponseType = yield call(() => getApi(url, instance));
 		if (response.status === 200) {
-			yield* put(setGetLocalisation({ ...response.data }));
+			yield put(setGetLocalisation({ ...response.data }));
 		}
 	} catch (e) {
 		const apiError = e as ApiErrorResponseType;
-		yield* put(yield* call(() => placesGETApiErrorAction(apiError)));
+		yield put<ActionCreatorWithPayload<ApiErrorResponseType>>(yield call(() => placesGETApiErrorAction(apiError)));
 	}
 }
 
 function* placesEmptyGetLocalisationSaga() {
-	yield* put(setEmptyGetLocalisation());
+	yield put(setEmptyGetLocalisation());
 }
 
 export function* placesGetCountriesSaga() {
 	const url = `${process.env.NEXT_PUBLIC_PLACES_COUNTRIES}`;
 	const params = {all : true};
 	try {
-		const instance = yield* call(() => allowAnyInstance());
-		const response: PlacesGetCountriesResponseType = yield* call(() => getApi(url, instance, params));
+		const instance : AxiosInstance = yield call(() => allowAnyInstance());
+		const response: PlacesGetCountriesResponseType = yield call(() => getApi(url, instance, params));
 		if (response.status === 200) {
-			yield* put(setGetCountries({ ...response.data }));
+			yield put(setGetCountries({ ...response.data }));
 		} else {
 			console.log(response.status);
 			console.log(response.data);
@@ -52,10 +54,10 @@ export function* placesGetCitiesSaga(payload: { type: string; code: string; q?: 
 	const url = `${process.env.NEXT_PUBLIC_PLACES_CITIES}`;
 	const params = {code : payload.code, q: payload.q};
 	try {
-		const instance = yield* call(() => allowAnyInstance());
-		const response: PlacesGetCitiesResponseType = yield* call(() => getApi(url, instance, params));
+		const instance : AxiosInstance = yield call(() => allowAnyInstance());
+		const response: PlacesGetCitiesResponseType = yield call(() => getApi(url, instance, params));
 		if (response.status === 200) {
-			yield* put(setGetCities(response.data));
+			yield put(setGetCities(response.data));
 		} else {
 			console.log(response.status);
 			console.log(response.data);
@@ -67,8 +69,8 @@ export function* placesGetCitiesSaga(payload: { type: string; code: string; q?: 
 }
 
 export function* watchPlaces() {
-	yield* takeLatest(Types.PLACES_GET_LOCALISATION, placesGetLocalisationSaga);
-	yield* takeLatest(Types.PLACES_EMPTY_GET_LOCALISATION, placesEmptyGetLocalisationSaga);
-	yield* takeLatest(Types.PLACES_GET_COUNTRIES, placesGetCountriesSaga);
-	yield* takeLatest(Types.PLACES_GET_CITIES, placesGetCitiesSaga);
+	yield takeLatest(Types.PLACES_GET_LOCALISATION, placesGetLocalisationSaga);
+	yield takeLatest(Types.PLACES_EMPTY_GET_LOCALISATION, placesEmptyGetLocalisationSaga);
+	yield takeLatest(Types.PLACES_GET_COUNTRIES, placesGetCountriesSaga);
+	yield takeLatest(Types.PLACES_GET_CITIES, placesGetCitiesSaga);
 }

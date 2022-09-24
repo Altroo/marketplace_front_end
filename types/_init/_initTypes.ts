@@ -186,3 +186,9 @@ export type NewShopCookieType = {
 	'@border': string | undefined;
 	'@icon_color': IconColorType | undefined;
 };
+
+export type AuthSagaContextType = {
+	tokenType: TokenChoices;
+	initStateToken: InitStateToken;
+	initStateUniqueID: InitStateUniqueID;
+};

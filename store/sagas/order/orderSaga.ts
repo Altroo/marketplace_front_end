@@ -1,17 +1,18 @@
-import { put, takeLatest, call, select } from 'typed-redux-saga/macro';
+import { put, takeLatest, call, select } from 'redux-saga/effects';
 import * as Types from "../../actions";
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { getMyBuyingsListNextPage, getMySellingsListNextPage } from '../../selectors';
 import { isAuthenticatedInstance } from '../../../utils/helpers';
 import { getApi } from '../../services/_init/_initAPI';
-import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
+import { ApiErrorResponseType, AuthSagaContextType } from "../../../types/_init/_initTypes";
 import { setBuyingsListState, setSellingsListState } from '../../slices/order/orderSlice';
 import { OrderGetBuyingsSellingsResponseType } from '../../../types/order/orderTypes';
+import { AxiosInstance } from "axios";
 
 function* orderGetBuyingsSaga() {
-    const authSagaContext = yield* call(() => ctxAuthSaga());
+  const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_ORDER_BUYINGS}`;
-	const nextPage = yield* select(getMyBuyingsListNextPage);
+	const nextPage: string | null = yield select(getMyBuyingsListNextPage);
 	let page = 1;
 	if (nextPage) {
 		const queryIndex = nextPage.search('=');
@@ -20,11 +21,11 @@ function* orderGetBuyingsSaga() {
 	const pageUrl = `?page=${page}`;
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null){
-			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			url += pageUrl;
-			const response: OrderGetBuyingsSellingsResponseType = yield* call(() => getApi(url, authInstance));
+			const response: OrderGetBuyingsSellingsResponseType = yield call(() => getApi(url, authInstance));
 			if (response.status === 200) {
-				yield* put(setBuyingsListState(response.data));
+				yield put(setBuyingsListState(response.data));
 			} else {
 				console.log(response.data);
 				console.log(response.status);
@@ -38,9 +39,9 @@ function* orderGetBuyingsSaga() {
 }
 
 function* orderGetSellingsSaga() {
-    const authSagaContext = yield* call(() => ctxAuthSaga());
+    const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_ORDER_SELLINGS}`;
-	const nextPage = yield* select(getMySellingsListNextPage);
+	const nextPage: string | null = yield select(getMySellingsListNextPage);
 	let page = 1;
 	if (nextPage) {
 		const queryIndex = nextPage.search('=');
@@ -49,11 +50,11 @@ function* orderGetSellingsSaga() {
 	const pageUrl = `?page=${page}`;
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null){
-			const authInstance = yield* call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			url += pageUrl;
-			const response: OrderGetBuyingsSellingsResponseType = yield* call(() => getApi(url, authInstance));
+			const response: OrderGetBuyingsSellingsResponseType = yield call(() => getApi(url, authInstance));
 			if (response.status === 200) {
-				yield* put(setSellingsListState(response.data));
+				yield put(setSellingsListState(response.data));
 			} else {
 				console.log(response.data);
 				console.log(response.status);
@@ -67,6 +68,6 @@ function* orderGetSellingsSaga() {
 }
 
 export function* watchOrder() {
-    yield* takeLatest(Types.ORDER_GET_BUYINGS, orderGetBuyingsSaga)
-    yield* takeLatest(Types.ORDER_GET_SELLINGS, orderGetSellingsSaga)
+    yield takeLatest(Types.ORDER_GET_BUYINGS, orderGetBuyingsSaga)
+    yield takeLatest(Types.ORDER_GET_SELLINGS, orderGetSellingsSaga)
 }

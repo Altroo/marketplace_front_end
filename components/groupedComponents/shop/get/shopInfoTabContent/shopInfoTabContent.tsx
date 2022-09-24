@@ -1,10 +1,6 @@
 import React from 'react';
 import Styles from './shopInfoTabContent.module.sass';
-import { Box, Button, Stack } from '@mui/material';
-import ShowHoraire from '../../../temp-shop/edit/ajouterMesInfos-Stack/showHoraire/showHoraire';
-import ShowCoordonees from '../../../temp-shop/edit/ajouterMesInfos-Stack/showCoordonees/showCoordonees';
-import ShowAdresse from '../../../temp-shop/edit/ajouterMesInfos-Stack/showAdresse/showAdresse';
-import ShowBio from '../../../temp-shop/edit/ajouterMesInfos-Stack/showBio/showBio';
+import { Box, Stack } from '@mui/material';
 import { ShopInfoDataType } from '../../../../../pages/shop/[shop_link]';
 import ReadShopHoraire from './readShopHoraire/readShopHoraire';
 import ReadCoordonees from './readCoordonees/readCoordonees';
