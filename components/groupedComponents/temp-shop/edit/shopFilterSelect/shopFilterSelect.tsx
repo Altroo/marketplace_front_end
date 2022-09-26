@@ -4,6 +4,9 @@ import OptionUnstyled, { optionUnstyledClasses } from '@mui/base/OptionUnstyled'
 import PopperUnstyled from '@mui/base/PopperUnstyled';
 import { styled } from '@mui/material';
 import { hexToRGB } from '../../../../../utils/helpers';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { GetServerSidePropsContext, NextPage } from 'next';
 
 const grey = {
 	800: '#2D3843',
@@ -80,7 +83,7 @@ const StyledOption = styled(OptionUnstyled)(
 );
 
 const StyledPopper = styled(PopperUnstyled)`
-	color: #0D070B;
+	color: #0d070b;
 	background-color: white;
 	z-index: 1;
 	border-radius: 0.45em;
@@ -98,7 +101,7 @@ function CustomSelect(props: SelectUnstyledProps<string>) {
 
 function renderValue(option: SelectOption<string> | null) {
 	const label = 'Trier par :';
-	if (option == null) {
+	if (option === null) {
 		return <span>{label}</span>;
 	} else if (option.value === 'D') {
 		return (
@@ -116,13 +119,36 @@ function renderValue(option: SelectOption<string> | null) {
 }
 
 type Props = {
-	state: 'D' | 'T';
-	setStateHandler: React.Dispatch<React.SetStateAction<'D' | 'T'>>;
+	state: 'D' | 'C' | null;
+	setStateHandler: React.Dispatch<React.SetStateAction<'D' | 'C' | null>>;
 	activeHoverColor: string;
+	onChange: (
+		e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
+		value: string | null,
+	) => void;
 	children?: React.ReactNode;
 };
 
 const ShopFilterSelect: React.FC<Props> = (props: Props) => {
+	const router = useRouter();
+	const { sort_by } = router.query;
+	const { setStateHandler } = props;
+
+	useEffect(() => {
+		// -price = D
+		// price = T
+		if (sort_by) {
+			if (sort_by == '-price') {
+				setStateHandler('D');
+			} else if (sort_by === 'price') {
+				setStateHandler('C');
+			}
+		} else {
+			// default decroissant
+			setStateHandler('D');
+		}
+	}, [sort_by, setStateHandler]);
+
 	if (props.activeHoverColor) {
 		if (props.activeHoverColor !== '#FFFFFF') {
 			hoverColor = hexToRGB(props.activeHoverColor, 0.04);
@@ -131,16 +157,19 @@ const ShopFilterSelect: React.FC<Props> = (props: Props) => {
 
 	return (
 		<div>
-			<CustomSelect
-				renderValue={renderValue}
-				value={props.state}
-				onChange={(e, value) => (props.setStateHandler(value as 'D' | 'T'))}
-			>
+			<CustomSelect renderValue={renderValue} value={props.state} onChange={props.onChange}>
 				<StyledOption value="D">Prix décroissant</StyledOption>
 				<StyledOption value="C">Prix croissant</StyledOption>
 			</CustomSelect>
 		</div>
 	);
 };
+//
+// const getInitialProps = async (context: GetServerSidePropsContext) => {
+// 	const {sort_by} = context.query;
+// 	return {
+// 		sort_by
+// 	}
+// }
 
 export default ShopFilterSelect;

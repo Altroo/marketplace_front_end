@@ -368,11 +368,16 @@ export const offerGetRootAction = (pk: number) => {
 	};
 };
 
-export const offerGetOffersByShopIDAction = (pk: number, next_page?: string | null) => {
+export const offerGetOffersByShopIDAction = (
+	pk: number,
+	next_page: string,
+	sort_by?: string,
+) => {
 	return {
 		type: Types.OFFER_GET_OFFERS_BY_SHOP_ID,
 		pk,
 		next_page,
+		sort_by
 	};
 };
 

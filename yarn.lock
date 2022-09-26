@@ -261,6 +261,19 @@
   dependencies:
     "@babel/runtime" "^7.19.0"
 
+"@mui/lab@^5.0.0-alpha.100":
+  version "5.0.0-alpha.100"
+  resolved "https://registry.yarnpkg.com/@mui/lab/-/lab-5.0.0-alpha.100.tgz#f2757c096305e28615f050b908630404aa86b7ab"
+  integrity sha512-jG2burEfzvr3BnvMrKs2eizgqq/p4tZkAetUdr9SEpxOIi0J5RBtFkqIz8KR8Tl3HaTnCAqotaI4UcwlVej9rA==
+  dependencies:
+    "@babel/runtime" "^7.19.0"
+    "@mui/base" "5.0.0-alpha.98"
+    "@mui/system" "^5.10.6"
+    "@mui/utils" "^5.10.6"
+    clsx "^1.2.1"
+    prop-types "^15.8.1"
+    react-is "^18.2.0"
+
 "@mui/material@^5.10.6":
   version "5.10.6"
   resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.10.6.tgz#46d04b5dd79fe83bdab5322301db1008e0d7c0e3"
@@ -559,10 +572,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.59.tgz#823f238b9063ccc3b3b7f13186f143a57926c4f6"
   integrity sha512-6u+36Dj3aDzhfBVUf/mfmc92OEdzQ2kx2jcXGdigfl70E/neV21ZHE6UCz4MDzTRcVqGAM27fk+DLXvyDsn3Jw==
 
-"@types/node@^18.7.20":
-  version "18.7.20"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.20.tgz#d9442de7b5cb166476340b4271b15300fe058a39"
-  integrity sha512-adzY4vLLr5Uivmx8+zfSJ5fbdgKxX8UMtjtl+17n0B1q1Nz8JEmE151vefMdpD+1gyh+77weN4qEhej/O7budQ==
+"@types/node@^18.7.21":
+  version "18.7.21"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.21.tgz#63ee6688070e456325b6748dc492a7b948593871"
+  integrity sha512-rLFzK5bhM0YPyCoTC8bolBjMk7bwnZ8qeZUBslBfjZQou2ssJdWslx9CZ8DGM+Dx7QXQiiTVZ/6QO6kwtHkZCA==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -1031,6 +1044,11 @@ cookie@^0.4.0, cookie@^0.4.1:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.2.tgz#0e41f24de5ecf317947c82fc789e06a884824432"
   integrity sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==
+
+cookie@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.5.0.tgz#d1f5d71adec6558c58f389987c366aa47e994f8b"
+  integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
 
 cookies-next@^2.1.1:
   version "2.1.1"
@@ -1934,7 +1952,7 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
-jose@^4.1.4, jose@^4.3.7:
+jose@^4.1.4, jose@^4.3.7, jose@^4.9.3:
   version "4.9.3"
   resolved "https://registry.yarnpkg.com/jose/-/jose-4.9.3.tgz#890abd3f26725fe0f2aa720bc2f7835702b624db"
   integrity sha512-f8E/z+T3Q0kA9txzH2DKvH/ds2uggcw0m3vVPSB9HrSkrQ7mojjifvS7aR8cw+lQl2Fcmx9npwaHpM/M3GD8UQ==
@@ -2146,7 +2164,7 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-next-auth@*, next-auth@^4.10.3:
+next-auth@*:
   version "4.10.3"
   resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.10.3.tgz#0a952dd5004fd2ac2ba414c990922cf9b33951a3"
   integrity sha512-7zc4aXYc/EEln7Pkcsn21V1IevaTZsMLJwapfbnKA4+JY0+jFzWbt5p/ljugesGIrN4VOZhpZIw50EaFZyghJQ==
@@ -2155,6 +2173,21 @@ next-auth@*, next-auth@^4.10.3:
     "@panva/hkdf" "^1.0.1"
     cookie "^0.4.1"
     jose "^4.3.7"
+    oauth "^0.9.15"
+    openid-client "^5.1.0"
+    preact "^10.6.3"
+    preact-render-to-string "^5.1.19"
+    uuid "^8.3.2"
+
+next-auth@^4.12.0:
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.12.0.tgz#03f8624eab6b91ec1b9e333192dc5707d57c3241"
+  integrity sha512-TqNJBsVavN60ZkZmoe/YZ13qODuMeXxGgVkpbf8ukB8S7KPKxm+zZPPY76vtTppbPFl6PqFIxzEhNodB2nDStg==
+  dependencies:
+    "@babel/runtime" "^7.16.3"
+    "@panva/hkdf" "^1.0.1"
+    cookie "^0.5.0"
+    jose "^4.9.3"
     oauth "^0.9.15"
     openid-client "^5.1.0"
     preact "^10.6.3"

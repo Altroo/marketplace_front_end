@@ -286,7 +286,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		events: {},
 
 		// Enable debug messages in the console if you are having problems
-		debug: true,
+		debug: process.env.NODE_ENV !== 'production',
 	} as NextAuthOptions;
 };
 const handler = (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, getOptions(req, res));

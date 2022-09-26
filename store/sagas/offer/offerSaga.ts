@@ -311,17 +311,29 @@ function* offerGetMyOffersFirstPageSaga() {
 	}
 }
 
-function* offerGetOffersByShopIDSaga(payload: {type: string, pk: number, next_page?: string | null}) {
-	let url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${payload.pk}/`;
-	let page = 1;
-	if (payload.next_page) {
-		const queryIndex = payload.next_page.search('=');
-		page = parseInt(payload.next_page.slice(queryIndex + 1)[0]);
+function* offerGetOffersByShopIDSaga(payload: {type: string, pk: number, next_page: string, sort_by?: string}) {
+	let url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${payload.pk}/?page=${payload.next_page}`;
+	// let page = 1;
+	// if (payload.next_page) {
+	// 	const queryIndex = payload.next_page.search('=');
+	// 	page = parseInt(payload.next_page.slice(queryIndex + 1)[0]);
+	// }
+	// let url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${payload.pk}/`;
+	// if (payload.next_page) {
+	// 	url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${payload.pk}/?page=${payload.next_page}`;
+	// 	if(payload.sort_by) {
+	// 		url += `&sort_by=${payload.sort_by}`
+	// 	}
+	// } else {
+	// 	if(payload.sort_by) {
+	// 		url += `?sort_by=${payload.sort_by}`
+	// 	}
+	// }
+	if(payload.sort_by) {
+		url += `&sort_by=${payload.sort_by}`
 	}
-	const pageUrl = `?page=${page}`;
 	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
 	const instance : AxiosInstance = yield call(() => defaultInstance(base_url));
-	url += pageUrl;
 	try {
 		const response: OfferGetMyOffersResponseType = yield call(() => getApi(url, instance));
 		if (response.status === 200 && response.data) {

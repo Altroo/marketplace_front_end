@@ -18,8 +18,8 @@ export const TEMP_SHOP_ADD_FONT = '/temp-shop/create/font';
 export const TEMP_SHOP_EDIT_INDEX = '/temp-shop/edit';
 
 // Auth Shop Routes
-export const AUTH_SHOP_ROUTE = '/shop/[shop_link]';
-
+export const AUTH_SHOP_ROUTE = '/shop';
+export const AUTH_SHOP_LINK_ROUTE = '/shop/[shop_link]';
 // Real Offers Routes
 export const REAL_OFFER_ROUTE = '/shop/[shop_link]/offer/[offer_pk]';
 export const REAL_OFFER_ADD_INDEX = '/shop/[shop_link]/offer/new';

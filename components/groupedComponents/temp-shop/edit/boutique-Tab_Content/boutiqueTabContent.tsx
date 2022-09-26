@@ -7,7 +7,7 @@ import ChipButtons from '../../../../htmlElements/buttons/chipButton/chipButton'
 import CheckBox from '../../../../htmlElements/checkBoxes/checkBox';
 import StartYourShopContent from '../startYourShopContent/startYourShopContent';
 import ShopFilterSelect from '../shopFilterSelect/shopFilterSelect';
-import { Stack } from "@mui/material";
+import { Stack } from '@mui/material';
 
 type Props = {
 	activeColor: string;
@@ -19,7 +19,14 @@ type Props = {
 };
 
 const BoutiqueTabContent: React.FC<Props> = (props: Props) => {
-	const [filter, setFilter] = useState<'D' | 'T'>('D');
+	const [filter, setFilter] = useState<'D' | 'C' | null>(null);
+
+	const filterOnChange = (
+		e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
+		value: string | null,
+	) => {
+		setFilter(value as 'D' | 'C');
+	};
 
 	useEffect(() => {
 		console.log(filter);
@@ -30,7 +37,12 @@ const BoutiqueTabContent: React.FC<Props> = (props: Props) => {
 			{!props.hidden ? (
 				<div className={Styles.filterWrapper}>
 					<span className={Styles.filterText}>Filtrer</span>
-					<ShopFilterSelect state={filter} setStateHandler={setFilter} activeHoverColor={props.activeColor} />
+					<ShopFilterSelect
+						state={filter}
+						setStateHandler={setFilter}
+						activeHoverColor={props.activeColor}
+						onChange={(e, v) => filterOnChange(e, v)}
+					/>
 				</div>
 			) : null}
 			<Stack direction="row" justifyContent="space-between">

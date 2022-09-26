@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../styles/shop/shopIndex.module.sass';
 import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
@@ -75,7 +75,12 @@ import {
 	offerGetMyOffersFirstPageAction,
 	offerGetOffersByShopIDAction,
 } from '../../../store/actions/offer/offerActions';
-import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import {
+	defaultInstance,
+	getBackendNextPageNumber,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+} from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import { OfferGetMyOffersProductInterface, OfferGetMyOffersServiceInterface } from '../../../types/offer/offerTypes';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
@@ -367,7 +372,7 @@ const ViewShopAsNotOwner = (props: ViewShopType) => {
 							<ShopInfoTabs
 								color={bg_color_code}
 								borderColor={bg_color_code}
-								shopContent={<ShopTabContent activeColor={bg_color_code} offersData={offersData} shop_pk={pk} />}
+								shopContent={<ShopTabContent activeColor={bg_color_code} offersData={offersData} />}
 								InfoContent={<ShopInfoTabContent shopInfoData={shopInfoData} />}
 							/>
 						</Stack>
@@ -397,23 +402,169 @@ const Index: NextPage<Props> = (props: Props) => {
 	const { permission, data } = props.pageProps;
 	const { pk } = data;
 	const dispatch = useAppDispatch();
-	const [loading, setLoading] = useState<boolean>(true);
+	const router = useRouter();
+	const page = router.query?.page;
+	const sort_by = router.query?.sort_by;
+	const [loading, setLoading] = useState<boolean>(false);
+	// const [loadingMore, setLoadingMore] = useState<boolean>(false);
 	const [offersData, setOffersData] = useState<PaginationResponseType<
 		OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface
 	> | null>(null);
+	const [firstPageDispatched, setFirstPageDispatched] = useState<boolean>(false);
+	const [nextPageDispatched, setNextPageDispatched] = useState<boolean>(false);
+
+	const dispatchLoadMore = useCallback(
+		(action: { type: string; pk: number; next_page: string; sort_by: string | undefined }) => {
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: GetOffersSagaCallBackOnCompleteDataType) => {
+					if (!error && !cancelled && data) {
+						setOffersData((prevState) => {
+							if (prevState !== null) {
+								// merging previous page with new page.
+								console.log('Previous data : ');
+								console.log(prevState);
+								console.log('New data : ');
+								console.log(data);
+								const newResult = [...prevState.results, ...data.results];
+								console.log('After merge');
+								console.log(newResult);
+								return {
+									results: newResult,
+									next: data.next,
+									previous: data.previous,
+									count: data.count,
+								};
+							} else {
+								// no previous page, adding the new requested page only.
+								return data;
+							}
+						});
+					}
+					// setLoading(false);
+				},
+			});
+		},
+		[dispatch],
+	);
 
 	useEffect(() => {
-		const action = offerGetOffersByShopIDAction(pk);
-		dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: GetOffersSagaCallBackOnCompleteDataType) => {
-				if (!error && !cancelled && data) {
-					setOffersData(data);
-					setLoading(false);
+		setLoading(true);
+		if (!firstPageDispatched) {
+			// dispatch first page on page init with price filter default décroissant
+			const action = offerGetOffersByShopIDAction(pk, '1', '-price');
+			dispatchLoadMore(action);
+			setFirstPageDispatched(true);
+		}
+		// on first page
+		if (!offersData?.previous && !page) {
+			console.log('on first page');
+			console.log(offersData?.previous);
+			// INFINITE LOOP
+			// checking if sort param exist & not page param
+			if (sort_by) {
+				if (offersData?.results) {
+					const localOffers = offersData.results;
+					if (sort_by === '-price') {
+						localOffers.sort((a, b) => b.price - a.price);
+					} else if (sort_by === 'price') {
+						localOffers.sort((a, b) => a.price - b.price);
+					}
+					const sortedResult = {
+						results: localOffers,
+						next: offersData.next,
+						previous: offersData.previous,
+						count: offersData.count,
+					};
+					setOffersData(sortedResult);
 				}
-			},
-		});
-	}, [dispatch, pk]);
+			}
+			setLoading(false);
+		} else {
+			// second page and more
+			// let action = offerGetOffersByShopIDAction(pk, '1');
+			// INFINITE LOOP
+			if (offersData) {
+				// if next page number exist
+				if (offersData.next) {
+					const nextPage = getBackendNextPageNumber(offersData.next);
+					console.log('INFINITE LOOP');
+					console.log(page);
+					console.log(nextPage);
+					if (page && nextPage) {
+						if (parseInt(page as string) === parseInt(nextPage)) {
+							if (sort_by) {
+								const action = offerGetOffersByShopIDAction(pk, page as string, sort_by as string);
+								dispatchLoadMore(action);
+							} else {
+								const action = offerGetOffersByShopIDAction(pk, page as string);
+								dispatchLoadMore(action);
+							}
+						}
+					}
+				}
+			}
+			// dispatchLoadMore(action);
+		}
+		setLoading(false);
+	}, [
+		dispatchLoadMore,
+		firstPageDispatched,
+		page,
+		pk,
+		sort_by,
+		offersData,
+	]);
+
+	// useEffect(() => {
+	// 	setLoading(true);
+	// 	let action = offerGetOffersByShopIDAction(pk, '1');
+	// 	if (page && sort_by) {
+	// 		action = offerGetOffersByShopIDAction(pk, page as string, sort_by as string);
+	// 	}
+	// 	if (page && !sort_by) {
+	// 		action = offerGetOffersByShopIDAction(pk, page as string);
+	// 	}
+	// 	// Todo check if !page dispatch local sort action
+	// 	// Todo else dispatch server sort action.
+	// 	if (sort_by && !page) {
+	// 		// action = offerGetOffersByShopIDAction(pk, '1', sort_by as string);
+	// 		if (offersData?.results) {
+	// 			const localOffers = offersData.results;
+	// 			localOffers.sort((a, b) => Number(b.price) - Number(a.price));
+	// 			const sortedResult = {
+	// 				results: localOffers,
+	// 				next: offersData.next,
+	// 				previous: offersData.previous,
+	// 				count: offersData.count,
+	// 			};
+	// 			setOffersData(sortedResult);
+	// 		}
+	// 	}
+	// 	dispatch({
+	// 		...action,
+	// 		onComplete: ({ error, cancelled, data }: GetOffersSagaCallBackOnCompleteDataType) => {
+	// 			if (!error && !cancelled && data) {
+	// 				setOffersData((prevState) => {
+	// 					if (prevState !== null) {
+	// 						// merging previous page with new page.
+	// 						const newResult = [...prevState.results, ...data.results];
+	// 						return {
+	// 							results: newResult,
+	// 							next: data.next,
+	// 							previous: data.previous,
+	// 							count: data.count,
+	// 						};
+	// 					} else {
+	// 						// no previous page, adding the new requested page only.
+	// 						return data;
+	// 					}
+	// 				});
+	// 			}
+	// 			setLoading(false);
+	// 		},
+	// 	});
+	// }, [dispatch, offersData.count, offersData.next, offersData.previous, offersData.results, page, pk, sort_by]);
 
 	if (permission === 'OWNER') {
 		return (
@@ -1312,7 +1463,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						return not_found_redirect;
 					}
 				} catch (e) {
-					console.log(e);
 					return not_found_redirect;
 				}
 			}

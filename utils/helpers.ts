@@ -489,3 +489,13 @@ export const setFormikAutoErrors = (props: formikAutoErrors) => {
 		}
 	}
 };
+
+export const getBackendNextPageNumber = (url: string) => {
+	const regexp = 'page=';
+	const queryIndex = url.search(regexp);
+	const pageNumber = url.slice(queryIndex + regexp.length);
+	if (pageNumber.includes('&')){
+		return pageNumber.split('&')[0];
+	}
+	return pageNumber;
+};
