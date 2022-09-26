@@ -18,6 +18,13 @@ export const apiErrorInitialState = {
 	editPromiseStatus: null,
 };
 
+export const paginationInitial = {
+	next: null,
+	previous: null,
+	count: 0,
+	results: []
+};
+
 export const emptyInitStateToken = {
 	access_token: null,
 	refresh_token: null,

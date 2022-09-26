@@ -18,7 +18,7 @@ import {
 	OfferTagsType
 } from "../../../types/offer/offerTypes";
 import { ApiErrorResponseType, PaginationResponseType } from "../../../types/_init/_initTypes";
-import { apiErrorInitialState } from "../_init/_initSlice";
+import { apiErrorInitialState, paginationInitial } from "../_init/_initSlice";
 import { HYDRATE } from "next-redux-wrapper";
 // import { HYDRATE } from "next-redux-wrapper";
 
@@ -48,13 +48,6 @@ const deliveriesInitial = {
 	delivery_days_3: null
 };
 
-const userOffersInitial = {
-	next: null,
-	previous: null,
-	count: null,
-	results: []
-};
-
 const userLocalOfferInitial = {
 	pk: null,
 	categoriesList: [],
@@ -74,12 +67,9 @@ const userLocalOfferInitial = {
 
 const initialState: OfferStateInterface = {
 	userOffers: [],
-	userOffersList: userOffersInitial,
+	userOffersList: paginationInitial,
 	offerVuesList: {
-		next: null,
-		previous: null,
-		count: null,
-		results: [],
+		...paginationInitial,
 		total_vues: null,
 		this_month: null,
 		pourcentage: null
@@ -170,7 +160,7 @@ const OfferSlice = createSlice({
 			state.offerApi.error = action.payload.error;
 			state.offerApi.fetchPromiseStatus = "REJECTED";
 			state.offerApi.isFetchInProgress = false;
-			state.userOffersList = userOffersInitial;
+			state.userOffersList = paginationInitial;
 			// return state;
 		},
 		setPutOfferIsLoading: (state) => {
@@ -452,7 +442,7 @@ const OfferSlice = createSlice({
 			state.offerApi.error = action.payload.error;
 			state.offerApi.fetchPromiseStatus = "REJECTED";
 			state.offerApi.isFetchInProgress = false;
-			state.userOffersList = userOffersInitial;
+			state.userOffersList = paginationInitial;
 			// return state;
 		}).addCase(offersPUTApiErrorAction, (state, action) => {
 			state.offerApi.error = action.payload.error;

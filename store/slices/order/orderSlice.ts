@@ -1,21 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BuyingsSellingsList, OrderStateInterface } from '../../../types/order/orderTypes';
 import { PaginationResponseType } from '../../../types/_init/_initTypes';
+import { paginationInitial } from "../_init/_initSlice";
 // import { HYDRATE } from "next-redux-wrapper";
 
 const initialState: OrderStateInterface = {
-	buyingsList: {
-		next: null,
-		previous: null,
-		count: null,
-		results: [],
-	},
-	sellingsList: {
-		next: null,
-		previous: null,
-		count: null,
-		results: [],
-	}
+	buyingsList: paginationInitial,
+	sellingsList: paginationInitial,
 };
 
 const orderSlice = createSlice({

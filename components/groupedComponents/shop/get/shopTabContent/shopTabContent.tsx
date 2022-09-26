@@ -30,7 +30,7 @@ import { getBackendNextPageNumber } from "../../../../../utils/helpers";
 
 type Props = {
 	// shop_pk: number;
-	offersData: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface> | null;
+	offersData: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
 	activeColor: string;
 	children?: React.ReactNode;
 	// loading: boolean;
@@ -58,10 +58,10 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 	// const [showLoading, setShowLoading] = useState<boolean>(false);
 
 	useEffect(() => {
-		if (offersData?.next) {
-			// const queryIndex = offersData?.next.search('page=');
+		if (offersData.next) {
+			// const queryIndex = offersData.next.search('page=');
 			// // get the page number
-			// const pageNumber = offersData?.next.slice(queryIndex + 5);
+			// const pageNumber = offersData.next.slice(queryIndex + 5);
 			// // check if contains & sort_by
 			// if (pageNumber.includes('&')) {
 			// 	setNextPageNumber(pageNumber.split('&')[0]);
@@ -77,7 +77,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			setHasMoreState(false);
 			setNextPageNumber(null);
 		}
-	}, [offersData?.next]);
+	}, [offersData.next]);
 
 	// const loadMoreOffers = () => {
 	// 	setShowLoading(true);
@@ -189,7 +189,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 
 	return (
 		<Box sx={{ minHeight: '450px' }}>
-			{(offersData?.count as number) > 0 && (
+			{(offersData.count as number) > 0 && (
 				<>
 					<Stack className={Styles.filterWrapper} flexDirection="row" justifyContent="space-between" gap={0}>
 						<span className={Styles.filterText}>Filtrer</span>
@@ -261,7 +261,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 						{/*>*/}
 					</div>
 					<Grid container gap={2} wrap="wrap">
-						{offersData?.results.map((offer: OfferGetMyOffersProductServiceType) => {
+						{offersData.results.map((offer: OfferGetMyOffersProductServiceType) => {
 							const { price, solder_type, solder_value } = offer;
 							let newPrice = 0;
 							if (solder_type !== null && solder_value !== null) {

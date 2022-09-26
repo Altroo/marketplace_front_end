@@ -5,22 +5,13 @@ import {
 	ChatPostMessageOutput,
 	ChatStateInterface,
 } from '../../../types/chat/chatTypes';
+import { paginationInitial } from "../_init/_initSlice";
 // import { HYDRATE } from "next-redux-wrapper";
 
 const initialState: ChatStateInterface = {
-	conversationsList: {
-		next: null,
-		previous: null,
-		count: null,
-		results: [],
-	},
+	conversationsList: paginationInitial,
 	selectedConversation: {
-		chat_messages: {
-			next: null,
-			previous: null,
-			count: null,
-			results: [],
-		},
+		chat_messages: paginationInitial,
 		receiver: null,
 	},
 };

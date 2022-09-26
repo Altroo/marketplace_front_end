@@ -84,7 +84,7 @@ export interface ResponseDataInterface<T> {
 }
 
 export interface PaginationResponseType<T> {
-	count: number | null;
+	count: number;
 	next: string | null;
 	previous: string | null;
 	results: Array<T>;

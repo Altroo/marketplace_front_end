@@ -92,10 +92,11 @@ import ShopInfoTabContent from '../../../components/groupedComponents/shop/get/s
 import ShopNotVerified from '../../../components/groupedComponents/shop/get/shopNotVerified/shopNotVerified';
 import ShopVerified from '../../../components/groupedComponents/shop/get/shopVerified/shopVerified';
 import ShareSVG from '../../../public/assets/svgs/globalIcons/share-blue.svg';
+import { paginationInitial } from "../../../store/slices/_init/_initSlice";
 
 type ViewShopType = {
 	data: ShopGetRootTokenType;
-	offersData: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface> | null;
+	offersData: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
 };
 
 // ability to edit
@@ -407,11 +408,11 @@ const Index: NextPage<Props> = (props: Props) => {
 	const sort_by = router.query?.sort_by;
 	const [loading, setLoading] = useState<boolean>(false);
 	// const [loadingMore, setLoadingMore] = useState<boolean>(false);
-	const [offersData, setOffersData] = useState<PaginationResponseType<
-		OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface
-	> | null>(null);
+	const [offersData, setOffersData] = useState<
+		PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
+	>(paginationInitial);
 	const [firstPageDispatched, setFirstPageDispatched] = useState<boolean>(false);
-	const [nextPageDispatched, setNextPageDispatched] = useState<boolean>(false);
+	// const [nextPageDispatched, setNextPageDispatched] = useState<boolean>(false);
 
 	const dispatchLoadMore = useCallback(
 		(action: { type: string; pk: number; next_page: string; sort_by: string | undefined }) => {
@@ -450,6 +451,7 @@ const Index: NextPage<Props> = (props: Props) => {
 
 	useEffect(() => {
 		setLoading(true);
+		const { results, previous, next, count } = offersData;
 		if (!firstPageDispatched) {
 			// dispatch first page on page init with price filter default décroissant
 			const action = offerGetOffersByShopIDAction(pk, '1', '-price');
@@ -457,14 +459,14 @@ const Index: NextPage<Props> = (props: Props) => {
 			setFirstPageDispatched(true);
 		}
 		// on first page
-		if (!offersData?.previous && !page) {
+		if (!previous && !page) {
 			console.log('on first page');
-			console.log(offersData?.previous);
+			console.log(previous);
 			// INFINITE LOOP
 			// checking if sort param exist & not page param
 			if (sort_by) {
-				if (offersData?.results) {
-					const localOffers = offersData.results;
+				if (results) {
+					const localOffers = results;
 					if (sort_by === '-price') {
 						localOffers.sort((a, b) => b.price - a.price);
 					} else if (sort_by === 'price') {
@@ -472,9 +474,9 @@ const Index: NextPage<Props> = (props: Props) => {
 					}
 					const sortedResult = {
 						results: localOffers,
-						next: offersData.next,
-						previous: offersData.previous,
-						count: offersData.count,
+						next: next,
+						previous: previous,
+						count: count,
 					};
 					setOffersData(sortedResult);
 				}
@@ -484,37 +486,28 @@ const Index: NextPage<Props> = (props: Props) => {
 			// second page and more
 			// let action = offerGetOffersByShopIDAction(pk, '1');
 			// INFINITE LOOP
-			if (offersData) {
-				// if next page number exist
-				if (offersData.next) {
-					const nextPage = getBackendNextPageNumber(offersData.next);
-					console.log('INFINITE LOOP');
-					console.log(page);
-					console.log(nextPage);
-					if (page && nextPage) {
-						if (parseInt(page as string) === parseInt(nextPage)) {
-							if (sort_by) {
-								const action = offerGetOffersByShopIDAction(pk, page as string, sort_by as string);
-								dispatchLoadMore(action);
-							} else {
-								const action = offerGetOffersByShopIDAction(pk, page as string);
-								dispatchLoadMore(action);
-							}
-						}
+			// if next page number exist
+			if (next) {
+				const nextPage = getBackendNextPageNumber(next);
+				console.log('INFINITE LOOP');
+				console.log(page);
+				console.log(nextPage);
+				if (page && nextPage) {
+					// if (parseInt(page as string) === parseInt(nextPage)) {
+					if (sort_by) {
+						const action = offerGetOffersByShopIDAction(pk, page as string, sort_by as string);
+						dispatchLoadMore(action);
+					} else {
+						const action = offerGetOffersByShopIDAction(pk, page as string);
+						dispatchLoadMore(action);
 					}
+					// }
 				}
 			}
 			// dispatchLoadMore(action);
 		}
 		setLoading(false);
-	}, [
-		dispatchLoadMore,
-		firstPageDispatched,
-		page,
-		pk,
-		sort_by,
-		offersData,
-	]);
+	}, [dispatchLoadMore, firstPageDispatched, offersData, page, pk, sort_by]);
 
 	// useEffect(() => {
 	// 	setLoading(true);
@@ -529,7 +522,7 @@ const Index: NextPage<Props> = (props: Props) => {
 	// 	// Todo else dispatch server sort action.
 	// 	if (sort_by && !page) {
 	// 		// action = offerGetOffersByShopIDAction(pk, '1', sort_by as string);
-	// 		if (offersData?.results) {
+	// 		if (offersData.results) {
 	// 			const localOffers = offersData.results;
 	// 			localOffers.sort((a, b) => Number(b.price) - Number(a.price));
 	// 			const sortedResult = {
