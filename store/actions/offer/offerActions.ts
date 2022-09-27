@@ -381,6 +381,17 @@ export const offerGetOffersByShopIDAction = (
 	};
 };
 
+export const offerGetOffersByShopIDNewAction = (
+	pk: number,
+	queryParams: string,
+) => {
+	return {
+		type: Types.OFFER_GET_OFFERS_BY_SHOP_NEW_ID,
+		pk,
+		queryParams,
+	};
+};
+
 export const setEmptySelectedOffer = () => {
 	return {
 		type: Types.OFFER_SET_EMPTY_SELECTED_OFFER,

@@ -19,6 +19,8 @@ import { store } from '../store/store';
 import { ShopFontNameType } from '../types/shop/shopTypes';
 import { GetServerSidePropsContext } from 'next';
 import { getCookie } from 'cookies-next';
+import { NextRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
 
 // export const loadAppToken = (): InitStateInterface<InitStateToken, InitStateUniqueID> => {
 // 	// load required data from storage
@@ -491,11 +493,33 @@ export const setFormikAutoErrors = (props: formikAutoErrors) => {
 };
 
 export const getBackendNextPageNumber = (url: string) => {
-	const regexp = 'page=';
-	const queryIndex = url.search(regexp);
-	const pageNumber = url.slice(queryIndex + regexp.length);
-	if (pageNumber.includes('&')){
-		return pageNumber.split('&')[0];
+	// using regex
+	const regex = /page=(\d+)/;
+	const regexArray = url.match(regex);
+	if (regexArray) {
+		if (regexArray.length >= 2) {
+			return regexArray[1];
+		}
 	}
-	return pageNumber;
+	return "1";
+	// using split
+	// const queryIndex = url.search(regexp);
+	// const pageNumber = url.slice(queryIndex + regexp.length);
+	// if (pageNumber.includes('&')){
+	// 	return pageNumber.split('&')[0];
+	// }
+	// return pageNumber;
 };
+
+export const generateQueryParams = (query: ParsedUrlQuery) => {
+	const {page, sort_by} = query;
+	let pageNumber = '1';
+	let sortBy = '-price';
+	if (page) {
+		pageNumber = page as string;
+	}
+	if (sort_by){
+		sortBy = sort_by as string;
+	}
+	return `?page=${pageNumber}&sort_by=${sortBy}`;
+}

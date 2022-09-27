@@ -96,12 +96,12 @@ import { paginationInitial } from "../../../store/slices/_init/_initSlice";
 
 type ViewShopType = {
 	data: ShopGetRootTokenType;
-	offersData: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
+	// offersData: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
 };
 
 // ability to edit
 const ViewShopAsOwner = (props: ViewShopType) => {
-	const { data, offersData } = props;
+	const { data } = props;
 	const pk = data.pk;
 	const shop_name = data.shop_name as string;
 	const avatar = data.avatar as string;
@@ -188,7 +188,7 @@ export type ShopInfoDataType = {
 // not able to edit.
 const ViewShopAsNotOwner = (props: ViewShopType) => {
 	// inits
-	const { data, offersData } = props;
+	const { data } = props;
 	const router = useRouter();
 	// from db
 	const pk = data.pk;
@@ -268,16 +268,7 @@ const ViewShopAsNotOwner = (props: ViewShopType) => {
 		} else if (contact_mode === 'W') {
 			setContacterLink('https://web.whatsapp.com/send?phone=' + contact_whatsapp_code + contact_whatsapp);
 		}
-	}, [
-		offersData,
-		data,
-		icon_color,
-		contact_mode,
-		contact_phone,
-		contact_phone_code,
-		contact_whatsapp_code,
-		contact_whatsapp,
-	]);
+	}, [contact_mode, contact_phone, contact_phone_code, contact_whatsapp, contact_whatsapp_code, icon_color]);
 
 	return (
 		<Stack direction="column">
@@ -373,7 +364,7 @@ const ViewShopAsNotOwner = (props: ViewShopType) => {
 							<ShopInfoTabs
 								color={bg_color_code}
 								borderColor={bg_color_code}
-								shopContent={<ShopTabContent activeColor={bg_color_code} offersData={offersData} />}
+								shopContent={<ShopTabContent activeColor={bg_color_code} shop_pk={pk} />}
 								InfoContent={<ShopInfoTabContent shopInfoData={shopInfoData} />}
 							/>
 						</Stack>
@@ -401,113 +392,119 @@ export type GetOffersSagaCallBackOnCompleteDataType = {
 
 const Index: NextPage<Props> = (props: Props) => {
 	const { permission, data } = props.pageProps;
-	const { pk } = data;
-	const dispatch = useAppDispatch();
-	const router = useRouter();
-	const page = router.query?.page;
-	const sort_by = router.query?.sort_by;
-	const [loading, setLoading] = useState<boolean>(false);
+	// const { pk } = data;
+	// const dispatch = useAppDispatch();
+	// const router = useRouter();
+	// const page = router.query?.page;
+	// const sort_by = router.query?.sort_by;
+	// const [loading, setLoading] = useState<boolean>(false);
 	// const [loadingMore, setLoadingMore] = useState<boolean>(false);
-	const [offersData, setOffersData] = useState<
-		PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
-	>(paginationInitial);
-	const [firstPageDispatched, setFirstPageDispatched] = useState<boolean>(false);
+	// const [offersData, setOffersData] = useState<
+	// 	PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
+	// >(paginationInitial);
+	// const [firstPageDispatched, setFirstPageDispatched] = useState<boolean>(false);
 	// const [nextPageDispatched, setNextPageDispatched] = useState<boolean>(false);
+	//
+	// const dispatchLoadMore = useCallback(
+	// 	(action: { type: string; pk: number; next_page: string; sort_by: string | undefined }) => {
+	// 		dispatch({
+	// 			...action,
+	// 			onComplete: ({ error, cancelled, data }: GetOffersSagaCallBackOnCompleteDataType) => {
+	// 				if (!error && !cancelled && data) {
+	// 					setOffersData((prevState) => {
+	// 						if (prevState !== null) {
+	// 							// merging previous page with new page.
+	// 							console.log('Previous data : ');
+	// 							console.log(prevState);
+	// 							console.log('New data : ');
+	// 							console.log(data);
+	// 							const newResult = [...prevState.results, ...data.results];
+	// 							console.log('After merge');
+	// 							console.log(newResult);
+	// 							return {
+	// 								results: newResult,
+	// 								next: data.next,
+	// 								previous: data.previous,
+	// 								count: data.count,
+	// 							};
+	// 						} else {
+	// 							// no previous page, adding the new requested page only.
+	// 							return data;
+	// 						}
+	// 					});
+	// 				}
+	// 				// setLoading(false);
+	// 			},
+	// 		});
+	// 	},
+	// 	[dispatch],
+	// );
 
-	const dispatchLoadMore = useCallback(
-		(action: { type: string; pk: number; next_page: string; sort_by: string | undefined }) => {
-			dispatch({
-				...action,
-				onComplete: ({ error, cancelled, data }: GetOffersSagaCallBackOnCompleteDataType) => {
-					if (!error && !cancelled && data) {
-						setOffersData((prevState) => {
-							if (prevState !== null) {
-								// merging previous page with new page.
-								console.log('Previous data : ');
-								console.log(prevState);
-								console.log('New data : ');
-								console.log(data);
-								const newResult = [...prevState.results, ...data.results];
-								console.log('After merge');
-								console.log(newResult);
-								return {
-									results: newResult,
-									next: data.next,
-									previous: data.previous,
-									count: data.count,
-								};
-							} else {
-								// no previous page, adding the new requested page only.
-								return data;
-							}
-						});
-					}
-					// setLoading(false);
-				},
-			});
-		},
-		[dispatch],
-	);
-
-	useEffect(() => {
-		setLoading(true);
-		const { results, previous, next, count } = offersData;
-		if (!firstPageDispatched) {
-			// dispatch first page on page init with price filter default décroissant
-			const action = offerGetOffersByShopIDAction(pk, '1', '-price');
-			dispatchLoadMore(action);
-			setFirstPageDispatched(true);
-		}
-		// on first page
-		if (!previous && !page) {
-			console.log('on first page');
-			console.log(previous);
-			// INFINITE LOOP
-			// checking if sort param exist & not page param
-			if (sort_by) {
-				if (results) {
-					const localOffers = results;
-					if (sort_by === '-price') {
-						localOffers.sort((a, b) => b.price - a.price);
-					} else if (sort_by === 'price') {
-						localOffers.sort((a, b) => a.price - b.price);
-					}
-					const sortedResult = {
-						results: localOffers,
-						next: next,
-						previous: previous,
-						count: count,
-					};
-					setOffersData(sortedResult);
-				}
-			}
-			setLoading(false);
-		} else {
-			// second page and more
-			// let action = offerGetOffersByShopIDAction(pk, '1');
-			// INFINITE LOOP
-			// if next page number exist
-			if (next) {
-				const nextPage = getBackendNextPageNumber(next);
-				console.log('INFINITE LOOP');
-				console.log(page);
-				console.log(nextPage);
-				if (page && nextPage) {
-					// if (parseInt(page as string) === parseInt(nextPage)) {
-					if (sort_by) {
-						const action = offerGetOffersByShopIDAction(pk, page as string, sort_by as string);
-						dispatchLoadMore(action);
-					} else {
-						const action = offerGetOffersByShopIDAction(pk, page as string);
-						dispatchLoadMore(action);
-					}
-					// }
-				}
-			}
-			// dispatchLoadMore(action);
-		}
-		setLoading(false);
-	}, [dispatchLoadMore, firstPageDispatched, offersData, page, pk, sort_by]);
+	// useEffect(() => {
+	// 	setLoading(true);
+	// 	const { results, previous, next, count } = offersData;
+	// 	if (!firstPageDispatched) {
+	// 		// dispatch first page on page init with price filter default décroissant
+	// 		const action = offerGetOffersByShopIDAction(pk, '1', '-price');
+	// 		dispatchLoadMore(action);
+	// 		setFirstPageDispatched(true);
+	// 	}
+	// 	// on first page
+	// 	if (!previous && !page) {
+	// 		console.log('on first page');
+	// 		console.log(previous);
+	// 		// INFINITE LOOP
+	// 		// checking if sort param exist & not page param
+	// 		if (sort_by) {
+	// 			if (results) {
+	// 				const localOffers = results;
+	// 				if (sort_by === '-price') {
+	// 					localOffers.sort((a, b) => b.price - a.price);
+	// 				} else if (sort_by === 'price') {
+	// 					localOffers.sort((a, b) => a.price - b.price);
+	// 				}
+	// 				const sortedResult = {
+	// 					results: localOffers,
+	// 					next: next,
+	// 					previous: previous,
+	// 					count: count,
+	// 				};
+	// 				setOffersData(sortedResult);
+	// 			}
+	// 		}
+	// 		setLoading(false);
+	// 	} else {
+	// 		// second page and more
+	// 		// let action = offerGetOffersByShopIDAction(pk, '1');
+	// 		// INFINITE LOOP
+	// 		// if next page number exist
+	// 		if (next && !nextPageDispatched) {
+	// 			const nextPage = getBackendNextPageNumber(next);
+	// 			console.log('INFINITE LOOP');
+	// 			console.log(page);
+	// 			console.log(nextPage);
+	// 			if (page && nextPage) {
+	// 				// if (parseInt(page as string) === parseInt(nextPage)) {
+	// 				if (sort_by) {
+	// 					const action = offerGetOffersByShopIDAction(pk, page as string, sort_by as string);
+	// 					dispatchLoadMore(action);
+	// 				} else {
+	// 					const action = offerGetOffersByShopIDAction(pk, page as string);
+	// 					dispatchLoadMore(action);
+	// 				}
+	// 				// }
+	// 			}
+	// 			// setNextPageDispatched(true);
+	// 		}
+	// 		// dispatchLoadMore(action);
+	// 	}
+	// 	// setLoading(false);
+	//
+	// 	return () => {
+	// 		setNextPageDispatched(false);
+	// 		setLoading(false);
+	// 	}
+	// }, [dispatchLoadMore, firstPageDispatched, nextPageDispatched, offersData, page, pk, sort_by]);
 
 	// useEffect(() => {
 	// 	setLoading(true);
@@ -562,16 +559,14 @@ const Index: NextPage<Props> = (props: Props) => {
 	if (permission === 'OWNER') {
 		return (
 			<>
-				{loading && <ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} />}
-				<ViewShopAsOwner data={data} offersData={offersData} />
+				<ViewShopAsOwner data={data} />
 			</>
 		);
 	} else {
 		// visiter
 		return (
 			<>
-				{loading && <ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} />}
-				<ViewShopAsNotOwner data={data} offersData={offersData} />
+				<ViewShopAsNotOwner data={data} />
 			</>
 		);
 	}
