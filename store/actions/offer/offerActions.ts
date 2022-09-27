@@ -381,14 +381,14 @@ export const offerGetOffersByShopIDAction = (
 	};
 };
 
-export const offerGetOffersByShopIDNewAction = (
+export const offerGetOffersByShopIDWithQueryParamsAction = (
 	pk: number,
-	queryParams: string,
+	url: string,
 ) => {
 	return {
-		type: Types.OFFER_GET_OFFERS_BY_SHOP_NEW_ID,
+		type: Types.OFFER_GET_OFFERS_BY_SHOP_ID_AND_QUERY_PARAMS,
 		pk,
-		queryParams,
+		url,
 	};
 };
 

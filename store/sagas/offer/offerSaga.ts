@@ -71,6 +71,7 @@ import { withCallback } from "redux-saga-callback";
 import { AxiosInstance } from "axios";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { Saga } from "redux-saga";
+import { OFFER_GET_OFFERS_BY_SHOP_ID_AND_QUERY_PARAMS } from "../../actions";
 
 function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootServiceType) {
 	yield put(appendPostOfferIsLoading());
@@ -343,12 +344,12 @@ function* offerGetOffersByShopIDSaga(payload: {type: string, pk: number, next_pa
 		return e as ApiErrorResponseType;
 	}
 }
-function* offerGetOffersByShopNewIDSaga(payload: {type: string, pk: number, queryParams: string}) {
-	const url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${payload.pk}/${payload.queryParams}`;
+
+function* offerGetOffersByShopNewIDSaga(payload: {type: string, pk: number, url: string}) {
 	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
 	const instance : AxiosInstance = yield call(() => defaultInstance(base_url));
 	try {
-		const response: OfferGetMyOffersResponseType = yield call(() => getApi(url, instance));
+		const response: OfferGetMyOffersResponseType = yield call(() => getApi(payload.url, instance));
 		if (response.status === 200 && response.data) {
 			return response.data;
 		}
@@ -776,7 +777,7 @@ export function* watchOffer() {
 	yield takeLatest(Types.EMPTY_OFFER_DELIVERIES, emptyOfferDeliveriesSaga);
 	yield takeLatest(Types.EMPTY_OFFER_USER_LOCAL_OFFER, offerSetEmptyUserLocalOfferSaga);
 	yield takeLatest(Types.OFFER_GET_OFFERS_BY_SHOP_ID, withCallback(offerGetOffersByShopIDSaga as Saga));
-	yield takeLatest(Types.OFFER_GET_OFFERS_BY_SHOP_NEW_ID, withCallback(offerGetOffersByShopNewIDSaga as Saga));
+	yield takeLatest(Types.OFFER_GET_OFFERS_BY_SHOP_ID_AND_QUERY_PARAMS, withCallback(offerGetOffersByShopNewIDSaga as Saga));
 	yield takeLatest(Types.SET_OFFER_TO_EDIT, setOfferToEditSaga);
 	yield takeLatest(Types.OFFER_POST_ROOT, offerPostRootSaga);
 	yield takeLatest(Types.OFFER_GET_ROOT, offerGetRootSaga);

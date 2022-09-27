@@ -87,6 +87,7 @@ import ApiProgress from '../../../components/formikElements/apiLoadingResponseOr
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../components/layouts/footer/customFooter';
 import { default as ImageFuture } from 'next/future/image';
+// import ShopTabContent from '../../../components/groupedComponents/shop/get/shopTabContent/shopTabContent';
 import ShopTabContent from '../../../components/groupedComponents/shop/get/shopTabContent/shopTabContent';
 import ShopInfoTabContent from '../../../components/groupedComponents/shop/get/shopInfoTabContent/shopInfoTabContent';
 import ShopNotVerified from '../../../components/groupedComponents/shop/get/shopNotVerified/shopNotVerified';

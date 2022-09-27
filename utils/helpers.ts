@@ -492,8 +492,11 @@ export const setFormikAutoErrors = (props: formikAutoErrors) => {
 	}
 };
 
-export const getBackendNextPageNumber = (url: string) => {
+export const getBackendNextPageNumber = (url: string | null) => {
 	// using regex
+	if (url === null) {
+		return null;
+	}
 	const regex = /page=(\d+)/;
 	const regexArray = url.match(regex);
 	if (regexArray) {
@@ -512,14 +515,15 @@ export const getBackendNextPageNumber = (url: string) => {
 };
 
 export const generateQueryParams = (query: ParsedUrlQuery) => {
-	const {page, sort_by} = query;
-	let pageNumber = '1';
+	// const {page, sort_by} = query;
+	const {sort_by} = query;
+	// let pageNumber = '1';
 	let sortBy = '-price';
-	if (page) {
-		pageNumber = page as string;
-	}
+	// if (page) {
+	// 	pageNumber = page as string;
+	// }
 	if (sort_by){
 		sortBy = sort_by as string;
 	}
-	return `?page=${pageNumber}&sort_by=${sortBy}`;
+	return `?sort_by=${sortBy}`;
 }
