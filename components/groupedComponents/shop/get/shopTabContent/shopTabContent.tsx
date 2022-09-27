@@ -35,7 +35,7 @@ type Props = {
 const ShopTabContent: React.FC<Props> = (props: Props) => {
 	const { shop_pk } = props;
 	const router = useRouter();
-	const [filter, setFilter] = useState<'D' | 'C' | null>(null);
+	const [filter, setFilter] = useState<'D' | 'C'>('D');
 	const dispatch = useAppDispatch();
 	const [loadMoreState, setLoadMoreState] = useState<boolean>(false);
 	const [filterChanged, setFilterChanged] = useState<boolean>(false);
@@ -51,7 +51,6 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 	// const getCurrentQueryParams = useCallback(async () => {
 	// 	return generateQueryParams(router.query);
 	// }, [router.query]);
-
 	// const checkNextPage = async (index: number) => {
 	// 	if (isLoadingNextPageInProgress) {
 	// 		return;
@@ -115,11 +114,13 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			setIsLoadingInitInProgress(false);
 		};
 
+		// on page first load
 		if (!firstPageLoaded) {
 			loadFirstPage();
 			setFirstPageLoaded(true);
 		}
 
+		// load more pressed
 		if (loadMoreState) {
 			if (isLoadingNextPageInProgress) {
 				return;
@@ -133,6 +134,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			setLoadMoreState(false);
 		}
 
+		// price filter changed
 		if (filterChanged) {
 			loadFirstPage();
 			setFilterChanged(false);
@@ -161,59 +163,18 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			sort_by: '-price',
 		};
 		const options = { shallow: true, scroll: false };
+
 		if (router.query.page) {
 			if (value === 'D') {
-				router
-					.replace(
-						{
-							query: {
-								...queryParams,
-							},
-						},
-						undefined,
-						options,
-					)
-					.then(() => setFilterChanged(true));
+				router.replace({query: {...queryParams}},undefined, options).then(() => setFilterChanged(true));
 			} else {
-				router
-					.replace(
-						{
-							query: {
-								...queryParams,
-								sort_by: 'price',
-							},
-						},
-						undefined,
-						options,
-					)
-					.then(() => setFilterChanged(true));
+				router.replace({query: {...queryParams, sort_by: 'price'}},undefined, options).then(() => setFilterChanged(true));
 			}
 		} else {
 			if (value === 'D') {
-				router
-					.replace(
-						{
-							query: {
-								...queryParams,
-							},
-						},
-						undefined,
-						options,
-					)
-					.then(() => setFilterChanged(true));
+				router.replace({query: {...queryParams}},undefined, options).then(() => setFilterChanged(true));
 			} else {
-				router
-					.replace(
-						{
-							query: {
-								...queryParams,
-								sort_by: 'price',
-							},
-						},
-						undefined,
-						options,
-					)
-					.then(() => setFilterChanged(true));
+				router.replace({query: {...queryParams, sort_by: 'price'}},undefined, options).then(() => setFilterChanged(true));
 			}
 		}
 	};
@@ -355,5 +316,4 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		</>
 	);
 };
-
 export default ShopTabContent;

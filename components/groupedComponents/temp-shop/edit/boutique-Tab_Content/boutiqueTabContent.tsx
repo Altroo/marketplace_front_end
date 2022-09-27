@@ -19,7 +19,8 @@ type Props = {
 };
 
 const BoutiqueTabContent: React.FC<Props> = (props: Props) => {
-	const [filter, setFilter] = useState<'D' | 'C' | null>(null);
+	// Todo temp shop - check later from router sort_by.
+	const [filter, setFilter] = useState<'D' | 'C'>('D');
 
 	const filterOnChange = (
 		e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,

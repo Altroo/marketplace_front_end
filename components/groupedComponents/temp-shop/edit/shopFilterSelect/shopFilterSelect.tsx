@@ -119,8 +119,8 @@ function renderValue(option: SelectOption<string> | null) {
 }
 
 type Props = {
-	state: 'D' | 'C' | null;
-	setStateHandler: React.Dispatch<React.SetStateAction<'D' | 'C' | null>>;
+	state: 'D' | 'C';
+	setStateHandler: React.Dispatch<React.SetStateAction<'D' | 'C'>>;
 	activeHoverColor: string;
 	onChange: (
 		e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
@@ -130,24 +130,6 @@ type Props = {
 };
 
 const ShopFilterSelect: React.FC<Props> = (props: Props) => {
-	const router = useRouter();
-	const { sort_by } = router.query;
-	const { setStateHandler } = props;
-
-	useEffect(() => {
-		// -price = D
-		// price = T
-		if (sort_by) {
-			if (sort_by == '-price') {
-				setStateHandler('D');
-			} else if (sort_by === 'price') {
-				setStateHandler('C');
-			}
-		} else {
-			// default decroissant
-			setStateHandler('D');
-		}
-	}, [sort_by, setStateHandler]);
 
 	if (props.activeHoverColor) {
 		if (props.activeHoverColor !== '#FFFFFF') {
