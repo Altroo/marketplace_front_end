@@ -514,16 +514,18 @@ export const getBackendNextPageNumber = (url: string | null) => {
 	// return pageNumber;
 };
 
-export const generateQueryParams = (query: ParsedUrlQuery) => {
+export const generateQueryParams = (query: ParsedUrlQuery, nextPage?: string) => {
 	// const {page, sort_by} = query;
 	const {sort_by} = query;
-	// let pageNumber = '1';
+	// default queries using let.
+	let pageNumber = '1';
 	let sortBy = '-price';
-	// if (page) {
-	// 	pageNumber = page as string;
-	// }
+	// construct url if queries found.
+	if (nextPage) {
+		pageNumber = nextPage;
+	}
 	if (sort_by){
 		sortBy = sort_by as string;
 	}
-	return `?sort_by=${sortBy}`;
+	return `?sort_by=${sortBy}&page=${pageNumber}`;
 }

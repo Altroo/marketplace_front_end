@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Styles from './shopTabContent.module.sass';
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
 import { Box, Button, Grid, Stack, ThemeProvider } from '@mui/material';
-import {
-	OfferGetMyOffersProductServiceType,
-} from '../../../../../types/offer/offerTypes';
+import { OfferGetMyOffersProductServiceType } from '../../../../../types/offer/offerTypes';
 import Link from 'next/link';
 import { default as ImageFuture } from 'next/future/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
@@ -13,9 +11,7 @@ import BlackStarSVG from '../../../../../public/assets/svgs/globalIcons/black-st
 import { useRouter } from 'next/router';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
 import { useAppDispatch } from '../../../../../utils/hooks';
-import {
-	offerGetOffersByShopIDWithQueryParamsAction,
-} from "../../../../../store/actions/offer/offerActions";
+import { offerGetOffersByShopIDWithQueryParamsAction } from '../../../../../store/actions/offer/offerActions';
 import { GetOffersSagaCallBackOnCompleteDataType } from '../../../../../pages/shop/[shop_link]';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
@@ -79,16 +75,14 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			if (!isReset && offersMap !== null && count > 0 && offersMap.size() >= count) {
 				return;
 			}
-			let sort_by = '-price';
-			if (filter === 'C') {
-				sort_by = 'price';
-			}
 			let url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${shop_pk}/`;
+			let queryParams: string;
 			if (nextPage !== null && !isReset) {
-				url += `?sort_by=${sort_by}&page=${nextPage}`;
+				queryParams = generateQueryParams(router.query, nextPage);
+				url += queryParams;
 			} else {
-				// default sort
-				url += `?sort_by=${sort_by}&page=1`;
+				queryParams = generateQueryParams(router.query);
+				url += queryParams;
 			}
 			const action = offerGetOffersByShopIDWithQueryParamsAction(shop_pk, url);
 			dispatch({
@@ -143,15 +137,14 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			loadFirstPage();
 			setFilterChanged(false);
 		}
-
 	}, [
 		dispatch,
-		filter,
 		filterChanged,
 		firstPageLoaded,
 		isLoadingNextPageInProgress,
 		loadMoreState,
 		offersLinkedHashMap,
+		router.query,
 		shop_pk,
 	]);
 
@@ -160,14 +153,12 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		value: string,
 	) => {
 		setFilter(value as 'D' | 'C');
-		setFilterChanged(true);
 		// default prix decroissant.
 		// -price = D
 		// price = T
 		const queryParams: ParsedUrlQueryInput = {
 			shop_link: router.query.shop_link,
 			sort_by: '-price',
-			// page: '1',
 		};
 		const options = { shallow: true, scroll: false };
 		if (router.query.page) {
@@ -182,7 +173,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 						undefined,
 						options,
 					)
-					.then();
+					.then(() => setFilterChanged(true));
 			} else {
 				router
 					.replace(
@@ -195,7 +186,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 						undefined,
 						options,
 					)
-					.then();
+					.then(() => setFilterChanged(true));
 			}
 		} else {
 			if (value === 'D') {
@@ -209,7 +200,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 						undefined,
 						options,
 					)
-					.then();
+					.then(() => setFilterChanged(true));
 			} else {
 				router
 					.replace(
@@ -222,7 +213,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 						undefined,
 						options,
 					)
-					.then();
+					.then(() => setFilterChanged(true));
 			}
 		}
 	};
