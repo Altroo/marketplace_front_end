@@ -36,7 +36,7 @@ import 'swiper/css/lazy';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import { chipActionsType } from '../../../types/ui/uiTypes';
-import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
+import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
 import { TEMP_SHOP_ADD_AVATAR, SITE_ROOT } from "../../../utils/routes";
 import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";

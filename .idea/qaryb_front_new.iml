@@ -111,7 +111,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/selects" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/modals" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/chipButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/modals" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile" isTestSource="false" />
@@ -268,6 +267,8 @@
       <sourceFolder url="file://$MODULE_DIR$/archives/shop/edit/index" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/archives/shop/edit/index/editShopCoordonneeField" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/seoAnchorWrapper" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/accordionFilter" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/chipButtons" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />

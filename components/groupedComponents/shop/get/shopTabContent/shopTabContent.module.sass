@@ -88,6 +88,19 @@
   width: 150px !important
   margin: 0 !important
   color: $primary
+// aside filters
+.shopFilterWrapperDesktopOnly
+  width: 250px
+  row-gap: 1rem
+.gridInStack
+  width: 100%
+  flex-direction: column
+  display: flex
+.gridInBlock
+  display: block
+  width: 100%
+.desktopOnly
+  display: flex
 @media #{$desktop}
   .shopAddOfferWrapper
     flex: 1
@@ -97,11 +110,12 @@
 @media #{$tablette}
   .filterWrapper
     +Hidden
+  .rootShopFilterWrapper
+    flex-direction: column
+  .shopFilterWrapperDesktopOnly
+    +Hidden
 
 @media #{$mobile}
-  .gridButtonAddAnOfferWrapper
-    width: 100%
-    height: 56px
   .gridCardOfferWrapper
     width: 100%
   .offerThumb

@@ -1,6 +1,6 @@
 import {
 	OfferCategoriesType,
-	OfferForWhomType,
+	OfferForWhomType, OfferGetAvailableShopFiltersType,
 	OfferProductColors, OfferProductPriceByType, OfferProductSizes
 } from "../types/offer/offerTypes";
 

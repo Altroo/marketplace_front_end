@@ -392,6 +392,15 @@ export const offerGetOffersByShopIDWithQueryParamsAction = (
 	};
 };
 
+export const offerGetAvailableFiltersByShopID = (
+	pk: number,
+) => {
+	return {
+		type: Types.OFFER_GET_AVAILABLE_FILTERS_BY_SHOP_ID,
+		pk,
+	}
+}
+
 export const setEmptySelectedOffer = () => {
 	return {
 		type: Types.OFFER_SET_EMPTY_SELECTED_OFFER,

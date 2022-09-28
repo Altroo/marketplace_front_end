@@ -13,25 +13,7 @@ type Props = {
 	children?: React.ReactNode;
 };
 
-const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
-	const colorOnClickHandler = (color: string) => {
-		if (!props.selectedColorsList.includes(color)) {
-			props.setselectedColorsList((prevState) => {
-				return [...prevState, color];
-			});
-		} else {
-			const colorsList = [...props.selectedColorsList];
-			const index = props.selectedColorsList.indexOf(color);
-			if (index > -1) {
-				colorsList.splice(index, 1);
-				props.setselectedColorsList(colorsList);
-			}
-		}
-	};
-
-	const defaultTheme = getDefaultTheme();
-
-	const availableColorsList: Array<OfferColorsListType> = [
+export const availableColorsList: Array<OfferColorsListType> = [
 		{
 			code: 'BK',
 			value: 'Noir',
@@ -94,6 +76,25 @@ const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
 		},
 	];
 
+const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
+
+	const colorOnClickHandler = (color: string) => {
+		if (!props.selectedColorsList.includes(color)) {
+			props.setselectedColorsList((prevState) => {
+				return [...prevState, color];
+			});
+		} else {
+			const colorsList = [...props.selectedColorsList];
+			const index = props.selectedColorsList.indexOf(color);
+			if (index > -1) {
+				colorsList.splice(index, 1);
+				props.setselectedColorsList(colorsList);
+			}
+		}
+	};
+
+	const defaultTheme = getDefaultTheme();
+
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<RadioCheckElement title="Couleurs" defaultValue={props.switchOpen}>
@@ -130,7 +131,6 @@ const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
 					})}
 				</Grid>
 				</Box>
-
 			</RadioCheckElement>
 		</ThemeProvider>
 	);

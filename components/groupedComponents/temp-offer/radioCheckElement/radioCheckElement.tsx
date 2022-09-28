@@ -40,24 +40,24 @@ const RadioCheckElement: React.FC<Props> = (props: Props) => {
 		<ThemeProvider theme={defaultTheme}>
 			<Stack direction="column" spacing={1}>
 				<Box sx={{ flexGrow: 1 }}>
-				<Grid container spacing={2} direction="row" justifyContent="space-between" alignItems="center" className={Styles.stackRootWrapper}>
-					{/* sm={6} xs={6} */}
-					<Grid item>
-						<span className={Styles.title}>
-							{props.title} {showOptional ? <span>(optionnel)</span> : null}
-						</span>
+					<Grid container spacing={2} direction="row" justifyContent="space-between" alignItems="center" className={Styles.stackRootWrapper}>
+						{/* sm={6} xs={6} */}
+						<Grid item>
+							<span className={Styles.title}>
+								{props.title} {showOptional ? <span>(optionnel)</span> : null}
+							</span>
+						</Grid>
+						{/* md={3} sm={6} xs={6} */}
+						<Grid item>
+							<IosSwitch
+								checked={open}
+								disabled={props.disabled}
+								onChange={setOpen}
+								activeColor="#0274d7"
+								theme={switchTheme}
+							/>
+						</Grid>
 					</Grid>
-					{/* md={3} sm={6} xs={6} */}
-					<Grid item>
-						<IosSwitch
-							checked={open}
-							disabled={props.disabled}
-							onChange={setOpen}
-							activeColor="#0274d7"
-							theme={switchTheme}
-						/>
-					</Grid>
-				</Grid>
 				</Box>
 				<Collapse in={open} mountOnEnter={false}>
 					{props.children}

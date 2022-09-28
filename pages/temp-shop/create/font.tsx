@@ -30,7 +30,7 @@ import { ShopFontNameType } from '../../../types/shop/shopTypes';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
+import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import {
 	getNewShopName,

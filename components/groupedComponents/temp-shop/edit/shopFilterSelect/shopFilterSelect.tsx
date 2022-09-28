@@ -25,8 +25,8 @@ const StyledButton = styled('button')(
   background: #fff;
   border: 0px solid ${grey[800]}; // border color
   border-radius: 0.75em;
-  margin: 0.5em;
-  padding: 10px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   text-align: left;
   line-height: 1.5;
   color: ${grey[900]}; // text color

@@ -1,0 +1,38 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.rootStack
+  row-gap: 1rem
+.filterTitle
+  +Regular
+  font-size: 14px
+  color: #84848A
+
+.colorButton
+  min-width: 18px
+  width: 18px
+  height: 18px
+  border-radius: 30px
+  position: absolute
+  &:hover
+    background-color: rgba(2, 116, 215, 0.8)
+.colorWrapper
+  height: 28px
+  width: 28px
+  border-radius: 50%
+  display: flex
+  align-items: center
+  justify-content: center
+  position: relative
+.colorActive
+  border: 3px solid $blue !important
+.switchLabel
+  @extend .filterTitle
+.switchActive
+  color: $primary !important
+
+// @media #{}
+// @media #{}
+// @media #{}

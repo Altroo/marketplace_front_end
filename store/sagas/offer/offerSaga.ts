@@ -25,7 +25,7 @@ import {
 	OfferPostSolderResponseType,
 	OfferPostSolderType,
 	OfferGetVuesResponseType,
-	OfferCategoriesType, OfferPostPinResponseType, UserLocalOfferType
+	OfferCategoriesType, OfferPostPinResponseType, UserLocalOfferType, OfferGetShopAvailableFiltersResponseType
 } from "../../../types/offer/offerTypes";
 import {
 	appendPostOfferState,
@@ -350,6 +350,20 @@ function* offerGetOffersByShopNewIDSaga(payload: {type: string, pk: number, url:
 	const instance : AxiosInstance = yield call(() => defaultInstance(base_url));
 	try {
 		const response: OfferGetMyOffersResponseType = yield call(() => getApi(payload.url, instance));
+		if (response.status === 200 && response.data) {
+			return response.data;
+		}
+	} catch (e) {
+		return e as ApiErrorResponseType;
+	}
+}
+
+function* offerGetAvailableFiltersByShopIDSaga(payload: {type: string, pk: number}) {
+	const url = `${process.env.NEXT_PUBLIC_OFFER_FILTERS}${payload.pk}/`;
+	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
+	const instance : AxiosInstance = yield call(() => defaultInstance(base_url));
+	try {
+		const response: OfferGetShopAvailableFiltersResponseType = yield call(() => getApi(url, instance));
 		if (response.status === 200 && response.data) {
 			return response.data;
 		}
@@ -778,6 +792,7 @@ export function* watchOffer() {
 	yield takeLatest(Types.EMPTY_OFFER_USER_LOCAL_OFFER, offerSetEmptyUserLocalOfferSaga);
 	yield takeLatest(Types.OFFER_GET_OFFERS_BY_SHOP_ID, withCallback(offerGetOffersByShopIDSaga as Saga));
 	yield takeLatest(Types.OFFER_GET_OFFERS_BY_SHOP_ID_AND_QUERY_PARAMS, withCallback(offerGetOffersByShopNewIDSaga as Saga));
+	yield takeLatest(Types.OFFER_GET_AVAILABLE_FILTERS_BY_SHOP_ID, withCallback(offerGetAvailableFiltersByShopIDSaga as Saga));
 	yield takeLatest(Types.SET_OFFER_TO_EDIT, setOfferToEditSaga);
 	yield takeLatest(Types.OFFER_POST_ROOT, offerPostRootSaga);
 	yield takeLatest(Types.OFFER_GET_ROOT, offerGetRootSaga);

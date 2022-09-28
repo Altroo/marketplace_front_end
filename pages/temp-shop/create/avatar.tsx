@@ -22,7 +22,7 @@ import CenteredInfoAction from '../../../components/groupedComponents/temp-shop/
 import BorderIconAnchorButton from '../../../components/htmlElements/buttons/borderIconAnchorButton/borderIconAnchorButton';
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
-import ChipButtons from '../../../components/htmlElements/buttons/chipButton/chipButton';
+import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
 import { TEMP_SHOP_ADD_SHOP_NAME, SITE_ROOT } from '../../../utils/routes';

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Styles from './boutiqueTabContent.module.sass';
 import { checkBoxForWhomBaseType, chipActionsType, switchActionType } from '../../../../../types/ui/uiTypes';
 import IconTextInput from '../../../../htmlElements/inputs/iconTextInput/iconTextInput';
-import ChipButtons from '../../../../htmlElements/buttons/chipButton/chipButton';
+import ChipButtons from '../../../../htmlElements/buttons/chipButtons/chipButtons';
 // import IosSwitch from '../../../../htmlElements/switches/iosSwitch';
 import CheckBox from '../../../../htmlElements/checkBoxes/checkBox';
 import StartYourShopContent from '../startYourShopContent/startYourShopContent';

@@ -423,6 +423,20 @@ export type OfferPinType = {
 
 export type OfferPostPinResponseType = ResponseDataInterface<OfferPinType>;
 
+
+export type OfferGetAvailableShopFiltersType = {
+	available_categories: Array<OfferCategoriesType>,
+	available_colors: Array<OfferProductColors>,
+	available_sizes: Array<OfferProductSizes>,
+	available_for_whom: Array<OfferForWhomType>,
+	available_solder: boolean,
+	available_labels: boolean,
+	available_made_in_maroc: boolean,
+	available_cities: Array<string>,
+}
+
+export type OfferGetShopAvailableFiltersResponseType = ResponseDataInterface<OfferGetAvailableShopFiltersType>;
+
 // local offer types
 export type LocalOfferDescriptionPageType = {
 	type: string;
