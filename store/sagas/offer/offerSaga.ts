@@ -350,7 +350,10 @@ function* offerGetOffersByShopNewIDSaga(payload: {type: string, pk: number, url:
 	const instance : AxiosInstance = yield call(() => defaultInstance(base_url));
 	try {
 		const response: OfferGetMyOffersResponseType = yield call(() => getApi(payload.url, instance));
+		console.log('from Saga');
+		console.log(response);
 		if (response.status === 200 && response.data) {
+
 			return response.data;
 		}
 	} catch (e) {

@@ -19,7 +19,13 @@ import { useRouter } from 'next/router';
 import { getCategoriesDataArray, getForWhomDataArray } from '../../../utils/rawData';
 import { hexToRGB } from '../../../utils/helpers';
 import { availableColorsList } from '../../groupedComponents/temp-offer/radioCheckElement/colorsRadioCheckContent/colorsRadioCheckContent';
-import IosSwitch from "../../htmlElements/switches/iosSwitch";
+import IosSwitch from '../../htmlElements/switches/iosSwitch';
+import { AUTH_RESET_PASSWORD } from '../../../utils/routes';
+import TextButton from '../../htmlElements/buttons/textButton/textButton';
+import PrimaryButton from '../../htmlElements/buttons/primaryButton/primaryButton';
+import { OfferColorsListType } from '../../../types/ui/uiTypes';
+import { useAppDispatch } from '../../../utils/hooks';
+import { ParsedUrlQueryInput } from 'node:querystring';
 
 type FilterColorsGridParentType = {
 	availableColors: Array<OfferProductColors>;
@@ -42,16 +48,24 @@ const FlterColorsGridParent: React.FC<FilterColorsGridParentType> = (props: Filt
 		}
 	};
 
+	const constructColorsList: Array<OfferColorsListType> = [];
+	props.availableColors.map((availableColor) => {
+		const color = availableColorsList.find((item) => item.code === availableColor);
+		if (color) {
+			constructColorsList.push(color);
+		}
+	});
+
 	return (
-		<Grid container>
-			{availableColorsList.map((color, index) => {
+		<Grid container rowGap={1}>
+			{constructColorsList.map((color, index) => {
 				const rippleColor = hexToRGB(color.hex, 0.5);
 				const colorExistInPage = props.availableColors.includes(color.code as OfferProductColors);
 				const colorSelected = props.selectedColorsList.includes(color.code as OfferProductColors);
 
 				return (
 					<Grid item md={2} sm={2} key={index}>
-						<Stack direction="column" key={index} alignItems="center">
+						<Stack direction="column" key={index}>
 							<Box className={`${Styles.colorWrapper} ${colorSelected ? Styles.colorActive : ''}`}>
 								<Button
 									className={Styles.colorButton}
@@ -96,33 +110,58 @@ type AccordionChipContentType = {
 	pickedList: Array<string>;
 	objectToMap: Array<string>;
 	setPickedList: React.Dispatch<React.SetStateAction<Array<string>>>;
+	voirTout?: boolean;
 };
 const AccordionChipContent: React.FC<AccordionChipContentType> = (props: AccordionChipContentType) => {
 	const chipTheme = FilterChipTheme();
+	const [objectToMap, setObjectToMap] = useState<Array<string>>(
+		props.voirTout ? props.objectToMap.slice(0, 10) : props.objectToMap,
+	);
+	const [voirToutClicked, setVoirToutClicked] = useState<boolean>(false);
+
+	useEffect(() => {
+		if (voirToutClicked) {
+			setObjectToMap(props.objectToMap);
+		}
+	}, [voirToutClicked, props.objectToMap]);
+
 	return (
-		<Stack direction="row" flexWrap="wrap" rowGap={1} columnGap={1} justifyContent="flex-start" alignItems="flex-start">
-			<ThemeProvider theme={chipTheme}>
-				{props.objectToMap.map((item, index) => {
-					return (
-						<Chip
-							key={index}
-							label={item}
-							variant={props.pickedList.includes(item) ? 'filled' : 'outlined'}
-							onClick={() => {
-								if (props.pickedList.includes(item)) {
-									props.setPickedList((prevState) => {
-										return prevState.filter((value) => value !== item);
-									});
-								} else {
-									props.setPickedList((prevState) => {
-										return [...prevState, item];
-									});
-								}
-							}}
-						/>
-					);
-				})}
-			</ThemeProvider>
+		<Stack direction="column" spacing={1}>
+			<Stack
+				direction="row"
+				flexWrap="wrap"
+				rowGap={1}
+				columnGap={1}
+				justifyContent="flex-start"
+				alignItems="flex-start"
+			>
+				<ThemeProvider theme={chipTheme}>
+					{objectToMap.map((item, index) => {
+						return (
+							<Chip
+								key={index}
+								label={item}
+								variant={props.pickedList.includes(item) ? 'filled' : 'outlined'}
+								onClick={() => {
+									if (props.pickedList.includes(item)) {
+										props.setPickedList((prevState) => {
+											return prevState.filter((value) => value !== item);
+										});
+									} else {
+										props.setPickedList((prevState) => {
+											return [...prevState, item];
+										});
+									}
+								}}
+							/>
+						);
+					})}
+				</ThemeProvider>
+			</Stack>
+			{/*  */}
+			{props.voirTout && !voirToutClicked && props.objectToMap.length > 10 && (
+				<TextButton buttonText="Voir tout" onClick={() => setVoirToutClicked(true)} cssClass={Styles.voirToutButton} />
+			)}
 		</Stack>
 	);
 };
@@ -148,11 +187,14 @@ const AccordionSwitchCheck: React.FC<AccordionRadioSwitchType> = (props: Accordi
 
 type Props = {
 	availableFilters: OfferGetAvailableShopFiltersType;
+	setApplyFiltersClicked: React.Dispatch<React.SetStateAction<boolean>>;
 	children?: React.ReactNode;
 };
 const AccordionFilter: React.FC<Props> = (props: Props) => {
 	const { availableFilters } = props;
 	const router = useRouter();
+	const dispatch = useAppDispatch();
+
 	// filter states
 	const [pickedCategories, setPickedCategories] = useState<Array<string>>([]);
 	const [pickedColors, setPickedColors] = useState<Array<string>>([]);
@@ -174,14 +216,98 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 		available_cities,
 	} = availableFilters;
 
-	useEffect(() => {
-		console.log(pickedCategories);
-		console.log(pickedColors);
-		console.log(pickedSizes);
-		console.log(pickedForWhom);
-		console.log(pickedCities);
-	}, [pickedCategories, pickedColors, pickedSizes, pickedForWhom, pickedCities]);
+	// useEffect(() => {
+	// 	console.log(pickedCategories);
+	// 	console.log(pickedColors);
+	// 	console.log(pickedSizes);
+	// 	console.log(pickedForWhom);
+	// 	console.log(pickedCities);
+	// }, [pickedCategories, pickedColors, pickedSizes, pickedForWhom, pickedCities]);
 
+	const applyFilterHandler = () => {
+		let queryParams: ParsedUrlQueryInput = {
+			...router.query,
+		};
+		const options = { shallow: true, scroll: false };
+
+		if (pickedCategories.length > 0) {
+			queryParams = { ...queryParams, categories: pickedCategories.join(',') };
+		} else {
+			delete queryParams['categories'];
+		}
+		if (pickedColors.length > 0) {
+			queryParams = { ...queryParams, colors: pickedColors.join(',') };
+		} else {
+			delete queryParams['colors'];
+		}
+		if (pickedSizes.length > 0) {
+			queryParams = { ...queryParams, sizes: pickedSizes.join(',') };
+		} else {
+			delete queryParams['sizes'];
+		}
+		if (pickedForWhom.length > 0) {
+			queryParams = { ...queryParams, forWhom: pickedForWhom.join(',') };
+		} else {
+			delete queryParams['forWhom'];
+		}
+		if (pickedCities.length > 0) {
+			queryParams = { ...queryParams, cities: pickedCities.join(',') };
+		} else {
+			delete queryParams['cities'];
+		}
+		if (pickedSolder) {
+			queryParams = { ...queryParams, solder: true };
+		} else {
+			delete queryParams['solder'];
+		}
+		if (pickedLabels) {
+			queryParams = { ...queryParams, labels: true };
+		} else {
+			delete queryParams['labels'];
+		}
+		if (pickedMaroc) {
+			queryParams = { ...queryParams, maroc: true };
+		} else {
+			delete queryParams['maroc'];
+		}
+		router.replace({ query: { ...queryParams } }, undefined, options).then(() => {
+			props.setApplyFiltersClicked(true);
+		});
+	};
+
+	const clearFiltersHandler = () => {
+		setPickedCategories([]);
+		setPickedColors([]);
+		setPickedSizes([]);
+		setPickedForWhom([]);
+		setPickedCities([]);
+		setPickedSolder(false);
+		setPickedLabels(false);
+		setPickedMaroc(false);
+		let queryParams: ParsedUrlQueryInput = {};
+		if (router.query.sort_by) {
+			queryParams = {
+				sort_by: router.query.sort_by
+			}
+		}
+		router
+			.replace(
+				{
+					pathname: router.pathname,
+					query: {
+						...queryParams,
+						shop_link: router.query.shop_link
+					},
+				},
+				undefined,
+				{ shallow: true, scroll: false },
+			)
+			.then(() => {
+				props.setApplyFiltersClicked(true);
+			});
+	};
+
+	// Content
 	let categoriesFilter = null;
 	if (available_categories.length > 0) {
 		// tags = categories
@@ -214,25 +340,18 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 	if (available_sizes.length > 0) {
 		sizesFilter = (
 			<AccordionFilterContent title="Tailles">
-				<AccordionChipContent
-					pickedList={pickedSizes}
-					setPickedList={setPickedSizes}
-					objectToMap={available_sizes}
-				/>
+				<AccordionChipContent pickedList={pickedSizes} setPickedList={setPickedSizes} objectToMap={available_sizes} />
 			</AccordionFilterContent>
 		);
 	}
 
 	let forWhomFilter = null;
 	if (available_for_whom.length > 0) {
-		const forWhom = getForWhomDataArray(available_for_whom);
+		const forWhom = getForWhomDataArray(available_for_whom, true);
+
 		forWhomFilter = (
 			<AccordionFilterContent title="Pour qui">
-				<AccordionChipContent
-					pickedList={pickedForWhom}
-					setPickedList={setPickedForWhom}
-					objectToMap={forWhom}
-				/>
+				<AccordionChipContent pickedList={pickedForWhom} setPickedList={setPickedForWhom} objectToMap={forWhom} />
 			</AccordionFilterContent>
 		);
 	}
@@ -244,6 +363,7 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 					pickedList={pickedCities}
 					setPickedList={setPickedCities}
 					objectToMap={available_cities}
+					voirTout
 				/>
 			</AccordionFilterContent>
 		);
@@ -256,10 +376,28 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 				{colorsFilter}
 				{sizesFilter}
 				{forWhomFilter}
-				{available_solder && <AccordionSwitchCheck title="Soldé" selected={pickedSolder} setSelected={setPickedSolder} />}
-				{available_labels && <AccordionSwitchCheck title="Labels" selected={pickedLabels} setSelected={setPickedLabels} />}
-				{available_made_in_maroc && <AccordionSwitchCheck title="Made in Maroc" selected={pickedMaroc} setSelected={setPickedMaroc} />}
+				<Stack direction="column" className={Styles.rootStack} mt={1} mb="25px">
+					{available_solder && (
+						<AccordionSwitchCheck title="Soldé" selected={pickedSolder} setSelected={setPickedSolder} />
+					)}
+					{available_labels && (
+						<AccordionSwitchCheck title="Labels" selected={pickedLabels} setSelected={setPickedLabels} />
+					)}
+					{available_made_in_maroc && (
+						<AccordionSwitchCheck title="Made in Maroc" selected={pickedMaroc} setSelected={setPickedMaroc} />
+					)}
+				</Stack>
 				{citiesFilter}
+			</Stack>
+			<Stack direction="column" mt="1rem">
+				<PrimaryButton
+					buttonText="Filtrer"
+					active
+					onClick={applyFilterHandler}
+					cssClass={Styles.applyFilterButton}
+					type="button"
+				/>
+				<TextButton buttonText="Effacer" cssClass={Styles.clearFilterButton} onClick={clearFiltersHandler} />
 			</Stack>
 		</ThemeProvider>
 	);

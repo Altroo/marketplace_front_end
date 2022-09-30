@@ -833,6 +833,7 @@ export const FilterAccordionTheme = (primaryColor: string | undefined = undefine
 					root: {
 						paddingLeft: '0',
 						paddingRight: '0',
+						marginBottom: '15px',
 					},
 				}
 			},
@@ -857,8 +858,8 @@ export const FilterChipTheme = (primaryColor: string | undefined = undefined) =>
 					root: {
 						fontFamily: 'Poppins-Medium',
 						fontSize: '14px',
-						paddingTop: '3px',
-						paddingBottom: '3px',
+						paddingTop: '13px',
+						paddingBottom: '13px',
 						height: '21px',
 						border: '1.5px solid #0D070B',
 						borderRadius: '13px',

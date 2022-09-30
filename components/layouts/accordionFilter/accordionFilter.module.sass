@@ -4,23 +4,23 @@
 
 // Global styles
 .rootStack
-  row-gap: 1rem
+  row-gap: 1.5rem
 .filterTitle
   +Regular
-  font-size: 14px
+  font-size: 16px
   color: #84848A
 
 .colorButton
-  min-width: 18px
-  width: 18px
-  height: 18px
+  min-width: 22px
+  width: 90%
+  height: 90%
   border-radius: 30px
   position: absolute
   &:hover
     background-color: rgba(2, 116, 215, 0.8)
 .colorWrapper
-  height: 28px
-  width: 28px
+  height: 30px
+  width: 30px
   border-radius: 50%
   display: flex
   align-items: center
@@ -32,7 +32,19 @@
   @extend .filterTitle
 .switchActive
   color: $primary !important
-
+.voirToutButton
+  +Regular
+  font-size: 14px
+  color: #0274d7 !important
+  width: auto
+  align-self: flex-end
+.applyFilterButton
+  width: 100% !important
+.clearFilterButton
+  width: 100% !important
+  +SemiBold
+  font-size: 19px !important
+  color: $primary !important
 // @media #{}
 // @media #{}
 // @media #{}

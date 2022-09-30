@@ -19,8 +19,8 @@ import { store } from '../store/store';
 import { ShopFontNameType } from '../types/shop/shopTypes';
 import { GetServerSidePropsContext } from 'next';
 import { getCookie } from 'cookies-next';
-import { NextRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
+import { NextRouter } from 'next/router';
+import { ParsedUrlQuery } from 'querystring';
 
 // export const loadAppToken = (): InitStateInterface<InitStateToken, InitStateUniqueID> => {
 // 	// load required data from storage
@@ -475,7 +475,7 @@ type formikAutoErrors = {
 };
 
 export const setFormikAutoErrors = (props: formikAutoErrors) => {
-	const {e, setFieldError} = props;
+	const { e, setFieldError } = props;
 	const errors = e as ApiErrorResponseType;
 	if (errors.error.details) {
 		if (errors.error.details.error) {
@@ -504,7 +504,7 @@ export const getBackendNextPageNumber = (url: string | null) => {
 			return regexArray[1];
 		}
 	}
-	return "1";
+	return '1';
 	// using split
 	// const queryIndex = url.search(regexp);
 	// const pageNumber = url.slice(queryIndex + regexp.length);
@@ -516,7 +516,7 @@ export const getBackendNextPageNumber = (url: string | null) => {
 
 export const generateQueryParams = (query: ParsedUrlQuery, nextPage?: string) => {
 	// const {page, sort_by} = query;
-	const {sort_by} = query;
+	const { sort_by, categories, colors, sizes, forWhom, cities, solder, labels, maroc } = query;
 	// default queries using let.
 	let pageNumber = '1';
 	let sortBy = '-price';
@@ -524,8 +524,35 @@ export const generateQueryParams = (query: ParsedUrlQuery, nextPage?: string) =>
 	if (nextPage) {
 		pageNumber = nextPage;
 	}
-	if (sort_by){
+	if (sort_by) {
 		sortBy = sort_by as string;
 	}
-	return `?sort_by=${sortBy}&page=${pageNumber}`;
-}
+	let url = `?sort_by=${sortBy}`;
+
+	if (categories) {
+		url += `&categories=${categories}`;
+	}
+	if (colors) {
+		url += `&colors=${colors}`;
+	}
+	if (sizes) {
+		url += `&sizes=${sizes}`;
+	}
+	if (forWhom) {
+		url += `&forWhom=${forWhom}`;
+	}
+	if (cities) {
+		url += `&cities=${cities}`;
+	}
+	if (solder) {
+		url += `&solder=${solder}`;
+	}
+	if (labels) {
+		url += `&labels=${labels}`;
+	}
+	if (maroc) {
+		url += `&maroc=${maroc}`;
+	}
+	url += `&page=${pageNumber}`;
+	return url;
+};

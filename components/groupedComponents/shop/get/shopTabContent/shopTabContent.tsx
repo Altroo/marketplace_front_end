@@ -78,6 +78,8 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 	});
 	const [availableFiltersFetched, setAvailableFiltersFetched] = useState<boolean>(false);
 	const [availableFilters, setAvailableFilters] = useState<OfferGetAvailableShopFiltersType>(availableFiltersInit);
+	const [applyFiltersClicked, setApplyFiltersClicked] = useState<boolean>(false);
+
 	// const getCurrentQueryParams = useCallback(async () => {
 	// 	return generateQueryParams(router.query);
 	// }, [router.query]);
@@ -189,7 +191,13 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			loadFirstPage();
 			setFilterChanged(false);
 		}
+		if (applyFiltersClicked) {
+			loadFirstPage();
+			setApplyFiltersClicked(false);
+		}
+		console.log(applyFiltersClicked);
 	}, [
+		applyFiltersClicked,
 		dispatch,
 		filterChanged,
 		firstPageLoaded,
@@ -210,14 +218,15 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		// -price = D
 		// price = T
 		const queryParams: ParsedUrlQueryInput = {
-			shop_link: router.query.shop_link,
-			sort_by: '-price',
+			// shop_link: router.query.shop_link,
+			// sort_by: '-price',
+			...router.query
 		};
 		const options = { shallow: true, scroll: false };
 
 		if (router.query.page) {
 			if (value === 'D') {
-				router.replace({ query: { ...queryParams } }, undefined, options).then(() => {
+				router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
 					setFilterChanged(true);
 				});
 			} else {
@@ -227,7 +236,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			}
 		} else {
 			if (value === 'D') {
-				router.replace({ query: { ...queryParams } }, undefined, options).then(() => {
+				router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
 					setFilterChanged(true);
 				});
 			} else {
@@ -238,7 +247,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		}
 	};
 
-	const [searchValue, setSearchValue] = useState<string>('');
+	// const [searchValue, setSearchValue] = useState<string>('');
 
 	return (
 		<>
@@ -266,13 +275,14 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 						</Stack>
 						<Stack direction="row" justifyContent="space-between" gap="28px" className={Styles.rootShopFilterWrapper}>
 							<Stack direction="column" className={Styles.shopFilterWrapperDesktopOnly}>
-								<IconTextInput
-									active={true}
-									placeholder="Rechercher"
-									value={searchValue}
-									onChange={(e) => setSearchValue(e.target.value)}
-								/>
-								<AccordionFilter availableFilters={availableFilters} />
+								{/* filter search removed */}
+								{/*<IconTextInput*/}
+								{/*	active={true}*/}
+								{/*	placeholder="Rechercher"*/}
+								{/*	value={searchValue}*/}
+								{/*	onChange={(e) => setSearchValue(e.target.value)}*/}
+								{/*/>*/}
+								<AccordionFilter availableFilters={availableFilters} setApplyFiltersClicked={setApplyFiltersClicked} />
 							</Stack>
 							<div className={`${offersLinkedHashMap.nextPage ? Styles.gridInStack : Styles.gridInBlock}`}>
 								<Grid container gap="15px" wrap="wrap">
@@ -367,8 +377,9 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 											<SeoAnchorWrapper
 												href={{
 													query: {
-														shop_link: router.query.shop_link,
-														sort_by: `${filter === 'D' ? '-price' : 'price'}`,
+														// shop_link: router.query.shop_link,
+														// sort_by: `${filter === 'D' ? '-price' : 'price'}`,
+														...router.query,
 														page: offersLinkedHashMap.nextPage,
 													},
 												}}

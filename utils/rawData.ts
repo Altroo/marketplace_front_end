@@ -122,12 +122,14 @@ export const getColorsDataArray = (colorCodes: Array<OfferProductColors>) => {
 	return colorsArray;
 };
 
-export const getForWhomDataArray = (forWhom: Array<OfferForWhomType>) => {
+export const getForWhomDataArray = (forWhom: Array<OfferForWhomType>, excludeAll?: boolean) => {
 	const forWhomArray: Array<string> = [];
 	forWhom.map((forWho) => {
 		switch (forWho) {
 			case 'T':
-				forWhomArray.push('Tout le monde');
+				if (!excludeAll) {
+					forWhomArray.push('Tout le monde');
+				}
 				break;
 			case 'E':
 				forWhomArray.push('Enfant');
