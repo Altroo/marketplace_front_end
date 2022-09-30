@@ -4,9 +4,10 @@ import OptionUnstyled, { optionUnstyledClasses } from '@mui/base/OptionUnstyled'
 import PopperUnstyled from '@mui/base/PopperUnstyled';
 import { styled } from '@mui/material';
 import { hexToRGB } from '../../../../../utils/helpers';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { GetServerSidePropsContext, NextPage } from 'next';
+import Styles from './shopFilterSelect.module.sass';
+// import { useRouter } from 'next/router';
+// import { useEffect } from 'react';
+// import { GetServerSidePropsContext, NextPage } from 'next';
 
 const grey = {
 	800: '#2D3843',
@@ -14,6 +15,11 @@ const grey = {
 };
 
 let hoverColor = hexToRGB('#0D070B', 0.04);
+
+const filterDropUpSVG = '<svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.50002 5.33317C8.67068 5.33317 8.84135 5.3985 8.97135 5.5285L12.3047 8.86183C12.5653 9.1225 12.5653 9.54383 12.3047 9.8045C12.044 10.0652 11.6227 10.0652 11.362 9.8045L8.50002 6.9425L5.63802 9.8045C5.37735 10.0652 4.95602 10.0652 4.69535 9.8045C4.43468 9.54383 4.43468 9.1225 4.69535 8.86183L8.02868 5.5285C8.15868 5.3985 8.32935 5.33317 8.50002 5.33317" fill="#84848A"/></svg>';
+const filterDropDownSVG = '<svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.49998 10.6668C8.32932 10.6668 8.15865 10.6015 8.02865 10.4715L4.69532 7.13817C4.43465 6.8775 4.43465 6.45617 4.69532 6.1955C4.95598 5.93483 5.37732 5.93483 5.63798 6.1955L8.49998 9.0575L11.362 6.1955C11.6227 5.93483 12.044 5.93483 12.3047 6.1955C12.5653 6.45617 12.5653 6.8775 12.3047 7.13817L8.97132 10.4715C8.84132 10.6015 8.67065 10.6668 8.49998 10.6668" fill="#84848A"/></svg>';
+const openSVGURL = 'data:image/svg+xml;base64,' + Buffer.from(filterDropUpSVG).toString('base64');
+const closeSVGURL = 'data:image/svg+xml;base64,' + Buffer.from(filterDropDownSVG).toString('base64');
 
 const StyledButton = styled('button')(
 	() => `
@@ -29,6 +35,8 @@ const StyledButton = styled('button')(
   margin-bottom: 1rem;
   text-align: left;
   line-height: 1.5;
+  padding-left: 0px;
+  padding-right: 0px;
   color: ${grey[900]}; // text color
 
   &:hover {
@@ -37,13 +45,13 @@ const StyledButton = styled('button')(
 
   &.${selectUnstyledClasses.expanded} {
     &::after {
-      content: '▴';
+      content: url(${openSVGURL});
       margin-left: 15px;
     }
   }
 
   &::after {
-    content: '▾';
+    content: url(${closeSVGURL});
     float: right;
     margin-left: 15px;
   }
@@ -96,7 +104,7 @@ function CustomSelect(props: SelectUnstyledProps<string>) {
 		Popper: StyledPopper,
 		...props.components,
 	};
-	return <SelectUnstyled {...props} components={components} />;
+	return <SelectUnstyled {...props} components={components} className={Styles.mobileOption} />;
 }
 
 function renderValue(option: SelectOption<string> | null) {
@@ -130,7 +138,6 @@ type Props = {
 };
 
 const ShopFilterSelect: React.FC<Props> = (props: Props) => {
-
 	if (props.activeHoverColor) {
 		if (props.activeHoverColor !== '#FFFFFF') {
 			hoverColor = hexToRGB(props.activeHoverColor, 0.04);
@@ -139,19 +146,21 @@ const ShopFilterSelect: React.FC<Props> = (props: Props) => {
 
 	return (
 		<div>
-			<CustomSelect renderValue={renderValue} value={props.state} onChange={props.onChange}>
-				<StyledOption value="D">Prix décroissant</StyledOption>
-				<StyledOption value="C">Prix croissant</StyledOption>
+			<CustomSelect
+				renderValue={renderValue}
+				value={props.state}
+				onChange={props.onChange}
+				className={Styles.mobileSelect}
+			>
+				<StyledOption value="D">
+					Prix décroissant
+				</StyledOption>
+				<StyledOption value="C">
+					Prix croissant
+				</StyledOption>
 			</CustomSelect>
 		</div>
 	);
 };
-//
-// const getInitialProps = async (context: GetServerSidePropsContext) => {
-// 	const {sort_by} = context.query;
-// 	return {
-// 		sort_by
-// 	}
-// }
 
 export default ShopFilterSelect;

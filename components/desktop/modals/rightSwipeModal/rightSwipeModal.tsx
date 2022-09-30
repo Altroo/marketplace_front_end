@@ -20,6 +20,7 @@ const Transition = React.forwardRef(function Transition(
 type Props = {
 	open: boolean;
 	handleClose: () => void;
+	keepMounted?: boolean;
 	children?: React.ReactNode;
 };
 
@@ -44,8 +45,12 @@ const RightSwipeModal: React.FC<Props> = (props: Props) => {
 	useEffect(() => {
 		if (shopObj) {
 			setMountDialog(true);
+		} else {
+			if (props.keepMounted) {
+				setMountDialog(true);
+			}
 		}
-	}, [shopObj]);
+	}, [shopObj, props.keepMounted]);
 
 	return (
 		<ThemeProvider theme={customTheme}>

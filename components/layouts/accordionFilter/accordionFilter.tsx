@@ -13,7 +13,7 @@ import {
 	Button,
 } from '@mui/material';
 import { default as ImageFuture } from 'next/future/image';
-import AccordionDropDownSVG from '../../../public/assets/svgs/globalIcons/filter-dropdown.svg';
+import AccordionDropDownSVG from '../../../public/assets/svgs/globalIcons/filter-drop-down.svg';
 import { OfferGetAvailableShopFiltersType, OfferProductColors } from '../../../types/offer/offerTypes';
 import { useRouter } from 'next/router';
 import { getCategoriesDataArray, getForWhomDataArray } from '../../../utils/rawData';
@@ -188,12 +188,13 @@ const AccordionSwitchCheck: React.FC<AccordionRadioSwitchType> = (props: Accordi
 type Props = {
 	availableFilters: OfferGetAvailableShopFiltersType;
 	setApplyFiltersClicked: React.Dispatch<React.SetStateAction<boolean>>;
+	closeModal?: () => void;
 	children?: React.ReactNode;
 };
 const AccordionFilter: React.FC<Props> = (props: Props) => {
 	const { availableFilters } = props;
 	const router = useRouter();
-	const dispatch = useAppDispatch();
+	// const dispatch = useAppDispatch();
 
 	// filter states
 	const [pickedCategories, setPickedCategories] = useState<Array<string>>([]);
@@ -273,6 +274,9 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 		router.replace({ query: { ...queryParams } }, undefined, options).then(() => {
 			props.setApplyFiltersClicked(true);
 		});
+		if (props.closeModal){
+			props.closeModal();
+		}
 	};
 
 	const clearFiltersHandler = () => {
@@ -348,7 +352,6 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 	let forWhomFilter = null;
 	if (available_for_whom.length > 0) {
 		const forWhom = getForWhomDataArray(available_for_whom, true);
-
 		forWhomFilter = (
 			<AccordionFilterContent title="Pour qui">
 				<AccordionChipContent pickedList={pickedForWhom} setPickedList={setPickedForWhom} objectToMap={forWhom} />

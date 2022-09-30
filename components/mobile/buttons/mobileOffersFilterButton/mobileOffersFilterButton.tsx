@@ -34,20 +34,23 @@ const MobileOffersFilterButton: React.FC<Props> = (props: Props) => {
 
 	return (
 		<ThemeProvider theme={customTheme}>
-			<Box sx={{position: 'relative'}}>
-				<Fab
-					variant="extended"
-					size="small"
-					color="primary"
-					onClick={props.onClick}
-					className={`${Styles.iconRightButton} ${!props.disabled ? Styles.active : ''} 
-					${props.cssClass && props.cssClass}`}
-					disabled={props.disabled}
-					style={{...cssStyle}}>
-					{props.buttonText}
-					<Image src={props.svgIcon} alt="" className={Styles.icon} />
-				</Fab>
-			</Box>
+			<Fab
+				sx={{
+					position: 'fixed',
+					bottom: (theme) => theme.spacing(2),
+					left: 'calc(50% - 110px/2)', // 50% vw - compo size / 2
+				}}
+				variant="extended"
+				size="small"
+				color="primary"
+				onClick={props.onClick}
+				className={`${Styles.iconRightButton} ${!props.disabled ? Styles.active : ''}
+				${props.cssClass && props.cssClass}`}
+				disabled={props.disabled}
+				style={{...cssStyle}}>
+				{props.buttonText}
+				<Image src={props.svgIcon} alt="" className={Styles.icon} />
+			</Fab>
 		</ThemeProvider>
 
 	);

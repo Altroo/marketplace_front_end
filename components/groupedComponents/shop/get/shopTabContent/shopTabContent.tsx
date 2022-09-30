@@ -34,9 +34,15 @@ import IconTextInput from '../../../../htmlElements/inputs/iconTextInput/iconTex
 import ChipButtons from '../../../../htmlElements/buttons/chipButtons/chipButtons';
 import CheckBox from '../../../../htmlElements/checkBoxes/checkBox';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AccordionDropDownSVG from '../../../../../public/assets/svgs/globalIcons/filter-dropdown.svg';
+import AccordionDropDownSVG from '../../../../../public/assets/svgs/globalIcons/filter-drop-down.svg';
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter';
+import MobileOffersFilterButton from '../../../../mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton';
+import MobileFilterWhiteSVG from '../../../../../public/assets/svgs/globalIcons/mobile-filter-white.svg';
+import RightSwipeModal from '../../../../desktop/modals/rightSwipeModal/rightSwipeModal';
+import PrimaryButton from '../../../../htmlElements/buttons/primaryButton/primaryButton';
+import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
+// import MobileFilterBlackSVG from '../../../../../public/assets/svgs/globalIcons/mobile-filter-black.svg';
 
 type offerLinkedHashMapType = {
 	offersMap: Iterables.LinkedHashMap<number, OfferGetMyOffersProductServiceType> | null;
@@ -47,6 +53,8 @@ type offerLinkedHashMapType = {
 type Props = {
 	shop_pk: number;
 	activeColor: string;
+	openFilterModal: boolean;
+	setOpenFilterModal: React.Dispatch<React.SetStateAction<boolean>>;
 	children?: React.ReactNode;
 };
 
@@ -195,7 +203,6 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			loadFirstPage();
 			setApplyFiltersClicked(false);
 		}
-		console.log(applyFiltersClicked);
 	}, [
 		applyFiltersClicked,
 		dispatch,
@@ -220,7 +227,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		const queryParams: ParsedUrlQueryInput = {
 			// shop_link: router.query.shop_link,
 			// sort_by: '-price',
-			...router.query
+			...router.query,
 		};
 		const options = { shallow: true, scroll: false };
 
@@ -248,6 +255,10 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 	};
 
 	// const [searchValue, setSearchValue] = useState<string>('');
+
+	const closeMobileFilterModal = () => {
+		props.setOpenFilterModal(false);
+	};
 
 	return (
 		<>
@@ -403,6 +414,47 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 						</Stack>
 					</>
 				)}
+				{/* Mobile filter MODAL */}
+				<RightSwipeModal
+					open={props.openFilterModal}
+					handleClose={() => props.setOpenFilterModal(false)}
+					keepMounted={true}
+				>
+					<Stack
+						className={Styles.mobileFilterRootStack}
+						direction="column"
+						justifyContent="space-between"
+						alignContent="space-between"
+						columnGap={0}
+						rowGap={0}
+					>
+						<Box className={Styles.closeButtonWrapper}>
+							<Image
+								src={CloseSVG}
+								width={40}
+								height={40}
+								alt=""
+								onClick={() => props.setOpenFilterModal(false)}
+								style={{ cursor: 'pointer' }}
+							/>
+						</Box>
+						<h5 className={Styles.mobileFilterHeader}>Filtrer</h5>
+						<ShopFilterSelect
+							onChange={(e, value) => {
+								filterOnChange(e, value as 'D' | 'C');
+							}}
+							state={filter}
+							setStateHandler={setFilter}
+							activeHoverColor={props.activeColor}
+						/>
+						<AccordionFilter
+							availableFilters={availableFilters}
+							setApplyFiltersClicked={setApplyFiltersClicked}
+							closeModal={closeMobileFilterModal}
+						/>
+					</Stack>
+				</RightSwipeModal>
+				{/* END EDIT CONTENT MODAL */}
 			</Box>
 		</>
 	);

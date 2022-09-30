@@ -114,7 +114,23 @@
     flex-direction: column
   .shopFilterWrapperDesktopOnly
     +Hidden
-
+  .mobileFilterRootStack
+    height: 100%
+    margin-top: 24px
+    margin-left: 24px
+    margin-right: 24px
+  .mobileFilterHeader
+    +Bold
+    font-size: 30px
+    color: $primary
+    margin-top: 15px
+    margin-bottom: 15px
+  .closeButtonWrapper
+    text-align: start
+    width: 40px
+    height: 40px
+    border-radius: 50%
+    background-color: #f2f2f3
 @media #{$mobile}
   .gridCardOfferWrapper
     width: 100%
