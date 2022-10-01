@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import Styles from './tab.module.sass';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
@@ -50,6 +50,7 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
 	const { children, value, index, ...other } = props;
+
 	return (
 		<div
 			role="tabpanel"
@@ -149,8 +150,8 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 						onChange={handleChange}
 						variant="fullWidth"
 						className={Styles.realTabHeaderContainer}>
-						<Tab label="BOUTIQUE" disabled={props.disabled} {...tabIDS(0)} />
-						<Tab label="INFOS" disabled={props.disabled} {...tabIDS(1)} />
+						<Tab label="BOUTIQUE" disabled={props.disabled} {...tabIDS(0)} /> {/* hidden={value === 1} */}
+						<Tab label="INFOS" disabled={props.disabled} {...tabIDS(1)} /> {/* hidden={value === 0} */}
 					</Tabs>
 				</Box>
 			</ThemeProvider>

@@ -10,7 +10,7 @@ shop/abc/offer/new => index
  */
 
 // Temp Shop Routes
-export const TEMP_SHOP_ROUTE = '/temp-shop';
+// export const TEMP_SHOP_ROUTE = '/temp-shop';
 export const TEMP_SHOP_ADD_SHOP_NAME = '/temp-shop/create';
 export const TEMP_SHOP_ADD_AVATAR = '/temp-shop/create/avatar';
 export const TEMP_SHOP_ADD_COLOR = '/temp-shop/create/color';
@@ -18,20 +18,27 @@ export const TEMP_SHOP_ADD_FONT = '/temp-shop/create/font';
 export const TEMP_SHOP_EDIT_INDEX = '/temp-shop/edit';
 
 // Auth Shop Routes
-export const AUTH_SHOP_ROUTE = '/shop';
-export const AUTH_SHOP_LINK_ROUTE = '/shop/[shop_link]';
+// export const AUTH_SHOP_ROUTE = '/shop';
+export const AUTH_SHOP_LINK_ROUTE = (shop_link: string) => `/shop/${shop_link}`;
 // Real Offers Routes
-export const REAL_OFFER_ROUTE = '/shop/[shop_link]/offer/[offer_pk]';
-export const REAL_OFFER_ADD_INDEX = '/shop/[shop_link]/offer/new';
+// offer details by offer_pk
+export const REAL_OFFER_ROUTE = (shop_link: string, offer_pk: string) => `/shop/${shop_link}/offer/${offer_pk}`;
+// add offer (product, service, location) page.
+export const REAL_OFFER_ADD_INDEX = (shop_link: string) => `/shop/${shop_link}/offer`;
+// add offer (product) first page (categories).
+export const REAL_OFFER_ADD_PRODUCT_CATEGORIES = (shop_link: string) => `/shop/${shop_link}/offer/product`;
+export const REAL_OFFER_ADD_PRODUCT_DESCRIPTION = (shop_link: string) => `/shop/${shop_link}/offer/product/description`;
+export const REAL_OFFER_ADD_PRODUCT_PRICE = (shop_link: string) => `/shop/${shop_link}/offer/product/prix`;
+export const REAL_OFFER_ADD_PRODUCT_DELIVERIES = (shop_link: string) => `/shop/${shop_link}/offer/product/livraison`;
 
 // Temp Offers Routes
-export const TEMP_OFFER_ROUTE = '/temp-offer';
+// export const TEMP_OFFER_ROUTE = '/temp-offer';
 export const TEMP_OFFER_ADD_INDEX = '/temp-offer/create';
 export const TEMP_OFFER_ADD_PRODUCT_CATEGORIES = '/temp-offer/product/create';
 export const TEMP_OFFER_ADD_PRODUCT_DESCRIPTION = '/temp-offer/product/create/description';
 export const TEMP_OFFER_ADD_PRODUCT_PRICE = '/temp-offer/product/create/prix';
-export const TEMP_OFFER_ADD_PRODUCT_LIVRAISON = '/temp-offer/product/create/livraison';
-export const TEMP_OFFER_ADD_PRODUCT_OVERVIEW = '/temp-offer/[offer_pk]/';
+export const TEMP_OFFER_ADD_PRODUCT_DELIVERIES = '/temp-offer/product/create/livraison';
+export const TEMP_OFFER_ADD_PRODUCT_OVERVIEW = (offer_pk: string) => `/temp-offer/${offer_pk}/`;
 
 // Auth Routes
 export const AUTH_REGISTER = '/auth/register';

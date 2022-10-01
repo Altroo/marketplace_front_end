@@ -62,7 +62,7 @@ import {
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
 import {
-	TEMP_OFFER_ADD_PRODUCT_LIVRAISON,
+	TEMP_OFFER_ADD_PRODUCT_DELIVERIES,
 	TEMP_OFFER_ADD_PRODUCT_PRICE,
 	TEMP_SHOP_EDIT_INDEX
 } from "../../../utils/routes";
@@ -353,7 +353,6 @@ function* offerGetOffersByShopNewIDSaga(payload: {type: string, pk: number, url:
 		console.log('from Saga');
 		console.log(response);
 		if (response.status === 200 && response.data) {
-
 			return response.data;
 		}
 	} catch (e) {
@@ -533,6 +532,34 @@ function* offerPostPinSaga(payload: {type: string, offer_pk: number}) {
 	}
 }
 
+function* offerPostPinCallBackSaga(payload: {type: string, offer_pk: number}) {
+	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
+	let url = `${process.env.NEXT_PUBLIC_OFFER_PIN}`;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { type, ...payloadData } = payload;
+	try {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+			const instance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+			url += `${payload.offer_pk}/`;
+			const response: OfferPostPinResponseType = yield call(() => postApi(url, instance, payloadData));
+			if (response.status === 200 && response.data) {
+				// update state
+				return response.data;
+			}
+		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+			const instance : AxiosInstance = yield call(() => allowAnyInstance());
+			url += `${authSagaContext.initStateUniqueID.unique_id}/${payload.offer_pk}/`;
+			const response: OfferPostPinResponseType = yield call(() => postApi(url, instance, payloadData));
+			if (response.status === 200 && response.data) {
+				return response.data;
+			}
+		}
+	} catch (e) {
+		return e as ApiErrorResponseType;
+		// set error state
+	}
+}
+
 function* offerGetSolderSaga(payload: { type: string; offer_pk: number }) {
 	// solder/<uuid:unique_id>/<int:offer_pk>/
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
@@ -691,7 +718,7 @@ function* setOfferDescriptionPageSaga(payload: {
 function* setOfferPricePageSaga(payload: {type: string; price: string, price_by: 'U' | 'K' | 'L', router: NextRouter}) {
 	const { type, ...payloadData } = payload;
 	yield put(setLocalOfferPrice(payloadData));
-	yield call(() => payload.router.push(TEMP_OFFER_ADD_PRODUCT_LIVRAISON))
+	yield call(() => payload.router.push(TEMP_OFFER_ADD_PRODUCT_DELIVERIES))
 }
 
 function* setOfferDeliveryPageClickAndCollectSaga(payload: {type: string; longitude: number; latitude: number; address_name: string | null}) {
@@ -807,6 +834,7 @@ export function* watchOffer() {
 	yield takeLatest(Types.OFFER_GET_MY_OFFERS, offerGetMyOffersSaga);
 	yield takeLatest(Types.OFFER_GET_MY_OFFERS_FIRST_PAGE, offerGetMyOffersFirstPageSaga);
 	yield takeLatest(Types.OFFER_POST_PIN, offerPostPinSaga);
+	yield takeLatest(Types.OFFER_POST_PIN_WITH_CALLBACK, withCallback(offerPostPinCallBackSaga as Saga));
 	yield takeLatest(Types.OFFER_POST_SOLDER, offerPostSolderSaga);
 	yield takeLatest(Types.OFFER_GET_SOLDER, offerGetSolderSaga);
 	yield takeLatest(Types.OFFER_PATCH_SOLDER, offerPatchSolderSaga);

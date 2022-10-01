@@ -1,4 +1,5 @@
 import { ShopFontNameType } from '../shop/shopTypes';
+import { OfferPinType } from "../offer/offerTypes";
 
 /*
 	CASE 1 (GLOBAL ERROR):
@@ -58,11 +59,18 @@ export type ApiErrorResponseType = {
 
 export type ApiPromiseStatus = 'PENDING' | 'RESOLVED' | 'REJECTED' | null;
 
-export type SagaCallBackOnCompleteBoolType = {
+export type SagaCallBackBase = {
 	error: ApiErrorResponseType;
 	cancelled: boolean;
+}
+
+export interface SagaCallBackOnCompleteBoolType extends SagaCallBackBase {
 	data: boolean;
-};
+}
+
+export interface OfferPinSagaCallBackType extends SagaCallBackBase {
+	data: OfferPinType;
+}
 
 export interface GlobalApiPromiseError extends ApiErrorResponseType {
 	isAddInProgress: boolean;

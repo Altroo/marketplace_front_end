@@ -298,7 +298,7 @@ const Index: NextPage = () => {
 		},
 		{
 			icon: AvatarIconSVG,
-			text: 'Photo de profil',
+			text: 'Image de la boutique',
 			onClick: avatarInputOnClickHandler,
 		},
 		{

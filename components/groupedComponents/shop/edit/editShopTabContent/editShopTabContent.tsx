@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Styles from './shopTabContent.module.sass';
+import Styles from './editShopTabContent.module.sass';
+import SharedStyles from '../../../../groupedComponents/temp-shop/edit/startYourShopContent/startYourShopContent.module.sass';
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Grid, Stack, ThemeProvider } from '@mui/material';
+import { Box, Button, Grid, Stack, ThemeProvider } from '@mui/material';
 import {
-	OfferCategoriesType,
-	OfferForWhomType,
 	OfferGetAvailableShopFiltersType,
 	OfferGetMyOffersProductServiceType,
-	OfferProductColors,
-	OfferProductSizes,
 } from '../../../../../types/offer/offerTypes';
 import Link from 'next/link';
 import { default as ImageFuture } from 'next/future/image';
@@ -21,28 +18,30 @@ import { useAppDispatch } from '../../../../../utils/hooks';
 import {
 	offerGetAvailableFiltersByShopID,
 	offerGetOffersByShopIDWithQueryParamsAction,
+	offerPostPinAction,
+	offerPostPinWithCallBackAction,
 } from '../../../../../store/actions/offer/offerActions';
 import { GetOffersSagaCallBackOnCompleteDataType } from '../../../../../pages/shop/[shop_link]';
-import { FilterAccordionTheme, getDefaultTheme } from '../../../../../utils/themes';
+import { getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
 import { ParsedUrlQueryInput } from 'node:querystring';
 import { generateQueryParams, getBackendNextPageNumber } from '../../../../../utils/helpers';
 import ApiProgress from '../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import { Iterables } from 'langx-js';
-import { Url } from 'url';
-import IconTextInput from '../../../../htmlElements/inputs/iconTextInput/iconTextInput';
-import ChipButtons from '../../../../htmlElements/buttons/chipButtons/chipButtons';
-import CheckBox from '../../../../htmlElements/checkBoxes/checkBox';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AccordionDropDownSVG from '../../../../../public/assets/svgs/globalIcons/filter-drop-down.svg';
-import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
+import {
+	ApiErrorResponseType,
+	OfferPinSagaCallBackType,
+	SagaCallBackOnCompleteBoolType,
+} from '../../../../../types/_init/_initTypes';
 import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter';
-import MobileOffersFilterButton from '../../../../mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton';
-import MobileFilterWhiteSVG from '../../../../../public/assets/svgs/globalIcons/mobile-filter-white.svg';
 import RightSwipeModal from '../../../../desktop/modals/rightSwipeModal/rightSwipeModal';
-import PrimaryButton from '../../../../htmlElements/buttons/primaryButton/primaryButton';
 import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
-import { REAL_OFFER_ROUTE } from '../../../../../utils/routes';
+import CenteredInfoAction from '../../../temp-shop/create/centeredInfoAction/centeredInfoAction';
+import BorderIconAnchorButton from '../../../../htmlElements/buttons/borderIconAnchorButton/borderIconAnchorButton';
+import ActivatedAddIconSVG from '../../../../../public/assets/svgs/globalIcons/blue-add.svg';
+import { REAL_OFFER_ADD_INDEX, REAL_OFFER_ROUTE } from '../../../../../utils/routes';
+import LargeBorderIconAnchorButton from '../../../../htmlElements/buttons/largeBorderIconAnchorButton/largeBorderIconAnchorButton';
+import PinInactiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-inactive.svg';
 // import MobileFilterBlackSVG from '../../../../../public/assets/svgs/globalIcons/mobile-filter-black.svg';
 
 type offerLinkedHashMapType = {
@@ -70,7 +69,7 @@ const availableFiltersInit: OfferGetAvailableShopFiltersType = {
 	available_cities: [],
 };
 
-const ShopTabContent: React.FC<Props> = (props: Props) => {
+const EditShopTabContent: React.FC<Props> = (props: Props) => {
 	const { shop_pk } = props;
 	const router = useRouter();
 	const [filter, setFilter] = useState<'D' | 'C'>('D');
@@ -105,6 +104,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 	// 	}
 	// };
 	const [availableFiltersHasData, setAvailableFiltersHasData] = useState<boolean>(false);
+
 	useEffect(() => {
 		if (!availableFiltersFetched) {
 			const action = offerGetAvailableFiltersByShopID(shop_pk);
@@ -127,6 +127,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			});
 			setAvailableFiltersFetched(true);
 		}
+
 		const getOffers = (isReset = false) => {
 			const { count, nextPage, offersMap } = offersLinkedHashMap;
 			// is reset = false.
@@ -207,6 +208,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		}
 	}, [
 		applyFiltersClicked,
+		availableFiltersFetched,
 		dispatch,
 		filterChanged,
 		firstPageLoaded,
@@ -215,7 +217,6 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		offersLinkedHashMap,
 		router.query,
 		shop_pk,
-		availableFiltersFetched,
 	]);
 
 	const filterOnChange = (
@@ -262,17 +263,48 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		props.setOpenFilterModal(false);
 	};
 
+	const togglePinHandler = (e: React.MouseEvent<HTMLImageElement, MouseEvent>, pk: number) => {
+		e.preventDefault();
+		const action = offerPostPinWithCallBackAction(pk);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: OfferPinSagaCallBackType) => {
+				if (!error && !cancelled && data) {
+					if (offersLinkedHashMap.offersMap) {
+						const userOfferIndex = offersLinkedHashMap.offersMap
+							.entrySet()
+							.toArray()
+							.findIndex((item) => item.value?.pk === pk);
+						if (userOfferIndex >= 0) {
+							const map = offersLinkedHashMap.offersMap.entrySet().toArray()[userOfferIndex];
+							if (map.value) {
+								map.value.pinned = data.pinned;
+								offersLinkedHashMap.offersMap.put(pk, map.value);
+								offersLinkedHashMap.offersMap
+									.entrySet()
+									.toArray()
+									.sort((a, b) => Number(b.value?.pinned) - Number(a.value?.pinned));
+								setOffersLinkedHashMap(offersLinkedHashMap);
+								router.replace(router.asPath).then();
+							}
+						}
+					}
+				}
+			},
+		});
+	};
+
 	return (
 		<>
-			{(!isLoadingInitInProgress || isLoadingNextPageInProgress) && (
-					<ApiProgress
-						cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
-						backdropColor="#FBFBFB"
-						circularColor="#0D070B"
-					/>
-				)}
+			{(isLoadingInitInProgress || isLoadingNextPageInProgress) && ( // todo : fix loading doesn't trigger
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+					backdropColor="#FBFBFB"
+					circularColor="#0D070B"
+				/>
+			)}
 			<Box sx={{ minHeight: '450px' }}>
-				{!offersLinkedHashMap.offersMap?.isEmpty() && (
+				{!offersLinkedHashMap.offersMap?.isEmpty() ? (
 					<>
 						<Stack
 							className={Styles.filterWrapper}
@@ -309,6 +341,14 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 							)}
 							<div className={`${offersLinkedHashMap.nextPage ? Styles.gridInStack : Styles.gridInBlock}`}>
 								<Grid container gap="15px" wrap="wrap">
+									<Grid item xs="auto" className={SharedStyles.gridButtonAddAnOfferWrapper}>
+										<LargeBorderIconAnchorButton
+											buttonText="Ajouter un article"
+											svgIcon={ActivatedAddIconSVG}
+											active={true}
+											nextPage={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
+										/>
+									</Grid>
 									{offersLinkedHashMap.offersMap
 										?.entrySet()
 										.toArray()
@@ -333,7 +373,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 															<Grid item xs="auto">
 																<Stack direction="column" spacing={2}>
 																	<Box className={Styles.thumbnailWrapper}>
-																		{data.value.pinned && (
+																		{data.value.pinned ? (
 																			<ImageFuture
 																				src={PinActiveIconSVG}
 																				alt=""
@@ -341,6 +381,17 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																				height={32}
 																				className={Styles.thumbnailActionIcon}
 																				loading="lazy"
+																				onClick={(e) => togglePinHandler(e, data.key)}
+																			/>
+																		) : (
+																			<ImageFuture
+																				src={PinInactiveIconSVG}
+																				alt=""
+																				width={32}
+																				height={32}
+																				className={Styles.thumbnailActionIcon}
+																				loading="lazy"
+																				onClick={(e) => togglePinHandler(e, data.key)}
 																			/>
 																		)}
 																		<ImageFuture
@@ -425,6 +476,27 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 							</div>
 						</Stack>
 					</>
+				) : (
+					<>
+						<div className={SharedStyles.shopAddOfferWrapper}>
+							<div className={SharedStyles.addOfferContainer}>
+								<div className={SharedStyles.centeredInfoActionWrapper}>
+									<CenteredInfoAction
+										header="Démarrer votre boutique"
+										subHeader="Ajoutez votre premier article !"
+										cssHeaderClass={SharedStyles.infoHeader}
+										cssSubHeaderClass={SharedStyles.infoSubHeader}
+									/>
+									<BorderIconAnchorButton
+										buttonText="Ajouter un article"
+										svgIcon={ActivatedAddIconSVG}
+										active={true}
+										nextPage={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
+									/>
+								</div>
+							</div>
+						</div>
+					</>
 				)}
 				{/* Mobile filter MODAL */}
 				{availableFiltersHasData && (
@@ -473,4 +545,4 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		</>
 	);
 };
-export default ShopTabContent;
+export default EditShopTabContent;

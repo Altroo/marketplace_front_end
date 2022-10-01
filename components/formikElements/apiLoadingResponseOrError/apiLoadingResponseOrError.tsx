@@ -15,7 +15,7 @@ const ApiLoadingResponseOrError: React.FC<Props> = (props: Props) => {
 	return (
 		<>
 			{props.inProgress && props.promiseStatus === 'PENDING' && (
-					<ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} />
+					<ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}  backdropColor="#FFFFFF" circularColor="#FFFFFF"/>
 				)}
 				{!props.inProgress && props.promiseStatus === 'REJECTED' && props.error && (
 					<ApiAlert

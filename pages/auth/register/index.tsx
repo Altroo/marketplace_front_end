@@ -137,7 +137,7 @@ const Register: NextPage = () => {
 	const emailTheme = coordonneeTextInputTheme();
 	return (
 		<>
-			{loading && <ApiProgress cssStyle={{ position: "absolute", top: "50%", left: "50%" }} />}
+			{loading && <ApiProgress cssStyle={{ position: "absolute", top: "50%", left: "50%" }} backdropColor="#FFFFFF" circularColor="#FFFFFF"/>}
 			{!loading && !session && (
 				<>
 					<div className={Styles.desktopOnly}>

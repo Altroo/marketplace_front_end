@@ -48,7 +48,6 @@ import { getApi } from '../../../../../store/services/_init/_initAPI';
 import UserMainNavigationBar from '../../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../../../components/layouts/footer/customFooter';
 import ReactCountryFlag from 'react-country-flag';
-import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
 
 const noCommentsAvailableContent = () => {
 	return (
@@ -120,7 +119,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 	const [deliveriesListString, setDeliveriesListString] = useState<Array<deliveriesObj>>([]);
 	const [newPrice, setNewPrice] = useState<number | null>(null);
 
-	// Altroo solder can get improved if moved to getServerSideProps or api backend
+	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
 		const availableImages: Array<string> = [];
 		if (picture_1) {

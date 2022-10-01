@@ -242,7 +242,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 				)}
 			</Formik>
 			{isEditInProgress && editPromiseStatus === 'PENDING' && (
-				<ApiProgress cssStyle={{ position: 'absolute', top: '45%', left: '45%' }} />
+				<ApiProgress cssStyle={{ position: 'absolute', top: '45%', left: '45%' }} backdropColor="#FFFFFF" circularColor="#FFFFFF" />
 			)}
 			{!isEditInProgress && editPromiseStatus === 'REJECTED' && apiError && (
 				<ApiAlert

@@ -66,3 +66,17 @@
 // }
 //
 // export default wrapper.withRedux(EntryPoint);
+// useMemo example
+// const contextValue = useMemo(() => ({
+//         auth: {
+//             token: token,
+//             userId: userId,
+//             expirationDate: expirationDate,
+//         },
+//         logout: logoutHandler,
+//         login: loginHandler,
+//         register: registerHandler
+//     }), [token, userId, expirationDate]);
+// useContext example
+// const authCtx = useContext(AuthContext);
+// AuthContext = createContext(...

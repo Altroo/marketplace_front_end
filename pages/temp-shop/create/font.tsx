@@ -322,7 +322,7 @@ const Font: NextPage = () => {
 					</div>
 				</Box>
 				{isAddInProgressSelector && isAddPromiseStatusSelector === 'PENDING' && (
-					<ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} />
+					<ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} backdropColor="#FFFFFF" circularColor="#FFFFFF"/>
 				)}
 				{!isAddInProgressSelector && isAddPromiseStatusSelector === 'REJECTED' && isAddErrorSelector && (
 					<ApiAlert

@@ -20,7 +20,7 @@ import { useAppSelector } from '../../../utils/hooks';
 import { getCheckUserHasShop, getUserProfilAvatar, getUserShopUrl } from '../../../store/selectors';
 import SearchIconSVG from '../../../public/assets/svgs/globalIcons/search.svg';
 import Link from 'next/link';
-import { AUTH_LOGIN, DASHBOARD, TEMP_SHOP_ADD_SHOP_NAME } from '../../../utils/routes';
+import { AUTH_LOGIN, AUTH_SHOP_LINK_ROUTE, DASHBOARD, TEMP_SHOP_ADD_SHOP_NAME } from "../../../utils/routes";
 import { deleteRemoteCookiesAppToken } from '../../../utils/helpers';
 // import CustomBadge from '../../../htmlElements/customBadge[not-working]/customBadge';
 
@@ -109,7 +109,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 											</MenuItem>
 											<MenuItem onClick={handleClose} className={Styles.menuItem}>
 												<Link
-													href={userHasShop && userShopUrl ? `/shop/${userShopUrl}` : TEMP_SHOP_ADD_SHOP_NAME}
+													href={userHasShop && userShopUrl ? AUTH_SHOP_LINK_ROUTE(userShopUrl as string) : TEMP_SHOP_ADD_SHOP_NAME}
 													passHref
 												>
 													<a className={Styles.anchorWrapper}>
@@ -256,7 +256,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 											</MenuItem>
 											<MenuItem onClick={handleClose} className={Styles.menuItem}>
 												<Link
-													href={userHasShop && userShopUrl ? `/shop/${userShopUrl}` : TEMP_SHOP_ADD_SHOP_NAME}
+													href={userHasShop && userShopUrl ? AUTH_SHOP_LINK_ROUTE(userShopUrl as string) : TEMP_SHOP_ADD_SHOP_NAME}
 													passHref
 												>
 													<a className={Styles.anchorWrapper}>

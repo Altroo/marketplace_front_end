@@ -447,6 +447,13 @@ export const offerPostPinAction = (offer_pk: number) => {
 	};
 };
 
+export const offerPostPinWithCallBackAction = (offer_pk: number) => {
+	return {
+		type: Types.OFFER_POST_PIN_WITH_CALLBACK,
+		offer_pk,
+	};
+}
+
 export const offerGetMyOffersAction = () => {
 	return {
 		type: Types.OFFER_GET_MY_OFFERS,

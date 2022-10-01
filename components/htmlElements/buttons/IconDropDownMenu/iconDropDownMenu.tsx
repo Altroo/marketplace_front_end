@@ -1,30 +1,26 @@
 import React, { useState, MouseEvent } from 'react';
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Styles from './dropDownMenu.module.sass';
-import Image from 'next/image';
+import Styles from './iconDropDownMenu.module.sass';
 import { DropDownActionType, DropDownVariantType } from '../../../../types/ui/uiTypes';
 import { ThemeProvider } from '@mui/material';
 import { getDropDownMenuTheme } from '../../../../utils/themes';
 import { default as ImageFuture } from 'next/future/image';
+import EditBlueSVG from "../../../../public/assets/svgs/globalIcons/edit-blue.svg";
 
 type Props = {
 	menuID: string;
 	buttonID: string;
 	actions: DropDownActionType;
-	dropDownText?: string;
-	dropDownIcon: string;
 	variant?: DropDownVariantType;
-	iconButton?: React.ReactNode;
 	children?: React.ReactNode;
 };
 
-const DropDownMenu: React.FC<Props> = (props: Props) => {
+const IconDropDownMenu: React.FC<Props> = (props: Props) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
-	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+	const handleClick = (event: MouseEvent<HTMLImageElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
 
@@ -36,16 +32,18 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 	return (
 		<div className={Styles.dropDownWrapper}>
 			<ThemeProvider theme={customTheme}>
-				{props.iconButton ? props.iconButton : <Button
+				<ImageFuture
 					id={props.buttonID}
+					src={EditBlueSVG}
+					alt=""
+					width="32"
+					height="32"
 					aria-controls={open ? `${props.menuID}` : undefined}
 					aria-haspopup="true"
 					aria-expanded={open ? 'true' : undefined}
-					onClick={handleClick}
-					endIcon={<Image src={props.dropDownIcon} alt="" />}
-				>
-					{props.dropDownText}
-				</Button>}
+					onClick={(e) => handleClick(e)}
+					style={{ cursor: 'pointer' }}
+				/>
 				<Menu
 					variant={props.variant ? props.variant : 'menu'}
 					id={props.menuID}
@@ -87,4 +85,4 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 		</div>
 	);
 };
-export default DropDownMenu;
+export default IconDropDownMenu;

@@ -161,7 +161,7 @@ const Login: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			{loading && <ApiProgress cssStyle={{ position: "absolute", top: "50%", left: "50%" }} />}
+			{loading && <ApiProgress cssStyle={{ position: "absolute", top: "50%", left: "50%" }} backdropColor="#FFFFFF" circularColor="#FFFFFF"/>}
 			{!loading && !session && (
 				<>
 					<div className={Styles.desktopOnly}>

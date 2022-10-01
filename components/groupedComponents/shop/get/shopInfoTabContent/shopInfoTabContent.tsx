@@ -33,6 +33,7 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 		whatsapp,
 		opening_days,
 	} = props.shopInfoData;
+
 	return (
 		<>
 			<Stack
@@ -77,7 +78,7 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 					) : (
 						<span className={Styles.infoNotFound}>{shop_name} n&apos;a pas encore renseigné ses coordonnées</span>
 					)}
-					{address_name && longitude && latitude && km_radius && (
+					{address_name && longitude && latitude && km_radius ? (
 						<Stack direction="row" spacing={1} justifyContent="space-between" alignItems="baseline">
 							<ReadAdresse
 								zone_by={zone_by}
@@ -87,6 +88,8 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 								address_name={address_name}
 							/>
 						</Stack>
+					) : (
+						<span className={Styles.infoNotFound}>{shop_name} n&apos;a pas encore renseigné son adresse</span>
 					)}
 				</Stack>
 				<Stack className={Styles.rightSideWrapper} direction="column" spacing={2} justifyContent="space-between">

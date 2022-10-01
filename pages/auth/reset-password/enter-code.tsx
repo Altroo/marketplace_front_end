@@ -92,7 +92,7 @@ const EnterCodePageContent = (props: enterCodePageContentProps) => {
 				className={Styles.contentWrapper}
 				spacing={4}
 			>
-				{loading && <ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} />}
+				{loading && <ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} backdropColor="#FFFFFF" circularColor="#FFFFFF"/>}
 				<Stack direction="column" spacing={1}>
 					<span className={Styles.content}>Rentrez le code</span>
 					<span className={Styles.paragraphe}>
