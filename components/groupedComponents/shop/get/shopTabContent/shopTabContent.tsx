@@ -166,6 +166,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 						};
 						setOffersLinkedHashMap(result);
 					}
+					setIsLoadingInitInProgress(false);
 				},
 			});
 		};
@@ -173,7 +174,6 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		const loadFirstPage = () => {
 			setIsLoadingInitInProgress(true);
 			getOffers(true);
-			setIsLoadingInitInProgress(false);
 		};
 
 		// on page first load
@@ -264,13 +264,13 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			{(!isLoadingInitInProgress || isLoadingNextPageInProgress) && (
-					<ApiProgress
-						cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
-						backdropColor="#FBFBFB"
-						circularColor="#0D070B"
-					/>
-				)}
+			{/*{(isLoadingInitInProgress || isLoadingNextPageInProgress) && (*/}
+			{/*		<ApiProgress*/}
+			{/*			cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}*/}
+			{/*			backdropColor="#FFFFFF"*/}
+			{/*			circularColor="#0D070B"*/}
+			{/*		/>*/}
+			{/*	)}*/}
 			<Box sx={{ minHeight: '450px' }}>
 				{!offersLinkedHashMap.offersMap?.isEmpty() && (
 					<>

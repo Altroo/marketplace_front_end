@@ -364,7 +364,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 		},
 		{
 			icon: FontIconSVG,
-			text: "Police du titre",
+			text: "Style du titre",
 			onClick: setOpenFontModal
 		}
 	];

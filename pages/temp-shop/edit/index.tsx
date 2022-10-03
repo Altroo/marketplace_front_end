@@ -308,7 +308,7 @@ const Index: NextPage = () => {
 		},
 		{
 			icon: FontIconSVG,
-			text: 'Police du titre',
+			text: 'Style du titre',
 			onClick: setOpenFontModal,
 		},
 	];

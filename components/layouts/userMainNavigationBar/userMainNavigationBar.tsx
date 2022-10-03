@@ -9,6 +9,7 @@ import { badgeTheme, getDropDownMenuTheme, userMainNavigationBarTheme } from '..
 import { default as ImageFuture } from 'next/future/image';
 import QarybSVG from '../../../public/assets/images/logo.svg';
 import ProfileSVG from '../../../public/assets/svgs/mainNavBarIcons/profile.svg';
+import CreerVotreBoutiqueSVG from '../../../public/assets/svgs/mainNavBarIcons/boutique-purple.svg';
 import EmptyCartSVG from '../../../public/assets/svgs/mainNavBarIcons/empty-cart.svg';
 import DashboardSVG from '../../../public/assets/svgs/mainNavBarIcons/dashboard.svg';
 import BoutiqueSVG from '../../../public/assets/svgs/mainNavBarIcons/boutique.svg';
@@ -20,7 +21,7 @@ import { useAppSelector } from '../../../utils/hooks';
 import { getCheckUserHasShop, getUserProfilAvatar, getUserShopUrl } from '../../../store/selectors';
 import SearchIconSVG from '../../../public/assets/svgs/globalIcons/search.svg';
 import Link from 'next/link';
-import { AUTH_LOGIN, AUTH_SHOP_LINK_ROUTE, DASHBOARD, TEMP_SHOP_ADD_SHOP_NAME } from "../../../utils/routes";
+import { AUTH_LOGIN, AUTH_SHOP_LINK_ROUTE, DASHBOARD, TEMP_SHOP_ADD_SHOP_NAME } from '../../../utils/routes';
 import { deleteRemoteCookiesAppToken } from '../../../utils/helpers';
 // import CustomBadge from '../../../htmlElements/customBadge[not-working]/customBadge';
 
@@ -38,13 +39,20 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
-
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
-
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+
+	const [anchorMobileEl, setAnchorMobileEl] = React.useState<null | HTMLElement>(null);
+	const openMobile = Boolean(anchorMobileEl);
+	const handleMobileClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		setAnchorMobileEl(event.currentTarget);
+	};
+	const handleMobileClose = () => {
+		setAnchorMobileEl(null);
 	};
 
 	const logOutHandler = () => {
@@ -52,6 +60,34 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 			deleteRemoteCookiesAppToken();
 		});
 	};
+
+
+
+	const ShopMenuItem = (props: {handleClose: () => void}) => {
+		if (userHasShop && userShopUrl) {
+			return (
+				<MenuItem onClick={props.handleClose} className={Styles.menuItem}>
+					<Link href={AUTH_SHOP_LINK_ROUTE(userShopUrl as string)} passHref>
+						<a className={Styles.anchorWrapper}>
+							<ImageFuture src={BoutiqueSVG} alt="" className={Styles.subMenuIcons} />
+							<span>Ma boutique</span>
+						</a>
+					</Link>
+				</MenuItem>
+			);
+		} else {
+			return (
+				<MenuItem onClick={props.handleClose} className={`${Styles.menuItem} ${Styles.purple}`}>
+					<Link href={TEMP_SHOP_ADD_SHOP_NAME} passHref>
+						<a className={Styles.anchorWrapper}>
+							<ImageFuture src={CreerVotreBoutiqueSVG} alt="" className={Styles.subMenuIcons} />
+							<span>Créer votre boutique</span>
+						</a>
+					</Link>
+				</MenuItem>
+			);
+		}
+	}
 
 	return (
 		<ThemeProvider theme={userMainNavigationBarTheme()}>
@@ -98,6 +134,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 											MenuListProps={{
 												'aria-labelledby': 'my-profile-button',
 											}}
+											keepMounted
 										>
 											<MenuItem onClick={handleClose} className={Styles.menuItem}>
 												<Link href={DASHBOARD} passHref>
@@ -107,17 +144,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 													</a>
 												</Link>
 											</MenuItem>
-											<MenuItem onClick={handleClose} className={Styles.menuItem}>
-												<Link
-													href={userHasShop && userShopUrl ? AUTH_SHOP_LINK_ROUTE(userShopUrl as string) : TEMP_SHOP_ADD_SHOP_NAME}
-													passHref
-												>
-													<a className={Styles.anchorWrapper}>
-														<ImageFuture src={BoutiqueSVG} alt="" className={Styles.subMenuIcons} />
-														<span>Ma boutique</span>
-													</a>
-												</Link>
-											</MenuItem>
+											<ShopMenuItem handleClose={handleClose}/>
 											<Divider orientation="horizontal" flexItem />
 											<MenuItem onClick={handleClose} className={Styles.fadedMenuItem}>
 												<Box onClick={logOutHandler} className={Styles.anchorWrapper}>
@@ -215,38 +242,40 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 							aria-label="open drawer"
 							className={Styles.hambourgerIconWrapper}
 						>
-							<ImageFuture src={HambourgerMenuSVG} alt="" />
+							<ImageFuture src={HambourgerMenuSVG} alt="" className={Styles.mobileIcons} />
 						</IconButton>
-						<ImageFuture src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+						<Stack direction="row" justifySelf="center">
+							<ImageFuture src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+						</Stack>
 						<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
 							{!loading && session ? (
 								<>
 									<Button
-										id="my-profile-button"
-										aria-controls={open ? 'profile-menu' : undefined}
+										id="my-profile-mobile-button"
+										aria-controls={openMobile ? 'profile-mobile-menu' : undefined}
 										aria-haspopup="true"
-										aria-expanded={open ? 'true' : undefined}
-										onClick={handleClick}
+										aria-expanded={openMobile ? 'true' : undefined}
+										onClick={handleMobileClick}
 										// className={Styles.avatarButton}
-										className={Styles.iconButton}
+										className={Styles.avatarButtonMobile}
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
 										{/*	<Badge variant="dot" color="primary">*/}
-										<Avatar alt="" src={avatar as string} className={Styles.navBarIcons} />
+										<Avatar alt="" src={avatar as string} className={Styles.mobileIcons} />
 										{/*</Badge>*/}
 										{/*</ThemeProvider>*/}
 									</Button>
 									<ThemeProvider theme={getDropDownMenuTheme()}>
 										<Menu
-											id="profile-menu"
-											anchorEl={anchorEl}
-											open={open}
-											onClose={handleClose}
+											id="profile-mobile-menu"
+											anchorEl={anchorMobileEl}
+											open={openMobile}
+											onClose={handleMobileClose}
 											MenuListProps={{
-												'aria-labelledby': 'my-profile-button',
+												'aria-labelledby': 'my-profile-mobile-button',
 											}}
 										>
-											<MenuItem onClick={handleClose} className={Styles.menuItem}>
+											<MenuItem onClick={handleMobileClose} className={Styles.menuItem}>
 												<Link href={DASHBOARD} passHref>
 													<a className={Styles.anchorWrapper}>
 														<ImageFuture src={DashboardSVG} alt="" className={Styles.subMenuIcons} />
@@ -254,19 +283,9 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 													</a>
 												</Link>
 											</MenuItem>
-											<MenuItem onClick={handleClose} className={Styles.menuItem}>
-												<Link
-													href={userHasShop && userShopUrl ? AUTH_SHOP_LINK_ROUTE(userShopUrl as string) : TEMP_SHOP_ADD_SHOP_NAME}
-													passHref
-												>
-													<a className={Styles.anchorWrapper}>
-														<ImageFuture src={BoutiqueSVG} alt="" className={Styles.subMenuIcons} />
-														<span>Ma boutique</span>
-													</a>
-												</Link>
-											</MenuItem>
+											<ShopMenuItem handleClose={handleMobileClose}/>
 											<Divider orientation="horizontal" flexItem />
-											<MenuItem onClick={handleClose} className={Styles.fadedMenuItem}>
+											<MenuItem onClick={handleMobileClose} className={Styles.fadedMenuItem}>
 												<Box onClick={logOutHandler} className={Styles.anchorWrapper}>
 													<ImageFuture src={LogoutSVG} alt="" className={Styles.subMenuIcons} />
 													<span>Se déconnecter</span>
@@ -292,7 +311,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 												width="0"
 												height="0"
 												sizes="100vw"
-												className={Styles.navBarIcons}
+												className={Styles.mobileIcons}
 											/>
 										</a>
 									</Link>
@@ -312,7 +331,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									width="0"
 									height="0"
 									sizes="100vw"
-									className={Styles.navBarIcons}
+									className={Styles.mobileIcons}
 								/>
 							</IconButton>
 						</Stack>
