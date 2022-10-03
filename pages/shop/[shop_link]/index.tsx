@@ -370,6 +370,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 	];
 
 	useEffect(() => {
+		console.log(is_subscribed);
 		// avatar
 		if (avatar) {
 			setPreview(avatar);
@@ -419,6 +420,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 			}
 		}
 	}, [
+		is_subscribed,
 		avatar,
 		bg_color_code,
 		border,
@@ -529,8 +531,8 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 		<>
 			<Stack direction="column">
 				<UserMainNavigationBar />
-				{!is_subscribed && <ShopNotIndexed />}
 				<main className={Styles.main}>
+					{!is_subscribed &&<ShopNotIndexed />}
 					<Stack direction="row" justifyContent="flex-end" alignItems="flex-end" className={Styles.mobileOnly}>
 						<IconDropDownMenu
 							actions={dropDownActions}
@@ -587,6 +589,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 									justifyContent="flex-start"
 									alignSelf="flex-start"
 									alignItems="center"
+									className={Styles.rootShopNameStack}
 								>
 									<h2
 										className={Styles.shopName}

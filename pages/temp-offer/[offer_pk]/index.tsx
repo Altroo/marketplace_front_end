@@ -614,6 +614,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 					dropDownText="Modifier"
 					actions={dropDownActions}
 					onClick={() => {
+						// back to my shop page.
 						router.back();
 					}}
 					menuID="desktop-validate-menu"
@@ -655,6 +656,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 										))}
 								</Stack>
 								{selectedImage ? (
+									<Box className={Styles.mainImageWrapper}>
 									<ImageFuture
 										className={Styles.selectedImage}
 										src={selectedImage}
@@ -666,8 +668,8 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 										loading="lazy"
 										decoding="async"
 										// loader={<ApiProgress/>}
-										css={{width: 'auto !important'}}
 									/>
+									</Box>
 								) : null}
 							</Stack>
 							{noCommentsAvailableContent()}
@@ -689,15 +691,17 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 										availableImages.map((image, index) => {
 											return (
 												<SwiperSlide key={index}>
-													<ImageFuture
-														className={Styles.selectedImage}
-														src={image}
-														unoptimized={true}
-														width={365}
-														height={240}
-														sizes="100vw"
-														alt=""
-													/>
+													<Box className={Styles.mainImageWrapper}>
+														<ImageFuture
+															className={Styles.selectedImage}
+															src={image}
+															unoptimized={true}
+															width={365}
+															height={240}
+															sizes="100vw"
+															alt=""
+														/>
+													</Box>
 												</SwiperSlide>
 											);
 										})}
@@ -719,10 +723,12 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 											</a>
 										</Link>
 									</Stack>
-									<Stack direction="row" flexWrap="wrap" gap={1}>
-										{categoriesListString.map((category, index) => {
-											return <Chip key={index} label={category} variant="filled" className={Styles.chip} />;
-										})}
+									<Stack direction="column" spacing={1}>
+										<Stack direction="row" flexWrap="wrap" gap={1}>
+											{categoriesListString.map((category, index) => {
+												return <Chip key={index} label={category} variant="filled" className={Styles.chip} />;
+											})}
+										</Stack>
 									</Stack>
 								</Stack>
 							</Stack>
@@ -768,7 +774,6 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 								<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 									<PrimaryButton buttonText="Ajouter au panier" active={false} type="submit" />
 								</div>
-							</Stack>
 							<Box className={Styles.clickAnddeliveriesWrapper}>
 								<Stack
 									direction="column"
@@ -852,6 +857,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 									)}
 								</Stack>
 							</Box>
+							</Stack>
 							<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
 								<Divider orientation="horizontal" flexItem className={Styles.divider} />
 								{noCommentsAvailableContent()}

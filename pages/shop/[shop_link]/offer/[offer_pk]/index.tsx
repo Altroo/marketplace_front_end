@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { default as ImageFuture } from 'next/future/image';
 import Styles from '../../../../../styles/temp-offer/create/overview.module.sass';
-import { Stack, ThemeProvider, ImageListItem, Box } from '@mui/material';
+import { Stack, ThemeProvider, ImageListItem, Box, Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
 	DetailsOfferProductType,
@@ -11,6 +11,7 @@ import {
 	OfferGetRootServiceInterface,
 	OfferGetRootServiceResponseType,
 	OfferProductPriceByType,
+	OfferSolderByType,
 } from '../../../../../types/offer/offerTypes';
 import Image from 'next/image';
 import CreatorIlluSVG from '../../../../../public/assets/images/creator-illu.svg';
@@ -33,21 +34,53 @@ import {
 	monthNames,
 } from '../../../../../utils/rawData';
 import Link from 'next/link';
-import { NOT_FOUND_404 } from '../../../../../utils/routes';
+import {
+	AUTH_SHOP_LINK_ROUTE,
+	NOT_FOUND_404,
+	REAL_OFFER_ADD_INDEX,
+	TEMP_OFFER_ADD_PRODUCT_CATEGORIES,
+} from '../../../../../utils/routes';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
-import { OfferReadOnlyTheme } from '../../../../../utils/themes';
+import { doubleTabNavigationTheme, OfferReadOnlyTheme, SolderPourcentageChipTheme } from '../../../../../utils/themes';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/lazy';
-import { defaultInstance } from '../../../../../utils/helpers';
+import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
 import { getApi } from '../../../../../store/services/_init/_initAPI';
 import UserMainNavigationBar from '../../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../../../components/layouts/footer/customFooter';
 import ReactCountryFlag from 'react-country-flag';
+import DesktopPublishEditNavbar from '../../../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
+import { DropDownActionType } from '../../../../../types/ui/uiTypes';
+import EditBlackSVG from '../../../../../public/assets/svgs/globalIcons/edit-black.svg';
+import EpinglerActiveSVG from '../../../../../public/assets/svgs/globalIcons/epingler-active.svg';
+import EpinglerInactiveSVG from '../../../../../public/assets/svgs/globalIcons/epingler-inactive.svg';
+import SolderEditActiveSVG from '../../../../../public/assets/svgs/globalIcons/solder-edit-active.svg';
+import SolderEditInactiveSVG from '../../../../../public/assets/svgs/globalIcons/solder-edit-inactive.svg';
+import SupprimerSVG from '../../../../../public/assets/svgs/globalIcons/close-black.svg';
+import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
+import {
+	offerDeleteRootAction,
+	offerDeleteSolderAction,
+	offerPatchSolderAction,
+	offerPostPinAction,
+	offerPostSolderAction,
+	setOfferToEdit,
+} from '../../../../../store/actions/offer/offerActions';
+import { useAppDispatch } from '../../../../../utils/hooks';
+import RightSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
+import TopBarSaveClose from '../../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
+import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import CurrencyInput from 'react-currency-input-field';
+import Button from '@mui/material/Button';
+import ActionModals from '../../../../../components/htmlElements/modals/actionModal/actionModals';
+import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
 
 const noCommentsAvailableContent = () => {
 	return (
@@ -84,15 +117,18 @@ type deliveriesObj = {
 
 type PropsType = {
 	pageProps: {
+		permission: 'OWNER' | 'NOT_OWNER';
 		data: OfferGetRootProductInterface | OfferGetRootServiceInterface;
 	};
 };
 
 const Index: NextPage<PropsType> = (props: PropsType) => {
 	const router = useRouter();
-	const { data } = props.pageProps;
+	const { data, permission } = props.pageProps;
+	const dispatch = useAppDispatch();
 	// const { offer_pk } = router.query;
 	const {
+		pk,
 		title,
 		description,
 		offer_categories,
@@ -109,6 +145,8 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		for_whom,
 		creator_label,
 		made_in_label,
+		pinned,
+		tags,
 	} = data as OfferGetRootProductInterface;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string>(picture_1 ? picture_1 : '');
@@ -119,8 +157,59 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 	const [deliveriesListString, setDeliveriesListString] = useState<Array<deliveriesObj>>([]);
 	const [newPrice, setNewPrice] = useState<number | null>(null);
 
+	const customPourcentageInput = useRef<HTMLInputElement>(null);
+	const [customPourcentageState, setCustomPourcentageState] = useState<string>('');
+	const [solderByState, setSolderByState] = useState<OfferSolderByType>(solder_type ? solder_type : 'F');
+	const [newSolderValue, setNewSolderValue] = useState<string>(
+		typeof solder_value === 'number' ? solder_value.toString() : '0.00',
+	);
+	const [isSolderValid, setIsSolderValid] = useState<boolean>(false);
+	const [fivePourcentSolder, setFivePourcentSolder] = useState<boolean>(false);
+	const [tenPourcentSolder, setTenPourcentSolder] = useState<boolean>(false);
+	const [twentyPourcentSolder, setTwentyPourcentSolder] = useState<boolean>(false);
+	const [thirtyPourcentSolder, setThirtyPourcentSolder] = useState<boolean>(false);
+	const [fiftyPourcentSolder, setFiftyPourcentSolder] = useState<boolean>(false);
+	const [seventyPourcentSolder, setSeventyPourcentSolder] = useState<boolean>(false);
+	const [solderPourcentageForApi, setSolderPourcentageForApi] = useState<string | null>(null);
+	const [newSolderPourcentageValue, setNewSolderPourcentageValue] = useState<string>('0.00');
+	const [openSolderModal, setOpenSolderModal] = useState<boolean>(false);
+	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+
 	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
+		// check solder values
+		if (
+			fivePourcentSolder ||
+			tenPourcentSolder ||
+			twentyPourcentSolder ||
+			thirtyPourcentSolder ||
+			fiftyPourcentSolder ||
+			seventyPourcentSolder
+		) {
+			if (fivePourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			} else if (tenPourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			} else if (twentyPourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			} else if (thirtyPourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			} else if (fiftyPourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			} else if (seventyPourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			}
+		} else {
+			setNewSolderValue('0.00');
+			setIsSolderValid(false);
+		}
+		// empty selected offer to reduce state size
 		const availableImages: Array<string> = [];
 		if (picture_1) {
 			availableImages.push(picture_1);
@@ -189,15 +278,22 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 	}, [
 		deliveries,
 		details_offer,
+		fiftyPourcentSolder,
+		fivePourcentSolder,
 		for_whom,
+		newSolderPourcentageValue,
 		offer_categories,
 		picture_1,
 		picture_2,
 		picture_3,
 		picture_4,
 		price,
+		seventyPourcentSolder,
 		solder_type,
 		solder_value,
+		tenPourcentSolder,
+		thirtyPourcentSolder,
+		twentyPourcentSolder,
 	]);
 
 	const showThumbnail = (src: string) => {
@@ -215,16 +311,287 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		return `${startDay} ${startDate.getDate()} ${startMonth} - ${endDay} ${endDate.getDate()} ${endMonth}`;
 	};
 
+	const setSolderPourcentageInput = (value: string) => {
+		if (typeof price === 'number') {
+			const newValue = price - (price * parseFloat(value)) / 100;
+			setNewSolderPourcentageValue(newValue.toString());
+		}
+		setSolderPourcentageForApi(value);
+		switch (value) {
+			case '5':
+				setFivePourcentSolder((prevState) => !prevState);
+				setTenPourcentSolder(false);
+				setTwentyPourcentSolder(false);
+				setThirtyPourcentSolder(false);
+				setFiftyPourcentSolder(false);
+				setSeventyPourcentSolder(false);
+				break;
+			case '10':
+				setTenPourcentSolder((prevState) => !prevState);
+				setFivePourcentSolder(false);
+				setTwentyPourcentSolder(false);
+				setThirtyPourcentSolder(false);
+				setFiftyPourcentSolder(false);
+				setSeventyPourcentSolder(false);
+				break;
+			case '20':
+				setTwentyPourcentSolder((prevState) => !prevState);
+				setFivePourcentSolder(false);
+				setTenPourcentSolder(false);
+				setThirtyPourcentSolder(false);
+				setFiftyPourcentSolder(false);
+				setSeventyPourcentSolder(false);
+				break;
+			case '30':
+				setThirtyPourcentSolder((prevState) => !prevState);
+				setFivePourcentSolder(false);
+				setTenPourcentSolder(false);
+				setTwentyPourcentSolder(false);
+				setFiftyPourcentSolder(false);
+				setSeventyPourcentSolder(false);
+				break;
+			case '50':
+				setFiftyPourcentSolder((prevState) => !prevState);
+				setFivePourcentSolder(false);
+				setTenPourcentSolder(false);
+				setTwentyPourcentSolder(false);
+				setThirtyPourcentSolder(false);
+				setSeventyPourcentSolder(false);
+				break;
+			case '70':
+				setSeventyPourcentSolder((prevState) => !prevState);
+				setFivePourcentSolder(false);
+				setTenPourcentSolder(false);
+				setTwentyPourcentSolder(false);
+				setThirtyPourcentSolder(false);
+				setFiftyPourcentSolder(false);
+				break;
+		}
+	};
+
+	const editOfferHandler = () => {
+		const pictures: ImageUploadingType = [];
+		if (picture_1) {
+			pictures.push({
+				dataURL: picture_1,
+			});
+		}
+		if (picture_2) {
+			pictures.push({
+				dataURL: picture_2,
+			});
+		}
+		if (picture_3) {
+			pictures.push({
+				dataURL: picture_3,
+			});
+		}
+		if (picture_4) {
+			pictures.push({
+				dataURL: picture_4,
+			});
+		}
+		const deliveriesObjList: {
+			delivery_city_1: string;
+			all_cities_1: boolean;
+			delivery_price_1: string;
+			delivery_days_1: string;
+			delivery_city_2: string;
+			all_cities_2: boolean;
+			delivery_price_2: string;
+			delivery_days_2: string;
+			delivery_city_3: string;
+			all_cities_3: boolean;
+			delivery_price_3: string;
+			delivery_days_3: string;
+		} = {
+			delivery_city_1: '',
+			all_cities_1: false,
+			delivery_price_1: '',
+			delivery_days_1: '',
+			delivery_city_2: '',
+			all_cities_2: false,
+			delivery_price_2: '',
+			delivery_days_2: '',
+			delivery_city_3: '',
+			all_cities_3: false,
+			delivery_price_3: '',
+			delivery_days_3: '',
+		};
+		if (deliveries.length === 1) {
+			if (deliveries[0].delivery_city) {
+				deliveriesObjList.delivery_city_1 = deliveries[0].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_1 = deliveries[0].all_cities;
+			deliveriesObjList.delivery_price_1 = deliveries[0].delivery_price.toString();
+			deliveriesObjList.delivery_days_1 = deliveries[0].delivery_days.toString();
+		} else if (deliveries.length === 2) {
+			if (deliveries[0].delivery_city) {
+				deliveriesObjList.delivery_city_1 = deliveries[0].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_1 = deliveries[0].all_cities;
+			deliveriesObjList.delivery_price_1 = deliveries[0].delivery_price.toString();
+			deliveriesObjList.delivery_days_1 = deliveries[0].delivery_days.toString();
+
+			if (deliveries[1].delivery_city) {
+				deliveriesObjList.delivery_city_2 = deliveries[1].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_2 = deliveries[1].all_cities;
+			deliveriesObjList.delivery_price_2 = deliveries[1].delivery_price.toString();
+			deliveriesObjList.delivery_days_2 = deliveries[1].delivery_days.toString();
+		} else if (deliveries.length === 3) {
+			if (deliveries[0].delivery_city) {
+				deliveriesObjList.delivery_city_1 = deliveries[0].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_1 = deliveries[0].all_cities;
+			deliveriesObjList.delivery_price_1 = deliveries[0].delivery_price.toString();
+			deliveriesObjList.delivery_days_1 = deliveries[0].delivery_days.toString();
+
+			if (deliveries[1].delivery_city) {
+				deliveriesObjList.delivery_city_2 = deliveries[1].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_2 = deliveries[1].all_cities;
+			deliveriesObjList.delivery_price_2 = deliveries[1].delivery_price.toString();
+			deliveriesObjList.delivery_days_2 = deliveries[1].delivery_days.toString();
+
+			if (deliveries[2].delivery_city) {
+				deliveriesObjList.delivery_city_3 = deliveries[2].delivery_city.join(',');
+			}
+			deliveriesObjList.all_cities_3 = deliveries[2].all_cities;
+			deliveriesObjList.delivery_price_3 = deliveries[2].delivery_price.toString();
+			deliveriesObjList.delivery_days_3 = deliveries[2].delivery_days.toString();
+		}
+		dispatch(
+			setOfferToEdit({
+				pk: pk,
+				categoriesList: offer_categories,
+				title: title,
+				description: description,
+				pictures: pictures,
+				forWhom: for_whom.join(','),
+				colors: details_offer.product_colors.join(','),
+				sizes: details_offer.product_sizes.join(','),
+				quantity: details_offer.product_quantity,
+				tags: tags.join(','),
+				prix: price as string,
+				prix_par: details_offer.product_price_by,
+				clickAndCollect: {
+					longitude: details_offer.product_longitude ? parseFloat(details_offer.product_longitude) : null,
+					latitude: details_offer.product_latitude ? parseFloat(details_offer.product_latitude) : null,
+					address_name: details_offer.product_address,
+				},
+				deliveries: deliveriesObjList,
+			}),
+		);
+		// router.push(REAL_OFFER_ADD_INDEX(router.query.shop_link as string)).then();
+		router.push(TEMP_OFFER_ADD_PRODUCT_CATEGORIES).then();
+	};
+
+	const togglePinOfferHandler = () => {
+		dispatch(offerPostPinAction(pk));
+		router.replace(router.asPath).then();
+	};
+
+	const showSolderOfferNav = () => {
+		setOpenSolderModal(true);
+	};
+
+	const deleteOfferHandler = () => {
+		dispatch(offerDeleteRootAction(pk, router));
+		setShowDeleteModal(false);
+	};
+
+	const deleteModalActions = [
+		{
+			active: true,
+			text: 'Oui',
+			onClick: deleteOfferHandler,
+		},
+		{
+			active: false,
+			text: 'Non',
+			onClick: () => setShowDeleteModal(false),
+		},
+	];
+
+	const showDeleteOfferModal = () => {
+		setShowDeleteModal(true);
+	};
+
+	const handleSaveSolder = () => {
+		let valueToSend = '0.00';
+		if (solderPourcentageForApi && solderByState === 'P') {
+			valueToSend = solderPourcentageForApi;
+		}
+		if (!solder_value) {
+			// dispatch post
+			dispatch(offerPostSolderAction(pk, solderByState, parseFloat(valueToSend), router));
+		} else {
+			// dispatch patch
+			dispatch(offerPatchSolderAction(pk, solderByState, parseFloat(valueToSend), router));
+		}
+		setOpenSolderModal(false);
+	};
+
+	const deleteSolderHandler = () => {
+		// dispatch delete
+		dispatch(offerDeleteSolderAction(pk, router));
+		setOpenSolderModal(false);
+		setNewSolderValue('0.00');
+	};
+
+	const solderTabHandleChange = (event: React.SyntheticEvent, solderBy: OfferSolderByType) => {
+		setSolderByState(solderBy);
+	};
+
+	const dropDownActions: DropDownActionType = [
+		{
+			icon: EditBlackSVG,
+			text: 'Modifier',
+			onClick: editOfferHandler,
+		},
+		{
+			icon: pinned ? EpinglerActiveSVG : EpinglerInactiveSVG,
+			text: 'Épingler',
+			onClick: togglePinOfferHandler,
+		},
+		{
+			icon: solder_value !== null ? SolderEditActiveSVG : SolderEditInactiveSVG,
+			text: 'Solder',
+			onClick: showSolderOfferNav,
+		},
+		{
+			icon: SupprimerSVG,
+			text: 'Supprimer',
+			onClick: showDeleteOfferModal,
+		},
+	];
+
 	const customTheme = OfferReadOnlyTheme();
+	const navigationTheme = doubleTabNavigationTheme();
 	return (
 		<ThemeProvider theme={customTheme}>
 			<Stack direction="column">
 				<UserMainNavigationBar />
 				<main className={Styles.main}>
+					{permission === 'OWNER' && (
+						<DesktopPublishEditNavbar
+							hideLeftButton
+							dropDownText="Modifier"
+							actions={dropDownActions}
+							onClick={() => {
+								// back to my shop page.
+								router.back();
+							}}
+							menuID="desktop-validate-menu"
+							buttonID="desktop-validate-menu-btn"
+							buttonTitle="Valider"
+						/>
+					)}
 					<Box className={Styles.pageWrapper}>
 						<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
 							{/* DESKTOP Only */}
-							<Stack direction="column" spacing={5} sx={{maxWidth: '55%'}} className={Styles.desktopOnly}>
+							<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }} className={Styles.desktopOnly}>
 								<Stack direction="row" spacing={3}>
 									<Stack direction="column" spacing={1.8}>
 										{availableImages.length > 0 &&
@@ -360,7 +727,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 												<span className={Styles.rating}>0 (0 notes)</span>
 											</Stack>
 											<Link
-												href={`${router.asPath.split('/offer')[0]}`}
+												href={AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 												passHref
 												prefetch={false}
 												target="_blank"
@@ -433,7 +800,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 								</Stack>
 								<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
 									<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-										<PrimaryButton buttonText="Ajouter au panier" active={true} type="submit" />
+										<PrimaryButton buttonText="Ajouter au panier" active={permission !== 'OWNER'} type="submit" />
 									</div>
 									<Box className={Styles.clickAnddeliveriesWrapper}>
 										<Stack
@@ -557,6 +924,216 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 							</Stack>
 						</Stack>
 					</Box>
+					{/* TODO  Altroo mount both when owner */}
+					{permission === 'OWNER' && (
+						<RightSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
+							<Stack
+								direction="column"
+								justifyContent="space-between"
+								alignContent="space-between"
+								columnGap={0.5}
+								rowGap={0}
+								sx={{ height: '100%' }}
+							>
+								<TopBarSaveClose
+									buttonText="Terminer"
+									handleClose={() => setOpenSolderModal(false)}
+									handleSubmit={handleSaveSolder}
+									isValid={isSolderValid}
+									cssClasses={Styles.topContainer}
+								/>
+								<HelperDescriptionHeader
+									header="Solder une offre"
+									HelpText="Apprendre à définir son prix"
+									headerClasses={Styles.header}
+									descriptionClasses={Styles.description}
+									cssClasses={Styles.topContainer}
+								/>
+								<Stack direction="column" justifyContent="space-around" className={Styles.doubleTabWrapper}>
+									<ThemeProvider theme={navigationTheme}>
+										<BottomNavigation value={solderByState} onChange={solderTabHandleChange} showLabels>
+											<BottomNavigationAction label="Prix Fixe" value="F" />
+											<BottomNavigationAction label="Pourcentage" value="P" />
+										</BottomNavigation>
+									</ThemeProvider>
+									{solderByState === 'F' ? (
+										<Stack
+											direction="column"
+											spacing={1}
+											sx={{ margin: '12px 32px 12px', height: '100%' }}
+											justifyContent="space-between"
+										>
+											<Stack direction="column" spacing={1} alignItems="center">
+												<CurrencyInput
+													className={Styles.priceInputField}
+													id="solder-fix"
+													name="solder-fix"
+													placeholder="0.00"
+													value={newSolderValue}
+													decimalsLimit={2}
+													onValueChange={(value) => {
+														if (value) {
+															if (price) {
+																if ((price as number) <= parseFloat(value)) {
+																	return;
+																}
+															}
+															setNewSolderValue(value);
+														} else {
+															setNewSolderValue('0.00');
+														}
+														setIsSolderValid(true);
+													}}
+												/>
+												{price ? (
+													<>
+														<p className={Styles.oldSolderValue}>{price} DH</p>
+														<p className={Styles.oldSolderText}>ancien prix</p>
+													</>
+												) : null}
+											</Stack>
+											{solder_value ? (
+												<Button onClick={deleteSolderHandler} color="primary" className={Styles.cancelButton}>
+													Annuler la réduction
+												</Button>
+											) : null}
+										</Stack>
+									) : (
+										<Stack
+											direction="column"
+											spacing={1}
+											sx={{ margin: '12px 32px 12px', height: '100%' }}
+											justifyContent="space-between"
+										>
+											<Stack direction="column" spacing={1} alignItems="center">
+												<CurrencyInput
+													className={Styles.priceInputField}
+													id="solder-pourcentage"
+													name="solder-pourcentage"
+													readOnly={true}
+													placeholder="0.00"
+													value={newSolderValue}
+													decimalsLimit={2}
+												/>
+												{price ? (
+													<>
+														<p className={Styles.oldSolderValue}>{price} DH</p>
+														<p className={Styles.oldSolderText}>ancien prix</p>
+													</>
+												) : null}
+												<ThemeProvider theme={SolderPourcentageChipTheme()}>
+													<Grid
+														container
+														columnGap={2}
+														rowSpacing={2}
+														wrap="wrap"
+														justifyContent="center"
+														alignItems="center"
+													>
+														<Grid item xs="auto">
+															<Chip
+																label="-5 %"
+																variant={fivePourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	// setDeliveryPriceState('0');
+																	setSolderPourcentageInput('5');
+																}}
+																size="medium"
+															/>
+														</Grid>
+														<Grid item xs="auto">
+															<Chip
+																label="-10 %"
+																variant={tenPourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	setSolderPourcentageInput('10');
+																}}
+															/>
+														</Grid>
+														<Grid item xs="auto">
+															<Chip
+																label="-20 %"
+																variant={twentyPourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	setSolderPourcentageInput('20');
+																}}
+															/>
+														</Grid>
+														<Grid item xs="auto">
+															<Chip
+																label="-30 %"
+																variant={thirtyPourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	setSolderPourcentageInput('30');
+																}}
+															/>
+														</Grid>
+														<Grid item xs="auto">
+															<Chip
+																label="-50 %"
+																variant={fiftyPourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	setSolderPourcentageInput('50');
+																}}
+															/>
+														</Grid>
+														<Grid item xs="auto">
+															<Chip
+																label="-70 %"
+																variant={seventyPourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	setSolderPourcentageInput('70');
+																}}
+															/>
+														</Grid>
+													</Grid>
+												</ThemeProvider>
+												{/*<Stack direction="row" justifyContent="center" sx={{ marginTop: '2rem !important' }}>*/}
+												{/*	<ThemeProvider theme={customPourcentageTheme}>*/}
+												{/*		<TextField*/}
+												{/*			inputMode="numeric"*/}
+												{/*			inputProps={{ min: 1, max: 99 }}*/}
+												{/*			ref={customPourcentageInput}*/}
+												{/*			color="primary"*/}
+												{/*			placeholder="Autre"*/}
+												{/*			value={customPourcentageState}*/}
+												{/*			onChange={(e) => {*/}
+												{/*				let value = parseInt(e.target.value, 10);*/}
+												{/*				if (value > 99) value = 99;*/}
+												{/*				if (value < 1) value = 1;*/}
+												{/*				setCustomPourcentageState(value.toString());*/}
+												{/*				setSolderPourcentageInput(value.toString());*/}
+												{/*			}}*/}
+												{/*			// variant="standard"*/}
+												{/*			fullWidth={false}*/}
+												{/*			size="medium"*/}
+												{/*			type="number"*/}
+												{/*			className={Styles.customField}*/}
+												{/*			disabled={*/}
+												{/*				fivePourcentSolder ||*/}
+												{/*				tenPourcentSolder ||*/}
+												{/*				twentyPourcentSolder ||*/}
+												{/*				thirtyPourcentSolder ||*/}
+												{/*				fiftyPourcentSolder ||*/}
+												{/*				seventyPourcentSolder*/}
+												{/*			}*/}
+												{/*		/>*/}
+												{/*	</ThemeProvider>*/}
+												{/*</Stack>*/}
+											</Stack>
+											{solder_value ? (
+												<Button onClick={deleteSolderHandler} color="primary" className={Styles.cancelButton}>
+													Annuler la réduction
+												</Button>
+											) : null}
+										</Stack>
+									)}
+								</Stack>
+							</Stack>
+						</RightSwipeModal>
+					)}
+					{showDeleteModal && permission === 'OWNER' ? <ActionModals title="Supprimer cette offre ?" actions={deleteModalActions} /> : null}
+					{/* Solder modal */}
 				</main>
 				<CustomFooter />
 			</Stack>
@@ -597,17 +1174,33 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/${context.params?.shop_link}/${context.params?.offer_pk}/`;
+	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
+	const instance = defaultInstance(base_url);
+	const appToken = getServerSideCookieTokens(context);
 	try {
-		const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
-		const instance = defaultInstance(base_url);
-
 		const response: OfferGetRootProductResponseType | OfferGetRootServiceResponseType = await getApi(url, instance);
-		if (response.status === 200) {
-			return {
-				props: {
-					data: response.data,
-				},
-			};
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+			const isAuthInstance = isAuthenticatedInstance(appToken.initStateToken);
+			const authResponse: AccountGetCheckAccountResponseType = await getApi(url, isAuthInstance);
+			if (authResponse.status === 200 && response.status === 200) {
+				if (authResponse.data.pk === response.data.user_pk) {
+					return {
+						props: {
+							permission: 'OWNER',
+							data: response.data,
+						},
+					};
+				}
+			}
+		} else {
+			if (response.status === 200) {
+				return {
+					props: {
+						permission: 'NOT_OWNER',
+						data: response.data,
+					},
+				};
+			}
 		}
 	} catch (e) {
 		return {

@@ -5,6 +5,7 @@ import EditIconSVG from '../../../../public/assets/svgs/globalIcons/blue-pencil.
 
 import DropDownMenu from '../../../htmlElements/buttons/dropDownMenu/dropDownMenu';
 import { DropDownActionType } from '../../../../types/ui/uiTypes';
+import { Stack } from "@mui/material";
 
 type Props = {
 	menuID: string;
@@ -13,14 +14,17 @@ type Props = {
 	buttonTitle: string;
 	onClick: () => void;
 	dropDownText: string;
+	hideLeftButton?: boolean;
 	children?: React.ReactNode;
 };
 
 const DesktopPublishEditNavbar: React.FC<Props> = (props: Props) => {
 	return (
-		<div className={Styles.navWrapper}>
+		<Stack direction="row" justifyContent="space-between">
 			<div>
-				<PrimaryButton buttonText={props.buttonTitle} active onClick={props.onClick} cssClass={Styles.publishButton} />
+				<div hidden={props.hideLeftButton}>
+					<PrimaryButton buttonText={props.buttonTitle} active onClick={props.onClick} cssClass={Styles.publishButton} />
+				</div>
 			</div>
 			<DropDownMenu
 				dropDownText={props.dropDownText}
@@ -29,7 +33,7 @@ const DesktopPublishEditNavbar: React.FC<Props> = (props: Props) => {
 				menuID={props.menuID}
 				buttonID={props.buttonID}
 			/>
-		</div>
+		</Stack>
 	);
 };
 

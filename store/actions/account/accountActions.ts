@@ -1,6 +1,7 @@
 import * as types from '../index';
 import { AccountDeleteType, AccountEncloseType, AccountGenderType } from '../../../types/account/accountTypes';
 import { InitStateNonNullableToken } from "../../../types/_init/_initTypes";
+import { NextRouter } from "next/router";
 
 export const accountPostFacebookAction = (access_token: string) => {
 	return {
@@ -59,9 +60,10 @@ export const accountPostUnlinkSocialAction = (pk: number) => {
 	};
 };
 
-export const accountPostLogoutAction = () => {
+export const accountPostLogoutAction = (router: NextRouter) => {
 	return {
 		type: types.ACCOUNT_POST_LOGOUT,
+		router,
 	};
 };
 
@@ -285,10 +287,11 @@ export const accountGetAddressesAction = () => {
 };
 
 /*** reason_choice needs a type - NOT YET AVAILABLE ON FIGMA */
-export const accountPostEncloseAction = (reason_choice: AccountEncloseType, typed_reason?: string) => {
+export const accountPostEncloseAction = (reason_choice: AccountEncloseType, router: NextRouter, typed_reason?: string) => {
 	return {
 		type: types.ACCOUNT_POST_ENCLOSE,
 		reason_choice,
+		router,
 		typed_reason,
 	};
 };
@@ -311,11 +314,12 @@ export const accountPostChangeEmailNotHasPasswordAction = (new_email: string, ne
 };
 
 /*** reason_choice needs a type - NOT YET AVAILABLE ON FIGMA */
-export const accountPostDeleteAccountAction = (reason_choice: AccountDeleteType, typed_reason?: string) => {
+export const accountPostDeleteAccountAction = (reason_choice: AccountDeleteType, router: NextRouter, typed_reason?: string ) => {
 	return {
 		type: types.ACCOUNT_DELETE_ACCOUNT,
 		reason_choice,
 		typed_reason,
+		router,
 	};
 };
 

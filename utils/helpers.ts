@@ -421,10 +421,12 @@ export const emptyRemoteCookiesUniqueIDOnly = () => {
 	cookiesPoster('/cookies', { initStateToken: emptyInitStateToken }).then();
 };
 
-export const deleteRemoteCookiesAppToken = () => {
+export const deleteRemoteCookiesAppToken = (router: NextRouter) => {
 	cookiesDeleter('/cookies', { tokenType: 0 }).then(() => {
 		cookiesDeleter('/cookies', { initStateToken: 0 }).then(() => {
-			cookiesDeleter('/cookies', { initStateToken: 0 }).then();
+			cookiesDeleter('/cookies', { initStateToken: 0 }).then(() => {
+				router.reload();
+			});
 		});
 	});
 };

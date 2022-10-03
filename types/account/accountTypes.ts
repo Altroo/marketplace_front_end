@@ -7,6 +7,7 @@ import {
 import { UserClass } from '../../models/account/UserClass';
 import { FacebookClass, GoogleClass } from '../../models/account/SocialsClass';
 import { CitiesType, CountriesType } from '../places/placesTypes';
+import { NextRouter } from "next/router";
 
 export type AccountGenderType = 'M' | 'F' | '';
 export type AccountEncloseType = '' | 'A' | 'B';
@@ -121,11 +122,13 @@ export type AccountPatchAddressResponseType = AccountPostAddressResponseType;
 export type AccountGetAddressResponseType = ResponseDataInterface<AccountAddress>;
 export interface AccountPostEncloseAccountType extends PayloadType {
 	reason_choice: AccountEncloseType,
-	typed_reason: string | null,
+	router: NextRouter;
+	typed_reason?: string,
 }
 export interface AccountPostDeleteAccountType extends PayloadType {
 	reason_choice: AccountDeleteType,
-	typed_reason: string | null,
+	router: NextRouter;
+	typed_reason?: string,
 }
 
 export interface AccountPostVerifyAccountType extends PayloadType {

@@ -65,6 +65,8 @@ import { withCallback } from 'redux-saga-callback';
 import { AxiosInstance } from "axios";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { Saga } from "redux-saga";
+import { NextRouter } from "next/router";
+import { accountPostLogoutAction } from "../../actions/account/accountActions";
 
 function* accountPostCheckEmailSaga(payload: { type: string; email: string }) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_EMAIL}`;
@@ -168,7 +170,7 @@ function* accountPostLoginSaga(payload: AccountPostLoginType) {
 	}
 }
 
-function* accountPostLogoutSaga() {
+function* accountPostLogoutSaga(payload: {type: string, router: NextRouter}) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_LOGOUT}`;
 	try {
@@ -181,7 +183,7 @@ function* accountPostLogoutSaga() {
 				// Empty both Token & unique ID state
 				yield put(initToken());
 				yield put(setIsLoggedIn(false));
-				yield call(() => deleteRemoteCookiesAppToken());
+				yield call(() => deleteRemoteCookiesAppToken(payload.router));
 			} else {
 				console.log(response.data);
 				console.log(response.status);
@@ -628,7 +630,8 @@ function* accountPostEncloseSaga(payload: AccountPostEncloseAccountType) {
 			const response: ResponseOnlyInterface = yield call(() => postApi(url, authInstance, payloadData));
 			if (response.status === 204) {
 				// Logout has initToken.
-				yield call(() => accountPostLogoutSaga());
+				// yield call(() => accountPostLogoutSaga());
+				yield call(() => accountPostLogoutAction(payload.router));
 				// Empty the rest of the states
 				yield call(() => initEmptyStatesSaga());
 			} else {
@@ -653,7 +656,8 @@ function* accountDeleteAccountSaga(payload: AccountPostDeleteAccountType) {
 			const response: ResponseOnlyInterface = yield call(() => deleteApi(url, authInstance, payloadData));
 			if (response.status === 204) {
 				// Logout has initToken.
-				yield call(() => accountPostLogoutSaga());
+				// yield call(() => accountPostLogoutSaga());
+				yield call(() => accountPostLogoutAction(payload.router));
 				// Empty the rest of the states
 				yield call(() => initEmptyStatesSaga());
 			} else {

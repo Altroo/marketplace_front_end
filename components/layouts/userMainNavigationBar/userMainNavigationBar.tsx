@@ -23,6 +23,7 @@ import SearchIconSVG from '../../../public/assets/svgs/globalIcons/search.svg';
 import Link from 'next/link';
 import { AUTH_LOGIN, AUTH_SHOP_LINK_ROUTE, DASHBOARD, TEMP_SHOP_ADD_SHOP_NAME } from '../../../utils/routes';
 import { deleteRemoteCookiesAppToken } from '../../../utils/helpers';
+import { useRouter } from "next/router";
 // import CustomBadge from '../../../htmlElements/customBadge[not-working]/customBadge';
 
 type Props = {
@@ -31,6 +32,7 @@ type Props = {
 
 const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const { data: session, status } = useSession();
+	const router = useRouter();
 	const avatar = useAppSelector(getUserProfilAvatar);
 	const userHasShop = useAppSelector(getCheckUserHasShop);
 	const userShopUrl: string | boolean | undefined = useAppSelector(getUserShopUrl);
@@ -57,7 +59,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 
 	const logOutHandler = () => {
 		signOut().then(() => {
-			deleteRemoteCookiesAppToken();
+			deleteRemoteCookiesAppToken(router);
 		});
 	};
 
@@ -110,20 +112,28 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 						<Stack direction="row" spacing={1}>
 							{!loading && session ? (
 								<>
-									<Button
+									{/* Avatar button (loggedIn) */}
+									<IconButton
+										aria-label="profile of current user"
 										id="my-profile-button"
 										aria-controls={open ? 'profile-menu' : undefined}
 										aria-haspopup="true"
 										aria-expanded={open ? 'true' : undefined}
 										onClick={handleClick}
-										className={Styles.avatarButton}
+										size="large"
+										color="inherit"
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
-										{/*	<Badge variant="dot" color="primary">*/}
-										<Avatar alt="" src={avatar as string} className={Styles.navBarIcons} />
-										{/*</Badge>*/}
-										{/*</ThemeProvider>*/}
-									</Button>
+										{/*	<Badge badgeContent={4} color="primary">*/}
+										<ImageFuture
+											src={avatar as string}
+											alt=""
+											width="0"
+											height="0"
+											sizes="100vw"
+											className={Styles.avatarButton}
+										/>
+									</IconButton>
 									{/* profil sub Menu */}
 									<ThemeProvider theme={getDropDownMenuTheme()}>
 										<Menu
@@ -154,22 +164,28 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 											</MenuItem>
 										</Menu>
 									</ThemeProvider>
-									<Button
+									{/* Notification button */}
+									<IconButton
+										aria-label="notifications of current user"
 										id="notifications-button"
-										// aria-controls={open ? 'basic-menu' : undefined}
-										// aria-haspopup="true"
-										// aria-expanded={open ? 'true' : undefined}
 										onClick={() => {}}
-										className={Styles.avatarButton}
+										size="large"
+										color="inherit"
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
-										{/*	<Badge variant="dot" color="primary">*/}
-										<ImageFuture src={NotificationsSVG} alt="" className={Styles.navBarIcons} />
-										{/*</Badge>*/}
-										{/*</ThemeProvider>*/}
-									</Button>
+										{/*	<Badge badgeContent={4} color="primary">*/}
+										<ImageFuture
+											src={NotificationsSVG}
+											alt=""
+											width="0"
+											height="0"
+											sizes="100vw"
+											className={Styles.navBarIcons}
+										/>
+									</IconButton>
 								</>
 							) : (
+								// Avatar button (user not connected)
 								<IconButton
 									size="large"
 									aria-label="user not connected"
@@ -191,6 +207,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									</Link>
 								</IconButton>
 							)}
+							{/* Cart button */}
 							<IconButton
 								size="large"
 								aria-label="cart of current user"
@@ -244,27 +261,31 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 						>
 							<ImageFuture src={HambourgerMenuSVG} alt="" className={Styles.mobileIcons} />
 						</IconButton>
-						<Stack direction="row" justifySelf="center">
+						<Stack direction="row" justifySelf="center" className={Styles.mobileRootLogoStack}>
 							<ImageFuture src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 						</Stack>
 						<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
 							{!loading && session ? (
 								<>
-									<Button
+									<IconButton
+										aria-label="profile of current user"
 										id="my-profile-mobile-button"
 										aria-controls={openMobile ? 'profile-mobile-menu' : undefined}
 										aria-haspopup="true"
 										aria-expanded={openMobile ? 'true' : undefined}
 										onClick={handleMobileClick}
-										// className={Styles.avatarButton}
-										className={Styles.avatarButtonMobile}
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
-										{/*	<Badge variant="dot" color="primary">*/}
-										<Avatar alt="" src={avatar as string} className={Styles.mobileIcons} />
-										{/*</Badge>*/}
-										{/*</ThemeProvider>*/}
-									</Button>
+										{/*	<Badge badgeContent={4} color="primary">*/}
+										<ImageFuture
+											src={avatar as string}
+											alt=""
+											width="0"
+											height="0"
+											sizes="100vw"
+											className={Styles.avatarButton}
+										/>
+									</IconButton>
 									<ThemeProvider theme={getDropDownMenuTheme()}>
 										<Menu
 											id="profile-mobile-menu"

@@ -219,6 +219,7 @@ export interface OfferGetRootProductInterface
 		| 'tags'
 	> {
 	pk: number;
+	user_pk: number;
 	offer_categories: Array<OfferCategoriesType>;
 	shop_name: string;
 	picture_1: string | null;
@@ -252,6 +253,7 @@ export type DeliveriesFlatResponseType = {
 
 export interface OfferGetRootServiceInterface extends Omit<OfferServiceClass, 'offer_categories' | 'for_whom' | 'pictures'> {
 	pk: number;
+	user_pk: number;
 	offer_categories: Array<OfferCategoriesType>;
 	shop_name: string;
 	picture_1: string | null;
