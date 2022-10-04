@@ -37,9 +37,9 @@ import Link from 'next/link';
 import {
 	AUTH_SHOP_LINK_ROUTE,
 	NOT_FOUND_404,
-	REAL_OFFER_ADD_INDEX,
-	TEMP_OFFER_ADD_PRODUCT_CATEGORIES,
-} from '../../../../../utils/routes';
+	REAL_OFFER_ADD_INDEX, REAL_OFFER_ADD_PRODUCT_CATEGORIES,
+	TEMP_OFFER_ADD_PRODUCT_CATEGORIES
+} from "../../../../../utils/routes";
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
 import { doubleTabNavigationTheme, OfferReadOnlyTheme, SolderPourcentageChipTheme } from '../../../../../utils/themes';
@@ -483,8 +483,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 				deliveries: deliveriesObjList,
 			}),
 		);
-		// router.push(REAL_OFFER_ADD_INDEX(router.query.shop_link as string)).then();
-		router.push(TEMP_OFFER_ADD_PRODUCT_CATEGORIES).then();
+		router.push(REAL_OFFER_ADD_PRODUCT_CATEGORIES(router.query.shop_link as string)).then();
 	};
 
 	const togglePinOfferHandler = () => {

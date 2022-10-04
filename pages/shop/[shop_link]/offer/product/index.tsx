@@ -15,9 +15,8 @@ import PrimaryAnchorButton from '../../../../../components/htmlElements/buttons/
 import {
 	AUTH_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_INDEX,
-	TEMP_OFFER_ADD_PRODUCT_DESCRIPTION,
-	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_EDIT_INDEX
+	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
+	TEMP_SHOP_ADD_SHOP_NAME
 } from "../../../../../utils/routes";
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
@@ -64,7 +63,7 @@ const Index: NextPage = () => {
 						<PrimaryAnchorButton
 							buttonText="Continuer"
 							active={isValid}
-							nextPage={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION}
+							nextPage={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
 						/>
 					</div>
 				</Box>
@@ -73,6 +72,8 @@ const Index: NextPage = () => {
 	);
 };
 
+// TODO : weak check - requires to check if user own a shop
+// same goes for the rest of the pages - description - livraison - prix
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
 	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {

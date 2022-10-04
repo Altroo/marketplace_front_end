@@ -1,17 +1,16 @@
 import React from 'react';
 import Styles from './creatorRadioCheckContent.module.sass';
-import { getDefaultTheme, OfferChipTheme, offerForWhomDropdownTheme } from "../../../../../utils/themes";
-import { ThemeProvider, Stack, Grid } from '@mui/material';
-import RadioCheckElement from '../radioCheckElement';
+import { getDefaultTheme, OfferChipTheme, offerForWhomDropdownTheme } from '../../../../utils/themes';
+import { ThemeProvider, Stack } from '@mui/material';
+import RadioCheckElement from '../../temp-offer/radioCheckElement/radioCheckElement';
 import Chip from '@mui/material/Chip';
-import { OfferSizesListType } from '../../../../../types/ui/uiTypes';
-import CustomDropDownChoices from '../../../../formikElements/customDropDownChoices/customDropDownChoices';
+import CustomDropDownChoices from '../../../formikElements/customDropDownChoices/customDropDownChoices';
 
 type Props = {
 	children?: React.ReactNode;
 };
 
-const CreatorRadioCheckContent: React.FC<Props> = (props: Props) => {
+const OfferCreatorRadioCheckContent: React.FC<Props> = (props: Props) => {
 	const defaultTheme = getDefaultTheme();
 	// const [yesState, setYesState] = useState<boolean>(false);
 	// const [noState, setNoState] = useState<boolean>(false);
@@ -22,7 +21,7 @@ const CreatorRadioCheckContent: React.FC<Props> = (props: Props) => {
 	// 		setState: setXsState,
 	// 	},
 	// ];
-
+	// TODO require to know if creator, require list of country codes to render
 	const chipTheme = OfferChipTheme();
 	const madeInFieldTheme = offerForWhomDropdownTheme();
 	return (
@@ -50,4 +49,4 @@ const CreatorRadioCheckContent: React.FC<Props> = (props: Props) => {
 	);
 };
 
-export default CreatorRadioCheckContent;
+export default OfferCreatorRadioCheckContent;

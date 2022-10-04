@@ -1,21 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from "next";
-import OfferStyles from '../../../../styles/temp-offer/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../styles/temp-shop/create/shopCreateShared.module.sass';
-import Styles from '../../../../styles/temp-offer/create/livraison.module.sass';
+import OfferStyles from '../../../../../styles/temp-offer/create/offerCreateShared.module.sass';
+import SharedStyles from '../../../../../styles/temp-shop/create/shopCreateShared.module.sass';
+import Styles from '../../../../../styles/temp-offer/create/livraison.module.sass';
 import { useRouter } from 'next/router';
 import { Box, Stack, ThemeProvider, Button } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
-import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import MobileStepsBar from '../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
-import HelperH1Header from '../../../../components/headers/helperH1Header/helperH1Header';
-import RadioCheckElement from '../../../../components/groupedComponents/temp-offer/radioCheckElement/radioCheckElement';
-import ClickCollectSVG from '../../../../public/assets/svgs/globalIcons/click-and-collect-icon.svg';
-import BlueAddSVG from '../../../../public/assets/svgs/globalIcons/blue-add.svg';
-import DeliverySVG from '../../../../public/assets/svgs/globalIcons/delivery-icon.svg';
+import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
+import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
+import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
+import HelperH1Header from '../../../../../components/headers/helperH1Header/helperH1Header';
+import RadioCheckElement from '../../../../../components/groupedComponents/temp-offer/radioCheckElement/radioCheckElement';
+import ClickCollectSVG from '../../../../../public/assets/svgs/globalIcons/click-and-collect-icon.svg';
+import BlueAddSVG from '../../../../../public/assets/svgs/globalIcons/blue-add.svg';
+import DeliverySVG from '../../../../../public/assets/svgs/globalIcons/delivery-icon.svg';
 import Image from 'next/image';
-import { getDefaultTheme } from '../../../../utils/themes';
-import RightSwipeModal from '../../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
+import { getDefaultTheme } from '../../../../../utils/themes';
+import RightSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
 import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 import {
@@ -50,29 +50,33 @@ import {
 	getLocalOfferPriceBy,
 	getLocalOfferTags,
 	getUserLocalOfferEditPK, getOfferOfferApi
-} from "../../../../store/selectors";
-import { PositionType } from '../../../../components/map/customMap';
-import TopBarSaveClose from '../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
-import { clickAndCollectSchema } from '../../../../utils/formValidationSchemas';
+} from '../../../../../store/selectors';
+import { PositionType } from '../../../../../components/map/customMap';
+import TopBarSaveClose from '../../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
+import { clickAndCollectSchema } from '../../../../../utils/formValidationSchemas';
 import { Formik, Form } from 'formik';
-import HelperDescriptionHeader from '../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
+import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import {
 	emptyOfferDeliveries,
 	offerPostRootProductAction,
 	offerPutRootProductAction,
 	setOfferDeliveries,
 	setOfferDeliveryClickAndCollect,
-} from '../../../../store/actions/offer/offerActions';
-import DeliveryOptionElements from '../../../../components/groupedComponents/temp-offer/deliveryOptionElements/deliveryOptionElements';
-import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import { TEMP_OFFER_ADD_PRODUCT_PRICE, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_INDEX } from "../../../../utils/routes";
-import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
+} from '../../../../../store/actions/offer/offerActions';
+import DeliveryOptionElements from '../../../../../components/groupedComponents/temp-offer/deliveryOptionElements/deliveryOptionElements';
+import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import {
+	AUTH_SHOP_LINK_ROUTE,
+	REAL_OFFER_ADD_PRODUCT_PRICE,
+	TEMP_SHOP_ADD_SHOP_NAME,
+} from "../../../../../utils/routes";
+import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
+import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import ApiLoadingResponseOrError
-	from "../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError";
+	from '../../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
 import { getCookie } from "cookies-next";
 
-const CustomMap = dynamic(() => import('../../../../components/map/customMap'), {
+const CustomMap = dynamic(() => import('../../../../../components/map/customMap'), {
 	ssr: false,
 });
 
@@ -321,7 +325,6 @@ const Livraison: NextPage = () => {
 		setOpenDelivery(false);
 		setSubmitActive(true);
 	};
-	// const [showLoadingSpinner, setShowLoadingSpinner] = useState<boolean>(false);
 
 	const handleSubmit = () => {
 		// dispatch create
@@ -428,14 +431,14 @@ const Livraison: NextPage = () => {
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.boxWrapper}>
 					<DesktopTopNavigationBar
-						backHref={TEMP_OFFER_ADD_PRODUCT_PRICE}
+						backHref={REAL_OFFER_ADD_PRODUCT_PRICE(router.query.shop_link as string)}
 						returnButton
-						closeButtonHref={TEMP_SHOP_EDIT_INDEX}
+						closeButtonHref={AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileTopNavigationBar
-						backHref={TEMP_OFFER_ADD_PRODUCT_PRICE}
+						backHref={REAL_OFFER_ADD_PRODUCT_PRICE(router.query.shop_link as string)}
 						returnButton
-						closeButtonHref={TEMP_SHOP_EDIT_INDEX}
+						closeButtonHref={AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header

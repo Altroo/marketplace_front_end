@@ -77,6 +77,7 @@ export const getLocalisationName = (state: RootState) => state.places.localisati
 export const getPlacesApiError = (state: RootState) => state.places.placesApi.error;
 export const getPlacesApiFetchPromiseStatus = (state: RootState) => state.places.placesApi.fetchPromiseStatus;
 export const getAvailableCities = (state: RootState) => state.places.cities;
+export const getAvailableCountryCodes = (state: RootState) => state.places.country_codes as Array<string>;
 
 // export const getPlacesApiFetchInProgress = (state: RootState) => state.places.placesApi.isFetchInProgress;
 // Account

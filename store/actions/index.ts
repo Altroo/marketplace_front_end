@@ -128,6 +128,7 @@ export const ORDER_POST_CANCEL_SELL = 'ORDER_POST_CANCEL_SELL';
 export const ORDER_POST_CANCEL_BUY = 'ORDER_POST_CANCEL_BUY';
 // Places
 export const PLACES_GET_COUNTRIES = 'PLACES_GET_COUNTRIES';
+export const PLACES_GET_COUNTRY_CODES = 'PLACES_GET_COUNTRY_CODES';
 export const PLACES_GET_CITIES = 'PLACES_GET_CITIES';
 export const PLACES_GET_LOCALISATION = 'PLACES_GET_LOCALISATION';
 // Version [will be applied later see : https://github.com/vercel/next.js/pull/34765]

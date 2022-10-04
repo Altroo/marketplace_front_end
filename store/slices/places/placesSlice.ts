@@ -11,6 +11,7 @@ const initialState: PlacesStateInterface = {
 	localisation_name: null,
 	placesApi: apiErrorInitialState,
 	countries: [],
+	country_codes: [],
 	cities: [],
 };
 
@@ -32,6 +33,10 @@ const placesSlice = createSlice({
 		},
 		setGetCountries: (state, action: PayloadAction<Array<CountriesType>>) => {
 			state.countries = action.payload;
+			// return state;
+		},
+		setGetCountryCodes: (state, action: PayloadAction<Array<string>>) => {
+			state.country_codes = action.payload;
 			// return state;
 		},
 		setGetCities: (state, action: PayloadAction<Array<string>>) => {
@@ -67,6 +72,7 @@ export const {
 	setGetLocalisation,
 	setGetCities,
 	setGetCountries,
+	setGetCountryCodes,
 	initPlaces,
 	setEmptyGetLocalisation,
 } = placesSlice.actions;

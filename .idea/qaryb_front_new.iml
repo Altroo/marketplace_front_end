@@ -273,6 +273,8 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/shopNotIndexed" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/IconDropDownMenu" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/offer/product" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/creatorRadioCheckContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/radioCheckElements" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />

@@ -22,6 +22,13 @@ export const placesGetCountriesAction = () => {
 	};
 };
 
+// GET : /api/1.0.0/places/country_codes
+export const placesGetCountryCodesAction = () => {
+	return {
+		type: Types.PLACES_GET_COUNTRY_CODES,
+	};
+};
+
 // GET : /api/1.0.0/places/cities?code=MA&q=Rabat or
 // GET : /api/1.0.0/places/cities?code=MA&q=
 export const placesGetCitiesAction = (code: string, q?: string) => {

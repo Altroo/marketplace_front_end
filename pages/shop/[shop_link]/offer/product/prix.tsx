@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { GetServerSidePropsContext, NextPage } from "next";
-import OfferStyles from '../../../../styles/temp-offer/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../styles/temp-shop/create/shopCreateShared.module.sass';
-import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import Styles from '../../../../styles/temp-offer/create/price.module.sass';
-import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import { TEMP_OFFER_ADD_PRODUCT_DESCRIPTION, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_INDEX } from "../../../../utils/routes";
-import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import MobileStepsBar from '../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
+import { GetServerSidePropsContext, NextPage } from 'next';
+import OfferStyles from '../../../../../styles/temp-offer/create/offerCreateShared.module.sass';
+import SharedStyles from '../../../../../styles/temp-shop/create/shopCreateShared.module.sass';
+import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
+import Styles from '../../../../../styles/temp-offer/create/price.module.sass';
+import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
+import {
+	AUTH_SHOP_LINK_ROUTE,
+	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
+	TEMP_SHOP_ADD_SHOP_NAME,
+} from "../../../../../utils/routes";
+import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
+import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import { Box, Stack, ThemeProvider } from '@mui/material';
-import HelperH1Header from '../../../../components/headers/helperH1Header/helperH1Header';
+import HelperH1Header from '../../../../../components/headers/helperH1Header/helperH1Header';
 import Chip from '@mui/material/Chip';
-import { OfferChipTheme } from '../../../../utils/themes';
-import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import { OfferChipTheme } from '../../../../../utils/themes';
+
+import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CurrencyInput from 'react-currency-input-field';
-import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
-import { setOfferPricePage } from "../../../../store/actions/offer/offerActions";
-import { useRouter } from "next/router";
-import { getLocalOfferPrice, getLocalOfferPriceBy } from "../../../../store/selectors";
-import { getCookie } from "cookies-next";
+import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
+import { setOfferPricePage } from '../../../../../store/actions/offer/offerActions';
+import { useRouter } from 'next/router';
+import { getLocalOfferPrice, getLocalOfferPriceBy } from '../../../../../store/selectors';
+import { getCookie } from 'cookies-next';
 
 const Prix: NextPage = () => {
 	const activeStep = '3';
@@ -33,7 +38,7 @@ const Prix: NextPage = () => {
 	const [liter, setLiter] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'L'));
 
 	const handleSubmit = () => {
-		let price_by: "L" | "U" | "K" = 'U';
+		let price_by: 'L' | 'U' | 'K' = 'U';
 		if (unity) {
 			price_by = 'U';
 		}
@@ -41,7 +46,7 @@ const Prix: NextPage = () => {
 			price_by = 'K';
 		}
 		if (liter) {
-			price_by = 'L'
+			price_by = 'L';
 		}
 		dispatch(setOfferPricePage(price as string, price_by, router));
 	};
@@ -72,8 +77,16 @@ const Prix: NextPage = () => {
 			<main className={SharedStyles.main}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.boxWrapper}>
-					<DesktopTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_EDIT_INDEX} />
-					<MobileTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_EDIT_INDEX}/>
+					<DesktopTopNavigationBar
+						backHref={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
+						returnButton
+						closeButtonHref={AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+					/>
+					<MobileTopNavigationBar
+						backHref={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
+						returnButton
+						closeButtonHref={AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header
 						header="Fixer un prix"
@@ -81,27 +94,22 @@ const Prix: NextPage = () => {
 						headerClasses={OfferStyles.topHeader}
 					/>
 					<Stack direction="column" justifyContent="space-between" sx={{ height: '90%' }}>
-						<Stack
-							direction="column"
-							justifyContent="center"
-							alignItems="center"
-							sx={{ marginTop: '2rem' }}
-						>
+						<Stack direction="column" justifyContent="center" alignItems="center" sx={{ marginTop: '2rem' }}>
 							<CurrencyInput
-									className={Styles.priceInputField}
-									id="prix-input"
-									name="prix-input"
-									placeholder="0.00"
-									value={price}
-									decimalsLimit={2}
-									onValueChange={(value) => {
-										if (value) {
-											setPrice(value);
-										} else {
-											setPrice('');
-										}
-									}}
-								/>
+								className={Styles.priceInputField}
+								id="prix-input"
+								name="prix-input"
+								placeholder="0.00"
+								value={price}
+								decimalsLimit={2}
+								onValueChange={(value) => {
+									if (value) {
+										setPrice(value);
+									} else {
+										setPrice('');
+									}
+								}}
+							/>
 							<Stack direction="row">
 								<ThemeProvider theme={chipTheme}>
 									<Stack
@@ -146,12 +154,7 @@ const Prix: NextPage = () => {
 						</Stack>
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
 							<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-								<PrimaryButton
-									buttonText="Continuer"
-									active={submitActive}
-									onClick={handleSubmit}
-									type="submit"
-								/>
+								<PrimaryButton buttonText="Continuer" active={submitActive} onClick={handleSubmit} type="submit" />
 							</div>
 						</Stack>
 					</Stack>
@@ -173,7 +176,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	}
 	return {
 		props: {},
-	}
+	};
 }
 
 export default Prix;

@@ -22,6 +22,7 @@ export type AccountCheckAccountType = {
 	has_shop: boolean,
 	is_new: boolean,
 	is_subscribed: boolean,
+	is_creator: boolean,
 	picture: string,
 }
 
