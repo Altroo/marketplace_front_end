@@ -451,7 +451,7 @@ function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServic
 	}
 }
 
-function* offerDeleteRootSaga(payload: { type: string; pk: number, router: NextRouter }) {
+function* offerDeleteRootSaga(payload: { type: string; pk: number }) {
 	// /<uuid:unique_id>/<int:offer_pk>/
 	yield put(setDeleteOfferIsLoading());
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
@@ -464,7 +464,7 @@ function* offerDeleteRootSaga(payload: { type: string; pk: number, router: NextR
 			if (response.status === 204) {
 				// update state
 				yield put(deleteUserOffer({ offer_pk: payload.pk }));
-				yield call(() => payload.router.replace(TEMP_SHOP_EDIT_INDEX));
+				return true;
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance : AxiosInstance = yield call(() => allowAnyInstance());
@@ -472,7 +472,7 @@ function* offerDeleteRootSaga(payload: { type: string; pk: number, router: NextR
 			const response: ResponseOnlyInterface = yield call(() => deleteApi(url, instance));
 			if (response.status === 204) {
 				yield put(deleteUserOffer({ offer_pk: payload.pk }));
-				yield call(() => payload.router.replace(TEMP_SHOP_EDIT_INDEX));
+				return true;
 			}
 		}
 	} catch (e) {
@@ -855,7 +855,7 @@ export function* watchOffer() {
 	yield takeLatest(Types.OFFER_GET_SOLDER, offerGetSolderSaga);
 	yield takeLatest(Types.OFFER_PATCH_SOLDER, offerPatchSolderSaga);
 	yield takeLatest(Types.OFFER_DELETE_SOLDER, offerDeleteSolderSaga);
-	yield takeLatest(Types.OFFER_DELETE_ROOT, offerDeleteRootSaga);
+	yield takeLatest(Types.OFFER_DELETE_ROOT, withCallback(offerDeleteRootSaga as Saga));
 	yield takeLatest(Types.OFFER_GET_VUES, offerGetVuesSaga);
 	yield takeLatest(Types.WS_OFFER_THUMBNAIL, wsOfferThumbnailSaga);
 }

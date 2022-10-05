@@ -332,7 +332,23 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
 	const deleteOfferHandler = () => {
-		dispatch(offerDeleteRootAction(pk, router));
+		const action = offerDeleteRootAction(pk);
+		dispatch({
+			...action,
+			onComplete: ({
+				error,
+				cancelled,
+				data,
+			}: {
+				error: ApiErrorResponseType;
+				cancelled: boolean;
+				data: boolean;
+			}) => {
+				if (!error && !cancelled && data) {
+					router.replace(TEMP_SHOP_EDIT_INDEX).then();
+				}
+			},
+		});
 		setShowDeleteModal(false);
 	};
 

@@ -432,6 +432,7 @@ const Livraison: NextPage = () => {
 					data: OfferPutRootProductResponseType | OfferPutRootServiceResponseType;
 				}) => {
 					if (!error && !cancelled && data.data) {
+						console.log(data.data);
 						router.push(AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
 					}
 				},

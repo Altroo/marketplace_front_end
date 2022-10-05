@@ -9,10 +9,10 @@ import {
 	OfferGetRootProductInterface,
 	OfferGetRootProductResponseType,
 	OfferGetRootServiceInterface,
-	OfferGetRootServiceResponseType,
+	OfferGetRootServiceResponseType, OfferPostRootProductResponseType, OfferPostRootServiceResponseType,
 	OfferProductPriceByType,
-	OfferSolderByType,
-} from '../../../../../types/offer/offerTypes';
+	OfferSolderByType
+} from "../../../../../types/offer/offerTypes";
 import Image from 'next/image';
 import CreatorIlluSVG from '../../../../../public/assets/images/creator-illu.svg';
 import CreatorBgIlluSVG from '../../../../../public/assets/images/creator-bg-illu.svg';
@@ -37,8 +37,7 @@ import Link from 'next/link';
 import {
 	AUTH_SHOP_LINK_ROUTE,
 	NOT_FOUND_404,
-	REAL_OFFER_ADD_INDEX, REAL_OFFER_ADD_PRODUCT_CATEGORIES,
-	TEMP_OFFER_ADD_PRODUCT_CATEGORIES
+	REAL_OFFER_ADD_PRODUCT_CATEGORIES, TEMP_SHOP_EDIT_INDEX
 } from "../../../../../utils/routes";
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
@@ -81,6 +80,7 @@ import CurrencyInput from 'react-currency-input-field';
 import Button from '@mui/material/Button';
 import ActionModals from '../../../../../components/htmlElements/modals/actionModal/actionModals';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
+import { ApiErrorResponseType } from "../../../../../types/_init/_initTypes";
 
 const noCommentsAvailableContent = () => {
 	return (
@@ -498,7 +498,24 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 	};
 
 	const deleteOfferHandler = () => {
-		dispatch(offerDeleteRootAction(pk, router));
+		const action = offerDeleteRootAction(pk);
+		dispatch({
+			...action,
+			onComplete: ({
+				error,
+				cancelled,
+				data,
+			}: {
+				error: ApiErrorResponseType;
+				cancelled: boolean;
+				data: boolean;
+			}) => {
+				if (!error && !cancelled && data) {
+					router.replace(AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+				}
+			},
+		});
+		// dispatch(offerDeleteRootAction(pk, router));
 		setShowDeleteModal(false);
 	};
 

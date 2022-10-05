@@ -288,12 +288,15 @@ export const offerPutRootProductAction = (
 		product_latitude,
 		product_address,
 		delivery_city_1,
+		all_cities_1,
 		delivery_price_1,
 		delivery_days_1,
 		delivery_city_2,
+		all_cities_2,
 		delivery_price_2,
 		delivery_days_2,
 		delivery_city_3,
+		all_cities_3,
 		delivery_price_3,
 		delivery_days_3,
 		tags,
@@ -416,11 +419,10 @@ export const setEmptyUserLocalOffer = () => {
 	};
 };
 
-export const offerDeleteRootAction = (pk: number, router: NextRouter) => {
+export const offerDeleteRootAction = (pk: number) => {
 	return {
 		type: Types.OFFER_DELETE_ROOT,
 		pk,
-		router
 	};
 };
 
