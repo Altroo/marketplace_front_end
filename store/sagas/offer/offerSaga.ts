@@ -61,9 +61,6 @@ import {
 } from "../../slices/offer/offerSlice";
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
-import {
-	TEMP_SHOP_EDIT_INDEX
-} from "../../../utils/routes";
 import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
 import { withCallback } from "redux-saga-callback";
 import { AxiosInstance } from "axios";
@@ -214,20 +211,16 @@ function* offerGetLastThreeUsedDeliveriesSaga() {
 			const instance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: OfferGetLastThreeUsedDeliveriesResponseType = yield call(() => getApi(url, instance));
 			if (response.status === 200 && response.data) {
-				yield put(setOfferLastThreeUsedDeliveries(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
+				// yield put(setOfferLastThreeUsedDeliveries(response.data));
+				yield put(setLocalOfferDeliveries(response.data));
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance : AxiosInstance = yield call(() => allowAnyInstance());
 			url += `${authSagaContext.initStateUniqueID.unique_id}/`;
 			const response: OfferGetLastThreeUsedDeliveriesResponseType = yield call(() => getApi(url, instance));
 			if (response.status === 200 && response.data) {
-				yield put(setOfferLastThreeUsedDeliveries(response.data));
-			} else {
-				// set error state
-				console.log(response.status);
+				// yield put(setOfferLastThreeUsedDeliveries(response.data));
+				yield put(setLocalOfferDeliveries(response.data));
 			}
 		}
 	} catch (e) {
@@ -769,8 +762,6 @@ export interface setOfferToEditPayloadType extends UserLocalOfferType {
 
 function* setOfferToEditSaga(payload: setOfferToEditPayloadType) {
 	// Set categories page
-	console.log('dispatched?');
-	console.log(payload);
 	yield put(setLocalOfferToEditPk(payload.pk as number));
 	yield put(setLocalOfferMultiCategories(payload.categoriesList));
 	// Set description page
@@ -846,7 +837,7 @@ export function* watchOffer() {
 	yield takeLatest(Types.OFFER_PUT_ROOT, withCallback(offerPutRootSaga as Saga));
 	yield takeLatest(Types.OFFER_GET_TAGS, offerGetTagsSaga);
 	yield takeLatest(Types.OFFER_GET_LOCALISATION, offerGetLastUsedLocalisationSaga);
-	yield takeLatest(Types.OFFER_GET_DELIVERIES, offerGetLastThreeUsedDeliveriesSaga);
+	yield takeLatest(Types.OFFER_GET_LAST_THREE_USED_DELIVERIES, offerGetLastThreeUsedDeliveriesSaga);
 	yield takeLatest(Types.OFFER_GET_MY_OFFERS, offerGetMyOffersSaga);
 	yield takeLatest(Types.OFFER_GET_MY_OFFERS_FIRST_PAGE, offerGetMyOffersFirstPageSaga);
 	yield takeLatest(Types.OFFER_POST_PIN, offerPostPinSaga);

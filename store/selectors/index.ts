@@ -120,6 +120,7 @@ export const getLocalOfferTags = (state: RootState) => state.offer.userLocalOffe
 export const getLocalOfferPrice = (state: RootState) => state.offer.userLocalOffer?.prix;
 export const getLocalOfferPriceBy = (state: RootState) => state.offer.userLocalOffer?.prix_par;
 
+// TODO Use this to dispatch get last 3 used deliveries.
 export const getLocalOfferDeliveryCity1 = (state: RootState) => state.offer.userLocalOffer.deliveries?.delivery_city_1;
 export const getLocalOfferDeliveryAllCities1 = (state: RootState) => state.offer.userLocalOffer.deliveries?.all_cities_1;
 export const getLocalOfferDeliveryPrice1 = (state: RootState) => state.offer.userLocalOffer.deliveries?.delivery_price_1;

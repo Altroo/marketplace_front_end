@@ -291,7 +291,6 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		// 		deliveries: deliveriesObjList,
 		// 	}),
 		// );
-		// TODO to fix doesn't trigger.
 		const action = setOfferToEdit({
 			pk: pk,
 			categoriesList: offer_categories,

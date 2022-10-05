@@ -23,7 +23,11 @@ import Image from 'next/image';
 import BlackStarSVG from '../../../../../public/assets/svgs/globalIcons/black-star.svg';
 // import MobileFilterWhiteSVG from '../../../../../public/assets/svgs/globalIcons/mobile-filter-white.svg';
 // import MobileFilterBlackSVG from '../../../../../public/assets/svgs/globalIcons/mobile-filter-black.svg';
-import { offerPostPinAction } from '../../../../../store/actions/offer/offerActions';
+import {
+	offerGetLastThreeUsedDeliveriesAction,
+	offerPostPinAction,
+	setEmptyUserLocalOffer
+} from "../../../../../store/actions/offer/offerActions";
 // import MobileOffersFilterButton from '../../../../mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton';
 
 type Props = {
@@ -75,6 +79,10 @@ const StartYourShopContent: React.FC<Props> = (props: Props) => {
 					buttonText="Ajouter un article"
 					svgIcon={ActivatedAddIconSVG}
 					active={true}
+					onClick={() => {
+						dispatch(setEmptyUserLocalOffer());
+						dispatch(offerGetLastThreeUsedDeliveriesAction());
+					}}
 					nextPage={TEMP_OFFER_ADD_INDEX}
 				/>
 			</Grid>

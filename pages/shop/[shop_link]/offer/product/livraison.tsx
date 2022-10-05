@@ -101,7 +101,7 @@ const Livraison: NextPage = () => {
 		lat: 34.023827,
 		lng: -6.833022,
 	};
-	// get previously selected from database
+	// get previously selected from database (edit & last three deliveries)
 	const address_name = useAppSelector(getShopAddressName);
 	const longitude = useAppSelector(getShopLongitude);
 	const latitude = useAppSelector(getShopLatitude);

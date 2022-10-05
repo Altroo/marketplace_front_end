@@ -1,8 +1,8 @@
 import { OfferProductClass, OfferServiceClass } from '../../models/offer/OfferProductClass';
-import { Nullable, ResponseDataInterface, PaginationResponseType, GlobalApiPromiseError } from "../_init/_initTypes";
+import { Nullable, ResponseDataInterface, PaginationResponseType, GlobalApiPromiseError } from '../_init/_initTypes';
 import { NextRouter } from 'next/router';
-import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
-import { apiErrorInitialState } from "../../store/slices/_init/_initSlice";
+import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
+import { apiErrorInitialState } from '../../store/slices/_init/_initSlice';
 
 // ('V', 'Produit'), ('S', 'Service'), ('L', 'Location') <- 'L' Not yet available,
 export type OfferOfferTypeType = 'V' | 'S'; //  | 'L'
@@ -161,7 +161,7 @@ export interface OfferProductInterface
 	pinned: boolean;
 }
 
-export interface OfferServiceInterface extends Omit<OfferServiceClass, | 'title'> {
+export interface OfferServiceInterface extends Omit<OfferServiceClass, 'title'> {
 	pk: number;
 	title: string;
 	picture_1_thumb: string | null;
@@ -250,9 +250,10 @@ export type DeliveriesFlatResponseType = {
 	all_cities: boolean;
 	delivery_price: number;
 	delivery_days: number;
-}
+};
 
-export interface OfferGetRootServiceInterface extends Omit<OfferServiceClass, 'offer_categories' | 'for_whom' | 'pictures'> {
+export interface OfferGetRootServiceInterface
+	extends Omit<OfferServiceClass, 'offer_categories' | 'for_whom' | 'pictures'> {
 	pk: number;
 	user_pk: number;
 	offer_categories: Array<OfferCategoriesType>;
@@ -295,7 +296,22 @@ export type OfferDeliveries = {
 	deliveries: Array<DeliveriesResponseType>;
 };
 
-export type OfferGetLastThreeUsedDeliveriesResponseType = ResponseDataInterface<OfferDeliveries>;
+export type OfferCustomDeliveries = {
+	delivery_city_1: string;
+	all_cities_1: boolean;
+	delivery_price_1: string;
+	delivery_days_1: string;
+	delivery_city_2: string;
+	all_cities_2: boolean;
+	delivery_price_2: string;
+	delivery_days_2: string;
+	delivery_city_3: string;
+	all_cities_3: boolean;
+	delivery_price_3: string;
+	delivery_days_3: string;
+};
+
+export type OfferGetLastThreeUsedDeliveriesResponseType = ResponseDataInterface<OfferCustomDeliveries>;
 
 export type OfferGetVues = {
 	pk: number;
@@ -331,7 +347,8 @@ export type deliveries = {
 	all_cities_3: boolean | null;
 	delivery_price_3: string | null;
 	delivery_days_3: string | null;
-}
+};
+
 export interface UserLocalOfferType {
 	pk: number | null;
 	categoriesList: Array<OfferCategoriesType>;
@@ -446,21 +463,20 @@ export type OfferGetVuesResponseType = ResponseDataInterface<OfferGetVuesType>;
 export type OfferPinType = {
 	offer_pk: number;
 	pinned: boolean;
-}
+};
 
 export type OfferPostPinResponseType = ResponseDataInterface<OfferPinType>;
 
-
 export type OfferGetAvailableShopFiltersType = {
-	available_categories: Array<OfferCategoriesType>,
-	available_colors: Array<OfferProductColors>,
-	available_sizes: Array<OfferProductSizes>,
-	available_for_whom: Array<OfferForWhomType>,
-	available_solder: boolean,
-	available_labels: boolean,
-	available_made_in_maroc: boolean,
-	available_cities: Array<string>,
-}
+	available_categories: Array<OfferCategoriesType>;
+	available_colors: Array<OfferProductColors>;
+	available_sizes: Array<OfferProductSizes>;
+	available_for_whom: Array<OfferForWhomType>;
+	available_solder: boolean;
+	available_labels: boolean;
+	available_made_in_maroc: boolean;
+	available_cities: Array<string>;
+};
 
 export type OfferGetShopAvailableFiltersResponseType = ResponseDataInterface<OfferGetAvailableShopFiltersType>;
 

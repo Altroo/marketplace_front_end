@@ -433,9 +433,9 @@ export const offerGetTagsAction = (nameTag: string) => {
 	};
 };
 
-export const offerGetDeliveriesAction = () => {
+export const offerGetLastThreeUsedDeliveriesAction = () => {
 	return {
-		type: Types.OFFER_GET_DELIVERIES,
+		type: Types.OFFER_GET_LAST_THREE_USED_DELIVERIES,
 	};
 };
 

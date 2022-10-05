@@ -9,10 +9,10 @@ import {
 	OfferGetRootProductInterface,
 	OfferGetRootProductResponseType,
 	OfferGetRootServiceInterface,
-	OfferGetRootServiceResponseType, OfferPostRootProductResponseType, OfferPostRootServiceResponseType,
+	OfferGetRootServiceResponseType,
 	OfferProductPriceByType,
-	OfferSolderByType
-} from "../../../../../types/offer/offerTypes";
+	OfferSolderByType,
+} from '../../../../../types/offer/offerTypes';
 import Image from 'next/image';
 import CreatorIlluSVG from '../../../../../public/assets/images/creator-illu.svg';
 import CreatorBgIlluSVG from '../../../../../public/assets/images/creator-bg-illu.svg';
@@ -37,8 +37,8 @@ import Link from 'next/link';
 import {
 	AUTH_SHOP_LINK_ROUTE,
 	NOT_FOUND_404,
-	REAL_OFFER_ADD_PRODUCT_CATEGORIES, TEMP_SHOP_EDIT_INDEX
-} from "../../../../../utils/routes";
+	REAL_OFFER_ADD_PRODUCT_CATEGORIES,
+} from '../../../../../utils/routes';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
 import { doubleTabNavigationTheme, OfferReadOnlyTheme, SolderPourcentageChipTheme } from '../../../../../utils/themes';
@@ -80,7 +80,7 @@ import CurrencyInput from 'react-currency-input-field';
 import Button from '@mui/material/Button';
 import ActionModals from '../../../../../components/htmlElements/modals/actionModal/actionModals';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
-import { ApiErrorResponseType } from "../../../../../types/_init/_initTypes";
+import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 
 const noCommentsAvailableContent = () => {
 	return (
@@ -461,31 +461,60 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 			deliveriesObjList.delivery_price_3 = deliveries[2].delivery_price.toString();
 			deliveriesObjList.delivery_days_3 = deliveries[2].delivery_days.toString();
 		}
-		dispatch(
-			setOfferToEdit({
-				pk: pk,
-				categoriesList: offer_categories,
-				title: title,
-				description: description,
-				pictures: pictures,
-				forWhom: for_whom.join(','),
-				colors: details_offer.product_colors.join(','),
-				sizes: details_offer.product_sizes.join(','),
-				quantity: details_offer.product_quantity,
-				made_in: made_in_label?.name as string,
-				creator: creator_label as boolean,
-				tags: tags.join(','),
-				prix: price as string,
-				prix_par: details_offer.product_price_by,
-				clickAndCollect: {
-					longitude: details_offer.product_longitude ? parseFloat(details_offer.product_longitude) : null,
-					latitude: details_offer.product_latitude ? parseFloat(details_offer.product_latitude) : null,
-					address_name: details_offer.product_address,
-				},
-				deliveries: deliveriesObjList,
-			}),
-		);
-		router.push(REAL_OFFER_ADD_PRODUCT_CATEGORIES(router.query.shop_link as string)).then();
+		// dispatch(
+		// 	setOfferToEdit({
+		// 		pk: pk,
+		// 		categoriesList: offer_categories,
+		// 		title: title,
+		// 		description: description,
+		// 		pictures: pictures,
+		// 		forWhom: for_whom.join(','),
+		// 		colors: details_offer.product_colors.join(','),
+		// 		sizes: details_offer.product_sizes.join(','),
+		// 		quantity: details_offer.product_quantity,
+		// 		made_in: made_in_label?.name as string,
+		// 		creator: creator_label as boolean,
+		// 		tags: tags.join(','),
+		// 		prix: price as string,
+		// 		prix_par: details_offer.product_price_by,
+		// 		clickAndCollect: {
+		// 			longitude: details_offer.product_longitude ? parseFloat(details_offer.product_longitude) : null,
+		// 			latitude: details_offer.product_latitude ? parseFloat(details_offer.product_latitude) : null,
+		// 			address_name: details_offer.product_address,
+		// 		},
+		// 		deliveries: deliveriesObjList,
+		// 	}),
+		// );
+		const action = setOfferToEdit({
+			pk: pk,
+			categoriesList: offer_categories,
+			title: title,
+			description: description,
+			pictures: pictures,
+			forWhom: for_whom.join(','),
+			colors: details_offer.product_colors.join(','),
+			sizes: details_offer.product_sizes.join(','),
+			quantity: details_offer.product_quantity,
+			made_in: made_in_label?.name as string,
+			creator: creator_label as boolean,
+			tags: tags.join(','),
+			prix: price as string,
+			prix_par: details_offer.product_price_by,
+			clickAndCollect: {
+				longitude: details_offer.product_longitude ? parseFloat(details_offer.product_longitude) : null,
+				latitude: details_offer.product_latitude ? parseFloat(details_offer.product_latitude) : null,
+				address_name: details_offer.product_address,
+			},
+			deliveries: deliveriesObjList,
+		});
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
+				if (!error && !cancelled && data) {
+					router.push(REAL_OFFER_ADD_PRODUCT_CATEGORIES(router.query.shop_link as string)).then();
+				}
+			},
+		});
 	};
 
 	const togglePinOfferHandler = () => {
@@ -501,15 +530,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		const action = offerDeleteRootAction(pk);
 		dispatch({
 			...action,
-			onComplete: ({
-				error,
-				cancelled,
-				data,
-			}: {
-				error: ApiErrorResponseType;
-				cancelled: boolean;
-				data: boolean;
-			}) => {
+			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
 				if (!error && !cancelled && data) {
 					router.replace(AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
 				}
@@ -1150,7 +1171,9 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 							</Stack>
 						</RightSwipeModal>
 					)}
-					{showDeleteModal && permission === 'OWNER' ? <ActionModals title="Supprimer cette offre ?" actions={deleteModalActions} /> : null}
+					{showDeleteModal && permission === 'OWNER' ? (
+						<ActionModals title="Supprimer cette offre ?" actions={deleteModalActions} />
+					) : null}
 					{/* Solder modal */}
 				</main>
 				<CustomFooter />

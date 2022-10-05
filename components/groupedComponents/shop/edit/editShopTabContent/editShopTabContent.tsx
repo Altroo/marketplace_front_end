@@ -16,9 +16,9 @@ import { useRouter } from 'next/router';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import {
-	offerGetAvailableFiltersByShopID, offerGetAvailableFiltersByUniqueID,
+	offerGetAvailableFiltersByShopID, offerGetAvailableFiltersByUniqueID, offerGetLastThreeUsedDeliveriesAction,
 	offerGetOffersByShopIDWithQueryParamsAction,
-	offerPostPinWithCallBackAction
+	offerPostPinWithCallBackAction, setEmptyUserLocalOffer
 } from "../../../../../store/actions/offer/offerActions";
 import { GetOffersSagaCallBackOnCompleteDataType } from '../../../../../pages/shop/[shop_link]';
 import { getDefaultTheme } from '../../../../../utils/themes';
@@ -371,6 +371,10 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 											buttonText="Ajouter un article"
 											svgIcon={ActivatedAddIconSVG}
 											active={true}
+											onClick={() => {
+												dispatch(setEmptyUserLocalOffer());
+												dispatch(offerGetLastThreeUsedDeliveriesAction());
+											}}
 											nextPage={shop_type === 'AUTH_SHOP' ? REAL_OFFER_ADD_INDEX(router.query.shop_link as string) : TEMP_OFFER_ADD_INDEX}
 										/>
 									</Grid>

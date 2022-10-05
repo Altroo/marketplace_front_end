@@ -12,6 +12,7 @@ type Props = {
 	active: boolean;
 	nextPage: string;
 	backgroundColor?: string;
+	onClick?: () => void;
 	children?: React.ReactNode;
 };
 
@@ -23,7 +24,7 @@ const LargeBorderIconAnchorButton = forwardRef<HTMLAnchorElement, Props>(
 			<ThemeProvider theme={customTheme}>
 				<Link href={props.nextPage} passHref>
 					<a ref={ref} className={Styles.anchor}>
-						<Button disabled={!props.active} className={`${Styles.button} ${Styles.activated}`}>
+						<Button disabled={!props.active} className={`${Styles.button} ${Styles.activated}`} onClick={props.onClick}>
 							<Stack direction="column" justifyContent="center" alignItems="center" spacing={1} className={Styles.buttonIconTextWrapper}>
 								<Image src={props.svgIcon} alt="" width={25} height={25} />
 								<span className={`${Styles.textActivated}`}>{props.buttonText}</span>

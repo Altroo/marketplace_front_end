@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { GetServerSidePropsContext, NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from 'next';
 import OfferStyles from '../../../../styles/temp-offer/create/offerCreateShared.module.sass';
 import SharedStyles from '../../../../styles/temp-shop/create/shopCreateShared.module.sass';
 import Styles from '../../../../styles/temp-offer/create/livraison.module.sass';
@@ -49,8 +49,10 @@ import {
 	getLocalOfferPrice,
 	getLocalOfferPriceBy,
 	getLocalOfferTags,
-	getUserLocalOfferEditPK, getOfferOfferApi, getLocalOfferMadeIn
-} from "../../../../store/selectors";
+	getUserLocalOfferEditPK,
+	getOfferOfferApi,
+	getLocalOfferMadeIn,
+} from '../../../../store/selectors';
 import { PositionType } from '../../../../components/map/customMap';
 import TopBarSaveClose from '../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
 import { clickAndCollectSchema } from '../../../../utils/formValidationSchemas';
@@ -58,6 +60,7 @@ import { Formik, Form } from 'formik';
 import HelperDescriptionHeader from '../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import {
 	emptyOfferDeliveries,
+	offerGetLastThreeUsedDeliveriesAction,
 	offerPostRootProductAction,
 	offerPutRootProductAction,
 	setOfferDeliveries,
@@ -69,19 +72,19 @@ import {
 	AUTH_SHOP_LINK_ROUTE,
 	TEMP_OFFER_ADD_PRODUCT_PRICE,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_EDIT_INDEX
-} from "../../../../utils/routes";
+	TEMP_SHOP_EDIT_INDEX,
+} from '../../../../utils/routes';
 import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import ApiLoadingResponseOrError
-	from "../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError";
-import { getCookie } from "cookies-next";
-import { ApiErrorResponseType } from "../../../../types/_init/_initTypes";
+import ApiLoadingResponseOrError from '../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
+import { getCookie } from 'cookies-next';
+import { ApiErrorResponseType } from '../../../../types/_init/_initTypes';
 import {
 	OfferPostRootProductResponseType,
 	OfferPostRootServiceResponseType,
-	OfferPutRootProductResponseType, OfferPutRootServiceResponseType
-} from "../../../../types/offer/offerTypes";
+	OfferPutRootProductResponseType,
+	OfferPutRootServiceResponseType,
+} from '../../../../types/offer/offerTypes';
 
 const CustomMap = dynamic(() => import('../../../../components/map/customMap'), {
 	ssr: false,
@@ -245,6 +248,9 @@ const Livraison: NextPage = () => {
 	const [deliveriesSwitchOpen, setDeliveriesSwitchOpen] = useState<boolean>(false);
 
 	useEffect(() => {
+		// if (!offer_pk) {
+		// 	dispatch(offerGetLastThreeUsedDeliveriesAction());
+		// }
 		if (localisationName && addressNameRef.current !== null) {
 			addressNameRef.current.value = localisationName;
 		}
@@ -270,6 +276,7 @@ const Livraison: NextPage = () => {
 			setLocalisationSwitchOpen(true);
 		}
 	}, [
+		// offer_pk,
 		showEmptyDeliveriesMessage,
 		deliveryAllCity1,
 		deliveryCity1,
@@ -281,6 +288,7 @@ const Livraison: NextPage = () => {
 		position.lng,
 		secondDeliveryState,
 		thirdDeliveryState,
+		// dispatch,
 	]);
 
 	const addDeliveriesHandler = () => {
@@ -368,7 +376,7 @@ const Livraison: NextPage = () => {
 				pickedTags,
 				false,
 				pickedMadeIn as string,
-				);
+			);
 			dispatch({
 				...action,
 				onComplete: ({
@@ -388,36 +396,36 @@ const Livraison: NextPage = () => {
 		} else {
 			// dispatch edit
 			const action = offerPutRootProductAction(
-					offer_pk,
-					pickedCategories.join(','),
-					pickedTitle,
-					pickedPictures,
-					pickedDescription,
-					pickedForWhom,
-					pickedColors,
-					pickedSizes,
-					pickedQuantity,
-					pickedPrice,
-					pickedPriceBy,
-					pickedAddressName,
-					pickedLongitude,
-					pickedLatitude,
-					deliveryCity1,
-					deliveryAllCity1,
-					deliveryPrice1,
-					deliveryDays1,
-					deliveryCity2,
-					deliveryAllCity2,
-					deliveryPrice2,
-					deliveryDays2,
-					deliveryCity3,
-					deliveryAllCity3,
-					deliveryPrice3,
-					deliveryDays3,
-					pickedTags,
-					false,
-					pickedMadeIn as string,
-				);
+				offer_pk,
+				pickedCategories.join(','),
+				pickedTitle,
+				pickedPictures,
+				pickedDescription,
+				pickedForWhom,
+				pickedColors,
+				pickedSizes,
+				pickedQuantity,
+				pickedPrice,
+				pickedPriceBy,
+				pickedAddressName,
+				pickedLongitude,
+				pickedLatitude,
+				deliveryCity1,
+				deliveryAllCity1,
+				deliveryPrice1,
+				deliveryDays1,
+				deliveryCity2,
+				deliveryAllCity2,
+				deliveryPrice2,
+				deliveryDays2,
+				deliveryCity3,
+				deliveryAllCity3,
+				deliveryPrice3,
+				deliveryDays3,
+				pickedTags,
+				false,
+				pickedMadeIn as string,
+			);
 			dispatch({
 				...action,
 				onComplete: ({
@@ -492,11 +500,7 @@ const Livraison: NextPage = () => {
 								defaultValue={localisationSwitchOpen}
 								emptyStates={emptyClickAndCollect}
 							>
-								<Button
-									color="primary"
-									onClick={() => setOpenClick(true)}
-									className={Styles.buttonCard}
-								>
+								<Button color="primary" onClick={() => setOpenClick(true)} className={Styles.buttonCard}>
 									<Stack
 										direction="row"
 										spacing={1}
@@ -508,9 +512,7 @@ const Livraison: NextPage = () => {
 										{/* eslint-disable-next-line react/no-unescaped-entities */}
 										<p
 											className={`${Styles.defaultLocalisationName} ${
-												selectedClickAndCollect &&
-												selectedClickAndCollect.address_name &&
-												Styles.activeCardValue
+												selectedClickAndCollect && selectedClickAndCollect.address_name && Styles.activeCardValue
 											}`}
 										>
 											{selectedClickAndCollect && selectedClickAndCollect.address_name
@@ -592,16 +594,8 @@ const Livraison: NextPage = () => {
 									</Stack>
 								</RightSwipeModal>
 							</RadioCheckElement>
-							<RadioCheckElement
-								title="Livraison"
-								defaultValue={deliveriesSwitchOpen}
-								emptyStates={emptyDeliveries}
-							>
-								<Button
-									color="primary"
-									onClick={() => setOpenDelivery(true)}
-									className={Styles.buttonCard}
-								>
+							<RadioCheckElement title="Livraison" defaultValue={deliveriesSwitchOpen} emptyStates={emptyDeliveries}>
+								<Button color="primary" onClick={() => setOpenDelivery(true)} className={Styles.buttonCard}>
 									<Stack
 										direction="row"
 										spacing={1}
@@ -630,9 +624,7 @@ const Livraison: NextPage = () => {
 															? 'Tout le maroc'
 															: null}
 													</span>
-													<span>
-														{deliveryPrice1 !== '0' ? deliveryPrice1 + 'DH' : 'Gratuite'}
-													</span>
+													<span>{deliveryPrice1 !== '0' ? deliveryPrice1 + 'DH' : 'Gratuite'}</span>
 												</Stack>
 											)}
 											{(deliveryCity2 || deliveryAllCity2) && (
@@ -644,9 +636,7 @@ const Livraison: NextPage = () => {
 															? 'Tout le maroc'
 															: null}
 													</span>
-													<span>
-														{deliveryPrice2 !== '0' ? deliveryPrice2 + 'DH' : 'Gratuite'}
-													</span>
+													<span>{deliveryPrice2 !== '0' ? deliveryPrice2 + 'DH' : 'Gratuite'}</span>
 												</Stack>
 											)}
 											{(deliveryCity3 || deliveryAllCity3) && (
@@ -658,15 +648,11 @@ const Livraison: NextPage = () => {
 															? 'Tout le maroc'
 															: null}
 													</span>
-													<span>
-														{deliveryPrice3 !== '0' ? deliveryPrice3 + 'DH' : 'Gratuite'}
-													</span>
+													<span>{deliveryPrice3 !== '0' ? deliveryPrice3 + 'DH' : 'Gratuite'}</span>
 												</Stack>
 											)}
 											{/* eslint-disable-next-line react/no-unescaped-entities */}
-											{showEmptyDeliveriesMessage
-												? "Définissez jusqu'à 3 types de livraison différentes"
-												: null}
+											{showEmptyDeliveriesMessage ? "Définissez jusqu'à 3 types de livraison différentes" : null}
 										</div>
 									</Stack>
 								</Button>
@@ -677,11 +663,7 @@ const Livraison: NextPage = () => {
 												buttonText="Enregistrer"
 												handleClose={() => setOpenDelivery(false)}
 												handleSubmit={addDeliveriesHandler}
-												isValid={
-													isFormOptionOneValid ||
-													isFormOptionTwoValid ||
-													isFormOptionThreeValid
-												}
+												isValid={isFormOptionOneValid || isFormOptionTwoValid || isFormOptionThreeValid}
 												cssClasses={Styles.topContainer}
 											/>
 											<HelperDescriptionHeader
@@ -754,7 +736,7 @@ const Livraison: NextPage = () => {
 					</Stack>
 					<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 						<PrimaryButton
-							buttonText={offer_pk ? "Modifier" : "Publier"}
+							buttonText={offer_pk ? 'Modifier' : 'Publier'}
 							active={submitActive}
 							onClick={handleSubmit}
 							type="submit"
@@ -783,7 +765,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	}
 	return {
 		props: {},
-	}
+	};
 }
 
 export default Livraison;
