@@ -88,7 +88,8 @@ export type OfferProductSizes = 'XS' | 'S' | 'M' | 'L' | 'X' | 'XL';
 
 export interface OfferPostRootProductType extends OfferProductClass {
 	type: string;
-	router: NextRouter;
+	made_in: string | null;
+	creator: boolean | null;
 }
 
 export interface OfferPostRootServiceType extends OfferServiceClass {
@@ -131,6 +132,7 @@ type ProductDeliveryCity = {
 export type DeliveriesResponseType = {
 	pk: number;
 	delivery_city: Array<ProductDeliveryCity>;
+	all_cities: boolean;
 	delivery_price: number;
 	delivery_days: number;
 };
@@ -148,7 +150,6 @@ export interface OfferProductInterface
 		| 'delivery_price_2'
 		| 'delivery_price_3'
 		| 'title'
-
 	> {
 	pk: number;
 	title: string;
@@ -345,6 +346,30 @@ export interface UserLocalOfferType {
 	colors: string | null;
 	sizes: string | null;
 	quantity: number | null;
+	made_in: string | null;
+	creator: boolean | null;
+	tags: string | null;
+	prix: string | null;
+	prix_par: 'U' | 'K' | 'L' | null;
+	clickAndCollect: clickAndCollect;
+	deliveries: deliveries;
+}
+
+export interface UserTempLocalOfferType {
+	pk: number | null;
+	categoriesList: Array<OfferCategoriesType>;
+	title: string | null;
+	description: string | null;
+	// picture_1: string | null;
+	// picture_2: string | null;
+	// picture_3: string | null;
+	// picture_4: string | null;
+	pictures: ImageUploadingType;
+	forWhom: string | null;
+	colors: string | null;
+	sizes: string | null;
+	quantity: number | null;
+	made_in: string | null;
 	tags: string | null;
 	prix: string | null;
 	prix_par: 'U' | 'K' | 'L' | null;
@@ -453,6 +478,8 @@ export type LocalOfferDescriptionPageType = {
 	product_colors: string | null;
 	product_sizes: string | null;
 	product_quantity: number | null;
+	made_in: string | null;
+	creator: boolean | null;
 	tags: string | null;
 	router: NextRouter;
 };

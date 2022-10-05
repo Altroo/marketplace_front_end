@@ -5,7 +5,7 @@ import BorderIconAnchorButton from '../../../../htmlElements/buttons/borderIconA
 import ActivatedAddIconSVG from '../../../../../public/assets/svgs/globalIcons/blue-add.svg';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
 import PinInactiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-inactive.svg';
-import { TEMP_OFFER_ADD_INDEX, TEMP_OFFER_ADD_PRODUCT_OVERVIEW } from "../../../../../utils/routes";
+import { TEMP_OFFER_ADD_INDEX, TEMP_OFFER_ROUTE } from "../../../../../utils/routes";
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import {
 	getMyOffersList,
@@ -90,7 +90,7 @@ const StartYourShopContent: React.FC<Props> = (props: Props) => {
 				}
 				return (
 					<Link
-						href={TEMP_OFFER_ADD_PRODUCT_OVERVIEW(encodeURIComponent(userOffer.pk))}
+						href={TEMP_OFFER_ROUTE(encodeURIComponent(userOffer.pk))}
 						passHref key={userOffer.pk}>
 						<a className={Styles.gridCardOfferWrapper}>
 							<Grid item xs="auto">

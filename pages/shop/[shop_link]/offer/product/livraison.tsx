@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { GetServerSidePropsContext, NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from 'next';
 import OfferStyles from '../../../../../styles/temp-offer/create/offerCreateShared.module.sass';
 import SharedStyles from '../../../../../styles/temp-shop/create/shopCreateShared.module.sass';
 import Styles from '../../../../../styles/temp-offer/create/livraison.module.sass';
@@ -49,7 +49,10 @@ import {
 	getLocalOfferPrice,
 	getLocalOfferPriceBy,
 	getLocalOfferTags,
-	getUserLocalOfferEditPK, getOfferOfferApi
+	getUserLocalOfferEditPK,
+	getOfferOfferApi,
+	getLocalOfferMadeIn,
+	getLocalOfferCreator,
 } from '../../../../../store/selectors';
 import { PositionType } from '../../../../../components/map/customMap';
 import TopBarSaveClose from '../../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
@@ -72,9 +75,15 @@ import {
 } from "../../../../../utils/routes";
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import ApiLoadingResponseOrError
-	from '../../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
-import { getCookie } from "cookies-next";
+import ApiLoadingResponseOrError from '../../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
+import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
+import { getApi } from '../../../../../store/services/_init/_initAPI';
+import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
+import {
+	OfferPostRootProductResponseType,
+	OfferPostRootServiceResponseType, OfferPutRootProductResponseType, OfferPutRootServiceResponseType
+} from "../../../../../types/offer/offerTypes";
 
 const CustomMap = dynamic(() => import('../../../../../components/map/customMap'), {
 	ssr: false,
@@ -122,6 +131,8 @@ const Livraison: NextPage = () => {
 	const pickedColors = useAppSelector(getLocalOfferColors);
 	const pickedSizes = useAppSelector(getLocalOfferSizes);
 	const pickedQuantity = useAppSelector(getLocalOfferQuantity);
+	const pickedMadeIn = useAppSelector(getLocalOfferMadeIn);
+	const pickedCreator = useAppSelector(getLocalOfferCreator);
 	const pickedPrice = useAppSelector(getLocalOfferPrice);
 	const pickedPriceBy = useAppSelector(getLocalOfferPriceBy);
 	const pickedTags = useAppSelector(getLocalOfferTags);
@@ -329,42 +340,56 @@ const Livraison: NextPage = () => {
 	const handleSubmit = () => {
 		// dispatch create
 		if (!offer_pk) {
-			dispatch(
-				offerPostRootProductAction(
-					'V',
-					pickedCategories.join(','),
-					pickedTitle,
-					pickedPictures,
-					pickedDescription,
-					pickedForWhom,
-					pickedColors,
-					pickedSizes,
-					pickedQuantity,
-					pickedPrice,
-					pickedPriceBy,
-					pickedAddressName,
-					pickedLongitude,
-					pickedLatitude,
-					deliveryCity1,
-					deliveryAllCity1,
-					deliveryPrice1,
-					deliveryDays1,
-					deliveryCity2,
-					deliveryAllCity2,
-					deliveryPrice2,
-					deliveryDays2,
-					deliveryCity3,
-					deliveryAllCity3,
-					deliveryPrice3,
-					deliveryDays3,
-					pickedTags,
-					router,
-				),
+			const action = offerPostRootProductAction(
+				'V',
+				pickedCategories.join(','),
+				pickedTitle,
+				pickedPictures,
+				pickedDescription,
+				pickedForWhom,
+				pickedColors,
+				pickedSizes,
+				pickedQuantity,
+				pickedPrice,
+				pickedPriceBy,
+				pickedAddressName,
+				pickedLongitude,
+				pickedLatitude,
+				deliveryCity1,
+				deliveryAllCity1,
+				deliveryPrice1,
+				deliveryDays1,
+				deliveryCity2,
+				deliveryAllCity2,
+				deliveryPrice2,
+				deliveryDays2,
+				deliveryCity3,
+				deliveryAllCity3,
+				deliveryPrice3,
+				deliveryDays3,
+				pickedTags,
+				pickedCreator as boolean,
+				pickedMadeIn as string,
 			);
+			dispatch({
+				...action,
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: {
+					error: ApiErrorResponseType;
+					cancelled: boolean;
+					data: OfferPostRootProductResponseType | OfferPostRootServiceResponseType;
+				}) => {
+					if (!error && !cancelled && data.data) {
+						router.push(AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+					}
+				},
+			});
 		} else {
 			// dispatch edit
-			dispatch(
-				offerPutRootProductAction(
+			const action = offerPutRootProductAction(
 					offer_pk,
 					pickedCategories.join(','),
 					pickedTitle,
@@ -392,9 +417,25 @@ const Livraison: NextPage = () => {
 					deliveryPrice3,
 					deliveryDays3,
 					pickedTags,
-					router,
-				),
-			);
+					pickedCreator as boolean,
+					pickedMadeIn as string,
+				);
+			dispatch({
+				...action,
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: {
+					error: ApiErrorResponseType;
+					cancelled: boolean;
+					data: OfferPutRootProductResponseType | OfferPutRootServiceResponseType;
+				}) => {
+					if (!error && !cancelled && data.data) {
+						router.push(AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+					}
+				},
+			});
 		}
 	};
 
@@ -427,7 +468,7 @@ const Livraison: NextPage = () => {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<main className={SharedStyles.main}>
+			<main className={SharedStyles.fullPageNoOverflowMain}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.boxWrapper}>
 					<DesktopTopNavigationBar
@@ -453,11 +494,7 @@ const Livraison: NextPage = () => {
 								defaultValue={localisationSwitchOpen}
 								emptyStates={emptyClickAndCollect}
 							>
-								<Button
-									color="primary"
-									onClick={() => setOpenClick(true)}
-									className={Styles.buttonCard}
-								>
+								<Button color="primary" onClick={() => setOpenClick(true)} className={Styles.buttonCard}>
 									<Stack
 										direction="row"
 										spacing={1}
@@ -469,9 +506,7 @@ const Livraison: NextPage = () => {
 										{/* eslint-disable-next-line react/no-unescaped-entities */}
 										<p
 											className={`${Styles.defaultLocalisationName} ${
-												selectedClickAndCollect &&
-												selectedClickAndCollect.address_name &&
-												Styles.activeCardValue
+												selectedClickAndCollect && selectedClickAndCollect.address_name && Styles.activeCardValue
 											}`}
 										>
 											{selectedClickAndCollect && selectedClickAndCollect.address_name
@@ -553,16 +588,8 @@ const Livraison: NextPage = () => {
 									</Stack>
 								</RightSwipeModal>
 							</RadioCheckElement>
-							<RadioCheckElement
-								title="Livraison"
-								defaultValue={deliveriesSwitchOpen}
-								emptyStates={emptyDeliveries}
-							>
-								<Button
-									color="primary"
-									onClick={() => setOpenDelivery(true)}
-									className={Styles.buttonCard}
-								>
+							<RadioCheckElement title="Livraison" defaultValue={deliveriesSwitchOpen} emptyStates={emptyDeliveries}>
+								<Button color="primary" onClick={() => setOpenDelivery(true)} className={Styles.buttonCard}>
 									<Stack
 										direction="row"
 										spacing={1}
@@ -591,9 +618,7 @@ const Livraison: NextPage = () => {
 															? 'Tout le maroc'
 															: null}
 													</span>
-													<span>
-														{deliveryPrice1 !== '0' ? deliveryPrice1 + 'DH' : 'Gratuite'}
-													</span>
+													<span>{deliveryPrice1 !== '0' ? deliveryPrice1 + 'DH' : 'Gratuite'}</span>
 												</Stack>
 											)}
 											{(deliveryCity2 || deliveryAllCity2) && (
@@ -605,9 +630,7 @@ const Livraison: NextPage = () => {
 															? 'Tout le maroc'
 															: null}
 													</span>
-													<span>
-														{deliveryPrice2 !== '0' ? deliveryPrice2 + 'DH' : 'Gratuite'}
-													</span>
+													<span>{deliveryPrice2 !== '0' ? deliveryPrice2 + 'DH' : 'Gratuite'}</span>
 												</Stack>
 											)}
 											{(deliveryCity3 || deliveryAllCity3) && (
@@ -619,15 +642,11 @@ const Livraison: NextPage = () => {
 															? 'Tout le maroc'
 															: null}
 													</span>
-													<span>
-														{deliveryPrice3 !== '0' ? deliveryPrice3 + 'DH' : 'Gratuite'}
-													</span>
+													<span>{deliveryPrice3 !== '0' ? deliveryPrice3 + 'DH' : 'Gratuite'}</span>
 												</Stack>
 											)}
 											{/* eslint-disable-next-line react/no-unescaped-entities */}
-											{showEmptyDeliveriesMessage
-												? "Définissez jusqu'à 3 types de livraison différentes"
-												: null}
+											{showEmptyDeliveriesMessage ? "Définissez jusqu'à 3 types de livraison différentes" : null}
 										</div>
 									</Stack>
 								</Button>
@@ -638,11 +657,7 @@ const Livraison: NextPage = () => {
 												buttonText="Enregistrer"
 												handleClose={() => setOpenDelivery(false)}
 												handleSubmit={addDeliveriesHandler}
-												isValid={
-													isFormOptionOneValid ||
-													isFormOptionTwoValid ||
-													isFormOptionThreeValid
-												}
+												isValid={isFormOptionOneValid || isFormOptionTwoValid || isFormOptionThreeValid}
 												cssClasses={Styles.topContainer}
 											/>
 											<HelperDescriptionHeader
@@ -715,7 +730,7 @@ const Livraison: NextPage = () => {
 					</Stack>
 					<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 						<PrimaryButton
-							buttonText={offer_pk ? "Modifier" : "Publier"}
+							buttonText={offer_pk ? 'Modifier' : 'Publier'}
 							active={submitActive}
 							onClick={handleSubmit}
 							type="submit"
@@ -733,17 +748,45 @@ const Livraison: NextPage = () => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
-	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
+	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
+	const appToken = getServerSideCookieTokens(context);
+	try {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+			const instance = isAuthenticatedInstance(appToken.initStateToken);
+			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
+			if (response.status === 200) {
+				// user has shop - proceed to add offer
+				if (response.data.has_shop) {
+					return {
+						props: {},
+					};
+				} else {
+					// user don't own a shop - proceed to create one.
+					return {
+						redirect: {
+							permanent: false,
+							destination: TEMP_SHOP_ADD_SHOP_NAME,
+						},
+					};
+				}
+			} else {
+				// user not authenticated
+				return {
+					redirect: {
+						permanent: false,
+						destination: TEMP_SHOP_ADD_SHOP_NAME,
+					},
+				};
+			}
+		}
+	} catch (e) {
+		// fall back error
 		return {
 			redirect: {
 				permanent: false,
 				destination: TEMP_SHOP_ADD_SHOP_NAME,
 			},
 		};
-	}
-	return {
-		props: {},
 	}
 }
 

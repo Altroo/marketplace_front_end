@@ -15,7 +15,7 @@ export type CitiesType = PlacesType;
 export interface PlacesStateInterface {
 	localisation_name: string | null;
 	placesApi: GlobalApiPromiseError;
-	countries: Array<CountriesType> | [];
+	countries: Array<CountriesType>;
 	country_codes: Array<string>;
 	// cities: Array<CitiesType> | [];
 	cities: Array<string>;

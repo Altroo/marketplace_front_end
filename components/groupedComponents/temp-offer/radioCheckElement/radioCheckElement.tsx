@@ -21,7 +21,7 @@ const RadioCheckElement: React.FC<Props> = (props: Props) => {
 	const {emptyStates, defaultValue, title} = props;
 
 	useEffect(() => {
-		if (title === 'Click & collect' || title === 'Livraison') {
+		if (title === 'Click & collect' || title === 'Livraison' || title === 'Labels') {
 			setShowOptional(false);
 		}
 		// if (!open) {

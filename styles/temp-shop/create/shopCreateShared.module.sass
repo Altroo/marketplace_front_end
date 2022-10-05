@@ -11,10 +11,18 @@
   display: flex
   flex-direction: row
   //justify-content: space-between
-  height: 100vh
-  padding: 0 60px 60px 0
+  //height: 100vh
+  //padding: 0 60px 0 0
   //width: calc(100% - 350px)
+  padding-right: 60px
   width: 100%
+.fullPageMain
+  @extend .main
+  height: 100vh
+  overflow: hidden
+.fullPageNoOverflowMain
+  @extend .main
+  height: 100vh
 .avatarActionsWrapper
   display: flex
   width: 100%
@@ -111,7 +119,10 @@
   display: flex
   flex-direction: column
   justify-content: space-around
-
+.marginButtonBottom
+  margin-bottom: 60px
+.miniMarginButtonBottom
+  margin-bottom: 30px
 .primaryButtonWrapper
   width: 100%
   text-align: center
@@ -230,6 +241,8 @@
     padding-bottom: 60px
   .primaryButton
     width: 365px !important
+  .marginButtonBottom
+    margin-bottom: 0
 .customTextField
   margin-top: 60px
   outline: none

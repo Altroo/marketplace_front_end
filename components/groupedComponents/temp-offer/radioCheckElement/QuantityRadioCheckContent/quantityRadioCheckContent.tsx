@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Styles from './quantityRadioCheckContent.module.sass';
 import { OfferQuantityFieldTheme } from '../../../../../utils/themes';
 import { ThemeProvider, Stack, IconButton, TextField } from '@mui/material';

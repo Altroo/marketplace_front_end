@@ -43,8 +43,7 @@ const ShopName: NextPage = () => {
 
 	return (
 		<>
-
-			<main className={Styles.main}>
+			<main className={Styles.fullPageNoOverflowMain}>
 				<LeftSideBar step={activeStep} which="SHOP" />
 				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar backHref={TEMP_SHOP_ADD_SHOP_NAME} closeButtonHref={SITE_ROOT}/>
@@ -82,7 +81,7 @@ const ShopName: NextPage = () => {
 									size="medium"
 									cssClass={Styles.customTextField}
 								/>
-								<div className={Styles.primaryButtonWrapper}>
+								<div className={`${Styles.primaryButtonWrapper} ${Styles.marginButtonBottom}`} >
 									<PrimaryButton
 										buttonText="Continuer"
 										active={isValid && !isSubmitting}

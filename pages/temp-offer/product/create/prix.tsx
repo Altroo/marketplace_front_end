@@ -5,7 +5,12 @@ import SharedStyles from '../../../../styles/temp-shop/create/shopCreateShared.m
 import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import Styles from '../../../../styles/temp-offer/create/price.module.sass';
 import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import { TEMP_OFFER_ADD_PRODUCT_DESCRIPTION, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_INDEX } from "../../../../utils/routes";
+import {
+	TEMP_OFFER_ADD_PRODUCT_DELIVERIES,
+	TEMP_OFFER_ADD_PRODUCT_DESCRIPTION,
+	TEMP_SHOP_ADD_SHOP_NAME,
+	TEMP_SHOP_EDIT_INDEX
+} from "../../../../utils/routes";
 import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import { Box, Stack, ThemeProvider } from '@mui/material';
@@ -19,6 +24,7 @@ import { setOfferPricePage } from "../../../../store/actions/offer/offerActions"
 import { useRouter } from "next/router";
 import { getLocalOfferPrice, getLocalOfferPriceBy } from "../../../../store/selectors";
 import { getCookie } from "cookies-next";
+import { ApiErrorResponseType } from "../../../../types/_init/_initTypes";
 
 const Prix: NextPage = () => {
 	const activeStep = '3';
@@ -43,7 +49,18 @@ const Prix: NextPage = () => {
 		if (liter) {
 			price_by = 'L'
 		}
-		dispatch(setOfferPricePage(price as string, price_by, router));
+		const action = setOfferPricePage(
+			price as string,
+			price_by
+		);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
+				if (!error && !cancelled && data) {
+					router.push(TEMP_OFFER_ADD_PRODUCT_DELIVERIES).then();
+				}
+			},
+		});
 	};
 
 	useEffect(() => {
@@ -69,7 +86,7 @@ const Prix: NextPage = () => {
 	const chipTheme = OfferChipTheme();
 	return (
 		<>
-			<main className={SharedStyles.main}>
+			<main className={SharedStyles.fullPageMain}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.boxWrapper}>
 					<DesktopTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_EDIT_INDEX} />

@@ -8,7 +8,9 @@ import LeftSideBar from '../../../../components/groupedComponents/shared/leftSid
 import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
 import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
+	REAL_OFFER_ADD_PRODUCT_PRICE,
 	TEMP_OFFER_ADD_PRODUCT_CATEGORIES,
+	TEMP_OFFER_ADD_PRODUCT_PRICE,
 	TEMP_SHOP_ADD_SHOP_NAME,
 	TEMP_SHOP_EDIT_INDEX,
 } from '../../../../utils/routes';
@@ -45,9 +47,10 @@ import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
 import { setOfferDescriptionPage } from '../../../../store/actions/offer/offerActions';
 import { useRouter } from 'next/router';
 import {
+	getAvailableCountries,
 	getLocalOfferColors,
 	getLocalOfferDescription,
-	getLocalOfferForwhom,
+	getLocalOfferForwhom, getLocalOfferMadeIn,
 	getLocalOfferPictures,
 	// getLocalOfferPicture1,
 	// getLocalOfferPicture2,
@@ -56,12 +59,15 @@ import {
 	getLocalOfferQuantity,
 	getLocalOfferSizes,
 	getLocalOfferTags,
-	getLocalOfferTitle,
-} from '../../../../store/selectors';
+	getLocalOfferTitle
+} from "../../../../store/selectors";
 // import { setSelectedOfferTags } from '../../../../store/slices/offer/offerSlice';
 import { forWhomData, getForWhomDataArray } from '../../../../utils/rawData';
 import { OfferForWhomType } from '../../../../types/offer/offerTypes';
 import { getCookie } from 'cookies-next';
+import { ApiErrorResponseType } from '../../../../types/_init/_initTypes';
+import OfferCreatorRadioCheckContent from '../../../../components/groupedComponents/offer/creatorRadioCheckContent/offerCreatorRadioCheckContent';
+import { placesGetCountriesAction } from '../../../../store/actions/places/placesActions';
 // import { OfferForWhomType, OfferProductColors } from '../../../../types/offer/offerTypes';
 // import {
 // 	getLocalOfferColors, getLocalOfferDescription,
@@ -132,49 +138,13 @@ const Description: NextPage = () => {
 	const pickedColorsList = useAppSelector(getLocalOfferColors);
 	const pickedSizesList = useAppSelector(getLocalOfferSizes);
 	const pickedQuantity = useAppSelector(getLocalOfferQuantity);
+	const pickedMadeIn = useAppSelector(getLocalOfferMadeIn);
 	const pickedTags = useAppSelector(getLocalOfferTags);
+	const availableCountries = useAppSelector(getAvailableCountries);
 
 	// on change images
-	const imagesOnChangeHandler = (imageList: ImageUploadingType, addUpdateIndex?: Array<number>) => {
+	const imagesOnChangeHandler = (imageList: ImageUploadingType) => {
 		setImages(imageList);
-		// if (imageList.length === 1) {
-		// 	if (imageList[0].dataURL) {
-		// 		setOfferImageOne(imageList[0].dataURL);
-		// 	}
-		// }
-		// else if (imageList.length === 2) {
-		// 	if (imageList[0].dataURL) {
-		// 		setOfferImageOne(imageList[0].dataURL);
-		// 	}
-		// 	if (imageList[1].dataURL) {
-		// 		setOfferImageTwo(imageList[1].dataURL);
-		// 	}
-		// }
-		// else if (imageList.length === 3) {
-		// 	if (imageList[0].dataURL) {
-		// 		setOfferImageOne(imageList[0].dataURL);
-		// 	}
-		// 	if (imageList[1].dataURL) {
-		// 		setOfferImageTwo(imageList[1].dataURL);
-		// 	}
-		// 	if (imageList[2].dataURL) {
-		// 		setOfferImageThree(imageList[2].dataURL);
-		// 	}
-		// }
-		// else {
-		// 	if (imageList[0].dataURL) {
-		// 		setOfferImageOne(imageList[0].dataURL);
-		// 	}
-		// 	if (imageList[1].dataURL) {
-		// 		setOfferImageTwo(imageList[1].dataURL);
-		// 	}
-		// 	if (imageList[2].dataURL) {
-		// 		setOfferImageThree(imageList[2].dataURL);
-		// 	}
-		// 	if (imageList[3].dataURL) {
-		// 		setOfferImageFour(imageList[3].dataURL);
-		// 	}
-		// }
 	};
 
 	type submitDataType = {
@@ -183,10 +153,18 @@ const Description: NextPage = () => {
 		tags: Array<string>;
 	};
 	const [colorSwitchOpen, setColorSwitchOpen] = useState<boolean>(false);
+	const [labelsSwitchOpen, setLabelsSwitchOpen] = useState<boolean>(false);
 	const [sizesSwitchOpen, setSizesSwitchOpen] = useState<boolean>(false);
 	const [quantitySwitchOpen, setQuantitySwitchOpen] = useState<boolean>(false);
 
 	useEffect(() => {
+		if (availableCountries.length === 0) {
+			dispatch(placesGetCountriesAction());
+		}
+		if (pickedMadeIn) {
+			setMadeIn(pickedMadeIn);
+			setLabelsSwitchOpen(true);
+		}
 		if (pickedTitle && !typingTitle) {
 			setOfferTitle(pickedTitle);
 		}
@@ -244,7 +222,9 @@ const Description: NextPage = () => {
 		// 	setIsValid(false);
 		// }
 	}, [
+		availableCountries.length,
 		pickedQuantity,
+		pickedMadeIn,
 		pickedColorsList,
 		offerTitle,
 		pickedDescription,
@@ -257,7 +237,12 @@ const Description: NextPage = () => {
 		pickingImages,
 		typingDescription,
 		pickingTags,
+		dispatch,
 	]);
+
+	// Labels
+	const [madeIn, setMadeIn] = useState<string>('Maroc');
+	const [pickedCreator, togglePickedCreator] = useState<boolean>(false);
 
 	// submit handler
 	const addDescriptionSubmitHandler = (values: submitDataType) => {
@@ -291,19 +276,26 @@ const Description: NextPage = () => {
 		}
 		const productSizesStr = productSizesArray.join(',');
 
-		dispatch(
-			setOfferDescriptionPage(
-				values.title,
-				images,
-				values.description,
-				forWhomStr,
-				productColorsStr,
-				productSizesStr,
-				quantity,
-				values.tags.join(','),
-				router,
-			),
+		const action = setOfferDescriptionPage(
+			values.title,
+			images,
+			values.description,
+			forWhomStr,
+			productColorsStr,
+			productSizesStr,
+			quantity,
+			madeIn,
+			pickedCreator,
+			values.tags.join(','),
 		);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
+				if (!error && !cancelled && data) {
+					router.push(TEMP_OFFER_ADD_PRODUCT_PRICE).then();
+				}
+			},
+		});
 	};
 
 	// on change for whom
@@ -349,6 +341,7 @@ const Description: NextPage = () => {
 									title: offerTitle,
 									images: images,
 									description: offerDescription,
+									made_in: madeIn,
 									tags: offerTags,
 								}}
 								validateOnMount={true}
@@ -459,7 +452,13 @@ const Description: NextPage = () => {
 														/>
 													</Grid>
 													<Grid item md={6} sm={12} xs={12}>
-														<CreatorRadioCheckContent />
+														<OfferCreatorRadioCheckContent
+															pickedCountry={madeIn}
+															setPickedCountry={setMadeIn}
+															pickedCreator={pickedCreator}
+															togglePickedCreator={togglePickedCreator}
+															switchOpen={labelsSwitchOpen}
+														/>
 													</Grid>
 												</Grid>
 												<Grid container columnSpacing={1}>

@@ -33,13 +33,13 @@ export const REAL_OFFER_ADD_PRODUCT_PRICE = (shop_link: string) => `/shop/${shop
 export const REAL_OFFER_ADD_PRODUCT_DELIVERIES = (shop_link: string) => `/shop/${shop_link}/offer/product/livraison`;
 
 // Temp Offers Routes
+export const TEMP_OFFER_ROUTE = (offer_pk: string) => `/temp-offer/${offer_pk}/`;
 // export const TEMP_OFFER_ROUTE = '/temp-offer';
 export const TEMP_OFFER_ADD_INDEX = '/temp-offer/create';
 export const TEMP_OFFER_ADD_PRODUCT_CATEGORIES = '/temp-offer/product/create';
 export const TEMP_OFFER_ADD_PRODUCT_DESCRIPTION = '/temp-offer/product/create/description';
 export const TEMP_OFFER_ADD_PRODUCT_PRICE = '/temp-offer/product/create/prix';
 export const TEMP_OFFER_ADD_PRODUCT_DELIVERIES = '/temp-offer/product/create/livraison';
-export const TEMP_OFFER_ADD_PRODUCT_OVERVIEW = (offer_pk: string) => `/temp-offer/${offer_pk}/`;
 
 // Auth Routes
 export const AUTH_REGISTER = '/auth/register';

@@ -24,14 +24,10 @@ import WtspSVG from '../../../public/assets/svgs/globalIcons/whatsapp-circular.s
 import BorderIconButton from '../../../components/htmlElements/buttons/borderIconButton/borderIconButton';
 import {
 	addMyInfosStackType,
-	checkBoxesForWhomActionType,
-	chipActionsType,
 	contacterPhoneInputType,
 	DropDownActionType,
-	switchActionType,
 } from '../../../types/ui/uiTypes';
 import InfoTabContent from '../../../components/groupedComponents/temp-shop/edit/info-Tab_Content/InfoTabContent';
-import BoutiqueTabContent from '../../../components/groupedComponents/temp-shop/edit/boutique-Tab_Content/boutiqueTabContent';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
@@ -66,8 +62,8 @@ import {
 	getShopWhatsapp,
 	getShopAddressName,
 	getMyOffersList,
-	getOfferOfferApi,
-} from '../../../store/selectors';
+	getOfferOfferApi
+} from "../../../store/selectors";
 import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
 import InfoIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-info.svg';
 import AvatarIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-avatar.svg';
@@ -78,7 +74,7 @@ import AjouterMesInfosStack from '../../../components/groupedComponents/temp-sho
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../create/color';
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
-import { IconColorType } from '../../../types/_init/_initTypes';
+import { IconColorType, InitStateToken, InitStateUniqueID } from "../../../types/_init/_initTypes";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
@@ -89,16 +85,27 @@ import { offerGetMyOffersFirstPageAction } from '../../../store/actions/offer/of
 import ApiLoadingResponseOrError from '../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
 import { getCookie } from "cookies-next";
 import CustomFooter from "../../../components/layouts/footer/customFooter";
-import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
+import MobileFilterWhiteSVG from "../../../public/assets/svgs/globalIcons/mobile-filter-white.svg";
+import MobileOffersFilterButton
+	from "../../../components/mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton";
+import ShopTabContent from "../../../components/groupedComponents/shop/get/shopTabContent/shopTabContent";
+import { getServerSideCookieTokens } from "../../../utils/helpers";
+import EditShopTabContent from "../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent";
 
-const Index: NextPage = () => {
+type Props = {
+	pageProps: {
+		unique_id: string;
+	}
+}
+
+const Index: NextPage<Props> = (props: Props) => {
 	const router = useRouter();
 	const { created } = router.query;
 	const dispatch = useAppDispatch();
 	const avatarInputRef = useRef<HTMLInputElement>(null);
 	const [modalDismissed, setModalDismissed] = useState(false);
 	const offerApi = useAppSelector(getOfferOfferApi);
-
+	const {unique_id} = props.pageProps;
 	const shopName = useAppSelector(getShopName);
 	const bio = useAppSelector(getShopBio);
 	const opening_days = useAppSelector(getShopOpeningDays);
@@ -135,11 +142,11 @@ const Index: NextPage = () => {
 	const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconBlackSVG);
 	// Promo states
-	const [promoCheck, setPromoCheck] = useState(false);
+	// const [promoCheck, setPromoCheck] = useState(false);
 	// For whom states
-	const [enfantCheck, setEnfantCheck] = useState(false);
-	const [femmeCheck, setFemmeCheck] = useState(false);
-	const [hommeCheck, setHommeCheck] = useState(false);
+	// const [enfantCheck, setEnfantCheck] = useState(false);
+	// const [femmeCheck, setFemmeCheck] = useState(false);
+	// const [hommeCheck, setHommeCheck] = useState(false);
 	// modals
 	const [openContacterModal, setContacterModalOpen] = useState<boolean>(false);
 	const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
@@ -192,69 +199,70 @@ const Index: NextPage = () => {
 		setPhoneSwitch(value);
 		setWtspSwitch(!value);
 	};
-	// categories action
-	const chipCategoriesAction: chipActionsType = [
-		{
-			buttonText: 'Bien-être',
-			selected: false,
-			border: border,
-			textColor: colorCode,
-			backgroundColor: bgColorCode,
-			onClick: () => {
-				return;
-			},
-		},
-		{
-			buttonText: 'Service',
-			selected: false,
-			border: border,
-			textColor: colorCode,
-			backgroundColor: bgColorCode,
-			onClick: () => {
-				return;
-			},
-		},
-		{
-			buttonText: 'Sport',
-			selected: false,
-			border: border,
-			textColor: colorCode,
-			backgroundColor: bgColorCode,
-			onClick: () => {
-				return;
-			},
-		},
-	];
-	// promo check action
-	const promoCheckAction: switchActionType = {
-		activeColor: bgColorCode,
-		checked: promoCheck,
-		onChange: setPromoCheck,
-	};
-	// for whom action
-	const checkBoxesForWhomAction: Array<checkBoxesForWhomActionType> = [
-		{
-			text: 'Enfant',
-			checked: enfantCheck,
-			active: true,
-			onChange: setEnfantCheck,
-			activeColor: bgColorCode,
-		},
-		{
-			text: 'Femme',
-			checked: femmeCheck,
-			active: true,
-			onChange: setFemmeCheck,
-			activeColor: bgColorCode,
-		},
-		{
-			text: 'Homme',
-			checked: hommeCheck,
-			active: true,
-			onChange: setHommeCheck,
-			activeColor: bgColorCode,
-		},
-	];
+	// // categories action
+	// const chipCategoriesAction: chipActionsType = [
+	// 	{
+	// 		buttonText: 'Bien-être',
+	// 		selected: false,
+	// 		border: border,
+	// 		textColor: colorCode,
+	// 		backgroundColor: bgColorCode,
+	// 		onClick: () => {
+	// 			return;
+	// 		},
+	// 	},
+	// 	{
+	// 		buttonText: 'Service',
+	// 		selected: false,
+	// 		border: border,
+	// 		textColor: colorCode,
+	// 		backgroundColor: bgColorCode,
+	// 		onClick: () => {
+	// 			return;
+	// 		},
+	// 	},
+	// 	{
+	// 		buttonText: 'Sport',
+	// 		selected: false,
+	// 		border: border,
+	// 		textColor: colorCode,
+	// 		backgroundColor: bgColorCode,
+	// 		onClick: () => {
+	// 			return;
+	// 		},
+	// 	},
+	// ];
+	// // promo check action
+	// const promoCheckAction: switchActionType = {
+	// 	activeColor: bgColorCode,
+	// 	checked: promoCheck,
+	// 	onChange: setPromoCheck,
+	// };
+	// // for whom action
+	// const checkBoxesForWhomAction: Array<checkBoxesForWhomActionType> = [
+	// 	{
+	// 		text: 'Enfant',
+	// 		checked: enfantCheck,
+	// 		active: true,
+	// 		onChange: setEnfantCheck,
+	// 		activeColor: bgColorCode,
+	// 	},
+	// 	{
+	// 		text: 'Femme',
+	// 		checked: femmeCheck,
+	// 		active: true,
+	// 		onChange: setFemmeCheck,
+	// 		activeColor: bgColorCode,
+	// 	},
+	// 	{
+	// 		text: 'Homme',
+	// 		checked: hommeCheck,
+	// 		active: true,
+	// 		onChange: setHommeCheck,
+	// 		activeColor: bgColorCode,
+	// 	},
+	// ];
+
 	// contacter action
 	const contacterAction: Array<contacterPhoneInputType> = [
 		{
@@ -368,7 +376,7 @@ const Index: NextPage = () => {
 	];
 
 	const userOffersList = useAppSelector(getMyOffersList);
-	const [hideAsideNav, setHideAsideNav] = useState<boolean>(userOffersList.length > 0);
+	// const [hideAsideNav, setHideAsideNav] = useState<boolean>(userOffersList.length > 0);
 	const [userOffersFetched, setUserOffersFetched] = useState<boolean>(userOffersList.length > 0);
 
 	useEffect(() => {
@@ -378,9 +386,9 @@ const Index: NextPage = () => {
 		// if (offerApi.fetchPromiseStatus === 'RESOLVED') {
 		// 	setUserOffersFetched(true);
 		// }
-		if (userOffersList) {
-			setHideAsideNav(false);
-		}
+		// if (userOffersList) {
+		// 	setHideAsideNav(false);
+		// }
 		// avatar
 		if (shopAvatar) {
 			setPreview(shopAvatar);
@@ -432,9 +440,9 @@ const Index: NextPage = () => {
 			if (offerApi.fetchPromiseStatus === 'RESOLVED') {
 				setUserOffersFetched(true);
 			}
-			if (userOffersList) {
-				setHideAsideNav(true);
-			}
+			// if (userOffersList) {
+			// 	setHideAsideNav(true);
+			// }
 		}
 	}, [
 		dispatch,
@@ -549,6 +557,8 @@ const Index: NextPage = () => {
 		},
 		[dispatch],
 	);
+
+	const [openFilterModal, setOpenFilterModal] = useState<boolean>(false);
 
 	return (
 		<>
@@ -706,16 +716,40 @@ const Index: NextPage = () => {
 						<div>
 							<div className={Styles.shopDetailsWrapper}>
 								<div className={Styles.shopTabs}>
+									<MobileOffersFilterButton
+										buttonText="Filtrer"
+										svgIcon={MobileFilterWhiteSVG}
+										textColor="#FFFFFF"
+										backgroundColor="#0D070B"
+										onClick={() => setOpenFilterModal(true)}
+									/>
 									<ShopInfoTabs
+										// shopContent={
+										// 	<BoutiqueTabContent
+										// 		// chipCategoriesAction={chipCategoriesAction}
+										// 		// promoCheckAction={promoCheckAction}
+										// 		// checkBoxForWhomAction={checkBoxesForWhomAction}
+										// 		activeColor={bgColorCode}
+										// 		hidden={hideAsideNav}
+										// 		openFilterModal={openFilterModal}
+										// 		setOpenFilterModal={setOpenFilterModal}
+										// 	/>
 										shopContent={
-											<BoutiqueTabContent
-												chipCategoriesAction={chipCategoriesAction}
-												promoCheckAction={promoCheckAction}
-												checkBoxForWhomAction={checkBoxesForWhomAction}
+											// <ShopTabContent
+											// 	activeColor={bgColorCode}
+											// 	shop_pk={unique_id} // note : using unique ID type guard string (temp shop)
+											// 	shop_type="TEMP_shop"
+											// 	openFilterModal={openFilterModal}
+											// 	setOpenFilterModal={setOpenFilterModal}
+											// />
+											<EditShopTabContent
 												activeColor={bgColorCode}
-												hidden={hideAsideNav}
+												shop_pk={unique_id} // note : using unique ID type guard string (temp shop)
+												openFilterModal={openFilterModal}
+												setOpenFilterModal={setOpenFilterModal}
+												shop_type="TEMP_SHOP"
 											/>
-										}
+											}
 										InfoContent={
 											<InfoTabContent
 												setOpenInfoModal={setOpenInfoModal}
@@ -928,17 +962,27 @@ const Index: NextPage = () => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
-	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
+	const appToken = getServerSideCookieTokens(context);
+	if (typeof appToken.tokenType === 'undefined' || appToken.tokenType === null || appToken.tokenType === undefined) {
 		return {
 			redirect: {
 				permanent: false,
 				destination: TEMP_SHOP_ADD_SHOP_NAME,
 			},
 		};
-	}
-	return {
-		props: {},
+	} else if (appToken.tokenType === 'UNIQUE_ID' && appToken.initStateUniqueID.unique_id){
+		return {
+			props: {
+				unique_id: appToken.initStateUniqueID.unique_id
+			}
+		}
+	} else {
+		return {
+			redirect: {
+				permanent: false,
+				destination: TEMP_SHOP_ADD_SHOP_NAME,
+			},
+		};
 	}
 }
 

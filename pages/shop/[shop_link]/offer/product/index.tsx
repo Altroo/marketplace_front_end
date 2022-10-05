@@ -14,12 +14,16 @@ import { getLocalOfferCategories } from '../../../../../store/selectors';
 import PrimaryAnchorButton from '../../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import {
 	AUTH_SHOP_LINK_ROUTE,
+	NOT_FOUND_404,
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
-	TEMP_SHOP_ADD_SHOP_NAME
-} from "../../../../../utils/routes";
+	TEMP_SHOP_ADD_SHOP_NAME,
+} from '../../../../../utils/routes';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
+import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
+import { getApi } from '../../../../../store/services/_init/_initAPI';
 
 const Index: NextPage = () => {
 	const router = useRouter();
@@ -72,11 +76,40 @@ const Index: NextPage = () => {
 	);
 };
 
-// TODO : weak check - requires to check if user own a shop
-// same goes for the rest of the pages - description - livraison - prix
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
-	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
+	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
+	const appToken = getServerSideCookieTokens(context);
+	try {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+			const instance = isAuthenticatedInstance(appToken.initStateToken);
+			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
+			if (response.status === 200) {
+				// user has shop - proceed to add offer
+				if (response.data.has_shop) {
+					return {
+						props: {},
+					};
+				} else {
+					// user don't own a shop - proceed to create one.
+					return {
+						redirect: {
+							permanent: false,
+							destination: TEMP_SHOP_ADD_SHOP_NAME,
+						},
+					};
+				}
+			} else {
+				// user not authenticated
+				return {
+					redirect: {
+						permanent: false,
+						destination: TEMP_SHOP_ADD_SHOP_NAME,
+					},
+				};
+			}
+		}
+	} catch (e) {
+		// fall back error
 		return {
 			redirect: {
 				permanent: false,
@@ -84,9 +117,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			},
 		};
 	}
-	return {
-		props: {},
-	};
 }
 
 export default Index;

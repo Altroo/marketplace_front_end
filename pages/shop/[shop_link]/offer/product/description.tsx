@@ -8,6 +8,7 @@ import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/d
 import {
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ADD_PRODUCT_CATEGORIES,
+	REAL_OFFER_ADD_PRODUCT_PRICE,
 	TEMP_SHOP_ADD_SHOP_NAME,
 } from '../../../../../utils/routes';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
@@ -36,10 +37,12 @@ import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import { setOfferDescriptionPage } from '../../../../../store/actions/offer/offerActions';
 import { useRouter } from 'next/router';
 import {
-	getAvailableCountryCodes,
+	getAvailableCountries,
 	getLocalOfferColors,
+	getLocalOfferCreator,
 	getLocalOfferDescription,
 	getLocalOfferForwhom,
+	getLocalOfferMadeIn,
 	getLocalOfferPictures,
 	getLocalOfferQuantity,
 	getLocalOfferSizes,
@@ -48,10 +51,12 @@ import {
 } from '../../../../../store/selectors';
 import { forWhomData, getForWhomDataArray } from '../../../../../utils/rawData';
 import { OfferForWhomType } from '../../../../../types/offer/offerTypes';
-import { getCookie } from 'cookies-next';
-import { placesGetCountryCodesAction } from '../../../../../store/actions/places/placesActions';
-import OfferCreatorRadioCheckContent
-	from "../../../../../components/groupedComponents/offer/creatorRadioCheckContent/offerCreatorRadioCheckContent";
+import { placesGetCountriesAction } from '../../../../../store/actions/places/placesActions';
+import OfferCreatorRadioCheckContent from '../../../../../components/groupedComponents/offer/creatorRadioCheckContent/offerCreatorRadioCheckContent';
+import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
+import { getApi } from '../../../../../store/services/_init/_initAPI';
+import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 
 const Description: NextPage = () => {
 	const activeStep = '2';
@@ -98,8 +103,10 @@ const Description: NextPage = () => {
 	const pickedColorsList = useAppSelector(getLocalOfferColors);
 	const pickedSizesList = useAppSelector(getLocalOfferSizes);
 	const pickedQuantity = useAppSelector(getLocalOfferQuantity);
+	const pickedMadeIn = useAppSelector(getLocalOfferMadeIn);
+	const pickedCreator = useAppSelector(getLocalOfferCreator);
 	const pickedTags = useAppSelector(getLocalOfferTags);
-	const availableCountryCodes = useAppSelector(getAvailableCountryCodes);
+	const availableCountries = useAppSelector(getAvailableCountries);
 	// on change images
 	const imagesOnChangeHandler = (imageList: ImageUploadingType) => {
 		setImages(imageList);
@@ -111,12 +118,27 @@ const Description: NextPage = () => {
 		tags: Array<string>;
 	};
 	const [colorSwitchOpen, setColorSwitchOpen] = useState<boolean>(false);
+	const [labelsSwitchOpen, setLabelsSwitchOpen] = useState<boolean>(false);
 	const [sizesSwitchOpen, setSizesSwitchOpen] = useState<boolean>(false);
 	const [quantitySwitchOpen, setQuantitySwitchOpen] = useState<boolean>(false);
 
+	// Labels
+	const [madeIn, setMadeIn] = useState<string>('Maroc');
+	const [togglePickedCreator, setTogglePickedCreator] = useState<boolean>(false);
+
 	useEffect(() => {
-		if (availableCountryCodes.length === 0) {
-			dispatch(placesGetCountryCodesAction());
+		if (availableCountries.length === 0) {
+			dispatch(placesGetCountriesAction());
+		}
+		if (typeof pickedCreator === 'boolean') {
+			setTogglePickedCreator(pickedCreator);
+			if (pickedCreator) {
+				setLabelsSwitchOpen(true);
+			}
+		}
+		if (pickedMadeIn) {
+			setMadeIn(pickedMadeIn);
+			setLabelsSwitchOpen(true);
 		}
 		if (pickedTitle && !typingTitle) {
 			setOfferTitle(pickedTitle);
@@ -170,7 +192,7 @@ const Description: NextPage = () => {
 			setQuantitySwitchOpen(true);
 		}
 	}, [
-		availableCountryCodes.length,
+		availableCountries.length,
 		pickedQuantity,
 		pickedColorsList,
 		offerTitle,
@@ -185,6 +207,8 @@ const Description: NextPage = () => {
 		typingDescription,
 		pickingTags,
 		dispatch,
+		pickedCreator,
+		pickedMadeIn,
 	]);
 
 	// submit handler
@@ -218,20 +242,26 @@ const Description: NextPage = () => {
 			productSizesArray.push('XL');
 		}
 		const productSizesStr = productSizesArray.join(',');
-
-		dispatch(
-			setOfferDescriptionPage(
-				values.title,
-				images,
-				values.description,
-				forWhomStr,
-				productColorsStr,
-				productSizesStr,
-				quantity,
-				values.tags.join(','),
-				router,
-			),
+		const action = setOfferDescriptionPage(
+			values.title,
+			images,
+			values.description,
+			forWhomStr,
+			productColorsStr,
+			productSizesStr,
+			quantity,
+			madeIn,
+			togglePickedCreator,
+			values.tags.join(','),
 		);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
+				if (!error && !cancelled && data) {
+					router.push(REAL_OFFER_ADD_PRODUCT_PRICE(router.query.shop_link as string)).then();
+				}
+			},
+		});
 	};
 
 	// on change for whom
@@ -277,6 +307,7 @@ const Description: NextPage = () => {
 									title: offerTitle,
 									images: images,
 									description: offerDescription,
+									made_in: madeIn,
 									tags: offerTags,
 								}}
 								validateOnMount={true}
@@ -387,7 +418,12 @@ const Description: NextPage = () => {
 														/>
 													</Grid>
 													<Grid item md={6} sm={12} xs={12}>
-														<OfferCreatorRadioCheckContent/>
+														<OfferCreatorRadioCheckContent
+															pickedCountry={madeIn}
+															setPickedCountry={setMadeIn}
+															pickedCreator={togglePickedCreator}
+															togglePickedCreator={setTogglePickedCreator}
+															switchOpen={labelsSwitchOpen}/>
 													</Grid>
 												</Grid>
 												<Grid container columnSpacing={1}>
@@ -439,11 +475,40 @@ const Description: NextPage = () => {
 	);
 };
 
-// TODO : weak check - requires to check if user own a shop
-// get creator & pass data via props.
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
-	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
+	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
+	const appToken = getServerSideCookieTokens(context);
+	try {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+			const instance = isAuthenticatedInstance(appToken.initStateToken);
+			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
+			if (response.status === 200) {
+				// user has shop - proceed to add offer
+				if (response.data.has_shop) {
+					return {
+						props: {},
+					};
+				} else {
+					// user don't own a shop - proceed to create one.
+					return {
+						redirect: {
+							permanent: false,
+							destination: TEMP_SHOP_ADD_SHOP_NAME,
+						},
+					};
+				}
+			} else {
+				// user not authenticated
+				return {
+					redirect: {
+						permanent: false,
+						destination: TEMP_SHOP_ADD_SHOP_NAME,
+					},
+				};
+			}
+		}
+	} catch (e) {
+		// fall back error
 		return {
 			redirect: {
 				permanent: false,
@@ -451,9 +516,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			},
 		};
 	}
-	return {
-		props: {},
-	};
 }
 
 export default Description;

@@ -70,6 +70,7 @@ export const addOfferProductSchema = Yup.object().shape({
 				webkitRelativePath: Yup.string(),
 			}),
 	})).min(1, INPUT_IMG_MIN(1)),
+	made_in: Yup.string().required(INPUT_REQUIRED),
 	tags: Yup.lazy((val) =>
 		Array.isArray(val)
 			? Yup.array().of(Yup.string().required(INPUT_REQUIRED))

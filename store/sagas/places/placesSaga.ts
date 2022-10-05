@@ -42,10 +42,7 @@ export function* placesGetCountriesSaga() {
 		const instance : AxiosInstance = yield call(() => allowAnyInstance());
 		const response: PlacesGetCountriesResponseType = yield call(() => getApi(url, instance, params));
 		if (response.status === 200) {
-			yield put(setGetCountries({ ...response.data }));
-		} else {
-			console.log(response.status);
-			console.log(response.data);
+			yield put(setGetCountries(response.data));
 		}
 	} catch (e) {
 		const errors = e as ApiErrorResponseType;

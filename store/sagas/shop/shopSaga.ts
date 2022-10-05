@@ -132,7 +132,6 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 			if (response.status === 200) {
 				// update state
 				yield put(setPostShopState(response.data));
-				// TODO check when reach add shop while connected
 				yield call(() => payload.router.push(`${TEMP_SHOP_EDIT_INDEX}?created=true`));
 			}
 		} else {

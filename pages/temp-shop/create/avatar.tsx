@@ -147,7 +147,7 @@ const Avatar: NextPage = () => {
 							</div>
 						</div>
 					</DefaultCardSection>
-					<div className={Styles.primaryButtonWrapper}>
+					<div className={`${Styles.primaryButtonWrapper} ${Styles.marginButtonBottom}`} >
 						<PrimaryButton
 							buttonText="Continuer"
 							active={preview !== null}

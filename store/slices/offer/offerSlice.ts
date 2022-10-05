@@ -58,6 +58,8 @@ const userLocalOfferInitial = {
 	colors: null,
 	sizes: null,
 	quantity: null,
+	made_in: null,
+	creator: false,
 	tags: null,
 	prix: null,
 	prix_par: null,
@@ -337,7 +339,7 @@ const OfferSlice = createSlice({
 				}
 			});
 		},
-		setLocalOfferDescription: (state, action: PayloadAction<Omit<LocalOfferDescriptionPageType, "router">>) => {
+		setLocalOfferDescription: (state, action: PayloadAction<Omit<LocalOfferDescriptionPageType, "router" | "type">>) => {
 			state.userLocalOffer.title = action.payload.title;
 			state.userLocalOffer.description = action.payload.description;
 			state.userLocalOffer.pictures = action.payload.pictures;
@@ -349,6 +351,8 @@ const OfferSlice = createSlice({
 			state.userLocalOffer.colors = action.payload.product_colors;
 			state.userLocalOffer.sizes = action.payload.product_sizes;
 			state.userLocalOffer.quantity = action.payload.product_quantity;
+			state.userLocalOffer.made_in = action.payload.made_in;
+			state.userLocalOffer.creator = action.payload.creator;
 			state.userLocalOffer.tags = action.payload.tags;
 			// return state;
 		},

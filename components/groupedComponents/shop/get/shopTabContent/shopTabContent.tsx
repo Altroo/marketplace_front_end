@@ -105,6 +105,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 	// 	}
 	// };
 	const [availableFiltersHasData, setAvailableFiltersHasData] = useState<boolean>(false);
+
 	useEffect(() => {
 		if (!availableFiltersFetched) {
 			const action = offerGetAvailableFiltersByShopID(shop_pk);
@@ -145,7 +146,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 				queryParams = generateQueryParams(router.query);
 				url += queryParams;
 			}
-			const action = offerGetOffersByShopIDWithQueryParamsAction(shop_pk, url);
+			const action = offerGetOffersByShopIDWithQueryParamsAction(url);
 			dispatch({
 				...action,
 				onComplete: ({ error, cancelled, data }: GetOffersSagaCallBackOnCompleteDataType) => {

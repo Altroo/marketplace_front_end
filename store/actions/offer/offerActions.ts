@@ -11,7 +11,6 @@ import {
 import { NextRouter } from "next/router";
 import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
 import { setOfferToEditPayloadType } from "../../sagas/offer/offerSaga";
-import { EMPTY_OFFER_USER_LOCAL_OFFER } from "../index";
 
 export const setOfferCategories = (categories: OfferCategoriesType) => {
 	return {
@@ -28,8 +27,9 @@ export const setOfferDescriptionPage = (
 	product_colors: string | null,
 	product_sizes: string | null,
 	product_quantity: number | null,
+	made_in: string,
+	creator: boolean,
 	tags: string | null,
-	router: NextRouter,
 ) => {
 	return {
 		type: Types.SET_OFFER_DESCRIPTION_PAGE,
@@ -40,17 +40,17 @@ export const setOfferDescriptionPage = (
 		product_colors,
 		product_sizes,
 		product_quantity,
+		made_in,
+		creator,
 		tags,
-		router
 	};
 };
 
-export const setOfferPricePage = (price: string, price_by: 'U' | 'K' | 'L', router: NextRouter) => {
+export const setOfferPricePage = (price: string, price_by: 'U' | 'K' | 'L') => {
 	return {
 		type: Types.SET_OFFER_PRICE_PAGE,
 		price,
 		price_by,
-		router
 	}
 }
 
@@ -148,7 +148,6 @@ export const offerPostRootProductAction = (
 	delivery_price_3: string | null,
 	delivery_days_3: string | null,
 	tags: string | null,
-	router: NextRouter,
 	creator_label?: boolean,
 	made_in_label?: string,
 ) => {
@@ -181,7 +180,6 @@ export const offerPostRootProductAction = (
 		delivery_price_3,
 		delivery_days_3,
 		tags,
-		router,
 		creator_label,
 		made_in_label,
 	};
@@ -270,7 +268,6 @@ export const offerPutRootProductAction = (
 	delivery_price_3: string | null,
 	delivery_days_3: string | null,
 	tags: string | null,
-	router: NextRouter,
 	creator_label?: boolean,
 	made_in_label?: string,
 ) => {
@@ -300,7 +297,6 @@ export const offerPutRootProductAction = (
 		delivery_price_3,
 		delivery_days_3,
 		tags,
-		router,
 		creator_label,
 		made_in_label,
 	};
@@ -382,12 +378,10 @@ export const offerGetOffersByShopIDAction = (
 };
 
 export const offerGetOffersByShopIDWithQueryParamsAction = (
-	pk: number,
 	url: string,
 ) => {
 	return {
 		type: Types.OFFER_GET_OFFERS_BY_SHOP_ID_AND_QUERY_PARAMS,
-		pk,
 		url,
 	};
 };
@@ -398,6 +392,15 @@ export const offerGetAvailableFiltersByShopID = (
 	return {
 		type: Types.OFFER_GET_AVAILABLE_FILTERS_BY_SHOP_ID,
 		pk,
+	}
+}
+
+export const offerGetAvailableFiltersByUniqueID = (
+	unique_id: string,
+) => {
+	return {
+		type: Types.OFFER_GET_AVAILABLE_FILTERS_BY_UNIQUE_ID,
+		unique_id,
 	}
 }
 

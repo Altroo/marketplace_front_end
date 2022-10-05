@@ -313,7 +313,7 @@ const Font: NextPage = () => {
 							</div>
 						</div>
 					</DefaultCardSection>
-					<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
+					<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.miniMarginButtonBottom} ${Styles.primaryButtonZindexWrapper}`} >
 						<PrimaryButton
 							buttonText="Continuer"
 							active={fontName !== undefined}

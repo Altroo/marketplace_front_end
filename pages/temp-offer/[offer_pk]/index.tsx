@@ -12,14 +12,12 @@ import { Stack, ThemeProvider, ImageListItem, Box, Grid } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import { useRouter } from 'next/router';
 import {
-	getLocalOfferTitle,
 	getOfferOfferApi,
 	getShopBgColorCode,
 	getShopBorder,
 	getShopColorCode,
 } from '../../../store/selectors';
 import {
-	DeliveriesFlatResponseType,
 	DetailsOfferProductType,
 	OfferGetRootProductInterface,
 	OfferGetRootProductResponseType,
@@ -75,7 +73,6 @@ import {
 	offerPatchSolderAction,
 	offerPostPinAction,
 	offerPostSolderAction,
-	setEmptyUserLocalOffer,
 	setOfferToEdit,
 } from '../../../store/actions/offer/offerActions';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
@@ -91,7 +88,9 @@ import Button from '@mui/material/Button';
 import { getCookie } from 'cookies-next';
 import ClickAndCollectDisabledSVG from '../../../public/assets/svgs/globalIcons/click-and-collect-icon-gray.svg';
 import DeliveryDisabledSVG from '../../../public/assets/svgs/globalIcons/delivery-icon-gray.svg';
-import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
+import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
+import ReactCountryFlag from 'react-country-flag';
+import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
 
 const noCommentsAvailableContent = () => {
 	return (
@@ -161,6 +160,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		deliveries,
 		for_whom,
 		tags,
+		made_in_label,
 	} = props.pageProps.data as OfferGetRootProductInterface;
 	const bg_color_code = useAppSelector(getShopBgColorCode);
 	const color_code = useAppSelector(getShopColorCode);
@@ -267,29 +267,61 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 			deliveriesObjList.delivery_price_3 = deliveries[2].delivery_price.toString();
 			deliveriesObjList.delivery_days_3 = deliveries[2].delivery_days.toString();
 		}
-		dispatch(
-			setOfferToEdit({
-				pk: pk,
-				categoriesList: offer_categories,
-				title: title,
-				description: description,
-				pictures: pictures,
-				forWhom: for_whom.join(','),
-				colors: details_offer.product_colors.join(','),
-				sizes: details_offer.product_sizes.join(','),
-				quantity: details_offer.product_quantity,
-				tags: tags.join(','),
-				prix: price as string,
-				prix_par: details_offer.product_price_by,
-				clickAndCollect: {
-					longitude: details_offer.product_longitude ? parseFloat(details_offer.product_longitude) : null,
-					latitude: details_offer.product_latitude ? parseFloat(details_offer.product_latitude) : null,
-					address_name: details_offer.product_address,
-				},
-				deliveries: deliveriesObjList,
-			}),
-		);
-		router.push(TEMP_OFFER_ADD_PRODUCT_CATEGORIES).then();
+		// dispatch(
+		// 	setOfferToEdit({
+		// 		pk: pk,
+		// 		categoriesList: offer_categories,
+		// 		title: title,
+		// 		description: description,
+		// 		pictures: pictures,
+		// 		forWhom: for_whom.join(','),
+		// 		colors: details_offer.product_colors.join(','),
+		// 		sizes: details_offer.product_sizes.join(','),
+		// 		quantity: details_offer.product_quantity,
+		// 		made_in: made_in_label?.name as string,
+		// 		creator: creator_label as boolean,
+		// 		tags: tags.join(','),
+		// 		prix: price as string,
+		// 		prix_par: details_offer.product_price_by,
+		// 		clickAndCollect: {
+		// 			longitude: details_offer.product_longitude ? parseFloat(details_offer.product_longitude) : null,
+		// 			latitude: details_offer.product_latitude ? parseFloat(details_offer.product_latitude) : null,
+		// 			address_name: details_offer.product_address,
+		// 		},
+		// 		deliveries: deliveriesObjList,
+		// 	}),
+		// );
+		// TODO to fix doesn't trigger.
+		const action = setOfferToEdit({
+			pk: pk,
+			categoriesList: offer_categories,
+			title: title,
+			description: description,
+			pictures: pictures,
+			forWhom: for_whom.join(','),
+			colors: details_offer.product_colors.join(','),
+			sizes: details_offer.product_sizes.join(','),
+			quantity: details_offer.product_quantity,
+			made_in: made_in_label?.name as string,
+			creator: false,
+			tags: tags.join(','),
+			prix: price as string,
+			prix_par: details_offer.product_price_by,
+			clickAndCollect: {
+				longitude: details_offer.product_longitude ? parseFloat(details_offer.product_longitude) : null,
+				latitude: details_offer.product_latitude ? parseFloat(details_offer.product_latitude) : null,
+				address_name: details_offer.product_address,
+			},
+			deliveries: deliveriesObjList,
+		});
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
+				if (!error && !cancelled && data) {
+					router.push(TEMP_OFFER_ADD_PRODUCT_CATEGORIES).then();
+				}
+			},
+		});
 	};
 	const offerApi = useAppSelector(getOfferOfferApi);
 
@@ -298,6 +330,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		router.replace(router.asPath).then();
 	};
 	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+
 	const deleteOfferHandler = () => {
 		dispatch(offerDeleteRootAction(pk, router));
 		setShowDeleteModal(false);
@@ -447,8 +480,6 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		},
 	];
 
-	const localOfferTitle = useAppSelector(getLocalOfferTitle);
-
 	useEffect(() => {
 		// check solder values
 		if (
@@ -481,10 +512,6 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		} else {
 			setNewSolderValue('0.00');
 			setIsSolderValid(false);
-		}
-		// empty selected offer to reduce state size
-		if (localOfferTitle) {
-			dispatch(setEmptyUserLocalOffer());
 		}
 		const availableImages: Array<string> = [];
 		if (picture_1) {
@@ -568,11 +595,9 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 	}, [
 		deliveries,
 		details_offer,
-		dispatch,
 		fiftyPourcentSolder,
 		fivePourcentSolder,
 		for_whom,
-		localOfferTitle,
 		newSolderPourcentageValue,
 		offer_categories,
 		picture_1,
@@ -631,7 +656,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 				<Box className={Styles.pageWrapper}>
 					<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
 						{/* DESKTOP Only */}
-						<Stack direction="column" spacing={5} sx={{maxWidth: '55%'}} className={Styles.desktopOnly}>
+						<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }} className={Styles.desktopOnly}>
 							<Stack direction="row" spacing={3}>
 								<Stack direction="column" spacing={1.8}>
 									{availableImages.length > 0 &&
@@ -657,18 +682,18 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 								</Stack>
 								{selectedImage ? (
 									<Box className={Styles.mainImageWrapper}>
-									<ImageFuture
-										className={Styles.selectedImage}
-										src={selectedImage}
-										unoptimized={true}
-										width={500}
-										height={500}
-										sizes="100vw"
-										alt=""
-										loading="lazy"
-										decoding="async"
-										// loader={<ApiProgress/>}
-									/>
+										<ImageFuture
+											className={Styles.selectedImage}
+											src={selectedImage}
+											unoptimized={true}
+											width={500}
+											height={500}
+											sizes="100vw"
+											alt=""
+											loading="lazy"
+											decoding="async"
+											// loader={<ApiProgress/>}
+										/>
 									</Box>
 								) : null}
 							</Stack>
@@ -729,6 +754,17 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 												return <Chip key={index} label={category} variant="filled" className={Styles.chip} />;
 											})}
 										</Stack>
+										{made_in_label && (
+											<Stack direction="row" spacing={1} alignItems="center">
+												<ReactCountryFlag
+													svg
+													aria-label={made_in_label.name}
+													className={Styles.madeInFlag}
+													countryCode={made_in_label.code}
+												/>
+												<span className={Styles.madeInSpan}>Fabriqué au {made_in_label.name}</span>
+											</Stack>
+										)}
 									</Stack>
 								</Stack>
 							</Stack>
@@ -774,89 +810,91 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 								<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 									<PrimaryButton buttonText="Ajouter au panier" active={false} type="submit" />
 								</div>
-							<Box className={Styles.clickAnddeliveriesWrapper}>
-								<Stack
-									direction="column"
-									divider={<Divider orientation="horizontal" flexItem className={Styles.divider} />}
-								>
-									{details_offer.product_address ? (
-										<Stack
-											direction="row"
-											justifyContent="space-between"
-											className={Styles.deliveryRow}
-											alignItems="center"
-										>
-											<Stack direction="row" alignItems="center">
-												<ImageFuture src={ClickAndCollectSVG} width={40} height={40} alt="" />
-												<Stack direction="column">
-													<span className={Styles.deliveriesTitle}>Click & collect</span>
-													<span className={Styles.deliveryDetails}>Dès demain</span>
-													<span className={Styles.deliveryDetails}>{details_offer.product_address}</span>
-												</Stack>
-											</Stack>
-											<span className={Styles.deliveryPrice}>Gratuite</span>
-										</Stack>
-									) : (
-										<Stack
-											direction="row"
-											justifyContent="space-between"
-											className={Styles.deliveryNotFoundRow}
-											alignItems="center"
-										>
-											<Stack direction="row" alignItems="center">
-												<ImageFuture src={ClickAndCollectDisabledSVG} width={40} height={40} alt="" />
-												<Stack direction="column">
-													<span className={Styles.deliveriesTitleNotFound}>Click & collect</span>
-													<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
-												</Stack>
-											</Stack>
-										</Stack>
-									)}
-									{deliveriesListString.length > 0 ? (
-										deliveriesListString.map((delivery, index) => {
-											return (
-												<Stack
-													key={index}
-													direction="row"
-													justifyContent="space-between"
-													className={Styles.deliveryRow}
-													alignItems="center"
-												>
-													<Stack direction="row" alignItems="center">
-														<ImageFuture src={DeliverySVG} width={40} height={40} alt="" />
-														<Stack direction="column">
-															<span className={Styles.deliveriesTitle}>
-																{delivery.all_cities ? 'Tout le Maroc' : delivery.delivery_city?.split(',').join(', ')}
-															</span>
-															<span className={Styles.deliveryDetails}>
-																{getDate(parseInt(delivery.delivery_days as string))}
-															</span>
-														</Stack>
+								<Box className={Styles.clickAnddeliveriesWrapper}>
+									<Stack
+										direction="column"
+										divider={<Divider orientation="horizontal" flexItem className={Styles.divider} />}
+									>
+										{details_offer.product_address ? (
+											<Stack
+												direction="row"
+												justifyContent="space-between"
+												className={Styles.deliveryRow}
+												alignItems="center"
+											>
+												<Stack direction="row" alignItems="center">
+													<ImageFuture src={ClickAndCollectSVG} width={40} height={40} alt="" />
+													<Stack direction="column">
+														<span className={Styles.deliveriesTitle}>Click & collect</span>
+														<span className={Styles.deliveryDetails}>Dès demain</span>
+														<span className={Styles.deliveryDetails}>{details_offer.product_address}</span>
 													</Stack>
-													<span className={Styles.deliveryPrice}>
-														{delivery.delivery_price === '0' ? 'Gratuite' : delivery.delivery_price + 'DH'}
-													</span>
 												</Stack>
-											);
-										})
-									) : (
-										<Stack
-											direction="row"
-											justifyContent="space-between"
-											className={Styles.deliveryNotFoundRow}
-											alignItems="center"
-										>
-											<Stack direction="row" alignItems="center">
-												<ImageFuture src={DeliveryDisabledSVG} width={40} height={40} alt="" />
-												<Stack direction="column">
-													<span className={Styles.deliveriesTitleNotFound}>Livraison</span>
-													<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
+												<span className={Styles.deliveryPrice}>Gratuite</span>
+											</Stack>
+										) : (
+											<Stack
+												direction="row"
+												justifyContent="space-between"
+												className={Styles.deliveryNotFoundRow}
+												alignItems="center"
+											>
+												<Stack direction="row" alignItems="center">
+													<ImageFuture src={ClickAndCollectDisabledSVG} width={40} height={40} alt="" />
+													<Stack direction="column">
+														<span className={Styles.deliveriesTitleNotFound}>Click & collect</span>
+														<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
+													</Stack>
 												</Stack>
 											</Stack>
-										</Stack>
-									)}
-								</Stack>
-							</Box>
+										)}
+										{deliveriesListString.length > 0 ? (
+											deliveriesListString.map((delivery, index) => {
+												return (
+													<Stack
+														key={index}
+														direction="row"
+														justifyContent="space-between"
+														className={Styles.deliveryRow}
+														alignItems="center"
+													>
+														<Stack direction="row" alignItems="center">
+															<ImageFuture src={DeliverySVG} width={40} height={40} alt="" />
+															<Stack direction="column">
+																<span className={Styles.deliveriesTitle}>
+																	{delivery.all_cities
+																		? 'Tout le Maroc'
+																		: delivery.delivery_city?.split(',').join(', ')}
+																</span>
+																<span className={Styles.deliveryDetails}>
+																	{getDate(parseInt(delivery.delivery_days as string))}
+																</span>
+															</Stack>
+														</Stack>
+														<span className={Styles.deliveryPrice}>
+															{delivery.delivery_price === '0' ? 'Gratuite' : delivery.delivery_price + 'DH'}
+														</span>
+													</Stack>
+												);
+											})
+										) : (
+											<Stack
+												direction="row"
+												justifyContent="space-between"
+												className={Styles.deliveryNotFoundRow}
+												alignItems="center"
+											>
+												<Stack direction="row" alignItems="center">
+													<ImageFuture src={DeliveryDisabledSVG} width={40} height={40} alt="" />
+													<Stack direction="column">
+														<span className={Styles.deliveriesTitleNotFound}>Livraison</span>
+														<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
+													</Stack>
+												</Stack>
+											</Stack>
+										)}
+									</Stack>
+								</Box>
 							</Stack>
 							<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
 								<Divider orientation="horizontal" flexItem className={Styles.divider} />

@@ -20,11 +20,9 @@ import { getCategoriesDataArray, getForWhomDataArray } from '../../../utils/rawD
 import { hexToRGB } from '../../../utils/helpers';
 import { availableColorsList } from '../../groupedComponents/temp-offer/radioCheckElement/colorsRadioCheckContent/colorsRadioCheckContent';
 import IosSwitch from '../../htmlElements/switches/iosSwitch';
-import { AUTH_RESET_PASSWORD } from '../../../utils/routes';
 import TextButton from '../../htmlElements/buttons/textButton/textButton';
 import PrimaryButton from '../../htmlElements/buttons/primaryButton/primaryButton';
 import { OfferColorsListType } from '../../../types/ui/uiTypes';
-import { useAppDispatch } from '../../../utils/hooks';
 import { ParsedUrlQueryInput } from 'node:querystring';
 
 type FilterColorsGridParentType = {
@@ -194,7 +192,6 @@ type Props = {
 const AccordionFilter: React.FC<Props> = (props: Props) => {
 	const { availableFilters } = props;
 	const router = useRouter();
-	// const dispatch = useAppDispatch();
 
 	// filter states
 	const [pickedCategories, setPickedCategories] = useState<Array<string>>([]);

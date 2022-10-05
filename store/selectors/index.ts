@@ -1,9 +1,10 @@
 import { RootState } from '../store';
 import { ShopFontNameType, ShopGetRootUniqueIDType } from "../../types/shop/shopTypes";
-import { IconColorType, TokenChoices } from "../../types/_init/_initTypes";
+import { IconColorType, InitStateUniqueID, TokenChoices } from "../../types/_init/_initTypes";
 import { createSelector } from "reselect";
 import { ChatGetConversationsType } from "../../types/chat/chatTypes";
 import { OfferGetMyOffersProductServiceType, OfferTagsType } from "../../types/offer/offerTypes";
+import { CountriesType } from "../../types/places/placesTypes";
 
 // For createSelector
 const selectSelf = (state: RootState) => state;
@@ -11,8 +12,8 @@ const selectSelf = (state: RootState) => state;
 export const getTokenType = (state: RootState) => state._init.tokenType as TokenChoices;
 export const getInitStateToken = (state: RootState) => state._init.initStateToken;
 export const getAccessToken = (state: RootState) => state._init.initStateToken.access_token;
-export const getInitStateUniqueID = (state: RootState) => state._init.initStateUniqueID;
-
+export const getInitStateUniqueID = (state: RootState) => state._init.initStateUniqueID as InitStateUniqueID;
+// export const getShopUniqueID = (state: RootState) => state._init.initStateUniqueID.unique_id as string;
 // New shop
 export const getNewShopName = (state: RootState) => state.shop.newShop?.shop_name as string;
 export const getNewShopAvatar = (state: RootState) => state.shop.newShop?.avatar as ArrayBuffer;
@@ -78,6 +79,7 @@ export const getPlacesApiError = (state: RootState) => state.places.placesApi.er
 export const getPlacesApiFetchPromiseStatus = (state: RootState) => state.places.placesApi.fetchPromiseStatus;
 export const getAvailableCities = (state: RootState) => state.places.cities;
 export const getAvailableCountryCodes = (state: RootState) => state.places.country_codes as Array<string>;
+export const getAvailableCountries = (state: RootState) => state.places.countries as Array<CountriesType>;
 
 // export const getPlacesApiFetchInProgress = (state: RootState) => state.places.placesApi.isFetchInProgress;
 // Account
@@ -85,6 +87,7 @@ export const getUserProfilAvatar = (state: RootState) => state.account.check_acc
 export const getUserShopUrl = (state: RootState) => state.account.check_account?.shop_url as string | undefined | boolean;
 export const getCheckUserHasShop = (state: RootState) => state.account.check_account?.has_shop as boolean;
 export const getCheckUserHasPassword = (state: RootState) => state.account.check_account?.has_password as boolean;
+export const getCheckUserIsCreator = (state: RootState) => state.account.check_account?.is_creator as boolean;
 export const getUserIsLoggedIn = (state: RootState) => state.account.isLoggedIn;
 export const getCheckEmailAlreadyExists = createSelector(selectSelf, (state: RootState) => state.account.email_exists);
 
@@ -99,6 +102,8 @@ export const getUserLocalOffer = (state: RootState) => state.offer.userLocalOffe
 export const getLocalOfferCategories = (state: RootState) => state.offer.userLocalOffer.categoriesList;
 export const getLocalOfferTitle = (state: RootState) => state.offer.userLocalOffer?.title;
 export const getLocalOfferDescription = (state: RootState) => state.offer.userLocalOffer?.description;
+export const getLocalOfferMadeIn = (state: RootState) => state.offer.userLocalOffer?.made_in;
+export const getLocalOfferCreator = (state: RootState) => state.offer.userLocalOffer?.creator;
 export const getLocalOfferPictures = (state: RootState) => state.offer.userLocalOffer.pictures;
 export const getLocalOfferAddressName = (state: RootState) => state.offer.userLocalOffer.clickAndCollect.address_name;
 export const getLocalOfferLongitude = (state: RootState) => state.offer.userLocalOffer.clickAndCollect.longitude;

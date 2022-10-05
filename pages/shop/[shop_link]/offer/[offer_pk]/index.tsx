@@ -472,6 +472,8 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 				colors: details_offer.product_colors.join(','),
 				sizes: details_offer.product_sizes.join(','),
 				quantity: details_offer.product_quantity,
+				made_in: made_in_label?.name as string,
+				creator: creator_label as boolean,
 				tags: tags.join(','),
 				prix: price as string,
 				prix_par: details_offer.product_price_by,
@@ -743,7 +745,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 													return <Chip key={index} label={category} variant="filled" className={Styles.chip} />;
 												})}
 											</Stack>
-											{creator_label && made_in_label && (
+											{made_in_label && (
 												<Stack direction="row" spacing={1} alignItems="center">
 													<ReactCountryFlag
 														svg
@@ -1174,18 +1176,26 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/${context.params?.shop_link}/${context.params?.offer_pk}/`;
 	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
+	const check_url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	const instance = defaultInstance(base_url);
 	const appToken = getServerSideCookieTokens(context);
 	try {
 		const response: OfferGetRootProductResponseType | OfferGetRootServiceResponseType = await getApi(url, instance);
 		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
 			const isAuthInstance = isAuthenticatedInstance(appToken.initStateToken);
-			const authResponse: AccountGetCheckAccountResponseType = await getApi(url, isAuthInstance);
+			const authResponse: AccountGetCheckAccountResponseType = await getApi(check_url, isAuthInstance);
 			if (authResponse.status === 200 && response.status === 200) {
 				if (authResponse.data.pk === response.data.user_pk) {
 					return {
 						props: {
 							permission: 'OWNER',
+							data: response.data,
+						},
+					};
+				} else {
+					return {
+						props: {
+							permission: 'NOT_OWNER',
 							data: response.data,
 						},
 					};

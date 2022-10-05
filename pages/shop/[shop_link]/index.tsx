@@ -1,126 +1,118 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
-import { GetServerSidePropsContext, NextPage } from "next";
-import Styles from "../../../styles/shop/shopIndex.module.sass";
-import SharedStyles from "../../../styles/temp-shop/create/shopCreateShared.module.sass";
-import { useRouter } from "next/router";
-import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
-import IconAnchorButton from "../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton";
-import ShopInfoTabs from "../../../components/htmlElements/tabs/tab";
-import MessageIconWhiteSVG from "../../../public/assets/svgs/globalIcons/message-white.svg";
-import MessageIconBlackSVG from "../../../public/assets/svgs/globalIcons/message-black.svg";
-import ContactIconBlueSVG from "../../../public/assets/svgs/globalIcons/call-blue.svg";
-import ContactIconWhiteSVG from "../../../public/assets/svgs/globalIcons/call-white.svg";
-import ContactIconBlackSVG from "../../../public/assets/svgs/globalIcons/call-black.svg";
-import CircularAvatar from "../../../components/htmlElements/images/circularAvatar/circularAvatar";
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import { GetServerSidePropsContext, NextPage } from 'next';
+import Styles from '../../../styles/shop/shopIndex.module.sass';
+import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
+import { useRouter } from 'next/router';
+import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
+import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
+import ShopInfoTabs from '../../../components/htmlElements/tabs/tab';
+import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
+import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
+import ContactIconBlueSVG from '../../../public/assets/svgs/globalIcons/call-blue.svg';
+import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
+import ContactIconBlackSVG from '../../../public/assets/svgs/globalIcons/call-black.svg';
+import CircularAvatar from '../../../components/htmlElements/images/circularAvatar/circularAvatar';
 import {
 	OpeningDaysArray,
 	ShopFontNameType,
 	ShopGetRootTokenResponseType,
 	ShopGetRootTokenType,
-	ShopZoneByType
-} from "../../../types/shop/shopTypes";
-import DesktopPublishEditNavbar
-	from "../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar";
-import MobilePublishEditNavbar
-	from "../../../components/mobile/navbars/mobilePublishEditNavbar/mobilePublishEditNavbar";
-import Image from "next/image";
-import BlackStarSVG from "../../../public/assets/svgs/globalIcons/black-star.svg";
+	ShopZoneByType,
+} from '../../../types/shop/shopTypes';
+import DesktopPublishEditNavbar from '../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
+import MobilePublishEditNavbar from '../../../components/mobile/navbars/mobilePublishEditNavbar/mobilePublishEditNavbar';
+import Image from 'next/image';
+import BlackStarSVG from '../../../public/assets/svgs/globalIcons/black-star.svg';
 // import EditBlueSVG from "../../../public/assets/svgs/globalIcons/edit-blue.svg";
-import CloseSVG from "../../../public/assets/svgs/navigationIcons/close.svg";
-import PhoneSVG from "../../../public/assets/svgs/globalIcons/contact-phone.svg";
-import WtspSVG from "../../../public/assets/svgs/globalIcons/whatsapp-circular.svg";
-import BorderIconButton from "../../../components/htmlElements/buttons/borderIconButton/borderIconButton";
+import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
+import PhoneSVG from '../../../public/assets/svgs/globalIcons/contact-phone.svg';
+import WtspSVG from '../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
+import BorderIconButton from '../../../components/htmlElements/buttons/borderIconButton/borderIconButton';
 import {
 	addMyInfosStackType,
 	checkBoxesForWhomActionType,
 	chipActionsType,
 	contacterPhoneInputType,
 	DropDownActionType,
-	switchActionType
-} from "../../../types/ui/uiTypes";
-import InfoTabContent from "../../../components/groupedComponents/temp-shop/edit/info-Tab_Content/InfoTabContent";
-import BoutiqueTabContent
-	from "../../../components/groupedComponents/temp-shop/edit/boutique-Tab_Content/boutiqueTabContent";
-import HelperDescriptionHeader from "../../../components/headers/helperDescriptionHeader/helperDescriptionHeader";
-import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
-import RightSwipeModal from "../../../components/desktop/modals/rightSwipeModal/rightSwipeModal";
-import ContacterPhoneInput
-	from "../../../components/groupedComponents/temp-shop/edit/contacterPhoneInput/contacterPhoneInput";
+	switchActionType,
+} from '../../../types/ui/uiTypes';
+import InfoTabContent from '../../../components/groupedComponents/temp-shop/edit/info-Tab_Content/InfoTabContent';
+import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
+import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
+import ContacterPhoneInput from '../../../components/groupedComponents/temp-shop/edit/contacterPhoneInput/contacterPhoneInput';
 import {
 	shopPatchAvatarAction,
 	shopPatchColorAction,
 	shopPatchFontAction,
-	shopPatchPhoneContactAction
-} from "../../../store/actions/shop/shopActions";
-import { getMyOffersList, getOfferOfferApi } from "../../../store/selectors";
-import IconButton from "../../../components/htmlElements/buttons/iconButton/iconButton";
+	shopPatchPhoneContactAction,
+} from '../../../store/actions/shop/shopActions';
+import { getMyOffersList, getOfferOfferApi } from '../../../store/selectors';
+import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
 // import InfoIconSVG from "../../../public/assets/svgs/globalIcons/drop-down-info.svg";
-import AvatarIconSVG from "../../../public/assets/svgs/globalIcons/drop-down-avatar.svg";
-import ColorIconSVG from "../../../public/assets/svgs/globalIcons/drop-down-color.svg";
-import FontIconSVG from "../../../public/assets/svgs/globalIcons/drop-down-font.svg";
+import AvatarIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-avatar.svg';
+import ColorIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-color.svg';
+import FontIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-font.svg';
 import ContactIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-contact.svg';
-import { Backdrop, Box, Stack } from "@mui/material";
-import AjouterMesInfosStack
-	from "../../../components/groupedComponents/temp-shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack";
-import DesktopColorPicker from "../../../components/desktop/modals/desktopColorPicker/desktopColorPicker";
-import { colors } from "../../temp-shop/create/color";
-import { cookiesPoster, getApi } from "../../../store/services/_init/_initAPI";
+import { Backdrop, Box, Stack } from '@mui/material';
+import AjouterMesInfosStack from '../../../components/groupedComponents/temp-shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack';
+import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
+import { colors } from '../../temp-shop/create/color';
+import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
 import {
 	ApiErrorResponseType,
 	IconColorType,
 	PaginationResponseType,
-	SagaCallBackOnCompleteBoolType
-} from "../../../types/_init/_initTypes";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Lazy, Navigation, Pagination } from "swiper";
-import MobileColorPicker from "../../../components/mobile/modals/mobileColorPicker/mobileColorPicker";
-import { availableFonts } from "../../temp-shop/create/font";
-import FontPicker from "../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker";
+	SagaCallBackOnCompleteBoolType,
+} from '../../../types/_init/_initTypes';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Lazy, Navigation, Pagination } from 'swiper';
+import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
+import { availableFonts } from '../../temp-shop/create/font';
+import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
 import {
 	AUTH_LOGIN,
 	AUTH_REGISTER,
 	NOT_FOUND_404,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_EDIT_INDEX
-} from "../../../utils/routes";
+	TEMP_SHOP_EDIT_INDEX,
+} from '../../../utils/routes';
 import {
 	offerGetMyOffersFirstPageAction,
-	offerGetOffersByShopIDAction
-} from "../../../store/actions/offer/offerActions";
+	offerGetOffersByShopIDAction,
+} from '../../../store/actions/offer/offerActions';
 import {
 	defaultInstance,
 	getBackendNextPageNumber,
 	getServerSideCookieTokens,
-	isAuthenticatedInstance
-} from "../../../utils/helpers";
-import { AccountGetCheckAccountResponseType } from "../../../types/account/accountTypes";
+	isAuthenticatedInstance,
+} from '../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import {
 	OfferGetAvailableShopFiltersType,
 	OfferGetMyOffersProductInterface,
-	OfferGetMyOffersServiceInterface
-} from "../../../types/offer/offerTypes";
-import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
-import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
-import CustomFooter from "../../../components/layouts/footer/customFooter";
-import { default as ImageFuture } from "next/future/image";
+	OfferGetMyOffersServiceInterface,
+} from '../../../types/offer/offerTypes';
+import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
+import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
+import CustomFooter from '../../../components/layouts/footer/customFooter';
+import { default as ImageFuture } from 'next/future/image';
 // import ShopTabContent from '../../../components/groupedComponents/shop/get/shopTabContent/shopTabContent';
-import ShopTabContent from "../../../components/groupedComponents/shop/get/shopTabContent/shopTabContent";
-import ShopInfoTabContent from "../../../components/groupedComponents/shop/get/shopInfoTabContent/shopInfoTabContent";
-import ShopNotVerified from "../../../components/groupedComponents/shop/get/shopNotVerified/shopNotVerified";
-import ShopVerified from "../../../components/groupedComponents/shop/get/shopVerified/shopVerified";
-import ShareSVG from "../../../public/assets/svgs/globalIcons/share-blue.svg";
-import { paginationInitial } from "../../../store/slices/_init/_initSlice";
-import MobileFilterWhiteSVG from "../../../public/assets/svgs/globalIcons/mobile-filter-white.svg";
-import MobileOffersFilterButton
-	from "../../../components/mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton";
-import AccordionFilter from "../../../components/layouts/accordionFilter/accordionFilter";
-import ShopNotIndexed from "../../../components/groupedComponents/shop/edit/shopNotIndexed/shopNotIndexed";
-import EditShopInfoTabContent
-	from "../../../components/groupedComponents/shop/edit/editShopInfoTabContent/editShopInfoTabContent";
-import EditShopTabContent from "../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent";
-import EditIconSVG from "../../../public/assets/svgs/globalIcons/blue-pencil.svg";
-import DropDownMenu from "../../../components/htmlElements/buttons/dropDownMenu/dropDownMenu";
-import IconDropDownMenu from "../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu";
+import ShopTabContent from '../../../components/groupedComponents/shop/get/shopTabContent/shopTabContent';
+import ShopInfoTabContent from '../../../components/groupedComponents/shop/get/shopInfoTabContent/shopInfoTabContent';
+import ShopNotVerified from '../../../components/groupedComponents/shop/get/shopNotVerified/shopNotVerified';
+import ShopVerified from '../../../components/groupedComponents/shop/get/shopVerified/shopVerified';
+import ShareSVG from '../../../public/assets/svgs/globalIcons/share-blue.svg';
+import { paginationInitial } from '../../../store/slices/_init/_initSlice';
+import MobileFilterWhiteSVG from '../../../public/assets/svgs/globalIcons/mobile-filter-white.svg';
+import MobileOffersFilterButton from '../../../components/mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton';
+import AccordionFilter from '../../../components/layouts/accordionFilter/accordionFilter';
+import ShopNotIndexed from '../../../components/groupedComponents/shop/edit/shopNotIndexed/shopNotIndexed';
+import EditShopInfoTabContent from '../../../components/groupedComponents/shop/edit/editShopInfoTabContent/editShopInfoTabContent';
+import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
+import EditIconSVG from '../../../public/assets/svgs/globalIcons/blue-pencil.svg';
+import DropDownMenu from '../../../components/htmlElements/buttons/dropDownMenu/dropDownMenu';
+import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu';
 // import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
 
 type ViewShopType = {
@@ -162,7 +154,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 		longitude: data.longitude,
 		latitude: data.latitude,
 		address_name: data.address_name,
-		km_radius: data.km_radius
+		km_radius: data.km_radius,
 	};
 	const contact_phone_code = data.contact_phone_code;
 	const contact_phone = data.contact_phone;
@@ -186,26 +178,26 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 
 	let phoneContactMode = true;
 	let whatsappContactMode = false;
-	if (contact_mode === "W") {
+	if (contact_mode === 'W') {
 		phoneContactMode = false;
 		whatsappContactMode = true;
 	}
 	const [phoneSwitch, setPhoneSwitch] = useState(phoneContactMode);
 	const [wtspSwitch, setWtspSwitch] = useState(whatsappContactMode);
 
-	let phoneContactCodeInitial = "+212";
+	let phoneContactCodeInitial = '+212';
 	if (contact_phone_code) {
 		phoneContactCodeInitial = contact_phone_code;
 	}
-	let phoneContactInitial = "";
+	let phoneContactInitial = '';
 	if (contact_phone) {
 		phoneContactInitial = contact_phone;
 	}
-	let whatsappContactCodeInitial = "+212";
+	let whatsappContactCodeInitial = '+212';
 	if (contact_whatsapp_code) {
 		whatsappContactCodeInitial = contact_whatsapp_code;
 	}
-	let whatsappContactInitial = "";
+	let whatsappContactInitial = '';
 	if (contact_whatsapp) {
 		whatsappContactInitial = contact_whatsapp;
 	}
@@ -236,25 +228,25 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 		{
 			checked: phoneSwitch,
 			setStateHandler: setPhoneSwitchHandler,
-			label: "Par téléphone",
+			label: 'Par téléphone',
 			backgroundColor: bgColorCode,
 			icon: PhoneSVG,
 			code: phoneCode,
 			setCode: setPhoneCode,
 			value: phoneValue,
-			setValue: setPhoneValue
+			setValue: setPhoneValue,
 		},
 		{
 			checked: wtspSwitch,
 			setStateHandler: setWhatsappSwitchHandler,
-			label: "Par WhatsApp",
+			label: 'Par WhatsApp',
 			backgroundColor: bgColorCode,
 			icon: WtspSVG,
 			code: whatsappCode,
 			setCode: setwhatsappCode,
 			value: whatsappValue,
-			setValue: setwhatsappValue
-		}
+			setValue: setwhatsappValue,
+		},
 	];
 
 	// check horaire added
@@ -268,7 +260,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 		instagram_link,
 		facebook_link,
 		whatsapp,
-		contact_email
+		contact_email,
 	} = shopInfoData;
 	let horaireAdded = false;
 	if (opening_days) {
@@ -290,37 +282,37 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 	// Infos stack actions
 	const infosStackActions: Array<addMyInfosStackType> = [
 		{
-			title: "Nom",
+			title: 'Nom',
 			content: shop_name,
 			added: !!shop_name,
 			openEditModal: openEditShopNameModal,
-			setOpenEditModal: setOpenEditShopNameModal
+			setOpenEditModal: setOpenEditShopNameModal,
 		},
 		{
-			title: "Bio",
+			title: 'Bio',
 			content: bio,
 			added: !!bio,
 			openEditModal: openEditBioModal,
-			setOpenEditModal: setOpenEditBioModal
+			setOpenEditModal: setOpenEditBioModal,
 		},
 		{
-			title: "Horaire",
+			title: 'Horaire',
 			added: horaireAdded,
 			openEditModal: openEditHoraireModal,
-			setOpenEditModal: setOpenEditHoraireModal
+			setOpenEditModal: setOpenEditHoraireModal,
 		},
 		{
-			title: "Coordonées",
+			title: 'Coordonées',
 			added: coordoneesAdded,
 			openEditModal: openEditCoordoneeModal,
-			setOpenEditModal: setOpenEditCoordoneeModal
+			setOpenEditModal: setOpenEditCoordoneeModal,
 		},
 		{
-			title: "Adresse",
+			title: 'Adresse',
 			added: !!address_name,
 			openEditModal: openEditAdressModal,
-			setOpenEditModal: setOpenEditAdressModal
-		}
+			setOpenEditModal: setOpenEditAdressModal,
+		},
 	];
 
 	const [openFilterModal, setOpenFilterModal] = useState<boolean>(false);
@@ -349,24 +341,24 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 		// },
 		{
 			icon: ContactIconSVG,
-			text: "Coordonnées",
-			onClick: setContacterModalOpen
+			text: 'Coordonnées',
+			onClick: setContacterModalOpen,
 		},
 		{
 			icon: AvatarIconSVG,
-			text: "Image de la boutique",
-			onClick: avatarInputOnClickHandler
+			text: 'Image de la boutique',
+			onClick: avatarInputOnClickHandler,
 		},
 		{
 			icon: ColorIconSVG,
-			text: "Couleur de la boutique",
-			onClick: setOpenColorModal
+			text: 'Couleur de la boutique',
+			onClick: setOpenColorModal,
 		},
 		{
 			icon: FontIconSVG,
-			text: "Style du titre",
-			onClick: setOpenFontModal
-		}
+			text: 'Style du titre',
+			onClick: setOpenFontModal,
+		},
 	];
 
 	useEffect(() => {
@@ -388,10 +380,10 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 			setborderState(border);
 		}
 		// set icon colors
-		if (icon_color === "white") {
+		if (icon_color === 'white') {
 			setMessageIcon(MessageIconWhiteSVG);
 			setContactIcon(ContactIconWhiteSVG);
-		} else if (icon_color === "black") {
+		} else if (icon_color === 'black') {
 			setMessageIcon(MessageIconBlackSVG);
 			setContactIcon(ContactIconBlackSVG);
 		}
@@ -413,9 +405,9 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 			setPhoneCode(contact_phone_code);
 		}
 		if (contact_mode) {
-			if (contact_mode === "W") {
+			if (contact_mode === 'W') {
 				setWhatsappSwitchHandler(true);
-			} else if (contact_mode === "P") {
+			} else if (contact_mode === 'P') {
 				setPhoneSwitchHandler(true);
 			}
 		}
@@ -431,7 +423,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 		contact_whatsapp,
 		contact_whatsapp_code,
 		font_name,
-		icon_color
+		icon_color,
 	]);
 
 	// save phone contact modal button
@@ -439,7 +431,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 		if (phoneSwitch) {
 			if (phoneCode) {
 				if (!phoneValue.match(/[^0-9]/)) {
-					dispatch(shopPatchPhoneContactAction(phoneCode, phoneValue, whatsappCode, whatsappValue, "P"));
+					dispatch(shopPatchPhoneContactAction(phoneCode, phoneValue, whatsappCode, whatsappValue, 'P'));
 					setContacterModalOpen(false);
 				}
 			}
@@ -447,7 +439,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 		} else if (wtspSwitch) {
 			if (whatsappCode) {
 				if (!whatsappValue.match(/[^0-9]/)) {
-					dispatch(shopPatchPhoneContactAction(phoneCode, phoneValue, whatsappCode, whatsappValue, "W"));
+					dispatch(shopPatchPhoneContactAction(phoneCode, phoneValue, whatsappCode, whatsappValue, 'W'));
 					setContacterModalOpen(false);
 				}
 			}
@@ -455,28 +447,28 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 	};
 
 	// duplicated
-	const whiteTextColors = ["#FF5D6B", "#0274D7", "#8669FB", "#878E88", "#0D070B"];
-	const whiteText = "#FFFFFF";
-	const blackText = "#0D070B";
-	const [iconColor, setIconColor] = useState<IconColorType>("black");
+	const whiteTextColors = ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
+	const whiteText = '#FFFFFF';
+	const blackText = '#0D070B';
+	const [iconColor, setIconColor] = useState<IconColorType>('black');
 
 	const colorClickHandler = (color: string) => {
 		// If picked color is white => apply border + white text + black bg
 		if (color === whiteText) {
 			setBgColorCode(color);
 			setColorCode(whiteText);
-			setborderState("1px solid #0D070B");
+			setborderState('1px solid #0D070B');
 			// Else other colors than white.
 		} else {
 			setBgColorCode(color);
-			setborderState("0px solid transparent");
+			setborderState('0px solid transparent');
 		}
 		// if picked color fall into those white text colors => apply white text color
 		if (whiteTextColors.includes(color)) {
 			setColorCode(whiteText);
 			setContactIcon(ContactIconWhiteSVG);
 			setMessageIcon(MessageIconWhiteSVG);
-			setIconColor("white");
+			setIconColor('white');
 			if (color === blackText) {
 				setColorCode(whiteText);
 			}
@@ -484,7 +476,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 		} else {
 			setContactIcon(ContactIconBlackSVG);
 			setMessageIcon(MessageIconBlackSVG);
-			setIconColor("black");
+			setIconColor('black');
 			setColorCode(blackText);
 		}
 	};
@@ -515,7 +507,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 				return;
 			}
 			const file = e.target.files[0];
-			if (file && file.type.substring(0, 5) === "image") {
+			if (file && file.type.substring(0, 5) === 'image') {
 				const reader = new FileReader();
 				reader.readAsDataURL(file);
 				reader.onloadend = () => {
@@ -524,7 +516,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 			}
 			router.replace(router.asPath).then();
 		},
-		[dispatch, router]
+		[dispatch, router],
 	);
 
 	return (
@@ -532,13 +524,9 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 			<Stack direction="column">
 				<UserMainNavigationBar />
 				<main className={Styles.main}>
-					{!is_subscribed &&<ShopNotIndexed />}
+					{!is_subscribed && <ShopNotIndexed />}
 					<Stack direction="row" justifyContent="flex-end" alignItems="flex-end" className={Styles.mobileOnly}>
-						<IconDropDownMenu
-							actions={dropDownActions}
-							menuID="desktop-edit-menu"
-							buttonID="desktop-edit-menu-btn"
-						/>
+						<IconDropDownMenu actions={dropDownActions} menuID="desktop-edit-menu" buttonID="desktop-edit-menu-btn" />
 					</Stack>
 					<Stack
 						justifyContent="space-between"
@@ -595,13 +583,13 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 										className={Styles.shopName}
 										style={{
 											fontFamily:
-												fontName === "L"
-													? "Poppins-Light"
-													: fontName === "B"
-														? "Poppins-ExtraBold"
-														: fontName === "S"
-															? "Poppins-SemiBold"
-															: "Poppins"
+												fontName === 'L'
+													? 'Poppins-Light'
+													: fontName === 'B'
+													? 'Poppins-ExtraBold'
+													: fontName === 'S'
+													? 'Poppins-SemiBold'
+													: 'Poppins',
 										}}
 									>
 										{shop_name}
@@ -632,7 +620,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 								active={true}
 								cssClass={Styles.iconButton}
 							/>
-							{(phoneValue || whatsappValue) !== "" ? (
+							{(phoneValue || whatsappValue) !== '' ? (
 								<IconButton
 									buttonText="Contacter"
 									svgIcon={contactIcon}
@@ -711,6 +699,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 									borderColor={bgColorCode}
 									shopContent={
 										<EditShopTabContent
+											shop_type="AUTH_SHOP"
 											activeColor={bgColorCode}
 											shop_pk={pk}
 											openFilterModal={openFilterModal}
@@ -760,9 +749,9 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 						<>
 							<Backdrop
 								sx={{
-									color: "#fff",
+									color: '#fff',
 									zIndex: (theme) => theme.zIndex.drawer + 1,
-									backgroundColor: "rgba(0, 0, 0, 0.1)"
+									backgroundColor: 'rgba(0, 0, 0, 0.1)',
 								}}
 								open={openColorModal}
 								// onClick={() => setOpenColorModal(false)}
@@ -792,8 +781,8 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 											pagination={{
 												clickable: true,
 												enabled: true,
-												bulletActiveClass: "activekBullet",
-												clickableClass: "paginationBullet"
+												bulletActiveClass: 'activekBullet',
+												clickableClass: 'paginationBullet',
 											}}
 											modules={[Navigation, Pagination, Lazy]}
 											scrollbar={{ enabled: false }}
@@ -843,9 +832,9 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 						<>
 							<Backdrop
 								sx={{
-									color: "#fff",
+									color: '#fff',
 									zIndex: (theme) => theme.zIndex.drawer + 1,
-									backgroundColor: "rgba(0, 0, 0, 0.1)"
+									backgroundColor: 'rgba(0, 0, 0, 0.1)',
 								}}
 								open={openFontModal}
 								// onClick={() => setOpenFontModal(false)}
@@ -964,7 +953,7 @@ const ViewShopAsNotOwner = (props: ViewShopType) => {
 		longitude: data.longitude,
 		latitude: data.latitude,
 		address_name: data.address_name,
-		km_radius: data.km_radius
+		km_radius: data.km_radius,
 	};
 	const contact_phone_code = data.contact_phone_code;
 	const contact_phone = data.contact_phone;
@@ -980,18 +969,18 @@ const ViewShopAsNotOwner = (props: ViewShopType) => {
 
 	useEffect(() => {
 		// set icon colors
-		if (icon_color === "white") {
+		if (icon_color === 'white') {
 			setMessageIcon(MessageIconWhiteSVG);
 			setContactIcon(ContactIconWhiteSVG);
-		} else if (icon_color === "black") {
+		} else if (icon_color === 'black') {
 			setMessageIcon(MessageIconBlackSVG);
 			setContactIcon(ContactIconBlackSVG);
 		}
 		// construct contacter link
-		if (contact_mode === "P") {
-			setContacterLink("tel:" + contact_phone_code + contact_phone);
-		} else if (contact_mode === "W") {
-			setContacterLink("https://web.whatsapp.com/send?phone=" + contact_whatsapp_code + contact_whatsapp);
+		if (contact_mode === 'P') {
+			setContacterLink('tel:' + contact_phone_code + contact_phone);
+		} else if (contact_mode === 'W') {
+			setContacterLink('https://web.whatsapp.com/send?phone=' + contact_whatsapp_code + contact_whatsapp);
 		}
 	}, [contact_mode, contact_phone, contact_phone_code, contact_whatsapp, contact_whatsapp_code, icon_color]);
 
@@ -1042,13 +1031,13 @@ const ViewShopAsNotOwner = (props: ViewShopType) => {
 								className={Styles.shopName}
 								style={{
 									fontFamily:
-										font_name === "L"
-											? "Poppins-Light"
-											: font_name === "B"
-												? "Poppins-ExtraBold"
-												: font_name === "S"
-													? "Poppins-SemiBold"
-													: "Poppins"
+										font_name === 'L'
+											? 'Poppins-Light'
+											: font_name === 'B'
+											? 'Poppins-ExtraBold'
+											: font_name === 'S'
+											? 'Poppins-SemiBold'
+											: 'Poppins',
 								}}
 							>
 								{shop_name}
@@ -1071,7 +1060,7 @@ const ViewShopAsNotOwner = (props: ViewShopType) => {
 							active={true}
 							cssClass={Styles.iconButton}
 						/>
-						{contact_mode === ("P" || "W") ? (
+						{contact_mode === ('P' || 'W') ? (
 							<IconAnchorButton
 								buttonText="Contacter"
 								svgIcon={contactIcon}
@@ -1119,7 +1108,7 @@ const ViewShopAsNotOwner = (props: ViewShopType) => {
 
 type Props = {
 	pageProps: {
-		permission: "OWNER" | "NOT_OWNER";
+		permission: 'OWNER' | 'NOT_OWNER';
 		data: ShopGetRootTokenType;
 	};
 	children?: React.ReactNode;
@@ -1134,7 +1123,7 @@ export type GetOffersSagaCallBackOnCompleteDataType = {
 const Index: NextPage<Props> = (props: Props) => {
 	const { permission, data } = props.pageProps;
 
-	if (permission === "OWNER") {
+	if (permission === 'OWNER') {
 		return (
 			<>
 				<ViewShopAsOwner data={data} />
@@ -1155,14 +1144,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const not_found_redirect = {
 		redirect: {
 			permanent: false,
-			destination: NOT_FOUND_404
-		}
+			destination: NOT_FOUND_404,
+		},
 	};
 	if (shop_link) {
 		const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 		const appToken = getServerSideCookieTokens(context);
 		try {
-			if (appToken.tokenType === "TOKEN" && appToken.initStateToken.access_token !== null) {
+			if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
 				const instance = isAuthenticatedInstance(appToken.initStateToken);
 				const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
 				if (response.status === 200) {
@@ -1175,9 +1164,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 								return {
 									// owner
 									props: {
-										permission: "OWNER",
-										data: shop_response.data
-									}
+										permission: 'OWNER',
+										data: shop_response.data,
+									},
 									// redirect: {
 									// 	permanent: false,
 									// 	destination: TEMP_SHOP_EDIT_INDEX,
@@ -1187,9 +1176,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 								// not owner
 								return {
 									props: {
-										permission: "NOT_OWNER",
-										data: shop_response.data
-									}
+										permission: 'NOT_OWNER',
+										data: shop_response.data,
+									},
 								};
 							}
 						} else {
@@ -1212,9 +1201,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					if (shop_response.status === 200) {
 						return {
 							props: {
-								permission: "NOT_OWNER",
-								data: shop_response.data
-							}
+								permission: 'NOT_OWNER',
+								data: shop_response.data,
+							},
 						};
 					} else {
 						return not_found_redirect;
@@ -1225,12 +1214,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			}
 		} catch (e) {
 			return {
-				redirect: not_found_redirect
+				redirect: not_found_redirect,
 			};
 		}
 		// shop link not found
 		return {
-			redirect: not_found_redirect
+			redirect: not_found_redirect,
 		};
 	}
 }

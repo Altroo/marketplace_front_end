@@ -49,7 +49,7 @@ import {
 	getLocalOfferPrice,
 	getLocalOfferPriceBy,
 	getLocalOfferTags,
-	getUserLocalOfferEditPK, getOfferOfferApi
+	getUserLocalOfferEditPK, getOfferOfferApi, getLocalOfferMadeIn
 } from "../../../../store/selectors";
 import { PositionType } from '../../../../components/map/customMap';
 import TopBarSaveClose from '../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
@@ -65,12 +65,23 @@ import {
 } from '../../../../store/actions/offer/offerActions';
 import DeliveryOptionElements from '../../../../components/groupedComponents/temp-offer/deliveryOptionElements/deliveryOptionElements';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import { TEMP_OFFER_ADD_PRODUCT_PRICE, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_INDEX } from "../../../../utils/routes";
+import {
+	AUTH_SHOP_LINK_ROUTE,
+	TEMP_OFFER_ADD_PRODUCT_PRICE,
+	TEMP_SHOP_ADD_SHOP_NAME,
+	TEMP_SHOP_EDIT_INDEX
+} from "../../../../utils/routes";
 import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import ApiLoadingResponseOrError
 	from "../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError";
 import { getCookie } from "cookies-next";
+import { ApiErrorResponseType } from "../../../../types/_init/_initTypes";
+import {
+	OfferPostRootProductResponseType,
+	OfferPostRootServiceResponseType,
+	OfferPutRootProductResponseType, OfferPutRootServiceResponseType
+} from "../../../../types/offer/offerTypes";
 
 const CustomMap = dynamic(() => import('../../../../components/map/customMap'), {
 	ssr: false,
@@ -118,6 +129,7 @@ const Livraison: NextPage = () => {
 	const pickedColors = useAppSelector(getLocalOfferColors);
 	const pickedSizes = useAppSelector(getLocalOfferSizes);
 	const pickedQuantity = useAppSelector(getLocalOfferQuantity);
+	const pickedMadeIn = useAppSelector(getLocalOfferMadeIn);
 	const pickedPrice = useAppSelector(getLocalOfferPrice);
 	const pickedPriceBy = useAppSelector(getLocalOfferPriceBy);
 	const pickedTags = useAppSelector(getLocalOfferTags);
@@ -326,42 +338,56 @@ const Livraison: NextPage = () => {
 	const handleSubmit = () => {
 		// dispatch create
 		if (!offer_pk) {
-			dispatch(
-				offerPostRootProductAction(
-					'V',
-					pickedCategories.join(','),
-					pickedTitle,
-					pickedPictures,
-					pickedDescription,
-					pickedForWhom,
-					pickedColors,
-					pickedSizes,
-					pickedQuantity,
-					pickedPrice,
-					pickedPriceBy,
-					pickedAddressName,
-					pickedLongitude,
-					pickedLatitude,
-					deliveryCity1,
-					deliveryAllCity1,
-					deliveryPrice1,
-					deliveryDays1,
-					deliveryCity2,
-					deliveryAllCity2,
-					deliveryPrice2,
-					deliveryDays2,
-					deliveryCity3,
-					deliveryAllCity3,
-					deliveryPrice3,
-					deliveryDays3,
-					pickedTags,
-					router,
-				),
-			);
+			const action = offerPostRootProductAction(
+				'V',
+				pickedCategories.join(','),
+				pickedTitle,
+				pickedPictures,
+				pickedDescription,
+				pickedForWhom,
+				pickedColors,
+				pickedSizes,
+				pickedQuantity,
+				pickedPrice,
+				pickedPriceBy,
+				pickedAddressName,
+				pickedLongitude,
+				pickedLatitude,
+				deliveryCity1,
+				deliveryAllCity1,
+				deliveryPrice1,
+				deliveryDays1,
+				deliveryCity2,
+				deliveryAllCity2,
+				deliveryPrice2,
+				deliveryDays2,
+				deliveryCity3,
+				deliveryAllCity3,
+				deliveryPrice3,
+				deliveryDays3,
+				pickedTags,
+				false,
+				pickedMadeIn as string,
+				);
+			dispatch({
+				...action,
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: {
+					error: ApiErrorResponseType;
+					cancelled: boolean;
+					data: OfferPostRootProductResponseType | OfferPostRootServiceResponseType;
+				}) => {
+					if (!error && !cancelled && data.data) {
+						router.push(TEMP_SHOP_EDIT_INDEX).then();
+					}
+				},
+			});
 		} else {
 			// dispatch edit
-			dispatch(
-				offerPutRootProductAction(
+			const action = offerPutRootProductAction(
 					offer_pk,
 					pickedCategories.join(','),
 					pickedTitle,
@@ -389,9 +415,25 @@ const Livraison: NextPage = () => {
 					deliveryPrice3,
 					deliveryDays3,
 					pickedTags,
-					router,
-				),
-			);
+					false,
+					pickedMadeIn as string,
+				);
+			dispatch({
+				...action,
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: {
+					error: ApiErrorResponseType;
+					cancelled: boolean;
+					data: OfferPutRootProductResponseType | OfferPutRootServiceResponseType;
+				}) => {
+					if (!error && !cancelled && data.data) {
+						router.push(TEMP_SHOP_EDIT_INDEX).then();
+					}
+				},
+			});
 		}
 	};
 
@@ -424,7 +466,7 @@ const Livraison: NextPage = () => {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<main className={SharedStyles.main}>
+			<main className={SharedStyles.fullPageNoOverflowMain}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.boxWrapper}>
 					<DesktopTopNavigationBar

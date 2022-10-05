@@ -16,11 +16,10 @@ import { useRouter } from 'next/router';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import {
-	offerGetAvailableFiltersByShopID,
+	offerGetAvailableFiltersByShopID, offerGetAvailableFiltersByUniqueID,
 	offerGetOffersByShopIDWithQueryParamsAction,
-	offerPostPinAction,
-	offerPostPinWithCallBackAction,
-} from '../../../../../store/actions/offer/offerActions';
+	offerPostPinWithCallBackAction
+} from "../../../../../store/actions/offer/offerActions";
 import { GetOffersSagaCallBackOnCompleteDataType } from '../../../../../pages/shop/[shop_link]';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
@@ -31,7 +30,6 @@ import { Iterables } from 'langx-js';
 import {
 	ApiErrorResponseType,
 	OfferPinSagaCallBackType,
-	SagaCallBackOnCompleteBoolType,
 } from '../../../../../types/_init/_initTypes';
 import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter';
 import RightSwipeModal from '../../../../desktop/modals/rightSwipeModal/rightSwipeModal';
@@ -39,10 +37,14 @@ import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.sv
 import CenteredInfoAction from '../../../temp-shop/create/centeredInfoAction/centeredInfoAction';
 import BorderIconAnchorButton from '../../../../htmlElements/buttons/borderIconAnchorButton/borderIconAnchorButton';
 import ActivatedAddIconSVG from '../../../../../public/assets/svgs/globalIcons/blue-add.svg';
-import { REAL_OFFER_ADD_INDEX, REAL_OFFER_ROUTE } from '../../../../../utils/routes';
+import {
+	REAL_OFFER_ADD_INDEX,
+	REAL_OFFER_ROUTE,
+	TEMP_OFFER_ADD_INDEX,
+	TEMP_OFFER_ROUTE
+} from "../../../../../utils/routes";
 import LargeBorderIconAnchorButton from '../../../../htmlElements/buttons/largeBorderIconAnchorButton/largeBorderIconAnchorButton';
 import PinInactiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-inactive.svg';
-// import MobileFilterBlackSVG from '../../../../../public/assets/svgs/globalIcons/mobile-filter-black.svg';
 
 type offerLinkedHashMapType = {
 	offersMap: Iterables.LinkedHashMap<number, OfferGetMyOffersProductServiceType> | null;
@@ -51,10 +53,11 @@ type offerLinkedHashMapType = {
 };
 
 type Props = {
-	shop_pk: number;
+	shop_pk: number | string;
 	activeColor: string;
 	openFilterModal: boolean;
 	setOpenFilterModal: React.Dispatch<React.SetStateAction<boolean>>;
+	shop_type: 'TEMP_SHOP' | 'AUTH_SHOP';
 	children?: React.ReactNode;
 };
 
@@ -70,7 +73,7 @@ const availableFiltersInit: OfferGetAvailableShopFiltersType = {
 };
 
 const EditShopTabContent: React.FC<Props> = (props: Props) => {
-	const { shop_pk } = props;
+	const { shop_pk, shop_type } = props;
 	const router = useRouter();
 	const [filter, setFilter] = useState<'D' | 'C'>('D');
 	const dispatch = useAppDispatch();
@@ -107,24 +110,45 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 
 	useEffect(() => {
 		if (!availableFiltersFetched) {
-			const action = offerGetAvailableFiltersByShopID(shop_pk);
-			dispatch({
-				...action,
-				onComplete: ({
-					error,
-					cancelled,
-					data,
-				}: {
-					error: ApiErrorResponseType;
-					cancelled: boolean;
-					data: OfferGetAvailableShopFiltersType;
-				}) => {
-					if (!error && !cancelled && data) {
-						setAvailableFilters(data);
-						setAvailableFiltersHasData(true);
-					}
-				},
-			});
+			if (shop_type === 'AUTH_SHOP') {
+				const action = offerGetAvailableFiltersByShopID(shop_pk as number);
+				dispatch({
+					...action,
+					onComplete: ({
+						error,
+						cancelled,
+						data,
+					}: {
+						error: ApiErrorResponseType;
+						cancelled: boolean;
+						data: OfferGetAvailableShopFiltersType;
+					}) => {
+						if (!error && !cancelled && data) {
+							setAvailableFilters(data);
+							setAvailableFiltersHasData(true);
+						}
+					},
+				});
+			} else if (shop_type === 'TEMP_SHOP') {
+				const action = offerGetAvailableFiltersByUniqueID(shop_pk as string);
+				dispatch({
+					...action,
+					onComplete: ({
+						error,
+						cancelled,
+						data,
+					}: {
+						error: ApiErrorResponseType;
+						cancelled: boolean;
+						data: OfferGetAvailableShopFiltersType;
+					}) => {
+						if (!error && !cancelled && data) {
+							setAvailableFilters(data);
+							setAvailableFiltersHasData(true);
+						}
+					},
+				});
+			}
 			setAvailableFiltersFetched(true);
 		}
 
@@ -146,7 +170,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 				queryParams = generateQueryParams(router.query);
 				url += queryParams;
 			}
-			const action = offerGetOffersByShopIDWithQueryParamsAction(shop_pk, url);
+			const action = offerGetOffersByShopIDWithQueryParamsAction(url);
 			dispatch({
 				...action,
 				onComplete: ({ error, cancelled, data }: GetOffersSagaCallBackOnCompleteDataType) => {
@@ -207,6 +231,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 			setApplyFiltersClicked(false);
 		}
 	}, [
+		shop_type,
 		applyFiltersClicked,
 		availableFiltersFetched,
 		dispatch,
@@ -346,7 +371,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 											buttonText="Ajouter un article"
 											svgIcon={ActivatedAddIconSVG}
 											active={true}
-											nextPage={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
+											nextPage={shop_type === 'AUTH_SHOP' ? REAL_OFFER_ADD_INDEX(router.query.shop_link as string) : TEMP_OFFER_ADD_INDEX}
 										/>
 									</Grid>
 									{offersLinkedHashMap.offersMap
@@ -365,7 +390,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 												}
 												return (
 													<Link
-														href={REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))}
+														href={shop_type === 'AUTH_SHOP' ? REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key)) : TEMP_OFFER_ROUTE(encodeURIComponent(data.key))}
 														passHref
 														key={data.key}
 													>
@@ -491,7 +516,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 										buttonText="Ajouter un article"
 										svgIcon={ActivatedAddIconSVG}
 										active={true}
-										nextPage={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
+										nextPage={shop_type === 'AUTH_SHOP' ? REAL_OFFER_ADD_INDEX(router.query.shop_link as string) : TEMP_OFFER_ADD_INDEX}
 									/>
 								</div>
 							</div>

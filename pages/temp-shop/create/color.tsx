@@ -314,7 +314,7 @@ const Color: NextPage = () => {
 							</div>
 						</div>
 					</DefaultCardSection>
-					<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
+						<div className={`${Styles.primaryButtonWrapper} ${Styles.marginButtonBottom} ${Styles.primaryButtonZindexWrapper}`} >
 						<PrimaryButton
 							buttonText="Continuer"
 							active={colorCode !== undefined && bgColorCode !== undefined}

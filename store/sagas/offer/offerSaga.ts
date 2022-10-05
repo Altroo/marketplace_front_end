@@ -62,8 +62,6 @@ import {
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
 import {
-	TEMP_OFFER_ADD_PRODUCT_DELIVERIES,
-	TEMP_OFFER_ADD_PRODUCT_PRICE,
 	TEMP_SHOP_EDIT_INDEX
 } from "../../../utils/routes";
 import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
@@ -71,7 +69,6 @@ import { withCallback } from "redux-saga-callback";
 import { AxiosInstance } from "axios";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { Saga } from "redux-saga";
-import { OFFER_GET_OFFERS_BY_SHOP_ID_AND_QUERY_PARAMS } from "../../actions";
 
 function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootServiceType) {
 	yield put(appendPostOfferIsLoading());
@@ -117,7 +114,8 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 			if (response.status === 200) {
 				// update state
 				yield put(appendPostOfferState(response.data));
-				yield call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
+				return response;
+				// yield call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance : AxiosInstance = yield call(() => allowAnyInstance('multipart/form-data'));
@@ -126,7 +124,8 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 			);
 			if (response.status === 200) {
 				yield put(appendPostOfferState(response.data));
-				yield call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
+				return response;
+				// yield call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
 			}
 		}
 	} catch (e) {
@@ -345,13 +344,11 @@ function* offerGetOffersByShopIDSaga(payload: {type: string, pk: number, next_pa
 	}
 }
 
-function* offerGetOffersByShopNewIDSaga(payload: {type: string, pk: number, url: string}) {
+function* offerGetOffersByShopNewIDSaga(payload: {type: string, url: string}) {
 	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
 	const instance : AxiosInstance = yield call(() => defaultInstance(base_url));
 	try {
 		const response: OfferGetMyOffersResponseType = yield call(() => getApi(payload.url, instance));
-		console.log('from Saga');
-		console.log(response);
 		if (response.status === 200 && response.data) {
 			return response.data;
 		}
@@ -362,6 +359,20 @@ function* offerGetOffersByShopNewIDSaga(payload: {type: string, pk: number, url:
 
 function* offerGetAvailableFiltersByShopIDSaga(payload: {type: string, pk: number}) {
 	const url = `${process.env.NEXT_PUBLIC_OFFER_FILTERS}${payload.pk}/`;
+	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
+	const instance : AxiosInstance = yield call(() => defaultInstance(base_url));
+	try {
+		const response: OfferGetShopAvailableFiltersResponseType = yield call(() => getApi(url, instance));
+		if (response.status === 200 && response.data) {
+			return response.data;
+		}
+	} catch (e) {
+		return e as ApiErrorResponseType;
+	}
+}
+
+function* offerGetAvailableFiltersByUniqueIDSaga(payload: {type: string, unique_id: string}) {
+	const url = `${process.env.NEXT_PUBLIC_OFFER_FILTERS}${payload.unique_id}/`;
 	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
 	const instance : AxiosInstance = yield call(() => defaultInstance(base_url));
 	try {
@@ -418,8 +429,9 @@ function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServic
 			if (response.status === 200) {
 				// update state
 				yield put(setPutOffer(response.data));
-				yield call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
+				// yield call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
 				yield put(emptyUserLocalOffer());
+				return response;
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance : AxiosInstance = yield call(() => allowAnyInstance('multipart/form-data'));
@@ -428,8 +440,9 @@ function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServic
 			);
 			if (response.status === 200) {
 				yield put(setPutOffer(response.data));
-				yield call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
+				// yield call(() => payload.router.push(TEMP_SHOP_EDIT_INDEX));
 				yield put(emptyUserLocalOffer());
+				return response;
 			}
 		}
 	} catch (e) {
@@ -442,11 +455,11 @@ function* offerDeleteRootSaga(payload: { type: string; pk: number, router: NextR
 	// /<uuid:unique_id>/<int:offer_pk>/
 	yield put(setDeleteOfferIsLoading());
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
-	let url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/`;
+	let url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}`;
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const instance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			url += `${payload.pk}/`;
+			url += `/${payload.pk}/`;
 			const response: ResponseOnlyInterface = yield call(() => deleteApi(url, instance));
 			if (response.status === 204) {
 				// update state
@@ -455,7 +468,7 @@ function* offerDeleteRootSaga(payload: { type: string; pk: number, router: NextR
 			}
 		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
 			const instance : AxiosInstance = yield call(() => allowAnyInstance());
-			url += `${authSagaContext.initStateUniqueID.unique_id}/${payload.pk}/`;
+			url += `/uuid/${authSagaContext.initStateUniqueID.unique_id}/${payload.pk}/`;
 			const response: ResponseOnlyInterface = yield call(() => deleteApi(url, instance));
 			if (response.status === 204) {
 				yield put(deleteUserOffer({ offer_pk: payload.pk }));
@@ -697,28 +710,25 @@ function* setOfferDescriptionPageSaga(payload: {
 	type: string;
 	title: string;
 	pictures: ImageUploadingType;
-	// picture_1: string;
-	// picture_2: string | null;
-	// picture_3: string | null;
-	// picture_4: string | null;
 	description: string;
 	for_whom: string | null;
 	product_colors: string | null;
 	product_sizes: string | null;
 	product_quantity: number | null;
+	made_in: string;
+	creator: boolean;
 	tags: string | null;
-	router: NextRouter;
 }) {
 	yield put(
 		setLocalOfferDescription({...payload}),
 	);
-	yield call(() => payload.router.push(TEMP_OFFER_ADD_PRODUCT_PRICE));
+	return true;
 }
 
-function* setOfferPricePageSaga(payload: {type: string; price: string, price_by: 'U' | 'K' | 'L', router: NextRouter}) {
+function* setOfferPricePageSaga(payload: {type: string; price: string, price_by: 'U' | 'K' | 'L'}) {
 	const { type, ...payloadData } = payload;
 	yield put(setLocalOfferPrice(payloadData));
-	yield call(() => payload.router.push(TEMP_OFFER_ADD_PRODUCT_DELIVERIES))
+	return true;
 }
 
 function* setOfferDeliveryPageClickAndCollectSaga(payload: {type: string; longitude: number; latitude: number; address_name: string | null}) {
@@ -759,22 +769,26 @@ export interface setOfferToEditPayloadType extends UserLocalOfferType {
 
 function* setOfferToEditSaga(payload: setOfferToEditPayloadType) {
 	// Set categories page
+	console.log('dispatched?');
+	console.log(payload);
 	yield put(setLocalOfferToEditPk(payload.pk as number));
 	yield put(setLocalOfferMultiCategories(payload.categoriesList));
 	// Set description page
 	const description = {
-		type: payload.type,
+		// type: payload.type,
 		title: payload.title as string,
 		description: payload.description as string,
 		pictures: payload.pictures,
 		for_whom: payload.forWhom,
 		product_colors: payload.colors,
 		product_sizes: payload.sizes,
+		made_in: payload.made_in,
+		creator: payload.creator,
 		product_quantity: payload.quantity,
 		tags: payload.tags,
 	}
 	yield put(
-		setLocalOfferDescription({...description}),
+		setLocalOfferDescription(description),
 	);
 	// Set price page
 	yield put(setLocalOfferPrice({price: payload.prix as string, price_by: payload.prix_par as "L" | "U" | "K"}));
@@ -800,6 +814,7 @@ function* setOfferToEditSaga(payload: setOfferToEditPayloadType) {
 		delivery_days_3: payload.deliveries.delivery_days_3 as string,
 	}
 	yield put(setLocalOfferDeliveries(deliveries));
+	return true;
 }
 
 function* offerSetEmptyUserLocalOfferSaga() {
@@ -813,8 +828,8 @@ function* offerSetEmptyUserLocalOfferSaga() {
 
 export function* watchOffer() {
 	yield takeLatest(Types.SET_OFFER_CATEGORIES_PAGE, setOfferCategoriesPageSaga);
-	yield takeLatest(Types.SET_OFFER_DESCRIPTION_PAGE, setOfferDescriptionPageSaga);
-	yield takeLatest(Types.SET_OFFER_PRICE_PAGE, setOfferPricePageSaga);
+	yield takeLatest(Types.SET_OFFER_DESCRIPTION_PAGE, withCallback(setOfferDescriptionPageSaga as Saga));
+	yield takeLatest(Types.SET_OFFER_PRICE_PAGE, withCallback(setOfferPricePageSaga as Saga));
 	yield takeLatest(Types.SET_OFFER_DELIVERY_PAGE_CLICK_AND_COLLECT, setOfferDeliveryPageClickAndCollectSaga);
 	yield takeLatest(Types.SET_OFFER_DELIVERY_PAGE_DELIVERIES, setOfferDeliveryPageDeliveriesSaga);
 	yield takeLatest(Types.EMPTY_OFFER_DELIVERY_CLICK_AND_COLLECT, emptyOfferDeliveryClickAndCollectSaga);
@@ -823,11 +838,12 @@ export function* watchOffer() {
 	yield takeLatest(Types.OFFER_GET_OFFERS_BY_SHOP_ID, withCallback(offerGetOffersByShopIDSaga as Saga));
 	yield takeLatest(Types.OFFER_GET_OFFERS_BY_SHOP_ID_AND_QUERY_PARAMS, withCallback(offerGetOffersByShopNewIDSaga as Saga));
 	yield takeLatest(Types.OFFER_GET_AVAILABLE_FILTERS_BY_SHOP_ID, withCallback(offerGetAvailableFiltersByShopIDSaga as Saga));
-	yield takeLatest(Types.SET_OFFER_TO_EDIT, setOfferToEditSaga);
-	yield takeLatest(Types.OFFER_POST_ROOT, offerPostRootSaga);
+	yield takeLatest(Types.OFFER_GET_AVAILABLE_FILTERS_BY_UNIQUE_ID, withCallback(offerGetAvailableFiltersByUniqueIDSaga as Saga));
+	yield takeLatest(Types.SET_OFFER_TO_EDIT, withCallback(setOfferToEditSaga as Saga));
+	yield takeLatest(Types.OFFER_POST_ROOT, withCallback(offerPostRootSaga as Saga));
 	yield takeLatest(Types.OFFER_GET_ROOT, offerGetRootSaga);
 	// yield takeLatest(Types.OFFER_SET_EMPTY_SELECTED_OFFER, offerSetEmptySelectedOfferSaga);
-	yield takeLatest(Types.OFFER_PUT_ROOT, offerPutRootSaga);
+	yield takeLatest(Types.OFFER_PUT_ROOT, withCallback(offerPutRootSaga as Saga));
 	yield takeLatest(Types.OFFER_GET_TAGS, offerGetTagsSaga);
 	yield takeLatest(Types.OFFER_GET_LOCALISATION, offerGetLastUsedLocalisationSaga);
 	yield takeLatest(Types.OFFER_GET_DELIVERIES, offerGetLastThreeUsedDeliveriesSaga);

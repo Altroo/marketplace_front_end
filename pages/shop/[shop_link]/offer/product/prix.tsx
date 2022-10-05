@@ -7,8 +7,9 @@ import Styles from '../../../../../styles/temp-offer/create/price.module.sass';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	AUTH_SHOP_LINK_ROUTE,
+	REAL_OFFER_ADD_PRODUCT_DELIVERIES,
 	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
-	TEMP_SHOP_ADD_SHOP_NAME,
+	TEMP_SHOP_ADD_SHOP_NAME
 } from "../../../../../utils/routes";
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
@@ -16,14 +17,16 @@ import { Box, Stack, ThemeProvider } from '@mui/material';
 import HelperH1Header from '../../../../../components/headers/helperH1Header/helperH1Header';
 import Chip from '@mui/material/Chip';
 import { OfferChipTheme } from '../../../../../utils/themes';
-
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CurrencyInput from 'react-currency-input-field';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
-import { setOfferPricePage } from '../../../../../store/actions/offer/offerActions';
+import { setOfferPricePage } from "../../../../../store/actions/offer/offerActions";
 import { useRouter } from 'next/router';
 import { getLocalOfferPrice, getLocalOfferPriceBy } from '../../../../../store/selectors';
-import { getCookie } from 'cookies-next';
+import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
+import { getApi } from '../../../../../store/services/_init/_initAPI';
+import { ApiErrorResponseType } from "../../../../../types/_init/_initTypes";
 
 const Prix: NextPage = () => {
 	const activeStep = '3';
@@ -48,7 +51,18 @@ const Prix: NextPage = () => {
 		if (liter) {
 			price_by = 'L';
 		}
-		dispatch(setOfferPricePage(price as string, price_by, router));
+		const action = setOfferPricePage(
+			price as string,
+			price_by
+		);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
+				if (!error && !cancelled && data) {
+					router.push(REAL_OFFER_ADD_PRODUCT_DELIVERIES(router.query.shop_link as string)).then();
+				}
+			},
+		});
 	};
 
 	useEffect(() => {
@@ -74,7 +88,7 @@ const Prix: NextPage = () => {
 	const chipTheme = OfferChipTheme();
 	return (
 		<>
-			<main className={SharedStyles.main}>
+			<main className={SharedStyles.fullPageMain}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.boxWrapper}>
 					<DesktopTopNavigationBar
@@ -165,8 +179,39 @@ const Prix: NextPage = () => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const tokenCookies = getCookie('@tokenType', { req: context.req, res: context.res });
-	if (typeof tokenCookies === 'undefined' || tokenCookies === null || tokenCookies === undefined) {
+	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
+	const appToken = getServerSideCookieTokens(context);
+	try {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+			const instance = isAuthenticatedInstance(appToken.initStateToken);
+			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
+			if (response.status === 200) {
+				// user has shop - proceed to add offer
+				if (response.data.has_shop) {
+					return {
+						props: {},
+					};
+				} else {
+					// user don't own a shop - proceed to create one.
+					return {
+						redirect: {
+							permanent: false,
+							destination: TEMP_SHOP_ADD_SHOP_NAME,
+						},
+					};
+				}
+			} else {
+				// user not authenticated
+				return {
+					redirect: {
+						permanent: false,
+						destination: TEMP_SHOP_ADD_SHOP_NAME,
+					},
+				};
+			}
+		}
+	} catch (e) {
+		// fall back error
 		return {
 			redirect: {
 				permanent: false,
@@ -174,9 +219,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			},
 		};
 	}
-	return {
-		props: {},
-	};
 }
 
 export default Prix;
