@@ -37,8 +37,8 @@ import Link from 'next/link';
 import {
 	AUTH_SHOP_LINK_ROUTE,
 	NOT_FOUND_404,
-	REAL_OFFER_ADD_PRODUCT_CATEGORIES,
-} from '../../../../../utils/routes';
+	REAL_OFFER_ADD_PRODUCT_CATEGORIES, REAL_OFFER_ROUTE
+} from "../../../../../utils/routes";
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
 import { doubleTabNavigationTheme, OfferReadOnlyTheme, SolderPourcentageChipTheme } from '../../../../../utils/themes';

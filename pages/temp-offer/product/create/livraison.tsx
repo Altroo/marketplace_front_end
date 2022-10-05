@@ -69,11 +69,11 @@ import {
 import DeliveryOptionElements from '../../../../components/groupedComponents/temp-offer/deliveryOptionElements/deliveryOptionElements';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import {
-	AUTH_SHOP_LINK_ROUTE,
-	TEMP_OFFER_ADD_PRODUCT_PRICE,
+	AUTH_SHOP_LINK_ROUTE, REAL_OFFER_ROUTE,
+	TEMP_OFFER_ADD_PRODUCT_PRICE, TEMP_OFFER_ROUTE,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_EDIT_INDEX,
-} from '../../../../utils/routes';
+	TEMP_SHOP_EDIT_INDEX
+} from "../../../../utils/routes";
 import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import ApiLoadingResponseOrError from '../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
@@ -438,7 +438,7 @@ const Livraison: NextPage = () => {
 					data: OfferPutRootProductResponseType | OfferPutRootServiceResponseType;
 				}) => {
 					if (!error && !cancelled && data.data) {
-						router.push(TEMP_SHOP_EDIT_INDEX).then();
+						router.replace(TEMP_OFFER_ROUTE(offer_pk.toString())).then();
 					}
 				},
 			});

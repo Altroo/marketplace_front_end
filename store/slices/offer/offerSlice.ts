@@ -215,6 +215,7 @@ const OfferSlice = createSlice({
 				// 	detailsOffer.service_km_radius = action.payload.service_km_radius;
 				// }
 			}
+			state.userOffers.sort((a, b) => Number(b.pinned) - Number(a.pinned));
 			state.offerApi.editPromiseStatus = "RESOLVED";
 			state.offerApi.isEditInProgress = false;
 			// return state;

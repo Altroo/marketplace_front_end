@@ -70,8 +70,8 @@ import DeliveryOptionElements from '../../../../../components/groupedComponents/
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import {
 	AUTH_SHOP_LINK_ROUTE,
-	REAL_OFFER_ADD_PRODUCT_PRICE,
-	TEMP_SHOP_ADD_SHOP_NAME,
+	REAL_OFFER_ADD_PRODUCT_PRICE, REAL_OFFER_ROUTE,
+	TEMP_SHOP_ADD_SHOP_NAME
 } from "../../../../../utils/routes";
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
@@ -432,8 +432,7 @@ const Livraison: NextPage = () => {
 					data: OfferPutRootProductResponseType | OfferPutRootServiceResponseType;
 				}) => {
 					if (!error && !cancelled && data.data) {
-						console.log(data.data);
-						router.push(AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+						router.replace(REAL_OFFER_ROUTE(router.query.shop_link as string, offer_pk.toString())).then();
 					}
 				},
 			});
