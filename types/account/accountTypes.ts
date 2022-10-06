@@ -15,6 +15,8 @@ export type AccountDeleteType = '' | 'A' | 'B';
 
 export type AccountCheckAccountType = {
 	pk: number,
+	first_name: string,
+	last_name: string,
 	email: string,
 	verified: boolean,
 	has_password: boolean,

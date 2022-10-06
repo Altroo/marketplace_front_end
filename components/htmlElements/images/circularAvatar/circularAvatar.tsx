@@ -18,6 +18,7 @@ const CircularAvatar: React.FC<Props> = (props: Props) => {
 				sizes="100vw"
 				className={Styles.avatar}
 				loading="eager"
+				priority={true}
 			/>
 		</div>
 	);

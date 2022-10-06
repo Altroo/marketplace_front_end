@@ -4,7 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import { Avatar, Badge, Button, Divider, Menu, MenuItem, Stack, ThemeProvider } from '@mui/material';
+import { Avatar, Badge, Button, Divider, Menu, MenuItem, Skeleton, Stack, ThemeProvider } from '@mui/material';
 import { badgeTheme, getDropDownMenuTheme, userMainNavigationBarTheme } from '../../../utils/themes';
 import { default as ImageFuture } from 'next/future/image';
 import QarybSVG from '../../../public/assets/images/logo.svg';
@@ -16,14 +16,24 @@ import BoutiqueSVG from '../../../public/assets/svgs/mainNavBarIcons/boutique.sv
 import NotificationsSVG from '../../../public/assets/svgs/mainNavBarIcons/notification.svg';
 import HambourgerMenuSVG from '../../../public/assets/svgs/mainNavBarIcons/hambourger-menu.svg';
 import LogoutSVG from '../../../public/assets/svgs/mainNavBarIcons/logout.svg';
+import HeartShapeSVG from '../../../public/assets/svgs/mainNavBarIcons/heart-shape.svg';
 import { useSession, signOut } from 'next-auth/react';
 import { useAppSelector } from '../../../utils/hooks';
-import { getCheckUserHasShop, getUserProfilAvatar, getUserShopUrl } from '../../../store/selectors';
+import {
+	getCheckUserHasShop,
+	getUserFirstName,
+	getUserLastName,
+	getUserProfilAvatar,
+	getUserShopUrl,
+} from '../../../store/selectors';
 import SearchIconSVG from '../../../public/assets/svgs/globalIcons/search.svg';
 import Link from 'next/link';
 import { AUTH_LOGIN, AUTH_SHOP_LINK_ROUTE, DASHBOARD, TEMP_SHOP_ADD_SHOP_NAME } from '../../../utils/routes';
 import { deleteRemoteCookiesAppToken } from '../../../utils/helpers';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
+import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
+import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
+import Image from 'next/image';
 // import CustomBadge from '../../../htmlElements/customBadge[not-working]/customBadge';
 
 type Props = {
@@ -34,6 +44,8 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const { data: session, status } = useSession();
 	const router = useRouter();
 	const avatar = useAppSelector(getUserProfilAvatar);
+	const firstName = useAppSelector(getUserFirstName);
+	const lastName = useAppSelector(getUserLastName);
 	const userHasShop = useAppSelector(getCheckUserHasShop);
 	const userShopUrl: string | boolean | undefined = useAppSelector(getUserShopUrl);
 	const loading = status === 'loading';
@@ -63,15 +75,22 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 		});
 	};
 
+	const [openMobileDrawer, setOpenMobileDrawer] = useState<boolean>(false);
 
-
-	const ShopMenuItem = (props: {handleClose: () => void}) => {
+	const ShopMenuItem = (props: { handleClose: () => void }) => {
 		if (userHasShop && userShopUrl) {
 			return (
 				<MenuItem onClick={props.handleClose} className={Styles.menuItem}>
 					<Link href={AUTH_SHOP_LINK_ROUTE(userShopUrl as string)} passHref>
 						<a className={Styles.anchorWrapper}>
-							<ImageFuture src={BoutiqueSVG} alt="" className={Styles.subMenuIcons} />
+							<ImageFuture
+								src={BoutiqueSVG}
+								alt=""
+								width="0"
+								height="0"
+								sizes="100vw"
+								className={Styles.subMenuIcons}
+							/>
 							<span>Ma boutique</span>
 						</a>
 					</Link>
@@ -79,17 +98,24 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 			);
 		} else {
 			return (
-				<MenuItem onClick={props.handleClose} className={`${Styles.menuItem} ${Styles.purple}`}>
+				<MenuItem onClick={props.handleClose} className={`${Styles.menuItem}`}>
 					<Link href={TEMP_SHOP_ADD_SHOP_NAME} passHref>
-						<a className={Styles.anchorWrapper}>
-							<ImageFuture src={CreerVotreBoutiqueSVG} alt="" className={Styles.subMenuIcons} />
-							<span>Créer votre boutique</span>
+						<a className={`${Styles.purpleAnchorWrapperNoWidth}`}>
+							<ImageFuture
+								src={CreerVotreBoutiqueSVG}
+								alt=""
+								width="0"
+								height="0"
+								sizes="100vw"
+								className={Styles.subMenuIcons}
+							/>
+							<span className={`${Styles.mobileAnchorSpan}`}>Créer votre boutique</span>
 						</a>
 					</Link>
 				</MenuItem>
 			);
 		}
-	}
+	};
 
 	return (
 		<ThemeProvider theme={userMainNavigationBarTheme()}>
@@ -98,7 +124,14 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 					<Toolbar>
 						<ImageFuture src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 						<Stack alignItems="center" className={Styles.searchWrapper} direction="row">
-							<ImageFuture src={SearchIconSVG} alt="" className={Styles.searchIcon} />
+							<ImageFuture
+								src={SearchIconSVG}
+								alt=""
+								width="0"
+								height="0"
+								sizes="100vw"
+								className={Styles.searchIcon}
+							/>
 							<input
 								value={searchValue}
 								onChange={(e) => {
@@ -125,14 +158,20 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
 										{/*	<Badge badgeContent={4} color="primary">*/}
-										<ImageFuture
-											src={avatar as string}
-											alt=""
-											width="0"
-											height="0"
-											sizes="100vw"
-											className={Styles.avatarButton}
-										/>
+										{!avatar ? (
+											<Skeleton variant="circular" width={24} height={24} />
+										) : (
+											<ImageFuture
+												src={avatar as string}
+												alt=""
+												width="0"
+												height="0"
+												sizes="100vw"
+												className={Styles.avatarButton}
+												priority={true}
+												loading="eager"
+											/>
+										)}
 									</IconButton>
 									{/* profil sub Menu */}
 									<ThemeProvider theme={getDropDownMenuTheme()}>
@@ -149,16 +188,30 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 											<MenuItem onClick={handleClose} className={Styles.menuItem}>
 												<Link href={DASHBOARD} passHref>
 													<a className={Styles.anchorWrapper}>
-														<ImageFuture src={DashboardSVG} alt="" className={Styles.subMenuIcons} />
+														<ImageFuture
+															src={DashboardSVG}
+															alt=""
+															width="0"
+															height="0"
+															sizes="100vw"
+															className={Styles.subMenuIcons}
+														/>
 														<span>Mon dashboard</span>
 													</a>
 												</Link>
 											</MenuItem>
-											<ShopMenuItem handleClose={handleClose}/>
+											<ShopMenuItem handleClose={handleClose} />
 											<Divider orientation="horizontal" flexItem />
 											<MenuItem onClick={handleClose} className={Styles.fadedMenuItem}>
 												<Box onClick={logOutHandler} className={Styles.anchorWrapper}>
-													<ImageFuture src={LogoutSVG} alt="" className={Styles.subMenuIcons} />
+													<ImageFuture
+														src={LogoutSVG}
+														alt=""
+														width="0"
+														height="0"
+														sizes="100vw"
+														className={Styles.subMenuIcons}
+													/>
 													<span>Se déconnecter</span>
 												</Box>
 											</MenuItem>
@@ -177,10 +230,9 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										<ImageFuture
 											src={NotificationsSVG}
 											alt=""
-											width="0"
-											height="0"
+											width={24}
+											height={24}
 											sizes="100vw"
-											className={Styles.navBarIcons}
 										/>
 									</IconButton>
 								</>
@@ -198,10 +250,9 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 											<ImageFuture
 												src={ProfileSVG}
 												alt=""
-												width="0"
-												height="0"
+												width={24}
+												height={24}
 												sizes="100vw"
-												className={Styles.navBarIcons}
 											/>
 										</a>
 									</Link>
@@ -220,8 +271,8 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 								<ImageFuture
 									src={EmptyCartSVG}
 									alt=""
-									width="0"
-									height="0"
+									width={24}
+									height={24}
 									sizes="100vw"
 									className={Styles.navBarIcons}
 								/>
@@ -231,21 +282,28 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 						</Stack>
 					</Toolbar>
 				</AppBar>
-				<Stack direction="row" spacing={3} className={Styles.bottomStackAnchor} alignItems="center">
+				<Stack direction="row" spacing="32px" className={Styles.bottomStackAnchor} alignItems="center">
 					<Link href="/" passHref>
-						<a className={Styles.anchorText}>Creators</a>
+						<a className={Styles.anchorText}>Collections lifestyle</a>
 					</Link>
 					<Link href="/" passHref>
-						<a className={Styles.anchorText}>Nos collections</a>
+						{/*<a className={Styles.anchorText}>Boutique coup de </a>*/}
+						<a>
+							<Stack direction="row" alignItems="center">
+								<span className={Styles.heartShapeAnchorText}>Boutique coup de</span>
+								<ImageFuture alt="" width="0" height="0" sizes="100vw" src={HeartShapeSVG} />
+							</Stack>
+						</a>
 					</Link>
 					<Link href="/" passHref>
-						<a className={Styles.anchorText}>Sport & hobbies</a>
+						<a className={Styles.anchorText}>Nos produits</a>
 					</Link>
+					<Stack direction="row" alignItems="center">
+						<span className={Styles.disabledAnchorText}>Nos services</span>
+						<span className={Styles.comingSoon}>Coming soon</span>
+					</Stack>
 					<Link href="/" passHref>
-						<a className={Styles.anchorText}>Art & collections</a>
-					</Link>
-					<Link href="/" passHref>
-						<a className={Styles.anchorText}>Mode & beauté</a>
+						<a className={Styles.anchorText}>Blog</a>
 					</Link>
 				</Stack>
 			</Box>
@@ -258,9 +316,163 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 							color="inherit"
 							aria-label="open drawer"
 							className={Styles.hambourgerIconWrapper}
+							onClick={() => setOpenMobileDrawer(true)}
 						>
-							<ImageFuture src={HambourgerMenuSVG} alt="" className={Styles.mobileIcons} />
+							<ImageFuture
+								src={HambourgerMenuSVG}
+								alt=""
+								width={24}
+								height={24}
+								sizes="100vw"
+								className={Styles.mobileIcons}
+							/>
 						</IconButton>
+						{/* MOBILE SIDE NAV DRAWER */}
+						<SideNavDrawer open={openMobileDrawer} handleClose={() => setOpenMobileDrawer(false)} keepMounted={true}>
+							<Stack direction="column" spacing={2}>
+								<Stack direction="row" justifyContent="flex-end" paddingX={2} paddingY={2} paddingBottom={0}>
+									<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenMobileDrawer(false)} />
+								</Stack>
+								<Stack direction="column" paddingX="40px" paddingY="18px" paddingTop={0} paddingBottom={0} spacing={1}>
+									<Link href="/" passHref>
+										<a className={Styles.anchorText}>Collections lifestyle</a>
+									</Link>
+									<Link href="/" passHref>
+										<a>
+											<Stack direction="row" alignItems="center">
+												<span className={Styles.heartShapeAnchorText}>Boutique coup de</span>
+												<ImageFuture src={HeartShapeSVG} alt="" width={32} height={32} />
+											</Stack>
+										</a>
+									</Link>
+									<Link href="/" passHref>
+										<a className={Styles.anchorText}>Nos produits</a>
+									</Link>
+									<Stack direction="row" alignItems="center">
+										<span className={Styles.disabledAnchorText}>Nos services</span>
+										<span className={Styles.comingSoon}>Coming soon</span>
+									</Stack>
+									<span className={Styles.miniDivider}>—</span>
+									<Link href="/" passHref>
+										<a className={Styles.anchorText}>Blog</a>
+									</Link>
+								</Stack>
+								<Box paddingTop="16px" paddingBottom="16px" paddingX="40px">
+									<Divider orientation="horizontal" flexItem className={Styles.divider} />
+								</Box>
+								<Box>
+									{!loading && session ? (
+										<Stack direction="column" paddingX="40px" paddingY="18px" paddingTop={0} spacing={2}>
+											<Stack direction="row" spacing={2} alignItems="center">
+												{!avatar ? (
+													<Skeleton variant="circular" width={48} height={48} />
+												) : (
+													<ImageFuture
+														src={avatar as string}
+														alt=""
+														width={48}
+														height={48}
+														sizes="100vw"
+														className={Styles.avatarDrawerButton}
+														priority={true}
+														loading="eager"
+													/>
+												)}
+												<span className={Styles.mobileProfileName}>
+													{firstName} {lastName}
+												</span>
+											</Stack>
+											<Link href={DASHBOARD} passHref>
+												<a className={Styles.anchorWrapper}>
+													<ImageFuture
+														src={DashboardSVG}
+														alt=""
+														width={24}
+														height={24}
+														sizes="100vw"
+														className={Styles.subMenuDrawerIcons}
+													/>
+													<span className={Styles.mobileAnchorSpan}>Mon dashboard</span>
+												</a>
+											</Link>
+											{userHasShop && userShopUrl ? (
+												<Link href={AUTH_SHOP_LINK_ROUTE(userShopUrl as string)} passHref>
+													<a className={Styles.anchorWrapper}>
+														<ImageFuture
+															src={BoutiqueSVG}
+															alt=""
+															width={24}
+															height={24}
+															sizes="100vw"
+															className={Styles.subMenuDrawerIcons}
+														/>
+														<span className={Styles.mobileAnchorSpan}>Ma boutique</span>
+													</a>
+												</Link>
+											) : (
+												<Link href={TEMP_SHOP_ADD_SHOP_NAME} passHref>
+													<a className={`${Styles.purpleAnchorWrapper}`}>
+														<ImageFuture
+															src={CreerVotreBoutiqueSVG}
+															alt=""
+															width={24}
+															height={24}
+															sizes="100vw"
+															className={Styles.subMenuDrawerIcons}
+														/>
+														<span className={`${Styles.mobileAnchorSpan}`}>Créer votre boutique</span>
+													</a>
+												</Link>
+											)}
+											<Box paddingTop={1} paddingBottom={1}>
+												<Divider orientation="horizontal" flexItem />
+											</Box>
+											<Box onClick={logOutHandler} className={Styles.anchorWrapper}>
+												<ImageFuture
+													src={LogoutSVG}
+													alt=""
+													width={24}
+													height={24}
+													sizes="100vw"
+													className={Styles.subMenuDrawerIcons}
+												/>
+												<span className={Styles.mobileAnchorGraySpan}>Se déconnecter</span>
+											</Box>
+										</Stack>
+									) : (
+										<Stack direction="column" paddingX="40px" paddingY="18px" paddingTop={0} spacing={2}>
+											<Link href={TEMP_SHOP_ADD_SHOP_NAME} passHref>
+												<a className={Styles.purpleAnchorWrapper}>
+													<ImageFuture
+														src={CreerVotreBoutiqueSVG}
+														alt=""
+														width={24}
+														height={24}
+														sizes="100vw"
+														className={Styles.subMenuDrawerIcons}
+													/>
+													<span className={`${Styles.mobileAnchorSpan}`}>Créer votre boutique</span>
+												</a>
+											</Link>
+											<Link href={AUTH_LOGIN} passHref>
+												<a className={Styles.anchorWrapper}>
+													<ImageFuture
+														src={ProfileSVG}
+														alt=""
+														width={24}
+														height={24}
+														sizes="100vw"
+														className={Styles.subMenuDrawerIcons}
+													/>
+													<span className={Styles.mobileAnchorSpan}>Connexion</span>
+												</a>
+											</Link>
+										</Stack>
+									)}
+								</Box>
+							</Stack>
+						</SideNavDrawer>
+						{/* FIN MOBILE SIDE NAV DRAWER */}
 						<Stack direction="row" justifySelf="center" className={Styles.mobileRootLogoStack}>
 							<ImageFuture src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 						</Stack>
@@ -277,14 +489,20 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
 										{/*	<Badge badgeContent={4} color="primary">*/}
-										<ImageFuture
-											src={avatar as string}
-											alt=""
-											width="0"
-											height="0"
-											sizes="100vw"
-											className={Styles.avatarButton}
-										/>
+										{!avatar ? (
+											<Skeleton variant="circular" width={24} height={24} />
+										) : (
+											<ImageFuture
+												src={avatar as string}
+												alt=""
+												width="0"
+												height="0"
+												sizes="100vw"
+												className={Styles.avatarButton}
+												priority={true}
+												loading="eager"
+											/>
+										)}
 									</IconButton>
 									<ThemeProvider theme={getDropDownMenuTheme()}>
 										<Menu
@@ -299,16 +517,30 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 											<MenuItem onClick={handleMobileClose} className={Styles.menuItem}>
 												<Link href={DASHBOARD} passHref>
 													<a className={Styles.anchorWrapper}>
-														<ImageFuture src={DashboardSVG} alt="" className={Styles.subMenuIcons} />
+														<ImageFuture
+															src={DashboardSVG}
+															alt=""
+															width="0"
+															height="0"
+															sizes="100vw"
+															className={Styles.subMenuIcons}
+														/>
 														<span>Mon dashboard</span>
 													</a>
 												</Link>
 											</MenuItem>
-											<ShopMenuItem handleClose={handleMobileClose}/>
+											<ShopMenuItem handleClose={handleMobileClose} />
 											<Divider orientation="horizontal" flexItem />
 											<MenuItem onClick={handleMobileClose} className={Styles.fadedMenuItem}>
 												<Box onClick={logOutHandler} className={Styles.anchorWrapper}>
-													<ImageFuture src={LogoutSVG} alt="" className={Styles.subMenuIcons} />
+													<ImageFuture
+														src={LogoutSVG}
+														alt=""
+														width="0"
+														height="0"
+														sizes="100vw"
+														className={Styles.subMenuIcons}
+													/>
 													<span>Se déconnecter</span>
 												</Box>
 											</MenuItem>
@@ -329,8 +561,8 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 											<ImageFuture
 												src={ProfileSVG}
 												alt=""
-												width="0"
-												height="0"
+												width={24}
+												height={24}
 												sizes="100vw"
 												className={Styles.mobileIcons}
 											/>
@@ -359,7 +591,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 					</Toolbar>
 				</AppBar>
 				<Stack alignItems="center" className={Styles.searchWrapper} direction="row">
-					<ImageFuture src={SearchIconSVG} alt="" className={Styles.searchIcon} />
+					<ImageFuture src={SearchIconSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.searchIcon} />
 					<input
 						value={searchValue}
 						onChange={(e) => {

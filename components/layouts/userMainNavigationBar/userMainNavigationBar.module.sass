@@ -74,7 +74,21 @@
 .anchorText
   +Regular
   font-size: 15px
-  color: #525256
+  color: $primary
+.disabledAnchorText
+  @extend .anchorText
+  margin-right: 6px
+  color: #84848A !important
+.heartShapeAnchorText
+  @extend .anchorText
+  margin-right: 6px
+.comingSoon
+  +Regular
+  font-size: 9px
+  color: #84848A
+  border: 1px solid #A3A3AD
+  border-radius: 13px
+  padding: 0 4px
 .subMenuIcons
   width: 18px
   height: 18px
@@ -84,6 +98,29 @@
   padding-right: 60px
   width: 100%
   height: 60px
+.divider
+  color: #F2F2F3
+.miniDivider
+  +Bold
+  font-size: 27px
+  color: $primary
+.purpleAnchorWrapper
+  display: flex
+  justify-content: flex-start
+  align-items: center
+  width: 100%
+  border-radius: 12px
+  background: rgba(213, 206, 238, 0.4)
+  padding: 6px 12px
+  margin-left: -12px !important
+.purpleAnchorWrapperNoWidth
+  display: flex
+  justify-content: flex-start
+  align-items: center
+  border-radius: 12px
+  background: rgba(213, 206, 238, 0.4)
+  padding: 6px 12px
+  margin-left: -12px !important
 @media #{$tablette}
   .desktopOnly
     +Hidden
@@ -114,6 +151,49 @@
   .mobileIcons
     width: 24px !important
     height: 24px !important
+  .anchorText
+    +Bold
+    font-size: 27px
+    color: $primary
+  .heartShapeAnchorText
+    @extend .anchorText
+    margin-right: 6px
+  .disabledAnchorText
+    @extend .anchorText
+    margin-right: 12px
+    color: #84848A !important
+  .heartShapeAnchorText
+    @extend .anchorText
+    margin-right: 6px
+  .comingSoon
+    +Regular
+    font-size: 13px
+    color: #84848A
+    border: 1px solid #A3A3AD
+    border-radius: 13px
+    padding: 3px 8px 3px 8px
+  .avatarDrawerButton
+    width: 48px
+    height: 48px
+    border-radius: 50%
+    object-fit: cover
+  .mobileAnchorSpan
+    +Regular
+    font-size: 21px
+    color: $primary
+  .mobileAnchorGraySpan
+    @extend .mobileAnchorSpan
+    color: #84848A
+  .anchorWrapper
+    cursor: pointer
+  .subMenuDrawerIcons
+    width: 24px
+    height: 24px
+    margin-right: 10px
+  .mobileProfileName
+    +Medium
+    font-size: 21px
+    color: $primary
   //.hambourgerIconWrapper
   //  padding-right: 0 !important
   .iconButton

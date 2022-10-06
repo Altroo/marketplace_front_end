@@ -554,6 +554,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 											sizes="100vw"
 											className={Styles.avatar}
 											loading="eager"
+											priority={true}
 										/>
 									</div>
 								)}
@@ -1017,6 +1018,7 @@ const ViewShopAsNotOwner = (props: ViewShopType) => {
 										sizes="100vw"
 										className={Styles.avatar}
 										loading="eager"
+										priority={true}
 									/>
 								</div>
 							)}

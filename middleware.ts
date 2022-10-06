@@ -64,7 +64,13 @@ export default withAuth(
 	},
 );
 
-export const config = { matcher: ['/user/:path*', '/shop/[shop_link]/offer/new'] };
+export const config = {
+	matcher: [
+		'/user/:path*',
+		'/shop/[shop_link]/offer/product/:path*',
+		'/shop/[shop_link]/offer/service/:path*'
+	]
+};
 // export const config = {
 // 	matcher: ["/shop/create", "/shop/create/:path*", "/shop/edit",  "/offer/:path*"],
 // };
