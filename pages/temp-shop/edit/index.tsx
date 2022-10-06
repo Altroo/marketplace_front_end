@@ -80,7 +80,7 @@ import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { AUTH_REGISTER, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_INDEX } from "../../../utils/routes";
+import { AUTH_REGISTER, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_LINK_ROUTE } from "../../../utils/routes";
 import { offerGetMyOffersFirstPageAction } from '../../../store/actions/offer/offerActions';
 import ApiLoadingResponseOrError from '../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
 import { getCookie } from "cookies-next";
@@ -571,7 +571,7 @@ const Index: NextPage<Props> = (props: Props) => {
 					buttonText="Compris !"
 					dismissHandler={() => {
 						setModalDismissed(true);
-						router.replace(TEMP_SHOP_EDIT_INDEX, undefined, { shallow: true }).then();
+						router.replace(TEMP_SHOP_LINK_ROUTE, undefined, { shallow: true }).then();
 					}}
 				/>
 			)}

@@ -2,49 +2,49 @@ import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 // import Image from "next/image";
 // import { default as ImageFuture } from "next/future/image";
-import Styles from '../../../../styles/temp-offer/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../styles/temp-shop/create/shopCreateShared.module.sass';
-import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
+import Styles from '../../../styles/temp-offer/create/offerCreateShared.module.sass';
+import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
+import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
-import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
+import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	REAL_OFFER_ADD_PRODUCT_PRICE,
 	TEMP_OFFER_ADD_PRODUCT_CATEGORIES,
 	TEMP_OFFER_ADD_PRODUCT_PRICE,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_EDIT_INDEX,
-} from '../../../../utils/routes';
-import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import MobileStepsBar from '../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
-import HelperDescriptionHeader from '../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
+	TEMP_SHOP_LINK_ROUTE,
+} from '../../../utils/routes';
+import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
+import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
+import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import { Form, Formik } from 'formik';
 // import ApiProgress from '../../../../components/formikElements/apiResponse/apiProgress/apiProgress';
 // import ApiAlert from '../../../../components/formikElements/apiResponse/apiAlert/apiAlert';
-import CustomTextInput from '../../../../components/formikElements/customTextInput/customTextInput';
+import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
 import {
 	bioTextAreaTheme,
 	coordonneeTextInputTheme,
 	offerForWhomDropdownTheme,
 	offerTitleTextInputTheme,
 	offerTitleTooltipTheme,
-} from '../../../../utils/themes';
-import CustomToolTip from '../../../../components/htmlElements/toolTip/customToolTip';
+} from '../../../utils/themes';
+import CustomToolTip from '../../../components/htmlElements/toolTip/customToolTip';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
-import CustomSquareImageUploading from '../../../../components/formikElements/customSquareImageUploading/customSquareImageUploading';
-import CustomTextArea from '../../../../components/formikElements/customTextArea/customTextArea';
-import CustomDropDownChoices from '../../../../components/formikElements/customDropDownChoices/customDropDownChoices';
+import CustomSquareImageUploading from '../../../components/formikElements/customSquareImageUploading/customSquareImageUploading';
+import CustomTextArea from '../../../components/formikElements/customTextArea/customTextArea';
+import CustomDropDownChoices from '../../../components/formikElements/customDropDownChoices/customDropDownChoices';
 import { SelectChangeEvent } from '@mui/material/Select';
-import ColorsRadioCheckContent from '../../../../components/groupedComponents/temp-offer/radioCheckElement/colorsRadioCheckContent/colorsRadioCheckContent';
+import ColorsRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/colorsRadioCheckContent/colorsRadioCheckContent';
 // import { OfferColorsListType, OfferSizesListType } from "../../../../types/ui/uiTypes";
-import CreatorRadioCheckContent from '../../../../components/groupedComponents/temp-offer/radioCheckElement/creatorRadioCheckContent/creatorRadioCheckContent';
-import SizesRadioCheckContent from '../../../../components/groupedComponents/temp-offer/radioCheckElement/sizesRadioCheckContent/sizesRadioCheckContent';
-import QuantityRadioCheckContent from '../../../../components/groupedComponents/temp-offer/radioCheckElement/QuantityRadioCheckContent/quantityRadioCheckContent';
+import CreatorRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/creatorRadioCheckContent/creatorRadioCheckContent';
+import SizesRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/sizesRadioCheckContent/sizesRadioCheckContent';
+import QuantityRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/QuantityRadioCheckContent/quantityRadioCheckContent';
 // import Divider from "@mui/material/Divider";
-import { addOfferProductSchema } from '../../../../utils/formValidationSchemas';
-import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import TagChips from '../../../../components/groupedComponents/temp-offer/tagChips/tagChips';
-import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
-import { setOfferDescriptionPage } from '../../../../store/actions/offer/offerActions';
+import { addOfferProductSchema } from '../../../utils/formValidationSchemas';
+import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import TagChips from '../../../components/groupedComponents/temp-offer/tagChips/tagChips';
+import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
+import { setOfferDescriptionPage } from '../../../store/actions/offer/offerActions';
 import { useRouter } from 'next/router';
 import {
 	getAvailableCountries,
@@ -60,14 +60,14 @@ import {
 	getLocalOfferSizes,
 	getLocalOfferTags,
 	getLocalOfferTitle
-} from "../../../../store/selectors";
+} from "../../../store/selectors";
 // import { setSelectedOfferTags } from '../../../../store/slices/offer/offerSlice';
-import { forWhomData, getForWhomDataArray } from '../../../../utils/rawData';
-import { OfferForWhomType } from '../../../../types/offer/offerTypes';
+import { forWhomData, getForWhomDataArray } from '../../../utils/rawData';
+import { OfferForWhomType } from '../../../types/offer/offerTypes';
 import { getCookie } from 'cookies-next';
-import { ApiErrorResponseType } from '../../../../types/_init/_initTypes';
-import OfferCreatorRadioCheckContent from '../../../../components/groupedComponents/offer/creatorRadioCheckContent/offerCreatorRadioCheckContent';
-import { placesGetCountriesAction } from '../../../../store/actions/places/placesActions';
+import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
+import OfferCreatorRadioCheckContent from '../../../components/groupedComponents/offer/creatorRadioCheckContent/offerCreatorRadioCheckContent';
+import { placesGetCountriesAction } from '../../../store/actions/places/placesActions';
 // import { OfferForWhomType, OfferProductColors } from '../../../../types/offer/offerTypes';
 // import {
 // 	getLocalOfferColors, getLocalOfferDescription,
@@ -320,12 +320,12 @@ const Description: NextPage = () => {
 					<DesktopTopNavigationBar
 						backHref={TEMP_OFFER_ADD_PRODUCT_CATEGORIES}
 						returnButton
-						closeButtonHref={TEMP_SHOP_EDIT_INDEX}
+						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
 					/>
 					<MobileTopNavigationBar
 						backHref={TEMP_OFFER_ADD_PRODUCT_CATEGORIES}
 						returnButton
-						closeButtonHref={TEMP_SHOP_EDIT_INDEX}
+						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<Stack direction="column" spacing={4}>

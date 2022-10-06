@@ -76,7 +76,7 @@ import {
 	TEMP_SHOP_ADD_AVATAR,
 	TEMP_SHOP_ADD_COLOR,
 	TEMP_SHOP_ADD_FONT,
-	TEMP_SHOP_EDIT_INDEX,
+	TEMP_SHOP_LINK_ROUTE,
 } from '../../../utils/routes';
 import { NextRouter } from 'next/router';
 import { AxiosInstance } from 'axios';
@@ -132,7 +132,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 			if (response.status === 200) {
 				// update state
 				yield put(setPostShopState(response.data));
-				yield call(() => payload.router.push(`${TEMP_SHOP_EDIT_INDEX}?created=true`));
+				yield call(() => payload.router.push(`${TEMP_SHOP_LINK_ROUTE}?created=true`));
 			}
 		} else {
 			// User is not authenticated
@@ -156,7 +156,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				yield call(() => emptyLocalStorageNewShopData());
 				// delete cookies
 				yield call(() => deleteCookieStorageNewShopData());
-				yield call(() => payload.router.push(`${TEMP_SHOP_EDIT_INDEX}?created=true`));
+				yield call(() => payload.router.push(`${TEMP_SHOP_LINK_ROUTE}?created=true`));
 			}
 		}
 	} catch (e) {

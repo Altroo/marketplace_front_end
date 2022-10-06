@@ -75,7 +75,7 @@ import {
 	AUTH_REGISTER,
 	NOT_FOUND_404,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_EDIT_INDEX,
+	TEMP_SHOP_LINK_ROUTE,
 } from '../../../utils/routes';
 import {
 	offerGetMyOffersFirstPageAction,

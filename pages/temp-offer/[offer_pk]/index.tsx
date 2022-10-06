@@ -46,7 +46,7 @@ import Link from 'next/link';
 import {
 	TEMP_OFFER_ADD_PRODUCT_CATEGORIES,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_EDIT_INDEX,
+	TEMP_SHOP_LINK_ROUTE,
 } from '../../../utils/routes';
 import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
@@ -344,7 +344,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 				data: boolean;
 			}) => {
 				if (!error && !cancelled && data) {
-					router.replace(TEMP_SHOP_EDIT_INDEX).then();
+					router.replace(TEMP_SHOP_LINK_ROUTE).then();
 				}
 			},
 		});
@@ -757,7 +757,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 											<Image src={BlackStarSVG} width={20} height={20} alt="" />
 											<span className={Styles.rating}>0 (0 notes)</span>
 										</Stack>
-										<Link href={TEMP_SHOP_EDIT_INDEX} passHref prefetch={false} target="_blank" rel="noreferrer">
+										<Link href={TEMP_SHOP_LINK_ROUTE} passHref prefetch={false} target="_blank" rel="noreferrer">
 											<a target="_blank" rel="noreferrer">
 												<span className={Styles.shopName}>{shop_name}</span>
 											</a>
@@ -1208,7 +1208,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		return {
 			redirect: {
 				permanent: false,
-				destination: TEMP_SHOP_EDIT_INDEX,
+				destination: TEMP_SHOP_LINK_ROUTE,
 			},
 			props: {},
 		};

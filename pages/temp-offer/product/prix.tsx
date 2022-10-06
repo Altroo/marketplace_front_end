@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from "next";
-import OfferStyles from '../../../../styles/temp-offer/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../styles/temp-shop/create/shopCreateShared.module.sass';
-import LeftSideBar from '../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import Styles from '../../../../styles/temp-offer/create/price.module.sass';
-import DesktopTopNavigationBar from '../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
+import OfferStyles from '../../../styles/temp-offer/create/offerCreateShared.module.sass';
+import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
+import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
+import Styles from '../../../styles/temp-offer/create/price.module.sass';
+import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	TEMP_OFFER_ADD_PRODUCT_DELIVERIES,
 	TEMP_OFFER_ADD_PRODUCT_DESCRIPTION,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_EDIT_INDEX
-} from "../../../../utils/routes";
-import MobileTopNavigationBar from '../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import MobileStepsBar from '../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
+	TEMP_SHOP_LINK_ROUTE
+} from "../../../utils/routes";
+import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
+import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import { Box, Stack, ThemeProvider } from '@mui/material';
-import HelperH1Header from '../../../../components/headers/helperH1Header/helperH1Header';
+import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
 import Chip from '@mui/material/Chip';
-import { OfferChipTheme } from '../../../../utils/themes';
-import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import { OfferChipTheme } from '../../../utils/themes';
+import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CurrencyInput from 'react-currency-input-field';
-import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
-import { setOfferPricePage } from "../../../../store/actions/offer/offerActions";
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
+import { setOfferPricePage } from "../../../store/actions/offer/offerActions";
 import { useRouter } from "next/router";
-import { getLocalOfferPrice, getLocalOfferPriceBy } from "../../../../store/selectors";
+import { getLocalOfferPrice, getLocalOfferPriceBy } from "../../../store/selectors";
 import { getCookie } from "cookies-next";
-import { ApiErrorResponseType } from "../../../../types/_init/_initTypes";
+import { ApiErrorResponseType } from "../../../types/_init/_initTypes";
 
 const Prix: NextPage = () => {
 	const activeStep = '3';
@@ -89,8 +89,8 @@ const Prix: NextPage = () => {
 			<main className={SharedStyles.fullPageMain}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.boxWrapper}>
-					<DesktopTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_EDIT_INDEX} />
-					<MobileTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_EDIT_INDEX}/>
+					<DesktopTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_LINK_ROUTE} />
+					<MobileTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_LINK_ROUTE}/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header
 						header="Fixer un prix"

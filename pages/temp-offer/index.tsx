@@ -1,12 +1,12 @@
 import React from 'react';
 import { GetServerSidePropsContext, NextPage } from "next";
-import Styles from '../../../styles/temp-offer/create/offerCreateShared.module.sass';
-import OfferTypeCard from '../../../components/groupedComponents/temp-offer/offerTypeCard/offerTypeCard';
-import SellProductIcon from '../../../public/assets/svgs/globalIcons/sell-product-icon.svg';
-import SellServiceIcon from '../../../public/assets/svgs/globalIcons/sell-service-icon.svg';
-import SellLocationIcon from '../../../public/assets/svgs/globalIcons/sell-location-icon.svg';
+import Styles from '../../styles/temp-offer/create/offerCreateShared.module.sass';
+import OfferTypeCard from '../../components/groupedComponents/temp-offer/offerTypeCard/offerTypeCard';
+import SellProductIcon from '../../public/assets/svgs/globalIcons/sell-product-icon.svg';
+import SellServiceIcon from '../../public/assets/svgs/globalIcons/sell-service-icon.svg';
+import SellLocationIcon from '../../public/assets/svgs/globalIcons/sell-location-icon.svg';
 import { Stack } from '@mui/material';
-import { TEMP_OFFER_ADD_PRODUCT_CATEGORIES, TEMP_SHOP_ADD_SHOP_NAME } from "../../../utils/routes";
+import { TEMP_OFFER_ADD_PRODUCT_CATEGORIES, TEMP_SHOP_ADD_SHOP_NAME } from "../../utils/routes";
 import { getCookie } from "cookies-next";
 
 const Index: NextPage = () => {
