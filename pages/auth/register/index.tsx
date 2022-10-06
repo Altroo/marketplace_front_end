@@ -27,6 +27,7 @@ import PrimaryButton from "../../../components/htmlElements/buttons/primaryButto
 import { AUTH_REGISTER_ABOUT_PAGE, AUTH_FB_EMAIL_MISSING, AUTH_LOGIN, AUTH_WELCOME } from "../../../utils/routes";
 import { ResponseOnlyInterface } from "../../../types/_init/_initTypes";
 import Link from "next/link";
+import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 
 type registerPageContentProps = {
 	googleSignIn: () => void;
@@ -164,6 +165,7 @@ const Register: NextPage = () => {
 					<div className={Styles.mobileOnly}>
 						<main className={Styles.main}>
 							<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{height: '100vh'}}>
+								<UserMainNavigationBar/>
 								<RegisterPageContent
 									Theme={emailTheme}
 									facebookSignIn={facebookSignIn}

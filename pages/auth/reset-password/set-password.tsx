@@ -21,6 +21,7 @@ import CustomPasswordInput from '../../../components/formikElements/customPasswo
 import { GetServerSidePropsContext } from "next";
 import { AccountGetCheckAccountResponseType } from "../../../types/account/accountTypes";
 import { getCookie } from "cookies-next";
+import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 
 type setPasswordPageContentProps = {
 	email: string;
@@ -139,6 +140,7 @@ const SetPassword: React.FC<Props> = (props: Props) => {
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
 					<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100vh' }}>
+						<UserMainNavigationBar/>
 						<SetPasswordPageContent email={email} code={code} />
 						<Stack direction="column" justifyContent="center" alignItems="center">
 							<p className={Styles.bottomLinks}>

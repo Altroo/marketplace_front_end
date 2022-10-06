@@ -23,6 +23,7 @@ import { emailSchema } from '../../../utils/formValidationSchemas';
 import { coordonneeTextInputTheme } from '../../../utils/themes';
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 
 const ResetPasswordPageContent = () => {
 	const router = useRouter();
@@ -111,6 +112,7 @@ const ResetPassword: React.FC<Props> = (props: Props) => {
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
 					<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100vh' }}>
+						<UserMainNavigationBar/>
 						<ResetPasswordPageContent />
 						<Stack direction="column" justifyContent="center" alignItems="center">
 							<p className={Styles.bottomLinks}>

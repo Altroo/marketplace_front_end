@@ -12,6 +12,7 @@ import { getCookie } from 'cookies-next';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import { getApi } from '../../../store/services/_init/_initAPI';
+import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 
 type Props = {
 	children?: React.ReactNode;
@@ -39,6 +40,7 @@ const SetPasswordComplete: React.FC<Props> = (props: Props) => {
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
 					<Stack direction="column" justifyContent="space-between" className={Styles.rootStack}>
+						<UserMainNavigationBar/>
 						<Stack direction="column" spacing={4} alignItems="center">
 							<ImageFuture src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 							<h2 className={Styles.header}>Mot de passe modifié</h2>

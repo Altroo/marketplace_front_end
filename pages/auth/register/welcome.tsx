@@ -11,6 +11,7 @@ import { default as ImageFuture } from 'next/future/image';
 import { Stack } from '@mui/material';
 import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import Link from "next/link";
+import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 
 type Props = {
 	children?: React.ReactNode;
@@ -38,6 +39,7 @@ const Welcome: React.FC<Props> = (props: Props) => {
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
 					<Stack direction="column" justifyContent="space-between" className={Styles.rootStack}>
+						<UserMainNavigationBar/>
 						<Stack
 						direction="column"
 						spacing={4}

@@ -33,6 +33,7 @@ import { coordonneeTextInputTheme } from "../../../utils/themes";
 import { accountPostRegisterAction } from "../../../store/actions/account/accountActions";
 import TextButton from "../../../components/htmlElements/buttons/textButton/textButton";
 import { refreshAppTokenStatesAction } from "../../../store/actions/_init/_initActions";
+import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 
 const LoginPageContent = () => {
 	const dispatch = useAppDispatch();
@@ -172,6 +173,7 @@ const Login: React.FC<Props> = (props: Props) => {
 					<div className={Styles.mobileOnly}>
 						<main className={Styles.main}>
 							<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{height: '100vh'}}>
+								<UserMainNavigationBar/>
 								<LoginPageContent/>
 								<Stack direction="column" justifyContent="center" alignItems="center">
 									<p className={Styles.bottomLinks}>

@@ -28,6 +28,7 @@ import TextButton from '../../../components/htmlElements/buttons/textButton/text
 import { useAppDispatch } from '../../../utils/hooks';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import { accountPostSendPasswordResetAction } from "../../../store/actions/account/accountActions";
+import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 
 type enterCodePageContentProps = {
 	email: string;
@@ -205,6 +206,7 @@ const EnterCode: React.FC<Props> = (props: Props) => {
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
 					<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100vh' }}>
+						<UserMainNavigationBar/>
 						<EnterCodePageContent email={email} />
 						<Stack direction="column" justifyContent="center" alignItems="center">
 							<p className={Styles.bottomLinks}>

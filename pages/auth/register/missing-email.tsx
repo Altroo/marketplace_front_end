@@ -28,6 +28,7 @@ import PrimaryButton from "../../../components/htmlElements/buttons/primaryButto
 import { accountSetFacebookEmailAction } from "../../../store/actions/account/accountActions";
 import { useSession } from "next-auth/react";
 import { refreshAppTokenStatesAction } from "../../../store/actions/_init/_initActions";
+import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 
 const AddMissingEmail = () => {
 	const { data: session } = useSession();
@@ -127,6 +128,7 @@ const MissingEmail: React.FC<Props> = (props: Props) => {
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
 					<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: "100vh" }}>
+						<UserMainNavigationBar/>
 						<AddMissingEmail/>
 						<Stack direction="column" justifyContent="center" alignItems="center">
 							<p className={Styles.bottomLinks}>
