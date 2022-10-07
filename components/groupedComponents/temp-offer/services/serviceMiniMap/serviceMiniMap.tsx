@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Styles from './serviceMiniMap.module.sass';
 import MapEditSVG from '../../../../../public/assets/svgs/globalIcons/edit-blue.svg';
 import { Stack } from '@mui/material';

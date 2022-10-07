@@ -69,7 +69,7 @@ import {
 import DeliveryOptionElements from '../../../../../components/groupedComponents/temp-offer/deliveryOptionElements/deliveryOptionElements';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import {
-	AUTH_SHOP_LINK_ROUTE,
+	REAL_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_PRODUCT_PRICE, REAL_OFFER_ROUTE,
 	TEMP_SHOP_ADD_SHOP_NAME
 } from "../../../../../utils/routes";
@@ -383,7 +383,7 @@ const Livraison: NextPage = () => {
 					data: OfferPostRootProductResponseType | OfferPostRootServiceResponseType;
 				}) => {
 					if (!error && !cancelled && data.data) {
-						router.push(AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+						router.replace(REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
 					}
 				},
 			});
@@ -474,12 +474,12 @@ const Livraison: NextPage = () => {
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_PRODUCT_PRICE(router.query.shop_link as string)}
 						returnButton
-						closeButtonHref={AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileTopNavigationBar
 						backHref={REAL_OFFER_ADD_PRODUCT_PRICE(router.query.shop_link as string)}
 						returnButton
-						closeButtonHref={AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header

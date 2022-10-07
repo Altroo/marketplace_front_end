@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from '../../../../../styles/temp-offer/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../../styles/temp-shop/create/shopCreateShared.module.sass';
-import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
-import HelperH1Header from '../../../../../components/headers/helperH1Header/helperH1Header';
-import CategoriesList from '../../../../../components/groupedComponents/temp-offer/categoriesList/categoriesList';
+import Styles from '../../../styles/temp-offer/create/offerCreateShared.module.sass';
+import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
+import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
+import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
+import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
+import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
+import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
+import CategoriesList from '../../../components/groupedComponents/temp-offer/categoriesList/categoriesList';
 import { Stack, Box } from '@mui/material';
-import { useAppSelector } from '../../../../../utils/hooks';
-import { getLocalOfferServiceCategories } from "../../../../../store/selectors";
-import PrimaryAnchorButton from '../../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
+import { useAppSelector } from '../../../utils/hooks';
+import { getLocalOfferServiceCategories } from "../../../store/selectors";
+import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import {
-	REAL_SHOP_LINK_ROUTE,
-	REAL_OFFER_ADD_INDEX,
-	REAL_OFFER_ADD_SERVICE_DESCRIPTION,
-	TEMP_SHOP_ADD_SHOP_NAME
-} from "../../../../../utils/routes";
-import { useRouter } from 'next/router';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
-import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
-import { getApi } from '../../../../../store/services/_init/_initAPI';
+	TEMP_OFFER_ADD_SERVICE_DESCRIPTION,
+	TEMP_OFFER_ADD_INDEX,
+	TEMP_SHOP_ADD_SHOP_NAME,
+	TEMP_SHOP_LINK_ROUTE
+} from "../../../utils/routes";
+import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
+import { getApi } from '../../../store/services/_init/_initAPI';
 
 const Index: NextPage = () => {
-	const router = useRouter();
 	const pickedCategories = useAppSelector(getLocalOfferServiceCategories);
 	const activeStep = '1';
 	const [isValid, setIsValid] = useState<boolean>(false);
@@ -43,14 +41,14 @@ const Index: NextPage = () => {
 				<LeftSideBar step={activeStep} which="SERVICE" />
 				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar
-						backHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
+						backHref={TEMP_OFFER_ADD_INDEX}
 						returnButton
-						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
 					/>
 					<MobileTopNavigationBar
-						backHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
+						backHref={TEMP_OFFER_ADD_INDEX}
 						returnButton
-						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header
@@ -65,7 +63,7 @@ const Index: NextPage = () => {
 						<PrimaryAnchorButton
 							buttonText="Continuer"
 							active={isValid}
-							nextPage={REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)}
+							nextPage={TEMP_OFFER_ADD_SERVICE_DESCRIPTION}
 						/>
 					</div>
 				</Box>

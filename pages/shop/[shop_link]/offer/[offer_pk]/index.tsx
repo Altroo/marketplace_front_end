@@ -35,7 +35,7 @@ import {
 } from '../../../../../utils/rawData';
 import Link from 'next/link';
 import {
-	AUTH_SHOP_LINK_ROUTE,
+	REAL_SHOP_LINK_ROUTE,
 	NOT_FOUND_404,
 	REAL_OFFER_ADD_PRODUCT_CATEGORIES, REAL_OFFER_ROUTE
 } from "../../../../../utils/routes";
@@ -532,7 +532,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 			...action,
 			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
 				if (!error && !cancelled && data) {
-					router.replace(AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+					router.replace(REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
 				}
 			},
 		});
@@ -766,7 +766,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 												<span className={Styles.rating}>0 (0 notes)</span>
 											</Stack>
 											<Link
-												href={AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+												href={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 												passHref
 												prefetch={false}
 												target="_blank"

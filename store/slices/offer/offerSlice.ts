@@ -85,8 +85,8 @@ const userLocalServiceInitial = {
 	service_address: null,
 	service_km_radius: null,
 	tags: null,
-	prix: null,
-	prix_par: null,
+	price: null,
+	service_price_by: null,
 };
 
 const initialState: OfferStateInterface = {
@@ -419,9 +419,14 @@ const OfferSlice = createSlice({
 			state.userLocalService.tags = action.payload.tags;
 			// return state;
 		},
-		setLocalOfferPrice: (state, action: PayloadAction<{ price: string; price_by: 'U' | 'K' | 'L' }>) => {
+		setLocalOfferProductPrice: (state, action: PayloadAction<{ price: string; price_by: 'U' | 'K' | 'L' }>) => {
 			state.userLocalProduct.prix = action.payload.price;
 			state.userLocalProduct.prix_par = action.payload.price_by;
+			// return state;
+		},
+		setLocalOfferServicePrice: (state, action: PayloadAction<{ price: string; service_price_by: "H" | "J" | "S" | "M" | "P" }>) => {
+			state.userLocalService.price = action.payload.price;
+			state.userLocalService.service_price_by = action.payload.service_price_by;
 			// return state;
 		},
 		setLocalOfferClickAndCollect: (
@@ -563,7 +568,8 @@ export const {
 	setLocalOfferMultiCategories,
 	setLocalOfferProductDescription,
 	setLocalOfferServiceDescription,
-	setLocalOfferPrice,
+	setLocalOfferProductPrice,
+	setLocalOfferServicePrice,
 	setLocalOfferClickAndCollect,
 	setLocalOfferDeliveries,
 	emptyLocalOfferDeliveryClickAndCollect,

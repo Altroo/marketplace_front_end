@@ -1,37 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from '../../../../../styles/temp-offer/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../../styles/temp-shop/create/shopCreateShared.module.sass';
-import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
+import Styles from '../../../styles/temp-offer/create/offerCreateShared.module.sass';
+import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
+import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import { Box, ClickAwayListener, Stack, TextField } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
-import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
+import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
-	REAL_OFFER_ADD_INDEX,
-	REAL_OFFER_ADD_SERVICE_CATEGORIES,
-	REAL_OFFER_ADD_SERVICE_PRICE,
+	TEMP_OFFER_ADD_INDEX,
+	TEMP_OFFER_ADD_SERVICE_CATEGORIES,
+	TEMP_OFFER_ADD_SERVICE_PRICE,
 	TEMP_SHOP_ADD_SHOP_NAME,
-} from '../../../../../utils/routes';
-import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
-import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
+} from '../../../utils/routes';
+import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
+import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
+import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import { Form, Formik } from 'formik';
-import CustomTextInput from '../../../../../components/formikElements/customTextInput/customTextInput';
+import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
 import {
 	coordonneeTextInputTheme,
 	offerForWhomDropdownTheme,
 	offerTitleTooltipTheme,
-} from '../../../../../utils/themes';
-import CustomToolTip from '../../../../../components/htmlElements/toolTip/customToolTip';
+} from '../../../utils/themes';
+import CustomToolTip from '../../../components/htmlElements/toolTip/customToolTip';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
-import CustomSquareImageUploading from '../../../../../components/formikElements/customSquareImageUploading/customSquareImageUploading';
-import CustomTextArea from '../../../../../components/formikElements/customTextArea/customTextArea';
-import CustomDropDownChoices from '../../../../../components/formikElements/customDropDownChoices/customDropDownChoices';
+import CustomSquareImageUploading from '../../../components/formikElements/customSquareImageUploading/customSquareImageUploading';
+import CustomTextArea from '../../../components/formikElements/customTextArea/customTextArea';
+import CustomDropDownChoices from '../../../components/formikElements/customDropDownChoices/customDropDownChoices';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { addOfferServiceSchema } from '../../../../../utils/formValidationSchemas';
-import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import TagChips from '../../../../../components/groupedComponents/temp-offer/tagChips/tagChips';
-import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
+import { addOfferServiceSchema } from '../../../utils/formValidationSchemas';
+import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import TagChips from '../../../components/groupedComponents/temp-offer/tagChips/tagChips';
+import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import { useRouter } from 'next/router';
 import {
 	getLocalOfferServiceAddress,
@@ -48,21 +48,20 @@ import {
 	getLocalOfferServiceTags,
 	getLocalOfferServiceTitle,
 	getLocalOfferServiceZoneBy,
-} from '../../../../../store/selectors';
-import { forWhomData, getForWhomDataArray } from '../../../../../utils/rawData';
-import { OfferForWhomType } from '../../../../../types/offer/offerTypes';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
-import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
-import { getApi } from '../../../../../store/services/_init/_initAPI';
-import DisponibilitiesRadioCheckContent from '../../../../../components/groupedComponents/temp-offer/radioCheckElement/disponibilitiesRadioCheckContent/disponibilitiesRadioCheckContent';
-import HorairesRadioCheckContent from '../../../../../components/groupedComponents/temp-offer/radioCheckElement/horairesRadioCheckContent/horairesRadioCheckContent';
-import TextButton from '../../../../../components/htmlElements/buttons/textButton/textButton';
-import RightSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
-import ServiceLocalisation from '../../../../../components/groupedComponents/temp-offer/services/serviceLocalisation/serviceLocalisation';
-import { setOfferServiceDescriptionPage } from "../../../../../store/actions/offer/offerActions";
-import { ApiErrorResponseType } from "../../../../../types/_init/_initTypes";
-import ServiceMiniMap
-	from "../../../../../components/groupedComponents/temp-offer/services/serviceMiniMap/serviceMiniMap";
+} from '../../../store/selectors';
+import { forWhomData, getForWhomDataArray } from '../../../utils/rawData';
+import { OfferForWhomType } from '../../../types/offer/offerTypes';
+import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
+import { getApi } from '../../../store/services/_init/_initAPI';
+import DisponibilitiesRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/disponibilitiesRadioCheckContent/disponibilitiesRadioCheckContent';
+import HorairesRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/horairesRadioCheckContent/horairesRadioCheckContent';
+import TextButton from '../../../components/htmlElements/buttons/textButton/textButton';
+import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
+import ServiceLocalisation from '../../../components/groupedComponents/temp-offer/services/serviceLocalisation/serviceLocalisation';
+import { setOfferServiceDescriptionPage } from '../../../store/actions/offer/offerActions';
+import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
+import ServiceMiniMap from '../../../components/groupedComponents/temp-offer/services/serviceMiniMap/serviceMiniMap';
 
 const Description: NextPage = () => {
 	const activeStep = '2';
@@ -223,59 +222,10 @@ const Description: NextPage = () => {
 			...action,
 			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
 				if (!error && !cancelled && data) {
-					router.push(REAL_OFFER_ADD_SERVICE_PRICE(router.query.shop_link as string)).then();
+					router.push(TEMP_OFFER_ADD_SERVICE_PRICE).then();
 				}
 			},
 		});
-		// const forWhomCodeArray: Array<string> = [];
-		// if (forWhomChoice.length >= 1) {
-		// 	forWhomChoice.map((forWhom) => {
-		// 		forWhomCodeArray.push(forWhom[0]);
-		// 	});
-		// }
-		// const forWhomStr = forWhomCodeArray.join(',');
-		// const productColorsStr: string = selectedColorsList.join(',');
-		// const productSizesArray: Array<string> = [];
-		// const { xsState, sState, mState, lState, xState, xlState } = sizesStates;
-		// if (xsState) {
-		// 	productSizesArray.push('XS');
-		// }
-		// if (sState) {
-		// 	productSizesArray.push('S');
-		// }
-		// if (mState) {
-		// 	productSizesArray.push('M');
-		// }
-		// if (lState) {
-		// 	productSizesArray.push('L');
-		// }
-		// if (xState) {
-		// 	productSizesArray.push('X');
-		// }
-		// if (xlState) {
-		// 	productSizesArray.push('XL');
-		// }
-		// const productSizesStr = productSizesArray.join(',');
-		// const action = setOfferDescriptionPage(
-		// 	values.title,
-		// 	images,
-		// 	values.description,
-		// 	forWhomStr,
-		// 	productColorsStr,
-		// 	productSizesStr,
-		// 	quantity,
-		// 	madeIn,
-		// 	togglePickedCreator,
-		// 	values.tags.join(','),
-		// );
-		// dispatch({
-		// 	...action,
-		// 	onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
-		// 		if (!error && !cancelled && data) {
-		// 			router.push(REAL_OFFER_ADD_SERVICE_PRICE(router.query.shop_link as string)).then();
-		// 		}
-		// 	},
-		// });
 	};
 
 	// on change for whom
@@ -298,14 +248,14 @@ const Description: NextPage = () => {
 				<LeftSideBar step={activeStep} which="SERVICE" />
 				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar
-						backHref={REAL_OFFER_ADD_SERVICE_CATEGORIES(router.query.shop_link as string)}
+						backHref={TEMP_OFFER_ADD_SERVICE_CATEGORIES}
 						returnButton
-						closeButtonHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
+						closeButtonHref={TEMP_OFFER_ADD_INDEX}
 					/>
 					<MobileTopNavigationBar
-						backHref={REAL_OFFER_ADD_SERVICE_CATEGORIES(router.query.shop_link as string)}
+						backHref={TEMP_OFFER_ADD_SERVICE_CATEGORIES}
 						returnButton
-						closeButtonHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
+						closeButtonHref={TEMP_OFFER_ADD_INDEX}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<Stack direction="column" spacing={4}>

@@ -1,45 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import OfferStyles from '../../../../../styles/temp-offer/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../../styles/temp-shop/create/shopCreateShared.module.sass';
-import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import Styles from '../../../../../styles/temp-offer/create/price.module.sass';
-import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
+import OfferStyles from '../../../styles/temp-offer/create/offerCreateShared.module.sass';
+import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
+import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
+import Styles from '../../../styles/temp-offer/create/price.module.sass';
+import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
-	REAL_SHOP_LINK_ROUTE,
-	REAL_OFFER_ADD_SERVICE_DESCRIPTION,
-	REAL_OFFER_ROUTE,
+	TEMP_SHOP_LINK_ROUTE,
+	TEMP_OFFER_ADD_SERVICE_DESCRIPTION,
+	TEMP_OFFER_ROUTE,
 	TEMP_SHOP_ADD_SHOP_NAME,
-} from '../../../../../utils/routes';
-import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
+} from '../../../utils/routes';
+import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
+import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import { Box, Stack, ThemeProvider } from '@mui/material';
-import HelperH1Header from '../../../../../components/headers/helperH1Header/helperH1Header';
+import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
 import Chip from '@mui/material/Chip';
-import { OfferChipTheme } from '../../../../../utils/themes';
-import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import { OfferChipTheme } from '../../../utils/themes';
+import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CurrencyInput from 'react-currency-input-field';
-import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
+import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import {
 	offerPostRootServiceAction,
 	offerPutRootServiceAction,
 	setOfferServicePricePage,
-} from '../../../../../store/actions/offer/offerActions';
+} from '../../../store/actions/offer/offerActions';
 import { useRouter } from 'next/router';
 import {
 	getLocalOfferServiceEditPK,
 	getLocalOfferServiceObj,
 	getLocalOfferServicePrice,
 	getLocalOfferServicePriceBy,
-} from '../../../../../store/selectors';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
-import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
-import { getApi } from '../../../../../store/services/_init/_initAPI';
-import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
+} from '../../../store/selectors';
+import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
+import { getApi } from '../../../store/services/_init/_initAPI';
+import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
 import {
 	OfferPostRootServiceResponseType,
 	OfferPutRootServiceResponseType,
-} from '../../../../../types/offer/offerTypes';
+} from '../../../types/offer/offerTypes';
 
 const Prix: NextPage = () => {
 	const offer_pk = useAppSelector(getLocalOfferServiceEditPK);
@@ -137,7 +137,7 @@ const Prix: NextPage = () => {
 								data: OfferPostRootServiceResponseType;
 							}) => {
 								if (!error && !cancelled && data.data) {
-									router.replace(REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+									router.replace(TEMP_SHOP_LINK_ROUTE).then();
 								}
 							},
 						});
@@ -176,7 +176,7 @@ const Prix: NextPage = () => {
 								data: OfferPutRootServiceResponseType;
 							}) => {
 								if (!error && !cancelled && data.data) {
-									router.replace(REAL_OFFER_ROUTE(router.query.shop_link as string, offer_pk.toString())).then();
+									router.replace(TEMP_OFFER_ROUTE(offer_pk.toString())).then();
 								}
 							},
 						});
@@ -213,14 +213,14 @@ const Prix: NextPage = () => {
 				<LeftSideBar step={activeStep} which="SERVICE" />
 				<Box className={Styles.boxWrapper}>
 					<DesktopTopNavigationBar
-						backHref={REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)}
+						backHref={TEMP_OFFER_ADD_SERVICE_DESCRIPTION}
 						returnButton
-						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
 					/>
 					<MobileTopNavigationBar
-						backHref={REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)}
+						backHref={TEMP_OFFER_ADD_SERVICE_DESCRIPTION}
 						returnButton
-						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header

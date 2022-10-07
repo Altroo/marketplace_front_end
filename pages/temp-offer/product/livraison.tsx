@@ -69,7 +69,7 @@ import {
 import DeliveryOptionElements from '../../../components/groupedComponents/temp-offer/deliveryOptionElements/deliveryOptionElements';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import {
-	AUTH_SHOP_LINK_ROUTE, REAL_OFFER_ROUTE,
+	REAL_SHOP_LINK_ROUTE, REAL_OFFER_ROUTE,
 	TEMP_OFFER_ADD_PRODUCT_PRICE, TEMP_OFFER_ROUTE,
 	TEMP_SHOP_ADD_SHOP_NAME,
 	TEMP_SHOP_LINK_ROUTE
@@ -389,7 +389,7 @@ const Livraison: NextPage = () => {
 					data: OfferPostRootProductResponseType | OfferPostRootServiceResponseType;
 				}) => {
 					if (!error && !cancelled && data.data) {
-						router.push(TEMP_SHOP_LINK_ROUTE).then();
+						router.replace(TEMP_SHOP_LINK_ROUTE).then();
 					}
 				},
 			});

@@ -46,7 +46,7 @@ import {
 	setWSOfferThumbnail,
 	setLocalOfferProductCategories,
 	setLocalOfferProductDescription,
-	setLocalOfferPrice,
+	setLocalOfferProductPrice,
 	setLocalOfferClickAndCollect,
 	setLocalOfferDeliveries,
 	emptyLocalOfferDeliveryClickAndCollect,
@@ -64,7 +64,10 @@ import {
 	emptyUserLocalOffer,
 	offersDELETEApiErrorAction,
 	setDeleteOfferIsLoading,
-	setLocalOfferServiceCategories, setLocalOfferServiceLocalisation, setLocalOfferServiceDescription
+	setLocalOfferServiceCategories,
+	setLocalOfferServiceLocalisation,
+	setLocalOfferServiceDescription,
+	setLocalOfferServicePrice
 } from "../../slices/offer/offerSlice";
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
@@ -76,6 +79,7 @@ import { Saga } from 'redux-saga';
 import { ShopZoneByType } from '../../../types/shop/shopTypes';
 
 function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootServiceType) {
+	console.log(payload);
 	yield put(appendPostOfferIsLoading());
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/`;
@@ -754,8 +758,8 @@ function* setOfferServiceDescriptionPageSaga(payload: {
 	description: string,
 	for_whom: string | null,
 	service_availability_days: string,
-	service_morning_hour_from: string,
-	service_morning_hour_to: string,
+	service_morning_hour_from: string | null,
+	service_morning_hour_to: string | null,
 	service_afternoon_hour_from: string | null,
 	service_afternoon_hour_to: string | null,
 	tags: string | null,
@@ -788,9 +792,15 @@ function* setOfferServiceDescriptionPageSaga(payload: {
 	}
 }
 
-function* setOfferPricePageSaga(payload: { type: string; price: string; price_by: 'U' | 'K' | 'L' }) {
+function* setOfferProductPricePageSaga(payload: { type: string; price: string; price_by: 'U' | 'K' | 'L' }) {
 	const { type, ...payloadData } = payload;
-	yield put(setLocalOfferPrice(payloadData));
+	yield put(setLocalOfferProductPrice(payloadData));
+	return true;
+}
+
+function* setOfferServicePricePageSaga(payload: { type: string; price: string; service_price_by: "H" | "J" | "S" | "M" | "P" }) {
+	const { type, ...payloadData } = payload;
+	yield put(setLocalOfferServicePrice(payloadData));
 	return true;
 }
 
@@ -855,7 +865,7 @@ function* setOfferToEditSaga(payload: setOfferToEditPayloadType) {
 	};
 	yield put(setLocalOfferProductDescription(description));
 	// Set price page
-	yield put(setLocalOfferPrice({ price: payload.prix as string, price_by: payload.prix_par as 'L' | 'U' | 'K' }));
+	yield put(setLocalOfferProductPrice({ price: payload.prix as string, price_by: payload.prix_par as 'L' | 'U' | 'K' }));
 	// Set deliveries page
 	const clickAndCollect = {
 		longitude: payload.clickAndCollect.longitude,
@@ -895,7 +905,8 @@ export function* watchOffer() {
 	yield takeLatest(Types.SET_OFFER_SERVICE_LOCALISATION, setOfferServiceLocalisationSaga);
 	yield takeLatest(Types.SET_OFFER_PRODUCT_DESCRIPTION_PAGE, withCallback(setOfferProductDescriptionPageSaga as Saga));
 	yield takeLatest(Types.SET_OFFER_SERVICE_DESCRIPTION_PAGE, withCallback(setOfferServiceDescriptionPageSaga as Saga));
-	yield takeLatest(Types.SET_OFFER_PRICE_PAGE, withCallback(setOfferPricePageSaga as Saga));
+	yield takeLatest(Types.SET_OFFER_PRODUCT_PRICE_PAGE, withCallback(setOfferProductPricePageSaga as Saga));
+	yield takeLatest(Types.SET_OFFER_SERVICE_PRICE_PAGE, withCallback(setOfferServicePricePageSaga as Saga));
 	yield takeLatest(Types.SET_OFFER_DELIVERY_PAGE_CLICK_AND_COLLECT, setOfferDeliveryPageClickAndCollectSaga);
 	yield takeLatest(Types.SET_OFFER_DELIVERY_PAGE_DELIVERIES, setOfferDeliveryPageDeliveriesSaga);
 	yield takeLatest(Types.EMPTY_OFFER_DELIVERY_CLICK_AND_COLLECT, emptyOfferDeliveryClickAndCollectSaga);

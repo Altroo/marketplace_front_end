@@ -403,8 +403,8 @@ export interface UserLocalServiceType {
 	service_address: string | null,
 	service_km_radius: number | null,
 	tags: string | null;
-	prix: string | null;
-	prix_par: OfferServicePriceByType | null;
+	price: string | null;
+	service_price_by: OfferServicePriceByType | null;
 }
 
 //!- Offer State
@@ -521,8 +521,8 @@ export type LocalOfferServiceDescriptionPageType = {
 	description: string,
 	for_whom: string | null,
 	service_availability_days: OfferServiceAvailabilityDaysArray,
-	service_morning_hour_from: string,
-	service_morning_hour_to: string,
+	service_morning_hour_from: string | null,
+	service_morning_hour_to: string | null,
 	service_afternoon_hour_from: string | null,
 	service_afternoon_hour_to: string | null,
 	tags: string | null,

@@ -18,7 +18,7 @@ export const TEMP_SHOP_ADD_FONT = '/temp-shop/create/font';
 
 // Auth Shop Routes
 // export const AUTH_SHOP_ROUTE = '/shop';
-export const AUTH_SHOP_LINK_ROUTE = (shop_link: string) => `/shop/${shop_link}`;
+export const REAL_SHOP_LINK_ROUTE = (shop_link: string) => `/shop/${shop_link}`;
 // Real Offers Routes
 // offer details by offer_pk
 export const REAL_OFFER_ROUTE = (shop_link: string, offer_pk: string) => `/shop/${shop_link}/offer/${offer_pk}`;
