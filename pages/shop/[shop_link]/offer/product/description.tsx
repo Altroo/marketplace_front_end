@@ -29,25 +29,25 @@ import CustomDropDownChoices from '../../../../../components/formikElements/cust
 import { SelectChangeEvent } from '@mui/material/Select';
 import ColorsRadioCheckContent from '../../../../../components/groupedComponents/temp-offer/radioCheckElement/colorsRadioCheckContent/colorsRadioCheckContent';
 import SizesRadioCheckContent from '../../../../../components/groupedComponents/temp-offer/radioCheckElement/sizesRadioCheckContent/sizesRadioCheckContent';
-import QuantityRadioCheckContent from '../../../../../components/groupedComponents/temp-offer/radioCheckElement/QuantityRadioCheckContent/quantityRadioCheckContent';
+import QuantityRadioCheckContent from '../../../../../components/groupedComponents/temp-offer/radioCheckElement/quantityRadioCheckContent/quantityRadioCheckContent';
 import { addOfferProductSchema } from '../../../../../utils/formValidationSchemas';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import TagChips from '../../../../../components/groupedComponents/temp-offer/tagChips/tagChips';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
-import { setOfferDescriptionPage } from '../../../../../store/actions/offer/offerActions';
+import { setOfferProductDescriptionPage } from '../../../../../store/actions/offer/offerActions';
 import { useRouter } from 'next/router';
 import {
 	getAvailableCountries,
-	getLocalOfferColors,
-	getLocalOfferCreator,
-	getLocalOfferDescription,
-	getLocalOfferForwhom,
-	getLocalOfferMadeIn,
-	getLocalOfferPictures,
-	getLocalOfferQuantity,
-	getLocalOfferSizes,
-	getLocalOfferTags,
-	getLocalOfferTitle,
+	getLocalOfferProductColors,
+	getLocalOfferProductCreator,
+	getLocalOfferProductDescription,
+	getLocalOfferProductForwhom,
+	getLocalOfferProductMadeIn,
+	getLocalOfferProductPictures,
+	getLocalOfferProductQuantity,
+	getLocalOfferProductSizes,
+	getLocalOfferProductTags,
+	getLocalOfferProductTitle,
 } from '../../../../../store/selectors';
 import { forWhomData, getForWhomDataArray } from '../../../../../utils/rawData';
 import { OfferForWhomType } from '../../../../../types/offer/offerTypes';
@@ -96,16 +96,16 @@ const Description: NextPage = () => {
 		setXlState,
 	};
 	const [quantity, setQuantity] = useState<number>(0);
-	const pickedTitle = useAppSelector(getLocalOfferTitle);
-	const pickedPictures = useAppSelector(getLocalOfferPictures);
-	const pickedForWhom = useAppSelector(getLocalOfferForwhom);
-	const pickedDescription = useAppSelector(getLocalOfferDescription);
-	const pickedColorsList = useAppSelector(getLocalOfferColors);
-	const pickedSizesList = useAppSelector(getLocalOfferSizes);
-	const pickedQuantity = useAppSelector(getLocalOfferQuantity);
-	const pickedMadeIn = useAppSelector(getLocalOfferMadeIn);
-	const pickedCreator = useAppSelector(getLocalOfferCreator);
-	const pickedTags = useAppSelector(getLocalOfferTags);
+	const pickedTitle = useAppSelector(getLocalOfferProductTitle);
+	const pickedPictures = useAppSelector(getLocalOfferProductPictures);
+	const pickedForWhom = useAppSelector(getLocalOfferProductForwhom);
+	const pickedDescription = useAppSelector(getLocalOfferProductDescription);
+	const pickedColorsList = useAppSelector(getLocalOfferProductColors);
+	const pickedSizesList = useAppSelector(getLocalOfferProductSizes);
+	const pickedQuantity = useAppSelector(getLocalOfferProductQuantity);
+	const pickedMadeIn = useAppSelector(getLocalOfferProductMadeIn);
+	const pickedCreator = useAppSelector(getLocalOfferProductCreator);
+	const pickedTags = useAppSelector(getLocalOfferProductTags);
 	const availableCountries = useAppSelector(getAvailableCountries);
 	// on change images
 	const imagesOnChangeHandler = (imageList: ImageUploadingType) => {
@@ -242,7 +242,7 @@ const Description: NextPage = () => {
 			productSizesArray.push('XL');
 		}
 		const productSizesStr = productSizesArray.join(',');
-		const action = setOfferDescriptionPage(
+		const action = setOfferProductDescriptionPage(
 			values.title,
 			images,
 			values.description,

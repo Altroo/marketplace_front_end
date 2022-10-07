@@ -185,14 +185,15 @@ export type DetailsOfferProductType = {
 };
 
 export type OfferServiceAvailabilityDaysArray = Array<{ pk: number; code_day: OfferServiceDaysType; name_day: string }>;
+
 type DetailsOfferServiceType = {
-	service_availability_days: string | OfferServiceAvailabilityDaysArray | [];
+	service_availability_days: OfferServiceAvailabilityDaysArray | [];
 	service_morning_hour_from: string;
 	service_morning_hour_to: string;
 	service_afternoon_hour_from: string;
 	service_afternoon_hour_to: string;
-	service_zone_by: OfferZoneByType;
 	service_price_by: OfferServicePriceByType;
+	service_zone_by: OfferZoneByType;
 	service_longitude: number;
 	service_latitude: number;
 	service_address: string;
@@ -253,7 +254,7 @@ export type DeliveriesFlatResponseType = {
 };
 
 export interface OfferGetRootServiceInterface
-	extends Omit<OfferServiceClass, 'offer_categories' | 'for_whom' | 'pictures'> {
+	extends Omit<OfferServiceClass, 'offer_categories' | 'for_whom' | 'pictures' | 'tags'> {
 	pk: number;
 	user_pk: number;
 	offer_categories: Array<OfferCategoriesType>;
@@ -268,6 +269,7 @@ export interface OfferGetRootServiceInterface
 	picture_4_thumb: string | null;
 	for_whom: Array<OfferForWhomType>;
 	details_offer: DetailsOfferServiceType;
+	tags: Array<string>;
 	creator_label?: boolean | null;
 	made_in_label?: {
 		name: string;
@@ -349,15 +351,11 @@ export type deliveries = {
 	delivery_days_3: string | null;
 };
 
-export interface UserLocalOfferType {
+export interface UserLocalProductType {
 	pk: number | null;
 	categoriesList: Array<OfferCategoriesType>;
 	title: string | null;
 	description: string | null;
-	// picture_1: string | null;
-	// picture_2: string | null;
-	// picture_3: string | null;
-	// picture_4: string | null;
 	pictures: ImageUploadingType;
 	forWhom: string | null;
 	colors: string | null;
@@ -372,26 +370,41 @@ export interface UserLocalOfferType {
 	deliveries: deliveries;
 }
 
-export interface UserTempLocalOfferType {
+/*
+disponibility: null,
+morning_hour_from: null,
+morning_hour_to: null,
+afternoon_hour_from: null,
+afternoon_hour_to: null,
+service_zone_by: null,
+service_longitude: null,
+service_latitude: null,
+service_address: null,
+service_km_radius: null,
+tags: null,
+prix: null,
+prix_par: null,
+ */
+export interface UserLocalServiceType {
 	pk: number | null;
 	categoriesList: Array<OfferCategoriesType>;
 	title: string | null;
 	description: string | null;
-	// picture_1: string | null;
-	// picture_2: string | null;
-	// picture_3: string | null;
-	// picture_4: string | null;
 	pictures: ImageUploadingType;
 	forWhom: string | null;
-	colors: string | null;
-	sizes: string | null;
-	quantity: number | null;
-	made_in: string | null;
+	service_availability_days: OfferServiceAvailabilityDaysArray | [];
+	service_morning_hour_from: string | null,
+	service_morning_hour_to: string | null,
+	service_afternoon_hour_from: string | null,
+	service_afternoon_hour_to: string | null,
+	service_zone_by: OfferZoneByType | null,
+	service_longitude: number | null,
+	service_latitude: number | null,
+	service_address: string | null,
+	service_km_radius: number | null,
 	tags: string | null;
 	prix: string | null;
-	prix_par: 'U' | 'K' | 'L' | null;
-	clickAndCollect: clickAndCollect;
-	deliveries: deliveries;
+	prix_par: OfferServicePriceByType | null;
 }
 
 //!- Offer State
@@ -404,7 +417,8 @@ export interface OfferStateInterface {
 	selectedTags: OfferTagsType;
 	lastUsedLocalisation: OfferProductLocalisation | OfferServiceLocalisation | Record<string, unknown>;
 	lastUsedDeliveries: Array<DeliveriesResponseType> | Record<string, unknown>;
-	userLocalOffer: UserLocalOfferType;
+	userLocalProduct: UserLocalProductType; // kept for product
+	userLocalService: UserLocalServiceType;
 	offerApi: GlobalApiPromiseError;
 }
 
@@ -452,6 +466,7 @@ export type OfferGetMyOffersResponseType = ResponseDataInterface<
 	PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
 >;
 
+
 export interface OfferPostSolderType extends Omit<OfferSolderInterface, 'offer'> {
 	type: string;
 	offer_pk: number;
@@ -481,7 +496,7 @@ export type OfferGetAvailableShopFiltersType = {
 export type OfferGetShopAvailableFiltersResponseType = ResponseDataInterface<OfferGetAvailableShopFiltersType>;
 
 // local offer types
-export type LocalOfferDescriptionPageType = {
+export type LocalOfferProductDescriptionPageType = {
 	type: string;
 	title: string;
 	// picture_1: string;
@@ -499,3 +514,18 @@ export type LocalOfferDescriptionPageType = {
 	tags: string | null;
 	router: NextRouter;
 };
+
+export type LocalOfferServiceDescriptionPageType = {
+	title: string,
+	pictures: ImageUploadingType,
+	description: string,
+	for_whom: string | null,
+	service_availability_days: OfferServiceAvailabilityDaysArray,
+	service_morning_hour_from: string,
+	service_morning_hour_to: string,
+	service_afternoon_hour_from: string | null,
+	service_afternoon_hour_to: string | null,
+	tags: string | null,
+};
+
+export type OfferGetServicesDaysResponseType = ResponseDataInterface<OfferServiceAvailabilityDaysArray>;

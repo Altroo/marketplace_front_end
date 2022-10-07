@@ -11,15 +11,23 @@ import {
 import { NextRouter } from "next/router";
 import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
 import { setOfferToEditPayloadType } from "../../sagas/offer/offerSaga";
+import { ShopZoneByType } from "../../../types/shop/shopTypes";
 
-export const setOfferCategories = (categories: OfferCategoriesType) => {
+export const setOfferProductCategories = (categories: OfferCategoriesType) => {
 	return {
-		type: Types.SET_OFFER_CATEGORIES_PAGE,
+		type: Types.SET_OFFER_PRODUCT_CATEGORIES_PAGE,
 		categories,
 	};
 };
 
-export const setOfferDescriptionPage = (
+export const setOfferServiceCategories = (categories: OfferCategoriesType) => {
+	return {
+		type: Types.SET_OFFER_SERVICE_CATEGORIES_PAGE,
+		categories,
+	};
+};
+
+export const setOfferProductDescriptionPage = (
 	title: string,
 	pictures: ImageUploadingType,
 	description: string,
@@ -32,7 +40,7 @@ export const setOfferDescriptionPage = (
 	tags: string | null,
 ) => {
 	return {
-		type: Types.SET_OFFER_DESCRIPTION_PAGE,
+		type: Types.SET_OFFER_PRODUCT_DESCRIPTION_PAGE,
 		title,
 		pictures,
 		description,
@@ -46,7 +54,51 @@ export const setOfferDescriptionPage = (
 	};
 };
 
-export const setOfferPricePage = (price: string, price_by: 'U' | 'K' | 'L') => {
+export const setOfferServiceLocalisation = (
+	service_zone_by: ShopZoneByType | null,
+	service_longitude: number | null,
+	service_latitude: number | null,
+	service_address: string | null,
+	service_km_radius: number | null,
+) => {
+	return {
+		type: Types.SET_OFFER_SERVICE_LOCALISATION,
+		service_zone_by,
+		service_longitude,
+		service_latitude,
+		service_address,
+		service_km_radius
+	};
+};
+
+export const setOfferServiceDescriptionPage = (
+	title: string,
+	pictures: ImageUploadingType,
+	description: string,
+	for_whom: string | null,
+	service_availability_days: string,
+	service_morning_hour_from: string,
+	service_morning_hour_to: string,
+	service_afternoon_hour_from: string | null,
+	service_afternoon_hour_to: string | null,
+	tags: string | null,
+) => {
+	return {
+		type: Types.SET_OFFER_SERVICE_DESCRIPTION_PAGE,
+		title,
+		pictures,
+		description,
+		for_whom,
+		service_availability_days,
+		service_morning_hour_from,
+		service_morning_hour_to,
+		service_afternoon_hour_from,
+		service_afternoon_hour_to,
+		tags,
+	};
+};
+
+export const setOfferProductPricePage = (price: string, price_by: 'U' | 'K' | 'L') => {
 	return {
 		type: Types.SET_OFFER_PRICE_PAGE,
 		price,
@@ -67,11 +119,11 @@ export const setOfferDeliveryClickAndCollect = (
 	}
 }
 
-export const setOfferToEdit = (
+export const setOfferProductToEdit = (
 	payload: Omit<setOfferToEditPayloadType, 'type'>
 ) => {
 	return {
-		type: Types.SET_OFFER_TO_EDIT,
+		type: Types.SET_OFFER_PRODUCT_TO_EDIT,
 		...payload,
 	}
 }

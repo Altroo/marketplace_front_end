@@ -3,7 +3,7 @@ import Styles from './sizesRadioCheckContent.module.sass';
 import { OfferChipTheme } from '../../../../../utils/themes';
 import { ThemeProvider, Stack, Grid } from '@mui/material';
 import RadioCheckElement from '../radioCheckElement';
-import { OfferSizesListType } from '../../../../../types/ui/uiTypes';
+import { OfferBulkStatesListType } from '../../../../../types/ui/uiTypes';
 import Chip from '@mui/material/Chip';
 
 type Props = {
@@ -41,7 +41,7 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 		}
 	};
 
-	const availableSizesList: Array<OfferSizesListType> = [
+	const availableSizesList: Array<OfferBulkStatesListType> = [
 		{
 			code: 'XS',
 			value: 'XSmall',

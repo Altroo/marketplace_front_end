@@ -20,9 +20,9 @@ import { OfferChipTheme } from '../../../utils/themes';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CurrencyInput from 'react-currency-input-field';
 import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
-import { setOfferPricePage } from "../../../store/actions/offer/offerActions";
+import { setOfferProductPricePage } from "../../../store/actions/offer/offerActions";
 import { useRouter } from "next/router";
-import { getLocalOfferPrice, getLocalOfferPriceBy } from "../../../store/selectors";
+import { getLocalOfferProductPrice, getLocalOfferProductPriceBy } from "../../../store/selectors";
 import { getCookie } from "cookies-next";
 import { ApiErrorResponseType } from "../../../types/_init/_initTypes";
 
@@ -31,8 +31,8 @@ const Prix: NextPage = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const [submitActive, setSubmitActive] = useState<boolean>(false);
-	const pickedPriceBy = useAppSelector(getLocalOfferPriceBy);
-	const pickedPrice = useAppSelector(getLocalOfferPrice);
+	const pickedPriceBy = useAppSelector(getLocalOfferProductPriceBy);
+	const pickedPrice = useAppSelector(getLocalOfferProductPrice);
 	const [price, setPrice] = useState<string | number>(pickedPrice ? pickedPrice : '');
 	const [unity, setUnity] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'U'));
 	const [kg, setKg] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'K'));
@@ -49,7 +49,7 @@ const Prix: NextPage = () => {
 		if (liter) {
 			price_by = 'L'
 		}
-		const action = setOfferPricePage(
+		const action = setOfferProductPricePage(
 			price as string,
 			price_by
 		);

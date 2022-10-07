@@ -25,6 +25,9 @@ export const REAL_OFFER_ROUTE = (shop_link: string, offer_pk: string) => `/shop/
 // add offer (product, service, location) page.
 export const REAL_OFFER_ADD_INDEX = (shop_link: string) => `/shop/${shop_link}/offer`;
 export const REAL_OFFER_ADD_SERVICE_CATEGORIES = (shop_link: string) => `/shop/${shop_link}/offer/service`;
+export const REAL_OFFER_ADD_SERVICE_DESCRIPTION = (shop_link: string) => `/shop/${shop_link}/offer/service/description`;
+export const REAL_OFFER_ADD_SERVICE_PRICE = (shop_link: string) => `/shop/${shop_link}/offer/service/prix`;
+
 // add offer (product) first page (categories).
 export const REAL_OFFER_ADD_PRODUCT_CATEGORIES = (shop_link: string) => `/shop/${shop_link}/offer/product`;
 export const REAL_OFFER_ADD_PRODUCT_DESCRIPTION = (shop_link: string) => `/shop/${shop_link}/offer/product/description`;
@@ -38,6 +41,8 @@ export const TEMP_OFFER_ROUTE = (offer_pk: string) => `/temp-offer/${offer_pk}/`
 export const TEMP_OFFER_ADD_INDEX = '/temp-offer';
 export const TEMP_OFFER_ADD_PRODUCT_CATEGORIES = '/temp-offer/product';
 export const TEMP_OFFER_ADD_SERVICE_CATEGORIES = '/temp-offer/service';
+export const TEMP_OFFER_ADD_SERVICE_DESCRIPTION = '/temp-offer/service/description';
+export const TEMP_OFFER_ADD_SERVICE_PRICE = '/temp-offer/service/prix';
 export const TEMP_OFFER_ADD_PRODUCT_DESCRIPTION = '/temp-offer/product/description';
 export const TEMP_OFFER_ADD_PRODUCT_PRICE = '/temp-offer/product/prix';
 export const TEMP_OFFER_ADD_PRODUCT_DELIVERIES = '/temp-offer/product/livraison';

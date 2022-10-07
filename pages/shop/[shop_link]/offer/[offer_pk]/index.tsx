@@ -68,7 +68,7 @@ import {
 	offerPatchSolderAction,
 	offerPostPinAction,
 	offerPostSolderAction,
-	setOfferToEdit,
+	setOfferProductToEdit,
 } from '../../../../../store/actions/offer/offerActions';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import RightSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
@@ -485,7 +485,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		// 		deliveries: deliveriesObjList,
 		// 	}),
 		// );
-		const action = setOfferToEdit({
+		const action = setOfferProductToEdit({
 			pk: pk,
 			categoriesList: offer_categories,
 			title: title,

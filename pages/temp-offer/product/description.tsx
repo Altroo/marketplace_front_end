@@ -38,28 +38,28 @@ import ColorsRadioCheckContent from '../../../components/groupedComponents/temp-
 // import { OfferColorsListType, OfferSizesListType } from "../../../../types/ui/uiTypes";
 import CreatorRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/creatorRadioCheckContent/creatorRadioCheckContent';
 import SizesRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/sizesRadioCheckContent/sizesRadioCheckContent';
-import QuantityRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/QuantityRadioCheckContent/quantityRadioCheckContent';
+import QuantityRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/quantityRadioCheckContent/quantityRadioCheckContent';
 // import Divider from "@mui/material/Divider";
 import { addOfferProductSchema } from '../../../utils/formValidationSchemas';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import TagChips from '../../../components/groupedComponents/temp-offer/tagChips/tagChips';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
-import { setOfferDescriptionPage } from '../../../store/actions/offer/offerActions';
+import { setOfferProductDescriptionPage } from '../../../store/actions/offer/offerActions';
 import { useRouter } from 'next/router';
 import {
 	getAvailableCountries,
-	getLocalOfferColors,
-	getLocalOfferDescription,
-	getLocalOfferForwhom, getLocalOfferMadeIn,
-	getLocalOfferPictures,
+	getLocalOfferProductColors,
+	getLocalOfferProductDescription,
+	getLocalOfferProductForwhom, getLocalOfferProductMadeIn,
+	getLocalOfferProductPictures,
 	// getLocalOfferPicture1,
 	// getLocalOfferPicture2,
 	// getLocalOfferPicture3,
 	// getLocalOfferPicture4,
-	getLocalOfferQuantity,
-	getLocalOfferSizes,
-	getLocalOfferTags,
-	getLocalOfferTitle
+	getLocalOfferProductQuantity,
+	getLocalOfferProductSizes,
+	getLocalOfferProductTags,
+	getLocalOfferProductTitle
 } from "../../../store/selectors";
 // import { setSelectedOfferTags } from '../../../../store/slices/offer/offerSlice';
 import { forWhomData, getForWhomDataArray } from '../../../utils/rawData';
@@ -96,11 +96,6 @@ const Description: NextPage = () => {
 	const [pickingImages, setPickingImages] = useState<boolean>(false);
 	const [pickingTags, setPickingTags] = useState<boolean>(false);
 	const [offerTags, setOfferTags] = useState<Array<string>>([]);
-	// const [offerImageOne, setOfferImageOne] = useState<string>('');
-	// const [offerImageTwo, setOfferImageTwo] = useState<string | null>(null);
-	// const [offerImageThree, setOfferImageThree] = useState<string | null>(null);
-	// const [offerImageFour, setOfferImageFour] = useState<string | null>(null);
-	// const [isValid, setIsValid] = useState<boolean>(false);
 	const [images, setImages] = useState<ImageUploadingType>([]);
 	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	const [xsState, setXsState] = useState<boolean>(false);
@@ -126,20 +121,15 @@ const Description: NextPage = () => {
 		setXlState,
 	};
 	const [quantity, setQuantity] = useState<number>(0);
-	// const [pickedTags, setPickedTags] = useState<Array<string>>([]);
-	const pickedTitle = useAppSelector(getLocalOfferTitle);
-	const pickedPictures = useAppSelector(getLocalOfferPictures);
-	// const pickedPicture1 = useAppSelector(getLocalOfferPicture1);
-	// const pickedPicture2 = useAppSelector(getLocalOfferPicture2);
-	// const pickedPicture3 = useAppSelector(getLocalOfferPicture3);
-	// const pickedPicture4 = useAppSelector(getLocalOfferPicture4);
-	const pickedForWhom = useAppSelector(getLocalOfferForwhom);
-	const pickedDescription = useAppSelector(getLocalOfferDescription);
-	const pickedColorsList = useAppSelector(getLocalOfferColors);
-	const pickedSizesList = useAppSelector(getLocalOfferSizes);
-	const pickedQuantity = useAppSelector(getLocalOfferQuantity);
-	const pickedMadeIn = useAppSelector(getLocalOfferMadeIn);
-	const pickedTags = useAppSelector(getLocalOfferTags);
+	const pickedTitle = useAppSelector(getLocalOfferProductTitle);
+	const pickedPictures = useAppSelector(getLocalOfferProductPictures);
+	const pickedForWhom = useAppSelector(getLocalOfferProductForwhom);
+	const pickedDescription = useAppSelector(getLocalOfferProductDescription);
+	const pickedColorsList = useAppSelector(getLocalOfferProductColors);
+	const pickedSizesList = useAppSelector(getLocalOfferProductSizes);
+	const pickedQuantity = useAppSelector(getLocalOfferProductQuantity);
+	const pickedMadeIn = useAppSelector(getLocalOfferProductMadeIn);
+	const pickedTags = useAppSelector(getLocalOfferProductTags);
 	const availableCountries = useAppSelector(getAvailableCountries);
 
 	// on change images
@@ -276,7 +266,7 @@ const Description: NextPage = () => {
 		}
 		const productSizesStr = productSizesArray.join(',');
 
-		const action = setOfferDescriptionPage(
+		const action = setOfferProductDescriptionPage(
 			values.title,
 			images,
 			values.description,

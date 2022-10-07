@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import Styles from './customMap.module.sass';
 import { useAppDispatch } from '../../utils/hooks';
 import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
@@ -80,13 +80,20 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 		return null;
 	}
 
+	useEffect(() => {
+		const map = mapRef.current;
+		if (map && props.position.lat & props.position.lng) {
+			map.flyTo([props.position.lat, props.position.lng]);
+		}
+	}, [props.position.lat, props.position.lng]);
+
 	return (
 		<div className={Styles.mapContainer}>
 			<MapContainer
 				center={[props.position.lat, props.position.lng]}
 				zoom={props.kmRadius}
 				scrollWheelZoom={false}
-				style={{ height: '100%' }}
+				style={{height: '100%', borderRadius: '20px' }}
 				ref={mapRef}
 			>
 				<MapMoveStart />

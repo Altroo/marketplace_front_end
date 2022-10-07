@@ -73,7 +73,7 @@ import {
 	offerPatchSolderAction,
 	offerPostPinAction,
 	offerPostSolderAction,
-	setOfferToEdit,
+	setOfferProductToEdit,
 } from '../../../store/actions/offer/offerActions';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
 import ActionModals from '../../../components/htmlElements/modals/actionModal/actionModals';
@@ -291,7 +291,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		// 		deliveries: deliveriesObjList,
 		// 	}),
 		// );
-		const action = setOfferToEdit({
+		const action = setOfferProductToEdit({
 			pk: pk,
 			categoriesList: offer_categories,
 			title: title,

@@ -187,7 +187,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/product" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/product/add" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/radioCheckElement" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/radioCheckElement/QuantityRadioCheckContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/radioCheckElement/colorsRadioCheckContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/radioCheckElement/creatorRadioCheckContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/radioCheckElement/sizesRadioCheckContent" isTestSource="false" />
@@ -277,7 +276,13 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/radioCheckElements" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/customSingleCountrySelect" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/sideNavDrawer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/radioCheckElement/disponibilitiesRadioCheckContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/radioCheckElement/horairesRadioCheckContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/radioCheckElement/quantityRadioCheckContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/services" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/services/serviceLocalisation" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/offer/service" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/services/serviceMiniMap" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />

@@ -10,14 +10,14 @@ import HelperH1Header from '../../../../../components/headers/helperH1Header/hel
 import CategoriesList from '../../../../../components/groupedComponents/temp-offer/categoriesList/categoriesList';
 import { Stack, Box } from '@mui/material';
 import { useAppSelector } from '../../../../../utils/hooks';
-import { getLocalOfferProductCategories } from '../../../../../store/selectors';
+import { getLocalOfferServiceCategories } from "../../../../../store/selectors";
 import PrimaryAnchorButton from '../../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import {
 	AUTH_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_INDEX,
-	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
-	TEMP_SHOP_ADD_SHOP_NAME,
-} from '../../../../../utils/routes';
+	REAL_OFFER_ADD_SERVICE_DESCRIPTION,
+	TEMP_SHOP_ADD_SHOP_NAME
+} from "../../../../../utils/routes";
 import { useRouter } from 'next/router';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
@@ -25,7 +25,7 @@ import { getApi } from '../../../../../store/services/_init/_initAPI';
 
 const Index: NextPage = () => {
 	const router = useRouter();
-	const pickedCategories = useAppSelector(getLocalOfferProductCategories);
+	const pickedCategories = useAppSelector(getLocalOfferServiceCategories);
 	const activeStep = '1';
 	const [isValid, setIsValid] = useState<boolean>(false);
 
@@ -40,7 +40,7 @@ const Index: NextPage = () => {
 	return (
 		<>
 			<main className={SharedStyles.fullPageNoOverflowMain}>
-				<LeftSideBar step={activeStep} which="PRODUCT" />
+				<LeftSideBar step={activeStep} which="SERVICE" />
 				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
@@ -59,13 +59,13 @@ const Index: NextPage = () => {
 						headerClasses={Styles.topHeader}
 					/>
 					<Stack direction="column" className={Styles.stackWrapper} justifyContent="space-between">
-						<CategoriesList offerType="V" />
+						<CategoriesList offerType="S"/>
 					</Stack>
 					<div className={SharedStyles.primaryButtonWrapper}>
 						<PrimaryAnchorButton
 							buttonText="Continuer"
 							active={isValid}
-							nextPage={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
+							nextPage={REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)}
 						/>
 					</div>
 				</Box>
@@ -82,7 +82,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
 			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
 			if (response.status === 200) {
-				// user has shop - proceed to add offer
+				// user has shop - proceed to add service
 				if (response.data.has_shop) {
 					return {
 						props: {},

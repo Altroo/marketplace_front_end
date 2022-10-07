@@ -4,7 +4,7 @@ import { getDefaultTheme, OfferChipTheme, offerForWhomDropdownTheme } from "../.
 import { ThemeProvider, Stack, Grid } from '@mui/material';
 import RadioCheckElement from '../radioCheckElement';
 import Chip from '@mui/material/Chip';
-import { OfferSizesListType } from '../../../../../types/ui/uiTypes';
+import { OfferBulkStatesListType } from '../../../../../types/ui/uiTypes';
 import CustomDropDownChoices from '../../../../formikElements/customDropDownChoices/customDropDownChoices';
 
 type Props = {

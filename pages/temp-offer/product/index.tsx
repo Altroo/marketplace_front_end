@@ -10,7 +10,7 @@ import HelperH1Header from '../../../components/headers/helperH1Header/helperH1H
 import CategoriesList from '../../../components/groupedComponents/temp-offer/categoriesList/categoriesList';
 import { Stack, Box } from '@mui/material';
 import { useAppSelector } from '../../../utils/hooks';
-import { getLocalOfferCategories } from '../../../store/selectors';
+import { getLocalOfferProductCategories } from '../../../store/selectors';
 import PrimaryAnchorButton from "../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton";
 import {
 	TEMP_OFFER_ADD_INDEX,
@@ -21,7 +21,7 @@ import {
 import { getCookie } from "cookies-next";
 
 const Index: NextPage = () => {
-	const pickedCategories = useAppSelector(getLocalOfferCategories);
+	const pickedCategories = useAppSelector(getLocalOfferProductCategories);
 	const activeStep = '1';
 	const [isValid, setIsValid] = useState<boolean>(false);
 
@@ -47,7 +47,7 @@ const Index: NextPage = () => {
 						headerClasses={Styles.topHeader}
 					/>
 					<Stack direction="column" className={Styles.stackWrapper} justifyContent="space-between">
-						<CategoriesList />
+						<CategoriesList offerType="V" />
 					</Stack>
 					<div className={SharedStyles.primaryButtonWrapper}>
 						<PrimaryAnchorButton buttonText="Continuer" active={isValid} nextPage={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} />

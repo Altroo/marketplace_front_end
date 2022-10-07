@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, CSSProperties } from "react";
 import Styles from './localisationNamePopup.module.sass';
 import { Stack } from '@mui/material';
 import Image from 'next/image';

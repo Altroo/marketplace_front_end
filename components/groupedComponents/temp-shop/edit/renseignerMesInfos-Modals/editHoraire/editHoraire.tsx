@@ -15,7 +15,7 @@ import HelperDescriptionHeader from '../../../../../headers/helperDescriptionHea
 import ApiProgress from '../../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import ApiAlert from '../../../../../formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
 import { shopPatchAvailabilityAction } from '../../../../../../store/actions/shop/shopActions';
-import {CustomTheme} from '../../../../../../utils/themes';
+import { CustomTheme, horairesInputTheme } from "../../../../../../utils/themes";
 // import { ShopDaysType } from '../../../../../types/shop/shopTypes';
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -131,69 +131,10 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 		}
 	}, [opening_days]);
 
-	const blueColor = '#0274d7';
-	const customTheme = CustomTheme(blueColor);
-	const inputTheme = createTheme({
-		components: {
-			...customTheme,
-			MuiChip: {
-				styleOverrides: {
-					root: {
-						fontFamily: 'Poppins',
-						fontSize: '19px',
-						paddingTop: '10px',
-						paddingBottom: '10px',
-						marginTop: '5px',
-						marginBottom: '5px',
-						height: '50px',
-						border: '1px solid #0D070B',
-						borderRadius: '40px',
-					},
-					outlined: {
-						'&:hover': {
-							backgroundColor: 'rgba(0, 0, 0, 0.17)',
-						},
-					},
-					filled: {
-						backgroundColor: '#0D070B',
-						color: 'white',
-						'&:hover': {
-							backgroundColor: 'rgba(0, 0, 0, 0.7)',
-						},
-					},
-				},
-			},
-			MuiInputBase: {
-				styleOverrides: {
-					root: {
-						padding: '10px',
-						'& fieldset': {
-							borderRadius: '16px',
-							border: '2px solid #A3A3AD',
-						},
-					},
-					input: {
-						fontFamily: 'Poppins',
-						fontSize: '17px',
-						caretColor: blueColor,
-					},
-				},
-			},
-			MuiFormControl: {
-				styleOverrides: {
-					root: {
-						'& .MuiFormLabel-root': {
-							fontFamily: 'Poppins',
-							fontSize: '14px',
-						},
-					},
-				},
-			},
-		},
-	});
+	const horaireTheme = horairesInputTheme('#0274d7')
 
 	return (
-		<ThemeProvider theme={inputTheme}>
+		<ThemeProvider theme={horaireTheme}>
 			<Stack direction="column" spacing={4}>
 				<Formik
 					enableReinitialize={true}

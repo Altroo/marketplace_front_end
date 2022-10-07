@@ -87,7 +87,7 @@ export type OfferColorsListType = {
 	hex: string;
 };
 
-export type OfferSizesListType = {
+export type OfferBulkStatesListType = {
 	code: string;
 	value: string;
 	state: boolean;

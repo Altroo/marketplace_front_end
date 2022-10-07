@@ -74,7 +74,7 @@ import AjouterMesInfosStack from '../../../components/groupedComponents/temp-sho
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../create/color';
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
-import { IconColorType, InitStateToken, InitStateUniqueID } from "../../../types/_init/_initTypes";
+import { IconColorType } from "../../../types/_init/_initTypes";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
@@ -83,12 +83,10 @@ import FontPicker from '../../../components/groupedComponents/temp-shop/create/f
 import { AUTH_REGISTER, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_LINK_ROUTE } from "../../../utils/routes";
 import { offerGetMyOffersFirstPageAction } from '../../../store/actions/offer/offerActions';
 import ApiLoadingResponseOrError from '../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
-import { getCookie } from "cookies-next";
 import CustomFooter from "../../../components/layouts/footer/customFooter";
 import MobileFilterWhiteSVG from "../../../public/assets/svgs/globalIcons/mobile-filter-white.svg";
 import MobileOffersFilterButton
 	from "../../../components/mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton";
-import ShopTabContent from "../../../components/groupedComponents/shop/get/shopTabContent/shopTabContent";
 import { getServerSideCookieTokens } from "../../../utils/helpers";
 import EditShopTabContent from "../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent";
 
@@ -141,12 +139,6 @@ const Index: NextPage<Props> = (props: Props) => {
 	// Gray Message Icon
 	const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconBlackSVG);
-	// Promo states
-	// const [promoCheck, setPromoCheck] = useState(false);
-	// For whom states
-	// const [enfantCheck, setEnfantCheck] = useState(false);
-	// const [femmeCheck, setFemmeCheck] = useState(false);
-	// const [hommeCheck, setHommeCheck] = useState(false);
 	// modals
 	const [openContacterModal, setContacterModalOpen] = useState<boolean>(false);
 	const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);

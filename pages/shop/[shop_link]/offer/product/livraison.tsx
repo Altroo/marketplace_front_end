@@ -32,27 +32,27 @@ import {
 	getLocalOfferDeliveryCity3,
 	getLocalOfferDeliveryAllCities3,
 	getLocalOfferDeliveryPrice3,
-	getLocalOfferAddressName,
-	getLocalOfferLongitude,
-	getLocalOfferLatitude,
+	getLocalOfferProductAddressName,
+	getLocalOfferProductLongitude,
+	getLocalOfferProductLatitude,
 	getLocalOfferDeliveryDays1,
 	getLocalOfferDeliveryDays3,
 	getLocalOfferDeliveryDays2,
-	getLocalOfferCategories,
-	getLocalOfferTitle,
-	getLocalOfferPictures,
-	getLocalOfferDescription,
-	getLocalOfferForwhom,
-	getLocalOfferColors,
-	getLocalOfferSizes,
-	getLocalOfferQuantity,
-	getLocalOfferPrice,
-	getLocalOfferPriceBy,
-	getLocalOfferTags,
-	getUserLocalOfferEditPK,
+	getLocalOfferProductCategories,
+	getLocalOfferProductTitle,
+	getLocalOfferProductPictures,
+	getLocalOfferProductDescription,
+	getLocalOfferProductForwhom,
+	getLocalOfferProductColors,
+	getLocalOfferProductSizes,
+	getLocalOfferProductQuantity,
+	getLocalOfferProductPrice,
+	getLocalOfferProductPriceBy,
+	getLocalOfferProductTags,
+	getUserLocalOfferProductEditPK,
 	getOfferOfferApi,
-	getLocalOfferMadeIn,
-	getLocalOfferCreator,
+	getLocalOfferProductMadeIn,
+	getLocalOfferProductCreator,
 } from '../../../../../store/selectors';
 import { PositionType } from '../../../../../components/map/customMap';
 import TopBarSaveClose from '../../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
@@ -90,7 +90,7 @@ const CustomMap = dynamic(() => import('../../../../../components/map/customMap'
 });
 
 const Livraison: NextPage = () => {
-	const offer_pk = useAppSelector(getUserLocalOfferEditPK);
+	const offer_pk = useAppSelector(getUserLocalOfferProductEditPK);
 	const activeStep = '4';
 	const router = useRouter();
 	const dispatch = useAppDispatch();
@@ -106,9 +106,9 @@ const Livraison: NextPage = () => {
 	const longitude = useAppSelector(getShopLongitude);
 	const latitude = useAppSelector(getShopLatitude);
 	const localisationName = useAppSelector(getLocalisationName);
-	const pickedLocalisationName = useAppSelector(getLocalOfferAddressName);
-	const pickedLongitude = useAppSelector(getLocalOfferLongitude);
-	const pickedLatitude = useAppSelector(getLocalOfferLatitude);
+	const pickedLocalisationName = useAppSelector(getLocalOfferProductAddressName);
+	const pickedLongitude = useAppSelector(getLocalOfferProductLongitude);
+	const pickedLatitude = useAppSelector(getLocalOfferProductLatitude);
 	const deliveryCity1 = useAppSelector(getLocalOfferDeliveryCity1);
 	const deliveryAllCity1 = useAppSelector(getLocalOfferDeliveryAllCities1);
 	const deliveryPrice1 = useAppSelector(getLocalOfferDeliveryPrice1);
@@ -123,20 +123,20 @@ const Livraison: NextPage = () => {
 	const deliveryDays3 = useAppSelector(getLocalOfferDeliveryDays3);
 
 	// selectors from previous pages
-	const pickedCategories = useAppSelector(getLocalOfferCategories);
-	const pickedTitle = useAppSelector(getLocalOfferTitle);
-	const pickedPictures = useAppSelector(getLocalOfferPictures);
-	const pickedDescription = useAppSelector(getLocalOfferDescription);
-	const pickedForWhom = useAppSelector(getLocalOfferForwhom);
-	const pickedColors = useAppSelector(getLocalOfferColors);
-	const pickedSizes = useAppSelector(getLocalOfferSizes);
-	const pickedQuantity = useAppSelector(getLocalOfferQuantity);
-	const pickedMadeIn = useAppSelector(getLocalOfferMadeIn);
-	const pickedCreator = useAppSelector(getLocalOfferCreator);
-	const pickedPrice = useAppSelector(getLocalOfferPrice);
-	const pickedPriceBy = useAppSelector(getLocalOfferPriceBy);
-	const pickedTags = useAppSelector(getLocalOfferTags);
-	const pickedAddressName = useAppSelector(getLocalOfferAddressName);
+	const pickedCategories = useAppSelector(getLocalOfferProductCategories);
+	const pickedTitle = useAppSelector(getLocalOfferProductTitle);
+	const pickedPictures = useAppSelector(getLocalOfferProductPictures);
+	const pickedDescription = useAppSelector(getLocalOfferProductDescription);
+	const pickedForWhom = useAppSelector(getLocalOfferProductForwhom);
+	const pickedColors = useAppSelector(getLocalOfferProductColors);
+	const pickedSizes = useAppSelector(getLocalOfferProductSizes);
+	const pickedQuantity = useAppSelector(getLocalOfferProductQuantity);
+	const pickedMadeIn = useAppSelector(getLocalOfferProductMadeIn);
+	const pickedCreator = useAppSelector(getLocalOfferProductCreator);
+	const pickedPrice = useAppSelector(getLocalOfferProductPrice);
+	const pickedPriceBy = useAppSelector(getLocalOfferProductPriceBy);
+	const pickedTags = useAppSelector(getLocalOfferProductTags);
+	const pickedAddressName = useAppSelector(getLocalOfferProductAddressName);
 
 	// Api selectors
 	const offerApi = useAppSelector(getOfferOfferApi);

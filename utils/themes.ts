@@ -884,3 +884,65 @@ export const FilterChipTheme = (primaryColor: string | undefined = undefined) =>
 		},
 	});
 };
+
+export const horairesInputTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		components: {
+			...defaultTheme,
+			MuiChip: {
+				styleOverrides: {
+					root: {
+						fontFamily: 'Poppins',
+						fontSize: '19px',
+						// paddingTop: '10px',
+						// paddingBottom: '10px',
+						// marginTop: '5px',
+						// marginBottom: '5px',
+						height: '50px',
+						border: '1px solid #0D070B',
+						borderRadius: '40px',
+					},
+					outlined: {
+						'&:hover': {
+							backgroundColor: 'rgba(0, 0, 0, 0.17)',
+						},
+					},
+					filled: {
+						backgroundColor: '#0D070B',
+						color: 'white',
+						'&:hover': {
+							backgroundColor: 'rgba(0, 0, 0, 0.7)',
+						},
+					},
+				},
+			},
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						padding: '10px',
+						'& fieldset': {
+							borderRadius: '16px',
+							border: '2px solid #A3A3AD',
+						},
+					},
+					input: {
+						fontFamily: 'Poppins',
+						fontSize: '17px',
+						caretColor: primaryColor,
+					},
+				},
+			},
+			MuiFormControl: {
+				styleOverrides: {
+					root: {
+						'& .MuiFormLabel-root': {
+							fontFamily: 'Poppins',
+							fontSize: '14px',
+						},
+					},
+				},
+			},
+		},
+	});
+};

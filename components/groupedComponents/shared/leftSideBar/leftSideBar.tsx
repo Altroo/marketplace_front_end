@@ -55,7 +55,7 @@ const LeftSideBar: React.FC<Props> = (props: Props) => {
 	}else if (props.which === 'PRODUCT') {
 		elements = ['Catégories', 'Description', 'Prix', 'Livraison'];
 	} else {
-		elements = ['Catégories', 'Description', 'Prix', 'Localisation'];
+		elements = ['Catégories', 'Description', 'Prix'];
 	}
 
 	let newIconArray: Array<string> = [];

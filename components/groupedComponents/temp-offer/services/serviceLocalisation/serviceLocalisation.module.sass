@@ -1,0 +1,36 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+
+.leaflet-container
+  max-height: 100%
+  width: 100%
+  flex: 4
+.leaflet-control-attribution
+  display: none
+
+.map-container
+  min-width: 100%
+  margin: 0
+  max-height: 100%
+.topContainer
+  margin: 12px 32px 12px
+
+.header
+  +SemiBold
+  font-size: 24px
+.description
+  margin: 0
+  p
+    margin-top: 5px
+    margin-bottom: 5px
+
+@media #{$tablette}
+  .header
+    font-size: 21px
+    letter-spacing: -0.01em
+// @media #{}
+// @media #{}
+// @media #{}

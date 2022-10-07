@@ -46,21 +46,22 @@ import SportGray from '../../../../public/assets/svgs/categoryIcons/sport-gray.s
 import VehiculeGray from '../../../../public/assets/svgs/categoryIcons/vehicule-gray.svg';
 import VoyageGray from '../../../../public/assets/svgs/categoryIcons/voyage-gray.svg';
 import { Stack, Box } from '@mui/material';
-import { OfferCategoriesType } from '../../../../types/offer/offerTypes';
+import { OfferCategoriesType, OfferOfferTypeType } from "../../../../types/offer/offerTypes";
 import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
-import { setOfferCategories } from "../../../../store/actions/offer/offerActions";
-import { getLocalOfferCategories } from "../../../../store/selectors";
+import { setOfferProductCategories, setOfferServiceCategories } from "../../../../store/actions/offer/offerActions";
+import { getLocalOfferProductCategories } from "../../../../store/selectors";
 
 type CategoriesObjProps = {
 	code: OfferCategoriesType;
 	title: string;
 	blackIcon: string;
 	grayIcon: string;
+	offerType: OfferOfferTypeType,
 };
 
 const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps) => {
 	const dispatch = useAppDispatch();
-	const pickedCategories: Array<OfferCategoriesType> = useAppSelector(getLocalOfferCategories);
+	const pickedCategories: Array<OfferCategoriesType> = useAppSelector(getLocalOfferProductCategories);
 	const [active, setActive] = useState<boolean>(false);
 	const {code} = props;
 
@@ -71,7 +72,11 @@ const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps
 	}, [pickedCategories, code]);
 
 	const categoryItemClickHandler = () => {
-		dispatch(setOfferCategories(code));
+		if (props.offerType === 'V') {
+			dispatch(setOfferProductCategories(code));
+		} else if (props.offerType === 'S') {
+			dispatch(setOfferServiceCategories(code));
+		}
 		setActive((prevState) => !prevState);
 	};
 
@@ -99,6 +104,7 @@ const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps
 };
 
 type Props = {
+	offerType: OfferOfferTypeType,
 	children?: React.ReactNode;
 };
 
@@ -110,60 +116,70 @@ const CategoriesList: React.FC<Props> = (props: Props) => {
 			title: 'Accessoire',
 			grayIcon: AccessoireGray,
 			blackIcon: AccessoireBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'AN',
 			title: 'Animaux',
 			grayIcon: AnimauxGray,
 			blackIcon: AnimauxBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'AR',
 			title: 'Artisanat',
 			grayIcon: ArtisanatGray,
 			blackIcon: ArtisanatBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'BE',
 			title: 'Beauté',
 			grayIcon: BeauteGray,
 			blackIcon: BeauteBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'CO',
 			title: 'Cours',
 			grayIcon: CoursGray,
 			blackIcon: CoursBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'DI',
 			title: 'Divers',
 			grayIcon: DiversGray,
 			blackIcon: DiversBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'EV',
 			title: 'Évènement',
 			grayIcon: EvenementGray,
 			blackIcon: EvenementBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'IM',
 			title: 'Immobilier',
 			grayIcon: ImmobilierGray,
 			blackIcon: ImmobilierBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'JA',
 			title: 'Jardin',
 			grayIcon: JardinGray,
 			blackIcon: JardinBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'LO',
 			title: 'Loisirs',
 			grayIcon: LoisirsGray,
 			blackIcon: LoisirsBlack,
+			offerType: props.offerType,
 		},
 	];
 	const categoriesRightObj: Array<CategoriesObjProps> = [
@@ -172,60 +188,70 @@ const CategoriesList: React.FC<Props> = (props: Props) => {
 			title: 'Livres',
 			grayIcon: LivresGray,
 			blackIcon: LivresBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'MA',
 			title: 'Maison',
 			grayIcon: MaisonGray,
 			blackIcon: MaisonBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'MO',
 			title: 'Mode',
 			grayIcon: ModeGray,
 			blackIcon: ModeBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'MD',
 			title: 'Multimédia',
 			grayIcon: MultimediaGray,
 			blackIcon: MultimediaBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'MS',
 			title: 'Musique',
 			grayIcon: MusiqueGray,
 			blackIcon: MusiqueBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'NO',
 			title: 'Nourriture & Alimentation',
 			grayIcon: FoodGray,
 			blackIcon: FoodBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'SA',
 			title: 'Santé & Bien être',
 			grayIcon: SanteGray,
 			blackIcon: SanteBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'SP',
 			title: 'Sport',
 			grayIcon: SportGray,
 			blackIcon: SportBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'VE',
 			title: 'Véhicule',
 			grayIcon: VehiculeGray,
 			blackIcon: VehiculeBlack,
+			offerType: props.offerType,
 		},
 		{
 			code: 'VO',
 			title: 'Voyage',
 			grayIcon: VoyageGray,
 			blackIcon: VoyageBlack,
+			offerType: props.offerType,
 		},
 	];
 
@@ -239,6 +265,7 @@ const CategoriesList: React.FC<Props> = (props: Props) => {
 							blackIcon={category.blackIcon}
 							grayIcon={category.grayIcon}
 							code={category.code}
+							offerType={props.offerType}
 							key={index}
 						/>
 					);
@@ -253,6 +280,7 @@ const CategoriesList: React.FC<Props> = (props: Props) => {
 							blackIcon={category.blackIcon}
 							grayIcon={category.grayIcon}
 							code={category.code}
+							offerType={props.offerType}
 							key={index}
 						/>
 					);

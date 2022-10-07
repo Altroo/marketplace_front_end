@@ -7,8 +7,7 @@ import Styles from '../../../../../styles/temp-offer/create/price.module.sass';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	AUTH_SHOP_LINK_ROUTE,
-	REAL_OFFER_ADD_PRODUCT_DELIVERIES,
-	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
+	REAL_OFFER_ADD_SERVICE_DESCRIPTION,
 	TEMP_SHOP_ADD_SHOP_NAME
 } from "../../../../../utils/routes";
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
@@ -59,7 +58,8 @@ const Prix: NextPage = () => {
 			...action,
 			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
 				if (!error && !cancelled && data) {
-					router.push(REAL_OFFER_ADD_PRODUCT_DELIVERIES(router.query.shop_link as string)).then();
+					// todo redirect on success here.
+					// router.push(REAL_OFFER_ADD_PRODUCT_DELIVERIES(router.query.shop_link as string)).then();
 				}
 			},
 		});
@@ -89,15 +89,15 @@ const Prix: NextPage = () => {
 	return (
 		<>
 			<main className={SharedStyles.fullPageMain}>
-				<LeftSideBar step={activeStep} which="PRODUCT" />
+				<LeftSideBar step={activeStep} which="SERVICE" />
 				<Box className={Styles.boxWrapper}>
 					<DesktopTopNavigationBar
-						backHref={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
+						backHref={REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)}
 						returnButton
 						closeButtonHref={AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileTopNavigationBar
-						backHref={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
+						backHref={REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)}
 						returnButton
 						closeButtonHref={AUTH_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>

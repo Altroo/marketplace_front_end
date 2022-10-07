@@ -56,6 +56,14 @@ export const shopAddressSchema = Yup.object().shape({
 	km_radius: Yup.number().nullable().notRequired(),
 });
 
+export const serviceAddressSchema = Yup.object().shape({
+	service_zone_by: Yup.string().notRequired(),
+	service_longitude: Yup.number().nullable().notRequired(),
+	service_latitude: Yup.number().nullable().notRequired(),
+	service_address: Yup.string().nullable().required(),
+	service_km_radius: Yup.number().nullable().notRequired(),
+});
+
 export const addOfferProductSchema = Yup.object().shape({
 	title: Yup.string().min(2, INPUT_MIN(2)).max(150, INPUT_MAX(150)).required(INPUT_REQUIRED),
 	description: Yup.string().required(INPUT_REQUIRED),
@@ -76,6 +84,35 @@ export const addOfferProductSchema = Yup.object().shape({
 			? Yup.array().of(Yup.string().required(INPUT_REQUIRED))
 			: Yup.string().required(INPUT_REQUIRED),
 	),
+});
+
+export const addOfferServiceSchema = Yup.object().shape({
+	title: Yup.string().min(2, INPUT_MIN(2)).max(150, INPUT_MAX(150)).required(INPUT_REQUIRED),
+	images: Yup.array().of(
+		Yup.object().shape({
+			dataURL: Yup.string(),
+			file: Yup.object().nullable().shape({
+				lastModified: Yup.number(),
+				name: Yup.string(),
+				size: Yup.number(),
+				type: Yup.string(),
+				webkitRelativePath: Yup.string(),
+			}),
+	})).min(1, INPUT_IMG_MIN(1)),
+	description: Yup.string().required(INPUT_REQUIRED),
+	al_day: Yup.string().nullable().notRequired(),
+	mo_day: Yup.string().nullable().notRequired(),
+	tu_day: Yup.string().nullable().notRequired(),
+	we_day: Yup.string().nullable().notRequired(),
+	th_day: Yup.string().nullable().notRequired(),
+	fr_day: Yup.string().nullable().notRequired(),
+	sa_day: Yup.string().nullable().notRequired(),
+	su_day: Yup.string().nullable().notRequired(),
+	service_morning_hour_from: Yup.string().required(SHORT_INPUT_REQUIRED),
+	service_morning_hour_to: Yup.string().required(SHORT_INPUT_REQUIRED),
+	service_afternoon_hour_from: Yup.string().nullable().notRequired(),
+	service_afternoon_hour_to: Yup.string().nullable().notRequired(),
+	tags: Yup.array().of(Yup.string().required(INPUT_REQUIRED)),
 });
 
 export const clickAndCollectSchema = Yup.object().shape({
