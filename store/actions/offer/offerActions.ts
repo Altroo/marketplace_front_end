@@ -6,11 +6,10 @@ import {
 	OfferProductPriceByType,
 	OfferServicePriceByType,
 	OfferSolderByType,
-	OfferZoneByType,
-} from '../../../types/offer/offerTypes';
+	OfferZoneByType, setOfferProductToEditPayloadType, setOfferServiceToEditPayloadType
+} from "../../../types/offer/offerTypes";
 import { NextRouter } from "next/router";
 import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
-import { setOfferToEditPayloadType } from "../../sagas/offer/offerSaga";
 import { ShopZoneByType } from "../../../types/shop/shopTypes";
 
 export const setOfferProductCategories = (categories: OfferCategoriesType) => {
@@ -128,10 +127,19 @@ export const setOfferDeliveryClickAndCollect = (
 }
 
 export const setOfferProductToEdit = (
-	payload: Omit<setOfferToEditPayloadType, 'type'>
+	payload: Omit<setOfferProductToEditPayloadType, 'type'>
 ) => {
 	return {
 		type: Types.SET_OFFER_PRODUCT_TO_EDIT,
+		...payload,
+	}
+}
+
+export const setOfferServiceToEdit = (
+	payload: Omit<setOfferServiceToEditPayloadType, 'type'>
+) => {
+	return {
+		type: Types.SET_OFFER_SERVICE_TO_EDIT,
 		...payload,
 	}
 }

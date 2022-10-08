@@ -3,13 +3,14 @@ import Styles from './shopTabContent.module.sass';
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Grid, Stack, ThemeProvider } from '@mui/material';
 import {
+	GetOffersSagaCallBackOnCompleteDataType,
 	OfferCategoriesType,
 	OfferForWhomType,
 	OfferGetAvailableShopFiltersType,
 	OfferGetMyOffersProductServiceType,
 	OfferProductColors,
-	OfferProductSizes,
-} from '../../../../../types/offer/offerTypes';
+	OfferProductSizes
+} from "../../../../../types/offer/offerTypes";
 import Link from 'next/link';
 import { default as ImageFuture } from 'next/future/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
@@ -22,7 +23,6 @@ import {
 	offerGetAvailableFiltersByShopID,
 	offerGetOffersByShopIDWithQueryParamsAction,
 } from '../../../../../store/actions/offer/offerActions';
-import { GetOffersSagaCallBackOnCompleteDataType } from '../../../../../pages/shop/[shop_link]';
 import { FilterAccordionTheme, getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
 import { ParsedUrlQueryInput } from 'node:querystring';

@@ -330,8 +330,11 @@ const OfferSlice = createSlice({
 			}
 			// return state;
 		},
-		setLocalOfferToEditPk: (state, action: PayloadAction<number>) => {
+		setLocalOfferProductToEditPk: (state, action: PayloadAction<number>) => {
 			state.userLocalProduct.pk = action.payload;
+		},
+		setLocalOfferServiceToEditPk: (state, action: PayloadAction<number>) => {
+			state.userLocalService.pk = action.payload;
 		},
 		setLocalOfferProductCategories: (state, action: PayloadAction<OfferCategoriesType>) => {
 			if (!state.userLocalProduct.categoriesList.includes(action.payload)) {
@@ -371,7 +374,7 @@ const OfferSlice = createSlice({
 			state.userLocalService.service_address = action.payload.service_address;
 			state.userLocalService.service_km_radius = action.payload.service_km_radius;
 		},
-		setLocalOfferMultiCategories: (state, action: PayloadAction<Array<OfferCategoriesType>>) => {
+		setLocalOfferProductMultiCategories: (state, action: PayloadAction<Array<OfferCategoriesType>>) => {
 			action.payload.map((category) => {
 				if (!state.userLocalProduct.categoriesList.includes(category)) {
 					state.userLocalProduct.categoriesList.push(category);
@@ -379,6 +382,18 @@ const OfferSlice = createSlice({
 					const index = state.userLocalProduct.categoriesList.indexOf(category);
 					if (index !== -1) {
 						state.userLocalProduct.categoriesList.splice(index, 1);
+					}
+				}
+			});
+		},
+		setLocalOfferServiceMultiCategories: (state, action: PayloadAction<Array<OfferCategoriesType>>) => {
+			action.payload.map((category) => {
+				if (!state.userLocalService.categoriesList.includes(category)) {
+					state.userLocalService.categoriesList.push(category);
+				} else {
+					const index = state.userLocalService.categoriesList.indexOf(category);
+					if (index !== -1) {
+						state.userLocalService.categoriesList.splice(index, 1);
 					}
 				}
 			});
@@ -564,8 +579,10 @@ export const {
 	setLocalOfferProductCategories,
 	setLocalOfferServiceCategories,
 	setLocalOfferServiceLocalisation,
-	setLocalOfferToEditPk,
-	setLocalOfferMultiCategories,
+	setLocalOfferProductToEditPk,
+	setLocalOfferServiceToEditPk,
+	setLocalOfferProductMultiCategories,
+	setLocalOfferServiceMultiCategories,
 	setLocalOfferProductDescription,
 	setLocalOfferServiceDescription,
 	setLocalOfferProductPrice,

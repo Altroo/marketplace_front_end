@@ -4,9 +4,10 @@ import SharedStyles from '../../../../groupedComponents/temp-shop/edit/startYour
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
 import { Box, Button, Grid, Stack, ThemeProvider } from '@mui/material';
 import {
+	GetOffersSagaCallBackOnCompleteDataType,
 	OfferGetAvailableShopFiltersType,
-	OfferGetMyOffersProductServiceType,
-} from '../../../../../types/offer/offerTypes';
+	OfferGetMyOffersProductServiceType
+} from "../../../../../types/offer/offerTypes";
 import Link from 'next/link';
 import { default as ImageFuture } from 'next/future/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
@@ -20,7 +21,6 @@ import {
 	offerGetOffersByShopIDWithQueryParamsAction,
 	offerPostPinWithCallBackAction, setEmptyUserLocalOffer
 } from "../../../../../store/actions/offer/offerActions";
-import { GetOffersSagaCallBackOnCompleteDataType } from '../../../../../pages/shop/[shop_link]';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
 import { ParsedUrlQueryInput } from 'node:querystring';
@@ -394,7 +394,10 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 												}
 												return (
 													<Link
-														href={shop_type === 'AUTH_SHOP' ? REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key)) : TEMP_OFFER_ROUTE(encodeURIComponent(data.key))}
+														href={
+														shop_type === 'AUTH_SHOP' ?
+														REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key)) : TEMP_OFFER_ROUTE(encodeURIComponent(data.key))
+													}
 														passHref
 														key={data.key}
 													>

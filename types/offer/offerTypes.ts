@@ -1,5 +1,11 @@
 import { OfferProductClass, OfferServiceClass } from '../../models/offer/OfferProductClass';
-import { Nullable, ResponseDataInterface, PaginationResponseType, GlobalApiPromiseError } from '../_init/_initTypes';
+import {
+	Nullable,
+	ResponseDataInterface,
+	PaginationResponseType,
+	GlobalApiPromiseError,
+	ApiErrorResponseType
+} from "../_init/_initTypes";
 import { NextRouter } from 'next/router';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
 import { apiErrorInitialState } from '../../store/slices/_init/_initSlice';
@@ -186,7 +192,7 @@ export type DetailsOfferProductType = {
 
 export type OfferServiceAvailabilityDaysArray = Array<{ pk: number; code_day: OfferServiceDaysType; name_day: string }>;
 
-type DetailsOfferServiceType = {
+export type DetailsOfferServiceType = {
 	service_availability_days: OfferServiceAvailabilityDaysArray | [];
 	service_morning_hour_from: string;
 	service_morning_hour_to: string;
@@ -254,7 +260,12 @@ export type DeliveriesFlatResponseType = {
 };
 
 export interface OfferGetRootServiceInterface
-	extends Omit<OfferServiceClass, 'offer_categories' | 'for_whom' | 'pictures' | 'tags'> {
+	extends Omit<OfferServiceClass,
+		| 'offer_categories'
+		| 'for_whom'
+		| 'pictures'
+		| 'tags'
+	> {
 	pk: number;
 	user_pk: number;
 	offer_categories: Array<OfferCategoriesType>;
@@ -270,10 +281,10 @@ export interface OfferGetRootServiceInterface
 	for_whom: Array<OfferForWhomType>;
 	details_offer: DetailsOfferServiceType;
 	tags: Array<string>;
-	creator_label?: boolean | null;
+	creator_label?: null;
 	made_in_label?: {
-		name: string;
-		code: string;
+		name: null;
+		code: null;
 	};
 	pinned: boolean;
 	exists_in_cart?: boolean;
@@ -370,21 +381,6 @@ export interface UserLocalProductType {
 	deliveries: deliveries;
 }
 
-/*
-disponibility: null,
-morning_hour_from: null,
-morning_hour_to: null,
-afternoon_hour_from: null,
-afternoon_hour_to: null,
-service_zone_by: null,
-service_longitude: null,
-service_latitude: null,
-service_address: null,
-service_km_radius: null,
-tags: null,
-prix: null,
-prix_par: null,
- */
 export interface UserLocalServiceType {
 	pk: number | null;
 	categoriesList: Array<OfferCategoriesType>;
@@ -447,6 +443,7 @@ export type OfferGetMyOffersProductServiceType = {
 	solder_type: OfferSolderByType | null;
 	solder_value: number | null;
 	pinned: boolean;
+	offer_type: OfferOfferTypeType;
 	creator_label: boolean;
 };
 
@@ -516,9 +513,9 @@ export type LocalOfferProductDescriptionPageType = {
 };
 
 export type LocalOfferServiceDescriptionPageType = {
-	title: string,
+	title: string | null,
 	pictures: ImageUploadingType,
-	description: string,
+	description: string | null,
 	for_whom: string | null,
 	service_availability_days: OfferServiceAvailabilityDaysArray,
 	service_morning_hour_from: string | null,
@@ -529,3 +526,17 @@ export type LocalOfferServiceDescriptionPageType = {
 };
 
 export type OfferGetServicesDaysResponseType = ResponseDataInterface<OfferServiceAvailabilityDaysArray>;
+
+export type GetOffersSagaCallBackOnCompleteDataType = {
+	error: ApiErrorResponseType;
+	cancelled: boolean;
+	data: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
+};
+
+export interface setOfferProductToEditPayloadType extends UserLocalProductType {
+	type: string;
+}
+
+export interface setOfferServiceToEditPayloadType extends UserLocalServiceType {
+	type: string;
+}

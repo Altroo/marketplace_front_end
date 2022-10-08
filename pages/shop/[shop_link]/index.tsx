@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../styles/shop/shopIndex.module.sass';
 import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
 import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
+import { useAppDispatch } from '../../../utils/hooks';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import ShopInfoTabs from '../../../components/htmlElements/tabs/tab';
 import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
@@ -11,7 +11,6 @@ import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message
 import ContactIconBlueSVG from '../../../public/assets/svgs/globalIcons/call-blue.svg';
 import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
 import ContactIconBlackSVG from '../../../public/assets/svgs/globalIcons/call-black.svg';
-import CircularAvatar from '../../../components/htmlElements/images/circularAvatar/circularAvatar';
 import {
 	OpeningDaysArray,
 	ShopFontNameType,
@@ -19,24 +18,13 @@ import {
 	ShopGetRootTokenType,
 	ShopZoneByType,
 } from '../../../types/shop/shopTypes';
-import DesktopPublishEditNavbar from '../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
-import MobilePublishEditNavbar from '../../../components/mobile/navbars/mobilePublishEditNavbar/mobilePublishEditNavbar';
 import Image from 'next/image';
 import BlackStarSVG from '../../../public/assets/svgs/globalIcons/black-star.svg';
-// import EditBlueSVG from "../../../public/assets/svgs/globalIcons/edit-blue.svg";
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 import PhoneSVG from '../../../public/assets/svgs/globalIcons/contact-phone.svg';
 import WtspSVG from '../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
 import BorderIconButton from '../../../components/htmlElements/buttons/borderIconButton/borderIconButton';
-import {
-	addMyInfosStackType,
-	checkBoxesForWhomActionType,
-	chipActionsType,
-	contacterPhoneInputType,
-	DropDownActionType,
-	switchActionType,
-} from '../../../types/ui/uiTypes';
-import InfoTabContent from '../../../components/groupedComponents/temp-shop/edit/info-Tab_Content/InfoTabContent';
+import { addMyInfosStackType, contacterPhoneInputType, DropDownActionType } from '../../../types/ui/uiTypes';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
@@ -47,9 +35,7 @@ import {
 	shopPatchFontAction,
 	shopPatchPhoneContactAction,
 } from '../../../store/actions/shop/shopActions';
-import { getMyOffersList, getOfferOfferApi } from '../../../store/selectors';
 import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
-// import InfoIconSVG from "../../../public/assets/svgs/globalIcons/drop-down-info.svg";
 import AvatarIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-avatar.svg';
 import ColorIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-color.svg';
 import FontIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-font.svg';
@@ -58,62 +44,29 @@ import { Backdrop, Box, Stack } from '@mui/material';
 import AjouterMesInfosStack from '../../../components/groupedComponents/temp-shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack';
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../../temp-shop/create/color';
-import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
-import {
-	ApiErrorResponseType,
-	IconColorType,
-	PaginationResponseType,
-	SagaCallBackOnCompleteBoolType,
-} from '../../../types/_init/_initTypes';
+import { getApi } from '../../../store/services/_init/_initAPI';
+import { IconColorType } from '../../../types/_init/_initTypes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../../temp-shop/create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import {
-	AUTH_LOGIN,
-	AUTH_REGISTER,
-	NOT_FOUND_404,
-	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_LINK_ROUTE,
-} from '../../../utils/routes';
-import {
-	offerGetMyOffersFirstPageAction,
-	offerGetOffersByShopIDAction,
-} from '../../../store/actions/offer/offerActions';
-import {
-	defaultInstance,
-	getBackendNextPageNumber,
-	getServerSideCookieTokens,
-	isAuthenticatedInstance,
-} from '../../../utils/helpers';
+import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../utils/routes';
+import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
-import {
-	OfferGetAvailableShopFiltersType,
-	OfferGetMyOffersProductInterface,
-	OfferGetMyOffersServiceInterface,
-} from '../../../types/offer/offerTypes';
-import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../components/layouts/footer/customFooter';
 import { default as ImageFuture } from 'next/future/image';
-// import ShopTabContent from '../../../components/groupedComponents/shop/get/shopTabContent/shopTabContent';
 import ShopTabContent from '../../../components/groupedComponents/shop/get/shopTabContent/shopTabContent';
 import ShopInfoTabContent from '../../../components/groupedComponents/shop/get/shopInfoTabContent/shopInfoTabContent';
 import ShopNotVerified from '../../../components/groupedComponents/shop/get/shopNotVerified/shopNotVerified';
 import ShopVerified from '../../../components/groupedComponents/shop/get/shopVerified/shopVerified';
-import ShareSVG from '../../../public/assets/svgs/globalIcons/share-blue.svg';
-import { paginationInitial } from '../../../store/slices/_init/_initSlice';
 import MobileFilterWhiteSVG from '../../../public/assets/svgs/globalIcons/mobile-filter-white.svg';
 import MobileOffersFilterButton from '../../../components/mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton';
-import AccordionFilter from '../../../components/layouts/accordionFilter/accordionFilter';
 import ShopNotIndexed from '../../../components/groupedComponents/shop/edit/shopNotIndexed/shopNotIndexed';
 import EditShopInfoTabContent from '../../../components/groupedComponents/shop/edit/editShopInfoTabContent/editShopInfoTabContent';
 import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
-import EditIconSVG from '../../../public/assets/svgs/globalIcons/blue-pencil.svg';
-import DropDownMenu from '../../../components/htmlElements/buttons/dropDownMenu/dropDownMenu';
 import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu';
-// import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
 
 type ViewShopType = {
 	data: ShopGetRootTokenType;
@@ -362,7 +315,6 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 	];
 
 	useEffect(() => {
-		console.log(is_subscribed);
 		// avatar
 		if (avatar) {
 			setPreview(avatar);
@@ -412,7 +364,6 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 			}
 		}
 	}, [
-		is_subscribed,
 		avatar,
 		bg_color_code,
 		border,
@@ -688,13 +639,6 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 									backgroundColor="#0D070B"
 									onClick={() => setOpenFilterModal(true)}
 								/>
-								{/*<ShopInfoTabContent shopInfoData={shopInfoData} />*/}
-								{/*<EditShopTabContent*/}
-								{/*			shop_pk={pk}*/}
-								{/*			openFilterModal={openFilterModal}*/}
-								{/*			setOpenFilterModal={setOpenFilterModal}*/}
-								{/*			activeColor={bgColorCode}*/}
-								{/*		/>*/}
 								<ShopInfoTabs
 									color={bgColorCode}
 									borderColor={bgColorCode}
@@ -1116,12 +1060,6 @@ type Props = {
 	children?: React.ReactNode;
 };
 
-export type GetOffersSagaCallBackOnCompleteDataType = {
-	error: ApiErrorResponseType;
-	cancelled: boolean;
-	data: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
-};
-
 const Index: NextPage<Props> = (props: Props) => {
 	const { permission, data } = props.pageProps;
 
@@ -1169,10 +1107,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 										permission: 'OWNER',
 										data: shop_response.data,
 									},
-									// redirect: {
-									// 	permanent: false,
-									// 	destination: TEMP_SHOP_EDIT_INDEX,
-									// },
 								};
 							} else {
 								// not owner

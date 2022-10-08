@@ -5,7 +5,6 @@ import Styles from '../../../../../styles/temp-offer/create/overview.module.sass
 import { Stack, ThemeProvider, ImageListItem, Box, Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
-	DetailsOfferProductType,
 	OfferGetRootProductInterface,
 	OfferGetRootProductResponseType,
 	OfferGetRootServiceInterface,
@@ -30,6 +29,8 @@ import {
 	getColorsDataArray,
 	getForWhomDataArray,
 	getProductPriceByData,
+	getServiceAvailabilityDaysArray,
+	getServicePriceByData,
 	getSizesDataArray,
 	monthNames,
 } from '../../../../../utils/rawData';
@@ -37,8 +38,9 @@ import Link from 'next/link';
 import {
 	REAL_SHOP_LINK_ROUTE,
 	NOT_FOUND_404,
-	REAL_OFFER_ADD_PRODUCT_CATEGORIES, REAL_OFFER_ROUTE
-} from "../../../../../utils/routes";
+	REAL_OFFER_ADD_PRODUCT_CATEGORIES,
+	REAL_OFFER_ADD_SERVICE_CATEGORIES,
+} from '../../../../../utils/routes';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
 import { doubleTabNavigationTheme, OfferReadOnlyTheme, SolderPourcentageChipTheme } from '../../../../../utils/themes';
@@ -69,6 +71,7 @@ import {
 	offerPostPinAction,
 	offerPostSolderAction,
 	setOfferProductToEdit,
+	setOfferServiceToEdit,
 } from '../../../../../store/actions/offer/offerActions';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import RightSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
@@ -81,6 +84,7 @@ import Button from '@mui/material/Button';
 import ActionModals from '../../../../../components/htmlElements/modals/actionModal/actionModals';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
+import ReadAdresse from '../../../../../components/groupedComponents/shop/get/shopInfoTabContent/readAdresse/readAdresse';
 
 const noCommentsAvailableContent = () => {
 	return (
@@ -115,16 +119,14 @@ type deliveriesObj = {
 	delivery_days: string | null;
 };
 
-type PropsType = {
-	pageProps: {
-		permission: 'OWNER' | 'NOT_OWNER';
-		data: OfferGetRootProductInterface | OfferGetRootServiceInterface;
-	};
+type ProductProps = {
+	permission: 'OWNER' | 'NOT_OWNER';
+	data: OfferGetRootProductInterface;
+	children?: React.ReactNode;
 };
-
-const Index: NextPage<PropsType> = (props: PropsType) => {
+const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const router = useRouter();
-	const { data, permission } = props.pageProps;
+	const { data, permission } = props;
 	const dispatch = useAppDispatch();
 	// const { offer_pk } = router.query;
 	const {
@@ -147,7 +149,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		made_in_label,
 		pinned,
 		tags,
-	} = data as OfferGetRootProductInterface;
+	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string>(picture_1 ? picture_1 : '');
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
@@ -174,9 +176,15 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 	const [newSolderPourcentageValue, setNewSolderPourcentageValue] = useState<string>('0.00');
 	const [openSolderModal, setOpenSolderModal] = useState<boolean>(false);
 	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+	const [pinnedIconState, setPinnedIconState] = useState(EpinglerInactiveSVG);
 
 	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
+		if (pinned){
+			setPinnedIconState(EpinglerActiveSVG);
+		} else {
+			setPinnedIconState(EpinglerInactiveSVG);
+		}
 		// check solder values
 		if (
 			fivePourcentSolder ||
@@ -234,7 +242,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 		}
 		// set colors
 		let colorsArrayString: Array<string> = [];
-		const { product_colors, product_sizes } = details_offer as DetailsOfferProductType;
+		const { product_colors, product_sizes } = details_offer;
 		if (product_colors) {
 			colorsArrayString = getColorsDataArray(product_colors);
 			setColorsListString(colorsArrayString);
@@ -276,6 +284,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 			}
 		}
 	}, [
+		pinned,
 		deliveries,
 		details_offer,
 		fiftyPourcentSolder,
@@ -461,30 +470,6 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 			deliveriesObjList.delivery_price_3 = deliveries[2].delivery_price.toString();
 			deliveriesObjList.delivery_days_3 = deliveries[2].delivery_days.toString();
 		}
-		// dispatch(
-		// 	setOfferToEdit({
-		// 		pk: pk,
-		// 		categoriesList: offer_categories,
-		// 		title: title,
-		// 		description: description,
-		// 		pictures: pictures,
-		// 		forWhom: for_whom.join(','),
-		// 		colors: details_offer.product_colors.join(','),
-		// 		sizes: details_offer.product_sizes.join(','),
-		// 		quantity: details_offer.product_quantity,
-		// 		made_in: made_in_label?.name as string,
-		// 		creator: creator_label as boolean,
-		// 		tags: tags.join(','),
-		// 		prix: price as string,
-		// 		prix_par: details_offer.product_price_by,
-		// 		clickAndCollect: {
-		// 			longitude: details_offer.product_longitude ? parseFloat(details_offer.product_longitude) : null,
-		// 			latitude: details_offer.product_latitude ? parseFloat(details_offer.product_latitude) : null,
-		// 			address_name: details_offer.product_address,
-		// 		},
-		// 		deliveries: deliveriesObjList,
-		// 	}),
-		// );
 		const action = setOfferProductToEdit({
 			pk: pk,
 			categoriesList: offer_categories,
@@ -590,7 +575,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 			onClick: editOfferHandler,
 		},
 		{
-			icon: pinned ? EpinglerActiveSVG : EpinglerInactiveSVG,
+			icon: pinnedIconState,
 			text: 'Épingler',
 			onClick: togglePinOfferHandler,
 		},
@@ -817,7 +802,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 											{forWhomListString.length > 0 ? (
 												<p className={Styles.forWhomBody}>
 													<span className={Styles.forWhomTitle}>Pour : </span>
-													{forWhomListString.join(',')}
+													{forWhomListString.join(', ')}
 												</p>
 											) : null}
 										</Stack>
@@ -963,7 +948,6 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 							</Stack>
 						</Stack>
 					</Box>
-					{/* TODO  Altroo mount both when owner */}
 					{permission === 'OWNER' && (
 						<RightSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
 							<Stack
@@ -1180,6 +1164,823 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 			</Stack>
 		</ThemeProvider>
 	);
+};
+
+type ServiceProps = {
+	permission: 'OWNER' | 'NOT_OWNER';
+	data: OfferGetRootServiceInterface;
+	children?: React.ReactNode;
+};
+const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
+	const router = useRouter();
+	const { data, permission } = props;
+	const dispatch = useAppDispatch();
+	// const { offer_pk } = router.query;
+	const {
+		pk,
+		title,
+		description,
+		offer_categories,
+		picture_1,
+		picture_2,
+		picture_3,
+		picture_4,
+		details_offer,
+		price,
+		solder_type,
+		solder_value,
+		shop_name,
+		for_whom,
+		pinned,
+		tags,
+	} = data;
+	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
+	const [selectedImage, setSelectedImage] = useState<string>(picture_1 ? picture_1 : '');
+	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
+	const [forWhomListString, setForWhomListString] = useState<Array<string>>([]);
+	const [newPrice, setNewPrice] = useState<number | null>(null);
+	const [availabilityDays, setAvailabilityDays] = useState<Array<string>>([]);
+	const [morningHourFrom, setMorningHourFrom] = useState<string | null>(null);
+	const [morningHourTo, setMorningHourTo] = useState<string | null>(null);
+	const [afternoonHourFrom, setAfternoonHourFrom] = useState<string | null>(null);
+	const [afternoonHourTo, setAfternoonHourTo] = useState<string | null>(null);
+	const [solderByState, setSolderByState] = useState<OfferSolderByType>(solder_type ? solder_type : 'F');
+	const [newSolderValue, setNewSolderValue] = useState<string>(
+		typeof solder_value === 'number' ? solder_value.toString() : '0.00',
+	);
+	const [isSolderValid, setIsSolderValid] = useState<boolean>(false);
+	const [fivePourcentSolder, setFivePourcentSolder] = useState<boolean>(false);
+	const [tenPourcentSolder, setTenPourcentSolder] = useState<boolean>(false);
+	const [twentyPourcentSolder, setTwentyPourcentSolder] = useState<boolean>(false);
+	const [thirtyPourcentSolder, setThirtyPourcentSolder] = useState<boolean>(false);
+	const [fiftyPourcentSolder, setFiftyPourcentSolder] = useState<boolean>(false);
+	const [seventyPourcentSolder, setSeventyPourcentSolder] = useState<boolean>(false);
+	const [solderPourcentageForApi, setSolderPourcentageForApi] = useState<string | null>(null);
+	const [newSolderPourcentageValue, setNewSolderPourcentageValue] = useState<string>('0.00');
+	const [openSolderModal, setOpenSolderModal] = useState<boolean>(false);
+	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+	const [pinnedIconState, setPinnedIconState] = useState(EpinglerInactiveSVG);
+	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
+	useEffect(() => {
+		if (pinned){
+			setPinnedIconState(EpinglerActiveSVG);
+		} else {
+			setPinnedIconState(EpinglerInactiveSVG);
+		}
+		// check solder values
+		if (
+			fivePourcentSolder ||
+			tenPourcentSolder ||
+			twentyPourcentSolder ||
+			thirtyPourcentSolder ||
+			fiftyPourcentSolder ||
+			seventyPourcentSolder
+		) {
+			if (fivePourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			} else if (tenPourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			} else if (twentyPourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			} else if (thirtyPourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			} else if (fiftyPourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			} else if (seventyPourcentSolder) {
+				setNewSolderValue(newSolderPourcentageValue.toString());
+				setIsSolderValid(true);
+			}
+		} else {
+			setNewSolderValue('0.00');
+			setIsSolderValid(false);
+		}
+		// empty selected offer to reduce state size
+		const availableImages: Array<string> = [];
+		if (picture_1) {
+			availableImages.push(picture_1);
+			setSelectedImage(picture_1);
+		}
+		if (picture_2) {
+			availableImages.push(picture_2);
+		}
+		if (picture_3) {
+			availableImages.push(picture_3);
+		}
+		if (picture_4) {
+			availableImages.push(picture_4);
+		}
+		// set images
+		setAvailableImages(availableImages);
+
+		let categoriesListString: Array<string> = [];
+		if (offer_categories) {
+			categoriesListString = getCategoriesDataArray(offer_categories);
+			setCategoriesListString(categoriesListString);
+		}
+		let availabilityDaysArray: Array<string> = [];
+		const {
+			service_availability_days,
+			service_morning_hour_from,
+			service_morning_hour_to,
+			service_afternoon_hour_from,
+			service_afternoon_hour_to,
+		} = details_offer;
+		if (service_availability_days) {
+			availabilityDaysArray = getServiceAvailabilityDaysArray(service_availability_days);
+			setAvailabilityDays(availabilityDaysArray);
+		}
+		if (service_morning_hour_from) {
+			setMorningHourFrom(service_morning_hour_from);
+		}
+		if (service_morning_hour_to) {
+			setMorningHourTo(service_morning_hour_to);
+		}
+		if (service_afternoon_hour_from) {
+			setAfternoonHourFrom(service_afternoon_hour_from);
+		}
+		if (service_afternoon_hour_to) {
+			setAfternoonHourTo(service_afternoon_hour_to);
+		}
+
+		let forWhomArrayString: Array<string> = [];
+		if (for_whom) {
+			forWhomArrayString = getForWhomDataArray(for_whom);
+			setForWhomListString(forWhomArrayString);
+		}
+		if (price) {
+			if (solder_type !== null && solder_type && solder_value !== null && solder_value) {
+				if (solder_type === 'F') {
+					setNewPrice((price as number) - solder_value);
+				} else if (solder_type === 'P') {
+					setNewPrice((price as number) - ((price as number) * solder_value) / 100);
+				}
+			}
+		}
+	}, [
+		pinned,
+		details_offer,
+		fiftyPourcentSolder,
+		fivePourcentSolder,
+		for_whom,
+		newSolderPourcentageValue,
+		offer_categories,
+		picture_1,
+		picture_2,
+		picture_3,
+		picture_4,
+		price,
+		seventyPourcentSolder,
+		solder_type,
+		solder_value,
+		tenPourcentSolder,
+		thirtyPourcentSolder,
+		twentyPourcentSolder,
+	]);
+
+	const showThumbnail = (src: string) => {
+		setSelectedImage(src);
+	};
+
+	const setSolderPourcentageInput = (value: string) => {
+		if (typeof price === 'number') {
+			const newValue = price - (price * parseFloat(value)) / 100;
+			setNewSolderPourcentageValue(newValue.toString());
+		}
+		setSolderPourcentageForApi(value);
+		switch (value) {
+			case '5':
+				setFivePourcentSolder((prevState) => !prevState);
+				setTenPourcentSolder(false);
+				setTwentyPourcentSolder(false);
+				setThirtyPourcentSolder(false);
+				setFiftyPourcentSolder(false);
+				setSeventyPourcentSolder(false);
+				break;
+			case '10':
+				setTenPourcentSolder((prevState) => !prevState);
+				setFivePourcentSolder(false);
+				setTwentyPourcentSolder(false);
+				setThirtyPourcentSolder(false);
+				setFiftyPourcentSolder(false);
+				setSeventyPourcentSolder(false);
+				break;
+			case '20':
+				setTwentyPourcentSolder((prevState) => !prevState);
+				setFivePourcentSolder(false);
+				setTenPourcentSolder(false);
+				setThirtyPourcentSolder(false);
+				setFiftyPourcentSolder(false);
+				setSeventyPourcentSolder(false);
+				break;
+			case '30':
+				setThirtyPourcentSolder((prevState) => !prevState);
+				setFivePourcentSolder(false);
+				setTenPourcentSolder(false);
+				setTwentyPourcentSolder(false);
+				setFiftyPourcentSolder(false);
+				setSeventyPourcentSolder(false);
+				break;
+			case '50':
+				setFiftyPourcentSolder((prevState) => !prevState);
+				setFivePourcentSolder(false);
+				setTenPourcentSolder(false);
+				setTwentyPourcentSolder(false);
+				setThirtyPourcentSolder(false);
+				setSeventyPourcentSolder(false);
+				break;
+			case '70':
+				setSeventyPourcentSolder((prevState) => !prevState);
+				setFivePourcentSolder(false);
+				setTenPourcentSolder(false);
+				setTwentyPourcentSolder(false);
+				setThirtyPourcentSolder(false);
+				setFiftyPourcentSolder(false);
+				break;
+		}
+	};
+
+	const editOfferHandler = () => {
+		const pictures: ImageUploadingType = [];
+		if (picture_1) {
+			pictures.push({
+				dataURL: picture_1,
+			});
+		}
+		if (picture_2) {
+			pictures.push({
+				dataURL: picture_2,
+			});
+		}
+		if (picture_3) {
+			pictures.push({
+				dataURL: picture_3,
+			});
+		}
+		if (picture_4) {
+			pictures.push({
+				dataURL: picture_4,
+			});
+		}
+		const action = setOfferServiceToEdit({
+			pk: pk,
+			categoriesList: offer_categories,
+			title: title,
+			description: description,
+			pictures: pictures,
+			forWhom: for_whom.join(','),
+			service_availability_days: details_offer.service_availability_days,
+			service_morning_hour_from: details_offer.service_morning_hour_from,
+			service_morning_hour_to: details_offer.service_morning_hour_to,
+			service_afternoon_hour_from: details_offer.service_afternoon_hour_from,
+			service_afternoon_hour_to: details_offer.service_afternoon_hour_to,
+			service_zone_by: details_offer.service_zone_by,
+			service_longitude: details_offer.service_longitude,
+			service_latitude: details_offer.service_latitude,
+			service_address: details_offer.service_address,
+			service_km_radius: details_offer.service_km_radius,
+			tags: tags.join(','),
+			price: price as string,
+			service_price_by: details_offer.service_price_by,
+		});
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
+				if (!error && !cancelled && data) {
+					router.push(REAL_OFFER_ADD_SERVICE_CATEGORIES(router.query.shop_link as string)).then();
+				}
+			},
+		});
+	};
+
+	const togglePinOfferHandler = () => {
+		dispatch(offerPostPinAction(pk));
+		router.replace(router.asPath).then();
+	};
+
+	const showSolderOfferNav = () => {
+		setOpenSolderModal(true);
+	};
+
+	const deleteOfferHandler = () => {
+		const action = offerDeleteRootAction(pk);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
+				if (!error && !cancelled && data) {
+					router.replace(REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+				}
+			},
+		});
+		setShowDeleteModal(false);
+	};
+
+	const deleteModalActions = [
+		{
+			active: true,
+			text: 'Oui',
+			onClick: deleteOfferHandler,
+		},
+		{
+			active: false,
+			text: 'Non',
+			onClick: () => setShowDeleteModal(false),
+		},
+	];
+
+	const showDeleteOfferModal = () => {
+		setShowDeleteModal(true);
+	};
+
+	const handleSaveSolder = () => {
+		let valueToSend = '0.00';
+		if (solderPourcentageForApi && solderByState === 'P') {
+			valueToSend = solderPourcentageForApi;
+		}
+		if (!solder_value) {
+			// dispatch post
+			dispatch(offerPostSolderAction(pk, solderByState, parseFloat(valueToSend), router));
+		} else {
+			// dispatch patch
+			dispatch(offerPatchSolderAction(pk, solderByState, parseFloat(valueToSend), router));
+		}
+		setOpenSolderModal(false);
+	};
+
+	const deleteSolderHandler = () => {
+		// dispatch delete
+		dispatch(offerDeleteSolderAction(pk, router));
+		setOpenSolderModal(false);
+		setNewSolderValue('0.00');
+	};
+
+	const solderTabHandleChange = (event: React.SyntheticEvent, solderBy: OfferSolderByType) => {
+		setSolderByState(solderBy);
+	};
+
+	const dropDownActions: DropDownActionType = [
+		{
+			icon: EditBlackSVG,
+			text: 'Modifier',
+			onClick: editOfferHandler,
+		},
+		{
+			icon: pinnedIconState,
+			text: 'Épingler',
+			onClick: togglePinOfferHandler,
+		},
+		{
+			icon: solder_value !== null ? SolderEditActiveSVG : SolderEditInactiveSVG,
+			text: 'Solder',
+			onClick: showSolderOfferNav,
+		},
+		{
+			icon: SupprimerSVG,
+			text: 'Supprimer',
+			onClick: showDeleteOfferModal,
+		},
+	];
+
+	const customTheme = OfferReadOnlyTheme();
+	const navigationTheme = doubleTabNavigationTheme();
+	return (
+		<ThemeProvider theme={customTheme}>
+			<Stack direction="column">
+				<UserMainNavigationBar />
+				<main className={Styles.main}>
+					{permission === 'OWNER' && (
+						<DesktopPublishEditNavbar
+							hideLeftButton
+							dropDownText="Modifier"
+							actions={dropDownActions}
+							onClick={() => {
+								// back to my shop page.
+								router.back();
+							}}
+							menuID="desktop-validate-menu"
+							buttonID="desktop-validate-menu-btn"
+							buttonTitle="Valider"
+						/>
+					)}
+					<Box className={Styles.pageWrapper}>
+						<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
+							{/* DESKTOP Only */}
+							<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }} className={Styles.desktopOnly}>
+								<Stack direction="row" spacing={3}>
+									<Stack direction="column" spacing={1.8}>
+										{availableImages.length > 0 &&
+											availableImages.map((image, index) => (
+												<ImageListItem key={index}>
+													{image ? (
+														<ImageFuture
+															className={`${Styles.thumbnails} ${
+																image === selectedImage ? Styles.selectedThumbnail : null
+															}`}
+															unoptimized={true}
+															src={image}
+															width={80}
+															height={80}
+															onClick={() => showThumbnail(image)}
+															alt=""
+															loading="lazy"
+															decoding="async"
+														/>
+													) : null}
+												</ImageListItem>
+											))}
+									</Stack>
+									{selectedImage ? (
+										<Box className={Styles.mainImageWrapper}>
+											<ImageFuture
+												className={Styles.selectedImage}
+												src={selectedImage}
+												unoptimized={true}
+												width={500}
+												height={500}
+												sizes="100vw"
+												alt=""
+												loading="lazy"
+												decoding="async"
+											/>
+										</Box>
+									) : null}
+								</Stack>
+								{noCommentsAvailableContent()}
+							</Stack>
+							{/* Mobile Only */}
+							<div className={Styles.mobileOnly} style={{ display: 'block', marginLeft: '0' }}>
+								<>
+									<Swiper
+										pagination={{
+											clickable: true,
+											enabled: true,
+											bulletActiveClass: 'activekOfferBullet',
+											clickableClass: 'paginationOfferBullet',
+										}}
+										modules={[Navigation, Pagination, Lazy]}
+										scrollbar={{ enabled: false }}
+										className={Styles.swiperSlide}
+									>
+										{availableImages.length > 0 &&
+											availableImages.map((image, index) => {
+												return (
+													<SwiperSlide key={index}>
+														<Box className={Styles.mainImageWrapper}>
+															<ImageFuture
+																className={Styles.selectedImage}
+																src={image}
+																unoptimized={true}
+																width={365}
+																height={240}
+																sizes="100vw"
+																alt=""
+															/>
+														</Box>
+													</SwiperSlide>
+												);
+											})}
+									</Swiper>
+								</>
+							</div>
+							<Stack direction="column" spacing={1} className={Styles.offerWrapper}>
+								<Stack direction="column" spacing={4}>
+									<Stack direction="column" spacing={2}>
+										<Stack direction="column">
+											<h1 className={Styles.title}>{title}</h1>
+											<Stack direction="row">
+												<Image src={BlackStarSVG} width={20} height={20} alt="" />
+												<span className={Styles.rating}>0 (0 notes)</span>
+											</Stack>
+											<Link
+												href={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+												passHref
+												prefetch={false}
+												target="_blank"
+												rel="noreferrer"
+											>
+												<a target="_blank" rel="noreferrer">
+													<span className={Styles.shopName}>{shop_name}</span>
+												</a>
+											</Link>
+										</Stack>
+										<Stack direction="column" spacing={1}>
+											<Stack direction="row" flexWrap="wrap" gap={1}>
+												{categoriesListString.map((category, index) => {
+													return <Chip key={index} label={category} variant="filled" className={Styles.chip} />;
+												})}
+											</Stack>
+										</Stack>
+									</Stack>
+									<Stack direction="column" spacing={2} className={Styles.descriptionWrapper}>
+										<Stack direction="column" spacing={1}>
+											<span className={Styles.descriptionTitle}>Description</span>
+											<p className={Styles.descriptionBody}>{description}</p>
+										</Stack>
+										<Stack direction="column" spacing={1}>
+											{availabilityDays.length > 0 ? (
+												<p className={Styles.colorBody}>
+													<span className={Styles.colorTitle}>Quand : </span>
+													{availabilityDays.join(', ')}
+												</p>
+											) : null}
+											{(morningHourFrom && morningHourTo) ?
+												<p className={Styles.colorBody}>
+												<span className={Styles.colorTitle}>Matin : </span>
+												{ `${morningHourFrom.substring(0, 5)} - ${morningHourTo.substring(0, 5)}`}
+											</p> : null}
+											{(afternoonHourFrom && afternoonHourTo) ?
+												<p className={Styles.colorBody}>
+												<span className={Styles.colorTitle}>Après-midi : </span>
+												{ `${afternoonHourFrom.substring(0, 5)} - ${afternoonHourTo.substring(0, 5)}`}
+											</p> : null}
+											{/*<span className={Styles.colorTitle}>Après-midi : </span>*/}
+											{/*	{(afternoonHourFrom && afternoonHourTo) && `${afternoonHourFrom} - ${afternoonHourTo}`}*/}
+											{forWhomListString.length > 0 ? (
+												<p className={Styles.forWhomBody}>
+													<span className={Styles.forWhomTitle}>Pour : </span>
+													{forWhomListString.join(', ')}
+												</p>
+											) : null}
+										</Stack>
+									</Stack>
+									<Stack direction="column" className={Styles.priceWrapper}>
+										<Stack direction="row" spacing={1}>
+											<span className={`${Styles.price} ${solder_value !== null && Styles.oldPrice}`}>
+												{price + ' DH'}
+											</span>
+											<span className={Styles.solderPrice}>{solder_value !== null ? newPrice + ' DH' : null}</span>
+										</Stack>
+										<Stack direction="row" justifyContent="space-between">
+											<span className={Styles.priceBy}>
+												par {getServicePriceByData(details_offer.service_price_by)}
+											</span>
+										</Stack>
+									</Stack>
+								</Stack>
+								<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
+									<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+										<PrimaryButton buttonText="Ajouter au panier" active={permission !== 'OWNER'} type="submit" />
+									</div>
+									<Box className={Styles.clickAnddeliveriesWrapper}>
+										<Stack
+											direction="column"
+											divider={<Divider orientation="horizontal" flexItem className={Styles.divider} />}
+										>
+											<ReadAdresse
+												address_name={details_offer.service_address}
+												longitude={details_offer.service_longitude}
+												latitude={details_offer.service_latitude}
+												zone_by={details_offer.service_zone_by}
+												km_radius={details_offer.service_km_radius as number}
+											/>
+										</Stack>
+									</Box>
+								</Stack>
+								<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
+									{/*<Divider orientation="horizontal" flexItem className={Styles.divider} />*/}
+									{noCommentsAvailableContent()}
+								</Stack>
+							</Stack>
+						</Stack>
+					</Box>
+					{permission === 'OWNER' && (
+						<RightSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
+							<Stack
+								direction="column"
+								justifyContent="space-between"
+								alignContent="space-between"
+								columnGap={0.5}
+								rowGap={0}
+								sx={{ height: '100%' }}
+							>
+								<TopBarSaveClose
+									buttonText="Terminer"
+									handleClose={() => setOpenSolderModal(false)}
+									handleSubmit={handleSaveSolder}
+									isValid={isSolderValid}
+									cssClasses={Styles.topContainer}
+								/>
+								<HelperDescriptionHeader
+									header="Solder une offre"
+									HelpText="Apprendre à définir son prix"
+									headerClasses={Styles.header}
+									descriptionClasses={Styles.description}
+									cssClasses={Styles.topContainer}
+								/>
+								<Stack direction="column" justifyContent="space-around" className={Styles.doubleTabWrapper}>
+									<ThemeProvider theme={navigationTheme}>
+										<BottomNavigation value={solderByState} onChange={solderTabHandleChange} showLabels>
+											<BottomNavigationAction label="Prix Fixe" value="F" />
+											<BottomNavigationAction label="Pourcentage" value="P" />
+										</BottomNavigation>
+									</ThemeProvider>
+									{solderByState === 'F' ? (
+										<Stack
+											direction="column"
+											spacing={1}
+											sx={{ margin: '12px 32px 12px', height: '100%' }}
+											justifyContent="space-between"
+										>
+											<Stack direction="column" spacing={1} alignItems="center">
+												<CurrencyInput
+													className={Styles.priceInputField}
+													id="solder-fix"
+													name="solder-fix"
+													placeholder="0.00"
+													value={newSolderValue}
+													decimalsLimit={2}
+													onValueChange={(value) => {
+														if (value) {
+															if (price) {
+																if ((price as number) <= parseFloat(value)) {
+																	return;
+																}
+															}
+															setNewSolderValue(value);
+														} else {
+															setNewSolderValue('0.00');
+														}
+														setIsSolderValid(true);
+													}}
+												/>
+												{price ? (
+													<>
+														<p className={Styles.oldSolderValue}>{price} DH</p>
+														<p className={Styles.oldSolderText}>ancien prix</p>
+													</>
+												) : null}
+											</Stack>
+											{solder_value ? (
+												<Button onClick={deleteSolderHandler} color="primary" className={Styles.cancelButton}>
+													Annuler la réduction
+												</Button>
+											) : null}
+										</Stack>
+									) : (
+										<Stack
+											direction="column"
+											spacing={1}
+											sx={{ margin: '12px 32px 12px', height: '100%' }}
+											justifyContent="space-between"
+										>
+											<Stack direction="column" spacing={1} alignItems="center">
+												<CurrencyInput
+													className={Styles.priceInputField}
+													id="solder-pourcentage"
+													name="solder-pourcentage"
+													readOnly={true}
+													placeholder="0.00"
+													value={newSolderValue}
+													decimalsLimit={2}
+												/>
+												{price ? (
+													<>
+														<p className={Styles.oldSolderValue}>{price} DH</p>
+														<p className={Styles.oldSolderText}>ancien prix</p>
+													</>
+												) : null}
+												<ThemeProvider theme={SolderPourcentageChipTheme()}>
+													<Grid
+														container
+														columnGap={2}
+														rowSpacing={2}
+														wrap="wrap"
+														justifyContent="center"
+														alignItems="center"
+													>
+														<Grid item xs="auto">
+															<Chip
+																label="-5 %"
+																variant={fivePourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	// setDeliveryPriceState('0');
+																	setSolderPourcentageInput('5');
+																}}
+																size="medium"
+															/>
+														</Grid>
+														<Grid item xs="auto">
+															<Chip
+																label="-10 %"
+																variant={tenPourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	setSolderPourcentageInput('10');
+																}}
+															/>
+														</Grid>
+														<Grid item xs="auto">
+															<Chip
+																label="-20 %"
+																variant={twentyPourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	setSolderPourcentageInput('20');
+																}}
+															/>
+														</Grid>
+														<Grid item xs="auto">
+															<Chip
+																label="-30 %"
+																variant={thirtyPourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	setSolderPourcentageInput('30');
+																}}
+															/>
+														</Grid>
+														<Grid item xs="auto">
+															<Chip
+																label="-50 %"
+																variant={fiftyPourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	setSolderPourcentageInput('50');
+																}}
+															/>
+														</Grid>
+														<Grid item xs="auto">
+															<Chip
+																label="-70 %"
+																variant={seventyPourcentSolder ? 'filled' : 'outlined'}
+																onClick={() => {
+																	setSolderPourcentageInput('70');
+																}}
+															/>
+														</Grid>
+													</Grid>
+												</ThemeProvider>
+												{/*<Stack direction="row" justifyContent="center" sx={{ marginTop: '2rem !important' }}>*/}
+												{/*	<ThemeProvider theme={customPourcentageTheme}>*/}
+												{/*		<TextField*/}
+												{/*			inputMode="numeric"*/}
+												{/*			inputProps={{ min: 1, max: 99 }}*/}
+												{/*			ref={customPourcentageInput}*/}
+												{/*			color="primary"*/}
+												{/*			placeholder="Autre"*/}
+												{/*			value={customPourcentageState}*/}
+												{/*			onChange={(e) => {*/}
+												{/*				let value = parseInt(e.target.value, 10);*/}
+												{/*				if (value > 99) value = 99;*/}
+												{/*				if (value < 1) value = 1;*/}
+												{/*				setCustomPourcentageState(value.toString());*/}
+												{/*				setSolderPourcentageInput(value.toString());*/}
+												{/*			}}*/}
+												{/*			// variant="standard"*/}
+												{/*			fullWidth={false}*/}
+												{/*			size="medium"*/}
+												{/*			type="number"*/}
+												{/*			className={Styles.customField}*/}
+												{/*			disabled={*/}
+												{/*				fivePourcentSolder ||*/}
+												{/*				tenPourcentSolder ||*/}
+												{/*				twentyPourcentSolder ||*/}
+												{/*				thirtyPourcentSolder ||*/}
+												{/*				fiftyPourcentSolder ||*/}
+												{/*				seventyPourcentSolder*/}
+												{/*			}*/}
+												{/*		/>*/}
+												{/*	</ThemeProvider>*/}
+												{/*</Stack>*/}
+											</Stack>
+											{solder_value ? (
+												<Button onClick={deleteSolderHandler} color="primary" className={Styles.cancelButton}>
+													Annuler la réduction
+												</Button>
+											) : null}
+										</Stack>
+									)}
+								</Stack>
+							</Stack>
+						</RightSwipeModal>
+					)}
+					{showDeleteModal && permission === 'OWNER' ? (
+						<ActionModals title="Supprimer cette offre ?" actions={deleteModalActions} />
+					) : null}
+					{/* Solder modal */}
+				</main>
+				<CustomFooter />
+			</Stack>
+		</ThemeProvider>
+	);
+};
+
+type IndexPropsType = {
+	pageProps: {
+		permission: 'OWNER' | 'NOT_OWNER';
+		data: OfferGetRootProductInterface | OfferGetRootServiceInterface;
+	};
+};
+const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
+	const { permission, data } = props.pageProps;
+
+	if (data.offer_type === 'V') {
+		return <Product data={data as OfferGetRootProductInterface} permission={permission} />;
+	} else if (data.offer_type === 'S') {
+		return <Service data={data as OfferGetRootServiceInterface} permission={permission} />;
+	} else {
+		return <></>;
+	}
 };
 
 // export async function getStaticPaths() {

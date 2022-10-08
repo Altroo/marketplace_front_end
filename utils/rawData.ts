@@ -1,7 +1,12 @@
 import {
 	OfferCategoriesType,
-	OfferForWhomType, OfferGetAvailableShopFiltersType,
-	OfferProductColors, OfferProductPriceByType, OfferProductSizes
+	OfferForWhomType,
+	OfferGetAvailableShopFiltersType,
+	OfferProductColors,
+	OfferProductPriceByType,
+	OfferProductSizes,
+	OfferServiceAvailabilityDaysArray,
+	OfferServicePriceByType
 } from "../types/offer/offerTypes";
 
 export const monthNames = ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juill', 'août', 'sept', 'oct', 'nov', 'déc'];
@@ -202,3 +207,51 @@ export const getProductPriceByData = (priceBy: OfferProductPriceByType) => {
 			return 'litre'
 	}
 }
+
+export const getServicePriceByData = (priceBy: OfferServicePriceByType) => {
+	switch (priceBy) {
+		case 'H':
+			return 'heur';
+		case 'J':
+			return 'jour';
+		case 'S':
+			return 'semaine';
+		case 'M':
+			return 'mois'
+		case 'P':
+			return 'prestation'
+	}
+}
+
+export const getServiceAvailabilityDaysArray = (availabilityDays: OfferServiceAvailabilityDaysArray) => {
+	const daysArray: Array<string> = [];
+	availabilityDays.map((day) => {
+		switch (day.code_day) {
+			case 'AL':
+				daysArray.push('Tout les jours');
+				break;
+			case 'MO':
+				daysArray.push('Lundi');
+				break;
+			case 'TU':
+				daysArray.push('Mardi');
+				break;
+			case 'WE':
+				daysArray.push('Mercredi');
+				break;
+			case 'TH':
+				daysArray.push('Jeudi');
+				break;
+			case 'FR':
+				daysArray.push('Vendredi');
+				break;
+			case 'SA':
+				daysArray.push('Samedi');
+				break;
+			case 'SU':
+				daysArray.push('Dimanche');
+				break;
+		}
+	});
+	return daysArray;
+};

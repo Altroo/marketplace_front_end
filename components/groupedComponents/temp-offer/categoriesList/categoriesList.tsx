@@ -49,7 +49,7 @@ import { Stack, Box } from '@mui/material';
 import { OfferCategoriesType, OfferOfferTypeType } from "../../../../types/offer/offerTypes";
 import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
 import { setOfferProductCategories, setOfferServiceCategories } from "../../../../store/actions/offer/offerActions";
-import { getLocalOfferProductCategories } from "../../../../store/selectors";
+import { getLocalOfferProductCategories, getLocalOfferServiceCategories } from "../../../../store/selectors";
 
 type CategoriesObjProps = {
 	code: OfferCategoriesType;
@@ -61,15 +61,23 @@ type CategoriesObjProps = {
 
 const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps) => {
 	const dispatch = useAppDispatch();
-	const pickedCategories: Array<OfferCategoriesType> = useAppSelector(getLocalOfferProductCategories);
+	const pickedProductCategories: Array<OfferCategoriesType> = useAppSelector(getLocalOfferProductCategories);
+	const pickedServiceCategories: Array<OfferCategoriesType> = useAppSelector(getLocalOfferServiceCategories);
+
 	const [active, setActive] = useState<boolean>(false);
 	const {code} = props;
 
 	useEffect(() => {
-		if (pickedCategories.includes(code)){
-			setActive(true);
+		if (props.offerType === 'V'){
+			if (pickedProductCategories.includes(code)){
+				setActive(true);
+			}
+		}else if (props.offerType === 'S') {
+			if (pickedServiceCategories.includes(code)){
+				setActive(true);
+			}
 		}
-	}, [pickedCategories, code]);
+	}, [code, pickedProductCategories, pickedServiceCategories, props.offerType]);
 
 	const categoryItemClickHandler = () => {
 		if (props.offerType === 'V') {

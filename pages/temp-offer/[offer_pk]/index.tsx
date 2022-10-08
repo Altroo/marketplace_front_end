@@ -804,7 +804,7 @@ const Index: NextPage<PropsType> = (props: PropsType) => {
 									{forWhomListString.length > 0 ? (
 										<p className={Styles.forWhomBody}>
 											<span className={Styles.forWhomTitle}>Pour : </span>
-											{forWhomListString.join(',')}
+											{forWhomListString.join(', ')}
 										</p>
 									) : null}
 								</Stack>

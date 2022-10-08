@@ -30,12 +30,13 @@ const Index: NextPage = () => {
 	const [isValid, setIsValid] = useState<boolean>(false);
 
 	useEffect(() => {
+		console.log(pickedCategories);
 		if (pickedCategories.length > 0) {
 			setIsValid(true);
 		} else {
 			setIsValid(false);
 		}
-	}, [pickedCategories.length]);
+	}, [pickedCategories.length, pickedCategories]);
 
 	return (
 		<>

@@ -28,7 +28,10 @@ import {
 	OfferCategoriesType,
 	OfferPostPinResponseType,
 	UserLocalProductType,
-	OfferGetShopAvailableFiltersResponseType, OfferGetServicesDaysResponseType
+	OfferGetShopAvailableFiltersResponseType,
+	OfferGetServicesDaysResponseType,
+	UserLocalServiceType,
+	setOfferProductToEditPayloadType, setOfferServiceToEditPayloadType
 } from "../../../types/offer/offerTypes";
 import {
 	appendPostOfferState,
@@ -55,8 +58,8 @@ import {
 	setPinOffer,
 	setMyOffersFirstPageListIsLoading,
 	myOffersListGETApiErrorAction,
-	setLocalOfferMultiCategories,
-	setLocalOfferToEditPk,
+	setLocalOfferProductMultiCategories,
+	setLocalOfferProductToEditPk,
 	setPutOfferIsLoading,
 	offersPUTApiErrorAction,
 	appendPostOfferIsLoading,
@@ -67,7 +70,7 @@ import {
 	setLocalOfferServiceCategories,
 	setLocalOfferServiceLocalisation,
 	setLocalOfferServiceDescription,
-	setLocalOfferServicePrice
+	setLocalOfferServicePrice, setLocalOfferServiceToEditPk, setLocalOfferServiceMultiCategories
 } from "../../slices/offer/offerSlice";
 import { getMyOffersNextPage, getOfferVuesNextPage } from '../../selectors';
 import { NextRouter } from 'next/router';
@@ -841,14 +844,10 @@ function* emptyOfferDeliveriesSaga(payload: { type: string; option: '1' | '2' | 
 	yield put(emptyLocalOfferDeliveries(payload.option));
 }
 
-export interface setOfferToEditPayloadType extends UserLocalProductType {
-	type: string;
-}
-
-function* setOfferToEditSaga(payload: setOfferToEditPayloadType) {
+function* setOfferProductToEditSaga(payload: setOfferProductToEditPayloadType) {
 	// Set categories page
-	yield put(setLocalOfferToEditPk(payload.pk as number));
-	yield put(setLocalOfferMultiCategories(payload.categoriesList));
+	yield put(setLocalOfferProductToEditPk(payload.pk as number));
+	yield put(setLocalOfferProductMultiCategories(payload.categoriesList));
 	// Set description page
 	const description = {
 		// type: payload.type,
@@ -891,6 +890,42 @@ function* setOfferToEditSaga(payload: setOfferToEditPayloadType) {
 	return true;
 }
 
+function* setOfferServiceToEditSaga(payload: setOfferServiceToEditPayloadType) {
+	// Set categories page
+	yield put(setLocalOfferServiceToEditPk(payload.pk as number));
+	yield put(setLocalOfferServiceMultiCategories(payload.categoriesList));
+	// Set description page
+	const newPayload = {
+		title: payload.title,
+		pictures: payload.pictures,
+		description: payload.description,
+		for_whom: payload.forWhom,
+		service_availability_days: payload.service_availability_days,
+		service_morning_hour_from: payload.service_morning_hour_from,
+		service_morning_hour_to: payload.service_morning_hour_to,
+		service_afternoon_hour_from: payload.service_afternoon_hour_from,
+		service_afternoon_hour_to: payload.service_afternoon_hour_to,
+		tags: payload.tags,
+	}
+	yield put(setLocalOfferServiceDescription(newPayload));
+	// Set localisation
+	const serviceLocalisation = {
+		service_zone_by: payload.service_zone_by,
+		service_longitude: payload.service_longitude,
+		service_latitude: payload.service_latitude,
+		service_address: payload.service_address,
+		service_km_radius: payload.service_km_radius,
+	}
+	yield put(setLocalOfferServiceLocalisation(serviceLocalisation));
+	// Set price
+	const pricePayload = {
+		price: payload.price as string,
+		service_price_by: payload.service_price_by as "H" | "J" | "S" | "M" | "P",
+	}
+	yield put(setLocalOfferServicePrice(pricePayload));
+	return true;
+}
+
 function* offerSetEmptyUserLocalOfferSaga() {
 	yield put(emptyUserLocalOffer());
 }
@@ -925,7 +960,8 @@ export function* watchOffer() {
 		Types.OFFER_GET_AVAILABLE_FILTERS_BY_UNIQUE_ID,
 		withCallback(offerGetAvailableFiltersByUniqueIDSaga as Saga),
 	);
-	yield takeLatest(Types.SET_OFFER_PRODUCT_TO_EDIT, withCallback(setOfferToEditSaga as Saga));
+	yield takeLatest(Types.SET_OFFER_PRODUCT_TO_EDIT, withCallback(setOfferProductToEditSaga as Saga));
+	yield takeLatest(Types.SET_OFFER_SERVICE_TO_EDIT, withCallback(setOfferServiceToEditSaga as Saga));
 	yield takeLatest(Types.OFFER_POST_ROOT, withCallback(offerPostRootSaga as Saga));
 	yield takeLatest(Types.OFFER_GET_ROOT, offerGetRootSaga);
 	// yield takeLatest(Types.OFFER_SET_EMPTY_SELECTED_OFFER, offerSetEmptySelectedOfferSaga);

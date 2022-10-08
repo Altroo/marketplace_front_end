@@ -28,8 +28,8 @@ export class Offers {
 		public solder_value?: number | null | undefined,
 		public creator_label?: boolean | null | undefined,
 		public made_in_label?: {
-			name: string;
-			code: string;
+			name: string | null;
+			code: string | null;
 		} | null | undefined,
 	) {}
 }
@@ -129,8 +129,8 @@ export class OfferServiceClass extends Offers {
 		solder_value?: number | null,
 		creator_label?: boolean | null,
 		made_in_label?: {
-			name: string;
-			code: string;
+			name: null;
+			code: null;
 		} | null | undefined,
 	) {
 		super(
