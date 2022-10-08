@@ -128,7 +128,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const router = useRouter();
 	const { data, permission } = props;
 	const dispatch = useAppDispatch();
-	// const { offer_pk } = router.query;
 	const {
 		pk,
 		title,
@@ -1220,6 +1219,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	const [openSolderModal, setOpenSolderModal] = useState<boolean>(false);
 	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 	const [pinnedIconState, setPinnedIconState] = useState(EpinglerInactiveSVG);
+
 	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
 		if (pinned){
@@ -1697,8 +1697,6 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 												<span className={Styles.colorTitle}>Après-midi : </span>
 												{ `${afternoonHourFrom.substring(0, 5)} - ${afternoonHourTo.substring(0, 5)}`}
 											</p> : null}
-											{/*<span className={Styles.colorTitle}>Après-midi : </span>*/}
-											{/*	{(afternoonHourFrom && afternoonHourTo) && `${afternoonHourFrom} - ${afternoonHourTo}`}*/}
 											{forWhomListString.length > 0 ? (
 												<p className={Styles.forWhomBody}>
 													<span className={Styles.forWhomTitle}>Pour : </span>
