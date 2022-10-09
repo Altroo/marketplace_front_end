@@ -59,10 +59,9 @@ import HorairesRadioCheckContent from '../../../../../components/groupedComponen
 import TextButton from '../../../../../components/htmlElements/buttons/textButton/textButton';
 import RightSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
 import ServiceLocalisation from '../../../../../components/groupedComponents/temp-offer/services/serviceLocalisation/serviceLocalisation';
-import { setOfferServiceDescriptionPage } from "../../../../../store/actions/offer/offerActions";
-import { ApiErrorResponseType } from "../../../../../types/_init/_initTypes";
-import ServiceMiniMap
-	from "../../../../../components/groupedComponents/temp-offer/services/serviceMiniMap/serviceMiniMap";
+import { setOfferServiceDescriptionPage } from '../../../../../store/actions/offer/offerActions';
+import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
+import ServiceMiniMap from '../../../../../components/groupedComponents/temp-offer/services/serviceMiniMap/serviceMiniMap';
 
 const Description: NextPage = () => {
 	const activeStep = '2';
@@ -178,12 +177,8 @@ const Description: NextPage = () => {
 			setForWhomChoice(getForWhomDataArray(pickedForWhom.split(',') as Array<OfferForWhomType>));
 		}
 	}, [
-		address_name,
 		afternoonHourFrom,
 		afternoonHourTo,
-		km_radius,
-		latitude,
-		longitude,
 		morningHourFrom,
 		morningHourTo,
 		pickedDescription,
@@ -195,7 +190,6 @@ const Description: NextPage = () => {
 		pickingTags,
 		typingDescription,
 		typingTitle,
-		zone_by,
 	]);
 
 	// submit handler
@@ -227,55 +221,6 @@ const Description: NextPage = () => {
 				}
 			},
 		});
-		// const forWhomCodeArray: Array<string> = [];
-		// if (forWhomChoice.length >= 1) {
-		// 	forWhomChoice.map((forWhom) => {
-		// 		forWhomCodeArray.push(forWhom[0]);
-		// 	});
-		// }
-		// const forWhomStr = forWhomCodeArray.join(',');
-		// const productColorsStr: string = selectedColorsList.join(',');
-		// const productSizesArray: Array<string> = [];
-		// const { xsState, sState, mState, lState, xState, xlState } = sizesStates;
-		// if (xsState) {
-		// 	productSizesArray.push('XS');
-		// }
-		// if (sState) {
-		// 	productSizesArray.push('S');
-		// }
-		// if (mState) {
-		// 	productSizesArray.push('M');
-		// }
-		// if (lState) {
-		// 	productSizesArray.push('L');
-		// }
-		// if (xState) {
-		// 	productSizesArray.push('X');
-		// }
-		// if (xlState) {
-		// 	productSizesArray.push('XL');
-		// }
-		// const productSizesStr = productSizesArray.join(',');
-		// const action = setOfferDescriptionPage(
-		// 	values.title,
-		// 	images,
-		// 	values.description,
-		// 	forWhomStr,
-		// 	productColorsStr,
-		// 	productSizesStr,
-		// 	quantity,
-		// 	madeIn,
-		// 	togglePickedCreator,
-		// 	values.tags.join(','),
-		// );
-		// dispatch({
-		// 	...action,
-		// 	onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
-		// 		if (!error && !cancelled && data) {
-		// 			router.push(REAL_OFFER_ADD_SERVICE_PRICE(router.query.shop_link as string)).then();
-		// 		}
-		// 	},
-		// });
 	};
 
 	// on change for whom
@@ -336,7 +281,7 @@ const Description: NextPage = () => {
 									tags: offerTags,
 								}}
 								validateOnMount={true}
-								onSubmit={(values, {setSubmitting}) => {
+								onSubmit={(values, { setSubmitting }) => {
 									setSubmitting(false);
 									let availabilityDaysString = '';
 									if (values.al_day !== '') {
@@ -363,7 +308,8 @@ const Description: NextPage = () => {
 									if (values.su_day !== '') {
 										availabilityDaysString = availabilityDaysString + values.su_day + ',';
 									}
-									if (values.title &&
+									if (
+										values.title &&
 										availabilityDaysString.length > 0 &&
 										values.service_morning_hour_from &&
 										values.service_morning_hour_to &&
@@ -391,7 +337,6 @@ const Description: NextPage = () => {
 											tags: values.tags,
 										});
 									}
-
 								}}
 								validationSchema={addOfferServiceSchema}
 							>
@@ -507,8 +452,8 @@ const Description: NextPage = () => {
 																sx={{ width: '100%' }}
 															>
 																<div className={Styles.grayTitle}>
-																		<p>Horaire du matin</p>
-																	</div>
+																	<p>Horaire du matin</p>
+																</div>
 																<Stack
 																	direction="row"
 																	columnGap={4}
@@ -520,7 +465,11 @@ const Description: NextPage = () => {
 																		type="time"
 																		id="service_morning_hour_from"
 																		label="De"
-																		value={values.service_morning_hour_from ? values.service_morning_hour_from.slice(0, 5) : ''}
+																		value={
+																			values.service_morning_hour_from
+																				? values.service_morning_hour_from.slice(0, 5)
+																				: ''
+																		}
 																		onBlur={handleBlur('service_morning_hour_from')}
 																		onChange={(e) => {
 																			handleChange('service_morning_hour_from')(e);
@@ -613,11 +562,13 @@ const Description: NextPage = () => {
 											<Stack direction="column" spacing={1}>
 												<Stack direction="row" justifyContent="space-between">
 													<span className={Styles.spanTitle}>Localisation</span>
-													{address_name && longitude && latitude && km_radius && zone_by ? null : <TextButton
-														buttonText="Ajouter"
-														onClick={() => setLocalisationModalOpen(true)}
-														cssClass={Styles.addAdresseButton}
-													/>}
+													{address_name && longitude && latitude && km_radius && zone_by ? null : (
+														<TextButton
+															buttonText="Ajouter"
+															onClick={() => setLocalisationModalOpen(true)}
+															cssClass={Styles.addAdresseButton}
+														/>
+													)}
 												</Stack>
 												{address_name && longitude && latitude && km_radius && zone_by ? (
 													<Grid2 container>
@@ -628,7 +579,8 @@ const Description: NextPage = () => {
 																latitude={latitude}
 																zone_by={zone_by}
 																km_radius={km_radius}
-																onClick={() => setLocalisationModalOpen(true)} />
+																onClick={() => setLocalisationModalOpen(true)}
+															/>
 														</Grid2>
 													</Grid2>
 												) : (
@@ -652,7 +604,16 @@ const Description: NextPage = () => {
 											>
 												<PrimaryButton
 													buttonText="Continuer"
-													active={isValid && !isSubmitting}
+													active={
+														isValid &&
+														!isSubmitting &&
+														offerTags.length > 0 &&
+														!!address_name &&
+														!!longitude &&
+														!!latitude &&
+														!!zone_by &&
+														!!km_radius
+													}
 													onClick={handleSubmit}
 													type="submit"
 												/>

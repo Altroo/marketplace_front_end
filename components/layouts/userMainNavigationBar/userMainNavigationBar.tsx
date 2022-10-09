@@ -331,7 +331,15 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 						<SideNavDrawer open={openMobileDrawer} handleClose={() => setOpenMobileDrawer(false)} keepMounted={true}>
 							<Stack direction="column" spacing={2}>
 								<Stack direction="row" justifyContent="flex-end" paddingX={2} paddingY={2} paddingBottom={0}>
-									<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenMobileDrawer(false)} />
+									<ImageFuture
+										src={CloseSVG}
+										width={0} 
+										height={0}
+										sizes="100vw"
+										className={Styles.mobileCloseButton}
+										alt=""
+										onClick={() => setOpenMobileDrawer(false)}
+									/>
 								</Stack>
 								<Stack direction="column" paddingX="40px" paddingY="18px" paddingTop={0} paddingBottom={0} spacing={1}>
 									<Link href="/" passHref>

@@ -17,11 +17,7 @@ import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mo
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import { Form, Formik } from 'formik';
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
-import {
-	coordonneeTextInputTheme,
-	offerForWhomDropdownTheme,
-	offerTitleTooltipTheme,
-} from '../../../utils/themes';
+import { coordonneeTextInputTheme, offerForWhomDropdownTheme, offerTitleTooltipTheme } from '../../../utils/themes';
 import CustomToolTip from '../../../components/htmlElements/toolTip/customToolTip';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
 import CustomSquareImageUploading from '../../../components/formikElements/customSquareImageUploading/customSquareImageUploading';
@@ -286,7 +282,7 @@ const Description: NextPage = () => {
 									tags: offerTags,
 								}}
 								validateOnMount={true}
-								onSubmit={(values, {setSubmitting}) => {
+								onSubmit={(values, { setSubmitting }) => {
 									setSubmitting(false);
 									let availabilityDaysString = '';
 									if (values.al_day !== '') {
@@ -313,7 +309,8 @@ const Description: NextPage = () => {
 									if (values.su_day !== '') {
 										availabilityDaysString = availabilityDaysString + values.su_day + ',';
 									}
-									if (values.title &&
+									if (
+										values.title &&
 										availabilityDaysString.length > 0 &&
 										values.service_morning_hour_from &&
 										values.service_morning_hour_to &&
@@ -341,7 +338,6 @@ const Description: NextPage = () => {
 											tags: values.tags,
 										});
 									}
-
 								}}
 								validationSchema={addOfferServiceSchema}
 							>
@@ -457,8 +453,8 @@ const Description: NextPage = () => {
 																sx={{ width: '100%' }}
 															>
 																<div className={Styles.grayTitle}>
-																		<p>Horaire du matin</p>
-																	</div>
+																	<p>Horaire du matin</p>
+																</div>
 																<Stack
 																	direction="row"
 																	columnGap={4}
@@ -470,7 +466,11 @@ const Description: NextPage = () => {
 																		type="time"
 																		id="service_morning_hour_from"
 																		label="De"
-																		value={values.service_morning_hour_from ? values.service_morning_hour_from.slice(0, 5) : ''}
+																		value={
+																			values.service_morning_hour_from
+																				? values.service_morning_hour_from.slice(0, 5)
+																				: ''
+																		}
 																		onBlur={handleBlur('service_morning_hour_from')}
 																		onChange={(e) => {
 																			handleChange('service_morning_hour_from')(e);
@@ -563,11 +563,13 @@ const Description: NextPage = () => {
 											<Stack direction="column" spacing={1}>
 												<Stack direction="row" justifyContent="space-between">
 													<span className={Styles.spanTitle}>Localisation</span>
-													{address_name && longitude && latitude && km_radius && zone_by ? null : <TextButton
-														buttonText="Ajouter"
-														onClick={() => setLocalisationModalOpen(true)}
-														cssClass={Styles.addAdresseButton}
-													/>}
+													{address_name && longitude && latitude && km_radius && zone_by ? null : (
+														<TextButton
+															buttonText="Ajouter"
+															onClick={() => setLocalisationModalOpen(true)}
+															cssClass={Styles.addAdresseButton}
+														/>
+													)}
 												</Stack>
 												{address_name && longitude && latitude && km_radius && zone_by ? (
 													<Grid2 container>
@@ -578,7 +580,8 @@ const Description: NextPage = () => {
 																latitude={latitude}
 																zone_by={zone_by}
 																km_radius={km_radius}
-																onClick={() => setLocalisationModalOpen(true)} />
+																onClick={() => setLocalisationModalOpen(true)}
+															/>
 														</Grid2>
 													</Grid2>
 												) : (
@@ -602,7 +605,16 @@ const Description: NextPage = () => {
 											>
 												<PrimaryButton
 													buttonText="Continuer"
-													active={isValid && !isSubmitting}
+													active={
+														isValid &&
+														!isSubmitting &&
+														offerTags.length > 0 &&
+														!!address_name &&
+														!!longitude &&
+														!!latitude &&
+														!!zone_by &&
+														!!km_radius
+													}
 													onClick={handleSubmit}
 													type="submit"
 												/>
