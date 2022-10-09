@@ -488,6 +488,7 @@ export type OfferGetAvailableShopFiltersType = {
 	available_labels: boolean;
 	available_made_in_maroc: boolean;
 	available_cities: Array<string>;
+	available_services: boolean;
 };
 
 export type OfferGetShopAvailableFiltersResponseType = ResponseDataInterface<OfferGetAvailableShopFiltersType>;

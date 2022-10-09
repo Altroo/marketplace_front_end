@@ -70,6 +70,7 @@ const availableFiltersInit: OfferGetAvailableShopFiltersType = {
 	available_labels: false,
 	available_made_in_maroc: false,
 	available_cities: [],
+	available_services: false,
 };
 
 const EditShopTabContent: React.FC<Props> = (props: Props) => {

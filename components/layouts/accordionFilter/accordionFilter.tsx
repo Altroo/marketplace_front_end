@@ -212,6 +212,7 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 		available_sizes,
 		available_solder,
 		available_cities,
+		available_services,
 	} = availableFilters;
 
 	// useEffect(() => {
@@ -227,11 +228,15 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 			...router.query,
 		};
 		const options = { shallow: true, scroll: false };
-
+		if (available_services) {
+			pickedCategories.push('SE'); // service
+		}
 		if (pickedCategories.length > 0) {
 			queryParams = { ...queryParams, categories: pickedCategories.join(',') };
 		} else {
-			delete queryParams['categories'];
+			if(!available_services) {
+				delete queryParams['categories'];
+			}
 		}
 		if (pickedColors.length > 0) {
 			queryParams = { ...queryParams, colors: pickedColors.join(',') };
@@ -313,6 +318,9 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 	if (available_categories.length > 0) {
 		// tags = categories
 		const categories = getCategoriesDataArray(available_categories);
+		if (available_services) {
+			categories.push('Services');
+		}
 		categoriesFilter = (
 			<AccordionFilterContent title="Tags">
 				<AccordionChipContent
