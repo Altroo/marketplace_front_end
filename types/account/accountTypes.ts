@@ -78,8 +78,22 @@ export interface AccountPatchProfilType extends UserClass {
 
 export type AccountGetSocialsType = Array<GoogleClass | FacebookClass> | [];
 export type AccountGetSocialsResponseType = ResponseDataInterface<AccountGetSocialsType>;
-export type AccountPostFacebookResponseType = ResponseDataInterface<InitStateToken>;
-export type AccountPostGoogleResponseType = ResponseDataInterface<InitStateToken>;
+
+export type InitNonNullStateToken = {
+	access_token: string;
+	refresh_token: string;
+	user: {
+		pk: number;
+		email: string;
+		first_name: string;
+		last_name: string;
+	};
+	access_token_expiration: string;
+	refresh_token_expiration: string;
+};
+
+export type AccountPostFacebookResponseType = ResponseDataInterface<InitNonNullStateToken>;
+export type AccountPostGoogleResponseType = ResponseDataInterface<InitNonNullStateToken>;
 
 export type AccountGetBlockType = {
 	pk: number,

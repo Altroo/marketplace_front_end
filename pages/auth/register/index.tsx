@@ -6,7 +6,7 @@ import { GetServerSidePropsContext, NextPage } from "next";
 import { useAppDispatch } from "../../../utils/hooks";
 import { refreshAppTokenStatesAction } from "../../../store/actions/_init/_initActions";
 import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
-import { Box, Container, Stack, Theme } from "@mui/material";
+import { Stack, Theme } from "@mui/material";
 import GoogleSignInButton from "../../../components/htmlElements/buttons/googleSignInButton/googleSignInButton";
 import FacebookSignInButton from "../../../components/htmlElements/buttons/facebookSignInButton/facebookSignInButton";
 import Divider from "@mui/material/Divider";

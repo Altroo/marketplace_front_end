@@ -16,7 +16,7 @@ type Props = {
 const Test: React.FC<Props> = (props: Props) => {
 	const { data: session, status } = useSession();
 	const loading = status === 'loading';
-	const router = useRouter();
+	// const router = useRouter();
 	const dispatch = useAppDispatch();
 	const isLoggedIn = useAppSelector(getUserIsLoggedIn);
 	const email = useRef<HTMLInputElement>(null);

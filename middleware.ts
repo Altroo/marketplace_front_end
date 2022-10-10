@@ -48,11 +48,16 @@ import { NextResponse } from 'next/server';
 // 	return res;
 // }
 import { withAuth } from 'next-auth/middleware';
+import { DASHBOARD_ACCOUNT, DASHBOARD_PROFILE } from "./utils/routes";
 
 export default withAuth(
 	// `withAuth` augments your `Request` with the user's token.
 	function middleware(req) {
-		console.log(req.nextauth.token);
+		// console.log(req.nextauth.token);
+		// redirect to dashboard/compte/profil when accessing dashboard/compte <- since doesn't have an index page.
+		if (req.nextUrl.pathname === DASHBOARD_ACCOUNT) {
+			return NextResponse.redirect(new URL(DASHBOARD_PROFILE, req.url));
+		}
 		return NextResponse.next();
 	},
 	{
@@ -66,7 +71,7 @@ export default withAuth(
 
 export const config = {
 	matcher: [
-		'/user/:path*',
+		'/dashboard/:path*',
 		'/shop/[shop_link]/offer/product/:path*',
 		'/shop/[shop_link]/offer/service/:path*'
 	]

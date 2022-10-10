@@ -5,6 +5,7 @@ import {
 } from "../../../types/_init/_initTypes";
 import { Session } from "next-auth";
 import { REFRESH_APP_TOKEN_STATES } from "../index";
+import { AuthInterface } from "../../../types/next-auth";
 
 export const initAppAction = () => {
 	return {
@@ -19,7 +20,7 @@ export const initAppCookieTokensAction = (cookies: AppTokensCookieType) => {
 	};
 }
 
-export const refreshAppTokenStatesAction = (session: Record<string, unknown>) => {
+export const refreshAppTokenStatesAction = (session: AuthInterface) => {
 	return {
 		type: types.REFRESH_APP_TOKEN_STATES,
 		session,

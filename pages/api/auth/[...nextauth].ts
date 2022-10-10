@@ -89,7 +89,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					email: { label: 'Email', type: 'email', placeholder: 'email' },
 					password: { label: 'Password', type: 'password', placeholder: 'password' },
 				},
-				async authorize(credentials, req) {
+				async authorize(credentials) {
 					const email = credentials?.email;
 					const password = credentials?.password;
 					const url = `${process.env.NEXT_PUBLIC_ACCOUNT_LOGIN}`;
@@ -219,10 +219,10 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 							id_token: id_token,
 						});
 						account.user = response.data.user;
-						account.access_token = response.data.access_token as string;
-						account.refresh_token = response.data.refresh_token as string;
-						account.access_token_expiration = response.data.access_token_expiration as string;
-						account.refresh_token_expiration = response.data.refresh_token_expiration as string;
+						account.access_token = response.data.access_token;
+						account.refresh_token = response.data.refresh_token;
+						account.access_token_expiration = response.data.access_token_expiration;
+						account.refresh_token_expiration = response.data.refresh_token_expiration;
 						return true;
 					} catch (e) {
 						return false;
@@ -230,10 +230,10 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				} else if (account.provider === 'credentials') {
 					// login handled in authorize
 					account.user = user.user;
-					account.access_token = user.access_token as string;
-					account.refresh_token = user.refresh_token as string;
-					account.access_token_expiration = user.access_token_expiration as string;
-					account.refresh_token_expiration = user.refresh_token_expiration as string;
+					account.access_token = user.access_token;
+					account.refresh_token = user.refresh_token;
+					account.access_token_expiration = user.access_token_expiration;
+					account.refresh_token_expiration = user.refresh_token_expiration;
 					return true;
 				}
 				return false;
@@ -255,7 +255,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
 						tokenType: 'TOKEN',
 						initStateToken: {
-							user: account.user as tokenUser,
+							user: account.user,
 							access_token: account.access_token as string,
 							refresh_token: account.refresh_token as string,
 							access_token_expiration: account.access_token_expiration as string,
@@ -271,12 +271,12 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				}
 				return token;
 			},
-			async session({ session, token, user }) {
+			async session({ session, token }) {
 				session.accessToken = token.accessToken;
 				session.refreshToken = token.refreshToken;
 				session.accessTokenExpiration = token.accessTokenExpiration;
 				session.refreshTokenExpiration = token.refreshTokenExpiration;
-				session.user = token.user as tokenUser;
+				session.user = token.user;
 				return session;
 			},
 		},

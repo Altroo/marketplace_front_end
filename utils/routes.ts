@@ -63,9 +63,19 @@ export const AUTH_RESET_PASSWORD_SET_PASSWORD = '/auth/reset-password/set-passwo
 export const AUTH_RESET_PASSWORD_COMPLETE = '/auth/reset-password/set-password-complete';
 
 // dashboard index
-export const DASHBOARD = '/user/dashboard';
+export const DASHBOARD = '/dashboard';
 // my business (sellers only)
-export const DASHBOARD_ACCOUNT = '/user/dashboard/account';
-export const DASHBOARD_MY_BUSINESS = '/user/dashboard/business';
-export const DASHBOARD_MESSAGES = '/user/dashboard/messages';
-export const DASHBOARD_ORDERS = '/user/dashboard/orders';
+export const DASHBOARD_ACCOUNT = '/dashboard/compte'; // placeholder with redirect
+export const DASHBOARD_PROFILE = '/dashboard/compte/profil'; // phase 1
+export const DASHBOARD_DELIVERIES = '/dashboard/compte/adresses-de-livraison';
+export const DASHBOARD_RATINGS = '/dashboard/compte/evaluation';
+export const DASHBOARD_ADRESSE_EMAIL = '/dashboard/compte/adresse-email'; // phase 1
+export const DASHBOARD_PASSWORD = '/dashboard/compte/mot-de-passe'; // phase 1
+export const DASHBOARD_LINKED_ACCOUNTS = '/dashboard/compte/comptes-relies';
+export const DASHBOARD_MANAGE_ACCOUNT = '/dashboard/compte/gestion-des-donnes';
+export const DASHBOARD_BLOCKED_ACCOUNTS = '/dashboard/compte/comptes-bloques';
+
+
+export const DASHBOARD_MY_BUSINESS = '/dashboard/business';
+export const DASHBOARD_MESSAGES = '/dashboard/messages';
+export const DASHBOARD_ORDERS = '/dashboard/orders';
