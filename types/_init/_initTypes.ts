@@ -170,13 +170,6 @@ type ResponseDataTokenRefresh = {
 
 export type ResponseDataTokenRefreshType = ResponseDataInterface<ResponseDataTokenRefresh>;
 
-// export type cookiesType = {
-// 	'@shop_name' : string | undefined,
-// 	'@avatar': ArrayBuffer | string | undefined,
-// 	'@color_code': string | undefined,
-// 	'@bg_color_code': string | undefined,
-// 	'@font_name': ShopFontNameType | undefined,
-// };
 export type IconColorType = 'black' | 'white';
 
 export type AppTokensCookieType = {

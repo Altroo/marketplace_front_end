@@ -49,7 +49,7 @@ import {
 	getLocalOfferProductTags,
 	getLocalOfferProductTitle,
 } from '../../../../../store/selectors';
-import { forWhomData, getForWhomDataArray } from '../../../../../utils/rawData';
+import { forWhomItemsList, getForWhomDataArray } from '../../../../../utils/rawData';
 import { OfferForWhomType } from '../../../../../types/offer/offerTypes';
 import { placesGetCountriesAction } from '../../../../../store/actions/places/placesActions';
 import OfferCreatorRadioCheckContent from '../../../../../components/groupedComponents/offer/creatorRadioCheckContent/offerCreatorRadioCheckContent';
@@ -401,7 +401,7 @@ const Description: NextPage = () => {
 												<CustomDropDownChoices
 													id="forWhom"
 													label="Pour qui (optionnel)"
-													items={forWhomData}
+													items={forWhomItemsList}
 													theme={forWhomFieldTheme}
 													onChange={forWhomHandleChange}
 													value={forWhomChoice}

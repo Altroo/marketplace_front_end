@@ -278,6 +278,8 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/services/serviceLocalisation" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/offer/service" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/services/serviceMiniMap" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customDateInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customDropDownSelect" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/business" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte" isTestSource="false" />
@@ -287,10 +289,18 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/comptes-relies" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/evaluation" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/gestion-des-donnees" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/gestion-des-donnees/cloturer-mon-compte" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/gestion-des-donnees/supprimer-ma-boutique" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/mot-de-passe" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/profil" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/messages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/orders" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/public/assets/svgs/dashboardIcons/leftSideNavIcons" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/dashboard" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktopDashboardLeftSideNav" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobileDashboardNav" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobileDesktopLeftSideNav" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/successAlert" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />

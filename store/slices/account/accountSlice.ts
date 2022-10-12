@@ -140,7 +140,7 @@ const accountSlice = createSlice({
 		},
 		setWSUserAvatar: (state, action: PayloadAction<string>) => {
 			// payload has user_avatar
-			state.profil.avatar_thumbnail = action.payload;
+			state.profil.avatar = action.payload;
 			// return state;
 		},
 		initAccount: () => {

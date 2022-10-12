@@ -19,6 +19,7 @@ type Props = {
 	open: boolean;
 	handleClose: () => void;
 	keepMounted?: boolean;
+	disablePortal?: boolean;
 	children?: React.ReactNode;
 };
 
@@ -47,6 +48,7 @@ const SideNavDrawer: React.FC<Props> = (props: Props) => {
 				aria-describedby="alert-dialog-slide-description"
 				fullScreen={true}
 				className={Styles.dialog}
+				disablePortal={props.disablePortal}
 			>
 				{props.children}
 			</Dialog>

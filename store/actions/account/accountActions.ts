@@ -152,13 +152,13 @@ export const accountPutPasswordResetAction = (email: string, code: number, new_p
 
 /*** date format YYYY-MM-DD - 2022-12-31 */
 export const accountPatchProfilAction = (
+	avatar: string | ArrayBuffer | null,
 	first_name: string,
 	last_name: string,
-	gender: AccountGenderType,
-	birth_date: Date,
-	city_pk: number,
-	country_pk: number,
-	avatar?: File
+	birth_date: string | null,
+	gender: string,
+	city: string | null,
+	country: string | null,
 ) => {
 	return {
 		type: types.ACCOUNT_PATCH_PROFIL,
@@ -166,8 +166,8 @@ export const accountPatchProfilAction = (
 		last_name,
 		gender,
 		birth_date,
-		city_pk,
-		country_pk,
+		city,
+		country,
 		avatar,
 	};
 };
@@ -296,10 +296,10 @@ export const accountPostEncloseAction = (reason_choice: AccountEncloseType, rout
 	};
 };
 
-export const accountPostChangeEmailHasPasswordAction = (new_email: string, password: string) => {
+export const accountPutChangeEmailHasPasswordAction = (email: string, password: string) => {
 	return {
 		type: types.ACCOUNT_PUT_CHANGE_EMAIL_HAS_PASSWORD,
-		new_email,
+		email,
 		password,
 	};
 };

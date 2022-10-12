@@ -25,8 +25,9 @@ let ws: WebSocket;
 export function initWebsocket(token: string) {
 	return eventChannel((emitter) => {
 		function createWs() {
+			const wsUrl = `${process.env.NEXT_PUBLIC_ROOT_WS_URL}`
 			if (typeof window !== 'undefined') {
-				ws = new WebSocket(`ws://127.0.0.1:8000/chatws?token=${token}`);
+				ws = new WebSocket(`${wsUrl}?token=${token}`);
 				ws.onopen = () => {
 					// ws.send('hello server')
 					console.log('Listening to ws...');

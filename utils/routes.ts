@@ -72,7 +72,9 @@ export const DASHBOARD_RATINGS = '/dashboard/compte/evaluation';
 export const DASHBOARD_ADRESSE_EMAIL = '/dashboard/compte/adresse-email'; // phase 1
 export const DASHBOARD_PASSWORD = '/dashboard/compte/mot-de-passe'; // phase 1
 export const DASHBOARD_LINKED_ACCOUNTS = '/dashboard/compte/comptes-relies';
-export const DASHBOARD_MANAGE_ACCOUNT = '/dashboard/compte/gestion-des-donnes';
+export const DASHBOARD_MANAGE_ACCOUNT = '/dashboard/compte/gestion-des-donnes'; // placeholder needs redirect
+export const DASHBOARD_MANAGE_ACCOUNT_CLOTURER = '/dashboard/compte/gestion-des-donnes/cloturer-mon-compte';
+export const DASHBOARD_MANAGE_ACCOUNT_DELETE = '/dashboard/compte/gestion-des-donnes/supprimer-ma-boutique';
 export const DASHBOARD_BLOCKED_ACCOUNTS = '/dashboard/compte/comptes-bloques';
 
 

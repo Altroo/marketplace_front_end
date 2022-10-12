@@ -147,3 +147,14 @@ export const passwordResetConfirmationSchema = Yup.object().shape({
 	new_password2: Yup.string().required(INPUT_REQUIRED),
 	globalError: Yup.string().notRequired().nullable(),
 });
+
+export const profilSchema = Yup.object().shape({
+	first_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	last_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	// city: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+});
+
+export const changeEmailSchema = Yup.object().shape({
+	email: Yup.string().email(INPUT_EMAIL).required(INPUT_REQUIRED),
+	password: Yup.string().required(INPUT_REQUIRED),
+});

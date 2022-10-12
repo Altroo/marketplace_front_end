@@ -1,6 +1,6 @@
 import React, { ForwardedRef, forwardRef } from "react";
 import { Theme } from "@mui/material/styles/createTheme";
-import { ThemeProvider } from "@mui/material";
+import { InputBaseComponentProps, ThemeProvider } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
 type Props = {
@@ -20,6 +20,7 @@ type Props = {
 	disabled?: boolean;
 	variant?: "filled" | "standard" | "outlined";
 	onClick?: () => void;
+	inputProps?: InputBaseComponentProps;
 };
 
 const CustomTextInput = forwardRef<HTMLInputElement, Props>((props:Props, ref: ForwardedRef<HTMLInputElement>) => {
@@ -47,6 +48,7 @@ const CustomTextInput = forwardRef<HTMLInputElement, Props>((props:Props, ref: F
 				onClick={props.onClick}
 				color="primary"
 				disabled={props.disabled}
+				inputProps={props.inputProps}
 			/>
 		</ThemeProvider>
 	);

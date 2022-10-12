@@ -1,0 +1,85 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.desktopOnly
+  display: flex
+.mobileOnly
+  +Hidden
+.main
+  display: block
+  padding-right: 60px
+  width: 100%
+.rootStack
+  height: calc(100vh - 140px)
+  width: 100%
+.rootStackVH
+  @extend .rootStack
+.pageTitle
+  +Bold
+  font-size: 32px
+  color: $primary
+  margin-top: 0
+.addPictureSpan
+  +Regular
+  font-size: 17px
+  color: #0274d7
+.maxWidth
+  width: 100% !important
+.paragrapheContent
+  +Regular
+  font-size: 17px
+  color: #84848A
+  margin-bottom: 2rem !important
+  span
+    color: #0274d7
+@media #{$tablette}
+  .desktopOnly
+    +Hidden
+  .mobileDrawerButton
+    position: absolute
+    left: 24px
+  .rootStack
+    //height: auto !important
+    justify-content: center
+    align-items: center
+  .rootStackVH
+    @extend .rootStack
+    justify-content: flex-start
+    //height: calc(100vh - 102px) !important
+  .mobileOnly
+    display: flex !important
+  .fixMobile
+    //min-height: 100%
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    height: 100%
+    padding-left: 24px
+    padding-right: 24px
+    //overflow: auto
+    //height: unset
+    //padding-bottom: 24px
+  .pageTitle
+    text-align: start !important
+    margin-bottom: 0
+  .mobileButton
+    margin-top: 2rem !important
+    margin-bottom: 2rem !important
+  .mobileDrawerIcon
+    width: auto
+    height: 26px
+  .iconButton
+    margin: 0
+    padding: 12px 0 0
+  .topBackNavigationStack
+    margin-top: 1rem !important
+    cursor: pointer
+    width: fit-content
+    width: -moz-fit-content
+  .backText
+    +Regular
+    font-size: 13px
+    color: $primary
+// @media #{$mobile}

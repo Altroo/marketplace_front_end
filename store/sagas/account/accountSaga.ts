@@ -57,8 +57,8 @@ import {
 	AccountPostLoginType,
 	// AccountPostRegisterResponseType,
 	// AccountPostRegisterType,
-	AccountPostVerifyAccountType,
-} from '../../../types/account/accountTypes';
+	AccountPostVerifyAccountType, AccountPutChangeEmailHasPasswordResponseType
+} from "../../../types/account/accountTypes";
 import { setTokenState, setEmptyUniqueIDState, initToken, setFbEmailInInit } from "../../slices/_init/_initSlice";
 import { ctxAuthSaga, initEmptyStatesSaga } from '../_init/_initSaga';
 import { withCallback } from 'redux-saga-callback';
@@ -248,14 +248,12 @@ function* accountPatchProfilSaga(payload: AccountPatchProfilType) {
 			);
 			if (response.status === 200) {
 				yield put(setProfil(response.data));
-			} else {
-				console.log(response.data);
-				console.log(response.status);
+				return true;
 			}
 		}
 	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
+		return e as ApiErrorResponseType;
+		//console.log(errors);
 		// set error state
 	}
 }
@@ -781,25 +779,19 @@ function* accountPutPasswordResetSaga(payload: {
 	}
 }
 
-function* accountPutChangeEmailHasPasswordSaga(payload: { type: string; new_email: string; password: string }) {
+function* accountPutChangeEmailHasPasswordSaga(payload: { type: string; email: string; password: string }) {
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHANGE_EMAIL_HAS_PASSWORD}`;
-	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const { type, ...payloadData } = payload;
-			const response: ResponseOnlyInterface = yield call(() => putApi(url, authInstance, payloadData));
-			if (response.status === 204) {
-				yield put(setEmailChanged({ new_email: payload.new_email, changed: true }));
-			} else {
-				console.log(response.status);
-			}
+	// try {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { type, ...payloadData } = payload;
+		const response: AccountPutChangeEmailHasPasswordResponseType = yield call(() => putApi(url, authInstance, payloadData));
+		if (response.status === 200 && response.data.email) {
+			yield put(setEmailChanged({ new_email: response.data.email, changed: true }));
+			return response.data;
 		}
-	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-		// set error state
 	}
 }
 
@@ -873,7 +865,7 @@ export function* watchAccount() {
 	yield takeLatest(Types.ACCOUNT_POST_LOGOUT, accountPostLogoutSaga);
 	yield takeLatest(Types.ACCOUNT_GET_PROFIL, accountGetProfilSaga);
 	yield takeLatest(Types.ACCOUNT_GET_SELECTED_PROFIL, accountGetSelectedProfilSaga);
-	yield takeLatest(Types.ACCOUNT_PATCH_PROFIL, accountPatchProfilSaga);
+	yield takeLatest(Types.ACCOUNT_PATCH_PROFIL, withCallback(accountPatchProfilSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_GET_SOCIALS, accountGetSocialsSaga);
 	yield takeLatest(Types.ACCOUNT_POST_FACEBOOK, accountPostFacebookSaga);
 	yield takeLatest(Types.ACCOUNT_POST_GOOGLE, accountPostGoogleSaga);
@@ -897,7 +889,7 @@ export function* watchAccount() {
 	yield takeLatest(Types.ACCOUNT_POST_SEND_PASSWORD_RESET, withCallback(accountPostSendPasswordResetSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_GET_PASSWORD_RESET, accountGetPasswordResetSaga);
 	yield takeLatest(Types.ACCOUNT_PUT_PASSWORD_RESET, accountPutPasswordResetSaga);
-	yield takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_HAS_PASSWORD, accountPutChangeEmailHasPasswordSaga);
+	yield takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_HAS_PASSWORD, withCallback(accountPutChangeEmailHasPasswordSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_NOT_HAS_PASSWORD, accountPutChangeEmailNotHasPasswordSaga);
 	yield takeLatest(Types.ACCOUNT_SET_FACEBOOK_EMAIL, accountSetFacebookEmailSaga);
 	yield takeLatest(Types.WS_USER_AVATAR, wsUserAvatarSaga);

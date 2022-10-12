@@ -1,18 +1,40 @@
 import {
 	OfferCategoriesType,
 	OfferForWhomType,
-	OfferGetAvailableShopFiltersType,
 	OfferProductColors,
 	OfferProductPriceByType,
 	OfferProductSizes,
 	OfferServiceAvailabilityDaysArray,
 	OfferServicePriceByType
 } from "../types/offer/offerTypes";
+import { AccountGenderCodeValueType, AccountGenderType } from "../types/account/accountTypes";
 
-export const monthNames = ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juill', 'août', 'sept', 'oct', 'nov', 'déc'];
-export const dayNames = ['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'];
-export const forWhomData = ['Tout le monde', 'Enfant', 'Femme', 'Homme'];
-
+export const monthItemsList = ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juill', 'août', 'sept', 'oct', 'nov', 'déc'];
+export const dayItemsList = ['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'];
+export const forWhomItemsList = ['Tout le monde', 'Enfant', 'Femme', 'Homme'];
+export const genderItemsList: Array<AccountGenderCodeValueType> = [
+	{
+		code: 'M',
+		value: 'Homme',
+	},
+	{
+		code: 'F',
+		value: 'Femme',
+	},
+];
+/*
+('', 'Unset'),
+('M', 'Male'),
+('F', 'Female'),
+ */
+export const getGenderData = (gender: AccountGenderType) => {
+	switch (gender) {
+		case 'M':
+			return 'Homme';
+		case 'F':
+			return 'Femme';
+	}
+}
 export const getCategoriesDataArray = (categoryCodes: Array<OfferCategoriesType>) => {
 	const categoryArray: Array<string> = [];
 	categoryCodes.map((categoryCode) => {

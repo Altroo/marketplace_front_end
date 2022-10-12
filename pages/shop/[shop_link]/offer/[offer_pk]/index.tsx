@@ -24,7 +24,7 @@ import ClickAndCollectSVG from '../../../../../public/assets/svgs/globalIcons/cl
 import ClickAndCollectDisabledSVG from '../../../../../public/assets/svgs/globalIcons/click-and-collect-icon-gray.svg';
 import Chip from '@mui/material/Chip';
 import {
-	dayNames,
+	dayItemsList,
 	getCategoriesDataArray,
 	getColorsDataArray,
 	getForWhomDataArray,
@@ -32,7 +32,7 @@ import {
 	getServiceAvailabilityDaysArray,
 	getServicePriceByData,
 	getSizesDataArray,
-	monthNames,
+	monthItemsList,
 } from '../../../../../utils/rawData';
 import Link from 'next/link';
 import {
@@ -312,10 +312,10 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		const startDate = new Date(Date.now());
 		const endDate = new Date(Date.now());
 		endDate.setDate(endDate.getDate() + days + 1);
-		const startMonth = monthNames[startDate.getMonth()];
-		const startDay = dayNames[startDate.getDay()];
-		const endMonth = monthNames[endDate.getMonth()];
-		const endDay = dayNames[endDate.getDay()];
+		const startMonth = monthItemsList[startDate.getMonth()];
+		const startDay = dayItemsList[startDate.getDay()];
+		const endMonth = monthItemsList[endDate.getMonth()];
+		const endDay = dayItemsList[endDate.getDay()];
 		return `${startDay} ${startDate.getDate()} ${startMonth} - ${endDay} ${endDate.getDate()} ${endMonth}`;
 	};
 

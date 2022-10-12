@@ -181,8 +181,8 @@ const shopSlice = createSlice({
 		setWSShopAvatar: (state, action: PayloadAction<string>) => {
 			// payload has shop_avatar
 			if (state.userShop) {
-				if ('avatar_thumbnail' in state.userShop) {
-					state.userShop.avatar_thumbnail = action.payload;
+				if ('avatar' in state.userShop) {
+					state.userShop.avatar = action.payload;
 				}
 			}
 			// return state;
