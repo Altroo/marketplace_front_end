@@ -30,6 +30,7 @@ import SuccessAlert from '../../../../components/layouts/successAlert/successAle
 import MobileDashboardNav from '../../../../components/layouts/mobileDashboardNav/mobileDashboardNav';
 import { default as ImageFuture } from 'next/future/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
+import CustomToast from "../../../../components/portals/customToast/customToast";
 
 type formikContentType = {
 	data: UserClass;
@@ -226,7 +227,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(true);
 
 	return (
-		<Stack direction="column">
+		<Stack direction="column" sx={{position: 'relative'}}>
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
 				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.rootStack}`}>
@@ -266,7 +267,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 					)}
 				</Stack>
 			</main>
-			<SuccessAlert message="Profil mis à jour" setShow={setShowDataUpdated} show={showDataUpdated} />
+			<CustomToast type="success" message="Profil mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
 		</Stack>
 	);
 };

@@ -67,6 +67,7 @@ import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { Saga } from "redux-saga";
 import { NextRouter } from "next/router";
 import { accountPostLogoutAction } from "../../actions/account/accountActions";
+import { ACCOUNT_PUT_CREATE_PASSWORD } from "../../actions";
 
 function* accountPostCheckEmailSaga(payload: { type: string; email: string }) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_EMAIL}`;
@@ -703,25 +704,33 @@ function* accountPostResendVerificationSaga(payload: { type: string; email: stri
 	}
 }
 
-function* accountPostPasswordChangeSaga(payload: { type: string; new_password1: string; new_password2: string }) {
+function* accountPostPasswordChangeSaga(payload: { type: string; old_password: string, new_password1: string; new_password2: string }) {
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PASSWORD_CHANGE}`;
-	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const { type, ...payloadData } = payload;
-			const response: ResponseOnlyInterface = yield call(() => postApi(url, authInstance, payloadData));
-			if (response.status === 204) {
-				yield put(setPasswordChanged(true));
-			} else {
-				console.log(response.status);
-			}
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { type, ...payloadData } = payload;
+		const response: ResponseOnlyInterface = yield call(() => postApi(url, authInstance, payloadData));
+		if (response.status === 204) {
+			yield put(setPasswordChanged(true));
+			return true;
 		}
-	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-		// set error state
+	}
+}
+
+function* accountPutCreatePasswordSaga(payload: { type: string; new_password1: string; new_password2: string }) {
+	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
+	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CREATE_PASSWORD}`;
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { type, ...payloadData } = payload;
+		const response: ResponseOnlyInterface = yield call(() => putApi(url, authInstance, payloadData));
+		if (response.status === 204) {
+			yield put(setPasswordChanged(true));
+			return true;
+		}
 	}
 }
 
@@ -797,28 +806,20 @@ function* accountPutChangeEmailHasPasswordSaga(payload: { type: string; email: s
 
 function* accountPutChangeEmailNotHasPasswordSaga(payload: {
 	type: string;
-	new_email: string;
-	new_password: string;
+	email: string;
+	new_password1: string;
 	new_password2: string;
 }) {
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHANGE_EMAIL_NOT_HAS_PASSWORD}`;
-	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const { type, ...payloadData } = payload;
-			const response: ResponseOnlyInterface = yield call(() => putApi(url, authInstance, payloadData));
-			if (response.status === 204) {
-				yield put(setEmailChanged({ new_email: payload.new_email, changed: true }));
-			} else {
-				console.log(response.status);
-			}
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { type, ...payloadData } = payload;
+		const response: AccountPutChangeEmailHasPasswordResponseType = yield call(() => putApi(url, authInstance, payloadData));
+		if (response.status === 204 && response.data.email) {
+			yield put(setEmailChanged({ new_email: response.data.email, changed: true }));
 		}
-	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-		// set error state
 	}
 }
 
@@ -885,12 +886,13 @@ export function* watchAccount() {
 	yield takeLatest(Types.ACCOUNT_DELETE_ACCOUNT, accountDeleteAccountSaga);
 	yield takeLatest(Types.ACCOUNT_POST_VERIFY_ACCOUNT, accountPostVerifyAccountSaga);
 	yield takeLatest(Types.ACCOUNT_POST_RESEND_VERIFICATION, accountPostResendVerificationSaga);
-	yield takeLatest(Types.ACCOUNT_POST_PASSWORD_CHANGE, accountPostPasswordChangeSaga);
+	yield takeLatest(Types.ACCOUNT_POST_PASSWORD_CHANGE, withCallback(accountPostPasswordChangeSaga as Saga));
+	yield takeLatest(Types.ACCOUNT_PUT_CREATE_PASSWORD, withCallback(accountPutCreatePasswordSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_POST_SEND_PASSWORD_RESET, withCallback(accountPostSendPasswordResetSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_GET_PASSWORD_RESET, accountGetPasswordResetSaga);
 	yield takeLatest(Types.ACCOUNT_PUT_PASSWORD_RESET, accountPutPasswordResetSaga);
 	yield takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_HAS_PASSWORD, withCallback(accountPutChangeEmailHasPasswordSaga as Saga));
-	yield takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_NOT_HAS_PASSWORD, accountPutChangeEmailNotHasPasswordSaga);
+	yield takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_NOT_HAS_PASSWORD, withCallback(accountPutChangeEmailNotHasPasswordSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_SET_FACEBOOK_EMAIL, accountSetFacebookEmailSaga);
 	yield takeLatest(Types.WS_USER_AVATAR, wsUserAvatarSaga);
 }

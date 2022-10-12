@@ -301,6 +301,8 @@
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobileDashboardNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobileDesktopLeftSideNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/successAlert" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/portals" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/portals/customToast" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />

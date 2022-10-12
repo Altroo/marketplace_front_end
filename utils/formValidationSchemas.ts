@@ -158,3 +158,21 @@ export const changeEmailSchema = Yup.object().shape({
 	email: Yup.string().email(INPUT_EMAIL).required(INPUT_REQUIRED),
 	password: Yup.string().required(INPUT_REQUIRED),
 });
+
+export const changeEmailWithPasswordSchema = Yup.object().shape({
+	email: Yup.string().email(INPUT_EMAIL).required(INPUT_REQUIRED),
+	new_password1: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
+	new_password2: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
+});
+
+
+export const changePasswordSchema = Yup.object().shape({
+	old_password: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
+	new_password1: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
+	new_password2: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
+});
+
+export const createPasswordSchema = Yup.object().shape({
+	new_password1: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
+	new_password2: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
+});

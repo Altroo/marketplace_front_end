@@ -10,9 +10,9 @@ import CustomTextInput from '../../../../components/formikElements/customTextInp
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import SuccessAlert from '../../../../components/layouts/successAlert/successAlert';
 import { useFormik } from 'formik';
-import { changeEmailSchema } from "../../../../utils/formValidationSchemas";
+import { changeEmailSchema, changeEmailWithPasswordSchema } from "../../../../utils/formValidationSchemas";
 import CustomPasswordInput from '../../../../components/formikElements/customPasswordInput/customPasswordInput';
-import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from "../../../../utils/helpers";
+import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from '../../../../utils/helpers';
 import {
 	AccountGetCheckAccountResponseType,
 	AccountPutChangeEmailHasPasswordSagaCallback,
@@ -22,14 +22,18 @@ import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../../utils/routes';
 import { useAppDispatch } from '../../../../utils/hooks';
 import MobileDashboardNav from '../../../../components/layouts/mobileDashboardNav/mobileDashboardNav';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
-import { accountPutChangeEmailHasPasswordAction } from '../../../../store/actions/account/accountActions';
+import {
+	accountPostChangeEmailNotHasPasswordAction,
+	accountPutChangeEmailHasPasswordAction
+} from "../../../../store/actions/account/accountActions";
+import CustomToast from "../../../../components/portals/customToast/customToast";
 
 type formikContentType = {
 	email: string;
 	setShowDataUpdated: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const FormikContent: React.FC<formikContentType> = (props: formikContentType) => {
+const FormikContentWithOldPassword: React.FC<formikContentType> = (props: formikContentType) => {
 	const { email } = props;
 	const dispatch = useAppDispatch();
 	const [newEmail, setNewEmail] = useState<string>(email);
@@ -41,7 +45,6 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 		validateOnMount: true,
 		validationSchema: changeEmailSchema,
 		onSubmit: async (values, { setSubmitting, setFieldError, resetForm }) => {
-			console.log(values);
 			setSubmitting(true);
 			const action = accountPutChangeEmailHasPasswordAction(values.email, values.password);
 			dispatch({
@@ -50,6 +53,7 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 					if (!error && !cancelled && data) {
 						setNewEmail(data.email);
 						props.setShowDataUpdated(true);
+						resetForm();
 					}
 					if (error) {
 						setFormikAutoErrors({
@@ -58,7 +62,6 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 						});
 					}
 					setSubmitting(false);
-					resetForm();
 				},
 			});
 		},
@@ -114,25 +117,128 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 	);
 };
 
+const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formikContentType) => {
+	const { email } = props;
+	const dispatch = useAppDispatch();
+	const [newEmail, setNewEmail] = useState<string>(email);
+	const formik = useFormik({
+		initialValues: {
+			email: '',
+			new_password1: '',
+			new_password2: '',
+		},
+		validateOnMount: true,
+		validationSchema: changeEmailWithPasswordSchema,
+		onSubmit: async (values, { setSubmitting, setFieldError, resetForm }) => {
+			setSubmitting(true);
+			const action = accountPostChangeEmailNotHasPasswordAction(values.email, values.new_password1, values.new_password2);
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: AccountPutChangeEmailHasPasswordSagaCallback) => {
+					if (!error && !cancelled && data) {
+						setNewEmail(data.email);
+						props.setShowDataUpdated(true);
+						resetForm();
+					}
+					if (error) {
+						setFormikAutoErrors({
+							e: error,
+							setFieldError,
+						});
+					}
+					setSubmitting(false);
+				},
+			});
+		},
+	});
+	const inputTheme = coordonneeTextInputTheme();
+
+	return (
+		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.rootStackVH}`}>
+			<h2 className={Styles.pageTitle}>Modifier l&apos;email</h2>
+			<span className={Styles.paragrapheContent}>
+				Votre email actuelle est <span>{newEmail}</span>.<br />
+				Pour modifier cette adresse, veuillez insérer votre mot de passe et votre nouvel email.
+			</span>
+			<form>
+				<Stack direction="column" spacing={2}>
+					<CustomTextInput
+						id="email"
+						type="email"
+						value={formik.values.email}
+						onChange={formik.handleChange('email')}
+						onBlur={formik.handleBlur('email')}
+						helperText={formik.touched.email ? formik.errors.email : ''}
+						error={formik.touched.email && Boolean(formik.errors.email)}
+						fullWidth={false}
+						size="medium"
+						label="Nouvelle adresse email"
+						placeholder="Nouvelle adresse email"
+						theme={inputTheme}
+					/>
+					<CustomPasswordInput
+						id="new_password1"
+						value={formik.values.new_password1}
+						onChange={formik.handleChange('new_password1')}
+						onBlur={formik.handleBlur('new_password1')}
+						helperText={formik.touched.new_password1 ? formik.errors.new_password1 : ''}
+						error={formik.touched.new_password1 && Boolean(formik.errors.new_password1)}
+						fullWidth={false}
+						size="medium"
+						label="Nouveau mot de passe"
+						placeholder="Nouveau mot de passe"
+						theme={inputTheme}
+					/>
+					<CustomPasswordInput
+						id="new_password2"
+						value={formik.values.new_password2}
+						onChange={formik.handleChange('new_password2')}
+						onBlur={formik.handleBlur('new_password2')}
+						helperText={formik.touched.new_password2 ? formik.errors.new_password2 : ''}
+						error={formik.touched.new_password2 && Boolean(formik.errors.new_password2)}
+						fullWidth={false}
+						size="medium"
+						label="Confirmation du nouveau mot de passe"
+						placeholder="Confirmation du nouveau mot de passe"
+						theme={inputTheme}
+					/>
+					<PrimaryButton
+						buttonText="Modifier"
+						active={formik.isValid && !formik.isSubmitting}
+						onClick={formik.handleSubmit}
+						cssClass={`${Styles.maxWidth} ${Styles.mobileButton}`}
+						type="submit"
+					/>
+				</Stack>
+			</form>
+		</Stack>
+	);
+};
+
 type IndexProps = {
 	pageProps: {
 		email: string;
+		has_password: boolean;
 	};
 };
 
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
-	const { email } = props.pageProps;
+	const { email, has_password } = props.pageProps;
 	const [showDataUpdated, setShowDataUpdated] = useState<boolean>(false);
 	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(true);
 
 	return (
-		<Stack direction="column">
+		<Stack direction="column" sx={{position: 'relative'}}>
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
 				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.rootStack}`}>
 					<DesktopDashboardLeftSideNav backText="Mon compte" />
 					<Box sx={{ width: '100%' }}>
-						<FormikContent email={email} setShowDataUpdated={setShowDataUpdated} />
+						{has_password ? (
+							<FormikContentWithOldPassword email={email} setShowDataUpdated={setShowDataUpdated} />
+						) : (
+							<FormikContentWithNewPassword email={email} setShowDataUpdated={setShowDataUpdated} />
+						)}
 					</Box>
 				</Stack>
 				<Stack className={`${Styles.mobileOnly}`}>
@@ -161,12 +267,16 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 									</Stack>
 								</Stack>
 							</Stack>
-							<FormikContent email={email} setShowDataUpdated={setShowDataUpdated} />
+							{has_password ? (
+							<FormikContentWithOldPassword email={email} setShowDataUpdated={setShowDataUpdated} />
+						) : (
+							<FormikContentWithNewPassword email={email} setShowDataUpdated={setShowDataUpdated} />
+						)}
 						</Box>
 					)}
 				</Stack>
 			</main>
-			<SuccessAlert message="Email mis à jour" setShow={setShowDataUpdated} show={showDataUpdated} />
+			<CustomToast type="success" message="Email mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
 		</Stack>
 	);
 };
@@ -183,11 +293,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 				return {
 					props: {
 						email: response.data.email,
+						has_password: response.data.has_password,
 					},
 				};
 			}
 		} else {
-			// redirect to register page.
+			// redirect to login page.
 			return {
 				redirect: {
 					permanent: false,

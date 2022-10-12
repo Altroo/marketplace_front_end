@@ -2,6 +2,7 @@ import * as types from '../index';
 import { AccountDeleteType, AccountEncloseType, AccountGenderType } from '../../../types/account/accountTypes';
 import { InitStateNonNullableToken } from "../../../types/_init/_initTypes";
 import { NextRouter } from "next/router";
+import { ACCOUNT_PUT_CHANGE_EMAIL_NOT_HAS_PASSWORD } from "../index";
 
 export const accountPostFacebookAction = (access_token: string) => {
 	return {
@@ -117,9 +118,18 @@ export const accountPostResendActivationAction = (email: string) => {
 	};
 };
 
-export const accountPostPasswordChangeAction = (new_password1: string, new_password2: string) => {
+export const accountPostPasswordChangeAction = (old_password: string, new_password1: string, new_password2: string) => {
 	return {
 		type: types.ACCOUNT_POST_PASSWORD_CHANGE,
+		old_password,
+		new_password1,
+		new_password2,
+	};
+};
+
+export const accountPutCreatePasswordAction = (new_password1: string, new_password2: string) => {
+	return {
+		type: types.ACCOUNT_PUT_CREATE_PASSWORD,
 		new_password1,
 		new_password2,
 	};
@@ -304,11 +314,11 @@ export const accountPutChangeEmailHasPasswordAction = (email: string, password: 
 	};
 };
 
-export const accountPostChangeEmailNotHasPasswordAction = (new_email: string, new_password: string, new_password2: string) => {
+export const accountPostChangeEmailNotHasPasswordAction = (email: string, new_password1: string, new_password2: string) => {
 	return {
-		type: types.ACCOUNT_PUT_CHANGE_EMAIL_HAS_PASSWORD,
-		new_email,
-		new_password,
+		type: types.ACCOUNT_PUT_CHANGE_EMAIL_NOT_HAS_PASSWORD,
+		email,
+		new_password1,
 		new_password2,
 	};
 };

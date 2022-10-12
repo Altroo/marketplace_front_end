@@ -895,10 +895,6 @@ export const horairesInputTheme = (primaryColor: string | undefined = undefined)
 					root: {
 						fontFamily: 'Poppins',
 						fontSize: '19px',
-						// paddingTop: '10px',
-						// paddingBottom: '10px',
-						// marginTop: '5px',
-						// marginBottom: '5px',
 						height: '50px',
 						border: '1px solid #0D070B',
 						borderRadius: '40px',
@@ -942,6 +938,44 @@ export const horairesInputTheme = (primaryColor: string | undefined = undefined)
 						},
 					},
 				},
+			},
+		},
+	});
+};
+
+export const customToastTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+		return createTheme({
+		components: {
+			...defaultTheme,
+			MuiSnackbar: {
+				styleOverrides: {
+					root: {
+						backgroundColor: 'white',
+						borderRadius: "20px",
+						position: 'absolute',
+					}
+				}
+			},
+			MuiPaper: {
+				styleOverrides: {
+					root: {
+						borderRadius: "20px",
+						boxShadow: "0px 0px 24px rgba(13, 7, 11, 0.1)",
+						'&.MuiAlert-outlinedWarning': {
+							border: "1px solid rgba(255, 45, 61, 0.2)",
+						},
+						'&.MuiAlert-outlinedSuccess': {
+							border: "1px solid rgba(7, 203, 173, 0.2)",
+						},
+						'&.MuiAlert-outlinedError': {
+							border: "1px solid rgba(255, 45, 61, 0.2)",
+						},
+						'&.MuiAlert-outlinedInfo': {
+							border: "1px solid rgba(2, 116, 215, 0.2)",
+						},
+					}
+				}
 			},
 		},
 	});
