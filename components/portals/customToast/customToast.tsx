@@ -48,7 +48,7 @@ const CustomToast: React.FC<Props> = (props: Props) => {
 			<Stack spacing={2} className={Styles.rootStack}>
 				<Snackbar
 					open={props.show}
-					autoHideDuration={3000000}
+					autoHideDuration={3000}
 					onClose={handleClose}
 					anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
 					TransitionComponent={Transition}

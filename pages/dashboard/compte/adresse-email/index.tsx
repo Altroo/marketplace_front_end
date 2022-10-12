@@ -27,6 +27,7 @@ import {
 	accountPutChangeEmailHasPasswordAction
 } from "../../../../store/actions/account/accountActions";
 import CustomToast from "../../../../components/portals/customToast/customToast";
+import { useRouter } from "next/router";
 
 type formikContentType = {
 	email: string;
@@ -119,6 +120,7 @@ const FormikContentWithOldPassword: React.FC<formikContentType> = (props: formik
 
 const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formikContentType) => {
 	const { email } = props;
+	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const [newEmail, setNewEmail] = useState<string>(email);
 	const formik = useFormik({
@@ -139,6 +141,8 @@ const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formik
 						setNewEmail(data.email);
 						props.setShowDataUpdated(true);
 						resetForm();
+						// refresh page to load other formik content
+						router.replace(router.asPath).then();
 					}
 					if (error) {
 						setFormikAutoErrors({
@@ -158,7 +162,8 @@ const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formik
 			<h2 className={Styles.pageTitle}>Modifier l&apos;email</h2>
 			<span className={Styles.paragrapheContent}>
 				Votre email actuelle est <span>{newEmail}</span>.<br />
-				Pour modifier cette adresse, veuillez insérer votre mot de passe et votre nouvel email.
+				Votre compte n&apos;a pas encore un mot de passe.<br />
+				Pour modifier cette adresse, veuillez insérer votre nouveau mot de passe et votre nouvel email.
 			</span>
 			<form>
 				<Stack direction="column" spacing={2}>
@@ -203,7 +208,7 @@ const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formik
 						theme={inputTheme}
 					/>
 					<PrimaryButton
-						buttonText="Modifier"
+						buttonText="Modifier l'email"
 						active={formik.isValid && !formik.isSubmitting}
 						onClick={formik.handleSubmit}
 						cssClass={`${Styles.maxWidth} ${Styles.mobileButton}`}

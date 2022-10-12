@@ -24,6 +24,7 @@ import CustomPasswordInput from '../../../../components/formikElements/customPas
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { SagaCallBackOnCompleteBoolType } from '../../../../types/_init/_initTypes';
 import CustomToast from "../../../../components/portals/customToast/customToast";
+import { useRouter } from "next/router";
 
 type formikContentType = {
 	setShowDataUpdated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -122,6 +123,7 @@ const FormikContenChangePassword: React.FC<formikContentType> = (props: formikCo
 
 const FormikContentCreatePassword: React.FC<formikContentType> = (props: formikContentType) => {
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 
 	const formik = useFormik({
 		initialValues: {
@@ -139,6 +141,8 @@ const FormikContentCreatePassword: React.FC<formikContentType> = (props: formikC
 					if (!error && !cancelled && data) {
 						props.setShowDataUpdated(true);
 						resetForm();
+						// refresh page to load other formik content
+						router.replace(router.asPath).then();
 					}
 					if (error) {
 						setFormikAutoErrors({
@@ -180,12 +184,12 @@ const FormikContentCreatePassword: React.FC<formikContentType> = (props: formikC
 						error={formik.touched.new_password2 && Boolean(formik.errors.new_password2)}
 						fullWidth={false}
 						size="medium"
-						label="Mot de passe"
-						placeholder="Mot de passe"
+						label="Confirmation du mot de passe"
+						placeholder="Confirmation du mot de passe"
 						theme={inputTheme}
 					/>
 					<PrimaryButton
-						buttonText="Modifier"
+						buttonText="Créer"
 						active={formik.isValid && !formik.isSubmitting}
 						onClick={formik.handleSubmit}
 						cssClass={`${Styles.maxWidth} ${Styles.mobileButton}`}
