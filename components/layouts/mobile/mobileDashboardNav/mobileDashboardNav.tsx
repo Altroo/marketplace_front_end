@@ -1,14 +1,14 @@
 import { Stack, Divider, AccordionSummary, Accordion, ThemeProvider, Button } from '@mui/material';
 import React, { useEffect } from 'react';
 import Styles from './mobileDashboardNav.module.sass';
-import MonProfilSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mon-profil.svg';
-import AdresseLivraisonSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/adresses-de-livraison.svg';
-import EvaluationSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/evaluation.svg';
-import AdresseEmailSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/adresse-email.svg';
-import MotDePasseSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mot-de-passe.svg';
-import ComptesReliesSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/comptes-relies.svg';
-import GestionDesDonnesSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/gestion-des-donnees.svg';
-import CompteBloquesSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/comptes-bloques.svg';
+import MonProfilSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mon-profil.svg';
+import AdresseLivraisonSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/adresses-de-livraison.svg';
+import EvaluationSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/evaluation.svg';
+import AdresseEmailSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/adresse-email.svg';
+import MotDePasseSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mot-de-passe.svg';
+import ComptesReliesSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/comptes-relies.svg';
+import GestionDesDonnesSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/gestion-des-donnees.svg';
+import CompteBloquesSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/comptes-bloques.svg';
 import { default as ImageFuture } from 'next/future/image';
 import { useRouter } from 'next/router';
 import {
@@ -20,10 +20,10 @@ import {
 	DASHBOARD_PASSWORD,
 	DASHBOARD_EDIT_PROFILE,
 	DASHBOARD_RATINGS,
-} from '../../../utils/routes';
-import AccordionDropDownSVG from '../../../public/assets/svgs/globalIcons/filter-drop-down.svg';
-import { FilterAccordionTheme } from '../../../utils/themes';
-import MiniBackSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
+} from '../../../../utils/routes';
+import AccordionDropDownSVG from '../../../../public/assets/svgs/globalIcons/filter-drop-down.svg';
+import { FilterAccordionTheme } from '../../../../utils/themes';
+import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 
 type SideNavElement = {
 	icon: string;

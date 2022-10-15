@@ -26,7 +26,7 @@ import { getAvailableCountries } from '../../../../store/selectors';
 import { placesGetCountriesAction } from '../../../../store/actions/places/placesActions';
 import { accountPatchProfilAction } from '../../../../store/actions/account/accountActions';
 import { SagaCallBackOnCompleteBoolType } from '../../../../types/_init/_initTypes';
-import MobileDashboardNav from '../../../../components/layouts/mobileDashboardNav/mobileDashboardNav';
+import MobileDashboardNav from '../../../../components/layouts/mobile/mobileDashboardNav/mobileDashboardNav';
 import { default as ImageFuture } from 'next/future/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import CustomToast from "../../../../components/portals/customToast/customToast";

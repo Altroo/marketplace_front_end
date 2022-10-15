@@ -8,7 +8,7 @@ import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors
 import { AccountGetCheckAccountResponseType } from '../../../../types/account/accountTypes';
 import { getApi } from '../../../../store/services/_init/_initAPI';
 import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../../utils/routes';
-import MobileDashboardNav from '../../../../components/layouts/mobileDashboardNav/mobileDashboardNav';
+import MobileDashboardNav from '../../../../components/layouts/mobile/mobileDashboardNav/mobileDashboardNav';
 import { default as ImageFuture } from 'next/future/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import { useAppDispatch } from '../../../../utils/hooks';

@@ -281,7 +281,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customDateInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customDropDownSelect" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/business" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/adresse-email" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/adresses-de-livraison" isTestSource="false" />
@@ -310,6 +309,13 @@
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/dashboardCallToActionCards [on hold]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/edit-profil" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/callToActionCards/createYourShop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobile" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobileMyBusinessNav" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/abonnement" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/articles-references" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/audience" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/chiffre-d'affaire" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />

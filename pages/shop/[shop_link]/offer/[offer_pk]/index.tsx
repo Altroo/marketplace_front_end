@@ -86,7 +86,7 @@ import { AccountGetCheckAccountResponseType } from '../../../../../types/account
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 import ReadAdresse from '../../../../../components/groupedComponents/shop/get/shopInfoTabContent/readAdresse/readAdresse';
 
-export const NoCommentsAvailableContent = () => {
+const NoCommentsAvailableContent = () => {
 	return (
 		<>
 			<Stack
@@ -109,6 +109,37 @@ export const NoCommentsAvailableContent = () => {
 			</Stack>
 			<p className={Styles.noComments}>Effectuez votre première vente pour obtenir un commentaire</p>
 		</>
+	);
+};
+
+const OfferCreatorBanner = () => {
+	return (
+		<Box
+		sx={{
+			background: `url(${CreatorBgIlluSVG.src}) center center no-repeat scroll #0D070B`,
+			msFilter: `progid:DXImageTransform.Microsoft.AlphaImageLoader(src='${CreatorBgIlluSVG.src}', 
+		sizingMethod='scale')`,
+			backgroundSize: 'contain',
+		}}
+		className={Styles.creatorBannerWrapper}
+	>
+		<Stack direction="column" spacing={4}>
+			<Stack direction="column" spacing={2}>
+				<ImageFuture
+					className={Styles.creatorImage}
+					src={CreatorIlluSVG}
+					alt="creator"
+					width="105"
+					height="56"
+					sizes="100vw"
+				/>
+				<span className={Styles.creatorText}>
+					Parce que soutenir l’économie locale est une des valeurs chères à notre cœur, Qaryb a créé
+					un label pour permettre aux créateurs de notre pays d’être valorisé.
+				</span>
+			</Stack>
+		</Stack>
+	</Box>
 	);
 };
 
@@ -666,32 +697,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 								</Stack>
 								{/* Desktop creator banner goes here */}
 								{creator_label && (
-									<Box
-										sx={{
-											background: `url(${CreatorBgIlluSVG.src}) center center no-repeat scroll #0D070B`,
-											msFilter: `progid:DXImageTransform.Microsoft.AlphaImageLoader(src='${CreatorBgIlluSVG.src}', 
-										sizingMethod='scale')`,
-											backgroundSize: 'contain',
-										}}
-										className={Styles.creatorBannerWrapper}
-									>
-										<Stack direction="column" spacing={4}>
-											<Stack direction="column" spacing={2}>
-												<ImageFuture
-													className={Styles.creatorImage}
-													src={CreatorIlluSVG}
-													alt="creator"
-													width="105"
-													height="56"
-													sizes="100vw"
-												/>
-												<span className={Styles.creatorText}>
-													Parce que soutenir l’économie locale est une des valeurs chères à notre cœur, Qaryb a créé un
-													label pour permettre aux créateurs de notre pays d’être valorisé.
-												</span>
-											</Stack>
-										</Stack>
-									</Box>
+									<OfferCreatorBanner/>
 								)}
 								<NoCommentsAvailableContent/>
 							</Stack>
@@ -915,32 +921,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 									<Divider orientation="horizontal" flexItem className={Styles.divider} />
 									{/* mobile creator banner goes here */}
 									{creator_label && (
-										<Box
-											sx={{
-												background: `url(${CreatorBgIlluSVG.src}) center center no-repeat scroll #0D070B`,
-												msFilter: `progid:DXImageTransform.Microsoft.AlphaImageLoader(src='${CreatorBgIlluSVG.src}', 
-										sizingMethod='scale')`,
-												backgroundSize: 'contain',
-											}}
-											className={Styles.creatorBannerWrapper}
-										>
-											<Stack direction="column" spacing={4}>
-												<Stack direction="column" spacing={2}>
-													<ImageFuture
-														className={Styles.creatorImage}
-														src={CreatorIlluSVG}
-														alt=""
-														width="105"
-														height="56"
-														sizes="100vw"
-													/>
-													<span className={Styles.creatorText}>
-														Parce que soutenir l’économie locale est une des valeurs chères à notre cœur, Qaryb a créé
-														un label pour permettre aux créateurs de notre pays d’être valorisé.
-													</span>
-												</Stack>
-											</Stack>
-										</Box>
+										<OfferCreatorBanner/>
 									)}
 									<NoCommentsAvailableContent/>
 								</Stack>

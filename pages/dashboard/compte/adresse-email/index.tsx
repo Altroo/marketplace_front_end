@@ -19,7 +19,7 @@ import {
 import { getApi } from '../../../../store/services/_init/_initAPI';
 import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../../utils/routes';
 import { useAppDispatch } from '../../../../utils/hooks';
-import MobileDashboardNav from '../../../../components/layouts/mobileDashboardNav/mobileDashboardNav';
+import MobileDashboardNav from '../../../../components/layouts/mobile/mobileDashboardNav/mobileDashboardNav';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import {
 	accountPostChangeEmailNotHasPasswordAction,
