@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Styles from './shopTabContent.module.sass';
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Grid, Stack, ThemeProvider } from '@mui/material';
+import { Box, Button, Grid, Stack, ThemeProvider } from '@mui/material';
 import {
 	GetOffersSagaCallBackOnCompleteDataType,
-	OfferCategoriesType,
-	OfferForWhomType,
 	OfferGetAvailableShopFiltersType,
 	OfferGetMyOffersProductServiceType,
-	OfferProductColors,
-	OfferProductSizes
 } from "../../../../../types/offer/offerTypes";
 import Link from 'next/link';
 import { default as ImageFuture } from 'next/future/image';
@@ -23,27 +19,16 @@ import {
 	offerGetAvailableFiltersByShopID,
 	offerGetOffersByShopIDWithQueryParamsAction,
 } from '../../../../../store/actions/offer/offerActions';
-import { FilterAccordionTheme, getDefaultTheme } from '../../../../../utils/themes';
+import { getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
 import { ParsedUrlQueryInput } from 'node:querystring';
 import { generateQueryParams, getBackendNextPageNumber } from '../../../../../utils/helpers';
-import ApiProgress from '../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import { Iterables } from 'langx-js';
-import { Url } from 'url';
-import IconTextInput from '../../../../htmlElements/inputs/iconTextInput/iconTextInput';
-import ChipButtons from '../../../../htmlElements/buttons/chipButtons/chipButtons';
-import CheckBox from '../../../../htmlElements/checkBoxes/checkBox';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AccordionDropDownSVG from '../../../../../public/assets/svgs/globalIcons/filter-drop-down.svg';
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter';
-import MobileOffersFilterButton from '../../../../mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton';
-import MobileFilterWhiteSVG from '../../../../../public/assets/svgs/globalIcons/mobile-filter-white.svg';
 import CustomSwipeModal from '../../../../desktop/modals/rightSwipeModal/customSwipeModal';
-import PrimaryButton from '../../../../htmlElements/buttons/primaryButton/primaryButton';
 import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
 import { REAL_OFFER_ROUTE } from '../../../../../utils/routes';
-// import MobileFilterBlackSVG from '../../../../../public/assets/svgs/globalIcons/mobile-filter-black.svg';
 
 type offerLinkedHashMapType = {
 	offersMap: Iterables.LinkedHashMap<number, OfferGetMyOffersProductServiceType> | null;
