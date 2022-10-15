@@ -541,3 +541,15 @@ export interface setOfferProductToEditPayloadType extends UserLocalProductType {
 export interface setOfferServiceToEditPayloadType extends UserLocalServiceType {
 	type: string;
 }
+
+export type OffersGetMiniOffersList = {
+	pk: number,
+	thumbnail: string, // Altroo backend can return None
+	title: string,
+	price: number,
+	solder_type: OfferSolderByType | null,
+	solder_value: number | null,
+	creator_label: boolean,
+	offer_type: OfferOfferTypeType,
+	pinned: boolean,
+}

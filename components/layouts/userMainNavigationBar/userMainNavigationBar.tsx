@@ -28,7 +28,13 @@ import {
 } from '../../../store/selectors';
 import SearchIconSVG from '../../../public/assets/svgs/globalIcons/search.svg';
 import Link from 'next/link';
-import { AUTH_LOGIN, REAL_SHOP_LINK_ROUTE, DASHBOARD, TEMP_SHOP_ADD_SHOP_NAME } from '../../../utils/routes';
+import {
+	AUTH_LOGIN,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE,
+	DASHBOARD,
+	TEMP_SHOP_ADD_SHOP_NAME,
+	SITE_ROOT
+} from "../../../utils/routes";
 import { deleteRemoteCookiesAppToken } from '../../../utils/helpers';
 import { useRouter } from 'next/router';
 import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
@@ -70,8 +76,8 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	};
 
 	const logOutHandler = () => {
-		signOut().then(() => {
-			deleteRemoteCookiesAppToken(router);
+		signOut({ redirect: true, callbackUrl: SITE_ROOT, }).then(() => {
+			deleteRemoteCookiesAppToken();
 		});
 	};
 
@@ -81,7 +87,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 		if (userHasShop && userShopUrl) {
 			return (
 				<MenuItem onClick={props.handleClose} className={Styles.menuItem}>
-					<Link href={REAL_SHOP_LINK_ROUTE(userShopUrl as string)} passHref>
+					<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} passHref>
 						<a className={Styles.anchorWrapper}>
 							<ImageFuture
 								src={BoutiqueSVG}
@@ -404,7 +410,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 												</a>
 											</Link>
 											{userHasShop && userShopUrl ? (
-												<Link href={REAL_SHOP_LINK_ROUTE(userShopUrl as string)} passHref>
+												<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} passHref>
 													<a className={Styles.anchorWrapper}>
 														<ImageFuture
 															src={BoutiqueSVG}

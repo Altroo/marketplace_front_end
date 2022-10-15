@@ -21,6 +21,7 @@ import { GetServerSidePropsContext } from 'next';
 import { getCookie } from 'cookies-next';
 import { NextRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
+import { SITE_ROOT } from "./routes";
 
 // export const loadAppToken = (): InitStateInterface<InitStateToken, InitStateUniqueID> => {
 // 	// load required data from storage
@@ -421,12 +422,10 @@ export const emptyRemoteCookiesUniqueIDOnly = () => {
 	cookiesPoster('/cookies', { initStateToken: emptyInitStateToken }).then();
 };
 
-export const deleteRemoteCookiesAppToken = (router: NextRouter) => {
+export const deleteRemoteCookiesAppToken = () => {
 	cookiesDeleter('/cookies', { tokenType: 0 }).then(() => {
 		cookiesDeleter('/cookies', { initStateToken: 0 }).then(() => {
-			cookiesDeleter('/cookies', { initStateToken: 0 }).then(() => {
-				router.reload();
-			});
+			cookiesDeleter('/cookies', { initStateUniqueID: 0 }).then();
 		});
 	});
 };

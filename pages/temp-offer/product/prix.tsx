@@ -9,7 +9,7 @@ import {
 	TEMP_OFFER_ADD_PRODUCT_DELIVERIES,
 	TEMP_OFFER_ADD_PRODUCT_DESCRIPTION,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_LINK_ROUTE
+	TEMP_SHOP_EDIT_ROUTE
 } from "../../../utils/routes";
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
@@ -89,8 +89,8 @@ const Prix: NextPage = () => {
 			<main className={SharedStyles.fullPageMain}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.boxWrapper}>
-					<DesktopTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_LINK_ROUTE} />
-					<MobileTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_LINK_ROUTE}/>
+					<DesktopTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_EDIT_ROUTE} />
+					<MobileTopNavigationBar backHref={TEMP_OFFER_ADD_PRODUCT_DESCRIPTION} returnButton closeButtonHref={TEMP_SHOP_EDIT_ROUTE}/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header
 						header="Fixer un prix"

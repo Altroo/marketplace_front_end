@@ -21,6 +21,7 @@ export default class MyDocument extends Document {
         </Head>
         <body>
           <Main />
+          <div id='snackbar_portal' />
           <NextScript />
         </body>
       </Html>

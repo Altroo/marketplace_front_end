@@ -1,14 +1,21 @@
 import {
 	GlobalApiPromiseError,
 	InitStateNonNullableToken,
+	InitStateNonNullableTokenFixNextAuth,
 	ResponseDataInterface,
-	SagaCallBackBase
-} from "../_init/_initTypes";
+	SagaCallBackBase,
+} from '../_init/_initTypes';
 import { UserClass } from '../../models/account/UserClass';
 import { FacebookClass, GoogleClass } from '../../models/account/SocialsClass';
 import { CitiesType, CountriesType } from '../places/placesTypes';
 import { NextRouter } from 'next/router';
-import { accountPutChangeEmailHasPasswordAction } from "../../store/actions/account/accountActions";
+import { accountGetProfilByUserIDAction } from '../../store/actions/account/accountActions';
+import {
+	OfferCategoriesType,
+	OfferOfferTypeType,
+	OffersGetMiniOffersList,
+	OfferSolderByType,
+} from '../offer/offerTypes';
 
 export type AccountGenderType = 'M' | 'F';
 export type AccountEncloseType = '' | 'A' | 'B';
@@ -73,6 +80,7 @@ export type AccountPostRegisterResponseType = ResponseDataInterface<InitStateNon
 export type AccountPostLoginType = Omit<AccountPostRegisterType, 'password2' | 'first_name' | 'last_name'>;
 
 export type AccountPostLoginResponseType = AccountPostRegisterResponseType;
+export type AccountPostLoginFixNextAuthResponseType = ResponseDataInterface<InitStateNonNullableTokenFixNextAuth>;
 
 export type AccountGetProfilResponseType = ResponseDataInterface<UserClass>;
 
@@ -178,7 +186,53 @@ export interface AccountPutChangeEmailHasPasswordType {
 }
 
 export interface AccountPutChangeEmailHasPasswordSagaCallback extends SagaCallBackBase {
-	data: AccountPutChangeEmailHasPasswordType,
+	data: AccountPutChangeEmailHasPasswordType;
 }
 
 export type AccountPutChangeEmailHasPasswordResponseType = ResponseDataInterface<AccountPutChangeEmailHasPasswordType>;
+
+export type AccountGetDashboardType = {
+	pk: number;
+	email: string;
+	avatar: string;
+	is_verified: boolean;
+	is_subscribed: boolean;
+	is_creator: boolean;
+	has_shop: boolean;
+	shop_avatar: string;
+	shop_name: string;
+	shop_url: string;
+	global_rating: number;
+	has_messages: boolean;
+	has_notifications: boolean;
+	has_orders: boolean;
+	indexed_articles_count: number;
+	slots_available_count: number;
+	total_offers_count: number;
+	total_offers_vue_count: number;
+	total_vue_month: number;
+	total_vue_pourcentage: string;
+	total_sells_count: number;
+	total_sells_pourcentage: string;
+	total_sells_month: number;
+};
+
+export type AccountGetDashboardResponseType = ResponseDataInterface<AccountGetDashboardType>;
+
+export type AccountGetProfilByUserIDType = {
+	pk: number;
+	avatar: string;
+	first_name: string;
+	last_name: string;
+	city: string | null;
+	country: string | null;
+	date_joined: string;
+	shop_pk: number | null;
+	shop_name: string | null;
+	shop_link: string | null;
+	available_categories: Array<OfferCategoriesType>;
+	available_services: boolean;
+	offers: Array<OffersGetMiniOffersList>;
+};
+
+export type AccountGetProfilByUserIDResponseType = ResponseDataInterface<AccountGetProfilByUserIDType>;

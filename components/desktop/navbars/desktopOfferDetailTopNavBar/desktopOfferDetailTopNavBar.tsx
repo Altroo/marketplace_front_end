@@ -41,7 +41,9 @@ const DesktopOfferDetailTopNavBar: React.FC<Props> = (props: Props) => {
 	const togglePinOfferHandler = () => {
 		if (props.offer_pk) {
 			dispatch(offerPostPinAction(props.offer_pk));
+			// const options = { shallow: true, scroll: false };
 			router.replace(router.asPath).then();
+			// router.replace(router.asPath, undefined, options).then();
 		}
 	}
 

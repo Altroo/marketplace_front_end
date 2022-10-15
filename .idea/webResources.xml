@@ -19,6 +19,9 @@
             <path value="file://$PROJECT_DIR$/public/assets/svgs/dashboardIcons" />
             <path value="file://$PROJECT_DIR$/public/assets/svgs/dashboardIcons/leftSideNavIcons" />
             <path value="file://$PROJECT_DIR$/public/assets/svgs/portals" />
+            <path value="file://$PROJECT_DIR$/public/assets/svgs/dashboardIcons/mainIcons" />
+            <path value="file://$PROJECT_DIR$/public/assets/images/cards_illu" />
+            <path value="file://$PROJECT_DIR$/public/assets/images/dashboard_illu" />
           </resourceRoots>
         </entryData>
       </entry>

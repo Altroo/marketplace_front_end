@@ -53,7 +53,7 @@ import { getApi } from '../../../store/services/_init/_initAPI';
 import DisponibilitiesRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/disponibilitiesRadioCheckContent/disponibilitiesRadioCheckContent';
 import HorairesRadioCheckContent from '../../../components/groupedComponents/temp-offer/radioCheckElement/horairesRadioCheckContent/horairesRadioCheckContent';
 import TextButton from '../../../components/htmlElements/buttons/textButton/textButton';
-import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
+import CustomSwipeModal from '../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import ServiceLocalisation from '../../../components/groupedComponents/temp-offer/services/serviceLocalisation/serviceLocalisation';
 import { setOfferServiceDescriptionPage } from '../../../store/actions/offer/offerActions';
 import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
@@ -621,11 +621,11 @@ const Description: NextPage = () => {
 											</div>
 										</Stack>
 										{localisationModalOpen && (
-											<RightSwipeModal open={localisationModalOpen} handleClose={() => setLocalisationModalOpen(false)}>
+											<CustomSwipeModal open={localisationModalOpen} handleClose={() => setLocalisationModalOpen(false)}>
 												<Box sx={{ marginTop: '24px', height: '100%' }}>
 													<ServiceLocalisation handleClose={() => setLocalisationModalOpen(false)} />
 												</Box>
-											</RightSwipeModal>
+											</CustomSwipeModal>
 										)}
 									</Form>
 								)}

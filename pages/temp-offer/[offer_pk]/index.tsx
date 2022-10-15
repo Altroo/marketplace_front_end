@@ -42,7 +42,7 @@ import {
 	TEMP_OFFER_ADD_PRODUCT_CATEGORIES,
 	TEMP_OFFER_ADD_SERVICE_CATEGORIES,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_LINK_ROUTE,
+	TEMP_SHOP_EDIT_ROUTE,
 } from '../../../utils/routes';
 import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
@@ -75,7 +75,7 @@ import {
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
 import ActionModals from '../../../components/htmlElements/modals/actionModal/actionModals';
 import ApiLoadingResponseOrError from '../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
-import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
+import CustomSwipeModal from '../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import TopBarSaveClose from '../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -300,7 +300,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 			...action,
 			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
 				if (!error && !cancelled && data) {
-					router.replace(TEMP_SHOP_LINK_ROUTE).then();
+					router.replace(TEMP_SHOP_EDIT_ROUTE).then();
 				}
 			},
 		});
@@ -705,7 +705,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											<Image src={BlackStarSVG} width={20} height={20} alt="" />
 											<span className={Styles.rating}>0 (0 notes)</span>
 										</Stack>
-										<Link href={TEMP_SHOP_LINK_ROUTE} passHref prefetch={false} target="_blank" rel="noreferrer">
+										<Link href={TEMP_SHOP_EDIT_ROUTE} passHref prefetch={false} target="_blank" rel="noreferrer">
 											<a target="_blank" rel="noreferrer">
 												<span className={Styles.shopName}>{shop_name}</span>
 											</a>
@@ -873,7 +873,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 					error={offerApi.error}
 				/>
 				{/* Solder modal */}
-				<RightSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
+				<CustomSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
 					<Stack
 						direction="column"
 						justifyContent="space-between"
@@ -1077,7 +1077,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 							)}
 						</Stack>
 					</Stack>
-				</RightSwipeModal>
+				</CustomSwipeModal>
 			</main>
 		</ThemeProvider>
 	);
@@ -1185,7 +1185,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			...action,
 			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
 				if (!error && !cancelled && data) {
-					router.replace(TEMP_SHOP_LINK_ROUTE).then();
+					router.replace(TEMP_SHOP_EDIT_ROUTE).then();
 				}
 			},
 		});
@@ -1578,7 +1578,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 											<Image src={BlackStarSVG} width={20} height={20} alt="" />
 											<span className={Styles.rating}>0 (0 notes)</span>
 										</Stack>
-										<Link href={TEMP_SHOP_LINK_ROUTE} passHref prefetch={false} target="_blank" rel="noreferrer">
+										<Link href={TEMP_SHOP_EDIT_ROUTE} passHref prefetch={false} target="_blank" rel="noreferrer">
 											<a target="_blank" rel="noreferrer">
 												<span className={Styles.shopName}>{shop_name}</span>
 											</a>
@@ -1669,7 +1669,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 					error={offerApi.error}
 				/>
 				{/* Solder modal */}
-				<RightSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
+				<CustomSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
 					<Stack
 						direction="column"
 						justifyContent="space-between"
@@ -1873,7 +1873,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 							)}
 						</Stack>
 					</Stack>
-				</RightSwipeModal>
+				</CustomSwipeModal>
 			</main>
 		</ThemeProvider>
 	);
@@ -1968,7 +1968,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		return {
 			redirect: {
 				permanent: false,
-				destination: TEMP_SHOP_LINK_ROUTE,
+				destination: TEMP_SHOP_EDIT_ROUTE,
 			},
 			props: {},
 		};

@@ -13,7 +13,7 @@ import { useAppSelector } from '../../../../../utils/hooks';
 import { getLocalOfferProductCategories } from '../../../../../store/selectors';
 import PrimaryAnchorButton from '../../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import {
-	REAL_SHOP_LINK_ROUTE,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
 	TEMP_SHOP_ADD_SHOP_NAME,
@@ -45,12 +45,12 @@ const Index: NextPage = () => {
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
 						returnButton
-						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileTopNavigationBar
 						backHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
 						returnButton
-						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header

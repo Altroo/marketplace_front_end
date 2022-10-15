@@ -6,7 +6,7 @@ import LeftSideBar from '../../../../../components/groupedComponents/shared/left
 import Styles from '../../../../../styles/temp-offer/create/price.module.sass';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
-	REAL_SHOP_LINK_ROUTE,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_PRODUCT_DELIVERIES,
 	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
 	TEMP_SHOP_ADD_SHOP_NAME
@@ -94,12 +94,12 @@ const Prix: NextPage = () => {
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
 						returnButton
-						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileTopNavigationBar
 						backHref={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
 						returnButton
-						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header

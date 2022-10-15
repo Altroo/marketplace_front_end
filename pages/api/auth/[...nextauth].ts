@@ -6,16 +6,11 @@ import { allowAnyInstance, emptyRemoteCookiesUniqueIDOnly } from '../../../utils
 import {
 	AccountPostFacebookResponseType,
 	AccountPostGoogleResponseType,
-	AccountPostLoginResponseType,
-} from '../../../types/account/accountTypes';
+	AccountPostLoginFixNextAuthResponseType,
+} from "../../../types/account/accountTypes";
 import { postApi } from '../../../store/services/_init/_initAPI';
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-	InitStateInterface,
-	InitStateToken,
-	InitStateUniqueID,
-	tokenUser
-} from "../../../types/_init/_initTypes";
+import { InitStateInterface, InitStateToken, InitStateUniqueID, tokenUser } from '../../../types/_init/_initTypes';
 import { emptyInitStateUniqueID } from '../../../store/slices/_init/_initSlice';
 import { setAuthTokenCookie } from '../../../utils/cookies';
 import axios from 'axios';
@@ -95,7 +90,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					const url = `${process.env.NEXT_PUBLIC_ACCOUNT_LOGIN}`;
 					try {
 						const instance = allowAnyInstance();
-						const response: AccountPostLoginResponseType = await postApi(url, instance, {
+						const response: AccountPostLoginFixNextAuthResponseType = await postApi(url, instance, {
 							email: email,
 							password: password,
 						});
@@ -187,54 +182,57 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					}
 				 */
 			async signIn({ user, account, profile, email, credentials }) {
-				if (account.provider === 'google') {
-					// extract needed tokens
-					const { access_token, id_token } = account;
-					// send a POST request
-					const url = `${process.env.NEXT_PUBLIC_ACCOUNT_GOOGLE}`;
-					try {
-						const instance = allowAnyInstance();
-						const response: AccountPostGoogleResponseType = await postApi(url, instance, {
-							access_token: access_token,
-							id_token: id_token,
-						});
-						account.user = response.data.user;
-						account.access_token = response.data.access_token as string;
-						account.refresh_token = response.data.refresh_token as string;
-						account.access_token_expiration = response.data.access_token_expiration as string;
-						account.refresh_token_expiration = response.data.refresh_token_expiration as string;
+				if (account) {
+					if (account && account.provider === 'google') {
+						// extract needed tokens
+						const { access_token, id_token } = account;
+						// send a POST request
+						const url = `${process.env.NEXT_PUBLIC_ACCOUNT_GOOGLE}`;
+						try {
+							const instance = allowAnyInstance();
+							const response: AccountPostGoogleResponseType = await postApi(url, instance, {
+								access_token: access_token,
+								id_token: id_token,
+							});
+							account.user = response.data.user;
+							account.access_token = response.data.access_token as string;
+							account.refresh_token = response.data.refresh_token as string;
+							account.access_token_expiration = response.data.access_token_expiration as string;
+							account.refresh_token_expiration = response.data.refresh_token_expiration as string;
+							return true;
+						} catch (e) {
+							return false;
+						}
+					} else if (account.provider === 'facebook') {
+						// extract needed tokens
+						const { access_token, id_token } = account;
+						// send a POST request
+						const url = `${process.env.NEXT_PUBLIC_ACCOUNT_FACEBOOK}`;
+						try {
+							const instance = allowAnyInstance();
+							const response: AccountPostFacebookResponseType = await postApi(url, instance, {
+								access_token: access_token,
+								id_token: id_token,
+							});
+							account.user = response.data.user;
+							account.access_token = response.data.access_token;
+							account.refresh_token = response.data.refresh_token;
+							account.access_token_expiration = response.data.access_token_expiration;
+							account.refresh_token_expiration = response.data.refresh_token_expiration;
+							return true;
+						} catch (e) {
+							return false;
+						}
+					} else if (account.provider === 'credentials') {
+						// login handled in authorize
+						account.user = user.user;
+						account.access_token = user.access_token;
+						account.refresh_token = user.refresh_token;
+						account.access_token_expiration = user.access_token_expiration;
+						account.refresh_token_expiration = user.refresh_token_expiration;
 						return true;
-					} catch (e) {
-						return false;
 					}
-				} else if (account.provider === 'facebook') {
-					// extract needed tokens
-					const { access_token, id_token } = account;
-					// send a POST request
-					const url = `${process.env.NEXT_PUBLIC_ACCOUNT_FACEBOOK}`;
-					try {
-						const instance = allowAnyInstance();
-						const response: AccountPostFacebookResponseType = await postApi(url, instance, {
-							access_token: access_token,
-							id_token: id_token,
-						});
-						account.user = response.data.user;
-						account.access_token = response.data.access_token;
-						account.refresh_token = response.data.refresh_token;
-						account.access_token_expiration = response.data.access_token_expiration;
-						account.refresh_token_expiration = response.data.refresh_token_expiration;
-						return true;
-					} catch (e) {
-						return false;
-					}
-				} else if (account.provider === 'credentials') {
-					// login handled in authorize
-					account.user = user.user;
-					account.access_token = user.access_token;
-					account.refresh_token = user.refresh_token;
-					account.access_token_expiration = user.access_token_expiration;
-					account.refresh_token_expiration = user.refresh_token_expiration;
-					return true;
+					return false;
 				}
 				return false;
 			},

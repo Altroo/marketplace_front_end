@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './ajouterMesInfosStack.module.sass';
 import { Box, Button, Stack } from '@mui/material';
-import RightSwipeModal from '../../../../desktop/modals/rightSwipeModal/rightSwipeModal';
+import CustomSwipeModal from '../../../../desktop/modals/rightSwipeModal/customSwipeModal';
 import EditNomBoutique from '../renseignerMesInfos-Modals/editNomBoutique/editNomBoutique';
 import EditBio from '../renseignerMesInfos-Modals/editBio/editBio';
 import EditHoraire from '../renseignerMesInfos-Modals/editHoraire/editHoraire';
@@ -51,11 +51,11 @@ const AjouterMesInfosStack: React.FC<addMyInfosStackType> = (props: addMyInfosSt
 	return (
 		<>
 			{/* EDIT CONTENT MODAL */}
-			<RightSwipeModal open={props.openEditModal} handleClose={() => props.setOpenEditModal(false)}>
+			<CustomSwipeModal open={props.openEditModal} handleClose={() => props.setOpenEditModal(false)}>
 				<div className={props.title !== 'Adresse' ? Styles.modalContentWrapper : Styles.addressModalWrapper}>
 					{modalContent}
 				</div>
-			</RightSwipeModal>
+			</CustomSwipeModal>
 			{/* END EDIT CONTENT MODAL */}
 			<Stack direction="column" spacing={1}>
 				<Stack direction="row" justifyContent="space-between" alignItems="center">

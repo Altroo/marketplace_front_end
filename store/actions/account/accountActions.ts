@@ -61,27 +61,10 @@ export const accountPostUnlinkSocialAction = (pk: number) => {
 	};
 };
 
-export const accountPostLogoutAction = (router: NextRouter) => {
-	return {
-		type: types.ACCOUNT_POST_LOGOUT,
-		router,
-	};
-};
-
-// export const accountPostRegisterAction = (
-// 	email: string,
-// 	password: string,
-// 	password2: string,
-// 	first_name: string,
-// 	last_name: string,
-// ) => {
+// export const accountPostLogoutAction = (router: NextRouter) => {
 // 	return {
-// 		type: types.ACCOUNT_POST_REGISTER,
-// 		email,
-// 		password,
-// 		password2,
-// 		first_name,
-// 		last_name,
+// 		type: types.ACCOUNT_POST_LOGOUT,
+// 		router,
 // 	};
 // };
 
@@ -188,9 +171,9 @@ export const accountGetProfilAction = () => {
 	};
 };
 
-export const accountGetSelectedProfilAction = (user_pk: number) => {
+export const accountGetProfilByUserIDAction = (user_pk: number) => {
 	return {
-		type: types.ACCOUNT_GET_SELECTED_PROFIL,
+		type: types.ACCOUNT_GET_PROFIL_BY_USER_ID,
 		user_pk
 	};
 };
@@ -338,3 +321,9 @@ export const accountGetCheckAccountAction = () => {
 		type: types.ACCOUNT_GET_CHECK_ACCOUNT,
 	};
 };
+
+// export const accountGetDashboardAction = () => {
+// 	return {
+// 		type: types.ACCOUNT_GET_DASHBOARD
+// 	};
+// }

@@ -32,7 +32,7 @@ import {
 	OfferPinSagaCallBackType,
 } from '../../../../../types/_init/_initTypes';
 import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter';
-import RightSwipeModal from '../../../../desktop/modals/rightSwipeModal/rightSwipeModal';
+import CustomSwipeModal from '../../../../desktop/modals/rightSwipeModal/customSwipeModal';
 import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
 import CenteredInfoAction from '../../../temp-shop/create/centeredInfoAction/centeredInfoAction';
 import BorderIconAnchorButton from '../../../../htmlElements/buttons/borderIconAnchorButton/borderIconAnchorButton';
@@ -533,7 +533,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 				)}
 				{/* Mobile filter MODAL */}
 				{availableFiltersHasData && (
-					<RightSwipeModal
+					<CustomSwipeModal
 						open={props.openFilterModal}
 						handleClose={() => props.setOpenFilterModal(false)}
 						keepMounted={true}
@@ -571,7 +571,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 								closeModal={closeMobileFilterModal}
 							/>
 						</Stack>
-					</RightSwipeModal>
+					</CustomSwipeModal>
 				)}
 				{/* END EDIT CONTENT MODAL */}
 			</Box>

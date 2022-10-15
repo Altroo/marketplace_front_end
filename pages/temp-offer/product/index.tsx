@@ -16,7 +16,7 @@ import {
 	TEMP_OFFER_ADD_INDEX,
 	TEMP_OFFER_ADD_PRODUCT_DESCRIPTION,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_LINK_ROUTE
+	TEMP_SHOP_EDIT_ROUTE
 } from "../../../utils/routes";
 import { getCookie } from "cookies-next";
 
@@ -38,8 +38,8 @@ const Index: NextPage = () => {
 			<main className={SharedStyles.fullPageNoOverflowMain}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box sx={{ width: '100%', height: '100%' }}>
-					<DesktopTopNavigationBar backHref={TEMP_OFFER_ADD_INDEX} returnButton closeButtonHref={TEMP_SHOP_LINK_ROUTE} />
-					<MobileTopNavigationBar backHref={TEMP_OFFER_ADD_INDEX} returnButton closeButtonHref={TEMP_SHOP_LINK_ROUTE} />
+					<DesktopTopNavigationBar backHref={TEMP_OFFER_ADD_INDEX} returnButton closeButtonHref={TEMP_SHOP_EDIT_ROUTE} />
+					<MobileTopNavigationBar backHref={TEMP_OFFER_ADD_INDEX} returnButton closeButtonHref={TEMP_SHOP_EDIT_ROUTE} />
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header
 						header="Choisissez une ou plusieurs catégories"

@@ -233,6 +233,7 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/temp-shop/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/temp-shop/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/user" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/user" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/navbars/mobileUserMainNavigationBar" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/get" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/get/shopInfoTabContent" isTestSource="false" />
@@ -264,7 +265,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/chipButtons" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/editShopInfoTabContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/editShopTabContent" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/shopNotIndexed" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/IconDropDownMenu" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/offer/product" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/creatorRadioCheckContent" isTestSource="false" />
@@ -292,7 +292,6 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/gestion-des-donnees/cloturer-mon-compte" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/gestion-des-donnees/supprimer-ma-boutique" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/mot-de-passe" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/profil" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/messages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/orders" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/public/assets/svgs/dashboardIcons/leftSideNavIcons" isTestSource="false" />
@@ -301,9 +300,18 @@
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobileDashboardNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobileDesktopLeftSideNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/successAlert" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/mobile/navbars/mobileDashboardMessagesNotifications" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/portals" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/portals/customToast" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/public/assets/svgs/dashboardIcons/mainIcons" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/callToActionCards" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/callToActionCards/activateYourAccount" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/callToActionCards/shopNotIndexed" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/dashboardCallToActionCards [on hold]" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/edit-profil" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/callToActionCards/createYourShop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />
       <excludeFolder url="file://$MODULE_DIR$/_archives/shop" />

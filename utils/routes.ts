@@ -1,5 +1,5 @@
 // Site root
-export const SITE_ROOT = '/pages';
+export const SITE_ROOT = '/';
 // 404 page
 export const NOT_FOUND_404 = '/404';
 
@@ -18,7 +18,7 @@ export const TEMP_SHOP_ADD_FONT = '/temp-shop/create/font';
 
 // Auth Shop Routes
 // export const AUTH_SHOP_ROUTE = '/shop';
-export const REAL_SHOP_LINK_ROUTE = (shop_link: string) => `/shop/${shop_link}`;
+export const REAL_SHOP_BY_SHOP_LINK_ROUTE = (shop_link: string) => `/shop/${shop_link}`;
 // Real Offers Routes
 // offer details by offer_pk
 export const REAL_OFFER_ROUTE = (shop_link: string, offer_pk: string) => `/shop/${shop_link}/offer/${offer_pk}`;
@@ -34,7 +34,7 @@ export const REAL_OFFER_ADD_PRODUCT_DESCRIPTION = (shop_link: string) => `/shop/
 export const REAL_OFFER_ADD_PRODUCT_PRICE = (shop_link: string) => `/shop/${shop_link}/offer/product/prix`;
 export const REAL_OFFER_ADD_PRODUCT_DELIVERIES = (shop_link: string) => `/shop/${shop_link}/offer/product/livraison`;
 
-export const TEMP_SHOP_LINK_ROUTE = '/temp-shop/edit';
+export const TEMP_SHOP_EDIT_ROUTE = '/temp-shop/edit';
 // Temp Offers Routes
 export const TEMP_OFFER_ROUTE = (offer_pk: string) => `/temp-offer/${offer_pk}/`;
 // export const TEMP_OFFER_ROUTE = '/temp-offer';
@@ -66,7 +66,7 @@ export const AUTH_RESET_PASSWORD_COMPLETE = '/auth/reset-password/set-password-c
 export const DASHBOARD = '/dashboard';
 // my business (sellers only)
 export const DASHBOARD_ACCOUNT = '/dashboard/compte'; // placeholder with redirect
-export const DASHBOARD_PROFILE = '/dashboard/compte/profil'; // phase 1
+export const DASHBOARD_EDIT_PROFILE = '/dashboard/compte/edit-profil'; // phase 1
 export const DASHBOARD_DELIVERIES = '/dashboard/compte/adresses-de-livraison';
 export const DASHBOARD_RATINGS = '/dashboard/compte/evaluation';
 export const DASHBOARD_ADRESSE_EMAIL = '/dashboard/compte/adresse-email'; // phase 1
@@ -76,8 +76,9 @@ export const DASHBOARD_MANAGE_ACCOUNT = '/dashboard/compte/gestion-des-donnes'; 
 export const DASHBOARD_MANAGE_ACCOUNT_CLOTURER = '/dashboard/compte/gestion-des-donnes/cloturer-mon-compte';
 export const DASHBOARD_MANAGE_ACCOUNT_DELETE = '/dashboard/compte/gestion-des-donnes/supprimer-ma-boutique';
 export const DASHBOARD_BLOCKED_ACCOUNTS = '/dashboard/compte/comptes-bloques';
-
-
 export const DASHBOARD_MY_BUSINESS = '/dashboard/business';
 export const DASHBOARD_MESSAGES = '/dashboard/messages';
 export const DASHBOARD_ORDERS = '/dashboard/orders';
+
+// user index - (view profil - has shop data - user data or both)
+export const USER_VIEW_PROFILE_BY_ID = (user_id: number) => `/user/${user_id}/`;

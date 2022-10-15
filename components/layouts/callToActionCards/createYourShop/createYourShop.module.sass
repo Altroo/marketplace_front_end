@@ -1,0 +1,38 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.rootStackWrapper
+  background-color: #F3D8E1
+  padding: 30px 60px
+  border-radius: 20px
+.columnStackWrapper
+  span
+    +SemiBold
+    font-size: 21px
+    color: $primary
+  p
+    +Regular
+    font-size: 15px
+    color: $primary
+    margin: 0 0 10px 0
+.actionButton
+  +Medium
+  font-size: 15px !important
+  color: $primary !important
+  background-color: #F3D8E1 !important
+  min-width: 120px !important
+  width: 120px !important
+  height: 32px !important
+
+@media #{$tablette}
+  .rootStackWrapper
+    //position: relative
+    padding: 23px
+  .avatar
+    //position: absolute
+    //right: 10px
+    width: 84px
+    height: 78px
+    align-self: center

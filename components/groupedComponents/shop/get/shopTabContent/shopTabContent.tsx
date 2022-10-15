@@ -39,7 +39,7 @@ import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter';
 import MobileOffersFilterButton from '../../../../mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton';
 import MobileFilterWhiteSVG from '../../../../../public/assets/svgs/globalIcons/mobile-filter-white.svg';
-import RightSwipeModal from '../../../../desktop/modals/rightSwipeModal/rightSwipeModal';
+import CustomSwipeModal from '../../../../desktop/modals/rightSwipeModal/customSwipeModal';
 import PrimaryButton from '../../../../htmlElements/buttons/primaryButton/primaryButton';
 import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
 import { REAL_OFFER_ROUTE } from '../../../../../utils/routes';
@@ -430,7 +430,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 				)}
 				{/* Mobile filter MODAL */}
 				{availableFiltersHasData && (
-					<RightSwipeModal
+					<CustomSwipeModal
 						open={props.openFilterModal}
 						handleClose={() => props.setOpenFilterModal(false)}
 						keepMounted={true}
@@ -468,7 +468,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 								closeModal={closeMobileFilterModal}
 							/>
 						</Stack>
-					</RightSwipeModal>
+					</CustomSwipeModal>
 				)}
 				{/* END EDIT CONTENT MODAL */}
 			</Box>

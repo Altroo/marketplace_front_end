@@ -30,7 +30,7 @@ import {
 import InfoTabContent from '../../../components/groupedComponents/temp-shop/edit/info-Tab_Content/InfoTabContent';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
+import CustomSwipeModal from '../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import ContacterPhoneInput from '../../../components/groupedComponents/temp-shop/edit/contacterPhoneInput/contacterPhoneInput';
 import {
 	shopPatchAvatarAction,
@@ -80,7 +80,7 @@ import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { AUTH_REGISTER, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_LINK_ROUTE } from "../../../utils/routes";
+import { AUTH_REGISTER, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_ROUTE } from "../../../utils/routes";
 import { offerGetMyOffersFirstPageAction } from '../../../store/actions/offer/offerActions';
 import ApiLoadingResponseOrError from '../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
 import CustomFooter from "../../../components/layouts/footer/customFooter";
@@ -563,7 +563,7 @@ const Index: NextPage<Props> = (props: Props) => {
 					buttonText="Compris !"
 					dismissHandler={() => {
 						setModalDismissed(true);
-						router.replace(TEMP_SHOP_LINK_ROUTE, undefined, { shallow: true }).then();
+						router.replace(TEMP_SHOP_EDIT_ROUTE, undefined, { shallow: true }).then();
 					}}
 				/>
 			)}
@@ -661,7 +661,7 @@ const Index: NextPage<Props> = (props: Props) => {
 								)}
 
 								{/* START right side contact modal */}
-								<RightSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
+								<CustomSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
 									<div className={Styles.modalContentWrapper}>
 										<div className={Styles.topBar}>
 											<Image
@@ -701,7 +701,7 @@ const Index: NextPage<Props> = (props: Props) => {
 											cssClass={Styles.actionButtonWidth}
 										/>
 									</div>
-								</RightSwipeModal>
+								</CustomSwipeModal>
 								{/* END right side contact modal */}
 							</div>
 						</div>
@@ -761,7 +761,7 @@ const Index: NextPage<Props> = (props: Props) => {
 						</div>
 					</div>
 					{/* Edit info modal */}
-					<RightSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}>
+					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
 								<Image
@@ -788,7 +788,7 @@ const Index: NextPage<Props> = (props: Props) => {
 								})}
 							</Stack>
 						</div>
-					</RightSwipeModal>
+					</CustomSwipeModal>
 					{/* Edit color modal */}
 					{openColorModal && (
 						<>

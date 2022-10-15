@@ -18,11 +18,12 @@ import {
 	DASHBOARD_LINKED_ACCOUNTS,
 	DASHBOARD_MANAGE_ACCOUNT,
 	DASHBOARD_PASSWORD,
-	DASHBOARD_PROFILE,
+	DASHBOARD_EDIT_PROFILE,
 	DASHBOARD_RATINGS,
 } from '../../../utils/routes';
 import AccordionDropDownSVG from '../../../public/assets/svgs/globalIcons/filter-drop-down.svg';
 import { FilterAccordionTheme } from '../../../utils/themes';
+import MiniBackSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 
 type SideNavElement = {
 	icon: string;
@@ -45,31 +46,30 @@ const SideNavElement: React.FC<SideNavElement> = (props: SideNavElement) => {
 		// 		setContent(false);
 		// 	}
 		// };
-		router.beforePopState(({ as }) => {
-			console.log(as);
-			console.log(router.asPath);
-      if (current) {
-        // Will run when leaving the current page; on back/forward actions
-        // Add your logic here, like toggling the modal state
-				setContent(false);
-				return false;
-      }
-      return true;
-    });
-    return () => {
-        router.beforePopState(() => true);
-    };
+		// router.beforePopState(({ as }) => {
+		// 	console.log(as);
+		// 	console.log(router.asPath);
+		// 	if (current) {
+		// 		// Will run when leaving the current page; on back/forward actions
+		// 		// Add your logic here, like toggling the modal state
+		// 		setContent(false);
+		// 		return false;
+		// 	}
+		// 	return true;
+		// });
+		// return () => {
+		// 	router.beforePopState(() => true);
+		// };
 	}, [current, router, setContent]);
 
 	return (
 		<Stack direction="row" sx={{ width: '100%' }} className={`${props.disabled && Styles.disabledElement}`}>
-			<Button
-				className={`${props.disabled && Styles.disabledCursor} ${Styles.elementButton}`}
+			<Button className={`${props.disabled && Styles.disabledCursor} ${Styles.elementButton}`}
 				onClick={() => {
 					if (current) {
-						setContent(true);
+						setContent(prevState => !prevState);
 					} else {
-						router.push(props.link).then();
+						router.replace(props.link, undefined, { shallow: true, scroll: false }).then();
 					}
 				}}
 			>
@@ -93,6 +93,7 @@ const AccordionElement: React.FC<Omit<SideNavElement, 'link'>> = (props: Omit<Si
 
 type Props = {
 	setContent: React.Dispatch<React.SetStateAction<boolean>>;
+	backText: string;
 	children?: React.ReactNode;
 };
 
@@ -101,10 +102,10 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 	const profilNavElements: Array<SideNavElement> = [
 		{
 			text: 'Mon profil',
-			link: DASHBOARD_PROFILE,
+			link: DASHBOARD_EDIT_PROFILE,
 			icon: MonProfilSVG,
 			disabled: false,
-			current: router.pathname.endsWith(DASHBOARD_PROFILE),
+			current: router.pathname.endsWith(DASHBOARD_EDIT_PROFILE),
 			setContent: props.setContent,
 		},
 		{
@@ -152,7 +153,31 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 	];
 
 	return (
-		<Stack direction="column" className={Styles.sideBar}>
+		<Stack direction="column" className={Styles.sideBar} spacing={4}>
+			{props.backText && (
+				<Stack direction="column">
+					<Stack direction="row" justifyContent="space-between">
+						<Stack
+							className={Styles.topBackNavigationStack}
+							direction="row"
+							spacing={1}
+							onClick={() => router.back()}
+							alignItems="center"
+						>
+							<ImageFuture
+								src={MiniBackSVG}
+								alt=""
+								width="0"
+								height="0"
+								sizes="100vw"
+								className={Styles.backIcon}
+							/>
+							<span className={Styles.backText}>Retour</span>
+						</Stack>
+					</Stack>
+					<span className={Styles.backHeader}>{props.backText}</span>
+				</Stack>
+			)}
 			<Stack direction="column" spacing={4}>
 				<Stack direction="column" spacing={2}>
 					<span className={Styles.header}>Profil</span>

@@ -15,7 +15,7 @@ import BlueAddSVG from '../../../../../public/assets/svgs/globalIcons/blue-add.s
 import DeliverySVG from '../../../../../public/assets/svgs/globalIcons/delivery-icon.svg';
 import Image from 'next/image';
 import { getDefaultTheme } from '../../../../../utils/themes';
-import RightSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
+import CustomSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 import {
@@ -69,7 +69,7 @@ import {
 import DeliveryOptionElements from '../../../../../components/groupedComponents/temp-offer/deliveryOptionElements/deliveryOptionElements';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import {
-	REAL_SHOP_LINK_ROUTE,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_PRODUCT_PRICE, REAL_OFFER_ROUTE,
 	TEMP_SHOP_ADD_SHOP_NAME
 } from "../../../../../utils/routes";
@@ -383,7 +383,7 @@ const Livraison: NextPage = () => {
 					data: OfferPostRootProductResponseType | OfferPostRootServiceResponseType;
 				}) => {
 					if (!error && !cancelled && data.data) {
-						router.replace(REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+						router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
 					}
 				},
 			});
@@ -474,12 +474,12 @@ const Livraison: NextPage = () => {
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_PRODUCT_PRICE(router.query.shop_link as string)}
 						returnButton
-						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileTopNavigationBar
 						backHref={REAL_OFFER_ADD_PRODUCT_PRICE(router.query.shop_link as string)}
 						returnButton
-						closeButtonHref={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+						closeButtonHref={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header
@@ -515,7 +515,7 @@ const Livraison: NextPage = () => {
 										</p>
 									</Stack>
 								</Button>
-								<RightSwipeModal open={openClick} handleClose={() => setOpenClick(false)}>
+								<CustomSwipeModal open={openClick} handleClose={() => setOpenClick(false)}>
 									<Stack direction="column" spacing={4} sx={{ height: '100%' }}>
 										<Formik
 											enableReinitialize={true}
@@ -586,7 +586,7 @@ const Livraison: NextPage = () => {
 											)}
 										</Formik>
 									</Stack>
-								</RightSwipeModal>
+								</CustomSwipeModal>
 							</RadioCheckElement>
 							<RadioCheckElement title="Livraison" defaultValue={deliveriesSwitchOpen} emptyStates={emptyDeliveries}>
 								<Button color="primary" onClick={() => setOpenDelivery(true)} className={Styles.buttonCard}>
@@ -650,7 +650,7 @@ const Livraison: NextPage = () => {
 										</div>
 									</Stack>
 								</Button>
-								<RightSwipeModal open={openDelivery} handleClose={() => setOpenDelivery(false)}>
+								<CustomSwipeModal open={openDelivery} handleClose={() => setOpenDelivery(false)}>
 									<Stack direction="column" spacing={2} justifyContent="flex-start">
 										<Stack direction="column" sx={{ height: '100%' }}>
 											<TopBarSaveClose
@@ -724,7 +724,7 @@ const Livraison: NextPage = () => {
 											</Button>
 										) : null}
 									</Stack>
-								</RightSwipeModal>
+								</CustomSwipeModal>
 							</RadioCheckElement>
 						</Stack>
 					</Stack>

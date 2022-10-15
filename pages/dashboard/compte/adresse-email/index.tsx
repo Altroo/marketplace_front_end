@@ -8,7 +8,6 @@ import { coordonneeTextInputTheme } from '../../../../utils/themes';
 import { default as ImageFuture } from 'next/future/image';
 import CustomTextInput from '../../../../components/formikElements/customTextInput/customTextInput';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import SuccessAlert from '../../../../components/layouts/successAlert/successAlert';
 import { useFormik } from 'formik';
 import { changeEmailSchema, changeEmailWithPasswordSchema } from "../../../../utils/formValidationSchemas";
 import CustomPasswordInput from '../../../../components/formikElements/customPasswordInput/customPasswordInput';
@@ -28,6 +27,8 @@ import {
 } from "../../../../store/actions/account/accountActions";
 import CustomToast from "../../../../components/portals/customToast/customToast";
 import { useRouter } from "next/router";
+import CustomFooter from "../../../../components/layouts/footer/customFooter";
+import Portal from "../../../../contexts/Portal";
 
 type formikContentType = {
 	email: string;
@@ -70,7 +71,7 @@ const FormikContentWithOldPassword: React.FC<formikContentType> = (props: formik
 	const inputTheme = coordonneeTextInputTheme();
 
 	return (
-		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.rootStackVH}`}>
+		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.flexRootStack}`} mt="32px">
 			<h2 className={Styles.pageTitle}>Modifier l&apos;email</h2>
 			<span className={Styles.paragrapheContent}>
 				Votre email actuelle est <span>{newEmail}</span>.<br />
@@ -109,7 +110,7 @@ const FormikContentWithOldPassword: React.FC<formikContentType> = (props: formik
 						buttonText="Modifier"
 						active={formik.isValid && !formik.isSubmitting}
 						onClick={formik.handleSubmit}
-						cssClass={`${Styles.maxWidth} ${Styles.mobileButton}`}
+						cssClass={`${Styles.maxWidth} ${Styles.mobileButton} ${Styles.submitButton}`}
 						type="submit"
 					/>
 				</Stack>
@@ -158,7 +159,7 @@ const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formik
 	const inputTheme = coordonneeTextInputTheme();
 
 	return (
-		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.rootStackVH}`}>
+		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.flexRootStack}`} mt="32px">
 			<h2 className={Styles.pageTitle}>Modifier l&apos;email</h2>
 			<span className={Styles.paragrapheContent}>
 				Votre email actuelle est <span>{newEmail}</span>.<br />
@@ -211,7 +212,7 @@ const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formik
 						buttonText="Modifier l'email"
 						active={formik.isValid && !formik.isSubmitting}
 						onClick={formik.handleSubmit}
-						cssClass={`${Styles.maxWidth} ${Styles.mobileButton}`}
+						cssClass={`${Styles.maxWidth} ${Styles.mobileButton} ${Styles.submitButton}`}
 						type="submit"
 					/>
 				</Stack>
@@ -236,7 +237,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		<Stack direction="column" sx={{position: 'relative'}}>
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
-				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.rootStack}`}>
+				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
 					<DesktopDashboardLeftSideNav backText="Mon compte" />
 					<Box sx={{ width: '100%' }}>
 						{has_password ? (
@@ -248,7 +249,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 				</Stack>
 				<Stack className={`${Styles.mobileOnly}`}>
 					{!mobileElementClicked ? (
-						<MobileDashboardNav setContent={setMobileElementClicked} />
+						<MobileDashboardNav setContent={setMobileElementClicked} backText="Mon compte"/>
 					) : (
 						<Box sx={{ width: '100%', height: '100%' }}>
 							<Stack direction="column">
@@ -280,8 +281,11 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 						</Box>
 					)}
 				</Stack>
+				<Portal id="snackbar_portal">
+					<CustomToast type="success" message="Profil mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
+				</Portal>
 			</main>
-			<CustomToast type="success" message="Email mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
+			<CustomFooter />
 		</Stack>
 	);
 };

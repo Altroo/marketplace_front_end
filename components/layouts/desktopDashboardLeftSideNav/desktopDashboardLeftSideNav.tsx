@@ -31,7 +31,7 @@ import {
 	DASHBOARD_LINKED_ACCOUNTS,
 	DASHBOARD_MANAGE_ACCOUNT,
 	DASHBOARD_PASSWORD,
-	DASHBOARD_PROFILE,
+	DASHBOARD_EDIT_PROFILE,
 	DASHBOARD_RATINGS,
 } from '../../../utils/routes';
 import AccordionDropDownSVG from "../../../public/assets/svgs/globalIcons/filter-drop-down.svg";
@@ -103,9 +103,9 @@ const DesktopDashboardLeftSideNav: React.FC<Props> = (props: Props) => {
 	const profilNavElements: Array<SideNavElement> = [
 		{
 			text: 'Mon profil',
-			link: DASHBOARD_PROFILE,
+			link: DASHBOARD_EDIT_PROFILE,
 			icon: MonProfilSVG,
-			current: router.pathname.endsWith(DASHBOARD_PROFILE),
+			current: router.pathname.endsWith(DASHBOARD_EDIT_PROFILE),
 			disabled: false,
 			// onClose: props.onClose,
 		},

@@ -11,10 +11,9 @@ import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../../utils/routes';
 import MobileDashboardNav from '../../../../components/layouts/mobileDashboardNav/mobileDashboardNav';
 import { default as ImageFuture } from 'next/future/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
-import SuccessAlert from '../../../../components/layouts/successAlert/successAlert';
 import { useAppDispatch } from '../../../../utils/hooks';
 import { useFormik } from 'formik';
-import { changeEmailSchema, changePasswordSchema, createPasswordSchema } from "../../../../utils/formValidationSchemas";
+import { changePasswordSchema, createPasswordSchema } from "../../../../utils/formValidationSchemas";
 import {
 	accountPostPasswordChangeAction,
 	accountPutCreatePasswordAction
@@ -25,6 +24,8 @@ import PrimaryButton from '../../../../components/htmlElements/buttons/primaryBu
 import { SagaCallBackOnCompleteBoolType } from '../../../../types/_init/_initTypes';
 import CustomToast from "../../../../components/portals/customToast/customToast";
 import { useRouter } from "next/router";
+import CustomFooter from "../../../../components/layouts/footer/customFooter";
+import Portal from "../../../../contexts/Portal";
 
 type formikContentType = {
 	setShowDataUpdated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -65,7 +66,7 @@ const FormikContenChangePassword: React.FC<formikContentType> = (props: formikCo
 	const inputTheme = coordonneeTextInputTheme();
 
 	return (
-		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.rootStackVH}`}>
+		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.flexRootStack}`} mt="32px">
 			<h2 className={Styles.pageTitle}>Modifier le mot de passe</h2>
 			<form>
 				<Stack direction="column" spacing={2}>
@@ -112,7 +113,7 @@ const FormikContenChangePassword: React.FC<formikContentType> = (props: formikCo
 						buttonText="Modifier"
 						active={formik.isValid && !formik.isSubmitting}
 						onClick={formik.handleSubmit}
-						cssClass={`${Styles.maxWidth} ${Styles.mobileButton}`}
+						cssClass={`${Styles.maxWidth} ${Styles.mobileButton} ${Styles.submitButton}`}
 						type="submit"
 					/>
 				</Stack>
@@ -158,7 +159,7 @@ const FormikContentCreatePassword: React.FC<formikContentType> = (props: formikC
 	const inputTheme = coordonneeTextInputTheme();
 
 	return (
-		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.rootStackVH}`}>
+		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.flexRootStack}`} mt="32px">
 			<h2 className={Styles.pageTitle}>Créer un mot de passe</h2>
 			<form>
 				<Stack direction="column" spacing={2}>
@@ -192,7 +193,7 @@ const FormikContentCreatePassword: React.FC<formikContentType> = (props: formikC
 						buttonText="Créer"
 						active={formik.isValid && !formik.isSubmitting}
 						onClick={formik.handleSubmit}
-						cssClass={`${Styles.maxWidth} ${Styles.mobileButton}`}
+						cssClass={`${Styles.maxWidth} ${Styles.mobileButton} ${Styles.submitButton}`}
 						type="submit"
 					/>
 				</Stack>
@@ -216,7 +217,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		<Stack direction="column" sx={{position: 'relative'}}>
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
-				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.rootStack}`}>
+				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
 					<DesktopDashboardLeftSideNav backText="Mon compte" />
 					<Box sx={{ width: '100%' }}>
 						{has_password ? (
@@ -228,7 +229,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 				</Stack>
 				<Stack className={`${Styles.mobileOnly}`}>
 					{!mobileElementClicked ? (
-						<MobileDashboardNav setContent={setMobileElementClicked} />
+						<MobileDashboardNav setContent={setMobileElementClicked} backText="Mon compte" />
 					) : (
 						<Box sx={{ width: '100%', height: '100%' }}>
 							<Stack direction="column">
@@ -260,8 +261,11 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 						</Box>
 					)}
 				</Stack>
+				<Portal id="snackbar_portal">
+					<CustomToast type="success" message="Profil mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
+				</Portal>
 			</main>
-			<CustomToast type="success" message="Mot de passe mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
+			<CustomFooter />
 		</Stack>
 	);
 };

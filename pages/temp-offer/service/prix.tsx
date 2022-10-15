@@ -6,7 +6,7 @@ import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBa
 import Styles from '../../../styles/temp-offer/create/price.module.sass';
 import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
-	TEMP_SHOP_LINK_ROUTE,
+	TEMP_SHOP_EDIT_ROUTE,
 	TEMP_OFFER_ADD_SERVICE_DESCRIPTION,
 	TEMP_OFFER_ROUTE,
 	TEMP_SHOP_ADD_SHOP_NAME,
@@ -137,7 +137,7 @@ const Prix: NextPage = () => {
 								data: OfferPostRootServiceResponseType;
 							}) => {
 								if (!error && !cancelled && data.data) {
-									router.replace(TEMP_SHOP_LINK_ROUTE).then();
+									router.replace(TEMP_SHOP_EDIT_ROUTE).then();
 								}
 							},
 						});
@@ -215,12 +215,12 @@ const Prix: NextPage = () => {
 					<DesktopTopNavigationBar
 						backHref={TEMP_OFFER_ADD_SERVICE_DESCRIPTION}
 						returnButton
-						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
+						closeButtonHref={TEMP_SHOP_EDIT_ROUTE}
 					/>
 					<MobileTopNavigationBar
 						backHref={TEMP_OFFER_ADD_SERVICE_DESCRIPTION}
 						returnButton
-						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
+						closeButtonHref={TEMP_SHOP_EDIT_ROUTE}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header

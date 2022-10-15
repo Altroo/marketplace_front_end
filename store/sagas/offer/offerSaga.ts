@@ -27,15 +27,12 @@ import {
 	OfferGetVuesResponseType,
 	OfferCategoriesType,
 	OfferPostPinResponseType,
-	UserLocalProductType,
 	OfferGetShopAvailableFiltersResponseType,
 	OfferGetServicesDaysResponseType,
-	UserLocalServiceType,
 	setOfferProductToEditPayloadType, setOfferServiceToEditPayloadType
 } from "../../../types/offer/offerTypes";
 import {
 	appendPostOfferState,
-	setOfferLastThreeUsedDeliveries,
 	setOfferLastUsedLocalisation,
 	setSelectedOfferTags,
 	setSelectedOffer,

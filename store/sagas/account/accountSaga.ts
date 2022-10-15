@@ -2,7 +2,6 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import * as Types from '../../actions';
 import {
 	allowAnyInstance,
-	deleteRemoteCookiesAppToken,
 	emptyRemoteCookiesUniqueIDOnly,
 	isAuthenticatedInstance,
 	setRemoteCookiesTokenOnly,
@@ -33,7 +32,6 @@ import {
 import {
 	ApiErrorResponseType, AuthSagaContextType,
 	InitStateNonNullableToken,
-	ResponseDataErrorInterface,
 	ResponseOnlyInterface,
 } from "../../../types/_init/_initTypes";
 import {
@@ -59,15 +57,13 @@ import {
 	// AccountPostRegisterType,
 	AccountPostVerifyAccountType, AccountPutChangeEmailHasPasswordResponseType
 } from "../../../types/account/accountTypes";
-import { setTokenState, setEmptyUniqueIDState, initToken, setFbEmailInInit } from "../../slices/_init/_initSlice";
+import { setTokenState, setEmptyUniqueIDState, setFbEmailInInit } from "../../slices/_init/_initSlice";
 import { ctxAuthSaga, initEmptyStatesSaga } from '../_init/_initSaga';
 import { withCallback } from 'redux-saga-callback';
 import { AxiosInstance } from "axios";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { Saga } from "redux-saga";
-import { NextRouter } from "next/router";
-import { accountPostLogoutAction } from "../../actions/account/accountActions";
-import { ACCOUNT_PUT_CREATE_PASSWORD } from "../../actions";
+// import { accountPostLogoutAction } from "../../actions/account/accountActions";
 
 function* accountPostCheckEmailSaga(payload: { type: string; email: string }) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_EMAIL}`;
@@ -171,31 +167,32 @@ function* accountPostLoginSaga(payload: AccountPostLoginType) {
 	}
 }
 
-function* accountPostLogoutSaga(payload: {type: string, router: NextRouter}) {
-	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_LOGOUT}`;
-	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: ResponseDataErrorInterface = yield call(() =>
-				postApi(url, authInstance, { refresh: authSagaContext.initStateToken.refresh_token }),
-			);
-			if (response.status === 200) {
-				// Empty both Token & unique ID state
-				yield put(initToken());
-				yield put(setIsLoggedIn(false));
-				yield call(() => deleteRemoteCookiesAppToken(payload.router));
-			} else {
-				console.log(response.data);
-				console.log(response.status);
-			}
-		}
-	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-		// set error state
-	}
-}
+// Altroo disabled use logout from nextAuth instead
+// function* accountPostLogoutSaga(payload: {type: string, router: NextRouter}) {
+// 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
+// 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_LOGOUT}`;
+// 	try {
+// 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+// 			const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+// 			const response: ResponseDataErrorInterface = yield call(() =>
+// 				postApi(url, authInstance, { refresh: authSagaContext.initStateToken.refresh_token }),
+// 			);
+// 			if (response.status === 200) {
+// 				// Empty both Token & unique ID state
+// 				yield put(initToken());
+// 				yield put(setIsLoggedIn(false));
+// 				yield call(() => deleteRemoteCookiesAppToken(payload.router));
+// 			} else {
+// 				console.log(response.data);
+// 				console.log(response.status);
+// 			}
+// 		}
+// 	} catch (e) {
+// 		const errors = e as ApiErrorResponseType;
+// 		console.log(errors);
+// 		// set error state
+// 	}
+// }
 
 function* accountGetProfilSaga() {
 	yield put(setProfilGETLoading());
@@ -629,8 +626,6 @@ function* accountPostEncloseSaga(payload: AccountPostEncloseAccountType) {
 			const response: ResponseOnlyInterface = yield call(() => postApi(url, authInstance, payloadData));
 			if (response.status === 204) {
 				// Logout has initToken.
-				// yield call(() => accountPostLogoutSaga());
-				yield call(() => accountPostLogoutAction(payload.router));
 				// Empty the rest of the states
 				yield call(() => initEmptyStatesSaga());
 			} else {
@@ -655,8 +650,6 @@ function* accountDeleteAccountSaga(payload: AccountPostDeleteAccountType) {
 			const response: ResponseOnlyInterface = yield call(() => deleteApi(url, authInstance, payloadData));
 			if (response.status === 204) {
 				// Logout has initToken.
-				// yield call(() => accountPostLogoutSaga());
-				yield call(() => accountPostLogoutAction(payload.router));
 				// Empty the rest of the states
 				yield call(() => initEmptyStatesSaga());
 			} else {
@@ -690,17 +683,11 @@ function* accountPostVerifyAccountSaga(payload: AccountPostVerifyAccountType) {
 
 function* accountPostResendVerificationSaga(payload: { type: string; email: string }) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_RESEND_VERIFICATION}`;
-	try {
-		const instance : AxiosInstance = yield call(() => allowAnyInstance());
-		const response: ResponseOnlyInterface = yield call(() => postApi(url, instance, { email: payload.email }));
-		if (response.status === 204) {
-			yield put(setResendVerification(true));
-		} else {
-			console.log(response.status);
-		}
-	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
+	const instance : AxiosInstance = yield call(() => allowAnyInstance());
+	const response: ResponseOnlyInterface = yield call(() => postApi(url, instance, { email: payload.email }));
+	if (response.status === 204) {
+		yield put(setResendVerification(true));
+		return true;
 	}
 }
 
@@ -863,9 +850,9 @@ export function* watchAccount() {
 	yield takeLatest(Types.ACCOUNT_POST_CHECK_EMAIL, accountPostCheckEmailSaga);
 	yield takeLatest(Types.ACCOUNT_POST_REGISTER, accountPostRegisterSaga);
 	yield takeLatest(Types.ACCOUNT_POST_LOGIN, accountPostLoginSaga);
-	yield takeLatest(Types.ACCOUNT_POST_LOGOUT, accountPostLogoutSaga);
+	// yield takeLatest(Types.ACCOUNT_POST_LOGOUT, accountPostLogoutSaga);
 	yield takeLatest(Types.ACCOUNT_GET_PROFIL, accountGetProfilSaga);
-	yield takeLatest(Types.ACCOUNT_GET_SELECTED_PROFIL, accountGetSelectedProfilSaga);
+	yield takeLatest(Types.ACCOUNT_GET_PROFIL_BY_USER_ID, accountGetSelectedProfilSaga);
 	yield takeLatest(Types.ACCOUNT_PATCH_PROFIL, withCallback(accountPatchProfilSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_GET_SOCIALS, accountGetSocialsSaga);
 	yield takeLatest(Types.ACCOUNT_POST_FACEBOOK, accountPostFacebookSaga);
@@ -885,7 +872,7 @@ export function* watchAccount() {
 	yield takeLatest(Types.ACCOUNT_POST_ENCLOSE, accountPostEncloseSaga);
 	yield takeLatest(Types.ACCOUNT_DELETE_ACCOUNT, accountDeleteAccountSaga);
 	yield takeLatest(Types.ACCOUNT_POST_VERIFY_ACCOUNT, accountPostVerifyAccountSaga);
-	yield takeLatest(Types.ACCOUNT_POST_RESEND_VERIFICATION, accountPostResendVerificationSaga);
+	yield takeLatest(Types.ACCOUNT_POST_RESEND_VERIFICATION, withCallback(accountPostResendVerificationSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_POST_PASSWORD_CHANGE, withCallback(accountPostPasswordChangeSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_PUT_CREATE_PASSWORD, withCallback(accountPutCreatePasswordSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_POST_SEND_PASSWORD_RESET, withCallback(accountPostSendPasswordResetSaga as Saga));

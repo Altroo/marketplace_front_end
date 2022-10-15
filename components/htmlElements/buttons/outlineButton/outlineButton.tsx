@@ -29,13 +29,6 @@ const OutlineButton: React.FC<Props> = (props: Props) => {
 					${props.cssClass && `${props.cssClass}`}`}>
 				{props.buttonText}
 			</Button>
-			{/*<OutlineButton*/}
-			{/*	buttonText="Renvoyer le code"*/}
-			{/*	active={formik.isValid && !formik.isSubmitting}*/}
-			{/*	onClick={formik.handleSubmit}*/}
-			{/*	type="submit"*/}
-			{/*	cssClass={Styles.emailRegisterButton}*/}
-			{/*/>*/}
 		</ThemeProvider>
 	);
 };

@@ -27,16 +27,24 @@ import PrimaryButton from '../../../components/htmlElements/buttons/primaryButto
 import TextButton from '../../../components/htmlElements/buttons/textButton/textButton';
 import { useAppDispatch } from '../../../utils/hooks';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
-import { accountPostSendPasswordResetAction } from "../../../store/actions/account/accountActions";
+import {
+	accountPostResendActivationAction,
+	accountPostSendPasswordResetAction
+} from "../../../store/actions/account/accountActions";
 import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
+import Portal from "../../../contexts/Portal";
+import CustomToast from "../../../components/portals/customToast/customToast";
 
 type enterCodePageContentProps = {
 	email: string;
+	whichCode: "PASSWORD_RESET" | "ACCOUNT_VERIFICATION";
+	cssClass?: string;
 };
 
-const EnterCodePageContent = (props: enterCodePageContentProps) => {
-	const { email } = props;
+export const EnterCodePageContent = (props: enterCodePageContentProps) => {
+	const { email, whichCode } = props;
 	const router = useRouter();
+	const [showDataUpdated, setShowDataUpdated] = useState<boolean>(false);
 	const dispatch = useAppDispatch();
 
 	const [loading, setLoading] = useState<boolean>(false);
@@ -44,12 +52,19 @@ const EnterCodePageContent = (props: enterCodePageContentProps) => {
 	const renvoyerLeCodeHandler = () => {
 		setLoading(true);
 		// dispatch with callback
-		const action = accountPostSendPasswordResetAction(email);
+		let action;
+		if (whichCode === 'PASSWORD_RESET') {
+			action = accountPostSendPasswordResetAction(email);
+		} else {
+			action = accountPostResendActivationAction(email);
+		}
+
 		dispatch({
 			...action,
 			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
 				if (!error && !cancelled && data) {
 					setLoading(false);
+					setShowDataUpdated(true);
 				}
 			},
 		});
@@ -90,7 +105,7 @@ const EnterCodePageContent = (props: enterCodePageContentProps) => {
 				direction="column"
 				justifyContent="center"
 				alignItems="center"
-				className={Styles.contentWrapper}
+				className={`${Styles.contentWrapper} ${props.cssClass}`}
 				spacing={4}
 			>
 				{loading && <ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} backdropColor="#FFFFFF" circularColor="#FFFFFF"/>}
@@ -180,6 +195,9 @@ const EnterCodePageContent = (props: enterCodePageContentProps) => {
 					</Stack>
 				</form>
 			</Stack>
+			<Portal id="snackbar_portal">
+        <CustomToast type="success" message="code envoyer." setShow={setShowDataUpdated} show={showDataUpdated}/>
+      </Portal>
 		</>
 	);
 };
@@ -200,14 +218,14 @@ const EnterCode: React.FC<Props> = (props: Props) => {
 		<>
 			<div className={Styles.desktopOnly}>
 				<AuthPageLayout href={AUTH_REGISTER} topBarText="CREATE">
-					<EnterCodePageContent email={email} />
+					<EnterCodePageContent email={email} whichCode="PASSWORD_RESET" />
 				</AuthPageLayout>
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
 					<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100vh' }}>
 						<UserMainNavigationBar/>
-						<EnterCodePageContent email={email} />
+						<EnterCodePageContent email={email} whichCode="PASSWORD_RESET" />
 						<Stack direction="column" justifyContent="center" alignItems="center">
 							<p className={Styles.bottomLinks}>
 								Pas encore de compte ?{' '}

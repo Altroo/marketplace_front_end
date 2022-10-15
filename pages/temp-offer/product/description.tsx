@@ -12,7 +12,7 @@ import {
 	TEMP_OFFER_ADD_PRODUCT_CATEGORIES,
 	TEMP_OFFER_ADD_PRODUCT_PRICE,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_LINK_ROUTE,
+	TEMP_SHOP_EDIT_ROUTE,
 } from '../../../utils/routes';
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
@@ -310,12 +310,12 @@ const Description: NextPage = () => {
 					<DesktopTopNavigationBar
 						backHref={TEMP_OFFER_ADD_PRODUCT_CATEGORIES}
 						returnButton
-						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
+						closeButtonHref={TEMP_SHOP_EDIT_ROUTE}
 					/>
 					<MobileTopNavigationBar
 						backHref={TEMP_OFFER_ADD_PRODUCT_CATEGORIES}
 						returnButton
-						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
+						closeButtonHref={TEMP_SHOP_EDIT_ROUTE}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<Stack direction="column" spacing={4}>

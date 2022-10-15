@@ -48,15 +48,15 @@ import { NextResponse } from 'next/server';
 // 	return res;
 // }
 import { withAuth } from 'next-auth/middleware';
-import { DASHBOARD_ACCOUNT, DASHBOARD_PROFILE } from "./utils/routes";
+import { DASHBOARD_ACCOUNT, DASHBOARD_EDIT_PROFILE } from "./utils/routes";
 
 export default withAuth(
 	// `withAuth` augments your `Request` with the user's token.
 	function middleware(req) {
 		// console.log(req.nextauth.token);
-		// redirect to dashboard/compte/profil when accessing dashboard/compte <- since doesn't have an index page.
+		// redirect to dashboard/compte/edit-profil when accessing dashboard/compte <- since doesn't have an index page.
 		if (req.nextUrl.pathname === DASHBOARD_ACCOUNT) {
-			return NextResponse.redirect(new URL(DASHBOARD_PROFILE, req.url));
+			return NextResponse.redirect(new URL(DASHBOARD_EDIT_PROFILE, req.url));
 		}
 		return NextResponse.next();
 	},

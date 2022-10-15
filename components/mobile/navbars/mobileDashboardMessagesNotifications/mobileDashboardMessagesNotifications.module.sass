@@ -1,0 +1,23 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.mobileOnly
+  +Hidden
+@media #{$tablette}
+  .mobileMsgNotifRootStack
+    margin-left: 24px
+    margin-right: 24px
+  .mobileOnly
+    display: flex !important
+  .removePadding
+    padding: 0
+  .mobileMessageIconButton
+    @extend .removePadding
+    margin: 12px 6px 12px 0
+  .mobileNotificationIconButton
+    @extend .removePadding
+    margin: 12px 0 12px 6px
+// @media #{}
+// @media #{}

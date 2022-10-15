@@ -16,7 +16,7 @@ import {
 	TEMP_OFFER_ADD_SERVICE_DESCRIPTION,
 	TEMP_OFFER_ADD_INDEX,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	TEMP_SHOP_LINK_ROUTE
+	TEMP_SHOP_EDIT_ROUTE
 } from "../../../utils/routes";
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
@@ -43,12 +43,12 @@ const Index: NextPage = () => {
 					<DesktopTopNavigationBar
 						backHref={TEMP_OFFER_ADD_INDEX}
 						returnButton
-						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
+						closeButtonHref={TEMP_SHOP_EDIT_ROUTE}
 					/>
 					<MobileTopNavigationBar
 						backHref={TEMP_OFFER_ADD_INDEX}
 						returnButton
-						closeButtonHref={TEMP_SHOP_LINK_ROUTE}
+						closeButtonHref={TEMP_SHOP_EDIT_ROUTE}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header

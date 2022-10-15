@@ -27,7 +27,7 @@ import BorderIconButton from '../../../components/htmlElements/buttons/borderIco
 import { addMyInfosStackType, contacterPhoneInputType, DropDownActionType } from '../../../types/ui/uiTypes';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import RightSwipeModal from '../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
+import CustomSwipeModal from '../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import ContacterPhoneInput from '../../../components/groupedComponents/temp-shop/edit/contacterPhoneInput/contacterPhoneInput';
 import {
 	shopPatchAvatarAction,
@@ -63,7 +63,7 @@ import ShopNotVerified from '../../../components/groupedComponents/shop/get/shop
 import ShopVerified from '../../../components/groupedComponents/shop/get/shopVerified/shopVerified';
 import MobileFilterWhiteSVG from '../../../public/assets/svgs/globalIcons/mobile-filter-white.svg';
 import MobileOffersFilterButton from '../../../components/mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton';
-import ShopNotIndexed from '../../../components/groupedComponents/shop/edit/shopNotIndexed/shopNotIndexed';
+import ShopNotIndexed from '../../../components/layouts/callToActionCards/shopNotIndexed/shopNotIndexed';
 import EditShopInfoTabContent from '../../../components/groupedComponents/shop/edit/editShopInfoTabContent/editShopInfoTabContent';
 import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
 import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu';
@@ -591,7 +591,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 								/>
 							)}
 							{/* START right side contact modal */}
-							<RightSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
+							<CustomSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
 								<div className={Styles.modalContentWrapper}>
 									<div className={Styles.topBar}>
 										<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
@@ -625,7 +625,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 										cssClass={Styles.actionButtonWidth}
 									/>
 								</div>
-							</RightSwipeModal>
+							</CustomSwipeModal>
 							{/* END right side contact modal */}
 						</Stack>
 					</Stack>
@@ -667,7 +667,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 						</Stack>
 					</Box>
 					{/* Edit info modal */}
-					<RightSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}>
+					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
 								<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
@@ -688,7 +688,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 								})}
 							</Stack>
 						</div>
-					</RightSwipeModal>
+					</CustomSwipeModal>
 					{/* Edit color modal */}
 					{openColorModal && (
 						<>

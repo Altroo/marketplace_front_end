@@ -1,9 +1,9 @@
 import React from 'react';
 import Styles from './shopNotIndexed.module.sass';
 import { Stack } from '@mui/material';
-import OutlineButton from '../../../../htmlElements/buttons/outlineButton/outlineButton';
+import OutlineButton from '../../../htmlElements/buttons/outlineButton/outlineButton';
 import { default as ImageFuture } from 'next/future/image';
-import JumelleIlluSVG from '../../../../../public/assets/images/jumelle-illu.svg';
+import JumelleIlluSVG from '../../../../public/assets/images/jumelle-illu.svg';
 
 type Props = {
 	children?: React.ReactNode;

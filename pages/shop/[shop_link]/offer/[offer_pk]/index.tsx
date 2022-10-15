@@ -36,7 +36,7 @@ import {
 } from '../../../../../utils/rawData';
 import Link from 'next/link';
 import {
-	REAL_SHOP_LINK_ROUTE,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	NOT_FOUND_404,
 	REAL_OFFER_ADD_PRODUCT_CATEGORIES,
 	REAL_OFFER_ADD_SERVICE_CATEGORIES,
@@ -74,7 +74,7 @@ import {
 	setOfferServiceToEdit,
 } from '../../../../../store/actions/offer/offerActions';
 import { useAppDispatch } from '../../../../../utils/hooks';
-import RightSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/rightSwipeModal';
+import CustomSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import TopBarSaveClose from '../../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
 import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -86,7 +86,7 @@ import { AccountGetCheckAccountResponseType } from '../../../../../types/account
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 import ReadAdresse from '../../../../../components/groupedComponents/shop/get/shopInfoTabContent/readAdresse/readAdresse';
 
-const noCommentsAvailableContent = () => {
+export const NoCommentsAvailableContent = () => {
 	return (
 		<>
 			<Stack
@@ -516,7 +516,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 			...action,
 			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
 				if (!error && !cancelled && data) {
-					router.replace(REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+					router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
 				}
 			},
 		});
@@ -693,7 +693,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 										</Stack>
 									</Box>
 								)}
-								{noCommentsAvailableContent()}
+								<NoCommentsAvailableContent/>
 							</Stack>
 							{/* Mobile Only */}
 							<div className={Styles.mobileOnly} style={{ display: 'block', marginLeft: '0' }}>
@@ -750,7 +750,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 												<span className={Styles.rating}>0 (0 notes)</span>
 											</Stack>
 											<Link
-												href={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+												href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 												passHref
 												prefetch={false}
 												target="_blank"
@@ -942,13 +942,13 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											</Stack>
 										</Box>
 									)}
-									{noCommentsAvailableContent()}
+									<NoCommentsAvailableContent/>
 								</Stack>
 							</Stack>
 						</Stack>
 					</Box>
 					{permission === 'OWNER' && (
-						<RightSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
+						<CustomSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
 							<Stack
 								direction="column"
 								justifyContent="space-between"
@@ -1152,7 +1152,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 									)}
 								</Stack>
 							</Stack>
-						</RightSwipeModal>
+						</CustomSwipeModal>
 					)}
 					{showDeleteModal && permission === 'OWNER' ? (
 						<ActionModals title="Supprimer cette offre ?" actions={deleteModalActions} />
@@ -1472,7 +1472,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			...action,
 			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
 				if (!error && !cancelled && data) {
-					router.replace(REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+					router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
 				}
 			},
 		});
@@ -1609,7 +1609,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										</Box>
 									) : null}
 								</Stack>
-								{noCommentsAvailableContent()}
+								<NoCommentsAvailableContent/>
 							</Stack>
 							{/* Mobile Only */}
 							<div className={Styles.mobileOnly} style={{ display: 'block', marginLeft: '0' }}>
@@ -1656,7 +1656,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 												<span className={Styles.rating}>0 (0 notes)</span>
 											</Stack>
 											<Link
-												href={REAL_SHOP_LINK_ROUTE(router.query.shop_link as string)}
+												href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 												passHref
 												prefetch={false}
 												target="_blank"
@@ -1740,13 +1740,13 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 								</Stack>
 								<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
 									{/*<Divider orientation="horizontal" flexItem className={Styles.divider} />*/}
-									{noCommentsAvailableContent()}
+									<NoCommentsAvailableContent/>
 								</Stack>
 							</Stack>
 						</Stack>
 					</Box>
 					{permission === 'OWNER' && (
-						<RightSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
+						<CustomSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
 							<Stack
 								direction="column"
 								justifyContent="space-between"
@@ -1950,7 +1950,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 									)}
 								</Stack>
 							</Stack>
-						</RightSwipeModal>
+						</CustomSwipeModal>
 					)}
 					{showDeleteModal && permission === 'OWNER' ? (
 						<ActionModals title="Supprimer cette offre ?" actions={deleteModalActions} />

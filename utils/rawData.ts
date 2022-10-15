@@ -10,6 +10,7 @@ import {
 import { AccountGenderCodeValueType, AccountGenderType } from "../types/account/accountTypes";
 
 export const monthItemsList = ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juill', 'août', 'sept', 'oct', 'nov', 'déc'];
+export const fullMonthItemsList = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juilliet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 export const dayItemsList = ['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'];
 export const forWhomItemsList = ['Tout le monde', 'Enfant', 'Femme', 'Homme'];
 export const genderItemsList: Array<AccountGenderCodeValueType> = [

@@ -1,5 +1,5 @@
 import { ShopFontNameType } from '../shop/shopTypes';
-import { OfferPinType } from "../offer/offerTypes";
+import { OfferPinType } from '../offer/offerTypes';
 
 /*
 	CASE 1 (GLOBAL ERROR):
@@ -62,7 +62,7 @@ export type ApiPromiseStatus = 'PENDING' | 'RESOLVED' | 'REJECTED' | null;
 export type SagaCallBackBase = {
 	error: ApiErrorResponseType;
 	cancelled: boolean;
-}
+};
 
 export interface SagaCallBackOnCompleteBoolType extends SagaCallBackBase {
 	data: boolean;
@@ -132,6 +132,21 @@ export type InitStateNonNullableToken = {
 	access_token_expiration: string;
 	refresh_token_expiration: string;
 };
+
+export type InitStateNonNullableTokenFixNextAuth = {
+	id: number;
+	access_token: string;
+	refresh_token: string;
+	user: {
+		pk: number;
+		email: string;
+		first_name: string;
+		last_name: string;
+	};
+	access_token_expiration: string;
+	refresh_token_expiration: string;
+};
+
 export type tokenUser = {
 	pk: number;
 	email: string;

@@ -26,11 +26,12 @@ import { getAvailableCountries } from '../../../../store/selectors';
 import { placesGetCountriesAction } from '../../../../store/actions/places/placesActions';
 import { accountPatchProfilAction } from '../../../../store/actions/account/accountActions';
 import { SagaCallBackOnCompleteBoolType } from '../../../../types/_init/_initTypes';
-import SuccessAlert from '../../../../components/layouts/successAlert/successAlert';
 import MobileDashboardNav from '../../../../components/layouts/mobileDashboardNav/mobileDashboardNav';
 import { default as ImageFuture } from 'next/future/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import CustomToast from "../../../../components/portals/customToast/customToast";
+import CustomFooter from "../../../../components/layouts/footer/customFooter";
+import Portal from "../../../../contexts/Portal";
 
 type formikContentType = {
 	data: UserClass;
@@ -206,7 +207,7 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 						buttonText="Mettre à jour"
 						active={formik.isValid && !formik.isSubmitting}
 						onClick={formik.handleSubmit}
-						cssClass={`${Styles.maxWidth} ${Styles.mobileButton}`}
+						cssClass={`${Styles.maxWidth} ${Styles.mobileButton} ${Styles.submitButton}`}
 						type="submit"
 					/>
 				</Stack>
@@ -224,21 +225,21 @@ type IndexProps = {
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	const { data } = props.pageProps;
 	const [showDataUpdated, setShowDataUpdated] = useState<boolean>(false);
-	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(true);
+	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(false);
 
 	return (
 		<Stack direction="column" sx={{position: 'relative'}}>
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
-				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.rootStack}`}>
+				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
 					<DesktopDashboardLeftSideNav backText="Mon compte" />
 					<Box sx={{ width: '100%' }}>
 						<FormikContent data={data} setShowDataUpdated={setShowDataUpdated} />
 					</Box>
 				</Stack>
-				<Stack className={`${Styles.mobileOnly}`}>
+				<Stack className={Styles.mobileOnly}>
 					{!mobileElementClicked ? (
-						<MobileDashboardNav setContent={setMobileElementClicked} />
+						<MobileDashboardNav setContent={setMobileElementClicked} backText="Mon compte"/>
 					) : (
 						<Box sx={{ width: '100%', height: '100%' }}>
 							<Stack direction="column">
@@ -266,8 +267,11 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 						</Box>
 					)}
 				</Stack>
+				<Portal id="snackbar_portal">
+					<CustomToast type="success" message="Profil mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
+				</Portal>
 			</main>
-			<CustomToast type="success" message="Profil mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
+			<CustomFooter />
 		</Stack>
 	);
 };
