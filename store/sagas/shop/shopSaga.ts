@@ -137,6 +137,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				yield call(() => emptyLocalStorageNewShopData());
 				// delete cookies
 				yield call(() => deleteCookieStorageNewShopData());
+				// refresh check account data -> has shop true
 				yield call(() => accountGetCheckAccountSaga());
 				return response.data.qaryb_link;
 			}

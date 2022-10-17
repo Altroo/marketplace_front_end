@@ -516,14 +516,12 @@ const Index: NextPage<Props> = (props: Props) => {
 			});
 			// _bgColorCode & _colorCode are reversed for this action.
 			dispatch(shopPatchColorAction(_colorCode, _bgColorCode, border, iconColor));
-			setOpenColorModal(false);
 		}
 	};
 
 	const editFontHandler = (font: ShopFontNameType) => {
 		if (font) {
 			dispatch(shopPatchFontAction(font));
-			setOpenFontModal(false);
 		}
 	};
 
@@ -795,11 +793,10 @@ const Index: NextPage<Props> = (props: Props) => {
 							<Backdrop
 								sx={{
 									color: '#fff',
-									zIndex: (theme) => theme.zIndex.drawer + 1,
+									zIndex: 9,
 									backgroundColor: 'rgba(0, 0, 0, 0.1)',
 								}}
 								open={openColorModal}
-								// onClick={() => setOpenColorModal(false)}
 							>
 								<div className={SharedStyles.desktopContainerModal}>
 									{colors.map((color: string, index: number) => {
@@ -819,7 +816,10 @@ const Index: NextPage<Props> = (props: Props) => {
 									<PrimaryButton
 										buttonText="Enregistrer"
 										active={colorCode !== undefined && bgColorCode !== undefined}
-										onClick={() => editColorHandler(bgColorCode, colorCode)}
+										onClick={() => {
+											editColorHandler(bgColorCode, colorCode);
+											setOpenColorModal(false);
+										}}
 									/>
 								</div>
 								<div>
@@ -866,7 +866,10 @@ const Index: NextPage<Props> = (props: Props) => {
 											<PrimaryButton
 												buttonText="Enregistrer"
 												active={colorCode !== undefined && bgColorCode !== undefined}
-												onClick={() => editColorHandler(bgColorCode, colorCode)}
+												onClick={() => {
+													editColorHandler(bgColorCode, colorCode);
+													setOpenColorModal(false);
+												}}
 											/>
 										</div>
 									</div>
@@ -880,11 +883,10 @@ const Index: NextPage<Props> = (props: Props) => {
 							<Backdrop
 								sx={{
 									color: '#fff',
-									zIndex: (theme) => theme.zIndex.drawer + 1,
+									zIndex: 9,
 									backgroundColor: 'rgba(0, 0, 0, 0.1)',
 								}}
 								open={openFontModal}
-								// onClick={() => setOpenFontModal(false)}
 							>
 								<div className={Styles.desktopFontWrapper}>
 									{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
@@ -906,7 +908,10 @@ const Index: NextPage<Props> = (props: Props) => {
 									<PrimaryButton
 										buttonText="Continuer"
 										active={fontName !== undefined}
-										onClick={() => editFontHandler(fontName)}
+										onClick={() => {
+											editFontHandler(fontName);
+											setOpenFontModal(false);
+										}}
 									/>
 								</div>
 								<div>
@@ -933,7 +938,10 @@ const Index: NextPage<Props> = (props: Props) => {
 											<PrimaryButton
 												buttonText="Enregistrer"
 												active={fontName !== undefined}
-												onClick={() => editFontHandler(fontName)}
+												onClick={() => {
+													editFontHandler(fontName);
+													setOpenFontModal(false);
+												}}
 											/>
 										</div>
 									</div>
