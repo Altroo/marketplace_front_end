@@ -2,6 +2,7 @@ import '../styles/globals.sass';
 import React from 'react';
 import type { AppProps } from "next/app"
 import { wrapper } from '../store/store';
+import { Provider } from "react-redux";
 import { InitContextProvider } from '../contexts/InitContext';
 import Head from 'next/head';
 import { ThemeProvider } from '@mui/material/styles';
@@ -49,31 +50,34 @@ interface EntryPointProps extends AppProps {
 
 // Emotion cache Alone
 const EntryPoint: React.FC<EntryPointProps> = (props: EntryPointProps) => {
+	const { store } = wrapper.useWrappedStore(props);
 	const { Component, emotionCache = clientSideEmotionCache } = props;
 	const { session, ...pageProps } = props;
 	return (
-		<CacheProvider value={emotionCache}>
-			<Head>
-				<meta name="viewport" content="initial-scale=1, width=device-width" />
-			</Head>
-			<ThemeProvider theme={getDefaultTheme()}>
-				{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-				<CssBaseline />
-				<SessionProvider
-					// Provider options are not required but can be useful in situations where
-					// you have a short session maxAge time. Shown here with default values.
-					session={session}>
-					<InitContextProvider>
-						<CustomContainer>
-							<Component {...pageProps} />
-						</CustomContainer>
-					</InitContextProvider>
-				</SessionProvider>
-			</ThemeProvider>
-		</CacheProvider>
+		<Provider store={store}>
+			<CacheProvider value={emotionCache}>
+				<Head>
+					<meta name="viewport" content="initial-scale=1, width=device-width" />
+				</Head>
+				<ThemeProvider theme={getDefaultTheme()}>
+					{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+					<CssBaseline />
+					<SessionProvider
+						// Provider options are not required but can be useful in situations where
+						// you have a short session maxAge time. Shown here with default values.
+						session={session}>
+						<InitContextProvider>
+							<CustomContainer>
+								<Component {...pageProps} />
+							</CustomContainer>
+						</InitContextProvider>
+					</SessionProvider>
+				</ThemeProvider>
+			</CacheProvider>
+		</Provider>
 	);
 };
-export default wrapper.withRedux(EntryPoint);
+export default EntryPoint;
 
 // Emotion cache With redux saga
 
