@@ -22,6 +22,7 @@ type Props = {
 	// sx?: SxProps<Theme>;
 	showCloseIcon?: boolean;
 	waitShopSelector?:boolean;
+	disableScrollLock?: boolean;
 	children?: React.ReactNode;
 };
 
@@ -57,6 +58,7 @@ const CustomSwipeModal: React.FC<Props> = (props: Props) => {
 	return (
 		<ThemeProvider theme={customModalTheme()}>
 			<Dialog
+				disableScrollLock={props.disableScrollLock}
 				keepMounted={mountDialog}
 				open={open}
 				TransitionComponent={Transition}

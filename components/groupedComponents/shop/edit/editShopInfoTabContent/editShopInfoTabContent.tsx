@@ -133,8 +133,18 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 								<Box component="span" className={Styles.stackTitle}>
 									Horaire
 								</Box>
-								<Button onClick={() => props.setOpenEditHoraireModal(true)} className={Styles.stackButton}>
-									Modifier
+								<Button
+									onClick={() => {
+										if (!props.openInfoModal) {
+											props.setOpenInfoModal(true);
+										}
+										setTimeout(() => {
+											props.setOpenEditHoraireModal(true);
+										}, 1000);
+									}}
+									className={Styles.stackButton}
+								>
+									{horaireAdded ? 'Modifier' : 'Ajouter'}
 								</Button>
 							</Stack>
 							{horaireAdded ? (
@@ -148,8 +158,18 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 								<Box component="span" className={Styles.stackTitle}>
 									Coordonées
 								</Box>
-								<Button onClick={() => props.setOpenEditCoordoneeModal(true)} className={Styles.stackButton}>
-									Modifier
+								<Button
+									onClick={() => {
+										if (!props.openInfoModal) {
+											props.setOpenInfoModal(true);
+										}
+										setTimeout(() => {
+											props.setOpenEditCoordoneeModal(true);
+										}, 1000);
+									}}
+									className={Styles.stackButton}
+								>
+									{coordoneesAdded ? 'Modifier' : 'Ajouter'}
 								</Button>
 							</Stack>
 							{coordoneesAdded ? (
@@ -164,13 +184,32 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 									<Box component="span" className={Styles.stackTitle}>
 										Adresse
 									</Box>
-										<Button onClick={() => props.setOpenEditAdressModal(true)} className={Styles.stackButton}>
-											Modifier
-										</Button>
+									<Button
+										onClick={() => {
+											if (!props.openInfoModal) {
+												props.setOpenInfoModal(true);
+											}
+											setTimeout(() => {
+												props.setOpenEditAdressModal(true);
+											}, 1000);
+										}}
+										className={Styles.stackButton}
+									>
+										{address_name ? 'Modifier' : 'Ajouter'}
+									</Button>
 								</Stack>
 							)}
 							{address_name ? (
-								<ShowAdresse onClick={() => props.setOpenEditAdressModal(true)} />
+								<ShowAdresse
+									onClick={() => {
+										if (!props.openInfoModal) {
+											props.setOpenInfoModal(true);
+										}
+										setTimeout(() => {
+											props.setOpenEditAdressModal(true);
+										}, 1000);
+									}}
+								/>
 							) : (
 								<span className={Styles.infoNotFound}>Vous n&apos;a pas encore renseigné vos adresse</span>
 							)}
@@ -182,8 +221,15 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 								<Box component="span" className={Styles.stackTitle}>
 									Bio
 								</Box>
-								<Button onClick={() => props.setOpenEditBioModal(true)} className={Styles.stackButton}>
-									Modifier
+								<Button onClick={() => {
+									if (!props.openInfoModal) {
+											props.setOpenInfoModal(true);
+										}
+										setTimeout(() => {
+											props.setOpenEditBioModal(true);
+										}, 1000);
+								}} className={Styles.stackButton}>
+									{bio ? 'Modifier' : 'Ajouter'}
 								</Button>
 							</Stack>
 							{bio ? (

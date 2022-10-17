@@ -684,27 +684,27 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 					{/* END right side contact modal */}
 					{/* Edit info modal */}
 					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
-							<div className={Styles.modalContentWrapper}>
-								<div className={Styles.topBar}>
-									<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
-								</div>
-								<HelperDescriptionHeader header="Ajouter mes infos" />
-								<Stack direction="column" spacing={4}>
-									{infosStackActions.map((stack, index) => {
-										return (
-											<AjouterMesInfosStack
-												key={index}
-												title={stack.title}
-												added={stack.added}
-												content={stack.content}
-												openEditModal={stack.openEditModal}
-												setOpenEditModal={stack.setOpenEditModal}
-											/>
-										);
-									})}
-								</Stack>
+						<div className={Styles.modalContentWrapper}>
+							<div className={Styles.topBar}>
+								<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
 							</div>
-						</CustomSwipeModal>
+							<HelperDescriptionHeader header="Ajouter mes infos" />
+							<Stack direction="column" spacing={4}>
+								{infosStackActions.map((stack, index) => {
+									return (
+										<AjouterMesInfosStack
+											key={index}
+											title={stack.title}
+											added={stack.added}
+											content={stack.content}
+											openEditModal={stack.openEditModal}
+											setOpenEditModal={stack.setOpenEditModal}
+										/>
+									);
+								})}
+							</Stack>
+						</div>
+					</CustomSwipeModal>
 					{/* Edit color modal */}
 					{openColorModal && (
 						<>

@@ -36,16 +36,20 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 	return (
 		<div className={Styles.dropDownWrapper}>
 			<ThemeProvider theme={customTheme}>
-				{props.iconButton ? props.iconButton : <Button
-					id={props.buttonID}
-					aria-controls={open ? `${props.menuID}` : undefined}
-					aria-haspopup="true"
-					aria-expanded={open ? 'true' : undefined}
-					onClick={handleClick}
-					endIcon={<Image src={props.dropDownIcon} alt="" />}
-				>
-					{props.dropDownText}
-				</Button>}
+				{props.iconButton ? (
+					props.iconButton
+				) : (
+					<Button
+						id={props.buttonID}
+						aria-controls={open ? `${props.menuID}` : undefined}
+						aria-haspopup="true"
+						aria-expanded={open ? 'true' : undefined}
+						onClick={handleClick}
+						endIcon={<Image src={props.dropDownIcon} alt="" />}
+					>
+						{props.dropDownText}
+					</Button>
+				)}
 				<Menu
 					variant={props.variant ? props.variant : 'menu'}
 					id={props.menuID}
@@ -67,17 +71,11 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 									handleClose();
 								}}
 								key={index}
-								className={`${Styles.menuItem} ${
-									action.text === 'Supprimer' ? Styles.deleteColor : null
-								} `}
+								className={`${Styles.menuItem} ${action.text === 'Supprimer' ? Styles.deleteColor : null} `}
 							>
-								{action.icon && <ImageFuture
-											src={action.icon}
-											alt=""
-											width="0"
-											height="0"
-											sizes="100vw"
-											className={Styles.icon}/>}
+								{action.icon && (
+									<ImageFuture src={action.icon} alt="" width="0" height="0" sizes="100vw" className={Styles.icon} />
+								)}
 								{action.text}
 							</MenuItem>
 						);

@@ -754,8 +754,7 @@ const Index: NextPage<Props> = (props: Props) => {
 					)}
 					{/* END right side contact modal */}
 					{/* Edit info modal */}
-					{/*{openInfoModal && }*/}
-					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
+					{openInfoModal && <CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
 								<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
@@ -776,7 +775,7 @@ const Index: NextPage<Props> = (props: Props) => {
 								})}
 							</Stack>
 						</div>
-					</CustomSwipeModal>
+					</CustomSwipeModal>}
 					{/* Edit color modal */}
 					{openColorModal && (
 						<>
