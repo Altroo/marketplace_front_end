@@ -1,6 +1,6 @@
 import { OverridableStringUnion } from '@mui/types';
 import { ChipPropsVariantOverrides } from '@mui/material/Chip/Chip';
-import React from 'react';
+import React, { CSSProperties } from "react";
 
 type EditDropDownType = {
 	text: string;
@@ -47,6 +47,7 @@ export interface checkBoxForWhomBaseType extends Omit<checkBoxForWhomType, 'onCh
 	onChange?: React.Dispatch<React.SetStateAction<boolean>>;
 	activeColor?: string;
 	children?: React.ReactNode;
+	labelcssStyles?: CSSProperties;
 }
 
 export type switchActionType = {

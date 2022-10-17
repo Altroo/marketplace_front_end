@@ -9,8 +9,6 @@ import ShowCoordonees from '../ajouterMesInfos-Stack/showCoordonees/showCoordone
 import ShowBio from '../ajouterMesInfos-Stack/showBio/showBio';
 import ShowAdresse from '../ajouterMesInfos-Stack/showAdresse/showAdresse';
 
-
-
 type Props = {
 	// global info modal
 	openInfoModal: boolean;

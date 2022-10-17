@@ -58,6 +58,7 @@ const CheckBox: React.FC<checkBoxForWhomBaseType> = (props: checkBoxForWhomBaseT
 			<ThemeProvider theme={colorTheme}>
 				<Checkbox
 					sx={{ '&:hover': { bgcolor: alphaColor } }}
+					style={{...props.labelcssStyles}}
 					checked={props.checked}
 					onChange={(e) => props.onChange && props.onChange(e.target.checked)}
 					disabled={!props.active}

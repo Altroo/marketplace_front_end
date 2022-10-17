@@ -53,6 +53,7 @@ const IconDropDownMenu: React.FC<Props> = (props: Props) => {
 					MenuListProps={{
 						'aria-labelledby': `${props.buttonID}`,
 					}}
+					disableScrollLock={true}
 				>
 					{props.actions.map((action, index) => {
 						return (

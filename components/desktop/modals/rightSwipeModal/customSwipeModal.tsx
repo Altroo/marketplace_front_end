@@ -21,6 +21,7 @@ type Props = {
 	cssClasse?: string;
 	// sx?: SxProps<Theme>;
 	showCloseIcon?: boolean;
+	waitShopSelector?:boolean;
 	children?: React.ReactNode;
 };
 
@@ -34,10 +35,10 @@ const CustomSwipeModal: React.FC<Props> = (props: Props) => {
 		if (typeof keepMounted === 'boolean') {
 			setMountDialog(keepMounted);
 		}
-		if (shopObj) {
+		if (props.waitShopSelector && shopObj) {
 			setMountDialog(true);
 		}
-	}, [shopObj, keepMounted]);
+	}, [shopObj, keepMounted, props.waitShopSelector]);
 
 	const Transition = React.forwardRef(function Transition(
 		props: TransitionProps & {
@@ -59,8 +60,9 @@ const CustomSwipeModal: React.FC<Props> = (props: Props) => {
 				keepMounted={mountDialog}
 				open={open}
 				TransitionComponent={Transition}
-				onClose={handleClose}
-				aria-describedby="alert-dialog-slide-description"
+				onClose={() => {
+					handleClose();
+				}}
 				fullScreen={typeof fullScreen !== 'undefined' ? fullScreen : true}
 				className={`${Styles.dialog} ${cssClasse}`}
 				// sx={props.sx}

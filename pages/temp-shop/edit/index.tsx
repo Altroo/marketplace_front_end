@@ -576,15 +576,15 @@ const Index: NextPage<Props> = (props: Props) => {
 							onClick={() => {
 								router.push(AUTH_REGISTER).then();
 							}}
-							menuID="desktop-edit-menu"
-							buttonID="desktop-edit-menu-btn"
+							menuID="desktop-edit-menu1"
+							buttonID="desktop-edit-menu1-btn"
 						/>
 					</div>
 					<div className={Styles.mobileTopBarWrapper}>
 						<MobilePublishEditNavbar
 							actions={dropDownActions}
 							onPublish={() => {
-								console.log('Clicked');
+								router.push(AUTH_REGISTER).then();
 							}}
 							menuID="mobile-edit-menu"
 							buttonID="mobile-edit-menu-btn"
@@ -657,50 +657,6 @@ const Index: NextPage<Props> = (props: Props) => {
 										cssClass={Styles.iconButton}
 									/>
 								)}
-
-								{/* START right side contact modal */}
-								<CustomSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
-									<div className={Styles.modalContentWrapper}>
-										<div className={Styles.topBar}>
-											<Image
-												src={CloseSVG}
-												width={40}
-												height={40}
-												alt=""
-												onClick={handleContactModalClose}
-											/>
-										</div>
-										<HelperDescriptionHeader
-											header="Ajouter un moyen de contact"
-											description="Choississez comment vos client peuvent vous contacter"
-										/>
-										{contacterAction.map((action, index) => {
-											return (
-												<ContacterPhoneInput
-													key={index}
-													checked={action.checked}
-													setStateHandler={action.setStateHandler}
-													label={action.label}
-													backgroundColor={action.backgroundColor}
-													icon={action.icon}
-													code={action.code}
-													setCode={action.setCode}
-													value={action.value}
-													setValue={action.setValue}
-												/>
-											);
-										})}
-									</div>
-									<div className={Styles.actionButtonWrapper}>
-										<PrimaryButton
-											buttonText="Enregistrer"
-											active={true}
-											onClick={contacterSaveHandler}
-											cssClass={Styles.actionButtonWidth}
-										/>
-									</div>
-								</CustomSwipeModal>
-								{/* END right side contact modal */}
 							</div>
 						</div>
 						<div>
@@ -758,8 +714,52 @@ const Index: NextPage<Props> = (props: Props) => {
 							</div>
 						</div>
 					</div>
+					{/* START right side contact modal - has bug not 100% hidden - the check is to resolve it */}
+					{openContacterModal && <CustomSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
+						<div className={Styles.modalContentWrapper}>
+							<div className={Styles.topBar}>
+								<Image
+									src={CloseSVG}
+									width={40}
+									height={40}
+									alt=""
+									onClick={handleContactModalClose}
+								/>
+							</div>
+							<HelperDescriptionHeader
+								header="Ajouter un moyen de contact"
+								description="Choississez comment vos client peuvent vous contacter"
+							/>
+							{contacterAction.map((action, index) => {
+								return (
+									<ContacterPhoneInput
+										key={index}
+										checked={action.checked}
+										setStateHandler={action.setStateHandler}
+										label={action.label}
+										backgroundColor={action.backgroundColor}
+										icon={action.icon}
+										code={action.code}
+										setCode={action.setCode}
+										value={action.value}
+										setValue={action.setValue}
+									/>
+								);
+							})}
+						</div>
+						<div className={Styles.actionButtonWrapper}>
+							<PrimaryButton
+								buttonText="Enregistrer"
+								active={true}
+								onClick={contacterSaveHandler}
+								cssClass={Styles.actionButtonWidth}
+							/>
+						</div>
+					</CustomSwipeModal>}
+					{/* END right side contact modal */}
 					{/* Edit info modal */}
-					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}>
+					{/*{openInfoModal && }*/}
+					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
 								<Image

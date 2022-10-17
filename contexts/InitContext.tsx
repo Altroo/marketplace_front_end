@@ -15,7 +15,13 @@ import { emptyInitStateToken, emptyInitStateUniqueID } from '../store/slices/_in
 import { loadNewAddedShopAction, shopGetRootAction } from '../store/actions/shop/shopActions';
 import { accountGetCheckAccountAction } from '../store/actions/account/accountActions';
 import { cookiesFetcher } from '../store/services/_init/_initAPI';
-import { getCheckUserHasShop, getInitStateToken, getInitStateUniqueID, getTokenType } from "../store/selectors";
+import {
+	getCheckUserHasShop,
+	getInitStateToken,
+	getInitStateUniqueID,
+	getTokenType,
+	getUserShopUrl
+} from "../store/selectors";
 import { placesGetCitiesAction } from "../store/actions/places/placesActions";
 // import { offerGetMyOffersFirstPageAction } from "../store/actions/offer/offerActions";
 // import { offerGetMyOffersFirstPageAction } from "../store/actions/offer/offerActions";
@@ -29,6 +35,7 @@ const InitContext = createContext<InitStateInterface<InitStateToken, InitStateUn
 export const InitContextProvider = (props: PropsWithChildren<Record<string, unknown>>) => {
 	const dispatch = useAppDispatch();
 	const userHasShop = useAppSelector(getCheckUserHasShop);
+	const userShopUrl = useAppSelector(getUserShopUrl);
 	const tokenType = useAppSelector(getTokenType);
 	const token = useAppSelector(getInitStateToken);
 	const uniqueID = useAppSelector(getInitStateUniqueID);
@@ -66,16 +73,14 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 			// dispatch(cartGetAllAction());
 			// Required by userHasShop
 			dispatch(accountGetCheckAccountAction());
-			if (userHasShop) {
-				dispatch(shopGetRootAction());
-				// dispatch(offerGetMyOffersFirstPageAction());
+			if (userHasShop && typeof userShopUrl === 'string') {
+				dispatch(shopGetRootAction(userShopUrl));
 			}
 		} else if (tokenType === 'UNIQUE_ID' && uniqueID !== null) {
 			// try to get unique ID shop if exists.
 			dispatch(shopGetRootAction());
-			// dispatch(offerGetMyOffersFirstPageAction());
 		}
-	}, [dispatch, tokenType, token, uniqueID, userHasShop, appTokenCookiesLoaded, newShopCookiesLoaded]);
+	}, [dispatch, tokenType, token, uniqueID, userHasShop, appTokenCookiesLoaded, newShopCookiesLoaded, userShopUrl]);
 
 	const contextValue: InitStateInterface<InitStateToken, InitStateUniqueID> = {
 		tokenType: tokenType,

@@ -220,15 +220,15 @@ const Color: NextPage = () => {
 									</div>
 									<div className={Styles.promoWrapper}>
 										<span className={Styles.subHeader}>En Promo</span>
-										<IosSwitch disabled checked={false} />
+										<IosSwitch disabled checked={false} labelcssStyles={{paddingLeft: '10px'}} />
 									</div>
 									<div className={Styles.forWhomWrapper}>
 										<span className={Styles.subHeader}>Pour qui</span>
 										<div>
 											<div>
-												<CheckBox checked={false} active={false} text="Enfant" />
-												<CheckBox checked active={false} text="Femme" />
-												<CheckBox checked active={false} text="Homme" />
+												<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{paddingLeft: 0}} />
+												<CheckBox checked active={false} text="Femme" labelcssStyles={{paddingLeft: 0}} />
+												<CheckBox checked active={false} text="Homme" labelcssStyles={{paddingLeft: 0}} />
 											</div>
 										</div>
 									</div>

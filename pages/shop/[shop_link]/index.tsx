@@ -51,7 +51,7 @@ import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../../temp-shop/create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE, TEMP_SHOP_EDIT_ROUTE } from "../../../utils/routes";
+import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE, TEMP_SHOP_EDIT_ROUTE } from '../../../utils/routes';
 import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
@@ -67,7 +67,7 @@ import ShopNotIndexed from '../../../components/layouts/callToActionCards/shopNo
 import EditShopInfoTabContent from '../../../components/groupedComponents/shop/edit/editShopInfoTabContent/editShopInfoTabContent';
 import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
 import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu';
-import DismissMessageModal from "../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal";
+import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
 
 type ViewShopType = {
 	data: ShopGetRootTokenType;
@@ -491,7 +491,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 				<main className={Styles.main}>
 					{!is_subscribed && <ShopNotIndexed />}
 					<Stack direction="row" justifyContent="flex-end" alignItems="flex-end" className={Styles.mobileOnly}>
-						<IconDropDownMenu actions={dropDownActions} menuID="desktop-edit-menu" buttonID="desktop-edit-menu-btn" />
+						<IconDropDownMenu actions={dropDownActions} menuID="desktop-edit-menu1" buttonID="desktop-edit-menu1-btn" />
 					</Stack>
 					<Stack
 						justifyContent="space-between"
@@ -604,43 +604,6 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 									cssClass={Styles.iconButton}
 								/>
 							)}
-							{/* START right side contact modal */}
-							<CustomSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
-								<div className={Styles.modalContentWrapper}>
-									<div className={Styles.topBar}>
-										<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
-									</div>
-									<HelperDescriptionHeader
-										header="Ajouter un moyen de contact"
-										description="Choississez comment vos client peuvent vous contacter"
-									/>
-									{contacterAction.map((action, index) => {
-										return (
-											<ContacterPhoneInput
-												key={index}
-												checked={action.checked}
-												setStateHandler={action.setStateHandler}
-												label={action.label}
-												backgroundColor={action.backgroundColor}
-												icon={action.icon}
-												code={action.code}
-												setCode={action.setCode}
-												value={action.value}
-												setValue={action.setValue}
-											/>
-										);
-									})}
-								</div>
-								<div className={Styles.actionButtonWrapper}>
-									<PrimaryButton
-										buttonText="Enregistrer"
-										active={true}
-										onClick={contacterSaveHandler}
-										cssClass={Styles.actionButtonWidth}
-									/>
-								</div>
-							</CustomSwipeModal>
-							{/* END right side contact modal */}
 						</Stack>
 					</Stack>
 					<Box>
@@ -680,29 +643,68 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 							</Stack>
 						</Stack>
 					</Box>
-					{/* Edit info modal */}
-					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)}>
-						<div className={Styles.modalContentWrapper}>
-							<div className={Styles.topBar}>
-								<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
-							</div>
-							<HelperDescriptionHeader header="Ajouter mes infos" />
-							<Stack direction="column" spacing={4}>
-								{infosStackActions.map((stack, index) => {
+					{/* START right side contact modal - has bug not 100% hidden - the check is to resolve it */}
+					{openContacterModal && (
+						<CustomSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
+							<div className={Styles.modalContentWrapper}>
+								<div className={Styles.topBar}>
+									<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
+								</div>
+								<HelperDescriptionHeader
+									header="Ajouter un moyen de contact"
+									description="Choississez comment vos client peuvent vous contacter"
+								/>
+								{contacterAction.map((action, index) => {
 									return (
-										<AjouterMesInfosStack
+										<ContacterPhoneInput
 											key={index}
-											title={stack.title}
-											added={stack.added}
-											content={stack.content}
-											openEditModal={stack.openEditModal}
-											setOpenEditModal={stack.setOpenEditModal}
+											checked={action.checked}
+											setStateHandler={action.setStateHandler}
+											label={action.label}
+											backgroundColor={action.backgroundColor}
+											icon={action.icon}
+											code={action.code}
+											setCode={action.setCode}
+											value={action.value}
+											setValue={action.setValue}
 										/>
 									);
 								})}
-							</Stack>
-						</div>
-					</CustomSwipeModal>
+							</div>
+							<div className={Styles.actionButtonWrapper}>
+								<PrimaryButton
+									buttonText="Enregistrer"
+									active={true}
+									onClick={contacterSaveHandler}
+									cssClass={Styles.actionButtonWidth}
+								/>
+							</div>
+						</CustomSwipeModal>
+					)}
+					{/* END right side contact modal */}
+					{/* Edit info modal */}
+					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
+							<div className={Styles.modalContentWrapper}>
+								<div className={Styles.topBar}>
+									<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
+								</div>
+								<HelperDescriptionHeader header="Ajouter mes infos" />
+								<Stack direction="column" spacing={4}>
+									{infosStackActions.map((stack, index) => {
+										return (
+											<AjouterMesInfosStack
+												key={index}
+												title={stack.title}
+												added={stack.added}
+												content={stack.content}
+												openEditModal={stack.openEditModal}
+												setOpenEditModal={stack.setOpenEditModal}
+											/>
+										);
+									})}
+								</Stack>
+							</div>
+						</CustomSwipeModal>
 					{/* Edit color modal */}
 					{openColorModal && (
 						<>
