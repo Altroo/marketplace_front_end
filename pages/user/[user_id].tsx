@@ -98,7 +98,7 @@ const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentTy
 						<a>
 							<Stack direction="row" spacing={1} alignItems="center">
 								<ImageFuture src={EditBlackSVG} alt="" width="17" height="17" sizes="100vw" />
-								<span>modifier mon profil</span>
+								<span>Modifier mon profil</span>
 							</Stack>
 						</a>
 					</Link>

@@ -4,8 +4,11 @@ import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../utils/
 import { AccountGetDashboardResponseType, AccountGetDashboardType } from '../../types/account/accountTypes';
 import { getApi } from '../../store/services/_init/_initAPI';
 import {
-	AUTH_LOGIN, DASHBOARD_AUDIENCES, DASHBOARD_CHIFFRE_DAFFAIRE,
-	DASHBOARD_EDIT_PROFILE, DASHBOARD_INDEXED_OFFERS, DASHBOARD_SUBSCRIPTION,
+	AUTH_LOGIN, DASHBOARD_AUDIENCES,
+	DASHBOARD_CHIFFRE_DAFFAIRE,
+	DASHBOARD_EDIT_PROFILE,
+	DASHBOARD_INDEXED_OFFERS,
+	DASHBOARD_SUBSCRIPTION,
 	NOT_FOUND_404,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	TEMP_SHOP_ADD_SHOP_NAME,
@@ -51,9 +54,7 @@ import OutlineButton from '../../components/htmlElements/buttons/outlineButton/o
 import { Theme } from '@mui/material/styles/createTheme';
 import {
 	accountPostResendActivationAction,
-	accountPostSendPasswordResetAction
 } from "../../store/actions/account/accountActions";
-import { SagaCallBackOnCompleteBoolType } from "../../types/_init/_initTypes";
 import { useAppDispatch } from "../../utils/hooks";
 
 type ShopInfoContentType = {
@@ -602,13 +603,6 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 				<CustomFooter />
 			</Stack>
 		</ThemeProvider>
-		// <>
-		// 	{Object.keys(data).map((keyName, index) => (
-		// 		<h1 className="input-label" key={index}>
-		// 			key: {keyName} value: {data[keyName as keyof AccountGetDashboardType].toString()}
-		// 		</h1>
-		// 	))}
-		// </>
 	);
 };
 

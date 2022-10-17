@@ -11,7 +11,6 @@ export type ShopDaysType = 'MO' | 'TU' | 'WE' | 'TH' | 'FR' | 'SA' | 'SU' | 'AL'
 
 export interface ShopPostRootType extends AuthShopClass {
 	type: string;
-	router: NextRouter,
 }
 
 export interface ShopGetRootType {

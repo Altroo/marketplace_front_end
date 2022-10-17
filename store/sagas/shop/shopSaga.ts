@@ -69,6 +69,7 @@ import {
 	setRemoteCookiesAppToken,
 	deleteCookieStorageNewShopData,
 } from '../../../utils/helpers';
+import { withCallback } from 'redux-saga-callback';
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
@@ -81,6 +82,7 @@ import {
 import { NextRouter } from 'next/router';
 import { AxiosInstance } from 'axios';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import { Saga } from "redux-saga";
 
 // interface TokenNoAuthSagaBaseGeneratorParams {
 //     payloadRecord: Record<string, unknown>;
@@ -123,16 +125,18 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SHOP_ROOT}/`;
 	try {
-		// User authenticated
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const instance: AxiosInstance = yield call(() =>
 				isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
 			);
 			const response: ShopPostRootTokenResponseType = yield call(() => postFormDataApi(url, instance, payload));
 			if (response.status === 200) {
-				// update state
 				yield put(setPostShopState(response.data));
-				yield call(() => payload.router.push(`${TEMP_SHOP_EDIT_ROUTE}?created=true`));
+				// empty temporary new shop data
+				yield call(() => emptyLocalStorageNewShopData());
+				// delete cookies
+				yield call(() => deleteCookieStorageNewShopData());
+				return response.data.qaryb_link;
 			}
 		} else {
 			// User is not authenticated
@@ -156,7 +160,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				yield call(() => emptyLocalStorageNewShopData());
 				// delete cookies
 				yield call(() => deleteCookieStorageNewShopData());
-				yield call(() => payload.router.push(`${TEMP_SHOP_EDIT_ROUTE}?created=true`));
+				return response.data.qaryb_link;
 			}
 		}
 	} catch (e) {
@@ -628,7 +632,7 @@ export function* watchShop() {
 	yield takeLatest(Types.SET_SHOP_FONT, setShopLocalFontSaga);
 	yield takeLatest(Types.SET_SHOP_BORDER, setShopLocalBorderSaga);
 	yield takeLatest(Types.SET_SHOP_ICON_COLOR, setShopLocalIconColorSaga);
-	yield takeLatest(Types.SHOP_POST_ROOT, shopPostRootSaga);
+	yield takeLatest(Types.SHOP_POST_ROOT, withCallback(shopPostRootSaga as Saga));
 	yield takeLatest(Types.SHOP_GET_ROOT, shopGetRootSaga);
 	yield takeLatest(Types.SHOP_GET_PHONE_CODES, shopGetPhoneCodesSaga);
 	yield takeLatest(Types.SHOP_PATCH_SHOP_NAME, shopPatchShopNameSaga);

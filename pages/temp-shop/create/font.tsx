@@ -46,9 +46,16 @@ import {
 } from '../../../store/selectors';
 import ApiAlert from '../../../components/formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
-import { TEMP_SHOP_ADD_COLOR, SITE_ROOT } from "../../../utils/routes";
+import {
+	TEMP_SHOP_ADD_COLOR,
+	SITE_ROOT,
+	TEMP_SHOP_EDIT_ROUTE,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE
+} from "../../../utils/routes";
 import { getCookie } from "cookies-next";
 import { Box } from '@mui/material';
+import { SagaCallBackOnCompleteBoolType, SagaCallBackOnCompleteStrType } from "../../../types/_init/_initTypes";
+import { useSession } from "next-auth/react";
 
 export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
 	{
@@ -70,6 +77,8 @@ export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
 ];
 
 const Font: NextPage = () => {
+	const { data: session, status } = useSession();
+	const loading = status === 'loading';
 	const activeStep = '4';
 	const dispatch = useAppDispatch();
 	const router = useRouter();
@@ -159,19 +168,24 @@ const Font: NextPage = () => {
 	const fontHandler = (font: ShopFontNameType | undefined) => {
 		if (font) {
 			dispatch(setShopFontAction(font));
-			dispatch(
-				shopPostRootAction(
-					shopName,
-					shopAvatar,
-					shopBgColorCode,
-					shopColorCode,
-					shopBorder,
-					shopIconColor,
-					font,
-					router,
-				),
-			);
+			const action = shopPostRootAction(shopName, shopAvatar, shopBgColorCode,
+				shopColorCode, shopBorder, shopIconColor, font);
+			dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteStrType) => {
+				if (!error && !cancelled && data) {
+					if(!loading && session) {
+						let url: string = REAL_SHOP_BY_SHOP_LINK_ROUTE(data as string);
+						url += '?created=true';
+						router.replace(url).then();
+					} else {
+						router.replace(`${TEMP_SHOP_EDIT_ROUTE}?created=true`).then();
+					}
+				}
+			},
+		});
 		}
+		// router.push(`${TEMP_SHOP_EDIT_ROUTE}?created=true`)
 	};
 
 	return (

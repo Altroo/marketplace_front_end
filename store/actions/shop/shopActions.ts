@@ -66,7 +66,6 @@ export const shopPostRootAction = (
 	border: string,
 	icon_color: IconColorType,
 	font_name: ShopFontNameType,
-	router: NextRouter,
 ) => {
 	return {
 		type: Types.SHOP_POST_ROOT,
@@ -77,7 +76,6 @@ export const shopPostRootAction = (
 		border,
 		icon_color,
 		font_name,
-		router,
 	};
 };
 

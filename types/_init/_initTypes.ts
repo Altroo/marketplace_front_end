@@ -68,6 +68,10 @@ export interface SagaCallBackOnCompleteBoolType extends SagaCallBackBase {
 	data: boolean;
 }
 
+export interface SagaCallBackOnCompleteStrType extends SagaCallBackBase {
+	data: string;
+}
+
 export interface OfferPinSagaCallBackType extends SagaCallBackBase {
 	data: OfferPinType;
 }

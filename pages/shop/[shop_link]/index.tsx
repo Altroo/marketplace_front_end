@@ -51,7 +51,7 @@ import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../../temp-shop/create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../utils/routes';
+import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE, TEMP_SHOP_EDIT_ROUTE } from "../../../utils/routes";
 import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
@@ -67,6 +67,7 @@ import ShopNotIndexed from '../../../components/layouts/callToActionCards/shopNo
 import EditShopInfoTabContent from '../../../components/groupedComponents/shop/edit/editShopInfoTabContent/editShopInfoTabContent';
 import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
 import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu';
+import DismissMessageModal from "../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal";
 
 type ViewShopType = {
 	data: ShopGetRootTokenType;
@@ -76,6 +77,8 @@ type ViewShopType = {
 // ability to edit
 const ViewShopAsOwner = (props: ViewShopType) => {
 	const router = useRouter();
+	const { created, shop_link } = router.query;
+	const [modalDismissed, setModalDismissed] = useState(false);
 	const dispatch = useAppDispatch();
 	const { data } = props;
 	const pk = data.pk;
@@ -472,6 +475,19 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 
 	return (
 		<>
+			{/* Show shop created modal */}
+			{created && !modalDismissed && (
+				<DismissMessageModal
+					title="Voilà le résultat !"
+					body="Vous pouvez désormais publier votre boutique ou continuer à la peaufiner."
+					visible={!modalDismissed}
+					buttonText="Compris !"
+					dismissHandler={() => {
+						setModalDismissed(true);
+						router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(shop_link as string), undefined, { shallow: true }).then();
+					}}
+				/>
+			)}
 			<Stack direction="column">
 				<UserMainNavigationBar />
 				<main className={Styles.main}>
