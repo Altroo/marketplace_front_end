@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { GetServerSidePropsContext, NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Styles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
@@ -28,7 +28,7 @@ import BorderIconAnchorButton from '../../../components/htmlElements/buttons/bor
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import { ShopFontNameType } from '../../../types/shop/shopTypes';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { cookiesPoster } from '../../../store/services/_init/_initAPI';
+import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { chipActionsType } from '../../../types/ui/uiTypes';
@@ -50,12 +50,16 @@ import {
 	TEMP_SHOP_ADD_COLOR,
 	SITE_ROOT,
 	TEMP_SHOP_EDIT_ROUTE,
-	REAL_SHOP_BY_SHOP_LINK_ROUTE
-} from "../../../utils/routes";
-import { getCookie } from "cookies-next";
+	REAL_SHOP_BY_SHOP_LINK_ROUTE,
+	TEMP_SHOP_ADD_AVATAR,
+	AUTH_LOGIN,
+} from '../../../utils/routes';
+import { getCookie } from 'cookies-next';
 import { Box } from '@mui/material';
-import { SagaCallBackOnCompleteBoolType, SagaCallBackOnCompleteStrType } from "../../../types/_init/_initTypes";
-import { useSession } from "next-auth/react";
+import { SagaCallBackOnCompleteBoolType, SagaCallBackOnCompleteStrType } from '../../../types/_init/_initTypes';
+import { useSession } from 'next-auth/react';
+import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 
 export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
 	{
@@ -168,22 +172,29 @@ const Font: NextPage = () => {
 	const fontHandler = (font: ShopFontNameType | undefined) => {
 		if (font) {
 			dispatch(setShopFontAction(font));
-			const action = shopPostRootAction(shopName, shopAvatar, shopBgColorCode,
-				shopColorCode, shopBorder, shopIconColor, font);
+			const action = shopPostRootAction(
+				shopName,
+				shopAvatar,
+				shopBgColorCode,
+				shopColorCode,
+				shopBorder,
+				shopIconColor,
+				font,
+			);
 			dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteStrType) => {
-				if (!error && !cancelled && data) {
-					if(!loading && session) {
-						let url: string = REAL_SHOP_BY_SHOP_LINK_ROUTE(data as string);
-						url += '?created=true';
-						router.replace(url).then();
-					} else {
-						router.replace(`${TEMP_SHOP_EDIT_ROUTE}?created=true`).then();
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteStrType) => {
+					if (!error && !cancelled && data) {
+						if (!loading && session) {
+							let url: string = REAL_SHOP_BY_SHOP_LINK_ROUTE(data as string);
+							url += '?created=true';
+							router.replace(url).then();
+						} else {
+							router.replace(`${TEMP_SHOP_EDIT_ROUTE}?created=true`).then();
+						}
 					}
-				}
-			},
-		});
+				},
+			});
 		}
 		// router.push(`${TEMP_SHOP_EDIT_ROUTE}?created=true`)
 	};
@@ -199,12 +210,7 @@ const Font: NextPage = () => {
 					<HelperH1Header header="Choisir une police" HelpText="L'importance d'un type de police" />
 					<DefaultCardSection>
 						<div className={Styles.avatarActionsWrapper}>
-							<AvatarShopNameRating
-								shopName={shopName}
-								preview={preview}
-								font={fontName}
-								active={false}
-							/>
+							<AvatarShopNameRating shopName={shopName} preview={preview} font={fontName} active={false} />
 							<div className={Styles.actionsWrapper}>
 								<IconAnchorButton
 									buttonText="Message"
@@ -224,19 +230,8 @@ const Font: NextPage = () => {
 						</div>
 						<div className={Styles.shopDetailsWrapper}>
 							<div className={Styles.shopTabs}>
-								<DisactivatedTab
-									active
-									text="BOUTIQUE"
-									selected={false}
-									borderColor={bgColorCode}
-									color={blackText}
-								/>
-								<DisactivatedTab
-									active={false}
-									text="INFOS"
-									borderColor={bgColorCode}
-									color={blackText}
-								/>
+								<DisactivatedTab active text="BOUTIQUE" selected={false} borderColor={bgColorCode} color={blackText} />
+								<DisactivatedTab active={false} text="INFOS" borderColor={bgColorCode} color={blackText} />
 							</div>
 						</div>
 						<div className={Styles.filterWrapper}>
@@ -253,15 +248,15 @@ const Font: NextPage = () => {
 									</div>
 									<div className={Styles.promoWrapper}>
 										<span className={Styles.subHeader}>En Promo</span>
-										<IosSwitch disabled checked={false} labelcssStyles={{paddingLeft: '10px'}} />
+										<IosSwitch disabled checked={false} labelcssStyles={{ paddingLeft: '10px' }} />
 									</div>
 									<div className={Styles.forWhomWrapper}>
 										<span className={Styles.subHeader}>Pour qui</span>
 										<div>
 											<div>
-												<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{paddingLeft: 0}} />
-												<CheckBox checked active={false} text="Femme" labelcssStyles={{paddingLeft: 0}} />
-												<CheckBox checked active={false} text="Homme" labelcssStyles={{paddingLeft: 0}} />
+												<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{ paddingLeft: 0 }} />
+												<CheckBox checked active={false} text="Femme" labelcssStyles={{ paddingLeft: 0 }} />
+												<CheckBox checked active={false} text="Homme" labelcssStyles={{ paddingLeft: 0 }} />
 											</div>
 										</div>
 									</div>
@@ -270,10 +265,7 @@ const Font: NextPage = () => {
 							<div className={Styles.shopAddOfferWrapper}>
 								<div className={Styles.addOfferContainer}>
 									<div className={Styles.centeredInfoActionWrapper}>
-										<CenteredInfoAction
-											header="Démarrer votre boutique"
-											subHeader="Ajoutez votre premier article !"
-										/>
+										<CenteredInfoAction header="Démarrer votre boutique" subHeader="Ajoutez votre premier article !" />
 										<BorderIconAnchorButton
 											buttonText="Ajouter un article"
 											svgIcon={DisactivatedAddIconSVG}
@@ -300,24 +292,20 @@ const Font: NextPage = () => {
 						<div>
 							<div className={Styles.mobileFontWrapper}>
 								<div className={Styles.mobileFontContainerModal}>
-									{availableFonts.map(
-										(font: { name: string; code: ShopFontNameType }, index: number) => {
-											return (
-												<FontPicker
-													key={index}
-													pickedFontName={fontName}
-													font={font}
-													onClick={() => {
-														fontPicker(font.code);
-													}}
-												/>
-											);
-										},
-									)}
+									{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
+										return (
+											<FontPicker
+												key={index}
+												pickedFontName={fontName}
+												font={font}
+												onClick={() => {
+													fontPicker(font.code);
+												}}
+											/>
+										);
+									})}
 								</div>
-								<div
-									className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}
-								>
+								<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 									<PrimaryButton
 										buttonText="Continuer"
 										active={fontName !== undefined}
@@ -327,7 +315,9 @@ const Font: NextPage = () => {
 							</div>
 						</div>
 					</DefaultCardSection>
-					<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.miniMarginButtonBottom} ${Styles.primaryButtonZindexWrapper}`} >
+					<div
+						className={`${Styles.primaryButtonDesktopWrapper} ${Styles.miniMarginButtonBottom} ${Styles.primaryButtonZindexWrapper}`}
+					>
 						<PrimaryButton
 							buttonText="Continuer"
 							active={fontName !== undefined}
@@ -336,7 +326,11 @@ const Font: NextPage = () => {
 					</div>
 				</Box>
 				{isAddInProgressSelector && isAddPromiseStatusSelector === 'PENDING' && (
-					<ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} backdropColor="#FFFFFF" circularColor="#FFFFFF"/>
+					<ApiProgress
+						cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+						backdropColor="#FFFFFF"
+						circularColor="#FFFFFF"
+					/>
 				)}
 				{!isAddInProgressSelector && isAddPromiseStatusSelector === 'REJECTED' && isAddErrorSelector && (
 					<ApiAlert
@@ -349,19 +343,76 @@ const Font: NextPage = () => {
 	);
 };
 
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+// 	const color_code = getCookie('@color_code', { req: context.req, res: context.res });
+// 	const bg_color_code = getCookie('@bg_color_code', { req: context.req, res: context.res });
+// 	if (!color_code && !bg_color_code) {
+// 		return {
+// 			redirect: {
+// 				permanent: false,
+// 				destination: TEMP_SHOP_ADD_COLOR,
+// 			},
+// 		};
+// 	}
+// 	return {
+// 		props: {},
+// 	};
+// }
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const color_code = getCookie('@color_code', {req: context.req, res: context.res});
-	const bg_color_code = getCookie('@bg_color_code', {req: context.req, res: context.res});
-	if (!color_code && !bg_color_code) {
+	const color_code = getCookie('@color_code', { req: context.req, res: context.res });
+	const bg_color_code = getCookie('@bg_color_code', { req: context.req, res: context.res });
+	// redirect if user already logged in
+	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
+	const appToken = getServerSideCookieTokens(context);
+	try {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+			const instance = isAuthenticatedInstance(appToken.initStateToken);
+			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
+			if (response.status === 200 && typeof response.data.shop_url === 'string') {
+				return {
+					// connected already has shop.
+					redirect: {
+						permanent: false,
+						destination: REAL_SHOP_BY_SHOP_LINK_ROUTE(response.data.shop_url),
+					},
+				};
+			} else {
+				// connected no shop created yet - proceed to create.
+				if (!color_code && !bg_color_code) {
+					return {
+						redirect: {
+							permanent: false,
+							destination: TEMP_SHOP_ADD_COLOR,
+						},
+					};
+				}
+				return {
+					props: {},
+				};
+			}
+		} else {
+			// not connected, status unknown
+			if (!color_code && !bg_color_code) {
+				return {
+					redirect: {
+						permanent: false,
+						destination: TEMP_SHOP_ADD_COLOR,
+					},
+				};
+			}
+			return {
+				props: {},
+			};
+		}
+	} catch (e) {
+		// fallback case.
 		return {
 			redirect: {
 				permanent: false,
-				destination: TEMP_SHOP_ADD_COLOR,
+				destination: AUTH_LOGIN,
 			},
 		};
-	}
-	return {
-		props: {},
 	}
 }
 

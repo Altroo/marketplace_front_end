@@ -36,6 +36,7 @@ const MobileOffersFilterButton: React.FC<Props> = (props: Props) => {
 		<ThemeProvider theme={customTheme}>
 			<Fab
 				sx={{
+					zIndex: 9,
 					position: 'fixed',
 					bottom: (theme) => theme.spacing(2),
 					left: 'calc(50% - 110px/2)', // 50% vw - compo size / 2

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { GetServerSidePropsContext, NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
@@ -34,15 +34,23 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/lazy';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
-import { cookiesPoster } from '../../../store/services/_init/_initAPI';
+import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
-import { TEMP_SHOP_ADD_AVATAR, SITE_ROOT } from "../../../utils/routes";
-import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
-import { useRouter } from "next/router";
-import { getCookie } from "cookies-next";
+import {
+	TEMP_SHOP_ADD_AVATAR,
+	SITE_ROOT,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE,
+	TEMP_SHOP_ADD_SHOP_NAME,
+	AUTH_LOGIN,
+} from '../../../utils/routes';
+import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import { useRouter } from 'next/router';
+import { getCookie } from 'cookies-next';
 import { Box } from '@mui/material';
+import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 
 export const colors = [
 	'#FF5D6B',
@@ -161,7 +169,6 @@ const Color: NextPage = () => {
 
 	return (
 		<>
-
 			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SHOP" />
 				<Box sx={{ width: '100%', height: '100%' }}>
@@ -191,19 +198,8 @@ const Color: NextPage = () => {
 						</div>
 						<div className={Styles.shopDetailsWrapper}>
 							<div className={Styles.shopTabs}>
-								<DisactivatedTab
-									active
-									text="BOUTIQUE"
-									selected={false}
-									borderColor={bgColorCode}
-									color={blackText}
-								/>
-								<DisactivatedTab
-									active={false}
-									text="INFOS"
-									borderColor={bgColorCode}
-									color={blackText}
-								/>
+								<DisactivatedTab active text="BOUTIQUE" selected={false} borderColor={bgColorCode} color={blackText} />
+								<DisactivatedTab active={false} text="INFOS" borderColor={bgColorCode} color={blackText} />
 							</div>
 						</div>
 						<div className={Styles.filterWrapper}>
@@ -220,15 +216,15 @@ const Color: NextPage = () => {
 									</div>
 									<div className={Styles.promoWrapper}>
 										<span className={Styles.subHeader}>En Promo</span>
-										<IosSwitch disabled checked={false} labelcssStyles={{paddingLeft: '10px'}} />
+										<IosSwitch disabled checked={false} labelcssStyles={{ paddingLeft: '10px' }} />
 									</div>
 									<div className={Styles.forWhomWrapper}>
 										<span className={Styles.subHeader}>Pour qui</span>
 										<div>
 											<div>
-												<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{paddingLeft: 0}} />
-												<CheckBox checked active={false} text="Femme" labelcssStyles={{paddingLeft: 0}} />
-												<CheckBox checked active={false} text="Homme" labelcssStyles={{paddingLeft: 0}} />
+												<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{ paddingLeft: 0 }} />
+												<CheckBox checked active={false} text="Femme" labelcssStyles={{ paddingLeft: 0 }} />
+												<CheckBox checked active={false} text="Homme" labelcssStyles={{ paddingLeft: 0 }} />
 											</div>
 										</div>
 									</div>
@@ -237,10 +233,7 @@ const Color: NextPage = () => {
 							<div className={Styles.shopAddOfferWrapper}>
 								<div className={Styles.addOfferContainer}>
 									<div className={Styles.centeredInfoActionWrapper}>
-										<CenteredInfoAction
-											header="Démarrer votre boutique"
-											subHeader="Ajoutez votre premier article !"
-										/>
+										<CenteredInfoAction header="Démarrer votre boutique" subHeader="Ajoutez votre premier article !" />
 										<BorderIconAnchorButton
 											buttonText="Ajouter un article"
 											svgIcon={DisactivatedAddIconSVG}
@@ -300,9 +293,7 @@ const Color: NextPage = () => {
 										})}
 									</SwiperSlide>
 								</Swiper>
-								<div
-									className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}
-								>
+								<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 									<PrimaryButton
 										cssClass={Styles.primaryButton}
 										buttonText="Continuer"
@@ -314,7 +305,9 @@ const Color: NextPage = () => {
 							</div>
 						</div>
 					</DefaultCardSection>
-						<div className={`${Styles.primaryButtonWrapper} ${Styles.marginButtonBottom} ${Styles.primaryButtonZindexWrapper}`} >
+					<div
+						className={`${Styles.primaryButtonWrapper} ${Styles.marginButtonBottom} ${Styles.primaryButtonZindexWrapper}`}
+					>
 						<PrimaryButton
 							buttonText="Continuer"
 							active={colorCode !== undefined && bgColorCode !== undefined}
@@ -328,18 +321,76 @@ const Color: NextPage = () => {
 	);
 };
 
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+// 	const avatar = getCookie('@avatar', { req: context.req, res: context.res });
+// 	if (!avatar) {
+// 		return {
+// 			redirect: {
+// 				permanent: false,
+// 				destination: TEMP_SHOP_ADD_AVATAR,
+// 			},
+// 		};
+// 	}
+// 	return {
+// 		props: {},
+// 	};
+// }
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const avatar = getCookie('@avatar', {req: context.req, res: context.res});
-	if (!avatar) {
+	const avatar = getCookie('@avatar', { req: context.req, res: context.res });
+	// redirect if user already logged in
+	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
+	const appToken = getServerSideCookieTokens(context);
+	try {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+			const instance = isAuthenticatedInstance(appToken.initStateToken);
+			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
+			if (response.status === 200 && typeof response.data.shop_url === 'string') {
+				return {
+					// connected already has shop.
+					redirect: {
+						permanent: false,
+						destination: REAL_SHOP_BY_SHOP_LINK_ROUTE(response.data.shop_url),
+					},
+				};
+			} else {
+				// connected no shop created yet - proceed to create.
+				if (!avatar) {
+					return {
+						redirect: {
+							permanent: false,
+							destination: TEMP_SHOP_ADD_AVATAR,
+						},
+					};
+				} else {
+					return {
+						props: {},
+					};
+				}
+			}
+		} else {
+			// not connected, status unknown
+			if (!avatar) {
+				return {
+					redirect: {
+						permanent: false,
+						destination: TEMP_SHOP_ADD_AVATAR,
+					},
+				};
+			} else {
+				return {
+					props: {},
+				};
+			}
+		}
+	} catch (e) {
+		// fallback case.
 		return {
 			redirect: {
 				permanent: false,
-				destination: TEMP_SHOP_ADD_AVATAR,
+				destination: AUTH_LOGIN,
 			},
 		};
-	}
-	return {
-		props: {},
 	}
 }
 

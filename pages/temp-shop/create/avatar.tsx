@@ -21,15 +21,17 @@ import CheckBox from '../../../components/htmlElements/checkBoxes/checkBox';
 import CenteredInfoAction from '../../../components/groupedComponents/temp-shop/create/centeredInfoAction/centeredInfoAction';
 import BorderIconAnchorButton from '../../../components/htmlElements/buttons/borderIconAnchorButton/borderIconAnchorButton';
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import { cookiesPoster } from '../../../store/services/_init/_initAPI';
+import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
-import { TEMP_SHOP_ADD_SHOP_NAME, SITE_ROOT } from '../../../utils/routes';
+import { TEMP_SHOP_ADD_SHOP_NAME, SITE_ROOT, REAL_SHOP_BY_SHOP_LINK_ROUTE, AUTH_LOGIN } from '../../../utils/routes';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
 import { Box } from '@mui/material';
+import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 
 const Avatar: NextPage = () => {
 	const activeStep = '2';
@@ -119,15 +121,15 @@ const Avatar: NextPage = () => {
 									</div>
 									<div className={Styles.promoWrapper}>
 										<span className={Styles.subHeader}>En Promo</span>
-										<IosSwitch disabled checked={false} labelcssStyles={{paddingLeft: '10px'}} />
+										<IosSwitch disabled checked={false} labelcssStyles={{ paddingLeft: '10px' }} />
 									</div>
 									<div className={Styles.forWhomWrapper}>
 										<span className={Styles.subHeader}>Pour qui</span>
 										<div>
 											<div>
-												<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{paddingLeft: 0}} />
-												<CheckBox checked active={false} text="Femme" labelcssStyles={{paddingLeft: 0}}/>
-												<CheckBox checked active={false} text="Homme" labelcssStyles={{paddingLeft: 0}}/>
+												<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{ paddingLeft: 0 }} />
+												<CheckBox checked active={false} text="Femme" labelcssStyles={{ paddingLeft: 0 }} />
+												<CheckBox checked active={false} text="Homme" labelcssStyles={{ paddingLeft: 0 }} />
 											</div>
 										</div>
 									</div>
@@ -147,7 +149,7 @@ const Avatar: NextPage = () => {
 							</div>
 						</div>
 					</DefaultCardSection>
-					<div className={`${Styles.primaryButtonWrapper} ${Styles.marginButtonBottom}`} >
+					<div className={`${Styles.primaryButtonWrapper} ${Styles.marginButtonBottom}`}>
 						<PrimaryButton
 							buttonText="Continuer"
 							active={preview !== null}
@@ -161,19 +163,77 @@ const Avatar: NextPage = () => {
 	);
 };
 
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+// 	const shop_name = getCookie('@shop_name', { req: context.req, res: context.res });
+// 	if (!shop_name) {
+// 		return {
+// 			redirect: {
+// 				permanent: false,
+// 				destination: TEMP_SHOP_ADD_SHOP_NAME,
+// 			},
+// 		};
+// 	}
+// 	return {
+// 		props: {},
+// 	};
+// }
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const shop_name = getCookie('@shop_name', { req: context.req, res: context.res });
-	if (!shop_name) {
+	// redirect if user already logged in
+	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
+	const appToken = getServerSideCookieTokens(context);
+	try {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+			const instance = isAuthenticatedInstance(appToken.initStateToken);
+			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
+			if (response.status === 200 && typeof response.data.shop_url === 'string') {
+				return {
+					// connected already has shop.
+					redirect: {
+						permanent: false,
+						destination: REAL_SHOP_BY_SHOP_LINK_ROUTE(response.data.shop_url),
+					},
+				};
+			} else {
+				// connected no shop created yet - proceed to create.
+				if (!shop_name) {
+					return {
+						redirect: {
+							permanent: false,
+							destination: TEMP_SHOP_ADD_SHOP_NAME,
+						},
+					};
+				} else {
+					return {
+						props: {},
+					};
+				}
+			}
+		} else {
+			// not connected, status unknown
+			if (!shop_name) {
+				return {
+					redirect: {
+						permanent: false,
+						destination: TEMP_SHOP_ADD_SHOP_NAME,
+					},
+				};
+			} else {
+				return {
+					props: {},
+				};
+			}
+		}
+	} catch (e) {
+		// fallback case.
 		return {
 			redirect: {
 				permanent: false,
-				destination: TEMP_SHOP_ADD_SHOP_NAME,
+				destination: AUTH_LOGIN,
 			},
 		};
 	}
-	return {
-		props: {},
-	};
 }
 
 export default Avatar;
