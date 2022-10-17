@@ -62,7 +62,9 @@ const CustomSwipeModal: React.FC<Props> = (props: Props) => {
 				TransitionComponent={Transition}
 				onClose={() => {
 					handleClose();
+					document.body.style.removeProperty('overflow');
 				}}
+				// aria-describedby="alert-dialog-slide-description"
 				fullScreen={typeof fullScreen !== 'undefined' ? fullScreen : true}
 				className={`${Styles.dialog} ${cssClasse}`}
 				// sx={props.sx}

@@ -9,8 +9,6 @@ import ShowCoordonees from '../../../temp-shop/edit/ajouterMesInfos-Stack/showCo
 import ShowBio from '../../../temp-shop/edit/ajouterMesInfos-Stack/showBio/showBio';
 import ShowAdresse from '../../../temp-shop/edit/ajouterMesInfos-Stack/showAdresse/showAdresse';
 
-
-
 type Props = {
 	// global info modal
 	openInfoModal: boolean;
@@ -110,8 +108,7 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 				<div className={Styles.infoWrapper}>
 					<h3>Dites-en plus !</h3>
 					<p>
-						C’est ici que les acheteurs peuvent connaître vos horaires, votre adresse ou en savoir un peu
-						plus sur vous.
+						C’est ici que les acheteurs peuvent connaître vos horaires, votre adresse ou en savoir un peu plus sur vous.
 					</p>
 					<div className={Styles.buttonWrapper}>
 						<OutlineButton
@@ -123,167 +120,80 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 					</div>
 				</div>
 			) : (
-				<>
-					<Stack
-						direction="row"
-						spacing={5}
-						justifyContent="space-between"
-						alignItems="flex-start"
-						className={Styles.BothSidesWrapper}
-					>
-						<Stack
-							className={Styles.leftSideWrapper}
-							direction="column"
-							spacing={1}
-							justifyContent="space-between"
-						>
+				<Stack
+					direction="row"
+					spacing={5}
+					justifyContent="space-between"
+					alignItems="flex-start"
+					className={Styles.BothSidesWrapper}
+				>
+					<Stack className={Styles.leftSideWrapper} direction="column" spacing="32px" justifyContent="space-between">
+						<Box>
+							<Stack direction="row" spacing={1} justifyContent="space-between" alignItems="baseline">
+								<Box component="span" className={Styles.stackTitle}>
+									Horaire
+								</Box>
+								<Button onClick={() => props.setOpenEditHoraireModal(true)} className={Styles.stackButton}>
+									Modifier
+								</Button>
+							</Stack>
 							{horaireAdded ? (
-								<>
-									<Stack
-										direction="row"
-										spacing={1}
-										justifyContent="space-between"
-										alignItems="baseline"
-									>
-										<Box component="span" className={Styles.stackTitle}>
-											Horaire
-										</Box>
-										<Button
-											onClick={() => props.setOpenEditHoraireModal(true)}
-											className={Styles.stackButton}
-										>
-											Modifier
-										</Button>
-									</Stack>
-									<ShowHoraire />
-								</>
+								<ShowHoraire />
 							) : (
-								<Stack
-										direction="row"
-										spacing={1}
-										justifyContent="space-between"
-										alignItems="baseline"
-									>
-										<span className={Styles.infoNotFound}>Vous n&apos;a pas encore renseigné vos horaires</span>
-										<Button
-											onClick={() => props.setOpenEditHoraireModal(true)}
-											className={Styles.stackButton}
-										>
-											Modifier
-										</Button>
-									</Stack>
-								)}
+								<span className={Styles.infoNotFound}>Vous n&apos;a pas encore renseigné vos horaires</span>
+							)}
+						</Box>
+						<Box>
+							<Stack direction="row" spacing={1} justifyContent="space-between" alignItems="baseline">
+								<Box component="span" className={Styles.stackTitle}>
+									Coordonées
+								</Box>
+								<Button onClick={() => props.setOpenEditCoordoneeModal(true)} className={Styles.stackButton}>
+									Modifier
+								</Button>
+							</Stack>
 							{coordoneesAdded ? (
-								<>
-									<Stack
-										direction="row"
-										spacing={1}
-										justifyContent="space-between"
-										alignItems="baseline"
-									>
-										<Box component="span" className={Styles.stackTitle}>
-											Coordonées
-										</Box>
-										<Button
-											onClick={() => props.setOpenEditCoordoneeModal(true)}
-											className={Styles.stackButton}
-										>
+								<ShowCoordonees />
+							) : (
+								<span className={Styles.infoNotFound}>Vous n&apos;a pas encore renseigné vos coordonnées</span>
+							)}
+						</Box>
+						<Box>
+							{!address_name && (
+								<Stack direction="row" spacing={1} justifyContent="space-between" alignItems="baseline">
+									<Box component="span" className={Styles.stackTitle}>
+										Adresse
+									</Box>
+										<Button onClick={() => props.setOpenEditAdressModal(true)} className={Styles.stackButton}>
 											Modifier
 										</Button>
-									</Stack>
-									<ShowCoordonees />
-								</>
-							): (
-								<Stack
-										direction="row"
-										spacing={1}
-										justifyContent="space-between"
-										alignItems="baseline"
-									>
-										<span className={Styles.infoNotFound}>Vous n&apos;a pas encore renseigné vos coordonnées</span>
-										<Button
-											onClick={() => props.setOpenEditCoordoneeModal(true)}
-											className={Styles.stackButton}
-										>
-											Modifier
-										</Button>
-									</Stack>
+								</Stack>
 							)}
 							{address_name ? (
-								<>
-									<Stack
-										direction="row"
-										spacing={1}
-										justifyContent="space-between"
-										alignItems="baseline"
-									>
-										<ShowAdresse
-											onClick={() => props.setOpenEditAdressModal(true)}
-										/>
-									</Stack>
-								</>
+								<ShowAdresse onClick={() => props.setOpenEditAdressModal(true)} />
 							) : (
-								<Stack
-										direction="row"
-										spacing={1}
-										justifyContent="space-between"
-										alignItems="baseline"
-									>
-										<span className={Styles.infoNotFound}>Vous n&apos;a pas encore renseigné votre adresse</span>
-										<Button
-											onClick={() => props.setOpenEditAdressModal(true)}
-											className={Styles.stackButton}
-										>
-											Modifier
-										</Button>
-									</Stack>
+								<span className={Styles.infoNotFound}>Vous n&apos;a pas encore renseigné vos adresse</span>
 							)}
-						</Stack>
-						<Stack
-							className={Styles.rightSideWrapper}
-							direction="column"
-							spacing={1}
-							justifyContent="space-between"
-						>
-							{bio ? (
-								<>
-									<Stack
-										direction="row"
-										spacing={1}
-										justifyContent="space-between"
-										alignItems="baseline"
-									>
-										<Box component="span" className={Styles.stackTitle}>
-											Bio
-										</Box>
-										<Button
-											onClick={() => props.setOpenEditBioModal(true)}
-											className={Styles.stackButton}
-										>
-											Modifier
-										</Button>
-									</Stack>
-									<ShowBio />
-								</>
-							) : (
-								<Stack
-										direction="row"
-										spacing={1}
-										justifyContent="space-between"
-										alignItems="baseline"
-									>
-										<span className={Styles.infoNotFound}>Vous n&apos;a pas encore renseigné votre bio</span>
-										<Button
-											onClick={() => props.setOpenEditBioModal(true)}
-											className={Styles.stackButton}
-										>
-											Modifier
-										</Button>
-									</Stack>
-							)}
-						</Stack>
+						</Box>
 					</Stack>
-				</>
+					<Stack className={Styles.rightSideWrapper} direction="column" spacing={1} justifyContent="space-between">
+						<Box>
+							<Stack direction="row" spacing={1} justifyContent="space-between" alignItems="baseline">
+								<Box component="span" className={Styles.stackTitle}>
+									Bio
+								</Box>
+								<Button onClick={() => props.setOpenEditBioModal(true)} className={Styles.stackButton}>
+									Modifier
+								</Button>
+							</Stack>
+							{bio ? (
+								<ShowBio />
+							) : (
+								<span className={Styles.infoNotFound}>Vous n&apos;a pas encore renseigné votre bio</span>
+							)}
+						</Box>
+					</Stack>
+				</Stack>
 			)}
 		</div>
 	);

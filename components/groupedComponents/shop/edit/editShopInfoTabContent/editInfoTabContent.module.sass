@@ -12,6 +12,8 @@
   text-align: center
   justify-content: center
   min-height: 450px
+.BothSidesWrapper
+  min-height: 450px
   h3
     +SemiBold
     font-size: 24px
@@ -35,6 +37,7 @@
   font-size: 17px
   color: $blue
   text-transform: none
+  padding-right: 0
 .infoContent
   +Regular
   font-size: 17px
@@ -58,13 +61,16 @@
     margin: 1rem auto 0
     h3
       font-size: 19px
+  .stackButton
+    padding-right: 8px
   .BothSidesWrapper
     flex-direction: column
+    min-height: 100%
   .leftSideWrapper
     width: 100%
   .rightSideWrapper
     width: 100%
-    margin: 0 !important
-    margin-top: 8px !important
+    margin: 32px 0 0 0 !important
+    //margin-top: 8px !important
 // @media #{}
 // @media #{}

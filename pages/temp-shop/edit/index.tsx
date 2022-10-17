@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { GetServerSidePropsContext, NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../styles/temp-shop/edit/editIndex.module.sass';
 import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
@@ -22,11 +22,7 @@ import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 import PhoneSVG from '../../../public/assets/svgs/globalIcons/contact-phone.svg';
 import WtspSVG from '../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
 import BorderIconButton from '../../../components/htmlElements/buttons/borderIconButton/borderIconButton';
-import {
-	addMyInfosStackType,
-	contacterPhoneInputType,
-	DropDownActionType,
-} from '../../../types/ui/uiTypes';
+import { addMyInfosStackType, contacterPhoneInputType, DropDownActionType } from '../../../types/ui/uiTypes';
 import InfoTabContent from '../../../components/groupedComponents/temp-shop/edit/info-Tab_Content/InfoTabContent';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
@@ -62,39 +58,39 @@ import {
 	getShopWhatsapp,
 	getShopAddressName,
 	getMyOffersList,
-	getOfferOfferApi
-} from "../../../store/selectors";
+	getOfferOfferApi,
+} from '../../../store/selectors';
 import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
 import InfoIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-info.svg';
 import AvatarIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-avatar.svg';
 import ColorIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-color.svg';
 import FontIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-font.svg';
-import { Backdrop, Stack } from '@mui/material';
+import { Backdrop, Skeleton, Stack } from '@mui/material';
 import AjouterMesInfosStack from '../../../components/groupedComponents/temp-shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack';
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../create/color';
 import { cookiesPoster } from '../../../store/services/_init/_initAPI';
-import { IconColorType } from "../../../types/_init/_initTypes";
+import { IconColorType } from '../../../types/_init/_initTypes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { AUTH_REGISTER, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_ROUTE } from "../../../utils/routes";
+import { AUTH_REGISTER, TEMP_SHOP_ADD_SHOP_NAME, TEMP_SHOP_EDIT_ROUTE } from '../../../utils/routes';
 import { offerGetMyOffersFirstPageAction } from '../../../store/actions/offer/offerActions';
 import ApiLoadingResponseOrError from '../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
-import CustomFooter from "../../../components/layouts/footer/customFooter";
-import MobileFilterWhiteSVG from "../../../public/assets/svgs/globalIcons/mobile-filter-white.svg";
-import MobileOffersFilterButton
-	from "../../../components/mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton";
-import { getServerSideCookieTokens } from "../../../utils/helpers";
-import EditShopTabContent from "../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent";
+import CustomFooter from '../../../components/layouts/footer/customFooter';
+import MobileFilterWhiteSVG from '../../../public/assets/svgs/globalIcons/mobile-filter-white.svg';
+import MobileOffersFilterButton from '../../../components/mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton';
+import { getServerSideCookieTokens } from '../../../utils/helpers';
+import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
+import EditShopInfoTabContent from '../../../components/groupedComponents/shop/edit/editShopInfoTabContent/editShopInfoTabContent';
 
 type Props = {
 	pageProps: {
 		unique_id: string;
-	}
-}
+	};
+};
 
 const Index: NextPage<Props> = (props: Props) => {
 	const router = useRouter();
@@ -103,7 +99,7 @@ const Index: NextPage<Props> = (props: Props) => {
 	const avatarInputRef = useRef<HTMLInputElement>(null);
 	const [modalDismissed, setModalDismissed] = useState(false);
 	const offerApi = useAppSelector(getOfferOfferApi);
-	const {unique_id} = props.pageProps;
+	const { unique_id } = props.pageProps;
 	const shopName = useAppSelector(getShopName);
 	const bio = useAppSelector(getShopBio);
 	const opening_days = useAppSelector(getShopOpeningDays);
@@ -435,7 +431,7 @@ const Index: NextPage<Props> = (props: Props) => {
 			// if (userOffersList) {
 			// 	setHideAsideNav(true);
 			// }
-		}
+		};
 	}, [
 		dispatch,
 		offerApi.fetchPromiseStatus,
@@ -594,7 +590,11 @@ const Index: NextPage<Props> = (props: Props) => {
 						<div className={Styles.avatarActionsWrapper}>
 							<div className={Styles.avatarWrapper}>
 								<div>
-									<CircularAvatar imageSrc={preview} />
+									{!preview ? (
+										<Skeleton variant="circular" width={120} height={120} />
+									) : (
+										<CircularAvatar imageSrc={preview} />
+									)}
 									<input
 										type="file"
 										className={Styles.hiddenFile}
@@ -695,9 +695,9 @@ const Index: NextPage<Props> = (props: Props) => {
 												setOpenFilterModal={setOpenFilterModal}
 												shop_type="TEMP_SHOP"
 											/>
-											}
+										}
 										InfoContent={
-											<InfoTabContent
+											<EditShopInfoTabContent
 												setOpenInfoModal={setOpenInfoModal}
 												openInfoModal={openInfoModal}
 												setOpenEditBioModal={setOpenEditBioModal}
@@ -715,60 +715,50 @@ const Index: NextPage<Props> = (props: Props) => {
 						</div>
 					</div>
 					{/* START right side contact modal - has bug not 100% hidden - the check is to resolve it */}
-					{openContacterModal && <CustomSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
-						<div className={Styles.modalContentWrapper}>
-							<div className={Styles.topBar}>
-								<Image
-									src={CloseSVG}
-									width={40}
-									height={40}
-									alt=""
-									onClick={handleContactModalClose}
+					{openContacterModal && (
+						<CustomSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
+							<div className={Styles.modalContentWrapper}>
+								<div className={Styles.topBar}>
+									<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
+								</div>
+								<HelperDescriptionHeader
+									header="Ajouter un moyen de contact"
+									description="Choississez comment vos client peuvent vous contacter"
+								/>
+								{contacterAction.map((action, index) => {
+									return (
+										<ContacterPhoneInput
+											key={index}
+											checked={action.checked}
+											setStateHandler={action.setStateHandler}
+											label={action.label}
+											backgroundColor={action.backgroundColor}
+											icon={action.icon}
+											code={action.code}
+											setCode={action.setCode}
+											value={action.value}
+											setValue={action.setValue}
+										/>
+									);
+								})}
+							</div>
+							<div className={Styles.actionButtonWrapper}>
+								<PrimaryButton
+									buttonText="Enregistrer"
+									active={true}
+									onClick={contacterSaveHandler}
+									cssClass={Styles.actionButtonWidth}
 								/>
 							</div>
-							<HelperDescriptionHeader
-								header="Ajouter un moyen de contact"
-								description="Choississez comment vos client peuvent vous contacter"
-							/>
-							{contacterAction.map((action, index) => {
-								return (
-									<ContacterPhoneInput
-										key={index}
-										checked={action.checked}
-										setStateHandler={action.setStateHandler}
-										label={action.label}
-										backgroundColor={action.backgroundColor}
-										icon={action.icon}
-										code={action.code}
-										setCode={action.setCode}
-										value={action.value}
-										setValue={action.setValue}
-									/>
-								);
-							})}
-						</div>
-						<div className={Styles.actionButtonWrapper}>
-							<PrimaryButton
-								buttonText="Enregistrer"
-								active={true}
-								onClick={contacterSaveHandler}
-								cssClass={Styles.actionButtonWidth}
-							/>
-						</div>
-					</CustomSwipeModal>}
+						</CustomSwipeModal>
+					)}
 					{/* END right side contact modal */}
 					{/* Edit info modal */}
 					{/*{openInfoModal && }*/}
 					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
-								<Image
-									src={CloseSVG}
-									width={40}
-									height={40}
-									alt=""
-									onClick={() => setOpenInfoModal(false)}
-								/>
+								<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
 							</div>
 							<HelperDescriptionHeader header="Ajouter mes infos" />
 							<Stack direction="column" spacing={4}>
@@ -810,9 +800,7 @@ const Index: NextPage<Props> = (props: Props) => {
 										);
 									})}
 								</div>
-								<div
-									className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}
-								>
+								<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 									<PrimaryButton
 										buttonText="Enregistrer"
 										active={colorCode !== undefined && bgColorCode !== undefined}
@@ -902,9 +890,7 @@ const Index: NextPage<Props> = (props: Props) => {
 										);
 									})}
 								</div>
-								<div
-									className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}
-								>
+								<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 									<PrimaryButton
 										buttonText="Continuer"
 										active={fontName !== undefined}
@@ -917,20 +903,18 @@ const Index: NextPage<Props> = (props: Props) => {
 								<div>
 									<div className={SharedStyles.mobileFontWrapper}>
 										<div className={SharedStyles.mobileFontContainerModal}>
-											{availableFonts.map(
-												(font: { name: string; code: ShopFontNameType }, index: number) => {
-													return (
-														<FontPicker
-															key={index}
-															pickedFontName={fontName}
-															font={font}
-															onClick={() => {
-																fontPicker(font.code);
-															}}
-														/>
-													);
-												},
-											)}
+											{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
+												return (
+													<FontPicker
+														key={index}
+														pickedFontName={fontName}
+														font={font}
+														onClick={() => {
+															fontPicker(font.code);
+														}}
+													/>
+												);
+											})}
 										</div>
 										<div
 											className={`${SharedStyles.primaryButtonMobileWrapper} ${SharedStyles.primaryButtonZindexWrapper}`}
@@ -955,7 +939,7 @@ const Index: NextPage<Props> = (props: Props) => {
 						error={offerApi.error}
 					/>
 				</main>
-				<CustomFooter/>
+				<CustomFooter />
 			</Stack>
 		</>
 	);
@@ -970,12 +954,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 				destination: TEMP_SHOP_ADD_SHOP_NAME,
 			},
 		};
-	} else if (appToken.tokenType === 'UNIQUE_ID' && appToken.initStateUniqueID.unique_id){
+	} else if (appToken.tokenType === 'UNIQUE_ID' && appToken.initStateUniqueID.unique_id) {
 		return {
 			props: {
-				unique_id: appToken.initStateUniqueID.unique_id
-			}
-		}
+				unique_id: appToken.initStateUniqueID.unique_id,
+			},
+		};
 	} else {
 		return {
 			redirect: {

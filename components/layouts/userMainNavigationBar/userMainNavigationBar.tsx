@@ -36,10 +36,8 @@ import {
 	SITE_ROOT
 } from "../../../utils/routes";
 import { deleteRemoteCookiesAppToken } from '../../../utils/helpers';
-import { useRouter } from 'next/router';
 import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
-import Image from 'next/image';
 // import CustomBadge from '../../../htmlElements/customBadge[not-working]/customBadge';
 
 type Props = {
