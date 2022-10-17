@@ -4,7 +4,8 @@ import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../utils/
 import { AccountGetDashboardResponseType, AccountGetDashboardType } from '../../types/account/accountTypes';
 import { getApi } from '../../store/services/_init/_initAPI';
 import {
-	AUTH_LOGIN, DASHBOARD_AUDIENCES,
+	AUTH_LOGIN,
+	DASHBOARD_AUDIENCES,
 	DASHBOARD_CHIFFRE_DAFFAIRE,
 	DASHBOARD_EDIT_PROFILE,
 	DASHBOARD_INDEXED_OFFERS,
@@ -12,9 +13,9 @@ import {
 	NOT_FOUND_404,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	USER_VIEW_PROFILE_BY_ID
-} from "../../utils/routes";
-import { Stack, Box } from '@mui/material';
+	USER_VIEW_PROFILE_BY_ID,
+} from '../../utils/routes';
+import { Stack, Box, Skeleton } from '@mui/material';
 import UserMainNavigationBar from '../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import Styles from '../../styles/dashboard/dashboard.module.sass';
 import { default as ImageFuture } from 'next/future/image';
@@ -52,10 +53,8 @@ import { SxProps, ThemeProvider } from '@mui/system';
 import { getDefaultTheme } from '../../utils/themes';
 import OutlineButton from '../../components/htmlElements/buttons/outlineButton/outlineButton';
 import { Theme } from '@mui/material/styles/createTheme';
-import {
-	accountPostResendActivationAction,
-} from "../../store/actions/account/accountActions";
-import { useAppDispatch } from "../../utils/hooks";
+import { accountPostResendActivationAction } from '../../store/actions/account/accountActions';
+import { useAppDispatch } from '../../utils/hooks';
 
 type ShopInfoContentType = {
 	shop_name: string;
@@ -89,16 +88,20 @@ export const ShopInfoContent: React.FC<ShopInfoContentType> = (props: ShopInfoCo
 							<ShopVerified shop_name={shop_name} avatar={shop_avatar} />
 						) : (
 							<div className={Styles.dashboardAvatarSubWrapper}>
-								<ImageFuture
-									src={shop_avatar}
-									alt={shop_name}
-									width="0"
-									height="0"
-									sizes="100vw"
-									className={Styles.dashboardAvatar}
-									loading="eager"
-									priority={true}
-								/>
+								{!shop_avatar ? (
+									<Skeleton variant="circular" width={98} height={98} />
+								) : (
+									<ImageFuture
+										src={shop_avatar}
+										alt={shop_name}
+										width="0"
+										height="0"
+										sizes="100vw"
+										className={Styles.dashboardAvatar}
+										loading="eager"
+										priority={true}
+									/>
+								)}
 							</div>
 						)}
 					</Box>
@@ -596,7 +599,11 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 							cssClasse={Styles.dashboardActivationModal}
 							showCloseIcon={true}
 						>
-							<EnterCodePageContent email={email} cssClass={Styles.enterCodePageContentRoot} whichCode="ACCOUNT_VERIFICATION" />
+							<EnterCodePageContent
+								email={email}
+								cssClass={Styles.enterCodePageContentRoot}
+								whichCode="ACCOUNT_VERIFICATION"
+							/>
 						</CustomSwipeModal>
 					)}
 				</div>

@@ -16,14 +16,12 @@ import CircularAvatar from '../../../components/htmlElements/images/circularAvat
 import { ShopFontNameType } from '../../../types/shop/shopTypes';
 import DesktopPublishEditNavbar from '../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
 import MobilePublishEditNavbar from '../../../components/mobile/navbars/mobilePublishEditNavbar/mobilePublishEditNavbar';
-import Image from 'next/image';
 import BlackStarSVG from '../../../public/assets/svgs/globalIcons/black-star.svg';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 import PhoneSVG from '../../../public/assets/svgs/globalIcons/contact-phone.svg';
 import WtspSVG from '../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
 import BorderIconButton from '../../../components/htmlElements/buttons/borderIconButton/borderIconButton';
 import { addMyInfosStackType, contacterPhoneInputType, DropDownActionType } from '../../../types/ui/uiTypes';
-import InfoTabContent from '../../../components/groupedComponents/temp-shop/edit/info-Tab_Content/InfoTabContent';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CustomSwipeModal from '../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
@@ -85,6 +83,8 @@ import MobileOffersFilterButton from '../../../components/mobile/buttons/mobileO
 import { getServerSideCookieTokens } from '../../../utils/helpers';
 import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
 import EditShopInfoTabContent from '../../../components/groupedComponents/shop/edit/editShopInfoTabContent/editShopInfoTabContent';
+import BlueAddSVG from "../../../public/assets/svgs/globalIcons/blue-add.svg";
+import { default as ImageFuture } from "next/future/image";
 
 type Props = {
 	pageProps: {
@@ -620,7 +620,7 @@ const Index: NextPage<Props> = (props: Props) => {
 										{shopName}
 									</h2>
 									<div className={Styles.ratingContainer}>
-										<Image src={BlackStarSVG} width={20} height={20} alt="" />
+										<ImageFuture src={BlackStarSVG} alt="" width="20" height="20" sizes="100vw" />
 										<span>4.2 (2 notes)</span>
 									</div>
 								</div>
@@ -719,7 +719,7 @@ const Index: NextPage<Props> = (props: Props) => {
 						<CustomSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
 							<div className={Styles.modalContentWrapper}>
 								<div className={Styles.topBar}>
-									<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
+									<ImageFuture src={CloseSVG} alt="" width="40" height="40" sizes="100vw" onClick={handleContactModalClose} />
 								</div>
 								<HelperDescriptionHeader
 									header="Ajouter un moyen de contact"
@@ -757,7 +757,7 @@ const Index: NextPage<Props> = (props: Props) => {
 					{openInfoModal && <CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
-								<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
+								<ImageFuture src={CloseSVG} alt="" width="40" height="40" sizes="100vw" onClick={() => setOpenInfoModal(false)} />
 							</div>
 							<HelperDescriptionHeader header="Ajouter mes infos" />
 							<Stack direction="column" spacing={4}>

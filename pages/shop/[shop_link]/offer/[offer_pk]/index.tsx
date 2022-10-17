@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { default as ImageFuture } from 'next/future/image';
 import Styles from '../../../../../styles/temp-offer/create/overview.module.sass';
-import { Stack, ThemeProvider, ImageListItem, Box, Grid } from '@mui/material';
+import { Stack, ThemeProvider, ImageListItem, Box, Grid, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
 	OfferGetRootProductInterface,
@@ -115,31 +115,31 @@ const NoCommentsAvailableContent = () => {
 const OfferCreatorBanner = () => {
 	return (
 		<Box
-		sx={{
-			background: `url(${CreatorBgIlluSVG.src}) center center no-repeat scroll #0D070B`,
-			msFilter: `progid:DXImageTransform.Microsoft.AlphaImageLoader(src='${CreatorBgIlluSVG.src}', 
+			sx={{
+				background: `url(${CreatorBgIlluSVG.src}) center center no-repeat scroll #0D070B`,
+				msFilter: `progid:DXImageTransform.Microsoft.AlphaImageLoader(src='${CreatorBgIlluSVG.src}', 
 		sizingMethod='scale')`,
-			backgroundSize: 'contain',
-		}}
-		className={Styles.creatorBannerWrapper}
-	>
-		<Stack direction="column" spacing={4}>
-			<Stack direction="column" spacing={2}>
-				<ImageFuture
-					className={Styles.creatorImage}
-					src={CreatorIlluSVG}
-					alt="creator"
-					width="105"
-					height="56"
-					sizes="100vw"
-				/>
-				<span className={Styles.creatorText}>
-					Parce que soutenir l’économie locale est une des valeurs chères à notre cœur, Qaryb a créé
-					un label pour permettre aux créateurs de notre pays d’être valorisé.
-				</span>
+				backgroundSize: 'contain',
+			}}
+			className={Styles.creatorBannerWrapper}
+		>
+			<Stack direction="column" spacing={4}>
+				<Stack direction="column" spacing={2}>
+					<ImageFuture
+						className={Styles.creatorImage}
+						src={CreatorIlluSVG}
+						alt="creator"
+						width="105"
+						height="56"
+						sizes="100vw"
+					/>
+					<span className={Styles.creatorText}>
+						Parce que soutenir l’économie locale est une des valeurs chères à notre cœur, Qaryb a créé un label pour
+						permettre aux créateurs de notre pays d’être valorisé.
+					</span>
+				</Stack>
 			</Stack>
-		</Stack>
-	</Box>
+		</Box>
 	);
 };
 
@@ -181,7 +181,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		tags,
 	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
-	const [selectedImage, setSelectedImage] = useState<string>(picture_1 ? picture_1 : '');
+	const [selectedImage, setSelectedImage] = useState<string | null>(null);
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
 	const [colorsListString, setColorsListString] = useState<Array<string>>([]);
 	const [forWhomListString, setForWhomListString] = useState<Array<string>>([]);
@@ -210,7 +210,12 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 
 	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
-		if (pinned){
+		if (picture_1) {
+			setSelectedImage(picture_1);
+		} else {
+			setSelectedImage(null);
+		}
+		if (pinned) {
 			setPinnedIconState(EpinglerActiveSVG);
 		} else {
 			setPinnedIconState(EpinglerInactiveSVG);
@@ -648,7 +653,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 							<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }} className={Styles.desktopOnly}>
 								<Stack direction="row" spacing={3}>
 									<Stack direction="column" spacing={1.8}>
-										{availableImages.length > 0 &&
+										{availableImages.length > 0 ? (
 											availableImages.map((image, index) => (
 												<ImageListItem key={index}>
 													{image ? (
@@ -656,30 +661,50 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 															className={`${Styles.thumbnails} ${
 																image === selectedImage ? Styles.selectedThumbnail : null
 															}`}
-															unoptimized={true}
 															src={image}
 															width={80}
 															height={80}
 															onClick={() => showThumbnail(image)}
 															alt=""
-															loading="lazy"
+															loading="eager"
+															priority={true}
 															decoding="async"
 														/>
 													) : null}
 												</ImageListItem>
-											))}
+											))
+										) : (
+											<>
+												<ImageListItem>
+													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+												</ImageListItem>
+												<ImageListItem>
+													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+												</ImageListItem>
+												<ImageListItem>
+													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+												</ImageListItem>
+												<ImageListItem>
+													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+												</ImageListItem>
+											</>
+										)}
 									</Stack>
-									{selectedImage ? (
+									{!selectedImage ? (
+										<Box className={Styles.mainImageWrapper}>
+											<Skeleton variant="rectangular" width={500} height={500} className={Styles.selectedImage} />
+										</Box>
+									) : (
 										<Box className={Styles.mainImageWrapper}>
 											<ImageFuture
 												className={Styles.selectedImage}
 												src={selectedImage}
-												unoptimized={true}
 												width={500}
 												height={500}
 												sizes="100vw"
 												alt=""
-												loading="lazy"
+												loading="eager"
+												priority={true}
 												decoding="async"
 											/>
 											{creator_label && (
@@ -693,13 +718,11 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 												/>
 											)}
 										</Box>
-									) : null}
+									)}
 								</Stack>
 								{/* Desktop creator banner goes here */}
-								{creator_label && (
-									<OfferCreatorBanner/>
-								)}
-								<NoCommentsAvailableContent/>
+								{creator_label && <OfferCreatorBanner />}
+								<NoCommentsAvailableContent />
 							</Stack>
 							{/* Mobile Only */}
 							<div className={Styles.mobileOnly} style={{ display: 'block', marginLeft: '0' }}>
@@ -715,7 +738,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 										scrollbar={{ enabled: false }}
 										className={Styles.swiperSlide}
 									>
-										{availableImages.length > 0 &&
+										{availableImages.length > 0 ? (
 											availableImages.map((image, index) => {
 												return (
 													<SwiperSlide key={index}>
@@ -723,7 +746,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 															<ImageFuture
 																className={Styles.selectedImage}
 																src={image}
-																unoptimized={true}
 																width={365}
 																height={240}
 																sizes="100vw"
@@ -742,7 +764,14 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 														</Box>
 													</SwiperSlide>
 												);
-											})}
+											})
+										) : (
+											<SwiperSlide>
+												<Box className={Styles.mainImageWrapper}>
+													<Skeleton variant="rectangular" width={365} height={240} className={Styles.selectedImage} />
+												</Box>
+											</SwiperSlide>
+										)}
 									</Swiper>
 								</>
 							</div>
@@ -920,10 +949,8 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 								<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
 									<Divider orientation="horizontal" flexItem className={Styles.divider} />
 									{/* mobile creator banner goes here */}
-									{creator_label && (
-										<OfferCreatorBanner/>
-									)}
-									<NoCommentsAvailableContent/>
+									{creator_label && <OfferCreatorBanner />}
+									<NoCommentsAvailableContent />
 								</Stack>
 							</Stack>
 						</Stack>
@@ -1175,7 +1202,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		tags,
 	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
-	const [selectedImage, setSelectedImage] = useState<string>(picture_1 ? picture_1 : '');
+	const [selectedImage, setSelectedImage] = useState<string | null>(null);
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
 	const [forWhomListString, setForWhomListString] = useState<Array<string>>([]);
 	const [newPrice, setNewPrice] = useState<number | null>(null);
@@ -1203,7 +1230,12 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 
 	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
-		if (pinned){
+		if (picture_1) {
+			setSelectedImage(picture_1);
+		} else {
+			setSelectedImage(null);
+		}
+		if (pinned) {
 			setPinnedIconState(EpinglerActiveSVG);
 		} else {
 			setPinnedIconState(EpinglerInactiveSVG);
@@ -1553,7 +1585,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 							<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }} className={Styles.desktopOnly}>
 								<Stack direction="row" spacing={3}>
 									<Stack direction="column" spacing={1.8}>
-										{availableImages.length > 0 &&
+										{availableImages.length > 0 ? (
 											availableImages.map((image, index) => (
 												<ImageListItem key={index}>
 													{image ? (
@@ -1561,36 +1593,56 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 															className={`${Styles.thumbnails} ${
 																image === selectedImage ? Styles.selectedThumbnail : null
 															}`}
-															unoptimized={true}
 															src={image}
 															width={80}
 															height={80}
 															onClick={() => showThumbnail(image)}
 															alt=""
-															loading="lazy"
+															loading="eager"
+															priority={true}
 															decoding="async"
 														/>
 													) : null}
 												</ImageListItem>
-											))}
+											))
+										) : (
+											<>
+												<ImageListItem>
+													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+												</ImageListItem>
+												<ImageListItem>
+													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+												</ImageListItem>
+												<ImageListItem>
+													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+												</ImageListItem>
+												<ImageListItem>
+													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+												</ImageListItem>
+											</>
+										)}
 									</Stack>
-									{selectedImage ? (
+									{!selectedImage ? (
+										<Box className={Styles.mainImageWrapper}>
+											<Skeleton variant="rectangular" width={500} height={500} className={Styles.selectedImage} />
+										</Box>
+									) : (
 										<Box className={Styles.mainImageWrapper}>
 											<ImageFuture
 												className={Styles.selectedImage}
 												src={selectedImage}
-												unoptimized={true}
 												width={500}
 												height={500}
 												sizes="100vw"
 												alt=""
-												loading="lazy"
+												loading="eager"
+												priority={true}
 												decoding="async"
 											/>
 										</Box>
-									) : null}
+									)}
 								</Stack>
-								<NoCommentsAvailableContent/>
+								<NoCommentsAvailableContent />
 							</Stack>
 							{/* Mobile Only */}
 							<div className={Styles.mobileOnly} style={{ display: 'block', marginLeft: '0' }}>
@@ -1606,7 +1658,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										scrollbar={{ enabled: false }}
 										className={Styles.swiperSlide}
 									>
-										{availableImages.length > 0 &&
+										{availableImages.length > 0 ? (
 											availableImages.map((image, index) => {
 												return (
 													<SwiperSlide key={index}>
@@ -1614,16 +1666,25 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 															<ImageFuture
 																className={Styles.selectedImage}
 																src={image}
-																unoptimized={true}
 																width={365}
 																height={240}
 																sizes="100vw"
+																loading="eager"
+																priority={true}
+																decoding="async"
 																alt=""
 															/>
 														</Box>
 													</SwiperSlide>
 												);
-											})}
+											})
+										) : (
+											<SwiperSlide>
+												<Box className={Styles.mainImageWrapper}>
+													<Skeleton variant="rectangular" width={365} height={240} className={Styles.selectedImage} />
+												</Box>
+											</SwiperSlide>
+										)}
 									</Swiper>
 								</>
 							</div>
@@ -1668,16 +1729,18 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 													{availabilityDays.join(', ')}
 												</p>
 											) : null}
-											{(morningHourFrom && morningHourTo) ?
+											{morningHourFrom && morningHourTo ? (
 												<p className={Styles.colorBody}>
-												<span className={Styles.colorTitle}>Matin : </span>
-												{ `${morningHourFrom.substring(0, 5)} - ${morningHourTo.substring(0, 5)}`}
-											</p> : null}
-											{(afternoonHourFrom && afternoonHourTo) ?
+													<span className={Styles.colorTitle}>Matin : </span>
+													{`${morningHourFrom.substring(0, 5)} - ${morningHourTo.substring(0, 5)}`}
+												</p>
+											) : null}
+											{afternoonHourFrom && afternoonHourTo ? (
 												<p className={Styles.colorBody}>
-												<span className={Styles.colorTitle}>Après-midi : </span>
-												{ `${afternoonHourFrom.substring(0, 5)} - ${afternoonHourTo.substring(0, 5)}`}
-											</p> : null}
+													<span className={Styles.colorTitle}>Après-midi : </span>
+													{`${afternoonHourFrom.substring(0, 5)} - ${afternoonHourTo.substring(0, 5)}`}
+												</p>
+											) : null}
 											{forWhomListString.length > 0 ? (
 												<p className={Styles.forWhomBody}>
 													<span className={Styles.forWhomTitle}>Pour : </span>
@@ -1721,7 +1784,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 								</Stack>
 								<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
 									{/*<Divider orientation="horizontal" flexItem className={Styles.divider} />*/}
-									<NoCommentsAvailableContent/>
+									<NoCommentsAvailableContent />
 								</Stack>
 							</Stack>
 						</Stack>

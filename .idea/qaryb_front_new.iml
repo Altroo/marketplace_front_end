@@ -206,7 +206,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/ajouterMesInfos-Stack/showNomBoutique" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/boutique-Tab_Content" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/contacterPhoneInput" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/info-Tab_Content" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/editAdresse" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/editBio" isTestSource="false" />
@@ -318,6 +317,7 @@
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop/desktopDashboardSideNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop/desktopMyBusinessSideNav" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/info-Tab_Content [not used]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />

@@ -40,7 +40,7 @@ import AvatarIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-ava
 import ColorIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-color.svg';
 import FontIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-font.svg';
 import ContactIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-contact.svg';
-import { Backdrop, Box, Stack } from '@mui/material';
+import { Backdrop, Box, Skeleton, Stack } from '@mui/material';
 import AjouterMesInfosStack from '../../../components/groupedComponents/temp-shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack';
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../../temp-shop/create/color';
@@ -69,13 +69,35 @@ import EditShopTabContent from '../../../components/groupedComponents/shop/edit/
 import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
 
+export type ShopInfoDataType = {
+	shop_name: string;
+	bio: string;
+	opening_days: OpeningDaysArray;
+	morning_hour_from: string | null;
+	morning_hour_to: string | null;
+	afternoon_hour_from: string | null;
+	afternoon_hour_to: string | null;
+	phone: string | null;
+	contact_email: string | null;
+	website_link: string | null;
+	facebook_link: string | null;
+	twitter_link: string | null;
+	instagram_link: string | null;
+	whatsapp: string | null;
+	zone_by: ShopZoneByType;
+	longitude: number | null;
+	latitude: number | null;
+	address_name: string | null;
+	km_radius: number | null;
+};
+
 type ViewShopType = {
 	data: ShopGetRootTokenType;
 	// offersData: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
 };
 
 // ability to edit
-const ViewShopAsOwner = (props: ViewShopType) => {
+const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const router = useRouter();
 	const { created, shop_link } = router.query;
 	const [modalDismissed, setModalDismissed] = useState(false);
@@ -366,6 +388,7 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 				setPhoneSwitchHandler(true);
 			}
 		}
+		// setIsLoadingInitInProgress(false);
 	}, [
 		avatar,
 		bg_color_code,
@@ -511,16 +534,20 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 									<ShopVerified shop_name={shop_name} avatar={preview as string} />
 								) : (
 									<div className={Styles.avatarSubWrapper}>
-										<ImageFuture
-											src={preview as string}
-											alt={shop_name}
-											width="0"
-											height="0"
-											sizes="100vw"
-											className={Styles.avatar}
-											loading="eager"
-											priority={true}
-										/>
+										{!preview ? (
+											<Skeleton variant="circular" width={98} height={98} />
+										) : (
+											<ImageFuture
+												src={preview as string}
+												alt={shop_name}
+												width="0"
+												height="0"
+												sizes="100vw"
+												className={Styles.avatar}
+												loading="eager"
+												priority={true}
+											/>
+										)}
 									</div>
 								)}
 								<input
@@ -868,30 +895,8 @@ const ViewShopAsOwner = (props: ViewShopType) => {
 	);
 };
 
-export type ShopInfoDataType = {
-	shop_name: string;
-	bio: string;
-	opening_days: OpeningDaysArray;
-	morning_hour_from: string | null;
-	morning_hour_to: string | null;
-	afternoon_hour_from: string | null;
-	afternoon_hour_to: string | null;
-	phone: string | null;
-	contact_email: string | null;
-	website_link: string | null;
-	facebook_link: string | null;
-	twitter_link: string | null;
-	instagram_link: string | null;
-	whatsapp: string | null;
-	zone_by: ShopZoneByType;
-	longitude: number | null;
-	latitude: number | null;
-	address_name: string | null;
-	km_radius: number | null;
-};
-
 // not able to edit.
-const ViewShopAsNotOwner = (props: ViewShopType) => {
+const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	// inits
 	const { data } = props;
 	// from db

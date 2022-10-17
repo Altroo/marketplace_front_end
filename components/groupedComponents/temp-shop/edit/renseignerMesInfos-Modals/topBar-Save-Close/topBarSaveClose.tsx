@@ -3,11 +3,12 @@ import Styles from './topBarSaveClose.module.sass';
 import PrimaryButton from '../../../../../htmlElements/buttons/primaryButton/primaryButton';
 import Image from 'next/image';
 import CloseSVG from '../../../../../../public/assets/svgs/navigationIcons/close.svg';
-import { Stack } from "@mui/material";
+import { Stack } from '@mui/material';
+import { default as ImageFuture } from 'next/future/image';
 
 type Props = {
 	buttonText: string;
-	handleSubmit: (e?: (React.FormEvent<HTMLFormElement> | undefined)) => void;
+	handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
 	handleClose: () => void;
 	isValid: boolean;
 	isSubmitting?: boolean;
@@ -25,11 +26,12 @@ const TopBarSaveClose: React.FC<Props> = (props: Props) => {
 				type="submit"
 				cssClass={Styles.button}
 			/>
-			<Image
+			<ImageFuture
 				src={CloseSVG}
-				width={40}
-				height={40}
 				alt=""
+				width="40"
+				height="40"
+				sizes="100vw"
 				onClick={props.handleClose}
 				style={{ cursor: 'pointer' }}
 			/>

@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {CustomTheme} from '../../../../utils/themes';
 import { ThemeProvider, Stack } from '@mui/material';
+import AvatarIconSVG from "../../../../public/assets/svgs/globalIcons/avatar.svg";
+import { default as ImageFuture } from "next/future/image";
 
 type Props = {
 	buttonText: string;
@@ -26,7 +28,13 @@ const LargeBorderIconAnchorButton = forwardRef<HTMLAnchorElement, Props>(
 					<a ref={ref} className={Styles.anchor}>
 						<Button disabled={!props.active} className={`${Styles.button} ${Styles.activated}`} onClick={props.onClick}>
 							<Stack direction="column" justifyContent="center" alignItems="center" spacing={1} className={Styles.buttonIconTextWrapper}>
-								<Image src={props.svgIcon} alt="" width={25} height={25} />
+								<ImageFuture
+									src={props.svgIcon}
+									alt=""
+									width="25"
+									height="25"
+									sizes="100vw"
+								/>
 								<span className={`${Styles.textActivated}`}>{props.buttonText}</span>
 							</Stack>
 						</Button>

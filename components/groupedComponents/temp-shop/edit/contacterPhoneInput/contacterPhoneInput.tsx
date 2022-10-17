@@ -3,6 +3,8 @@ import Styles from './contacterPhoneInput.module.sass';
 import Image from 'next/image';
 import IosSwitch from '../../../../htmlElements/switches/iosSwitch';
 import PhoneInputFields from '../../../../htmlElements/inputs/phoneInputFields/phoneInputFields';
+import ClockSVG from "../../../../../public/assets/svgs/globalIcons/clock-gray.svg";
+import { default as ImageFuture } from "next/future/image";
 
 
 type Props = {
@@ -23,7 +25,13 @@ const ContacterPhoneInput: React.FC<Props> = (props: Props) => {
 		<>
 			<div className={Styles.switchBoxWrapper}>
 				<div className={Styles.iconTextWrapper}>
-					<Image src={props.icon} width={40} height={40} alt="" />
+					<ImageFuture
+								src={props.icon}
+								alt=""
+								width="40"
+								height="40"
+								sizes="100vw"
+							/>
 					<span>{props.label}</span>
 				</div>
 				<IosSwitch

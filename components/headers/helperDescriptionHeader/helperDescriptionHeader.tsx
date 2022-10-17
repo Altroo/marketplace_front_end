@@ -1,7 +1,7 @@
 import React from "react";
 import Styles from './helperDescriptionHeader.module.sass';
-import Image from 'next/image';
 import QuestionMarkSVG from '../../../public/assets/svgs/globalIcons/question-mark.svg';
+import { default as ImageFuture } from "next/future/image";
 
 type Props = {
 	header: string;
@@ -22,7 +22,13 @@ const HelperDescriptionHeader: React.FC<Props> = (props: Props) => {
 			</div>
 			{props.HelpText && (
 				<div className={Styles.helpTextWrapper}>
-					<Image src={QuestionMarkSVG} width={18} height={18} alt="" />
+					<ImageFuture
+						src={QuestionMarkSVG}
+						alt=""
+						width="18"
+						height="18"
+						sizes="100vw"
+					/>
 					<p>{props.HelpText}</p>
 				</div>
 			)}

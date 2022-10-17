@@ -6,6 +6,8 @@ import RadioCheckElement from '../radioCheckElement';
 import MinusSVG from '../../../../../public/assets/svgs/globalIcons/minus-circular.svg';
 import PlusSVG from '../../../../../public/assets/svgs/globalIcons/plus-circular.svg';
 import Image from 'next/image';
+import RightArrowSVG from "../../../../../public/assets/svgs/navigationIcons/right-arrow-long.svg";
+import { default as ImageFuture } from "next/future/image";
 
 type Props = {
 	switchOpen: boolean;
@@ -31,13 +33,25 @@ const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
 						})
 					}
 				>
-					<Image src={MinusSVG} width={40} height={40} alt="" />
+					<ImageFuture
+						src={MinusSVG}
+						alt=""
+						width="40"
+						height="40"
+						sizes="100vw"
+					/>
 				</IconButton>
 				<ThemeProvider theme={quantityTheme}>
 					<TextField variant="outlined" value={props.quantity} color="primary" />
 				</ThemeProvider>
 				<IconButton onClick={() => props.setQuantity((prevState) => prevState + 1)}>
-					<Image src={PlusSVG} width={40} height={40} alt="" />
+					<ImageFuture
+						src={PlusSVG}
+						alt=""
+						width="40"
+						height="40"
+						sizes="100vw"
+					/>
 				</IconButton>
 			</Stack>
 		</RadioCheckElement>

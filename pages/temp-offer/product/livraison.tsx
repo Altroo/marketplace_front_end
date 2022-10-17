@@ -83,6 +83,8 @@ import {
 	OfferPutRootProductResponseType,
 	OfferPutRootServiceResponseType,
 } from '../../../types/offer/offerTypes';
+import GrayRatingSVG from "../../../public/assets/svgs/globalIcons/gray-rating.svg";
+import { default as ImageFuture } from "next/future/image";
 
 const CustomMap = dynamic(() => import('../../../components/map/customMap'), {
 	ssr: false,
@@ -506,7 +508,7 @@ const Livraison: NextPage = () => {
 										justifyContent="center"
 										alignItems="center"
 									>
-										<Image src={ClickCollectSVG} width={70} height={70} alt="" />
+										<ImageFuture src={ClickCollectSVG} alt="" width="70" height="70" sizes="100vw" />
 										{/* eslint-disable-next-line react/no-unescaped-entities */}
 										<p
 											className={`${Styles.defaultLocalisationName} ${
@@ -601,7 +603,7 @@ const Livraison: NextPage = () => {
 										justifyContent="center"
 										alignItems="center"
 									>
-										<Image src={DeliverySVG} width={70} height={70} alt="" />
+										<ImageFuture src={DeliverySVG} alt="" width="70" height="70" sizes="100vw" />
 										<div
 											className={`${Styles.defaultLocalisationName} ${
 												(deliveryCity1 ||
@@ -723,7 +725,7 @@ const Livraison: NextPage = () => {
 												className={Styles.addDeliveryButton}
 												color="primary"
 											>
-												<Image src={BlueAddSVG} width={20} height={20} alt="" />
+												<ImageFuture src={BlueAddSVG} alt="" width="20" height="20" sizes="100vw" />
 												<span>Ajouter une livraison</span>
 											</Button>
 										) : null}

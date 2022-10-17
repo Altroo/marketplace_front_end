@@ -28,6 +28,7 @@ import {
 	offerPostPinAction,
 	setEmptyUserLocalOffer
 } from "../../../../../store/actions/offer/offerActions";
+import CloseSVG from "../../../../../public/assets/svgs/navigationIcons/close.svg";
 // import MobileOffersFilterButton from '../../../../mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton';
 
 type Props = {
@@ -111,7 +112,8 @@ const StartYourShopContent: React.FC<Props> = (props: Props) => {
 												width={32}
 												height={32}
 												className={Styles.thumbnailActionIcon}
-												loading="lazy"
+												loading="eager"
+												priority={true}
 												onClick={(e) => togglePinHandler(e, userOffer.pk)}
 											/>
 										) : (
@@ -132,7 +134,8 @@ const StartYourShopContent: React.FC<Props> = (props: Props) => {
 											height="0"
 											sizes="100vw"
 											className={Styles.offerThumb}
-											loading="lazy"
+											loading="eager"
+											priority={true}
 										/>
 									</Box>
 									<Stack direction="column" spacing={1}>
@@ -142,7 +145,13 @@ const StartYourShopContent: React.FC<Props> = (props: Props) => {
 												: userOffer.title}
 										</span>
 										<Stack direction="row">
-											<Image src={BlackStarSVG} width={20} height={20} alt="" />
+											<ImageFuture
+												src={BlackStarSVG}
+												alt=""
+												width="20"
+												height="20"
+												sizes="100vw"
+											/>
 											<span className={Styles.offerRating}>0 (0 notes)</span>
 										</Stack>
 										<Stack direction="row" spacing={1}>

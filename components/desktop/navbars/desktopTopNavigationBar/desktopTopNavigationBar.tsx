@@ -1,8 +1,8 @@
 import React, { ForwardedRef, forwardRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import Styles from './desktopTopNavigationBar.module.sass';
 import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
+import { default as ImageFuture } from "next/future/image";
 
 type Props = {
 	backHref?: string;
@@ -25,7 +25,13 @@ const DesktopTopNavigationBar = forwardRef<HTMLAnchorElement, Props>((props: Pro
 			)}
 			<Link href={props.closeButtonHref}>
 				<a>
-					<Image src={CloseSVG} width={40} height={40} alt="" />
+					<ImageFuture
+						src={CloseSVG}
+						alt=""
+						width="40"
+						height="40"
+						sizes="100vw"
+						/>
 				</a>
 			</Link>
 		</nav>

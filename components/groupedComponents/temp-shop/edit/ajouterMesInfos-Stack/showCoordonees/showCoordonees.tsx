@@ -12,6 +12,8 @@ import WhatsappCircularSVG from '../../../../../../public/assets/svgs/globalIcon
 import { useAppSelector } from '../../../../../../utils/hooks';
 import { getShopObj } from '../../../../../../store/selectors';
 import Link from 'next/link';
+import BlackStarSVG from "../../../../../../public/assets/svgs/globalIcons/black-star.svg";
+import { default as ImageFuture } from "next/future/image";
 
 type Props = {
 	children?: React.ReactNode;
@@ -24,7 +26,13 @@ const ShowCoordonees: React.FC<Props> = (props: Props) => {
 		<Stack direction="column" justifyContent="space-between" alignContent="space-between" spacing={2}>
 			{phone ? (
 				<Stack direction="row" spacing={2}>
-					<Image src={PhoneOutlinedSVG} width={24} height={24} alt="" />
+					<ImageFuture
+								src={PhoneOutlinedSVG}
+								alt=""
+								width="24"
+								height="24"
+								sizes="100vw"
+							/>
 					<Link href={`tel:${phone}`} passHref target="_blank" rel="noreferrer">
 						<a href={`tel:${phone}`} target="_blank" rel="noreferrer" className={Styles.link}>
 							{phone}
@@ -35,7 +43,13 @@ const ShowCoordonees: React.FC<Props> = (props: Props) => {
 			{contact_email ? (
 				<>
 					<Stack direction="row" spacing={2}>
-						<Image src={EmailOutlinedSVG} width={24} height={24} alt="" />
+						<ImageFuture
+								src={EmailOutlinedSVG}
+								alt=""
+								width="24"
+								height="24"
+								sizes="100vw"
+							/>
 						<Box component="span">
 							<Link href={`mailto:${contact_email}`} passHref target="_blank" rel="noreferrer">
 								<a href={`mailto:${contact_email}`} target="_blank" rel="noreferrer" className={Styles.link}>
@@ -50,7 +64,13 @@ const ShowCoordonees: React.FC<Props> = (props: Props) => {
 			{website_link ? (
 				<>
 					<Stack direction="row" spacing={2}>
-						<Image src={WebsiteOutlinedSVG} width={24} height={24} alt="" />
+						<ImageFuture
+								src={WebsiteOutlinedSVG}
+								alt=""
+								width="24"
+								height="24"
+								sizes="100vw"
+							/>
 						<Box component="span">
 							<Link href={website_link} passHref target="_blank" rel="noreferrer">
 								<a href={website_link} target="_blank" rel="noreferrer" className={Styles.link}>
@@ -67,21 +87,39 @@ const ShowCoordonees: React.FC<Props> = (props: Props) => {
 				{facebook_link ? (
 					<Link href={facebook_link} passHref target="_blank" rel="noreferrer">
 						<a href={facebook_link} target="_blank" rel="noreferrer" className={Styles.link}>
-							<Image src={FacebookCircularSVG} width={40} height={40} alt="" />
+							<ImageFuture
+								src={FacebookCircularSVG}
+								alt=""
+								width="40"
+								height="40"
+								sizes="100vw"
+							/>
 						</a>
 					</Link>
 				) : null}
 				{twitter_link ? (
 					<Link href={twitter_link} passHref target="_blank" rel="noreferrer">
 						<a href={twitter_link} target="_blank" rel="noreferrer" className={Styles.link}>
-							<Image src={TwitterCircularSVG} width={40} height={40} alt="" />
+							<ImageFuture
+								src={TwitterCircularSVG}
+								alt=""
+								width="40"
+								height="40"
+								sizes="100vw"
+							/>
 						</a>
 					</Link>
 				) : null}
 				{instagram_link ? (
 					<Link href={instagram_link} passHref target="_blank" rel="noreferrer">
 						<a href={instagram_link} target="_blank" rel="noreferrer" className={Styles.link}>
-							<Image src={InstagramCircularSVG} width={40} height={40} alt="" />
+							<ImageFuture
+								src={InstagramCircularSVG}
+								alt=""
+								width="40"
+								height="40"
+								sizes="100vw"
+							/>
 						</a>
 					</Link>
 				) : null}
@@ -92,7 +130,13 @@ const ShowCoordonees: React.FC<Props> = (props: Props) => {
 						target="_blank"
 						rel="noreferrer">
 						<a href={`https://web.whatsapp.com/send?phone=${whatsapp}`} target="_blank" rel="noreferrer" className={Styles.link}>
-							<Image src={WhatsappCircularSVG} width={40} height={40} alt="" />
+							<ImageFuture
+								src={WhatsappCircularSVG}
+								alt=""
+								width="40"
+								height="40"
+								sizes="100vw"
+							/>
 						</a>
 					</Link>
 				) : null}

@@ -11,6 +11,7 @@ import StepFourSVG from '../../../../public/assets/svgs/navigationIcons/step-4.s
 import StepTwoBlackSVG from '../../../../public/assets/svgs/navigationIcons/second-step-black.svg';
 import StepThreeBlackSVG from '../../../../public/assets/svgs/navigationIcons/step-three-black.svg';
 import StepFourBlackSVG from '../../../../public/assets/svgs/navigationIcons/fourth-step-black.svg';
+import { default as ImageFuture } from "next/future/image";
 
 const Spacer = () => <div className={Styles.OneRemSpace}></div>;
 
@@ -24,10 +25,22 @@ const SideBarElem: React.FC<SideBarProps> = (props: SideBarProps) => {
 		<>
 			<div className={Styles.sideBarItemWrapper}>
 				<div className={Styles.sideBarItem}>
-					<Image alt="" src={element.stepImage} width={32} height={32} />
+					<ImageFuture
+					src={element.stepImage}
+					alt=""
+					width="32"
+					height="32"
+					sizes="100vw"
+					/>
 					<span style={{ color: element.textColor }}>{element.title}</span>
 				</div>
-				{element.active && <Image alt="" src={RightArrowSVG} width={18} height={18} />}
+				{element.active && <ImageFuture
+					src={RightArrowSVG}
+					alt=""
+					width="18"
+					height="18"
+					sizes="100vw"
+					/>}
 			</div>
 			<Spacer />
 			<Spacer />
@@ -73,7 +86,13 @@ const LeftSideBar: React.FC<Props> = (props: Props) => {
 	return (
 		<aside className={Styles.sideBar}>
 			<div>
-				<Image src={LogoSVG} width={152} height={40} alt="" />
+				<ImageFuture
+					src={LogoSVG}
+					alt=""
+					width="152"
+					height="40"
+					sizes="100vw"
+					/>
 			</div>
 			<Spacer />
 			<Spacer />

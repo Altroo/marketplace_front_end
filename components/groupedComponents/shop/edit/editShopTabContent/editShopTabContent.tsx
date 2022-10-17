@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Styles from './editShopTabContent.module.sass';
 import SharedStyles from '../../../../groupedComponents/temp-shop/edit/startYourShopContent/startYourShopContent.module.sass';
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
-import { Box, Button, Grid, Stack, ThemeProvider } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from "@mui/material";
 import {
 	GetOffersSagaCallBackOnCompleteDataType,
 	OfferGetAvailableShopFiltersType,
-	OfferGetMyOffersProductServiceType
-} from "../../../../../types/offer/offerTypes";
+	OfferGetMyOffersProductServiceType,
+} from '../../../../../types/offer/offerTypes';
 import Link from 'next/link';
 import { default as ImageFuture } from 'next/future/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
@@ -17,20 +17,20 @@ import { useRouter } from 'next/router';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import {
-	offerGetAvailableFiltersByShopID, offerGetAvailableFiltersByUniqueID, offerGetLastThreeUsedDeliveriesAction,
+	offerGetAvailableFiltersByShopID,
+	offerGetAvailableFiltersByUniqueID,
+	offerGetLastThreeUsedDeliveriesAction,
 	offerGetOffersByShopIDWithQueryParamsAction,
-	offerPostPinWithCallBackAction, setEmptyUserLocalOffer
-} from "../../../../../store/actions/offer/offerActions";
+	offerPostPinWithCallBackAction,
+	setEmptyUserLocalOffer,
+} from '../../../../../store/actions/offer/offerActions';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
 import { ParsedUrlQueryInput } from 'node:querystring';
 import { generateQueryParams, getBackendNextPageNumber } from '../../../../../utils/helpers';
 import ApiProgress from '../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import { Iterables } from 'langx-js';
-import {
-	ApiErrorResponseType,
-	OfferPinSagaCallBackType,
-} from '../../../../../types/_init/_initTypes';
+import { ApiErrorResponseType, OfferPinSagaCallBackType } from '../../../../../types/_init/_initTypes';
 import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter';
 import CustomSwipeModal from '../../../../desktop/modals/rightSwipeModal/customSwipeModal';
 import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
@@ -41,8 +41,8 @@ import {
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ROUTE,
 	TEMP_OFFER_ADD_INDEX,
-	TEMP_OFFER_ROUTE
-} from "../../../../../utils/routes";
+	TEMP_OFFER_ROUTE,
+} from '../../../../../utils/routes';
 import LargeBorderIconAnchorButton from '../../../../htmlElements/buttons/largeBorderIconAnchorButton/largeBorderIconAnchorButton';
 import PinInactiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-inactive.svg';
 
@@ -81,7 +81,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 	const [loadMoreState, setLoadMoreState] = useState<boolean>(false);
 	const [filterChanged, setFilterChanged] = useState<boolean>(false);
 	const [firstPageLoaded, setFirstPageLoaded] = useState<boolean>(false);
-	const [isLoadingInitInProgress, setIsLoadingInitInProgress] = useState<boolean>(false);
+	const [isLoadingInitInProgress, setIsLoadingInitInProgress] = useState<boolean>(true);
 	const [isLoadingNextPageInProgress, setIsLoadingNextPageInProgress] = useState<boolean>(false);
 	const [offersLinkedHashMap, setOffersLinkedHashMap] = useState<offerLinkedHashMapType>({
 		count: 0,
@@ -191,33 +191,37 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 							count: data.count,
 						};
 						setOffersLinkedHashMap(result);
+						setIsLoadingNextPageInProgress(false);
+						if (isReset) {
+							setIsLoadingInitInProgress(false);
+							setFirstPageLoaded(true);
+						}
 					}
 				},
 			});
 		};
 
 		const loadFirstPage = () => {
-			setIsLoadingInitInProgress(true);
+			// setIsLoadingInitInProgress(true);
 			getOffers(true);
-			setIsLoadingInitInProgress(false);
+			// setIsLoadingInitInProgress(false);
 		};
 
 		// on page first load
 		if (!firstPageLoaded) {
 			loadFirstPage();
-			setFirstPageLoaded(true);
+			// setFirstPageLoaded(true);
 		}
 
 		// load more pressed
 		if (loadMoreState) {
-			if (isLoadingNextPageInProgress) {
-				return;
-			}
-			setIsLoadingNextPageInProgress(true);
+			// if (isLoadingNextPageInProgress) {
+			// 	return;
+			// }
+			// setIsLoadingNextPageInProgress(true);
 			if (offersLinkedHashMap.offersMap) {
 				const isReset = offersLinkedHashMap.offersMap.size() >= offersLinkedHashMap.count;
 				getOffers(isReset);
-				setIsLoadingNextPageInProgress(false);
 			}
 			setLoadMoreState(false);
 		}
@@ -232,17 +236,16 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 			setApplyFiltersClicked(false);
 		}
 	}, [
-		shop_type,
 		applyFiltersClicked,
 		availableFiltersFetched,
 		dispatch,
 		filterChanged,
 		firstPageLoaded,
-		isLoadingNextPageInProgress,
 		loadMoreState,
 		offersLinkedHashMap,
 		router.query,
 		shop_pk,
+		shop_type,
 	]);
 
 	const filterOnChange = (
@@ -322,15 +325,15 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			{(isLoadingInitInProgress || isLoadingNextPageInProgress) && ( // todo : fix loading doesn't trigger
+			{(isLoadingInitInProgress || isLoadingNextPageInProgress) && (
 				<ApiProgress
 					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
-					backdropColor="#FBFBFB"
+					backdropColor="#FFFFFF"
 					circularColor="#0D070B"
 				/>
 			)}
 			<Box sx={{ minHeight: '450px' }}>
-				{!offersLinkedHashMap.offersMap?.isEmpty() ? (
+				{!offersLinkedHashMap.offersMap?.isEmpty() && firstPageLoaded ? (
 					<>
 						<Stack
 							className={Styles.filterWrapper}
@@ -376,7 +379,11 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 												dispatch(setEmptyUserLocalOffer());
 												dispatch(offerGetLastThreeUsedDeliveriesAction());
 											}}
-											nextPage={shop_type === 'AUTH_SHOP' ? REAL_OFFER_ADD_INDEX(router.query.shop_link as string) : TEMP_OFFER_ADD_INDEX}
+											nextPage={
+												shop_type === 'AUTH_SHOP'
+													? REAL_OFFER_ADD_INDEX(router.query.shop_link as string)
+													: TEMP_OFFER_ADD_INDEX
+											}
 										/>
 									</Grid>
 									{offersLinkedHashMap.offersMap
@@ -396,9 +403,10 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 												return (
 													<Link
 														href={
-														shop_type === 'AUTH_SHOP' ?
-														REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key)) : TEMP_OFFER_ROUTE(encodeURIComponent(data.key))
-													}
+															shop_type === 'AUTH_SHOP'
+																? REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))
+																: TEMP_OFFER_ROUTE(encodeURIComponent(data.key))
+														}
 														passHref
 														key={data.key}
 													>
@@ -413,7 +421,8 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 																				width={32}
 																				height={32}
 																				className={Styles.thumbnailActionIcon}
-																				loading="lazy"
+																				loading="eager"
+																				priority={true}
 																				onClick={(e) => togglePinHandler(e, data.key)}
 																			/>
 																		) : (
@@ -423,19 +432,23 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 																				width={32}
 																				height={32}
 																				className={Styles.thumbnailActionIcon}
-																				loading="lazy"
+																				loading="eager"
+																				priority={true}
 																				onClick={(e) => togglePinHandler(e, data.key)}
 																			/>
 																		)}
-																		<ImageFuture
+																		{!data.value.thumbnail ? (
+																			<Skeleton variant="rectangular" width={250} height={165}/>
+																		) : <ImageFuture
 																			src={data.value.thumbnail}
 																			alt=""
 																			width="0"
 																			height="0"
 																			sizes="100vw"
 																			className={Styles.offerThumb}
-																			loading="lazy"
-																		/>
+																			loading="eager"
+																			priority={true}
+																		/>}
 																		{data.value.creator_label && (
 																			<ImageFuture
 																				className={Styles.creatorImageTag}
@@ -498,7 +511,10 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 													variant="text"
 													color="primary"
 													className={Styles.loadMoreButton}
-													onClick={() => setLoadMoreState(true)}
+													onClick={() => {
+														setLoadMoreState(true);
+														setIsLoadingNextPageInProgress(true);
+													}}
 												>
 													Charger plus
 												</Button>
@@ -509,7 +525,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 							</div>
 						</Stack>
 					</>
-				) : (
+				) : !isLoadingInitInProgress && (
 					<>
 						<div className={SharedStyles.shopAddOfferWrapper}>
 							<div className={SharedStyles.addOfferContainer}>
@@ -524,7 +540,11 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 										buttonText="Ajouter un article"
 										svgIcon={ActivatedAddIconSVG}
 										active={true}
-										nextPage={shop_type === 'AUTH_SHOP' ? REAL_OFFER_ADD_INDEX(router.query.shop_link as string) : TEMP_OFFER_ADD_INDEX}
+										nextPage={
+											shop_type === 'AUTH_SHOP'
+												? REAL_OFFER_ADD_INDEX(router.query.shop_link as string)
+												: TEMP_OFFER_ADD_INDEX
+										}
 									/>
 								</div>
 							</div>

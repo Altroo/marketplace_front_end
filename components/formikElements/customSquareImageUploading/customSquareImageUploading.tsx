@@ -12,6 +12,7 @@ import {
 	IMAGE_FORMAT,
 	IMAGE_SIZE_LIMIT_REACHED
 } from "../../../utils/formValidationErrorMessages";
+import CloseSVG from "../../../public/assets/svgs/navigationIcons/close.svg";
 
 type Props = {
 	images: ImageListType;
@@ -64,10 +65,17 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 												alt=""
 												width={250}
 												height={160}
-												loading="lazy"
+												loading="eager"
+												priority={true}
 											/>
 											<Box className={Styles.closeButtonWrapper} onClick={() => onImageRemove(index)}>
-												<Image src={CircularRemoveBlack} width={32} height={32} alt="" />
+												<ImageFuture
+													src={CircularRemoveBlack}
+													alt=""
+													width="32"
+													height="32"
+													sizes="100vw"
+													/>
 											</Box>
 										</Stack>
 									);

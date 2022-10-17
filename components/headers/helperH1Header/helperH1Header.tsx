@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './helperH1Header.module.sass';
-import Image from 'next/image';
 import QuestionMarkSVG from "../../../public/assets/svgs/globalIcons/question-mark.svg";
+import { default as ImageFuture } from "next/future/image";
 
 type Props = {
 	header: string,
@@ -15,7 +15,13 @@ const HelperH1Header: React.FC<Props> = (props: Props) => {
 		<div className={Styles.headerWrapper}>
 			<h1 className={`${Styles.header} ${props.headerClasses}`}>{props.header}</h1>
 			<div className={Styles.helpTextWrapper}>
-				<Image src={QuestionMarkSVG} width={18} height={18} alt="" />
+				<ImageFuture
+						src={QuestionMarkSVG}
+						alt=""
+						width="18"
+						height="18"
+						sizes="100vw"
+					/>
 				<span>{props.HelpText}</span>
 			</div>
 		</div>

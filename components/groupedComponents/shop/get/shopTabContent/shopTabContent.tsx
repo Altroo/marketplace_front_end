@@ -6,7 +6,7 @@ import {
 	GetOffersSagaCallBackOnCompleteDataType,
 	OfferGetAvailableShopFiltersType,
 	OfferGetMyOffersProductServiceType,
-} from "../../../../../types/offer/offerTypes";
+} from '../../../../../types/offer/offerTypes';
 import Link from 'next/link';
 import { default as ImageFuture } from 'next/future/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
@@ -29,6 +29,7 @@ import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter
 import CustomSwipeModal from '../../../../desktop/modals/rightSwipeModal/customSwipeModal';
 import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
 import { REAL_OFFER_ROUTE } from '../../../../../utils/routes';
+import ApiProgress from "../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 type offerLinkedHashMapType = {
 	offersMap: Iterables.LinkedHashMap<number, OfferGetMyOffersProductServiceType> | null;
@@ -64,7 +65,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 	const [loadMoreState, setLoadMoreState] = useState<boolean>(false);
 	const [filterChanged, setFilterChanged] = useState<boolean>(false);
 	const [firstPageLoaded, setFirstPageLoaded] = useState<boolean>(false);
-	const [isLoadingInitInProgress, setIsLoadingInitInProgress] = useState<boolean>(false);
+	const [isLoadingInitInProgress, setIsLoadingInitInProgress] = useState<boolean>(true);
 	const [isLoadingNextPageInProgress, setIsLoadingNextPageInProgress] = useState<boolean>(false);
 	const [offersLinkedHashMap, setOffersLinkedHashMap] = useState<offerLinkedHashMapType>({
 		count: 0,
@@ -152,33 +153,36 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 							count: data.count,
 						};
 						setOffersLinkedHashMap(result);
+						setIsLoadingNextPageInProgress(false);
+						if (isReset) {
+							setIsLoadingInitInProgress(false);
+							setFirstPageLoaded(true);
+						}
 					}
-					setIsLoadingInitInProgress(false);
 				},
 			});
 		};
 
 		const loadFirstPage = () => {
-			setIsLoadingInitInProgress(true);
+			// setIsLoadingInitInProgress(true);
 			getOffers(true);
 		};
 
 		// on page first load
 		if (!firstPageLoaded) {
 			loadFirstPage();
-			setFirstPageLoaded(true);
+			// setFirstPageLoaded(true);
 		}
 
 		// load more pressed
 		if (loadMoreState) {
-			if (isLoadingNextPageInProgress) {
-				return;
-			}
-			setIsLoadingNextPageInProgress(true);
+			// if (isLoadingNextPageInProgress) {
+			// 	return;
+			// }
+			// setIsLoadingNextPageInProgress(true);
 			if (offersLinkedHashMap.offersMap) {
 				const isReset = offersLinkedHashMap.offersMap.size() >= offersLinkedHashMap.count;
 				getOffers(isReset);
-				setIsLoadingNextPageInProgress(false);
 			}
 			setLoadMoreState(false);
 		}
@@ -194,15 +198,14 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		}
 	}, [
 		applyFiltersClicked,
+		availableFiltersFetched,
 		dispatch,
 		filterChanged,
 		firstPageLoaded,
-		isLoadingNextPageInProgress,
 		loadMoreState,
 		offersLinkedHashMap,
 		router.query,
 		shop_pk,
-		availableFiltersFetched,
 	]);
 
 	const filterOnChange = (
@@ -251,15 +254,15 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			{/*{(isLoadingInitInProgress || isLoadingNextPageInProgress) && (*/}
-			{/*		<ApiProgress*/}
-			{/*			cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}*/}
-			{/*			backdropColor="#FFFFFF"*/}
-			{/*			circularColor="#0D070B"*/}
-			{/*		/>*/}
-			{/*	)}*/}
+			{(isLoadingInitInProgress || isLoadingNextPageInProgress) && (
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+					backdropColor="#FFFFFF"
+					circularColor="#0D070B"
+				/>
+			)}
 			<Box sx={{ minHeight: '450px' }}>
-				{!offersLinkedHashMap.offersMap?.isEmpty() && (
+				{!offersLinkedHashMap.offersMap?.isEmpty() && firstPageLoaded && (
 					<>
 						<Stack
 							className={Styles.filterWrapper}
@@ -327,7 +330,8 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																				width={32}
 																				height={32}
 																				className={Styles.thumbnailActionIcon}
-																				loading="lazy"
+																				loading="eager"
+																				priority={true}
 																			/>
 																		)}
 																		<ImageFuture
@@ -337,7 +341,8 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																			height="0"
 																			sizes="100vw"
 																			className={Styles.offerThumb}
-																			loading="lazy"
+																			loading="eager"
+																			priority={true}
 																		/>
 																		{data.value.creator_label && (
 																			<ImageFuture
@@ -401,7 +406,10 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 													variant="text"
 													color="primary"
 													className={Styles.loadMoreButton}
-													onClick={() => setLoadMoreState(true)}
+													onClick={() => {
+														setLoadMoreState(true);
+														setIsLoadingNextPageInProgress(true);
+													}}
 												>
 													Charger plus
 												</Button>

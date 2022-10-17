@@ -8,7 +8,9 @@ import { getOfferTags } from '../../../../store/selectors';
 import { offerGetTagsAction } from '../../../../store/actions/offer/offerActions';
 import closeWhiteSVG from '../../../../public/assets/svgs/navigationIcons/close-white.svg';
 import Image from 'next/image';
-import { filter } from "dom7";
+import { filter } from 'dom7';
+import PlusSVG from '../../../../public/assets/svgs/globalIcons/plus-circular.svg';
+import { default as ImageFuture } from 'next/future/image';
 
 // type tagOptions = {
 // 	pk: number;
@@ -31,15 +33,13 @@ const TagChips: React.FC<Props> = (props: Props) => {
 		<ThemeProvider theme={customTheme}>
 			<Stack direction="column" spacing={1}>
 				<span className={Styles.tagLabel}>Tags</span>
-				<span className={Styles.tagDesc}>
-					Ajouter quelques tags afin d&apos;apparaître dans nos collections.
-				</span>
+				<span className={Styles.tagDesc}>Ajouter quelques tags afin d&apos;apparaître dans nos collections.</span>
 				<Autocomplete
 					value={props.pickedTags ? props.pickedTags : []}
 					onChange={props.onChange}
 					multiple
 					id="tags-filled"
-					options={ availableTags ? availableTags : []}
+					options={availableTags ? availableTags : []}
 					freeSolo
 					disableClearable
 					getOptionLabel={(option) => {
@@ -62,7 +62,7 @@ const TagChips: React.FC<Props> = (props: Props) => {
 										'& fieldset': { borderRadius: '16px 0px 0px 16px' },
 									}}
 									{...getTagProps({ index })}
-									deleteIcon={<Image src={closeWhiteSVG} width={25} height={25} alt="" />}
+									deleteIcon={<ImageFuture src={closeWhiteSVG} alt="" width="25" height="25" sizes="100vw" />}
 									key={index}
 								/>
 							);

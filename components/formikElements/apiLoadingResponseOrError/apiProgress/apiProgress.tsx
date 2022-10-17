@@ -13,7 +13,7 @@ type Props = {
 const ApiProgress: React.FC<Props> = (props: Props) => {
 	return (
 		<Box sx={props.cssStyle}>
-			<Backdrop sx={{ color: props.backdropColor, zIndex: (theme) => theme.zIndex.drawer + 1 }} open>
+			<Backdrop sx={{ backgroundColor: props.backdropColor, zIndex: (theme) => theme.zIndex.drawer + 1 }} open>
 				<CircularProgress sx={{color: props.circularColor}} />
 			</Backdrop>
 		</Box>

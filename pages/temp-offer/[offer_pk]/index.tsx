@@ -8,7 +8,7 @@ import SolderEditInactiveSVG from '../../../public/assets/svgs/globalIcons/solde
 import EpinglerActiveSVG from '../../../public/assets/svgs/globalIcons/epingler-active.svg';
 import EpinglerInactiveSVG from '../../../public/assets/svgs/globalIcons/epingler-inactive.svg';
 import SupprimerSVG from '../../../public/assets/svgs/globalIcons/close-black.svg';
-import { Stack, ThemeProvider, ImageListItem, Box, Grid } from '@mui/material';
+import { Stack, ThemeProvider, ImageListItem, Box, Grid, Skeleton } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import { useRouter } from 'next/router';
 import { getOfferOfferApi, getShopBgColorCode, getShopBorder, getShopColorCode } from '../../../store/selectors';
@@ -33,10 +33,11 @@ import {
 	getColorsDataArray,
 	getForWhomDataArray,
 	getProductPriceByData,
-	getServiceAvailabilityDaysArray, getServicePriceByData,
+	getServiceAvailabilityDaysArray,
+	getServicePriceByData,
 	getSizesDataArray,
-	monthItemsList
-} from "../../../utils/rawData";
+	monthItemsList,
+} from '../../../utils/rawData';
 import Link from 'next/link';
 import {
 	TEMP_OFFER_ADD_PRODUCT_CATEGORIES,
@@ -88,7 +89,8 @@ import DeliveryDisabledSVG from '../../../public/assets/svgs/globalIcons/deliver
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import ReactCountryFlag from 'react-country-flag';
 import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
-import ReadAdresse from "../../../components/groupedComponents/shop/get/shopInfoTabContent/readAdresse/readAdresse";
+import ReadAdresse from '../../../components/groupedComponents/shop/get/shopInfoTabContent/readAdresse/readAdresse';
+import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 
 const noCommentsAvailableContent = () => {
 	return (
@@ -102,11 +104,10 @@ const noCommentsAvailableContent = () => {
 				<span className={Styles.noAvailableComments}>Pas encore de commentaires</span>
 				<span>
 					<Stack direction="row">
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
+						<ImageFuture src={GrayRatingSVG} alt="" width="20" height="20" sizes="100vw" />
+						<ImageFuture src={GrayRatingSVG} alt="" width="20" height="20" sizes="100vw" />
+						<ImageFuture src={GrayRatingSVG} alt="" width="20" height="20" sizes="100vw" />
+						<ImageFuture src={GrayRatingSVG} alt="" width="20" height="20" sizes="100vw" />
 						<span className={Styles.noAvailableRatings}>(0 notes)</span>
 					</Stack>
 				</span>
@@ -154,7 +155,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const color_code = useAppSelector(getShopColorCode);
 	const border = useAppSelector(getShopBorder);
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
-	const [selectedImage, setSelectedImage] = useState<string>(picture_1 ? picture_1 : '');
+	const [selectedImage, setSelectedImage] = useState<string | null>(null);
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
 	const [colorsListString, setColorsListString] = useState<Array<string>>([]);
 	const [forWhomListString, setForWhomListString] = useState<Array<string>>([]);
@@ -341,6 +342,11 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const [newSolderPourcentageValue, setNewSolderPourcentageValue] = useState<string>('0.00');
 
 	useEffect(() => {
+		if (picture_1) {
+			setSelectedImage(picture_1);
+		} else {
+			setSelectedImage(null);
+		}
 		// check solder values
 		if (pinned) {
 			setPinnedIconState(EpinglerActiveSVG);
@@ -622,7 +628,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 						<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }} className={Styles.desktopOnly}>
 							<Stack direction="row" spacing={3}>
 								<Stack direction="column" spacing={1.8}>
-									{availableImages.length > 0 &&
+									{availableImages.length > 0 ? (
 										availableImages.map((image, index) => (
 											<ImageListItem key={index}>
 												{image ? (
@@ -630,7 +636,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 														className={`${Styles.thumbnails} ${
 															image === selectedImage ? Styles.selectedThumbnail : null
 														}`}
-														unoptimized={true}
 														src={image}
 														width={80}
 														height={80}
@@ -641,24 +646,43 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 													/>
 												) : null}
 											</ImageListItem>
-										))}
+										))
+									) : (
+										<>
+											<ImageListItem>
+												<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+											</ImageListItem>
+											<ImageListItem>
+												<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+											</ImageListItem>
+											<ImageListItem>
+												<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+											</ImageListItem>
+											<ImageListItem>
+												<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+											</ImageListItem>
+										</>
+									)}
 								</Stack>
-								{selectedImage ? (
+								{!selectedImage ? (
+									<Box className={Styles.mainImageWrapper}>
+										<Skeleton variant="rectangular" width={500} height={500} className={Styles.selectedImage} />
+									</Box>
+								) : (
 									<Box className={Styles.mainImageWrapper}>
 										<ImageFuture
 											className={Styles.selectedImage}
 											src={selectedImage}
-											unoptimized={true}
 											width={500}
 											height={500}
 											sizes="100vw"
 											alt=""
-											loading="lazy"
-											decoding="async"
+											loading="eager"
+											priority={true}
 											// loader={<ApiProgress/>}
 										/>
 									</Box>
-								) : null}
+								)}
 							</Stack>
 							{noCommentsAvailableContent()}
 						</Stack>
@@ -675,7 +699,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 									scrollbar={{ enabled: false }}
 									className={Styles.swiperSlide}
 								>
-									{availableImages.length > 0 &&
+									{availableImages.length > 0 ? (
 										availableImages.map((image, index) => {
 											return (
 												<SwiperSlide key={index}>
@@ -683,7 +707,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 														<ImageFuture
 															className={Styles.selectedImage}
 															src={image}
-															unoptimized={true}
 															width={365}
 															height={240}
 															sizes="100vw"
@@ -692,7 +715,14 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 													</Box>
 												</SwiperSlide>
 											);
-										})}
+										})
+									) : (
+										<SwiperSlide>
+											<Box className={Styles.mainImageWrapper}>
+												<Skeleton variant="rectangular" width={365} height={240} className={Styles.selectedImage} />
+											</Box>
+										</SwiperSlide>
+									)}
 								</Swiper>
 							</>
 						</div>
@@ -1503,7 +1533,6 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 														className={`${Styles.thumbnails} ${
 															image === selectedImage ? Styles.selectedThumbnail : null
 														}`}
-														unoptimized={true}
 														src={image}
 														width={80}
 														height={80}
@@ -1521,7 +1550,6 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										<ImageFuture
 											className={Styles.selectedImage}
 											src={selectedImage}
-											unoptimized={true}
 											width={500}
 											height={500}
 											sizes="100vw"
@@ -1556,7 +1584,6 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 														<ImageFuture
 															className={Styles.selectedImage}
 															src={image}
-															unoptimized={true}
 															width={365}
 															height={240}
 															sizes="100vw"
@@ -1631,9 +1658,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 									<span className={Styles.solderPrice}>{solder_value !== null ? newPrice + ' DH' : null}</span>
 								</Stack>
 								<Stack direction="row" justifyContent="space-between">
-									<span className={Styles.priceBy}>
-										par {getServicePriceByData(details_offer.service_price_by)}
-									</span>
+									<span className={Styles.priceBy}>par {getServicePriceByData(details_offer.service_price_by)}</span>
 								</Stack>
 							</Stack>
 							<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
@@ -1646,12 +1671,12 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										divider={<Divider orientation="horizontal" flexItem className={Styles.divider} />}
 									>
 										<ReadAdresse
-												address_name={details_offer.service_address}
-												longitude={details_offer.service_longitude}
-												latitude={details_offer.service_latitude}
-												zone_by={details_offer.service_zone_by}
-												km_radius={details_offer.service_km_radius as number}
-											/>
+											address_name={details_offer.service_address}
+											longitude={details_offer.service_longitude}
+											latitude={details_offer.service_latitude}
+											zone_by={details_offer.service_zone_by}
+											km_radius={details_offer.service_km_radius as number}
+										/>
 									</Stack>
 								</Box>
 							</Stack>
