@@ -8,7 +8,7 @@ import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../../utils/routes';
 import { UserClass } from '../../../../models/account/UserClass';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import { Box, Stack } from '@mui/material';
-import DesktopDashboardLeftSideNav from '../../../../components/layouts/desktopDashboardLeftSideNav/desktopDashboardLeftSideNav';
+import DesktopDashboardSideNav from '../../../../components/layouts/desktop/desktopDashboardSideNav/desktopDashboardSideNav';
 import { useFormik } from 'formik';
 import { profilSchema } from '../../../../utils/formValidationSchemas';
 import CircularAvatarInputFile from '../../../../components/htmlElements/buttons/circularAvatarInputFile/circularAvatarInputFile';
@@ -232,7 +232,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
 				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
-					<DesktopDashboardLeftSideNav backText="Mon compte" />
+					<DesktopDashboardSideNav backText="Mon compte" />
 					<Box sx={{ width: '100%' }}>
 						<FormikContent data={data} setShowDataUpdated={setShowDataUpdated} />
 					</Box>

@@ -77,10 +77,10 @@ export const DASHBOARD_MANAGE_ACCOUNT_CLOTURER = '/dashboard/compte/gestion-des-
 export const DASHBOARD_MANAGE_ACCOUNT_DELETE = '/dashboard/compte/gestion-des-donnes/supprimer-ma-boutique';
 export const DASHBOARD_BLOCKED_ACCOUNTS = '/dashboard/compte/comptes-bloques';
 export const DASHBOARD_MY_BUSINESS = '/dashboard/my-business'; // placeholder with redirect
-export const DASHBOARD_SUBSCRIPTION = 'dashboard/my-business/abonnement';
-export const DASHBOARD_INDEXED_OFFERS = 'dashboard/my-business/articles-references';
-export const DASHBOARD_AUDIENCES = 'dashboard/my-business/audience';
-export const DASHBOARD_CHIFFRE_DAFFAIRE = "dashboard/my-business/chiffre-d'affaire";
+export const DASHBOARD_SUBSCRIPTION = '/dashboard/my-business/abonnement';
+export const DASHBOARD_INDEXED_OFFERS = '/dashboard/my-business/articles-references';
+export const DASHBOARD_AUDIENCES = "/dashboard/my-business/audience";
+export const DASHBOARD_CHIFFRE_DAFFAIRE = "/dashboard/my-business/chiffre-d'affaire";
 export const DASHBOARD_MESSAGES = '/dashboard/messages';
 export const DASHBOARD_ORDERS = '/dashboard/orders';
 

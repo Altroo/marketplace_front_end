@@ -295,8 +295,6 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/orders" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/public/assets/svgs/dashboardIcons/leftSideNavIcons" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/dashboard" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktopDashboardLeftSideNav" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobileDashboardNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobileDesktopLeftSideNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/successAlert" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/navbars/mobileDashboardMessagesNotifications" isTestSource="false" />
@@ -310,12 +308,16 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/compte/edit-profil" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/callToActionCards/createYourShop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobile" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobileMyBusinessNav" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobile/mobileDashboardNav" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/mobile/mobileMyBusinessNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/abonnement" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/articles-references" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/audience" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/chiffre-d'affaire" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop/desktopDashboardSideNav" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop/desktopMyBusinessSideNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />

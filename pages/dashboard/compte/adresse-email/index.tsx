@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../../styles/dashboard/dashboard.module.sass';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
-import DesktopDashboardLeftSideNav from '../../../../components/layouts/desktopDashboardLeftSideNav/desktopDashboardLeftSideNav';
+import DesktopDashboardSideNav from '../../../../components/layouts/desktop/desktopDashboardSideNav/desktopDashboardSideNav';
 import { Box, Stack } from '@mui/material';
 import { coordonneeTextInputTheme } from '../../../../utils/themes';
 import { default as ImageFuture } from 'next/future/image';
@@ -238,7 +238,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
 				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
-					<DesktopDashboardLeftSideNav backText="Mon compte" />
+					<DesktopDashboardSideNav backText="Mon compte" />
 					<Box sx={{ width: '100%' }}>
 						{has_password ? (
 							<FormikContentWithOldPassword email={email} setShowDataUpdated={setShowDataUpdated} />

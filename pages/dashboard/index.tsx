@@ -4,13 +4,13 @@ import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../utils/
 import { AccountGetDashboardResponseType, AccountGetDashboardType } from '../../types/account/accountTypes';
 import { getApi } from '../../store/services/_init/_initAPI';
 import {
-	AUTH_LOGIN,
-	DASHBOARD_EDIT_PROFILE,
+	AUTH_LOGIN, DASHBOARD_AUDIENCES, DASHBOARD_CHIFFRE_DAFFAIRE,
+	DASHBOARD_EDIT_PROFILE, DASHBOARD_INDEXED_OFFERS, DASHBOARD_SUBSCRIPTION,
 	NOT_FOUND_404,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	TEMP_SHOP_ADD_SHOP_NAME,
-	USER_VIEW_PROFILE_BY_ID,
-} from '../../utils/routes';
+	USER_VIEW_PROFILE_BY_ID
+} from "../../utils/routes";
 import { Stack, Box } from '@mui/material';
 import UserMainNavigationBar from '../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import Styles from '../../styles/dashboard/dashboard.module.sass';
@@ -67,7 +67,7 @@ type ShopInfoContentType = {
 	shop_url: string;
 };
 
-const ShopInfoContent: React.FC<ShopInfoContentType> = (props: ShopInfoContentType) => {
+export const ShopInfoContent: React.FC<ShopInfoContentType> = (props: ShopInfoContentType) => {
 	const {
 		is_subscribed,
 		shop_avatar,
@@ -212,19 +212,15 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 
 	return (
 		<Stack direction="column" spacing={2} className={Styles.dashboardMyBusinessCardStack}>
-			<Link href="/" passHref>
-				<a>
-					<Stack direction="row" justifyContent="space-between" alignItems="center">
-						<Stack direction="row" spacing="18px" alignItems="center">
-							<ImageFuture src={MyBusinessSVG} alt="" width="54" height="54" sizes="100vw" />
-							<span className={Styles.dashboardCardIconText}>My business</span>
-						</Stack>
-						<ImageFuture src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
-					</Stack>
-				</a>
-			</Link>
+			<Stack direction="row" justifyContent="space-between" alignItems="center">
+				<Stack direction="row" spacing="18px" alignItems="center">
+					<ImageFuture src={MyBusinessSVG} alt="" width="54" height="54" sizes="100vw" />
+					<span className={Styles.dashboardCardIconText}>My business</span>
+				</Stack>
+				<ImageFuture src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
+			</Stack>
 			<Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
-				<Link passHref href="/">
+				<Link passHref href={DASHBOARD_INDEXED_OFFERS}>
 					<a>
 						<Stack
 							direction="row"
@@ -241,7 +237,7 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 						</Stack>
 					</a>
 				</Link>
-				<Link passHref href="/">
+				<Link passHref href={DASHBOARD_SUBSCRIPTION}>
 					<a>
 						<Stack
 							direction="row"
@@ -259,7 +255,7 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 					</a>
 				</Link>
 			</Stack>
-			<Link href="/" passHref>
+			<Link href={DASHBOARD_AUDIENCES} passHref>
 				<a>
 					<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardVuesMiniCard}>
 						<ImageFuture src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />
@@ -275,12 +271,12 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 					</Stack>
 				</a>
 			</Link>
-			<Link href="/" passHref>
+			<Link href={DASHBOARD_CHIFFRE_DAFFAIRE} passHref>
 				<a>
 					<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardSellsMiniCard}>
 						<ImageFuture src={DesktopUSDSVG} alt="" width="40" height="40" sizes="100vw" />
 						<Stack direction="column" sx={{ width: '100%' }}>
-							<span className={Styles.dashboardMiniCardCounter}>{total_sells_count}</span>
+							<span className={Styles.dashboardMiniCardCounter}>{total_sells_count} DH</span>
 							<Stack direction="row" justifyContent="space-between">
 								<span className={Styles.dashboardMiniCardSubHeader}>{fullMonthItemsList[total_sells_month]}</span>
 								<span className={`${Styles.dashboardMiniCardPourcentage} ${totalSellsPourcentageCSS}`}>
@@ -579,7 +575,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 								/>
 							)}
 							{has_shop ? (
-								<MobileDashboardCards icon={MyBusinessSVG} link="/" title="My business" />
+								<MobileDashboardCards icon={MyBusinessSVG} link={DASHBOARD_SUBSCRIPTION} title="My business" />
 							) : (
 								<UserMyBusinessCardContent rootSX={{ width: '100%' }} />
 							)}

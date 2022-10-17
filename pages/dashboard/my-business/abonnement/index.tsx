@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../../styles/dashboard/dashboard.module.sass';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../utils/helpers';
@@ -16,63 +16,16 @@ import { default as ImageFuture } from "next/future/image";
 import MiniBackSVG from "../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg";
 import MobileMyBusinessNav from "../../../../components/layouts/mobile/mobileMyBusinessNav/mobileMyBusinessNav";
 import CustomFooter from "../../../../components/layouts/footer/customFooter";
-import QuestionMarkSVG from "../../../../public/assets/svgs/globalIcons/question-mark.svg";
-import DesktopArticlesTotalCountSVG from "../../../../public/assets/svgs/dashboardIcons/mainIcons/desktop-articles-total-count.svg";
-import { fullMonthItemsList } from "../../../../utils/rawData";
-import ColoredVuesIlluSVG from "../../../../public/assets/images/dashboard_illu/colored-vues.svg";
 
 type PageContentType = {
 	data: AccountGetDashboardType;
 }
 
 const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
-	const { total_offers_vue_count, total_vue_pourcentage, total_vue_month } = props.data;
-	const [totalVuePourcentageCSS, setTotalVuePourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
-
-	useEffect(() => {
-		if (total_vue_pourcentage.startsWith('+')) {
-			setTotalVuePourcentageCSS(Styles.dashboardPositivePourcentage);
-		} else if (total_vue_pourcentage.startsWith('-')) {
-			setTotalVuePourcentageCSS(Styles.dashboardNegativePourcentage);
-		}
-	}, [total_vue_pourcentage]);
+	const { data } = props;
 
 	return (
-		<Stack direction="column" spacing={3}>
-			<Stack direction="column">
-				<h2 className={Styles.userShopTitle}>Audience</h2>
-				<Stack direction="row" gap="3px" alignItems="center">
-					<ImageFuture src={QuestionMarkSVG} width={18} height={18} alt="" sizes="100vw" />
-					<span className={Styles.myBusinessQuestion}>Comment booster ses ventes</span>
-				</Stack>
-			</Stack>
-			<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardVuesDesktopCard}>
-				<ImageFuture src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />
-				<Stack direction="column" sx={{ width: '100%' }}>
-					<span className={Styles.dashboardMiniCardCounter}>{total_offers_vue_count}</span>
-					<Stack direction="row" justifyContent="space-between">
-						<span className={Styles.dashboardMiniCardSubHeader}>{fullMonthItemsList[total_vue_month]}</span>
-						<span className={`${Styles.dashboardMiniCardPourcentage} ${totalVuePourcentageCSS}`}>
-							{total_vue_pourcentage}
-						</span>
-					</Stack>
-				</Stack>
-			</Stack>
-			<Stack direction="column" spacing={2}>
-				<Stack direction="row" justifyContent="space-between">
-					<span className={Styles.dashboardShopName}>Top articles</span>
-				</Stack>
-				<Stack className={Styles.dashboardSellsDesktopBox} direction="column" alignItems="center" gap="20px">
-					<ImageFuture src={ColoredVuesIlluSVG} alt="" width="173" height="110" sizes="100vw" />
-					<Stack direction="column" alignItems="center">
-						<span className={Styles.dashboardShopName}>Aucune vue</span>
-						<span className={Styles.dashboardSellsDesktopBoxContent}>
-							Vous n&apos;avez pas encore de vue sur votre boutique. Revenez ici un peu plus tard.
-						</span>
-					</Stack>
-				</Stack>
-			</Stack>
-		</Stack>
+		<p>empty abonnement content</p>
 	);
 };
 

@@ -1,5 +1,5 @@
 import { Stack, Divider, AccordionSummary, Accordion, ThemeProvider, Button } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Styles from './mobileDashboardNav.module.sass';
 import MonProfilSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mon-profil.svg';
 import AdresseLivraisonSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/adresses-de-livraison.svg';
@@ -25,7 +25,7 @@ import AccordionDropDownSVG from '../../../../public/assets/svgs/globalIcons/fil
 import { FilterAccordionTheme } from '../../../../utils/themes';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 
-type SideNavElement = {
+export type MobileSideNavElementType = {
 	icon: string;
 	text: string;
 	link: string;
@@ -34,33 +34,30 @@ type SideNavElement = {
 	setContent: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SideNavElement: React.FC<SideNavElement> = (props: SideNavElement) => {
+export const MobileSideNavElement: React.FC<MobileSideNavElementType> = (props: MobileSideNavElementType) => {
 	const router = useRouter();
 	const { current, setContent } = props;
 
-	useEffect(() => {
-		// console.log(current);
-		// window.onpopstate = () => {
-		// 	// router.push(/*route logic here*/)
-		// 	if (current) {
-		// 		setContent(false);
-		// 	}
-		// };
-		// router.beforePopState(({ as }) => {
-		// 	console.log(as);
-		// 	console.log(router.asPath);
-		// 	if (current) {
-		// 		// Will run when leaving the current page; on back/forward actions
-		// 		// Add your logic here, like toggling the modal state
-		// 		setContent(false);
-		// 		return false;
-		// 	}
-		// 	return true;
-		// });
-		// return () => {
-		// 	router.beforePopState(() => true);
-		// };
-	}, [current, router, setContent]);
+	// useEffect(() => {
+	// 	// window.onpopstate = () => {
+	// 	// 	// router.push(/*route logic here*/)
+	// 	// 	if (current) {
+	// 	// 		setContent(false);
+	// 	// 	}
+	// 	// };
+	// 	router.beforePopState(({ as }) => {
+	// 		if (current) {
+	// 			// Will run when leaving the current page; on back/forward actions
+	// 			// Add your logic here, like toggling the modal state
+	// 			setContent(false);
+	// 			return false;
+	// 		}
+	// 		return true;
+	// 	});
+	// 	return () => {
+	// 		router.beforePopState(() => true);
+	// 	};
+	// }, [current, router, setContent]);
 
 	return (
 		<Stack direction="row" sx={{ width: '100%' }} className={`${props.disabled && Styles.disabledElement}`}>
@@ -69,7 +66,7 @@ const SideNavElement: React.FC<SideNavElement> = (props: SideNavElement) => {
 					if (current) {
 						setContent(prevState => !prevState);
 					} else {
-						router.replace(props.link, undefined, { shallow: true, scroll: false }).then();
+						router.replace(props.link).then();
 					}
 				}}
 			>
@@ -82,7 +79,7 @@ const SideNavElement: React.FC<SideNavElement> = (props: SideNavElement) => {
 	);
 };
 
-const AccordionElement: React.FC<Omit<SideNavElement, 'link'>> = (props: Omit<SideNavElement, 'link'>) => {
+const AccordionElement: React.FC<Omit<MobileSideNavElementType, 'link'>> = (props: Omit<MobileSideNavElementType, 'link'>) => {
 	return (
 		<Stack direction="row" spacing={2} sx={{ width: '100%' }}>
 			<ImageFuture src={props.icon} alt="" width="0" height="0" sizes="100vw" className={Styles.mainIcon} />
@@ -93,13 +90,13 @@ const AccordionElement: React.FC<Omit<SideNavElement, 'link'>> = (props: Omit<Si
 
 type Props = {
 	setContent: React.Dispatch<React.SetStateAction<boolean>>;
-	backText: string;
+	backText?: string;
 	children?: React.ReactNode;
 };
 
 const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 	const router = useRouter();
-	const profilNavElements: Array<SideNavElement> = [
+	const profilNavElements: Array<MobileSideNavElementType> = [
 		{
 			text: 'Mon profil',
 			link: DASHBOARD_EDIT_PROFILE,
@@ -125,7 +122,7 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 			setContent: props.setContent,
 		},
 	];
-	const parametresNavElements: Array<SideNavElement> = [
+	const parametresNavElements: Array<MobileSideNavElementType> = [
 		{
 			text: 'Adresse email',
 			link: DASHBOARD_ADRESSE_EMAIL,
@@ -184,7 +181,7 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 					<Stack direction="column" spacing={2}>
 						{profilNavElements.map((element, index) => {
 							return (
-								<SideNavElement
+								<MobileSideNavElement
 									text={element.text}
 									key={index}
 									link={element.link}
@@ -202,7 +199,7 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 					<Stack direction="column" spacing={2}>
 						{parametresNavElements.map((element, index) => {
 							return (
-								<SideNavElement
+								<MobileSideNavElement
 									text={element.text}
 									key={index}
 									link={element.link}
@@ -231,20 +228,19 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 									</AccordionSummary>
 									{/*<AccordionDetails>*/}
 									{/*	<Stack direction="column" spacing={2}>*/}
-									{/*		/!*<SideNavElement*!/*/}
-									{/*		/!*	text="Comptes bloqués"*!/*/}
-									{/*		/!*	link={DASHBOARD_BLOCKED_ACCOUNTS}*!/*/}
-									{/*		/!*	icon={CompteBloquesSVG}*!/*/}
-									{/*		/!*	current={false}*!/*/}
-									{/*		/!*	disabled={true}*!/*/}
-									{/*		/! */}
-									{/*		/!*<SideNavElement*!/*/}
-									{/*		/!*	text="Comptes bloqués"*!/*/}
-									{/*		/!*	link={DASHBOARD_BLOCKED_ACCOUNTS}*!/*/}
-									{/*		/!*	icon={CompteBloquesSVG}*!/*/}
-									{/*		/!*	current={false}*!/*/}
-									{/*		/!*	disabled={true}*!/*/}
-									{/*		/! */}
+									{/* <SideNavElement*!/*/}
+									{/* text="Comptes bloqués"*!/*/}
+									{/* link={DASHBOARD_BLOCKED_ACCOUNTS}*!/*/}
+									{/* icon={CompteBloquesSVG}*!/*/}
+									{/* current={false}*!/*/}
+									{/* disabled={true}*!/*/}
+									{/*	<SideNavElement*!/*/}
+									{/*		text="Comptes bloqués"*!/*/}
+									{/*		link={DASHBOARD_BLOCKED_ACCOUNTS}*!/*/}
+									{/*		icon={CompteBloquesSVG}*!/*/}
+									{/*		current={false}*!/*/}
+									{/*		disabled={true}*!/*/}
+									{/* */}
 									{/*	</Stack>*/}
 									{/*</AccordionDetails>*/}
 								</Accordion>
@@ -253,7 +249,7 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 					</Stack>
 				</Stack>
 				<Divider orientation="horizontal" flexItem />
-				<SideNavElement
+				<MobileSideNavElement
 					text="Comptes bloqués"
 					link={DASHBOARD_BLOCKED_ACCOUNTS}
 					icon={CompteBloquesSVG}

@@ -158,7 +158,27 @@
 .dashboardSellsMiniCard
   @extend .dashboardMiniCards
   background-color: rgba(255, 217, 162, 0.24)
-  //width: 343px
+.dashboardSellsDesktopCard
+  border-radius: 20px
+  height: 132px
+  width: 364px
+  background-color: #FFD9A2
+  padding: 24px 12px
+.dashboardVuesDesktopCard
+  border-radius: 20px
+  height: 132px
+  width: 364px
+  padding: 24px 12px
+  background-color: rgba(243, 216, 225, 0.6)
+.dashboardSellsDesktopBox
+  padding: 32px 12px
+  width: 100%
+  border: 1px solid #D9D9DD
+  border-radius: 20px
+.dashboardSellsDesktopBoxContent
+  +Regular
+  font-size: 17px
+  color: $primary
 .dashboardMiniCardPourcentage
   +Medium
   font-size: 15px
@@ -238,7 +258,17 @@
 .backIcon
   width: 12px
   height: 7px
+.myBusinessQuestion
+  +Regular
+  font-size: 17px
+  color: #0274d7
 @media #{$tablette}
+  .dashboardSellsDesktopCard, .dashboardVuesDesktopCard
+    width: 100%
+  .dashboardSellsDesktopBoxContent
+    text-align: center
+  .dashboardSellsDesktopBox
+    margin-bottom: 60px !important
   .desktopOnly
     +Hidden
   .main
