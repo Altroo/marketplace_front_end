@@ -60,7 +60,6 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 		// case user didn't complete temporary shop creation
 		// or refreshed the page in the middle of the process
 		dispatch(loadNewAddedShopAction());
-		console.log('tokenType : ', tokenType);
 		if (tokenType === 'TOKEN' && token !== null) {
 			// moved to init Saga or in it's page. (in it's page causes infinite loop)
 			// dispatch(accountGetProfilAction());

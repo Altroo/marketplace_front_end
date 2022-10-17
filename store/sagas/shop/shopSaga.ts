@@ -83,6 +83,7 @@ import { NextRouter } from 'next/router';
 import { AxiosInstance } from 'axios';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { Saga } from "redux-saga";
+import { accountGetCheckAccountSaga } from "../account/accountSaga";
 
 // interface TokenNoAuthSagaBaseGeneratorParams {
 //     payloadRecord: Record<string, unknown>;
@@ -136,6 +137,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 				yield call(() => emptyLocalStorageNewShopData());
 				// delete cookies
 				yield call(() => deleteCookieStorageNewShopData());
+				yield call(() => accountGetCheckAccountSaga());
 				return response.data.qaryb_link;
 			}
 		} else {

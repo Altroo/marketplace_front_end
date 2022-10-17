@@ -484,7 +484,7 @@ function* accountDeleteBlockSaga(payload: { type: string; user_pk: number }) {
 	}
 }
 
-function* accountGetCheckAccountSaga() {
+export function* accountGetCheckAccountSaga() {
 	yield put(setCheckAccountGETLoading());
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;

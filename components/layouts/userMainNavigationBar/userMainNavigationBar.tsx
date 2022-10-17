@@ -48,7 +48,7 @@ type Props = {
 
 const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const { data: session, status } = useSession();
-	const router = useRouter();
+	// const router = useRouter();
 	const avatar = useAppSelector(getUserProfilAvatar);
 	const firstName = useAppSelector(getUserFirstName);
 	const lastName = useAppSelector(getUserLastName);
