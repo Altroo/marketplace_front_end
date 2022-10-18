@@ -43,7 +43,7 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 				onChange={props.onChange}
 				maxNumber={props.maxNumber}
 				dataURLKey="dataURL"
-				maxFileSize={1000000} // 1 mb
+				maxFileSize={5000000} // 5 mb
 				acceptType={['jpg', 'png', 'jpeg']}
 			>
 				{({ imageList, onImageUpload, onImageRemove, errors }) =>

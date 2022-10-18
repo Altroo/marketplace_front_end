@@ -4,12 +4,16 @@ import { Stack } from '@mui/material';
 import OutlineButton from '../../../htmlElements/buttons/outlineButton/outlineButton';
 import { default as ImageFuture } from 'next/future/image';
 import JumelleIlluSVG from '../../../../public/assets/images/jumelle-illu.svg';
+import { useRouter } from "next/router";
+import { DASHBOARD_SUBSCRIPTION } from "../../../../utils/routes";
 
 type Props = {
 	children?: React.ReactNode;
 };
 
 const ShopNotIndexed: React.FC<Props> = (props: Props) => {
+	const router = useRouter();
+
 	return (
 		<Stack direction="row" justifyContent="space-between" className={Styles.rootStackWrapper}>
 			<Stack direction="column" className={Styles.columnStackWrapper}>
@@ -21,6 +25,7 @@ const ShopNotIndexed: React.FC<Props> = (props: Props) => {
 					type="button"
 					backgroundColor="#D5CEEE"
 					cssClass={Styles.actionButton}
+					onClick={() => router.push(DASHBOARD_SUBSCRIPTION).then()}
 				/>
 			</Stack>
 			<ImageFuture

@@ -50,7 +50,8 @@ import {
 	getAvailableCountries,
 	getLocalOfferProductColors,
 	getLocalOfferProductDescription,
-	getLocalOfferProductForwhom, getLocalOfferProductMadeIn,
+	getLocalOfferProductForwhom,
+	getLocalOfferProductMadeIn,
 	getLocalOfferProductPictures,
 	// getLocalOfferPicture1,
 	// getLocalOfferPicture2,
@@ -59,8 +60,8 @@ import {
 	getLocalOfferProductQuantity,
 	getLocalOfferProductSizes,
 	getLocalOfferProductTags,
-	getLocalOfferProductTitle
-} from "../../../store/selectors";
+	getLocalOfferProductTitle,
+} from '../../../store/selectors';
 // import { setSelectedOfferTags } from '../../../../store/slices/offer/offerSlice';
 import { forWhomItemsList, getForWhomDataArray } from '../../../utils/rawData';
 import { OfferForWhomType } from '../../../types/offer/offerTypes';
@@ -483,7 +484,7 @@ const Description: NextPage = () => {
 											>
 												<PrimaryButton
 													buttonText="Continuer"
-													active={isValid && !isSubmitting}
+													active={isValid && !isSubmitting && offerTags.length > 0}
 													onClick={handleSubmit}
 													type="submit"
 												/>

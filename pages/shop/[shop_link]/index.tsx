@@ -672,7 +672,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					</Box>
 					{/* START right side contact modal - has bug not 100% hidden - the check is to resolve it */}
 					{openContacterModal && (
-						<CustomSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
+						<CustomSwipeModal keepMounted={true} open={openContacterModal} handleClose={handleContactModalClose}>
 							<div className={Styles.modalContentWrapper}>
 								<div className={Styles.topBar}>
 									<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />

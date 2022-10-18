@@ -131,7 +131,7 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 						<Box>
 							<Stack direction="row" spacing={1} justifyContent="space-between" alignItems="baseline">
 								<Box component="span" className={Styles.stackTitle}>
-									Horaire
+									Horaires
 								</Box>
 								<Button
 									onClick={() => {

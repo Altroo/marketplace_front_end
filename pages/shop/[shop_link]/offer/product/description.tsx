@@ -458,7 +458,11 @@ const Description: NextPage = () => {
 											>
 												<PrimaryButton
 													buttonText="Continuer"
-													active={isValid && !isSubmitting}
+													active={
+														isValid &&
+														!isSubmitting &&
+														offerTags.length > 0
+													}
 													onClick={handleSubmit}
 													type="submit"
 												/>
