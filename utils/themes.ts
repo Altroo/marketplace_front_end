@@ -998,3 +998,4 @@ export const customModalTheme = (primaryColor: string | undefined = undefined) =
 		},
 	});
 }
+

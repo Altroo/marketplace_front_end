@@ -589,23 +589,23 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 					</Stack>
 				</main>
 				<div className={Styles.desktopOnly}>
-					{showActivateNowModal && (
-						<CustomSwipeModal
-							keepMounted={false}
-							direction="up"
-							fullScreen={false}
-							open={showActivateNowModal}
-							handleClose={() => setShowActivateNowModal(false)}
-							cssClasse={Styles.dashboardActivationModal}
-							showCloseIcon={true}
-						>
-							<EnterCodePageContent
-								email={email}
-								cssClass={Styles.enterCodePageContentRoot}
-								whichCode="ACCOUNT_VERIFICATION"
-							/>
-						</CustomSwipeModal>
-					)}
+					{/*{showActivateNowModal && (*/}
+					<CustomSwipeModal
+						keepMounted={false}
+						direction="up"
+						fullScreen={false}
+						open={showActivateNowModal}
+						handleClose={() => setShowActivateNowModal(false)}
+						cssClasse={Styles.dashboardActivationModal}
+						showCloseIcon={true}
+					>
+						<EnterCodePageContent
+							email={email}
+							cssClass={Styles.enterCodePageContentRoot}
+							whichCode="ACCOUNT_VERIFICATION"
+						/>
+					</CustomSwipeModal>
+					{/*)}*/}
 				</div>
 				<CustomFooter />
 			</Stack>

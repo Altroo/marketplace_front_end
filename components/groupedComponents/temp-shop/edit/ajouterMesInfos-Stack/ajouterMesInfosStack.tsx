@@ -51,11 +51,11 @@ const AjouterMesInfosStack: React.FC<addMyInfosStackType> = (props: addMyInfosSt
 	return (
 		<>
 			{/* EDIT CONTENT MODAL */}
-			{props.openEditModal && <CustomSwipeModal open={props.openEditModal} handleClose={() => props.setOpenEditModal(false)}>
+			<CustomSwipeModal open={props.openEditModal} handleClose={() => props.setOpenEditModal(false)}>
 				<div className={props.title !== 'Adresse' ? Styles.modalContentWrapper : Styles.addressModalWrapper}>
 					{modalContent}
 				</div>
-			</CustomSwipeModal>}
+			</CustomSwipeModal>
 			{/* END EDIT CONTENT MODAL */}
 			<Stack direction="column" spacing={1}>
 				<Stack direction="row" justifyContent="space-between" alignItems="center">

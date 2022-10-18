@@ -714,8 +714,7 @@ const Index: NextPage<Props> = (props: Props) => {
 							</div>
 						</div>
 					</div>
-					{/* START right side contact modal - has bug not 100% hidden - the check is to resolve it */}
-					{openContacterModal && (
+					{/* START right side contact modal */}
 						<CustomSwipeModal open={openContacterModal} handleClose={handleContactModalClose}>
 							<div className={Styles.modalContentWrapper}>
 								<div className={Styles.topBar}>
@@ -751,10 +750,9 @@ const Index: NextPage<Props> = (props: Props) => {
 								/>
 							</div>
 						</CustomSwipeModal>
-					)}
 					{/* END right side contact modal */}
 					{/* Edit info modal */}
-					{openInfoModal && <CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
+					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
 								<ImageFuture src={CloseSVG} alt="" width="40" height="40" sizes="100vw" onClick={() => setOpenInfoModal(false)} />
@@ -775,7 +773,7 @@ const Index: NextPage<Props> = (props: Props) => {
 								})}
 							</Stack>
 						</div>
-					</CustomSwipeModal>}
+					</CustomSwipeModal>
 					{/* Edit color modal */}
 					{openColorModal && (
 						<>

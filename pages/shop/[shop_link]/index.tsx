@@ -670,9 +670,8 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 							</Stack>
 						</Stack>
 					</Box>
-					{/* START right side contact modal - has bug not 100% hidden - the check is to resolve it */}
-					{openContacterModal && (
-						<CustomSwipeModal keepMounted={true} open={openContacterModal} handleClose={handleContactModalClose}>
+					{/* START right side contact modal */}
+					<CustomSwipeModal keepMounted={true} open={openContacterModal} handleClose={handleContactModalClose}>
 							<div className={Styles.modalContentWrapper}>
 								<div className={Styles.topBar}>
 									<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
@@ -707,7 +706,6 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								/>
 							</div>
 						</CustomSwipeModal>
-					)}
 					{/* END right side contact modal */}
 					{/* Edit info modal */}
 					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
