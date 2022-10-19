@@ -816,9 +816,9 @@ export const FilterAccordionTheme = (primaryColor: string | undefined = undefine
 						backgroundColor: 'transparent !important',
 						'&::before': {
 							backgroundColor: 'transparent !important',
-						}
-					}
-				}
+						},
+					},
+				},
 			},
 			MuiAccordion: {
 				styleOverrides: {
@@ -835,7 +835,7 @@ export const FilterAccordionTheme = (primaryColor: string | undefined = undefine
 						paddingRight: '0',
 						marginBottom: '15px',
 					},
-				}
+				},
 			},
 			MuiAccordionDetails: {
 				styleOverrides: {
@@ -945,37 +945,37 @@ export const horairesInputTheme = (primaryColor: string | undefined = undefined)
 
 export const customToastTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
-		return createTheme({
+	return createTheme({
 		components: {
 			...defaultTheme,
 			MuiSnackbar: {
 				styleOverrides: {
 					root: {
 						backgroundColor: 'white',
-						borderRadius: "20px",
+						borderRadius: '20px',
 						position: 'absolute',
-					}
-				}
+					},
+				},
 			},
 			MuiPaper: {
 				styleOverrides: {
 					root: {
-						borderRadius: "20px",
-						boxShadow: "0px 0px 24px rgba(13, 7, 11, 0.1)",
+						borderRadius: '20px',
+						boxShadow: '0px 0px 24px rgba(13, 7, 11, 0.1)',
 						'&.MuiAlert-outlinedWarning': {
-							border: "1px solid rgba(255, 45, 61, 0.2)",
+							border: '1px solid rgba(255, 45, 61, 0.2)',
 						},
 						'&.MuiAlert-outlinedSuccess': {
-							border: "1px solid rgba(7, 203, 173, 0.2)",
+							border: '1px solid rgba(7, 203, 173, 0.2)',
 						},
 						'&.MuiAlert-outlinedError': {
-							border: "1px solid rgba(255, 45, 61, 0.2)",
+							border: '1px solid rgba(255, 45, 61, 0.2)',
 						},
 						'&.MuiAlert-outlinedInfo': {
-							border: "1px solid rgba(2, 116, 215, 0.2)",
+							border: '1px solid rgba(2, 116, 215, 0.2)',
 						},
-					}
-				}
+					},
+				},
 			},
 		},
 	});
@@ -997,5 +997,54 @@ export const customModalTheme = (primaryColor: string | undefined = undefined) =
 			},
 		},
 	});
-}
+};
 
+export const customSliderTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		components: {
+			...defaultTheme,
+			MuiSlider: {
+				styleOverrides: {
+					root: {
+						color: primaryColor,
+						height: '12px',
+						padding: '15px 0',
+					},
+					thumb: {
+						height: 32,
+						width: 32,
+						backgroundColor: '#FFFFFF',
+						border: '1px solid #F2F2F3',
+						boxShadow: '0 4px 4px rgba(13,7,11,0.22)',
+						borderRadius: '40px',
+						'&:focus, &:hover, &.Mui-active': {
+							boxShadow: '0 3px 1px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,0,0,0.02)',
+							'@media (hover: none)': {
+								boxShadow: '0 3px 1px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,0,0,0.02)',
+							},
+						},
+					},
+					track: {
+						border: 'none',
+						opacity: 1,
+						backgroundColor: primaryColor,
+					},
+					rail: {
+						opacity: 1,
+						backgroundColor: '#F2F2F3',
+					},
+					mark: {
+						backgroundColor: 'transparent',
+						height: 8,
+						width: 1,
+						'&.MuiSlider-markActive': {
+							opacity: 1,
+							backgroundColor: 'transparent',
+						},
+					},
+				},
+			},
+		},
+	});
+};

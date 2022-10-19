@@ -199,3 +199,6 @@ export const getMyConversationsNextPage = (state: RootState) => state.chat.conve
 // Order
 export const getMyBuyingsListNextPage = (state: RootState) => state.order.buyingsList.next as string | null;
 export const getMySellingsListNextPage = (state: RootState) => state.order.sellingsList.next as string | null;
+
+// Subscription
+export const getAvailableSubscriptions = (state: RootState) => state.subscription.available_subscription_plan;

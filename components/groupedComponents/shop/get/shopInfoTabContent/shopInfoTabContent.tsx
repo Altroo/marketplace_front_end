@@ -10,7 +10,7 @@ type Props = {
 	shopInfoData: ShopInfoDataType;
 	children?: React.ReactNode;
 };
-// TODO - apply the same as on shop owner
+
 const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 	const {
 		shop_name,

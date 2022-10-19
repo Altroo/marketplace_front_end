@@ -318,7 +318,12 @@
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop/desktopDashboardSideNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop/desktopMyBusinessSideNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/info-Tab_Content [not used]" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/customSlider" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/subscription" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/subscription" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_archives" />

@@ -12,6 +12,7 @@ import chatReducer from './slices/chat/chatSlice';
 import versionReducer from './slices/version/versionSlice';
 import cartReducer from './slices/cart/cartSlice';
 import orderReducer from './slices/order/orderSlice';
+import subscriptionReducer from './slices/subscription/subscriptionSlice';
 
 const SagaMiddleware = createSagaMiddleware({});
 
@@ -24,6 +25,7 @@ const combinedReducers = combineReducers({
 	chat: chatReducer,
 	cart: cartReducer,
 	order: orderReducer,
+	subscription: subscriptionReducer,
 	// places: placesReducer,
 	// rating: ratingReducer,
 	version: versionReducer,

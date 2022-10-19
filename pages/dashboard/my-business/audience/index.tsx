@@ -26,8 +26,12 @@ type PageContentType = {
 }
 
 const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
-	const { total_offers_vue_count, total_vue_pourcentage, total_vue_month } = props.data;
+	const { total_vue_month } = props.data;
 	const [totalVuePourcentageCSS, setTotalVuePourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
+
+	// TODO - phase 2 : get from db.
+	const total_offers_vue_count = 0;
+	const total_vue_pourcentage = '0%'
 
 	useEffect(() => {
 		if (total_vue_pourcentage.startsWith('+')) {
@@ -38,7 +42,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 	}, [total_vue_pourcentage]);
 
 	return (
-		<Stack direction="column" spacing={3}>
+		<Stack direction="column" spacing={3} className={Styles.dashboardRightContentMarginLeft}>
 			<Stack direction="column">
 				<h2 className={Styles.userShopTitle}>Audience</h2>
 				<Stack direction="row" gap="3px" alignItems="center">

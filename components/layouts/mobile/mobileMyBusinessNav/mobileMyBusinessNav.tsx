@@ -1,38 +1,37 @@
-import React from "react";
+import React from 'react';
 // using mobileDashboardNav styles
-import Styles from "../mobileDashboardNav/mobileDashboardNav.module.sass";
-import { useRouter } from "next/router";
+import Styles from '../mobileDashboardNav/mobileDashboardNav.module.sass';
+import { useRouter } from 'next/router';
 import {
 	DASHBOARD_AUDIENCES,
 	DASHBOARD_CHIFFRE_DAFFAIRE,
 	DASHBOARD_INDEXED_OFFERS,
-	DASHBOARD_SUBSCRIPTION
-} from "../../../../utils/routes";
-import MobileAbonnementSVG from "../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-abonnement.svg";
-import MobileIndexedOffersSVG
-	from "../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-indexed-articles.svg";
-import MobileAudiencesSVG
-	from "../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-articles-total-count.svg";
-import MobileChiffreAffaireSVG from "../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-usd.svg";
-import { MobileSideNavElement, MobileSideNavElementType } from "../mobileDashboardNav/mobileDashboardNav";
-import { Stack } from "@mui/material";
-import { default as ImageFuture } from "next/future/image";
-import MiniBackSVG from "../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg";
-import { AccountGetDashboardType } from "../../../../types/account/accountTypes";
-import { ShopInfoContent } from "../../../../pages/dashboard";
+	DASHBOARD_SUBSCRIPTION,
+} from '../../../../utils/routes';
+import MobileAbonnementSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-abonnement.svg';
+import MobileIndexedOffersSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-indexed-articles.svg';
+import MobileAudiencesSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-articles-total-count.svg';
+import MobileChiffreAffaireSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-usd.svg';
+import { MobileSideNavElement, MobileSideNavElementType } from '../mobileDashboardNav/mobileDashboardNav';
+import { Stack } from '@mui/material';
+import { default as ImageFuture } from 'next/future/image';
+import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
+import { AccountGetDashboardType } from '../../../../types/account/accountTypes';
+import { ShopInfoContent } from '../../../../pages/dashboard';
 
 type Props = {
 	data: AccountGetDashboardType;
 	setContent: React.Dispatch<React.SetStateAction<boolean>>;
 	backText?: string;
+	addMobilePadding?: boolean;
 	children?: React.ReactNode;
-}
+};
 
 const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
-	const { data } = props;
+	const { data, addMobilePadding } = props;
 	const {
 		total_sells_count,
-		total_offers_vue_count,
+		// total_offers_vue_count,
 		shop_name,
 		is_subscribed,
 		shop_avatar,
@@ -41,7 +40,8 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 		total_offers_count,
 	} = data;
 	const router = useRouter();
-
+	// TODO - phase 2 : get from db.
+	const total_offers_vue_count = 0;
 	const myBusinessNavElements: Array<MobileSideNavElementType> = [
 		{
 			text: 'Abonnement',
@@ -77,7 +77,15 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 		},
 	];
 	return (
-		<Stack direction="column" className={Styles.sideBar} spacing={4}>
+		<Stack
+			direction="column"
+			className={Styles.sideBar}
+			spacing={4}
+			sx={{
+				paddingLeft: `${addMobilePadding ? '24px !important' : '0px !important'}`,
+				paddingRight: `${addMobilePadding ? '24px !important' : '0px !important'}`,
+			}}
+		>
 			{props.backText && (
 				<Stack direction="column">
 					<Stack direction="row" justifyContent="space-between">
@@ -88,14 +96,7 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 							onClick={() => router.back()}
 							alignItems="center"
 						>
-							<ImageFuture
-								src={MiniBackSVG}
-								alt=""
-								width="0"
-								height="0"
-								sizes="100vw"
-								className={Styles.backIcon}
-							/>
+							<ImageFuture src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
 							<span className={Styles.backText}>Retour</span>
 						</Stack>
 					</Stack>
@@ -103,32 +104,29 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 				</Stack>
 			)}
 			<ShopInfoContent
-					total_sells_count={total_sells_count}
-					total_offers_vue_count={total_offers_vue_count}
-					shop_name={shop_name}
-					is_subscribed={is_subscribed}
-					shop_avatar={shop_avatar}
-					shop_url={shop_url}
-					global_rating={global_rating}
-					total_offers_count={total_offers_count}
-				/>
+				total_sells_count={total_sells_count}
+				total_offers_vue_count={total_offers_vue_count}
+				shop_name={shop_name}
+				is_subscribed={is_subscribed}
+				shop_avatar={shop_avatar}
+				shop_url={shop_url}
+				global_rating={global_rating}
+				total_offers_count={total_offers_count}
+			/>
 			<Stack direction="column" spacing={2}>
-				<span className={Styles.header}>Profil</span>
-				<Stack direction="column" spacing={2}>
-					{myBusinessNavElements.map((element, index) => {
-						return (
-							<MobileSideNavElement
-								text={element.text}
-								key={index}
-								link={element.link}
-								icon={element.icon}
-								disabled={element.disabled}
-								current={element.current}
-								setContent={element.setContent}
-							/>
-						);
-					})}
-				</Stack>
+				{myBusinessNavElements.map((element, index) => {
+					return (
+						<MobileSideNavElement
+							text={element.text}
+							key={index}
+							link={element.link}
+							icon={element.icon}
+							disabled={element.disabled}
+							current={element.current}
+							setContent={element.setContent}
+						/>
+					);
+				})}
 			</Stack>
 		</Stack>
 	);

@@ -597,7 +597,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								</Stack>
 								<Stack direction="row" alignItems="center">
 									<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />
-									{/* TODO : link rating when backend is done */}
+									{/* TODO - phase 2 : link rating when backend is done */}
 									<span>0 (0 notes)</span>
 								</Stack>
 							</Stack>
@@ -1019,7 +1019,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 							</h2>
 							<Stack direction="row" alignItems="center">
 								<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />
-								{/* TODO : link rating when backend is done */}
+								{/* TODO - phase 2 : link rating when backend is done */}
 								<span>0 (0 notes)</span>
 							</Stack>
 						</Stack>

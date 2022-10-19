@@ -5,12 +5,39 @@ import {
 	OfferProductPriceByType,
 	OfferProductSizes,
 	OfferServiceAvailabilityDaysArray,
-	OfferServicePriceByType
-} from "../types/offer/offerTypes";
-import { AccountGenderCodeValueType, AccountGenderType } from "../types/account/accountTypes";
+	OfferServicePriceByType,
+} from '../types/offer/offerTypes';
+import { AccountGenderCodeValueType, AccountGenderType } from '../types/account/accountTypes';
+import { Mark } from '@mui/base/SliderUnstyled/useSlider.types';
 
-export const monthItemsList = ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juill', 'août', 'sept', 'oct', 'nov', 'déc'];
-export const fullMonthItemsList = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juilliet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+export const monthItemsList = [
+	'janv',
+	'févr',
+	'mars',
+	'avr',
+	'mai',
+	'juin',
+	'juill',
+	'août',
+	'sept',
+	'oct',
+	'nov',
+	'déc',
+];
+export const fullMonthItemsList = [
+	'Janvier',
+	'Février',
+	'Mars',
+	'Avril',
+	'Mai',
+	'Juin',
+	'Juilliet',
+	'Août',
+	'Septembre',
+	'Octobre',
+	'Novembre',
+	'Décembre',
+];
 export const dayItemsList = ['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'];
 export const forWhomItemsList = ['Tout le monde', 'Enfant', 'Femme', 'Homme'];
 export const genderItemsList: Array<AccountGenderCodeValueType> = [
@@ -35,7 +62,7 @@ export const getGenderData = (gender: AccountGenderType) => {
 		case 'F':
 			return 'Femme';
 	}
-}
+};
 export const getCategoriesDataArray = (categoryCodes: Array<OfferCategoriesType>) => {
 	const categoryArray: Array<string> = [];
 	categoryCodes.map((categoryCode) => {
@@ -44,61 +71,61 @@ export const getCategoriesDataArray = (categoryCodes: Array<OfferCategoriesType>
 				categoryArray.push('Accessoire');
 				break;
 			case 'AN':
-				categoryArray.push("Animaux");
+				categoryArray.push('Animaux');
 				break;
 			case 'AR':
-				categoryArray.push("Artisanat");
+				categoryArray.push('Artisanat');
 				break;
 			case 'BE':
-				categoryArray.push("Beauté");
+				categoryArray.push('Beauté');
 				break;
 			case 'CO':
-				categoryArray.push("Cours");
+				categoryArray.push('Cours');
 				break;
 			case 'DI':
-				categoryArray.push("Divers");
+				categoryArray.push('Divers');
 				break;
 			case 'EV':
-				categoryArray.push("Évènement");
+				categoryArray.push('Évènement');
 				break;
 			case 'IM':
-				categoryArray.push("Immobilier");
+				categoryArray.push('Immobilier');
 				break;
 			case 'JA':
-				categoryArray.push("Jardin");
+				categoryArray.push('Jardin');
 				break;
 			case 'LO':
-				categoryArray.push("Loisirs");
+				categoryArray.push('Loisirs');
 				break;
 			case 'LI':
-				categoryArray.push("Livres");
+				categoryArray.push('Livres');
 				break;
 			case 'MA':
-				categoryArray.push("Maison");
+				categoryArray.push('Maison');
 				break;
 			case 'MO':
-				categoryArray.push("Mode");
+				categoryArray.push('Mode');
 				break;
 			case 'MD':
-				categoryArray.push("Multimédia");
+				categoryArray.push('Multimédia');
 				break;
 			case 'MS':
-				categoryArray.push("Musique");
+				categoryArray.push('Musique');
 				break;
 			case 'NO':
-				categoryArray.push("Nourriture & Alimentation");
+				categoryArray.push('Nourriture & Alimentation');
 				break;
 			case 'SA':
-				categoryArray.push("Santé & Bien être");
+				categoryArray.push('Santé & Bien être');
 				break;
 			case 'SP':
-				categoryArray.push("Sport");
+				categoryArray.push('Sport');
 				break;
 			case 'VE':
-				categoryArray.push("Véhicule");
+				categoryArray.push('Véhicule');
 				break;
 			case 'VO':
-				categoryArray.push("Voyage");
+				categoryArray.push('Voyage');
 				break;
 		}
 	});
@@ -227,9 +254,9 @@ export const getProductPriceByData = (priceBy: OfferProductPriceByType) => {
 		case 'K':
 			return 'kg';
 		case 'L':
-			return 'litre'
+			return 'litre';
 	}
-}
+};
 
 export const getServicePriceByData = (priceBy: OfferServicePriceByType) => {
 	switch (priceBy) {
@@ -240,11 +267,11 @@ export const getServicePriceByData = (priceBy: OfferServicePriceByType) => {
 		case 'S':
 			return 'semaine';
 		case 'M':
-			return 'mois'
+			return 'mois';
 		case 'P':
-			return 'prestation'
+			return 'prestation';
 	}
-}
+};
 
 export const getServiceAvailabilityDaysArray = (availabilityDays: OfferServiceAvailabilityDaysArray) => {
 	const daysArray: Array<string> = [];
@@ -277,4 +304,49 @@ export const getServiceAvailabilityDaysArray = (availabilityDays: OfferServiceAv
 		}
 	});
 	return daysArray;
+};
+
+export const getSliderData = (newValue: number) => {
+	switch (newValue) {
+		case 10:
+			return 1;
+		case 20:
+			return 2;
+		case 30:
+			return 3;
+		case 40:
+			return 4;
+		case 50:
+			return 5;
+		case 60:
+			return 6;
+		case 70:
+			return 7;
+		case 80:
+			return 8;
+		case 90:
+			return 9;
+		case 100:
+			return 10;
+		case 110:
+			return 20;
+		case 120:
+			return 30;
+		case 130:
+			return 40;
+		case 140:
+			return 50;
+		case 150:
+			return 60;
+		case 160:
+			return 70;
+		case 170:
+			return 80;
+		case 180:
+			return 90;
+		case 190:
+			return 100;
+		case 200:
+			return 110;
+	}
 };

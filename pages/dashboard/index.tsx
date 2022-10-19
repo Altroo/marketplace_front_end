@@ -381,18 +381,24 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		shop_url,
 		slots_available_count,
 		total_offers_count,
-		total_offers_vue_count,
+		// total_offers_vue_count,
 		total_sells_count,
 		total_sells_pourcentage,
 		total_sells_month,
 		total_vue_month,
-		total_vue_pourcentage,
+		// total_vue_pourcentage,
 		avatar,
 		pk,
 	} = data;
 
+	// TODO - phase 2 : get from db.
+	const total_offers_vue_count = 0;
+	const total_vue_pourcentage = '0%';
+
 	const [totalSellsPourcentageCSS, setTotalSellsPourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
 	const [totalVuePourcentageCSS, setTotalVuePourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
+
+
 
 	useEffect(() => {
 		if (has_messages) {
@@ -418,7 +424,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		<ThemeProvider theme={getDefaultTheme()}>
 			<Stack direction="column">
 				<UserMainNavigationBar />
-				{/* TODO - Altroo : apply case has messages - has notifications */}
+				{/* TODO - phase 2 : apply case has messages - has notifications */}
 				<MobileDashboardMessagesNotifications
 					// messageIcon={mobileMessagesIconState}
 					// notificationIcon={mobileNotificationsIconState}
@@ -508,7 +514,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 											justifyContent="center"
 											textAlign="center"
 										>
-											{/* TODO - Altroo : apply case has messages */}
+											{/* TODO - phase 2 : apply case has messages */}
 											<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
 												<ImageFuture src={EmptyMessagesIlluSVG} alt="" width="123" height="83" sizes="100vw" />
 											</Box>
@@ -533,7 +539,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 											justifyContent="center"
 											textAlign="center"
 										>
-											{/* TODO - Altroo : apply case has orders */}
+											{/* TODO - phase 2 : apply case has orders */}
 											<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
 												<ImageFuture src={EmptyOrdersIlluSVG} alt="" width="123" height="83" sizes="100vw" />
 											</Box>
@@ -589,7 +595,6 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 					</Stack>
 				</main>
 				<div className={Styles.desktopOnly}>
-					{/*{showActivateNowModal && (*/}
 					<CustomSwipeModal
 						keepMounted={false}
 						direction="up"
@@ -605,7 +610,6 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 							whichCode="ACCOUNT_VERIFICATION"
 						/>
 					</CustomSwipeModal>
-					{/*)}*/}
 				</div>
 				<CustomFooter />
 			</Stack>

@@ -23,7 +23,7 @@ type PageContentType = {
 
 const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 	const { data } = props;
-
+	//  sx={{marginLeft: '32px'}}
 	return (
 		<p>empty articles référencés content</p>
 	);

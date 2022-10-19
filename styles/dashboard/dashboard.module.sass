@@ -13,6 +13,10 @@
   padding-top: 32px
   //padding-bottom: 32px
   width: 100%
+.noPaddingMain
+  display: block
+  width: 100%
+  padding-top: 32px
 .dashboardIndexMain
   display: flex
   flex-direction: row
@@ -49,16 +53,6 @@
   +SemiBold
   font-size: 19px
   color: $primary
-//.userThumbnailWrapper
-//  width: 100%
-//  height: 100%
-//  position: relative
-//.userThumbnailActionIcon
-//  position: absolute
-//  top: 5px
-//  right: 5px
-//  box-shadow: 0 2.80058px 11.2023px rgba(13, 7, 11, 0.2)
-//  border-radius: 50px
 .userOfferThumb
   border-radius: 10px
   width: 176px
@@ -121,8 +115,6 @@
   font-size: 13px
   color: #0274d7
 .dashboardMyBusinessCardStack
-  //width: 379px
-  //height: 408px
   border: 1px solid #D9D9DD
   border-radius: 20px
   padding: 18px
@@ -141,7 +133,6 @@
 .dashboardSubscribedMiniCard
   @extend .dashboardMiniCards
   background-color: rgba(213, 206, 238, 0.24)
-  //width: 174px
 .dashboardMiniCardCounter
   +SemiBold
   font-size: 32px
@@ -154,7 +145,6 @@
 .dashboardVuesMiniCard
   @extend .dashboardMiniCards
   background-color: rgba(243, 216, 225, 0.24)
-  //width: 343px
 .dashboardSellsMiniCard
   @extend .dashboardMiniCards
   background-color: rgba(255, 217, 162, 0.24)
@@ -262,7 +252,184 @@
   +Regular
   font-size: 17px
   color: #0274d7
+.dashboardRightContentMarginLeft
+  margin-left: 32px
+.dashboardNotSubscribedRootStack
+  margin-left: 32px
+  padding-right: 60px
+  padding-bottom: 60px
+.dashboardNotSubscribedSubRootStack
+  padding: 18px 60px
+  border-radius: 20px
+  background: #D5CEEE
+  width: 100%
+.dashboardNotSubscribedSpanHeaderOne
+  +Light
+  font-size: 30px
+  color: $primary
+  letter-spacing: -0.03em
+.dashboardNotSubscribedSpanHeaderTwo
+  +Bold
+  font-size: 30px
+  color: $primary
+  letter-spacing: -0.03em
+.dashboardNotSubscribedHeaderWrapper
+  width: 50%
+.dashboardNotSubscribedParagraphe
+  +Regular
+  font-size: 17px
+  color: $primary
+  padding: 0
+  text-align: center
+.dashboardNotSubscribedHeadline
+  span
+    +Bold
+    font-size: 32px
+    color: $primary
+    line-height: 40px
+  a
+    +Regular
+    font-size: 17px
+    color: #0274d7
+.dashboardNotSubscribedPriceType
+  +Regular
+  font-size: 19px
+  color: #84848A
+.dashboardNotSubscribedPriceToggleActive
+  color: $primary
+.dashboardNotSubscribedPriceMessage
+  +Regular
+  font-size: 13px
+  color: #84848A
+.dashboardNotSubscribedNousContacter
+  font-family: $font-family-medium !important
+  font-weight: 500 !important
+  font-size: 15px !important
+  color: #0274d7 !important
+.dashboardNotSubscribedNousContacterBox
+  span:nth-child(1)
+    +SemiBold
+    font-size: 17px
+    color: $primary
+  span:nth-child(2)
+    +Regular
+    font-size: 15px
+    color: #525256
+.dashboardNotSubscribedPriceBy
+  +Bold
+  font-size: 19px
+  color: $primary
+  span
+    font-size: 36px
+.dashboardNotSubscribedPriceByDescription
+  +Regular
+  font-size: 15px
+  color: #525256
+.dashboardNotSubscribedSaveWrapper
+  background-color: #DBFAEA
+  border-radius: 9px
+  padding: 2px 6px
+.dashboardNotSubscribedSave
+  +Medium
+  font-size: 15px
+  color: #07CBAD
+.dashboardNotSubscribedArticlesBox
+  border: 1px solid #A3A3AD
+  border-radius: 21px
+  padding: 10px 18px
+  display: flex
+  flex-direction: row
+  justify-content: center
+  width: 150px
+  gap: 7px
+  span
+    +Regular
+    font-size: 19px
+    color: $primary
+.dashboardNotSubscribedSliderBox
+  min-width: 625px
+.dashboardNotSubscribedActionButton
+  margin-top: 18px
+  width: 196px !important
+  height: 54px !important
+.dashboardNotSubscribedAvantageBox
+  margin-top: 32px
+  margin-bottom: 32px
+  background-color: #FBFBFB
+  border-radius: 20px
+  padding: 32px 0
+.dashboardNotSubscribedAvantage
+  +Medium
+  font-size: 17px
+  color: $primary
+  text-align: center
+.dashboardNotSubscribedAvantageItem
+  +Regular
+  font-size: 17px
+  color: $primary
+.dashboardNotSubscribedPopulaireBannerWrapper
+  position: relative
+  overflow: hidden
+.dashboardNotSubscribedPopulaireBanner
+  position: absolute
+  transform: rotate(-30deg)
+  top: 15px
+  left: -40px
+  width: 200px
+  height: 40px
+  background-color: #F2F2F3
+  text-align: center
+  span
+    +Bold
+    font-size: 17px
+    color: #8669FB
+    letter-spacing: -0.04em
+    line-height: 40px
 @media #{$tablette}
+  .dashboardRightContentMarginLeft
+    margin-left: 0 !important
+  .dashboardNotSubscribedSliderBox
+    min-width: 100%
+  .dashboardNotSubscribedArticlesBox
+    margin-left: 0 !important
+    margin-bottom: 32px !important
+  .dashboardNotSubscribedAvantageBox
+    margin-top: 0
+    margin-bottom: 0
+    padding-bottom: 0
+  .dashboardNotSubscribedAvantage
+    text-align: start
+  .dashboardNotSubscribedAvantageMobile
+    padding-left: 24px
+    padding-right: 24px
+  .dashboardNotSubscribedAvantageMobileStack
+    flex-direction: column
+    justify-content: start
+    margin-top: 0 !important
+    div:nth-child(1)
+      margin-top: 12px
+    div:nth-child(2)
+      margin-top: 12px
+  .dashboardNotSubscribedSliderRoot
+    flex-direction: column
+  .dashboardNotSubscribedSliderBox
+    width: 100%
+  .dashboardNotSubscribedMobileMain
+    margin-left: 24px !important
+    margin-right: 24px !important
+  .dashboardNotSubscribedParagraphe
+    text-align: start
+  .dashboardNotSubscribedRootStack
+    margin-left: 0
+    padding-right: 0
+    padding-bottom: 0
+  .dashboardNotSubscribedSubRootStack
+    padding: 48px 33px 15px 23px
+    flex-direction: column
+    align-items: flex-start
+    border-radius: 0
+  .dashboardNotSubscribedHeaderWrapper
+    width: 100%
   .dashboardSellsDesktopCard, .dashboardVuesDesktopCard
     width: 100%
   .dashboardSellsDesktopBoxContent
@@ -306,6 +473,11 @@
     height: 100%
     padding-left: 24px
     padding-right: 24px
+  .noPaddingFixMobile
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    height: 100%
   .pageTitle
     text-align: start !important
     margin-bottom: 0

@@ -9,6 +9,7 @@ import { watchChat } from './chat/chatSaga';
 import { watchWS } from './ws/wsSaga';
 import { watchCart } from './cart/cartSaga';
 import { watchOrder } from './order/orderSaga';
+import {watchSubscription} from './subscription/subscriptionSaga';
 
 // spawn : whenever a watcher get's crashed somehow,
 // we use spawn to respawn it back. (except it's unblocking)
@@ -25,6 +26,7 @@ export function* rootSaga() {
 		fork(watchChat),
 		fork(watchCart),
 		fork(watchOrder),
+		fork(watchSubscription),
 		// yield spawn(watchOrder),
 		// yield spawn(watchRating),
 		fork(watchWS),

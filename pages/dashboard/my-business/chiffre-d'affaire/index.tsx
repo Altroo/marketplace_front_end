@@ -37,7 +37,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 	}, [total_sells_pourcentage]);
 
 	return (
-		<Stack direction="column" spacing={3}>
+		<Stack direction="column" spacing={3} className={Styles.dashboardRightContentMarginLeft}>
 			<Stack direction="column">
 				<h2 className={Styles.userShopTitle}>Chiffre d&apos;affaires</h2>
 				<Stack direction="row" gap="3px" alignItems="center">

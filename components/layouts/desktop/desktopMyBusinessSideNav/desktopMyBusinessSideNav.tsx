@@ -101,24 +101,19 @@ const DesktopMyBusinessSideNav: React.FC<Props> = (props: Props) => {
 					global_rating={global_rating}
 					total_offers_count={total_offers_count}
 				/>
-				<Stack direction="column" spacing={4}>
-					<Stack direction="column" spacing={2}>
-						<span className={Styles.header}>Profil</span>
-						<Stack direction="column" spacing={2}>
-							{myBusinessNavElements.map((element, index) => {
-								return (
-									<DesktopSideNavElement
-										text={element.text}
-										key={index}
-										link={element.link}
-										icon={element.icon}
-										current={element.current}
-										disabled={element.disabled}
-									/>
-								);
-							})}
-						</Stack>
-					</Stack>
+				<Stack direction="column" spacing={2}>
+					{myBusinessNavElements.map((element, index) => {
+						return (
+							<DesktopSideNavElement
+								text={element.text}
+								key={index}
+								link={element.link}
+								icon={element.icon}
+								current={element.current}
+								disabled={element.disabled}
+							/>
+						);
+					})}
 				</Stack>
 			</Stack>
 		</Stack>
