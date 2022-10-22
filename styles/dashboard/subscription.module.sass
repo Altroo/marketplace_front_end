@@ -1,0 +1,116 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.main
+  width: 100%
+  padding: 32px 60px 32px 60px
+.articlesPackBox
+  padding: 18px 32px
+  border-radius: 20px
+.articlesPackSpan
+  +Medium
+  font-size: 15px
+  color: $primary
+.pourcentageBox
+  background-color: #FFFFFF
+  padding: 2px 6px
+  border-radius: 9px
+  width: fit-content
+  width: -moz-fit-content
+  span
+    +Medium
+    font-size: 13px
+    color: #07CBAD
+.pricePerArticleTTC
+  color: $primary
+  +SemiBold
+  font-size: 32px
+.pricePerArticleValue
+  color: $primary
+  +Regular
+  font-size: 13px
+.hOneHeader
+  +Bold
+  font-size: 32px
+  color: $primary
+  line-height: 40px
+  margin: 0
+.maxWidth
+  width: 100% !important
+.promoBox
+  padding: 73px 32px 73px 32px
+  box-shadow: 0 0 24px rgba(13,7,11,0.1)
+  border-radius: 40px
+.rightFieldLabel
+  +Medium
+  font-size: 17px
+  color: $primary
+.priceDetails
+  span:nth-child(1)
+    +Regular
+    font-size: 17px
+    color: #84848A
+  span:nth-child(2)
+    +SemiBold
+    font-size: 17px
+    color: $primary
+.reducedPrice
+  +SemiBold
+  font-size: 17px
+  color: #059982 !important
+.totalPrice
+  span:nth-child(1)
+    +Regular
+    font-size: 17px
+    color: #84848A
+  span:nth-child(2)
+    +SemiBold
+    font-size: 32px
+    color: #0D070B
+.divider
+  color: #F2F2F3
+.mobileDivider
+  +Hidden
+.mobileOnly
+  +Hidden
+.desktopOnly
+  display: block
+.errorMessage
+  color: #d32f2f
+@media #{$tablette}
+  .main
+    padding: 32px 24px 32px 24px
+  .mobileStack
+    flex-direction: column
+  .mobileHeaderStack
+    margin-top: 18px !important
+  .mobileDivider
+    margin-top: 30px
+    margin-bottom: 24px
+    color: #F2F2F3
+    display: block !important
+  .mobileOnly
+    display: block !important
+  .mobilePromoStack
+    margin-top: 24px !important
+  .promoBox
+    padding: unset
+    box-shadow: unset
+    border-radius: unset
+  .mobileTotalPriceModal
+    border-radius: 20px 20px 0 0
+    background: $white
+    box-shadow: 0 0 24px rgba(0,0,0,0.25)
+    width: 100%
+    left: 0
+    bottom: 0
+    position: fixed
+    padding: 22px 24px 8px 22px
+    height: 281px
+    z-index: 2
+    //font-size: 31px
+  .desktopOnly
+    +Hidden
+// @media #{$mobile}

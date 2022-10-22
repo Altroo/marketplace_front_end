@@ -29,7 +29,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 	const { total_vue_month } = props.data;
 	const [totalVuePourcentageCSS, setTotalVuePourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
 
-	// TODO - phase 2 : get from db.
+	// TODO - Altroo : get from db.
 	const total_offers_vue_count = 0;
 	const total_vue_pourcentage = '0%'
 

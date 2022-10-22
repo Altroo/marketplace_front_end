@@ -8,7 +8,13 @@ import {
 	INPUT_PONE,
 	INPUT_REQUIRED,
 	INPUT_URL,
-	INPUT_INSTAGRAM_URL, INPUT_IMG_MIN, INPUT_PASSWORD_MIN, SHORT_INPUT_REQUIRED
+	INPUT_INSTAGRAM_URL,
+	INPUT_IMG_MIN,
+	INPUT_PASSWORD_MIN,
+	SHORT_INPUT_REQUIRED,
+	INPUT_POSTAL_CODE,
+	INPUT_ICE,
+	INPUT_NUMBER_MIN, INPUT_NUMBER_MAX
 } from "./formValidationErrorMessages";
 
 export const shopNameSchema = Yup.object().shape({
@@ -175,4 +181,25 @@ export const changePasswordSchema = Yup.object().shape({
 export const createPasswordSchema = Yup.object().shape({
 	new_password1: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
 	new_password2: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
+});
+
+export const subscriptionSchema = Yup.object().shape({
+	company: Yup.string().notRequired().nullable(),
+	ice: Yup.string()
+		.min(15, INPUT_NUMBER_MIN(15))
+		.typeError(INPUT_ICE)
+		.max(15, INPUT_NUMBER_MAX(15))
+		.transform(value => value.replace(/\D/g, ''))
+		.notRequired(),
+	first_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	last_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	adresse: Yup.string().min(2, INPUT_MIN(2)).max(50, INPUT_MAX(50)).required(INPUT_REQUIRED),
+	city: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	code_postal: Yup.number().typeError(INPUT_POSTAL_CODE).required(INPUT_REQUIRED),
+	country: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	// nbr_articles: Yup.number().required(INPUT_REQUIRED),
+});
+
+export const promoCodeSchema = Yup.object().shape({
+	promo_code: Yup.string().required(INPUT_REQUIRED),
 });

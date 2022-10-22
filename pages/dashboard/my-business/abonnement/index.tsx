@@ -8,7 +8,7 @@ import {
 	AccountGetDashboardType,
 } from '../../../../types/account/accountTypes';
 import { getApi } from '../../../../store/services/_init/_initAPI';
-import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../../utils/routes';
+import { AUTH_LOGIN, DASHBOARD_NEW_SUBSCRIPTION, NOT_FOUND_404 } from '../../../../utils/routes';
 import { Stack, Box } from '@mui/material';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import DesktopMyBusinessSideNav from '../../../../components/layouts/desktop/desktopMyBusinessSideNav/desktopMyBusinessSideNav';
@@ -21,14 +21,19 @@ import Link from 'next/link';
 import IosSwitch from '../../../../components/htmlElements/switches/iosSwitch';
 import TextButton from '../../../../components/htmlElements/buttons/textButton/textButton';
 import CustomSlider from '../../../../components/htmlElements/customSlider/customSlider';
-import PrimaryAnchorButton from '../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import SubscriptionCheckSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/subscription-check.svg';
 import { getSliderData } from '../../../../utils/rawData';
 import { useAppSelector } from '../../../../utils/hooks';
 import { getAvailableSubscriptions } from '../../../../store/selectors';
 import { useDispatch } from 'react-redux';
 import { subscriptionGetAvailableSubscriptionAction } from '../../../../store/actions/subscription/subscriptionActions';
-import { availableSubscriptionPlanType } from "../../../../types/subscription/subscriptionTypes";
+import {
+	availableSubscriptionPlanType,
+	subscriptionGetUserCurrentSubscriptionType,
+	subscriptionGetUserSubscriptionResponseType,
+} from '../../../../types/subscription/subscriptionTypes';
+import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import { useRouter } from 'next/router';
 
 type AbonnementAvantageItemProps = {
 	text: string;
@@ -42,30 +47,32 @@ const AbonnementAvantageItem: React.FC<AbonnementAvantageItemProps> = (props: Ab
 	);
 };
 
-type PageContentType = {
+type SubscribeSliderContentType = {
 	data: AccountGetDashboardType;
 };
 
 const initialSubscriptionPlan = {
-  nbr_article: 1,
-  prix_ht: 799,
-  prix_ttc: 959,
-  prix_unitaire_ht: 799,
-  prix_unitaire_ttc: 959,
-  pourcentage: 0
-}
+	nbr_article: 7,
+	prix_ht: 3353,
+	prix_ttc: 4024,
+	prix_unitaire_ht: 479,
+	prix_unitaire_ttc: 505,
+	pourcentage: 40,
+};
 
-const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
+const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: SubscribeSliderContentType) => {
 	const { data } = props;
-	const availableSubscriptions = useAppSelector(getAvailableSubscriptions);
 	const dispatch = useDispatch();
+	const router = useRouter();
+	const availableSubscriptions = useAppSelector(getAvailableSubscriptions);
 	// true = TTC - false = HT
 	const [togglePriceType, setTogglePriceType] = useState<boolean>(false);
 	const [illimiteState, setIllimiteState] = useState<boolean>(false);
-	const [articlesValue, setArticlesValue] = useState<number>(1);
-	const [articlesState, setArticlesState] = useState<string>(`${articlesValue} articles`);
-	const [pickedArticle, setPickedArticle] = useState<number>(1);
-	const [selectedSlideValues, setSelectedSlideValues] = useState<Omit<availableSubscriptionPlanType, 'pk'>>(initialSubscriptionPlan);
+	const [articlesValue, setArticlesValue] = useState<number>(70);
+	const [pickedArticle, setPickedArticle] = useState<number>(7);
+	const [articlesState, setArticlesState] = useState<string>(`${pickedArticle} articles`);
+	const [selectedSlideValues, setSelectedSlideValues] =
+		useState<Omit<availableSubscriptionPlanType, 'pk'>>(initialSubscriptionPlan);
 
 	const onSliderValueChangeHandler = (e: Event, newValue: number | Array<number>) => {
 		const value = getSliderData(newValue as number);
@@ -79,144 +86,43 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 			} else {
 				setArticlesState(`${value} articles`);
 			}
-			setPickedArticle(value as number);
 			setIllimiteState(false);
 		}
+		setPickedArticle(value as number);
 	};
 
-	// const marks = [
-	// 	{
-	// 		value: 1,
-	// 	},
-	// 	{
-	// 		value: 2,
-	// 	},
-	// 	{
-	// 		value: 3,
-	// 	},
-	// 	{
-	// 		value: 4,
-	// 	},
-	// 	{
-	// 		value: 5,
-	// 	},
-	// 	{
-	// 		value: 6,
-	// 	},
-	// 	{
-	// 		value: 7,
-	// 	},
-	// 	{
-	// 		value: 8,
-	// 	},
-	// 	{
-	// 		value: 9,
-	// 	},
-	// 	{
-	// 		value: 10,
-	// 	},
-	// 	{
-	// 		value: 20,
-	// 	},
-	// 	{
-	// 		value: 30,
-	// 	},
-	// 	{
-	// 		value: 40,
-	// 	},
-	// 	{
-	// 		value: 50,
-	// 	},
-	// 	{
-	// 		value: 60,
-	// 	},
-	// 	{
-	// 		value: 70,
-	// 	},
-	// 	{
-	// 		value: 80,
-	// 	},
-	// 	{
-	// 		value: 90,
-	// 	},
-	// 	{
-	// 		value: 100,
-	// 	},
-	// 	{
-	// 		value: 120,
-	// 	},
-	// ];
-	const marks = [
-		{
-			value: 10,
-		},
-		{
-			value: 20,
-		},
-		{
-			value: 30,
-		},
-		{
-			value: 40,
-		},
-		{
-			value: 50,
-		},
-		{
-			value: 60,
-		},
-		{
-			value: 70,
-		},
-		{
-			value: 80,
-		},
-		{
-			value: 90,
-		},
-		{
-			value: 100,
-		},
-		{
-			value: 110,
-		},
-		{
-			value: 120,
-		},
-		{
-			value: 130,
-		},
-		{
-			value: 140,
-		},
-		{
-			value: 150,
-		},
-		{
-			value: 160,
-		},
-		{
-			value: 170,
-		},
-		{
-			value: 180,
-		},
-		{
-			value: 190,
-		},
-		{
-			value: 200,
-		},
-	];
+	const subscribingClickHandler = () => {
+		// safety check for illimité
+		if (pickedArticle < 110) {
+			router
+				.push(
+					{
+						pathname: DASHBOARD_NEW_SUBSCRIPTION, // TODO - needs to switch between NEW & [UPGRADE (doesn't needs params)]
+						query: {
+							nbr_article: selectedSlideValues.nbr_article,
+							prix_ht: selectedSlideValues.prix_ht,
+							prix_ttc: selectedSlideValues.prix_ttc,
+							prix_unitaire_ht: selectedSlideValues.prix_unitaire_ht,
+							prix_unitaire_ttc: selectedSlideValues.prix_unitaire_ttc,
+							pourcentage: selectedSlideValues.pourcentage,
+						},
+					},
+					DASHBOARD_NEW_SUBSCRIPTION,
+				) // using "as" to hide the query params
+				.then();
+		}
+	};
 
 	useEffect(() => {
 		// dispatch get available subscriptions
 		if (availableSubscriptions.length === 0) {
 			dispatch(subscriptionGetAvailableSubscriptionAction());
 		} else {
-			availableSubscriptions.filter(item => item.nbr_article === pickedArticle).map((item) => {
-				setSelectedSlideValues(item);
-			})
+			availableSubscriptions
+				.filter((item) => item.nbr_article === pickedArticle)
+				.map((item) => {
+					setSelectedSlideValues(item);
+				});
 		}
 	}, [availableSubscriptions, availableSubscriptions.length, dispatch, pickedArticle]);
 
@@ -296,7 +202,9 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 												</Stack>
 												<TextButton
 													buttonText="Nous contacter"
-													onClick={() => {}}
+													onClick={() => {
+														router.push(`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`).then();
+													}}
 													cssClass={Styles.dashboardNotSubscribedNousContacter}
 												/>
 											</Stack>
@@ -304,14 +212,11 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 											<Stack direction="column" alignItems="center" spacing={2} mt="4px">
 												<span className={Styles.dashboardNotSubscribedPriceBy}>
 													{togglePriceType ? (
-														<span>
-															{selectedSlideValues.prix_unitaire_ttc}
-														</span>
+														<span>{selectedSlideValues.prix_unitaire_ttc}</span>
 													) : (
-														<span>
-															{selectedSlideValues.prix_unitaire_ht}
-														</span>
-													)} / article
+														<span>{selectedSlideValues.prix_unitaire_ht}</span>
+													)}{' '}
+													/ article
 												</span>
 												<Stack direction="row" spacing={2} alignItems="center">
 													{togglePriceType ? (
@@ -345,7 +250,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 											<CustomSlider
 												value={articlesValue}
 												defaultValue={70} // populaire - 7 articles
-												marks={marks}
+												// marks={marks}
 												// max={1}
 												// min={120}
 												onChange={onSliderValueChangeHandler}
@@ -356,10 +261,10 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 										</Box>
 									</Stack>
 									<Stack direction="row" justifyContent="center" alignItems="center">
-										<PrimaryAnchorButton
+										<PrimaryButton
 											buttonText="Continuer"
-											active={true}
-											nextPage="/"
+											active={pickedArticle < 110} // disable button on illimité
+											onClick={subscribingClickHandler}
 											cssClass={Styles.dashboardNotSubscribedActionButton}
 										/>
 									</Stack>
@@ -387,65 +292,128 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 						</Stack>
 					</Box>
 				</Stack>
-			) : (
-				<p>SUBSCRIBED CONTENT</p>
-			)}
+			) : null}
 		</>
+	);
+};
+
+type AlreadySubscribedContentType = {
+	subscriptionData: subscriptionGetUserCurrentSubscriptionType;
+};
+
+const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props: AlreadySubscribedContentType) => {
+	const {subscriptionData} = props;
+
+	console.log(subscriptionData);
+	// TODO - add router.replace(thisCurrentPath, as same path, with param renderBack = True)
+	// + on "Update" action button redirect to update-checkout
+	return (
+		<h1>subscription data</h1>
 	);
 };
 
 type IndexProps = {
 	pageProps: {
 		data: AccountGetDashboardType;
-		first_name: string;
-		last_name: string;
+		subscriptionData: subscriptionGetUserCurrentSubscriptionType | undefined;
 	};
 };
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
-	const { data } = props.pageProps;
+	const { data, subscriptionData } = props.pageProps;
 	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(true);
 
 	return (
 		<Stack direction="column">
 			<UserMainNavigationBar />
-			<main className={`${Styles.noPaddingMain} ${Styles.noPaddingFixMobile}`}>
-				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
-					<DesktopMyBusinessSideNav backText="My business" data={data} />
-					<Box sx={{ width: '100%' }}>
-						<PageContent data={data} />
-					</Box>
-				</Stack>
-				<Stack className={Styles.mobileOnly}>
-					{!mobileElementClicked ? (
-						<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} addMobilePadding={true} />
-					) : (
-						<Box sx={{ width: '100%', height: '100%' }}>
-							<Stack direction="column">
-								<Stack direction="row" justifyContent="space-between">
-									<Stack
-										className={Styles.topBackNavigationStack}
-										direction="row"
-										spacing={1}
-										onClick={() => setMobileElementClicked(false)}
-										alignItems="center"
-									>
-										<ImageFuture
-											src={MiniBackSVG}
-											alt=""
-											width="0"
-											height="0"
-											sizes="100vw"
-											className={Styles.backIcon}
-										/>
-										<span className={Styles.backText}>Retour</span>
+			{subscriptionData ? (
+				<main className={`${Styles.main} ${Styles.fixMobile}`}>
+					<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
+						<DesktopMyBusinessSideNav backText="My business" data={data} />
+						<Box sx={{ width: '100%' }}>
+							<AlreadySubscribedContent subscriptionData={subscriptionData}/>
+						</Box>
+					</Stack>
+					<Stack className={Styles.mobileOnly}>
+						{!mobileElementClicked ? (
+							<MobileMyBusinessNav
+								setContent={setMobileElementClicked}
+								backText="My business"
+								data={data}
+								addMobilePadding={true}
+							/>
+						) : (
+							<Box sx={{ width: '100%', height: '100%' }}>
+								<Stack direction="column">
+									<Stack direction="row" justifyContent="space-between">
+										<Stack
+											className={Styles.topBackNavigationStack}
+											direction="row"
+											spacing={1}
+											onClick={() => setMobileElementClicked(false)}
+											alignItems="center"
+										>
+											<ImageFuture
+												src={MiniBackSVG}
+												alt=""
+												width="0"
+												height="0"
+												sizes="100vw"
+												className={Styles.backIcon}
+											/>
+											<span className={Styles.backText}>Retour</span>
+										</Stack>
 									</Stack>
 								</Stack>
-							</Stack>
-							<PageContent data={data} />
+								<AlreadySubscribedContent subscriptionData={subscriptionData}/>
+							</Box>
+						)}
+					</Stack>
+				</main>
+			) : (
+				<main className={`${Styles.noPaddingMain} ${Styles.noPaddingFixMobile}`}>
+					<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
+						<DesktopMyBusinessSideNav backText="My business" data={data} />
+						<Box sx={{ width: '100%' }}>
+							<SubscribeSliderContent data={data} />
 						</Box>
-					)}
-				</Stack>
-			</main>
+					</Stack>
+					<Stack className={Styles.mobileOnly}>
+						{!mobileElementClicked ? (
+							<MobileMyBusinessNav
+								setContent={setMobileElementClicked}
+								backText="My business"
+								data={data}
+								addMobilePadding={true}
+							/>
+						) : (
+							<Box sx={{ width: '100%', height: '100%' }}>
+								<Stack direction="column">
+									<Stack direction="row" justifyContent="space-between">
+										<Stack
+											className={Styles.topBackNavigationStack}
+											direction="row"
+											spacing={1}
+											onClick={() => setMobileElementClicked(false)}
+											alignItems="center"
+										>
+											<ImageFuture
+												src={MiniBackSVG}
+												alt=""
+												width="0"
+												height="0"
+												sizes="100vw"
+												className={Styles.backIcon}
+											/>
+											<span className={Styles.backText}>Retour</span>
+										</Stack>
+									</Stack>
+								</Stack>
+								<SubscribeSliderContent data={data} />
+							</Box>
+						)}
+					</Stack>
+				</main>
+			)}
 			<CustomFooter />
 		</Stack>
 	);
@@ -454,6 +422,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	const appToken = getServerSideCookieTokens(context);
+	const {renderBack} = context.query;
 	try {
 		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
@@ -462,14 +431,44 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 				const dashboard_url = `${process.env.NEXT_PUBLIC_ACCOUNT_GET_DASHBOARD}`;
 				const response_shop: AccountGetDashboardResponseType = await getApi(dashboard_url, instance);
 				if (response.data.has_shop && response_shop.status === 200) {
-					// has shop proceed to audience page
-					return {
-						props: {
-							data: response_shop.data,
-							first_name: appToken.initStateToken.user.first_name,
-							last_name: appToken.initStateToken.user.last_name,
-						},
-					};
+					// using render back to re render this page again
+					if (!response.data.is_subscribed || renderBack) {
+						// show subscribe now content
+						return {
+							props: {
+								data: response_shop.data,
+								subscriptionData: undefined,
+							},
+						};
+					} else {
+						// show already subscribed data
+						const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_GET_USER_SUBSCRIPTION}`;
+						const response: subscriptionGetUserSubscriptionResponseType = await getApi(url, instance);
+						if (response.status === 200) {
+							return {
+								props: {
+									data: response_shop.data,
+									subscriptionData: {
+										expiration_date: response.data.expiration_date,
+										used_slots: response.data.used_slots,
+										nbr_article: response.data.nbr_article,
+										prix_ttc: response.data.prix_ttc,
+										prix_unitaire_ttc: response.data.prix_unitaire_ttc,
+										pourcentage: response.data.pourcentage,
+										facture: response.data.facture,
+									},
+								},
+							};
+						} else {
+							// show subscribe now content
+							return {
+								props: {
+									data: response_shop.data,
+									subscriptionData: undefined,
+								},
+							};
+						}
+					}
 					// doesn't own a shop
 				} else {
 					return {

@@ -83,7 +83,6 @@ import MobileOffersFilterButton from '../../../components/mobile/buttons/mobileO
 import { getServerSideCookieTokens } from '../../../utils/helpers';
 import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
 import EditShopInfoTabContent from '../../../components/groupedComponents/shop/edit/editShopInfoTabContent/editShopInfoTabContent';
-import BlueAddSVG from "../../../public/assets/svgs/globalIcons/blue-add.svg";
 import { default as ImageFuture } from "next/future/image";
 
 type Props = {

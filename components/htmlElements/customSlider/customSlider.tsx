@@ -60,7 +60,7 @@ import { customSliderTheme } from '../../../utils/themes';
 
 type Props = {
 	defaultValue: number;
-	marks: Array<Mark>;
+	// marks: Array<Mark>;
 	value: number;
 	onChange: (e: Event, newValue: number | Array<number>) => void;
 	children?: React.ReactNode;
@@ -120,7 +120,7 @@ const CustomSlider: React.FC<Props> = (props: Props) => {
 				// getAriaValueText={valuetext}
 				valueLabelDisplay="off"
 				// scale={scaleValues}
-				marks={props.marks}
+				// marks={props.marks}
 				min={10}
 				max={200}
 				step={10}

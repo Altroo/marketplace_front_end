@@ -13,7 +13,6 @@ import RadioCheckElement from '../../../components/groupedComponents/temp-offer/
 import ClickCollectSVG from '../../../public/assets/svgs/globalIcons/click-and-collect-icon.svg';
 import BlueAddSVG from '../../../public/assets/svgs/globalIcons/blue-add.svg';
 import DeliverySVG from '../../../public/assets/svgs/globalIcons/delivery-icon.svg';
-import Image from 'next/image';
 import { getDefaultTheme } from '../../../utils/themes';
 import CustomSwipeModal from '../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import dynamic from 'next/dynamic';
@@ -83,7 +82,6 @@ import {
 	OfferPutRootProductResponseType,
 	OfferPutRootServiceResponseType,
 } from '../../../types/offer/offerTypes';
-import GrayRatingSVG from "../../../public/assets/svgs/globalIcons/gray-rating.svg";
 import { default as ImageFuture } from "next/future/image";
 
 const CustomMap = dynamic(() => import('../../../components/map/customMap'), {

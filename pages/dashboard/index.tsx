@@ -391,7 +391,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		pk,
 	} = data;
 
-	// TODO - phase 2 : get from db.
+	// TODO - Altroo : get from db.
 	const total_offers_vue_count = 0;
 	const total_vue_pourcentage = '0%';
 
@@ -424,7 +424,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		<ThemeProvider theme={getDefaultTheme()}>
 			<Stack direction="column">
 				<UserMainNavigationBar />
-				{/* TODO - phase 2 : apply case has messages - has notifications */}
+				{/* TODO - Altroo : apply case has messages - has notifications */}
 				<MobileDashboardMessagesNotifications
 					// messageIcon={mobileMessagesIconState}
 					// notificationIcon={mobileNotificationsIconState}
@@ -514,7 +514,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 											justifyContent="center"
 											textAlign="center"
 										>
-											{/* TODO - phase 2 : apply case has messages */}
+											{/* TODO - Altroo : apply case has messages */}
 											<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
 												<ImageFuture src={EmptyMessagesIlluSVG} alt="" width="123" height="83" sizes="100vw" />
 											</Box>
@@ -539,7 +539,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 											justifyContent="center"
 											textAlign="center"
 										>
-											{/* TODO - phase 2 : apply case has orders */}
+											{/* TODO - Altroo : apply case has orders */}
 											<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
 												<ImageFuture src={EmptyOrdersIlluSVG} alt="" width="123" height="83" sizes="100vw" />
 											</Box>

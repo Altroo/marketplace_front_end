@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { CSSProperties } from "react";
 import Styles from './checkBox.module.sass';
 import { Checkbox } from '@mui/material';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import { checkBoxForWhomBaseType } from '../../../types/ui/uiTypes';
+import { checkBoxForWhomType } from "../../../types/ui/uiTypes";
 import { createTheme, ThemeProvider } from '@mui/material';
 import { hexToRGB } from '../../../utils/helpers';
 
 
-const CheckBoxSVG = (fill: string) => {
+export const CheckBoxSVG = (fill: string, width = 20, height = 20) => {
 	return (
-		<svg width="20" height="20" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<svg width={width} height={height} viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<path
 			fillRule="evenodd"
 			clipRule="evenodd"
@@ -18,6 +18,16 @@ const CheckBoxSVG = (fill: string) => {
 		/>
 	</svg>
 	);
+}
+
+interface checkBoxForWhomBaseType extends Omit<checkBoxForWhomType, 'onChange'> {
+	text: string;
+	checked: boolean;
+	active: boolean;
+	onChange?: React.Dispatch<React.SetStateAction<boolean>>;
+	activeColor?: string;
+	children?: React.ReactNode;
+	labelcssStyles?: CSSProperties;
 }
 
 const CheckBox: React.FC<checkBoxForWhomBaseType> = (props: checkBoxForWhomBaseType) => {

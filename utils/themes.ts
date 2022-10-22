@@ -1048,3 +1048,52 @@ export const customSliderTheme = (primaryColor: string | undefined = undefined) 
 		},
 	});
 };
+
+// Shop coordonées text input
+export const promoCodeTextInputTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	const blueColor = '#0274d7';
+
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						'& fieldset': {
+							borderRadius: '16px',
+							border: '1px solid #A3A3AD',
+						},
+						'& fieldset > legend': {
+							// size of red error line (label) (input size - 5px)
+							fontFamily: 'Poppins',
+							fontSize: '14px',
+						},
+					},
+					input: {
+						fontFamily: 'Poppins',
+						fontSize: '19px',
+						caretColor: blueColor,
+						textTransform: 'uppercase',
+					},
+				},
+			},
+			MuiFormControl: {
+				styleOverrides: {
+					root: {
+						'& .MuiFormLabel-root': {
+							fontFamily: 'Poppins',
+							fontSize: '19px',
+							color: '#A3A3AD',
+						},
+						'& .MuiFormLabel-root.Mui-focused': {
+							fontFamily: 'Poppins',
+							fontSize: '19px',
+							color: blueColor,
+						},
+					},
+				},
+			},
+		},
+	});
+};

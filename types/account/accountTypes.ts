@@ -39,6 +39,8 @@ export type AccountCheckAccountType = {
 	is_subscribed: boolean;
 	is_creator: boolean;
 	picture: string;
+	city: string | null;
+	country: string | null;
 };
 
 //!- Account State

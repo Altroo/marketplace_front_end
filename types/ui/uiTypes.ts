@@ -40,16 +40,6 @@ export type checkBoxesForWhomActionType = {
 	text: string;
 };
 
-export interface checkBoxForWhomBaseType extends Omit<checkBoxForWhomType, 'onChange'> {
-	text: string;
-	checked: boolean;
-	active: boolean;
-	onChange?: React.Dispatch<React.SetStateAction<boolean>>;
-	activeColor?: string;
-	children?: React.ReactNode;
-	labelcssStyles?: CSSProperties;
-}
-
 export type switchActionType = {
 	checked: boolean;
 	onChange: React.Dispatch<React.SetStateAction<boolean>>;
