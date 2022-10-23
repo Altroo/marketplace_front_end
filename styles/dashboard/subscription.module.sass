@@ -79,7 +79,14 @@
   display: block
 .errorMessage
   color: #d32f2f
+.inputsMaxWidth
+  max-width: 540px
+@media #{$desktop}
+  .desktopStack
+    margin-right: 32px
 @media #{$tablette}
+  .inputsMaxWidth
+    max-width: 100%
   .main
     padding: 32px 24px 32px 24px
   .mobileStack

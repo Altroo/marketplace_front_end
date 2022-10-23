@@ -1,0 +1,50 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.indexedArticlesBox
+  width: 364px
+  height: 129px
+  padding: 24px 12px
+  background-color: #DBE8F4
+  border-radius: 20px
+  span:nth-child(1)
+    +Bold
+    font-size: 80px
+    color: $primary
+  span:nth-child(2)
+    +Regular
+    font-size: 30px
+    color: $primary
+    opacity: 50%
+.emptyIndexedHeaderContent
+  font-size: 30px
+  color: $primary
+  span:nth-child(1), span:nth-child(2)
+    +Light
+  span:nth-child(3)
+    +Bold
+.emptyIndexedParagraphe
+  span
+    +Regular
+    font-size: 17px
+    color: $primary
+    max-width: 50%
+.desktopJumelleIllu
+  position: absolute
+  top: -100px
+  right: 0
+.emptyIndexedPrimaryButton
+  width: 196px !important
+// @media #{$desktop}
+@media #{$tablette}
+  .indexedArticlesBox
+    width: 100%
+  .emptyIndexedParagraphe
+    span
+      text-align: center
+      max-width: 100%
+  .emptyIndexedPrimaryButtonBox
+    margin: 24px auto !important
+// @media #{$mobile}

@@ -1,0 +1,96 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.subscribedIndexedArticlesBox
+  width: 100%
+  padding: 18px
+  background-color: #D5CEEE
+  border-radius: 20px
+  height: 100%
+.subscribedTarifBox
+  @extend .subscribedIndexedArticlesBox
+  background-color: rgba(213, 206, 238, 0.3)
+.subscribedIndexedArticlesMiniBox
+  background-color: #FFFFFF
+  padding: 6px 9px 6px 9px
+  border-radius: 40px
+  span
+    +Medium
+    font-size: 13px
+    color: $primary
+.subscribedIndexedTarifMiniBox
+  background-color: #FFFFFF
+  padding: 6px 9px 6px 9px
+  border-radius: 40px
+  span
+    +Medium
+    font-size: 13px
+    color: $primary
+  width: fit-content
+  width: -moz-fit-content
+.subscribedValableDate
+  +Regular
+  font-size: 13px
+  color: #525256
+  text-align: end
+.subscribedArticlesCount
+  span:nth-child(1)
+    +Bold
+    font-size: 80px
+    color: $primary
+  span:nth-child(2)
+    +Regular
+    font-size: 30px
+    color: $primary
+    opacity: 50%
+.subscribedPrixParArticle
+  +Bold
+  color: $primary
+  span:nth-child(1)
+    font-size: 36px
+  span:nth-child(2)
+    font-size: 19px
+.subscribedPrixParAn
+  span
+    +Regular
+    font-size: 15px
+    color: #525256
+  div
+    padding: 2px 6px
+    background-color: #DBFAEA
+    border-radius: 9px
+    span
+      +Medium
+      font-size: 15px
+      color: #07CBAD
+.subscribedAvantageBox
+  background-color: #F2F2F3
+  border-radius: 20px
+  padding: 18px
+.subscribedAvantageActionBox
+  padding: 32px
+  div
+    span:nth-child(1)
+      +SemiBold
+      font-size: 17px
+      color: $primary
+    span:nth-child(2)
+      +Regular
+      font-size: 15px
+      color: #525256
+@media #{$desktop}
+  .subscribedIndexedArticlesMiniBox
+    min-width: 165px
+    max-width: 200px
+@media #{$tablette}
+  .subscribedMobileRootStack
+    flex-direction: column
+  .subscribedIndexedArticlesBox
+    margin-bottom: 12px
+  .subscribedTarifBox
+    margin-left: 0 !important
+  .subscribedAvantageBox
+    margin-top: 12px !important
+//@media #{$mobile}

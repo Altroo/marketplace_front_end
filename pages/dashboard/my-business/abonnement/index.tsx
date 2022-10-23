@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../../styles/dashboard/dashboard.module.sass';
+import SubscribedStyles from '../../../../styles/dashboard/subscribed.module.sass';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../utils/helpers';
 import {
 	AccountGetCheckAccountResponseType,
@@ -8,7 +9,13 @@ import {
 	AccountGetDashboardType,
 } from '../../../../types/account/accountTypes';
 import { getApi } from '../../../../store/services/_init/_initAPI';
-import { AUTH_LOGIN, DASHBOARD_NEW_SUBSCRIPTION, NOT_FOUND_404 } from '../../../../utils/routes';
+import {
+	AUTH_LOGIN,
+	DASHBOARD_INDEXED_OFFERS,
+	DASHBOARD_NEW_SUBSCRIPTION,
+	DASHBOARD_UPGRADE_SUBSCRIPTION,
+	NOT_FOUND_404,
+} from '../../../../utils/routes';
 import { Stack, Box } from '@mui/material';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import DesktopMyBusinessSideNav from '../../../../components/layouts/desktop/desktopMyBusinessSideNav/desktopMyBusinessSideNav';
@@ -22,6 +29,9 @@ import IosSwitch from '../../../../components/htmlElements/switches/iosSwitch';
 import TextButton from '../../../../components/htmlElements/buttons/textButton/textButton';
 import CustomSlider from '../../../../components/htmlElements/customSlider/customSlider';
 import SubscriptionCheckSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/subscription-check.svg';
+import BlackStarSVG from '../../../../public/assets/svgs/globalIcons/black-star.svg';
+import ArticlesIndexedSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/indexed-articles.svg';
+import USDBlackSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/usd-black.svg';
 import { getSliderData } from '../../../../utils/rawData';
 import { useAppSelector } from '../../../../utils/hooks';
 import { getAvailableSubscriptions } from '../../../../store/selectors';
@@ -34,6 +44,10 @@ import {
 } from '../../../../types/subscription/subscriptionTypes';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
+import QuestionMarkSVG from '../../../../public/assets/svgs/globalIcons/question-mark.svg';
+import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
+import TextAnchorButton from '../../../../components/htmlElements/buttons/textAnchorButton/textButton';
+import PrimaryAnchorButton from '../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 
 type AbonnementAvantageItemProps = {
 	text: string;
@@ -64,6 +78,7 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 	const { data } = props;
 	const dispatch = useDispatch();
 	const router = useRouter();
+	const { renderBack } = router.query;
 	const availableSubscriptions = useAppSelector(getAvailableSubscriptions);
 	// true = TTC - false = HT
 	const [togglePriceType, setTogglePriceType] = useState<boolean>(false);
@@ -93,23 +108,36 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 
 	const subscribingClickHandler = () => {
 		// safety check for illimité
+		const query = {
+			nbr_article: selectedSlideValues.nbr_article,
+			prix_ht: selectedSlideValues.prix_ht,
+			prix_ttc: selectedSlideValues.prix_ttc,
+			prix_unitaire_ht: selectedSlideValues.prix_unitaire_ht,
+			prix_unitaire_ttc: selectedSlideValues.prix_unitaire_ttc,
+			pourcentage: selectedSlideValues.pourcentage,
+		};
 		if (pickedArticle < 110) {
-			router
-				.push(
-					{
-						pathname: DASHBOARD_NEW_SUBSCRIPTION, // TODO - needs to switch between NEW & [UPGRADE (doesn't needs params)]
-						query: {
-							nbr_article: selectedSlideValues.nbr_article,
-							prix_ht: selectedSlideValues.prix_ht,
-							prix_ttc: selectedSlideValues.prix_ttc,
-							prix_unitaire_ht: selectedSlideValues.prix_unitaire_ht,
-							prix_unitaire_ttc: selectedSlideValues.prix_unitaire_ttc,
-							pourcentage: selectedSlideValues.pourcentage,
+			if (!renderBack) {
+				router
+					.push(
+						{
+							pathname: DASHBOARD_NEW_SUBSCRIPTION,
+							query: { ...query },
 						},
-					},
-					DASHBOARD_NEW_SUBSCRIPTION,
-				) // using "as" to hide the query params
-				.then();
+						DASHBOARD_NEW_SUBSCRIPTION,
+					) // using "as" to hide the query params
+					.then();
+			} else {
+				router
+					.push(
+						{
+							pathname: DASHBOARD_UPGRADE_SUBSCRIPTION,
+							query: { ...query },
+						},
+						DASHBOARD_UPGRADE_SUBSCRIPTION,
+					)
+					.then();
+			}
 		}
 	};
 
@@ -128,7 +156,7 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 
 	return (
 		<>
-			{!data.is_subscribed ? (
+			{!data.is_subscribed || renderBack ? (
 				<Stack direction="column" className={Styles.dashboardNotSubscribedRootStack}>
 					<Stack direction="column" spacing="24px">
 						<Stack
@@ -302,20 +330,133 @@ type AlreadySubscribedContentType = {
 };
 
 const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props: AlreadySubscribedContentType) => {
-	const {subscriptionData} = props;
+	const { expiration_date, facture, pourcentage, prix_unitaire_ttc, prix_ttc, used_slots, nbr_article } =
+		props.subscriptionData;
+	const router = useRouter();
 
-	console.log(subscriptionData);
-	// TODO - add router.replace(thisCurrentPath, as same path, with param renderBack = True)
-	// + on "Update" action button redirect to update-checkout
+	const UpdateClickHandler = () => {
+		router
+			.replace(
+				{
+					query: {
+						renderBack: true,
+					},
+				},
+				router.asPath,
+			)
+			.then();
+	};
+
 	return (
-		<h1>subscription data</h1>
+		<Stack direction="column" spacing={3} className={Styles.dashboardRightContentMarginLeft}>
+			<h2 className={Styles.userShopTitle}>Votre abonnement</h2>
+			<Stack direction="column" spacing="24px">
+				<Stack direction="row" spacing="12px" className={SubscribedStyles.subscribedMobileRootStack}>
+					<Box className={SubscribedStyles.subscribedIndexedArticlesBox}>
+						<Stack direction="column" spacing="12px">
+							<Stack
+								direction="row"
+								justifyContent="space-between"
+								alignItems="center"
+								// className={SubscribedStyles.subscribedIndexedArticlesMiniBoxWrapper}
+							>
+								<Stack
+									direction="row"
+									spacing="7px"
+									alignItems="center"
+									className={SubscribedStyles.subscribedIndexedArticlesMiniBox}
+								>
+									<ImageFuture src={ArticlesIndexedSVG} alt="" width="18" height="18" sizes="100vw" />
+									<span>Articles référencés</span>
+								</Stack>
+								<span className={SubscribedStyles.subscribedValableDate}>Valable jusqu&apos;au {expiration_date}</span>
+							</Stack>
+							<Stack
+								direction="row"
+								justifyContent="center"
+								alignItems="center"
+								className={SubscribedStyles.subscribedArticlesCount}
+								spacing="10px"
+							>
+								<span>{used_slots}</span>
+								<span>/{nbr_article} articles</span>
+							</Stack>
+							<Stack direction="row" alignItems="flex-end" justifyContent="flex-end">
+								<TextAnchorButton buttonText="Articles référencés" nextPage={DASHBOARD_INDEXED_OFFERS} />
+							</Stack>
+						</Stack>
+					</Box>
+					<Box className={SubscribedStyles.subscribedTarifBox}>
+						<Stack direction="column" spacing="24px" justifyContent="space-between">
+							<Stack direction="row" spacing="7px" className={SubscribedStyles.subscribedIndexedTarifMiniBox}>
+								<ImageFuture src={USDBlackSVG} alt="" width="18" height="18" sizes="100vw" />
+								<span>Tarif</span>
+							</Stack>
+							<Stack direction="column" spacing="15px">
+								<Stack
+									direction="row"
+									className={SubscribedStyles.subscribedPrixParArticle}
+									alignItems="center"
+									spacing="10px"
+								>
+									<span>{prix_unitaire_ttc} DH</span>
+									<span>/ article</span>
+								</Stack>
+								<Stack
+									direction="row"
+									className={SubscribedStyles.subscribedPrixParAn}
+									spacing="18px"
+									alignItems="center"
+								>
+									<span>soit {prix_ttc} Dh par an</span>
+									<Box>
+										<span>You save {pourcentage}%</span>
+									</Box>
+								</Stack>
+							</Stack>
+							<Stack direction="row" alignItems="flex-end" justifyContent="flex-end">
+								<TextAnchorButton
+									buttonText="Voir ma dernière facture"
+									nextPage={facture}
+									target="_blank"
+									rel="noreferrer"
+								/>
+							</Stack>
+						</Stack>
+					</Box>
+				</Stack>
+				<Box className={SubscribedStyles.subscribedAvantageBox}>
+					<Stack direction="column" spacing="32px">
+						<Stack direction="row" spacing="7px" className={SubscribedStyles.subscribedIndexedTarifMiniBox}>
+							<ImageFuture src={BlackStarSVG} alt="" width="18" height="18" sizes="100vw" />
+							<span>Vos avantages</span>
+						</Stack>
+						<Stack direction="column" spacing="24px" pb="12px">
+							<AbonnementAvantageItem text="Promotion de vos articles sur Google" />
+							<AbonnementAvantageItem text="Promotion sur la marketplace Qaryb" />
+							<AbonnementAvantageItem text="Mise à disposition de notre plugin livraison" />
+							<AbonnementAvantageItem text="Valorisation de vos articles grâce à notre Label Creator" />
+						</Stack>
+					</Stack>
+				</Box>
+				<Box className={SubscribedStyles.subscribedAvantageActionBox}>
+					<Stack direction="column" spacing="24px" alignItems="center" justifyContent="center">
+						<Stack direction="column" spacing="4px" alignItems="center" justifyContent="center">
+							<span>Vous en voulez plus ?</span>
+							<span>Changer votre abonnement en quelques clics</span>
+						</Stack>
+						<PrimaryButton buttonText="Modifier" active={true} onClick={UpdateClickHandler} />
+					</Stack>
+				</Box>
+			</Stack>
+		</Stack>
 	);
 };
 
 type IndexProps = {
 	pageProps: {
 		data: AccountGetDashboardType;
-		subscriptionData: subscriptionGetUserCurrentSubscriptionType | undefined;
+		subscriptionData: subscriptionGetUserCurrentSubscriptionType | null;
 	};
 };
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
@@ -325,12 +466,12 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	return (
 		<Stack direction="column">
 			<UserMainNavigationBar />
-			{subscriptionData ? (
+			{subscriptionData !== null ? (
 				<main className={`${Styles.main} ${Styles.fixMobile}`}>
 					<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
 						<DesktopMyBusinessSideNav backText="My business" data={data} />
 						<Box sx={{ width: '100%' }}>
-							<AlreadySubscribedContent subscriptionData={subscriptionData}/>
+							<AlreadySubscribedContent subscriptionData={subscriptionData} />
 						</Box>
 					</Stack>
 					<Stack className={Styles.mobileOnly}>
@@ -364,7 +505,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 										</Stack>
 									</Stack>
 								</Stack>
-								<AlreadySubscribedContent subscriptionData={subscriptionData}/>
+								<AlreadySubscribedContent subscriptionData={subscriptionData} />
 							</Box>
 						)}
 					</Stack>
@@ -422,7 +563,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	const appToken = getServerSideCookieTokens(context);
-	const {renderBack} = context.query;
+	const { renderBack } = context.query;
 	try {
 		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
@@ -437,7 +578,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						return {
 							props: {
 								data: response_shop.data,
-								subscriptionData: undefined,
+								subscriptionData: null,
 							},
 						};
 					} else {
@@ -464,7 +605,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 							return {
 								props: {
 									data: response_shop.data,
-									subscriptionData: undefined,
+									subscriptionData: null,
 								},
 							};
 						}

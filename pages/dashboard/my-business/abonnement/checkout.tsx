@@ -272,7 +272,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 				<Stack direction="column" justifyContent="center" alignItems="center">
 					<PrimaryButton
 						buttonText="Payer"
-						// active={(formik.isValid && !formik.isSubmitting) && (formikPromoCode.isValid && !formikPromoCode.isSubmitting)}
 						active={formik.isValid && !formik.isSubmitting && formikPromoCode.isValid && !formikPromoCode.isSubmitting}
 						onClick={formik.handleSubmit}
 						type="submit"
@@ -288,7 +287,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 			<main className={`${Styles.main} ${SharedStyles.fixMobile}`}>
 				<form>
 					<Stack direction="row" justifyContent="space-between" className={Styles.mobileStack}>
-						<Stack direction="column" spacing="48px">
+						<Stack direction="column" spacing="48px" className={Styles.desktopStack}>
 							<Stack direction="column" spacing="30px">
 								{!is_subscribed ? (
 									<h1 className={Styles.hOneHeader}>Let&apos;s finish powering you up</h1>
@@ -303,7 +302,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 								/>
 							</Stack>
 							<Stack direction="column" spacing="32px" className={Styles.mobileHeaderStack}>
-								<Stack direction="column" spacing="18px">
+								<Stack direction="column" spacing="18px" className={Styles.inputsMaxWidth}>
 									<CustomTextInput
 										id="company"
 										type="text"
@@ -336,7 +335,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 										maskPlaceholder=" "
 									/>
 								</Stack>
-								<Stack direction="column" spacing="18px">
+								<Stack direction="column" spacing="18px" className={Styles.inputsMaxWidth}>
 									<CustomTextInput
 										id="first_name"
 										type="text"
@@ -463,14 +462,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 									/>
 								</Stack>
 								<TotalPriceDetailContent />
-								{/*<Box>*/}
-								{/*	<Box className={Styles.desktopOnly}>*/}
-								{/*		*/}
-								{/*	</Box>*/}
-								{/*	/!*<Box className={`${Styles.mobileOnly} ${Styles.mobileTotalPriceModal}`}>*!/*/}
-								{/*	/!*	<TotalPriceDetailContent />*!/*/}
-								{/*	/!*</Box>*!/*/}
-								{/*</Box>*/}
 							</Stack>
 						</Box>
 					</Stack>

@@ -46,6 +46,36 @@ export const subscriptionPostRootAction = (
 	};
 };
 
+// PATCH : /api/1.0.0/subscription
+export const subscriptionPatchRootAction = (
+	nbr_article: number,
+	company: string | undefined,
+	ice: string | undefined,
+	first_name: string,
+	last_name: string,
+	adresse: string,
+	city: string,
+	code_postal: string,
+	country: string,
+	promo_code: string | undefined,
+	payment_type: PaymentTypeType | string,
+) => {
+	return {
+		type: Types.SUBSCRIPTION_PATCH_ROOT,
+		nbr_article,
+		company,
+		ice,
+		first_name,
+		last_name,
+		adresse,
+		city,
+		code_postal,
+		country,
+		promo_code,
+		payment_type,
+	};
+};
+
 // POST : /api/1.0.0/subscription/check_promo_code/
 export const subscriptionPostCheckPromoCode = (promo_code: string) => {
 	return {

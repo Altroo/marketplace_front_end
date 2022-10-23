@@ -85,6 +85,5 @@ export const DASHBOARD_AUDIENCES = "/dashboard/my-business/audience";
 export const DASHBOARD_CHIFFRE_DAFFAIRE = "/dashboard/my-business/chiffre-d'affaire";
 export const DASHBOARD_MESSAGES = '/dashboard/messages';
 export const DASHBOARD_ORDERS = '/dashboard/orders';
-
 // user index - (view profil - has shop data - user data or both)
 export const USER_VIEW_PROFILE_BY_ID = (user_id: number) => `/user/${user_id}/`;

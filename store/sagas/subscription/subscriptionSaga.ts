@@ -5,7 +5,7 @@ import { AuthSagaContextType, ResponseOnlyInterface } from "../../../types/_init
 import { ctxAuthSaga } from "../_init/_initSaga";
 import { AxiosInstance } from "axios";
 import { isAuthenticatedInstance } from "../../../utils/helpers";
-import { getApi, postApi } from "../../services/_init/_initAPI";
+import { getApi, patchApi, postApi } from "../../services/_init/_initAPI";
 import {
 	SubscriptionGetAvailableSubscriptionResponseType,
 	SubscriptionGetSubscriptionByNbrArticleResponseType,
@@ -14,6 +14,7 @@ import {
 } from "../../../types/subscription/subscriptionTypes";
 import { withCallback } from "redux-saga-callback";
 import { Saga } from "redux-saga";
+import { SUBSCRIPTION_PATCH_ROOT } from "../../actions";
 
 function* subscriptionGetAvailableSubscriptionSaga() {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
@@ -54,6 +55,20 @@ function* subscriptionPostRootSaga(payload: subscriptionPostRootType) {
 	}
 }
 
+function* subscriptionPatchRootSaga(payload: subscriptionPostRootType) {
+	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
+	const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_ROOT}/`;
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { type, ...payloadData } = payload;
+		const response: ResponseOnlyInterface = yield call(() => patchApi(url, authInstance, payloadData));
+		if (response.status === 204) {
+			return true;
+		}
+	}
+}
+
 function* subscriptionPostCheckPromoCodeSaga(payload: {type: string, promo_code: string}) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_CHECK_PROMO_CODE}`;
@@ -74,5 +89,6 @@ export function* watchSubscription() {
 	yield takeLatest(Types.SUBSCRIPTION_GET_AVAILABLE_SUBSCRIPTIONS, subscriptionGetAvailableSubscriptionSaga);
 	yield takeLatest(Types.SUBSCRIPTION_GET_SUBSCRIPTION_BY_NBR_ARTICLE, withCallback(subscriptionGetSubscriptionByNbrArticleSaga as Saga));
 	yield takeLatest(Types.SUBSCRIPTION_POST_ROOT, withCallback(subscriptionPostRootSaga as Saga));
+	yield takeLatest(Types.SUBSCRIPTION_PATCH_ROOT, withCallback(subscriptionPatchRootSaga as Saga));
 	yield takeLatest(Types.SUBSCRIPTION_POST_CHECK_PROMO_CODE, withCallback(subscriptionPostCheckPromoCodeSaga as Saga));
 }

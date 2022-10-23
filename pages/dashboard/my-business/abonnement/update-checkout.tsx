@@ -31,10 +31,10 @@ import CustomToast from '../../../../components/portals/customToast/customToast'
 import Portal from '../../../../contexts/Portal';
 import Divider from '@mui/material/Divider';
 import {
-	subscriptionGetSubscriptionByNbrArticle,
+	subscriptionGetSubscriptionByNbrArticle, subscriptionPatchRootAction,
 	subscriptionPostCheckPromoCode,
-	subscriptionPostRootAction,
-} from '../../../../store/actions/subscription/subscriptionActions';
+	subscriptionPostRootAction
+} from "../../../../store/actions/subscription/subscriptionActions";
 import { useRouter } from 'next/router';
 import { ApiErrorResponseType, SagaCallBackOnCompleteBoolType } from '../../../../types/_init/_initTypes';
 
@@ -72,7 +72,6 @@ const PackArticlesCardContent: React.FC<PackArticlesCardContentType> = (props: P
 	);
 };
 
-// TODO - correct checkout props [remove undefiened]
 type UpdateCheckoutProps = {
 	pageProps: {
 		pickedSubscription: Omit<availableSubscriptionPlanType, 'pk'>;
@@ -81,10 +80,10 @@ type UpdateCheckoutProps = {
 		last_name: string;
 		city: string | null;
 		country: string | null;
-		company?: string;
-		ice?: string;
-		adresse?: string;
-		code_postal?: string;
+		company: string;
+		ice: string;
+		adresse: string;
+		code_postal: string;
 	};
 };
 
@@ -102,14 +101,6 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 		code_postal,
 	} = props.pageProps;
 	const { nbr_article, prix_ttc, prix_unitaire_ttc, pourcentage } = pickedSubscription;
-
-	const [pickedCompany, setPickedCompany] = useState<string | null>(company ? company : null);
-	const [pickedICE, setPickedICE] = useState<string | null>(ice ? ice : null);
-	const [pickedFirstName, setPickedFirstName] = useState<string | null>(first_name);
-	const [pickedLastName, setPickedLastName] = useState<string | null>(last_name);
-	const [pickedAdresse, setPickedAdresse] = useState<string | null>(adresse ? adresse : null);
-	const [pickedCity, setPickedCity] = useState<string | null>(city);
-	const [pickedCodePostal, setPickedCodePostal] = useState<string | null>(code_postal ? code_postal : null);
 
 	const [nbrArticleState, setNbrArticleState] = useState<number>(nbr_article);
 	const [prixTTCState, setPrixTTCState] = useState<number>(prix_ttc);
@@ -211,13 +202,13 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 
 	const formik = useFormik({
 		initialValues: {
-			company: pickedCompany ? pickedCompany : '',
-			ice: pickedICE ? pickedICE : '',
-			first_name: pickedFirstName ? pickedFirstName : '',
-			last_name: pickedLastName ? pickedLastName : '',
-			adresse: pickedAdresse ? pickedAdresse : '',
-			city: pickedCity ? pickedCity : '',
-			code_postal: pickedCodePostal ? pickedCodePostal : '',
+			company: company ? company : '',
+			ice: ice ? ice : '',
+			first_name: first_name ? first_name : '',
+			last_name: last_name ? last_name : '',
+			adresse: adresse ? adresse : '',
+			city: city ? city : '',
+			code_postal: code_postal ? code_postal : '',
 			country: pickedCountry ? pickedCountry : '',
 		},
 		validateOnMount: true,
@@ -231,8 +222,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 				paymentPar = 'C';
 			}
 			const promo_code = formikPromoCode.values.promo_code;
-			const action = subscriptionPostRootAction(
-				// TODO - add new dispatch Upgrade current subscription
+			const action = subscriptionPatchRootAction(
 				nbrArticleState,
 				values.company,
 				values.ice.replace(/\D/g, ''),
@@ -293,7 +283,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 				<Stack direction="column" justifyContent="center" alignItems="center">
 					<PrimaryButton
 						buttonText="Payer"
-						active={formik.isValid && !formik.isSubmitting && formikPromoCode.isValid && !formikPromoCode.isSubmitting}
+						active={formik.isValid && !formik.isSubmitting} //  && formikPromoCode.isValid && !formikPromoCode.isSubmitting
 						onClick={formik.handleSubmit}
 						type="submit"
 					/>
@@ -308,7 +298,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 			<main className={`${Styles.main} ${SharedStyles.fixMobile}`}>
 				<form>
 					<Stack direction="row" justifyContent="space-between" className={Styles.mobileStack}>
-						<Stack direction="column" spacing="48px">
+						<Stack direction="column" spacing="48px" className={Styles.desktopStack}>
 							<Stack direction="column" spacing="30px">
 								{!is_subscribed ? (
 									<h1 className={Styles.hOneHeader}>Let&apos;s finish powering you up</h1>
@@ -323,7 +313,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 								/>
 							</Stack>
 							<Stack direction="column" spacing="32px" className={Styles.mobileHeaderStack}>
-								<Stack direction="column" spacing="18px">
+								<Stack direction="column" spacing="18px" className={Styles.inputsMaxWidth}>
 									<CustomTextInput
 										id="company"
 										type="text"
@@ -356,7 +346,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 										maskPlaceholder=" "
 									/>
 								</Stack>
-								<Stack direction="column" spacing="18px">
+								<Stack direction="column" spacing="18px" className={Styles.inputsMaxWidth}>
 									<CustomTextInput
 										id="first_name"
 										type="text"
@@ -506,6 +496,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	const appToken = getServerSideCookieTokens(context);
+	const { prix_ttc, pourcentage, prix_unitaire_ttc, nbr_article, prix_ht, prix_unitaire_ht } = context.query;
 	try {
 		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
@@ -515,27 +506,39 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_GET_USER_SUBSCRIPTION}`;
 					const response: subscriptionGetUserSubscriptionResponseType = await getApi(url, instance);
 					if (response.status === 200 && response.data) {
-						return {
-							props: {
-								pickedSubscription: {
-									nbr_article: response.data.nbr_article,
-									prix_ht: response.data.prix_ht,
-									prix_ttc: response.data.prix_ttc,
-									prix_unitaire_ht: response.data.prix_unitaire_ht,
-									prix_unitaire_ttc: response.data.prix_unitaire_ttc,
-									pourcentage: response.data.pourcentage,
+						// not subscribed check for params - proceed
+						if (prix_ttc && pourcentage && prix_unitaire_ttc && nbr_article && prix_ht && prix_unitaire_ht) {
+							const pickedSubscription: Omit<availableSubscriptionPlanType, 'pk'> = {
+								prix_ttc: parseInt(prix_ttc as string),
+								pourcentage: parseInt(pourcentage as string),
+								prix_unitaire_ttc: parseInt(prix_unitaire_ttc as string),
+								nbr_article: parseInt(nbr_article as string),
+								prix_ht: parseInt(prix_ht as string),
+								prix_unitaire_ht: parseInt(prix_unitaire_ht as string),
+							};
+							return {
+								props: {
+									pickedSubscription: pickedSubscription,
+									is_subscribed: true,
+									company: response.data.company,
+									ice: response.data.ice,
+									first_name: response.data.first_name,
+									last_name: response.data.last_name,
+									adresse: response.data.adresse,
+									city: response.data.city,
+									code_postal: response.data.code_postal,
+									country: response.data.country,
 								},
-								is_subscribed: true,
-								company: response.data.company,
-								ice: response.data.ice,
-								first_name: response.data.first_name,
-								last_name: response.data.last_name,
-								adresse: response.data.adresse,
-								city: response.data.city,
-								code_postal: response.data.code_postal,
-								country: response.data.country,
-							},
-						};
+							};
+						} else {
+							// params not found redirect back
+							return {
+								redirect: {
+									permanent: false,
+									destination: DASHBOARD_SUBSCRIPTION,
+								},
+							};
+						}
 					} else {
 						// user doesn't have a subscription
 						return {
