@@ -81,10 +81,58 @@
   color: #d32f2f
 .inputsMaxWidth
   max-width: 540px
+.parVirementSubHeader
+  +Regular
+  font-size: 19px
+  color: $primary
+.parVirementListItem
+  +SemiBold
+  font-size: 19px
+  color: $primary
+.parVirementListItemBox
+  padding: 10px
+  background-color: #F2F2F3
+  border-radius: 10px
+  width: fit-content
+  width: -moz-fit-content
+  span
+    +SemiBold
+    font-size: 19px
+    color: $primary
+.parVirementListEmailItem
+  +SemiBold
+  font-size: 19px
+  color: #0274d7 !important
+.parVirementBox
+  padding: 32px
+  box-shadow: 0 0 24px rgba(13,7,11,0.1)
+  border-radius: 40px
+  min-width: 450px
+.parVirementBoxHeader
+  +SemiBold
+  font-size: 21px
+  color: $primary
+.parVirementBoxItem
+  +Medium
+  font-size: 17px
+  color: #84848A
+  letter-spacing: -0.03em
+.parVirementBoxRoot
+  border-radius: 16px
+  padding: 10px 18px 10px 18px
+  background-color: #FBFBFB
+  span
+    +Regular
+    font-size: 19px
+    color: $primary
+
 @media #{$desktop}
   .desktopStack
     margin-right: 32px
 @media #{$tablette}
+  .parVirementBox
+    min-width: 100% !important
+    margin-top: 60px
   .inputsMaxWidth
     max-width: 100%
   .main

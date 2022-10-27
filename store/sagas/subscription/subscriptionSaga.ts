@@ -10,9 +10,9 @@ import {
 	SubscriptionGetAvailableSubscriptionResponseType,
 	subscriptionGetIndexedOffersResponseType,
 	SubscriptionGetSubscriptionByNbrArticleResponseType,
-	subscriptionPostCheckPromoCodeResponseType,
-	subscriptionPostRootType,
-} from '../../../types/subscription/subscriptionTypes';
+	subscriptionPostCheckPromoCodeResponseType, subscriptionPostResponseType,
+	subscriptionPostRootType
+} from "../../../types/subscription/subscriptionTypes";
 import { withCallback } from 'redux-saga-callback';
 import { Saga } from 'redux-saga';
 import { SUBSCRIPTION_DELETE_SINGLE_INDEXED_ARTICLE, SUBSCRIPTION_PATCH_ROOT } from '../../actions';
@@ -50,9 +50,9 @@ function* subscriptionPostRootSaga(payload: subscriptionPostRootType) {
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { type, ...payloadData } = payload;
-		const response: ResponseOnlyInterface = yield call(() => postApi(url, authInstance, payloadData));
-		if (response.status === 204) {
-			return true;
+		const response: subscriptionPostResponseType = yield call(() => postApi(url, authInstance, payloadData));
+		if (response.status === 200) {
+			return response.data;
 		}
 	}
 }

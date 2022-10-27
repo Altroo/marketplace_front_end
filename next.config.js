@@ -4,7 +4,7 @@ const path = require('path');
 // const withImages = require('next-images')
 
 const nextConfig = {
-	reactStrictMode: true,
+	reactStrictMode: false,
 	sassOptions: {
 		includePaths: [path.join(__dirname, 'styles')]
 	},

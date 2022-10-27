@@ -1,4 +1,4 @@
-import { PaginationResponseType, ResponseDataInterface, SagaCallBackBase } from "../_init/_initTypes";
+import { PaginationResponseType, ResponseDataInterface, SagaCallBackBase, SagaCallBackType } from "../_init/_initTypes";
 import { OfferPinType } from "../offer/offerTypes";
 import { ChatGetConversationsType } from "../chat/chatTypes";
 
@@ -59,6 +59,16 @@ export interface SagaCallBackOnCompleteCheckPromoCodeType extends SagaCallBackBa
 export interface SagaCallBackOnCompleteSubscriptionByNbrArticleType extends SagaCallBackBase {
 	data: availableSubscriptionPlanType;
 }
+
+export type subscriptionPostType = {
+	reference_number: string,
+  total_paid: number,
+}
+export interface SagaCallBackOnCompletePostSubscriptionType extends SagaCallBackBase {
+	data: subscriptionPostType;
+}
+
+export type subscriptionPostResponseType = ResponseDataInterface<subscriptionPostType>;
 
 export interface subscriptionGetUserSubscriptionType extends Omit<subscriptionPostRootType, 'type' | 'payment_type' | 'promo_code'> {
 	prix_ht: number,

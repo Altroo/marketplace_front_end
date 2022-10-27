@@ -3,16 +3,19 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../utils/helpers';
 import {
 	AUTH_LOGIN,
+	DASHBOARD_INDEXED_OFFERS,
 	DASHBOARD_SUBSCRIPTION,
-	NOT_FOUND_404
-} from "../../../../utils/routes";
+	DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT,
+	NOT_FOUND_404,
+} from '../../../../utils/routes';
 import { AccountGetCheckAccountResponseType } from '../../../../types/account/accountTypes';
 import { getApi } from '../../../../store/services/_init/_initAPI';
 import {
 	availableSubscriptionPlanType,
 	SagaCallBackOnCompleteCheckPromoCodeType,
+	SagaCallBackOnCompletePostSubscriptionType,
 	SagaCallBackOnCompleteSubscriptionByNbrArticleType,
-} from "../../../../types/subscription/subscriptionTypes";
+} from '../../../../types/subscription/subscriptionTypes';
 import { Stack, Box, AlertColor } from '@mui/material';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import SharedStyles from '../../../../styles/dashboard/dashboard.module.sass';
@@ -39,7 +42,6 @@ import {
 	subscriptionPostRootAction,
 } from '../../../../store/actions/subscription/subscriptionActions';
 import { useRouter } from 'next/router';
-import { SagaCallBackOnCompleteBoolType } from '../../../../types/_init/_initTypes';
 
 type PackArticlesCardContentType = {
 	is_subscribed: boolean;
@@ -102,7 +104,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 
 	const [pickedCountry, setPickedCountry] = useState<string>(country ? country : '');
 	const [paymentParCarte, setPaymentParCarte] = useState<boolean>(false);
-	const [paymentParVirement, setPaymentParVirement] = useState<boolean>(false);
+	const [paymentParVirement, setPaymentParVirement] = useState<boolean>(true); // default checked
 	const [showPromoCodeApplied, setShowPromoCodeApplied] = useState<boolean>(false);
 	const [showPromoCodeMessage, setShowPromoCodeMessage] = useState<AlertColor | null>(null);
 	const [globalApiError, setGlobalApiError] = useState<string | null>(null);
@@ -124,12 +126,14 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 					if (!error && !cancelled && data) {
 						if (data.validity && data.type && data.value) {
 							if (data.type === 'S') {
-								if (nbrArticleState === data.value) {
-									setReductionState(prixTTCState);
-									return;
+								/* Removed
 								} else if (nbrArticleState > data.value) {
 									setNbrArticleState(nbrArticleState - data.value);
 									setReductionState(prix_ttc);
+								 */
+								if (nbrArticleState === data.value) {
+									setReductionState(prixTTCState);
+									return;
 								} else {
 									const action = subscriptionGetSubscriptionByNbrArticle(data.value);
 									dispatch({
@@ -226,9 +230,25 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 			);
 			dispatch({
 				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
+				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompletePostSubscriptionType) => {
 					if (!error && !cancelled && data) {
-						router.replace(DASHBOARD_SUBSCRIPTION).then();
+						if (data.total_paid === 0) {
+							router.replace(DASHBOARD_INDEXED_OFFERS).then();
+						} else {
+							const query = {
+								reference_number: data.reference_number,
+								total_paid: data.total_paid,
+							};
+							router
+								.replace(
+									{
+										pathname: DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT,
+										query: { ...query },
+									},
+									DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT,
+								) // using "as" to hide the query params
+								.then();
+						}
 					} else {
 						if (error.error.details) {
 							setGlobalApiError(error.error.details.error[0]);
@@ -249,37 +269,37 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 	const inputTheme = coordonneeTextInputTheme();
 	const promoCodeTheme = promoCodeTextInputTheme();
 
-	const TotalPriceDetailContent = () => {
-		return (
-			<Stack direction="column" spacing="55px">
-				<Stack direction="column" spacing="18px">
-					<Stack direction="row" justifyContent="space-between" className={Styles.priceDetails}>
-						<span>Abonnement</span>
-						<span>{prixTTCState} DH</span>
-					</Stack>
-					{reductionState && (
-						<Stack direction="row" justifyContent="space-between" mb="18px" className={Styles.priceDetails}>
-							<span>Réduction</span>
-							<span className={Styles.reducedPrice}>-{reductionState} DH</span>
-						</Stack>
-					)}
-					<Divider orientation="horizontal" flexItem className={Styles.divider} />
-					<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.totalPrice}>
-						<span>Total</span>
-						<span>{reductionState ? prixTTCState - reductionState : prixTTCState} DH</span>
-					</Stack>
-				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="center">
-					<PrimaryButton
-						buttonText="Payer"
-						active={formik.isValid && !formik.isSubmitting && formikPromoCode.isValid && !formikPromoCode.isSubmitting}
-						onClick={formik.handleSubmit}
-						type="submit"
-					/>
-				</Stack>
-			</Stack>
-		);
-	};
+	// const TotalPriceDetailContent = () => {
+	// 	return (
+	// 		<Stack direction="column" spacing="55px">
+	// 			<Stack direction="column" spacing="18px">
+	// 				<Stack direction="row" justifyContent="space-between" className={Styles.priceDetails}>
+	// 					<span>Abonnement</span>
+	// 					<span>{prixTTCState} DH</span>
+	// 				</Stack>
+	// 				{reductionState && (
+	// 					<Stack direction="row" justifyContent="space-between" mb="18px" className={Styles.priceDetails}>
+	// 						<span>Réduction</span>
+	// 						<span className={Styles.reducedPrice}>-{reductionState} DH</span>
+	// 					</Stack>
+	// 				)}
+	// 				<Divider orientation="horizontal" flexItem className={Styles.divider} />
+	// 				<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.totalPrice}>
+	// 					<span>Total</span>
+	// 					<span>{reductionState ? prixTTCState - reductionState : prixTTCState} DH</span>
+	// 				</Stack>
+	// 			</Stack>
+	// 			<Stack direction="column" justifyContent="center" alignItems="center">
+	// 				<PrimaryButton
+	// 					buttonText="Payer"
+	// 					active={formik.isValid && !formik.isSubmitting}
+	// 					onClick={formik.handleSubmit}
+	// 					type="submit"
+	// 				/>
+	// 			</Stack>
+	// 		</Stack>
+	// 	);
+	// };
 
 	return (
 		<Stack direction="column">
@@ -447,6 +467,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 									<RadioCheckButton
 										checked={paymentParCarte}
 										active={true}
+										disabled={true}
 										text="Carte bancaire"
 										onClick={() => {
 											paymentParCheckHandler('C');
@@ -461,7 +482,33 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 										}}
 									/>
 								</Stack>
-								<TotalPriceDetailContent />
+								<Stack direction="column" spacing="55px">
+									<Stack direction="column" spacing="18px">
+										<Stack direction="row" justifyContent="space-between" className={Styles.priceDetails}>
+											<span>Abonnement</span>
+											<span>{prixTTCState} DH</span>
+										</Stack>
+										{reductionState && (
+											<Stack direction="row" justifyContent="space-between" mb="18px" className={Styles.priceDetails}>
+												<span>Réduction</span>
+												<span className={Styles.reducedPrice}>-{reductionState} DH</span>
+											</Stack>
+										)}
+										<Divider orientation="horizontal" flexItem className={Styles.divider} />
+										<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.totalPrice}>
+											<span>Total</span>
+											<span>{reductionState ? prixTTCState - reductionState : prixTTCState} DH</span>
+										</Stack>
+									</Stack>
+									<Stack direction="column" justifyContent="center" alignItems="center">
+										<PrimaryButton
+											buttonText="Payer"
+											active={formik.isValid && !formik.isSubmitting}
+											onClick={formik.handleSubmit}
+											type="submit"
+										/>
+									</Stack>
+								</Stack>
 							</Stack>
 						</Box>
 					</Stack>

@@ -201,5 +201,5 @@ export const subscriptionSchema = Yup.object().shape({
 });
 
 export const promoCodeSchema = Yup.object().shape({
-	promo_code: Yup.string().required(INPUT_REQUIRED),
+	promo_code: Yup.string().notRequired().nullable(),
 });

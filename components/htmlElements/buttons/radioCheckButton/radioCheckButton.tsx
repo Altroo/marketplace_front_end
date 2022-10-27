@@ -12,6 +12,7 @@ type Props = {
 	active: boolean;
 	// onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onClick: () => void;
+	disabled?: boolean;
 	activeColor?: string;
 	labelcssStyles?: CSSProperties;
 	children?: React.ReactNode;
@@ -55,16 +56,20 @@ const RadioCheckButton: React.FC<Props> = (props: Props) => {
 			padding: '12px 18px',
 			border: `1px solid ${props.checked ? activeColor : '#D9D9DD'}`,
 			borderRadius: '20px',
-			cursor: 'pointer',
+			cursor: `${props.disabled ? 'default' : 'pointer'}`,
+			opacity: `${props.disabled ? '.5' : '1'}`,
 			'&:hover': { bgcolor: alphaColor },
-		}} onClick={props.onClick}>
+		}} onClick={() => {
+			if (!props.disabled) {
+				props.onClick();
+			}
+		}}>
 			<span className={Styles.radioCheckbuttonText}>{props.text}</span>
 			<ThemeProvider theme={colorTheme}>
 				<Checkbox
-					// sx={{ '&:hover': { bgcolor: alphaColor } }}
 					style={{...props.labelcssStyles}}
 					checked={props.checked}
-					disabled={!props.active}
+					disabled={props.disabled}
 					icon={<RadioButtonUncheckedIcon />}
 					checkedIcon={CheckboxIcon}
 					size="medium"

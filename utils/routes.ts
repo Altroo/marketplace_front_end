@@ -80,6 +80,7 @@ export const DASHBOARD_MY_BUSINESS = '/dashboard/my-business'; // placeholder wi
 export const DASHBOARD_SUBSCRIPTION = '/dashboard/my-business/abonnement';
 export const DASHBOARD_NEW_SUBSCRIPTION = '/dashboard/my-business/abonnement/checkout';
 export const DASHBOARD_UPGRADE_SUBSCRIPTION = '/dashboard/my-business/abonnement/update-checkout';
+export const DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT = '/dashboard/my-business/abonnement/par-virement';
 export const DASHBOARD_INDEXED_OFFERS = '/dashboard/my-business/articles-references';
 export const DASHBOARD_ADD_INDEX_OFFERS = '/dashboard/my-business/articles-references/add-offers';
 export const DASHBOARD_AUDIENCES = "/dashboard/my-business/audience";

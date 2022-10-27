@@ -58,6 +58,7 @@ const EntryPoint: React.FC<EntryPointProps> = (props: EntryPointProps) => {
 			<CacheProvider value={emotionCache}>
 				<Head>
 					<meta name="viewport" content="initial-scale=1, width=device-width" />
+					<title>Qaryb</title>
 				</Head>
 				<ThemeProvider theme={getDefaultTheme()}>
 					{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
