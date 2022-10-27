@@ -677,32 +677,48 @@ function* offerDeleteSolderSaga(payload: { type: string; offer_pk: number; route
 	}
 }
 
-function* offerGetVuesSaga() {
+// function* offerGetVuesSaga(payload: { type: string; url: string }) {
+// 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
+// 	let url = `${process.env.NEXT_PUBLIC_OFFER_VUES}`;
+// 	const nextPage: string | null = yield select(getOfferVuesNextPage);
+// 	let page = 1;
+// 	if (nextPage) {
+// 		const queryIndex = nextPage.search('=');
+// 		page = parseInt(nextPage.slice(queryIndex + 1)[0]);
+// 		const pageUrl = `?page=${page}`;
+// 		try {
+// 			if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+// 				const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+// 				url += pageUrl;
+// 				const response: OfferGetVuesResponseType = yield call(() => getApi(url, instance));
+// 				if (response.status === 200 && response.data) {
+// 					yield put(setOfferVuesList(response.data));
+// 				} else {
+// 					// set error state
+// 					console.log(response.status);
+// 				}
+// 			}
+// 		} catch (e) {
+// 			const errors = e as ApiErrorResponseType;
+// 			console.log(errors);
+// 		}
+// 	}
+// }
+
+function* offerGetVuesSaga(payload: {type: string, url: string}) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-	let url = `${process.env.NEXT_PUBLIC_OFFER_VUES}`;
-	const nextPage: string | null = yield select(getOfferVuesNextPage);
-	let page = 1;
-	if (nextPage) {
-		const queryIndex = nextPage.search('=');
-		page = parseInt(nextPage.slice(queryIndex + 1)[0]);
-		const pageUrl = `?page=${page}`;
-		try {
-			if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-				const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-				url += pageUrl;
-				const response: OfferGetVuesResponseType = yield call(() => getApi(url, instance));
-				if (response.status === 200 && response.data) {
-					yield put(setOfferVuesList(response.data));
-				} else {
-					// set error state
-					console.log(response.status);
-				}
-			}
-		} catch (e) {
-			const errors = e as ApiErrorResponseType;
-			console.log(errors);
+	// try {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		const response: OfferGetVuesResponseType = yield call(() => getApi(payload.url, instance));
+		if (response.status === 200 && response.data) {
+			return response.data;
 		}
 	}
+	// } catch (e) {
+	// 	console.log(e);
+	// 	return e as ApiErrorResponseType;
+	// }
 }
 
 function* wsOfferThumbnailSaga(payload: { type: string; pk: number; offer_thumbnail: string }) {
@@ -975,6 +991,6 @@ export function* watchOffer() {
 	yield takeLatest(Types.OFFER_PATCH_SOLDER, offerPatchSolderSaga);
 	yield takeLatest(Types.OFFER_DELETE_SOLDER, offerDeleteSolderSaga);
 	yield takeLatest(Types.OFFER_DELETE_ROOT, withCallback(offerDeleteRootSaga as Saga));
-	yield takeLatest(Types.OFFER_GET_VUES, offerGetVuesSaga);
+	yield takeLatest(Types.OFFER_GET_VUES, withCallback(offerGetVuesSaga as Saga));
 	yield takeLatest(Types.WS_OFFER_THUMBNAIL, wsOfferThumbnailSaga);
 }

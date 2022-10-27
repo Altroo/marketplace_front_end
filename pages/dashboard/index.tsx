@@ -189,7 +189,7 @@ const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentTy
 
 type ShopMyBusinessCardContentType = {
 	indexed_articles_count: number;
-	slots_available_count: number;
+	all_slots_count: number;
 	total_offers_vue_count: number;
 	total_vue_month: number;
 	total_vue_pourcentage: string;
@@ -203,7 +203,7 @@ type ShopMyBusinessCardContentType = {
 const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (props: ShopMyBusinessCardContentType) => {
 	const {
 		indexed_articles_count,
-		slots_available_count,
+		all_slots_count,
 		total_offers_vue_count,
 		total_vue_month,
 		total_vue_pourcentage,
@@ -252,7 +252,7 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 						>
 							<ImageFuture src={DesktopSubscribedSVG} alt="" width="40" height="40" sizes="100vw" />
 							<Stack direction="column">
-								<span className={Styles.dashboardMiniCardCounter}>{slots_available_count}</span>
+								<span className={Styles.dashboardMiniCardCounter}>{all_slots_count}</span>
 								<span className={Styles.dashboardMiniCardSubHeader}>S&apos;abonner</span>
 							</Stack>
 						</Stack>
@@ -379,21 +379,17 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		is_creator,
 		is_verified,
 		shop_url,
-		slots_available_count,
+		all_slots_count,
 		total_offers_count,
-		// total_offers_vue_count,
+		total_offers_vue_count,
 		total_sells_count,
 		total_sells_pourcentage,
 		total_sells_month,
 		total_vue_month,
-		// total_vue_pourcentage,
+		total_vue_pourcentage,
 		avatar,
 		pk,
 	} = data;
-
-	// TODO - Altroo : get from db.
-	const total_offers_vue_count = 0;
-	const total_vue_pourcentage = '0%';
 
 	const [totalSellsPourcentageCSS, setTotalSellsPourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
 	const [totalVuePourcentageCSS, setTotalVuePourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
@@ -460,7 +456,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 									total_offers_vue_count={total_offers_vue_count}
 									total_sells_count={total_sells_count}
 									indexed_articles_count={indexed_articles_count}
-									slots_available_count={slots_available_count}
+									all_slots_count={all_slots_count}
 									total_sells_pourcentage={total_sells_pourcentage}
 									total_vue_month={total_vue_month}
 									total_vue_pourcentage={total_vue_pourcentage}
@@ -621,7 +617,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	// redirect if user already logged in
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_GET_DASHBOARD}`;
 	const appToken = getServerSideCookieTokens(context);
-
 	try {
 		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);

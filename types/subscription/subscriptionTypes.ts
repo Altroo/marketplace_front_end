@@ -1,5 +1,6 @@
-import { ResponseDataInterface, SagaCallBackBase } from "../_init/_initTypes";
+import { PaginationResponseType, ResponseDataInterface, SagaCallBackBase } from "../_init/_initTypes";
 import { OfferPinType } from "../offer/offerTypes";
+import { ChatGetConversationsType } from "../chat/chatTypes";
 
 // ('C', 'Carte'), ('V', 'Virement')
 export type PaymentTypeType = 'C' | 'V';
@@ -81,3 +82,11 @@ export type subscriptionGetUserCurrentSubscriptionType = {
 	pourcentage: number,
 	facture: string,
 }
+export type subscriptionGetIndexedOffersType = {
+	pk: number,
+	thumbnail: string,
+	title: string,
+}
+
+export type subscriptionGetIndexedOffersPaginatedType = PaginationResponseType<subscriptionGetIndexedOffersType>;
+export type subscriptionGetIndexedOffersResponseType = ResponseDataInterface<subscriptionGetIndexedOffersPaginatedType>;

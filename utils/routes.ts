@@ -81,6 +81,7 @@ export const DASHBOARD_SUBSCRIPTION = '/dashboard/my-business/abonnement';
 export const DASHBOARD_NEW_SUBSCRIPTION = '/dashboard/my-business/abonnement/checkout';
 export const DASHBOARD_UPGRADE_SUBSCRIPTION = '/dashboard/my-business/abonnement/update-checkout';
 export const DASHBOARD_INDEXED_OFFERS = '/dashboard/my-business/articles-references';
+export const DASHBOARD_ADD_INDEX_OFFERS = '/dashboard/my-business/articles-references/add-offers';
 export const DASHBOARD_AUDIENCES = "/dashboard/my-business/audience";
 export const DASHBOARD_CHIFFRE_DAFFAIRE = "/dashboard/my-business/chiffre-d'affaire";
 export const DASHBOARD_MESSAGES = '/dashboard/messages';

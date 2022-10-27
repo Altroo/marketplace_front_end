@@ -560,8 +560,9 @@ export const offerDeleteSolderAction = (offer_pk: number, router: NextRouter) =>
 	};
 };
 
-export const offerGetVuesAction = () => {
+export const offerGetVuesAction = (url: string) => {
 	return {
 		type: Types.OFFER_GET_VUES,
+		url,
 	};
 };

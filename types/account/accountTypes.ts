@@ -209,7 +209,8 @@ export type AccountGetDashboardType = {
 	has_notifications: boolean;
 	has_orders: boolean;
 	indexed_articles_count: number;
-	slots_available_count: number;
+	remaining_slots_count: number;
+	all_slots_count: number;
 	total_offers_count: number;
 	total_offers_vue_count: number;
 	total_vue_month: number;

@@ -8,7 +8,6 @@ import {
 } from "../_init/_initTypes";
 import { NextRouter } from 'next/router';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
-import { apiErrorInitialState } from '../../store/slices/_init/_initSlice';
 
 // ('V', 'Produit'), ('S', 'Service'), ('L', 'Location') <- 'L' Not yet available,
 export type OfferOfferTypeType = 'V' | 'S'; //  | 'L'
@@ -333,12 +332,12 @@ export type OfferGetVues = {
 	nbr_total_vue: number;
 };
 
-export type OfferGetVuesMonthType = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12';
+export type OfferGetVuesMonthType = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
 export interface OfferGetVuesType extends PaginationResponseType<OfferGetVues> {
-	total_vues: number | null;
-	this_month: OfferGetVuesMonthType | null;
-	pourcentage: string | null;
+	total_vues: number;
+	this_month: OfferGetVuesMonthType;
+	pourcentage: string;
 }
 
 export type clickAndCollect = {

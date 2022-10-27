@@ -557,3 +557,11 @@ export const generateQueryParams = (query: ParsedUrlQuery, nextPage?: string) =>
 	url += `&page=${pageNumber}`;
 	return url;
 };
+
+export const generatePageQueryParams = (nextPage?: string) => {
+	let pageNumber = '1';
+	if (nextPage) {
+		pageNumber = nextPage;
+	}
+	return `?page=${pageNumber}`;
+}

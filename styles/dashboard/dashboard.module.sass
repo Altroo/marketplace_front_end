@@ -41,6 +41,8 @@
   color: #84848A
 .divider
   color: #F2F2F3
+  margin-top: 12px
+  margin-bottom: 12px
 .userShopLink
   +Medium
   font-size: 19px
@@ -165,6 +167,20 @@
   width: 100%
   border: 1px solid #D9D9DD
   border-radius: 20px
+.dashboardEmptyVuesDesktopBox
+  padding: 32px 12px
+  width: 100%
+  border: 1px solid #D9D9DD
+  border-radius: 20px
+.dashboardVuesBox
+  width: 100%
+  border: 1px solid #D9D9DD
+  border-radius: 20px
+  padding: 12px
+  margin-bottom: 0 !important
+  .offerVuesTopArticlesRootList:last-child
+    .divider
+      display: none
 .dashboardSellsDesktopBoxContent
   +Regular
   font-size: 17px
@@ -385,6 +401,31 @@
     color: #8669FB
     letter-spacing: -0.04em
     line-height: 40px
+.offerVuesThumbnail
+  border-radius: 10px
+.offerVuesOfferTitle
+  +Medium
+  font-size: 17px
+  color: $primary
+.offerVuesNumber
+  +SemiBold
+  font-size: 17px
+  color: $primary
+//.offerVuesTopArticlesRootList
+//  height: 79px
+.offerVuesloadMoreStack
+  margin-top: 32px !important
+  margin-bottom: 32px !important
+.offerVuesloadMoreButton
+  +SemiBold
+  font-size: 17px
+  color: $primary
+  text-transform: none
+  border: 1px solid $primary
+  border-radius: 50px
+  padding: 14px 32px
+  width: 364px
+  height: 54px
 @media #{$tablette}
   .dashboardRightContentMarginLeft
     margin-left: 0 !important
@@ -506,3 +547,9 @@
 @media #{$mobile}
   .userCardOfferWrapper
     width: 100%
+  .offerVuesloadMoreStack
+    width: 100%
+    //margin-left: 24px
+    //margin-right: 24px
+  .offerVuesloadMoreButton
+    width: calc(100vw - 48px)

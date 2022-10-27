@@ -127,7 +127,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 								if (nbrArticleState === data.value) {
 									setReductionState(prixTTCState);
 									return;
-								} else if (nbrArticleState < data.value) {
+								} else if (nbrArticleState > data.value) {
 									setNbrArticleState(nbrArticleState - data.value);
 									setReductionState(prix_ttc);
 								} else {

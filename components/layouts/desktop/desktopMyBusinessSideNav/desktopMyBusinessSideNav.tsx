@@ -9,11 +9,12 @@ import MobileAudiencesSVG from '../../../../public/assets/svgs/dashboardIcons/ma
 import MobileChiffreAffaireSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-usd.svg';
 
 import {
+	DASHBOARD_ADD_INDEX_OFFERS,
 	DASHBOARD_AUDIENCES,
 	DASHBOARD_CHIFFRE_DAFFAIRE,
 	DASHBOARD_INDEXED_OFFERS,
-	DASHBOARD_SUBSCRIPTION,
-} from '../../../../utils/routes';
+	DASHBOARD_SUBSCRIPTION
+} from "../../../../utils/routes";
 import { Stack } from '@mui/material';
 import { default as ImageFuture } from 'next/future/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
@@ -52,7 +53,7 @@ const DesktopMyBusinessSideNav: React.FC<Props> = (props: Props) => {
 			text: 'Articles référencés',
 			link: DASHBOARD_INDEXED_OFFERS,
 			icon: MobileIndexedOffersSVG,
-			current: router.pathname.endsWith(DASHBOARD_INDEXED_OFFERS),
+			current: router.pathname.includes(DASHBOARD_INDEXED_OFFERS), // changed to include
 			disabled: false,
 		},
 		{

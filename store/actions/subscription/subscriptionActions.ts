@@ -1,5 +1,6 @@
 import * as Types from '../index';
 import { PaymentTypeType } from "../../../types/subscription/subscriptionTypes";
+import { SUBSCRIPTION_GET_AVAILABLE_ARTICLES, SUBSCRIPTION_POST_INDEXED_ARTICLE_ROOT } from "../index";
 
 // GET : /api/1.0.0/subscription
 export const subscriptionGetAvailableSubscriptionAction = () => {
@@ -81,5 +82,37 @@ export const subscriptionPostCheckPromoCode = (promo_code: string) => {
 	return {
 		type: Types.SUBSCRIPTION_POST_CHECK_PROMO_CODE,
 		promo_code,
+	};
+};
+
+// GET : /api/1.0.0/subscription/indexed_articles/
+export const subscriptionGetIndexedArticlesAction = (url: string) => {
+	return {
+		type: Types.SUBSCRIPTION_GET_INDEXED_ARTICLES,
+		url,
+	};
+};
+
+// GET : /api/1.0.0/subscription/available_articles/
+export const subscriptionGetAvailableArticlesAction = (url: string) => {
+	return {
+		type: Types.SUBSCRIPTION_GET_AVAILABLE_ARTICLES,
+		url,
+	};
+};
+
+// DELETE : /api/1.0.0/subscription/indexed_articles/
+export const subscriptionDeleteSingleIndexedArticleAction = (pk: number | string) => {
+	return {
+		type: Types.SUBSCRIPTION_DELETE_SINGLE_INDEXED_ARTICLE,
+		pk,
+	};
+};
+
+// POST : /api/1.0.0/subscription/indexed_articles
+export const subscriptionPostIndexArticlesAction = (pk: number | string) => {
+	return {
+		type: Types.SUBSCRIPTION_POST_INDEXED_ARTICLE_ROOT,
+		pk
 	};
 };

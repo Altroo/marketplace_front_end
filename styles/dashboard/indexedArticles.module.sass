@@ -37,8 +37,116 @@
   right: 0
 .emptyIndexedPrimaryButton
   width: 196px !important
-// @media #{$desktop}
+.indexedArticlesAddSlotBox
+  width: 100%
+  max-width: 581px
+  border: 1px solid $primary
+  padding: 18px 24px
+  border-radius: 20px
+.indexedArticlesBoxContent
+  span:nth-child(1)
+    +SemiBold
+    font-size: 21px
+    color: $primary
+  span:nth-child(2)
+    +Regular
+    font-size: 15px
+    color: $primary
+.indexedArticlesAddBoxButton
+  +Medium
+  font-size: 15px
+  color: $primary
+  background-color: #FFFFFF !important
+  min-width: 148px !important
+  width: 148px !important
+  height: 32px !important
+.indexedArticlesAddActionButton
+  background-color: #0274d7
+  width: 111px
+  height: 32px
+  border-radius: 50px
+  padding: 14px 32px
+  span
+    +Medium
+    font-size: 15px
+    color: #FFFFFF
+    text-transform: none
+  &:hover
+    background-color: rgba(2, 116, 215, 0.6)
+.indexedArticlesDeleteActionButton
+  background-color: #FFFFFF
+  width: 126px
+  height: 32px
+  border-radius: 50px
+  padding: 14px 32px
+  border: 1px solid #E12D3D
+  span
+    +Medium
+    font-size: 15px
+    color: #E12D3D
+    text-transform: none
+  &:hover
+    background-color: rgba(225, 45, 61, .1)
+.availableArticlesBackButton
+  background-color: white
+  width: 111px
+  height: 32px
+  border-radius: 50px
+  padding: 14px 32px
+  span
+    +Regular
+    font-size: 17px
+    color: $primary
+    text-transform: none
+  &:hover
+    background-color: rgba(255, 255, 255, 0.6)
+.indexOffersAddActionButton
+  background-color: $primary
+  width: fit-content
+  width: -moz-fit-content
+  height: 32px
+  border-radius: 50px
+  padding: 15px
+  span
+    +Medium
+    font-size: 15px
+    color: #FFFFFF
+    text-transform: none
+  &:hover
+    background-color: rgba(13, 7, 11, 0.6)
+.allAvailableArticles
+  +SemiBold
+  font-size: 21px
+  color: $primary
+.emptyIndexedBox
+  border: 1px solid #D9D9DD
+  padding: 32px 12px
+  border-radius: 20px
+  margin-bottom: 32px !important
+.emptyIndexedBoxContent
+  color: $primary
+  span:nth-child(1)
+    +SemiBold
+    font-size: 21px
+  span:nth-child(2)
+    +Regular
+    font-size: 17px
+.indexedArticlesSelectAllButton
+  background-color: #FFFFFF
+  width: 90px
+  height: 32px
+  border-radius: 50px
+  padding: 14px 32px
+  span
+    +Regular
+    font-size: 15px
+    color: #525256
+    text-transform: none
+  &:hover
+    background-color: rgba(255, 255, 255, 0.6)
 @media #{$tablette}
+  .emptyIndexedBoxContent
+    text-align: center
   .indexedArticlesBox
     width: 100%
   .emptyIndexedParagraphe
@@ -47,4 +155,19 @@
       max-width: 100%
   .emptyIndexedPrimaryButtonBox
     margin: 24px auto !important
+  .indexedArticlesAddSlotStack
+    flex-direction: column
+  .indexedArticlesAddSlotBox
+    width: 100%
+    max-width: 100%
+    margin-left: 0 !important
+    margin-top: 12px !important
+    div:nth-child(1)
+      flex-direction: column
+  .indexedArticlesBoxContent
+    align-self: flex-start
+  .indexedArticlesAddBoxButton
+    margin-top: 18px
+    align-self: flex-start
+// @media #{$desktop}
 // @media #{$mobile}

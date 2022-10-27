@@ -1097,3 +1097,23 @@ export const promoCodeTextInputTheme = (primaryColor: string | undefined = undef
 		},
 	});
 };
+
+export const checkBoxTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiCheckbox: {
+				styleOverrides: {
+					root: {
+						'&.Mui-checked': {
+							color: primaryColor,
+						},
+						color: '#A3A3AD',
+					},
+				},
+			},
+		},
+	});
+}

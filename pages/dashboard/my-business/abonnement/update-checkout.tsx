@@ -138,7 +138,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 								if (nbrArticleState === data.value) {
 									setReductionState(prixTTCState);
 									return;
-								} else if (nbrArticleState < data.value) {
+								} else if (nbrArticleState > data.value) {
 									setNbrArticleState(nbrArticleState - data.value);
 									setReductionState(prix_ttc);
 								} else {
@@ -503,7 +503,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
 			if (response.status === 200 && response.data.has_shop) {
 				if (response.data.is_subscribed) {
-					const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_GET_USER_SUBSCRIPTION}`;
+					const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_USER_SUBSCRIPTION}`;
 					const response: subscriptionGetUserSubscriptionResponseType = await getApi(url, instance);
 					if (response.status === 200 && response.data) {
 						// not subscribed check for params - proceed

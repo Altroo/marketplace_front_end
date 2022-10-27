@@ -98,13 +98,13 @@ const StyledPopper = styled(PopperUnstyled)`
 `;
 
 function CustomSelect(props: SelectUnstyledProps<string>) {
-	const components: SelectUnstyledProps<string>['components'] = {
-		Root: StyledButton,
-		Listbox: StyledListbox,
-		Popper: StyledPopper,
-		...props.components,
+	const components: SelectUnstyledProps<string>['slots'] = {
+		root: StyledButton,
+		listbox: StyledListbox,
+		popper: StyledPopper,
+		...props.slots,
 	};
-	return <SelectUnstyled {...props} components={components} className={Styles.mobileOption} />;
+	return <SelectUnstyled {...props} slots={components} className={Styles.mobileOption} />;
 }
 
 function renderValue(option: SelectOption<string> | null) {

@@ -75,6 +75,10 @@ export interface SagaCallBackOnCompleteStrType extends SagaCallBackBase {
 export interface OfferPinSagaCallBackType extends SagaCallBackBase {
 	data: OfferPinType;
 }
+// Global Saga callBackType
+export interface SagaCallBackType<T> extends SagaCallBackBase {
+	data: T;
+}
 
 export interface GlobalApiPromiseError extends ApiErrorResponseType {
 	isAddInProgress: boolean;

@@ -44,10 +44,7 @@ import {
 } from '../../../../types/subscription/subscriptionTypes';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
-import QuestionMarkSVG from '../../../../public/assets/svgs/globalIcons/question-mark.svg';
-import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
 import TextAnchorButton from '../../../../components/htmlElements/buttons/textAnchorButton/textButton';
-import PrimaryAnchorButton from '../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 
 type AbonnementAvantageItemProps = {
 	text: string;
@@ -583,7 +580,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						};
 					} else {
 						// show already subscribed data
-						const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_GET_USER_SUBSCRIPTION}`;
+						const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_USER_SUBSCRIPTION}`;
 						const response: subscriptionGetUserSubscriptionResponseType = await getApi(url, instance);
 						if (response.status === 200) {
 							return {

@@ -31,7 +31,7 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 	const { data, addMobilePadding } = props;
 	const {
 		total_sells_count,
-		// total_offers_vue_count,
+		total_offers_vue_count,
 		shop_name,
 		is_subscribed,
 		shop_avatar,
@@ -40,8 +40,6 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 		total_offers_count,
 	} = data;
 	const router = useRouter();
-	// TODO - phase 2 : get from db.
-	const total_offers_vue_count = 0;
 	const myBusinessNavElements: Array<MobileSideNavElementType> = [
 		{
 			text: 'Abonnement',
@@ -55,7 +53,7 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 			text: 'Articles référencés',
 			link: DASHBOARD_INDEXED_OFFERS,
 			icon: MobileIndexedOffersSVG,
-			current: router.pathname.endsWith(DASHBOARD_INDEXED_OFFERS),
+			current: router.pathname.includes(DASHBOARD_INDEXED_OFFERS), // changed to include
 			disabled: false,
 			setContent: props.setContent,
 		},

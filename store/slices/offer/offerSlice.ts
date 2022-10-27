@@ -94,9 +94,9 @@ const initialState: OfferStateInterface = {
 	userOffersList: paginationInitial,
 	offerVuesList: {
 		...paginationInitial,
-		total_vues: null,
-		this_month: null,
-		pourcentage: null,
+		total_vues: 0,
+		this_month: 1,
+		pourcentage: '0%',
 	},
 	selectedOffer: null,
 	selectedSolder: {},
