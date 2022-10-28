@@ -80,9 +80,9 @@ function* subscriptionPatchRootSaga(payload: subscriptionPostRootType) {
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { type, ...payloadData } = payload;
-		const response: ResponseOnlyInterface = yield call(() => patchApi(url, authInstance, payloadData));
-		if (response.status === 204) {
-			return true;
+		const response: subscriptionPostResponseType = yield call(() => patchApi(url, authInstance, payloadData));
+		if (response.status === 200) {
+			return response.data;
 		}
 	}
 }

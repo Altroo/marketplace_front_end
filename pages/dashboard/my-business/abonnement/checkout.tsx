@@ -269,38 +269,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 	const inputTheme = coordonneeTextInputTheme();
 	const promoCodeTheme = promoCodeTextInputTheme();
 
-	// const TotalPriceDetailContent = () => {
-	// 	return (
-	// 		<Stack direction="column" spacing="55px">
-	// 			<Stack direction="column" spacing="18px">
-	// 				<Stack direction="row" justifyContent="space-between" className={Styles.priceDetails}>
-	// 					<span>Abonnement</span>
-	// 					<span>{prixTTCState} DH</span>
-	// 				</Stack>
-	// 				{reductionState && (
-	// 					<Stack direction="row" justifyContent="space-between" mb="18px" className={Styles.priceDetails}>
-	// 						<span>Réduction</span>
-	// 						<span className={Styles.reducedPrice}>-{reductionState} DH</span>
-	// 					</Stack>
-	// 				)}
-	// 				<Divider orientation="horizontal" flexItem className={Styles.divider} />
-	// 				<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.totalPrice}>
-	// 					<span>Total</span>
-	// 					<span>{reductionState ? prixTTCState - reductionState : prixTTCState} DH</span>
-	// 				</Stack>
-	// 			</Stack>
-	// 			<Stack direction="column" justifyContent="center" alignItems="center">
-	// 				<PrimaryButton
-	// 					buttonText="Payer"
-	// 					active={formik.isValid && !formik.isSubmitting}
-	// 					onClick={formik.handleSubmit}
-	// 					type="submit"
-	// 				/>
-	// 			</Stack>
-	// 		</Stack>
-	// 	);
-	// };
-
 	return (
 		<Stack direction="column">
 			<UserMainNavigationBar />
