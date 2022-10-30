@@ -15,8 +15,6 @@ import {
 } from "../../../types/subscription/subscriptionTypes";
 import { withCallback } from 'redux-saga-callback';
 import { Saga } from 'redux-saga';
-import { SUBSCRIPTION_DELETE_SINGLE_INDEXED_ARTICLE, SUBSCRIPTION_PATCH_ROOT } from '../../actions';
-import { OfferGetVuesResponseType } from '../../../types/offer/offerTypes';
 
 function* subscriptionGetAvailableSubscriptionSaga() {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
@@ -92,8 +90,6 @@ function* subscriptionPostCheckPromoCodeSaga(payload: { type: string; promo_code
 	const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_CHECK_PROMO_CODE}`;
 	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-		// // eslint-disable-next-line @typescript-eslint/no-unused-vars
-		// 		const { type, ...payloadData } = payload;
 		const response: subscriptionPostCheckPromoCodeResponseType = yield call(() =>
 			postApi(url, authInstance, {
 				promo_code: payload.promo_code,
@@ -107,7 +103,6 @@ function* subscriptionPostCheckPromoCodeSaga(payload: { type: string; promo_code
 
 function* subscriptionGetIndexedArticlesSaga(payload: { type: string; url: string }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-	// try {
 	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: subscriptionGetIndexedOffersResponseType = yield call(() => getApi(payload.url, instance));
@@ -119,7 +114,6 @@ function* subscriptionGetIndexedArticlesSaga(payload: { type: string; url: strin
 
 function* subscriptionGetAvailableArticlesSaga(payload: { type: string; url: string }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-	// try {
 	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: subscriptionGetIndexedOffersResponseType = yield call(() => getApi(payload.url, instance));
@@ -132,7 +126,6 @@ function* subscriptionGetAvailableArticlesSaga(payload: { type: string; url: str
 function* subscriptionDeleteSingleIndexedArticleSaga(payload: { type: string; pk: number | string }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_INDEXED_ARTICLES_ROOT}${payload.pk}`;
-	// try {
 	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: ResponseOnlyInterface = yield call(() => deleteApi(url, instance));

@@ -30,12 +30,6 @@ const RadioCheckElement: React.FC<Props> = (props: Props) => {
 		) {
 			setShowOptional(false);
 		}
-		// if (!open) {
-		// 	if (emptyStates) {
-		// 		console.log('EMPTY STATES CALLED');
-		// 		emptyStates();
-		// 	}
-		// }
 		if (defaultValue && !switchOpenHasRun) {
 			setOpen(defaultValue);
 			setSwitchOpenHasRun(true);
@@ -54,13 +48,11 @@ const RadioCheckElement: React.FC<Props> = (props: Props) => {
 						alignItems="center"
 						className={Styles.stackRootWrapper}
 					>
-						{/* sm={6} xs={6} */}
 						<Grid item>
 							<span className={Styles.title}>
 								{props.title} {showOptional ? <span>(optionnel)</span> : null}
 							</span>
 						</Grid>
-						{/* md={3} sm={6} xs={6} */}
 						<Grid item>
 							<IosSwitch
 								checked={open}

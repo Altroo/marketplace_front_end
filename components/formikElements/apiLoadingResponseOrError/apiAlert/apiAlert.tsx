@@ -1,5 +1,4 @@
 import React, { CSSProperties } from 'react';
-// import Styles from './apiAlert.module.sass';
 import { Alert } from '@mui/material';
 
 type Props = {

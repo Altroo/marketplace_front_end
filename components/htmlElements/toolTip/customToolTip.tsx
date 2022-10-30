@@ -1,5 +1,4 @@
 import React from 'react';
-import Styles from './customToolTip.module.sass';
 import { ThemeProvider, Tooltip } from "@mui/material";
 import Zoom from '@mui/material/Zoom';
 import { Theme } from "@mui/material/styles/createTheme";

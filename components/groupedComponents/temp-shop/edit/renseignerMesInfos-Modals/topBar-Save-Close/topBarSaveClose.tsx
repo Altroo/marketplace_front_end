@@ -1,7 +1,6 @@
 import React from 'react';
 import Styles from './topBarSaveClose.module.sass';
 import PrimaryButton from '../../../../../htmlElements/buttons/primaryButton/primaryButton';
-import Image from 'next/image';
 import CloseSVG from '../../../../../../public/assets/svgs/navigationIcons/close.svg';
 import { Stack } from '@mui/material';
 import { default as ImageFuture } from 'next/future/image';

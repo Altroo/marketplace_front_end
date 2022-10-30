@@ -5,7 +5,6 @@ import VerifiedSVG from '../../../../../public/assets/svgs/globalIcons/verified.
 import { Skeleton, ThemeProvider, Tooltip } from '@mui/material';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import Styles from './shopVerified.module.sass';
-import { default as ImageFuture } from 'next/future/image';
 
 type Props = {
 	avatar: string;

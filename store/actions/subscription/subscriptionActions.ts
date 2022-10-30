@@ -1,6 +1,5 @@
 import * as Types from '../index';
 import { PaymentTypeType } from "../../../types/subscription/subscriptionTypes";
-import { SUBSCRIPTION_GET_AVAILABLE_ARTICLES, SUBSCRIPTION_POST_INDEXED_ARTICLE_ROOT } from "../index";
 
 // GET : /api/1.0.0/subscription
 export const subscriptionGetAvailableSubscriptionAction = () => {

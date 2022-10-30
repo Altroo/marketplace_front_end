@@ -1,28 +1,16 @@
-import { Stack, Divider, AccordionSummary, Accordion, ThemeProvider, Button } from '@mui/material';
+import { Stack, Button } from '@mui/material';
 import React from 'react';
 import Styles from './mobileDashboardNav.module.sass';
 import MonProfilSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mon-profil.svg';
-import AdresseLivraisonSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/adresses-de-livraison.svg';
-import EvaluationSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/evaluation.svg';
 import AdresseEmailSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/adresse-email.svg';
 import MotDePasseSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mot-de-passe.svg';
-import ComptesReliesSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/comptes-relies.svg';
-import GestionDesDonnesSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/gestion-des-donnees.svg';
-import CompteBloquesSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/comptes-bloques.svg';
 import { default as ImageFuture } from 'next/future/image';
 import { useRouter } from 'next/router';
 import {
 	DASHBOARD_ADRESSE_EMAIL,
-	DASHBOARD_BLOCKED_ACCOUNTS,
-	DASHBOARD_DELIVERIES,
-	DASHBOARD_LINKED_ACCOUNTS,
-	DASHBOARD_MANAGE_ACCOUNT,
 	DASHBOARD_PASSWORD,
 	DASHBOARD_EDIT_PROFILE,
-	DASHBOARD_RATINGS,
 } from '../../../../utils/routes';
-import AccordionDropDownSVG from '../../../../public/assets/svgs/globalIcons/filter-drop-down.svg';
-import { FilterAccordionTheme } from '../../../../utils/themes';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 
 export type MobileSideNavElementType = {
@@ -37,27 +25,6 @@ export type MobileSideNavElementType = {
 export const MobileSideNavElement: React.FC<MobileSideNavElementType> = (props: MobileSideNavElementType) => {
 	const router = useRouter();
 	const { current, setContent } = props;
-
-	// useEffect(() => {
-	// 	// window.onpopstate = () => {
-	// 	// 	// router.push(/*route logic here*/)
-	// 	// 	if (current) {
-	// 	// 		setContent(false);
-	// 	// 	}
-	// 	// };
-	// 	router.beforePopState(({ as }) => {
-	// 		if (current) {
-	// 			// Will run when leaving the current page; on back/forward actions
-	// 			// Add your logic here, like toggling the modal state
-	// 			setContent(false);
-	// 			return false;
-	// 		}
-	// 		return true;
-	// 	});
-	// 	return () => {
-	// 		router.beforePopState(() => true);
-	// 	};
-	// }, [current, router, setContent]);
 
 	return (
 		<Stack direction="row" sx={{ width: '100%' }} className={`${props.disabled && Styles.disabledElement}`}>
@@ -79,14 +46,6 @@ export const MobileSideNavElement: React.FC<MobileSideNavElementType> = (props: 
 	);
 };
 
-const AccordionElement: React.FC<Omit<MobileSideNavElementType, 'link'>> = (props: Omit<MobileSideNavElementType, 'link'>) => {
-	return (
-		<Stack direction="row" spacing={2} sx={{ width: '100%' }}>
-			<ImageFuture src={props.icon} alt="" width="0" height="0" sizes="100vw" className={Styles.mainIcon} />
-			<span className={Styles.unselectedElement}>{props.text}</span>
-		</Stack>
-	);
-};
 
 type Props = {
 	setContent: React.Dispatch<React.SetStateAction<boolean>>;
@@ -105,22 +64,6 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 			current: router.pathname.endsWith(DASHBOARD_EDIT_PROFILE),
 			setContent: props.setContent,
 		},
-		{
-			text: 'Adresses de livraison',
-			link: DASHBOARD_DELIVERIES,
-			icon: AdresseLivraisonSVG,
-			current: router.pathname.endsWith(DASHBOARD_DELIVERIES),
-			disabled: true,
-			setContent: props.setContent,
-		},
-		{
-			text: 'Évaluation',
-			link: DASHBOARD_RATINGS,
-			icon: EvaluationSVG,
-			disabled: true,
-			current: router.pathname.endsWith(DASHBOARD_RATINGS),
-			setContent: props.setContent,
-		},
 	];
 	const parametresNavElements: Array<MobileSideNavElementType> = [
 		{
@@ -137,14 +80,6 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 			icon: MotDePasseSVG,
 			disabled: false,
 			current: router.pathname.endsWith(DASHBOARD_PASSWORD),
-			setContent: props.setContent,
-		},
-		{
-			text: 'Comptes reliés',
-			link: DASHBOARD_LINKED_ACCOUNTS,
-			icon: ComptesReliesSVG,
-			disabled: true,
-			current: router.pathname.endsWith(DASHBOARD_LINKED_ACCOUNTS),
 			setContent: props.setContent,
 		},
 	];
@@ -210,53 +145,8 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 								/>
 							);
 						})}
-						<Stack direction="column" className={Styles.accordionStack}>
-							<ThemeProvider theme={FilterAccordionTheme()}>
-								<Accordion disableGutters square disabled>
-									<AccordionSummary
-										expandIcon={<ImageFuture src={AccordionDropDownSVG} alt="" width={16} height={16} />}
-										sx={{ marginBottom: '0px !important' }}
-									>
-										<AccordionElement
-											text="Gestion des données"
-											// link={DASHBOARD_MANAGE_ACCOUNT}
-											icon={GestionDesDonnesSVG}
-											disabled={true}
-											current={router.pathname.endsWith(DASHBOARD_MANAGE_ACCOUNT)}
-											setContent={props.setContent}
-										/>
-									</AccordionSummary>
-									{/*<AccordionDetails>*/}
-									{/*	<Stack direction="column" spacing={2}>*/}
-									{/* <SideNavElement*!/*/}
-									{/* text="Comptes bloqués"*!/*/}
-									{/* link={DASHBOARD_BLOCKED_ACCOUNTS}*!/*/}
-									{/* icon={CompteBloquesSVG}*!/*/}
-									{/* current={false}*!/*/}
-									{/* disabled={true}*!/*/}
-									{/*	<SideNavElement*!/*/}
-									{/*		text="Comptes bloqués"*!/*/}
-									{/*		link={DASHBOARD_BLOCKED_ACCOUNTS}*!/*/}
-									{/*		icon={CompteBloquesSVG}*!/*/}
-									{/*		current={false}*!/*/}
-									{/*		disabled={true}*!/*/}
-									{/* */}
-									{/*	</Stack>*/}
-									{/*</AccordionDetails>*/}
-								</Accordion>
-							</ThemeProvider>
-						</Stack>
 					</Stack>
 				</Stack>
-				<Divider orientation="horizontal" flexItem />
-				<MobileSideNavElement
-					text="Comptes bloqués"
-					link={DASHBOARD_BLOCKED_ACCOUNTS}
-					icon={CompteBloquesSVG}
-					disabled={true}
-					current={router.pathname.endsWith(DASHBOARD_BLOCKED_ACCOUNTS)}
-					setContent={props.setContent}
-				/>
 			</Stack>
 		</Stack>
 	);

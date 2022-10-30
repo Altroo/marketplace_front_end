@@ -1,11 +1,9 @@
 import React, { ForwardedRef, forwardRef } from 'react';
 import Styles from './largeBorderIconAnchorButton.module.sass';
 import Button from '@mui/material/Button';
-import Image from 'next/image';
 import Link from 'next/link';
 import {CustomTheme} from '../../../../utils/themes';
 import { ThemeProvider, Stack } from '@mui/material';
-import AvatarIconSVG from "../../../../public/assets/svgs/globalIcons/avatar.svg";
 import { default as ImageFuture } from "next/future/image";
 
 type Props = {

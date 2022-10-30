@@ -1,4 +1,4 @@
-import { CitiesType, CountriesType } from '../../types/places/placesTypes';
+import { CountriesType } from '../../types/places/placesTypes';
 import { AccountGenderType } from '../../types/account/accountTypes';
 import { Dayjs } from "dayjs";
 

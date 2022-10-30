@@ -20,7 +20,6 @@ import {
 } from '../../../types/shop/shopTypes';
 import { ApiErrorResponseType, IconColorType } from "../../../types/_init/_initTypes";
 import { apiErrorInitialState } from "../_init/_initSlice";
-// import { HYDRATE } from "next-redux-wrapper";
 
 // Extra reducers actions
 export const userShopGETApiErrorAction = createAction<ApiErrorResponseType>('userShopGETApiErrorAction');
@@ -36,7 +35,6 @@ const initialState:
 	phoneCodes: [],
 	phoneCodesApi: apiErrorInitialState,
 	newShop: {},
-	// newShopApi: apiErrorInitialState,
 };
 
 const shopSlice = createSlice({
@@ -46,36 +44,29 @@ const shopSlice = createSlice({
 		setPostShopIsLoading: (state) => {
 			state.userShopApi.isAddInProgress = true;
 			state.userShopApi.addPromiseStatus = 'PENDING';
-			// state.userShopApi.error = apiErrorInitialState.error;
-			// return state;
 		},
 		setPostShopState: (state, action: PayloadAction<ShopPostRootTokenType | ShopPostRootUniqueIDType>) => {
 			state.userShop = action.payload;
 			state.userShopApi.addPromiseStatus = 'RESOLVED';
 			state.userShopApi.isAddInProgress = false;
 			state.userShopApi.error = apiErrorInitialState.error;
-			// return state;
 		},
 		setGetShopIsLoading: (state) => {
 			state.userShopApi.isFetchInProgress = true;
 			state.userShopApi.fetchPromiseStatus = 'PENDING';
 			state.userShopApi.error = apiErrorInitialState.error;
-			// return state;
 		},
 		setGetShopState: (state, action: PayloadAction<ShopGetRootTokenType | ShopGetRootUniqueIDType>) => {
 			state.userShop = action.payload;
 			state.userShopApi.fetchPromiseStatus = 'RESOLVED';
 			state.userShopApi.isFetchInProgress = false;
-			// return state;
 		},
 		setGetPhoneCodes: (state, action: PayloadAction<Array<string>>) => {
 			state.phoneCodes = action.payload;
-			// return state;
 		},
 		setPatchShopDataIsLoading: (state) => {
 			state.userShopApi.isEditInProgress = true;
 			state.userShopApi.editPromiseStatus = 'PENDING';
-			// return state;
 		},
 		setShopName: (state, action: PayloadAction<ShopNameType>) => {
 			if (state.userShop) {
@@ -83,13 +74,11 @@ const shopSlice = createSlice({
 				state.userShopApi.editPromiseStatus = 'RESOLVED';
 				state.userShopApi.isEditInProgress = false;
 			}
-			// return state;
 		},
 		setShopAvatar: (state, action: PayloadAction<ShopAvatarType>) => {
 			if (state.userShop) {
 				state.userShop.avatar = action.payload.avatar;
 			}
-			// return state;
 		},
 		setShopColors: (state, action: PayloadAction<ShopColorType>) => {
 			if (state.userShop) {
@@ -98,13 +87,11 @@ const shopSlice = createSlice({
 				state.userShop.border = action.payload.border;
 				state.userShop.icon_color = action.payload.icon_color;
 			}
-			// return state;
 		},
 		setShopFont: (state, action: PayloadAction<ShopFontType>) => {
 			if (state.userShop) {
 				state.userShop.font_name = action.payload.font_name;
 			}
-			// return state;
 		},
 		setShopPhoneContact: (state, action: PayloadAction<ShopContactPhoneType>) => {
 			if (state.userShop) {
@@ -116,7 +103,6 @@ const shopSlice = createSlice({
 						state.userShop.contact_mode = action.payload.contact_mode;
 					}
 			}
-			// return state;
 		},
 		setShopBio: (state, action: PayloadAction<ShopBioType>) => {
 			if (state.userShop) {
@@ -126,7 +112,6 @@ const shopSlice = createSlice({
 					state.userShopApi.isEditInProgress = false;
 				}
 			}
-			// return state;
 		},
 		setShopAvailability: (state, action: PayloadAction<ShopAvailabilityType>) => {
 			if (state.userShop) {
@@ -140,7 +125,6 @@ const shopSlice = createSlice({
 					state.userShopApi.isEditInProgress = false;
 				}
 			}
-			// return state;
 		},
 		setShopContact: (state, action: PayloadAction<ShopContactType>) => {
 			if (state.userShop) {
@@ -156,7 +140,6 @@ const shopSlice = createSlice({
 					state.userShopApi.isEditInProgress = false;
 				}
 			}
-			// return state;
 		},
 		setShopAddress: (state, action: PayloadAction<ShopAddressType>) => {
 			if (state.userShop) {
@@ -168,15 +151,6 @@ const shopSlice = createSlice({
 					state.userShop.km_radius = action.payload.km_radius;
 				}
 			}
-			// return state;
-		},
-		setCreator: (state, action: PayloadAction<boolean>) => {
-			if (state.userShop) {
-				if ('creator' in state.userShop) {
-					state.userShop.creator = action.payload;
-				}
-			}
-			// return state;
 		},
 		setWSShopAvatar: (state, action: PayloadAction<string>) => {
 			// payload has shop_avatar
@@ -185,16 +159,13 @@ const shopSlice = createSlice({
 					state.userShop.avatar = action.payload;
 				}
 			}
-			// return state;
 		},
 		// Step by step shop creation
 		setNewShopName: (state, action: PayloadAction<string>) => {
 			state.newShop.shop_name = action.payload;
-			// return state;
 		},
 		setNewShopAvatar: (state, action: PayloadAction<ArrayBuffer | string>) => {
 			state.newShop.avatar = action.payload;
-			// return state;
 		},
 		setNewShopColor: (
 			state,
@@ -204,24 +175,13 @@ const shopSlice = createSlice({
 			state.newShop.bg_color_code = action.payload.bg_color_code;
 			state.newShop.border = action.payload.border;
 			state.newShop.icon_color = action.payload.icon_color;
-			// return state;
 		},
 		setNewShopFont: (state, action: PayloadAction<ShopFontNameType>) => {
 			state.newShop.font_name = action.payload;
-			// return state;
 		},
 		setBorderIconColor: (state, action: PayloadAction<{border: string, iconColor: IconColorType}>) => {
 			state.newShop.border = action.payload.border;
 			state.newShop.icon_color = action.payload.iconColor;
-			// return state;
-		},
-		setBorder: (state, action: PayloadAction<string>) => {
-			state.newShop.border = action.payload;
-			// return state;
-		},
-		setIconColor: (state, action: PayloadAction<IconColorType>) => {
-			state.newShop.icon_color = action.payload;
-			// return state;
 		},
 		initShop: () => {
 			return initialState;
@@ -233,26 +193,18 @@ const shopSlice = createSlice({
 				state.userShopApi.error = action.payload.error;
 				state.userShopApi.fetchPromiseStatus = 'REJECTED';
 				state.userShopApi.isFetchInProgress = false;
-				// return state;
 			})
 			.addCase(userShopPOSTApiErrorAction, (state, action) => {
 				state.userShopApi.error = action.payload.error;
 				state.userShopApi.addPromiseStatus = 'REJECTED';
 				state.userShopApi.isAddInProgress = false;
-				// return state;
 			}).addCase(userShopPATCHApiErrorAction, (state, action) => {
 				state.userShopApi.error = action.payload.error;
 				state.userShopApi.editPromiseStatus = 'REJECTED';
 				state.userShopApi.isEditInProgress = false;
-				// return state;
 			})
 		;
 	},
-	// extraReducers: {
-	// 	[HYDRATE]: (state, action) => {
-	// 		return { ...state, ...action.payload.shop };
-	// 	},
-	// },
 });
 
 export const {
@@ -271,7 +223,6 @@ export const {
 	setShopAvailability,
 	setShopContact,
 	setShopAddress,
-	setCreator,
 	setWSShopAvatar,
 	initShop,
 	setNewShopName,
@@ -279,8 +230,6 @@ export const {
 	setNewShopColor,
 	setNewShopFont,
 	setBorderIconColor,
-	setBorder,
-	setIconColor,
 } = shopSlice.actions;
 
 export default shopSlice.reducer;

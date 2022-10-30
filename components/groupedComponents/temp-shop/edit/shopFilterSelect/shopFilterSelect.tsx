@@ -5,9 +5,6 @@ import PopperUnstyled from '@mui/base/PopperUnstyled';
 import { styled } from '@mui/material';
 import { hexToRGB } from '../../../../../utils/helpers';
 import Styles from './shopFilterSelect.module.sass';
-// import { useRouter } from 'next/router';
-// import { useEffect } from 'react';
-// import { GetServerSidePropsContext, NextPage } from 'next';
 
 const grey = {
 	800: '#2D3843',

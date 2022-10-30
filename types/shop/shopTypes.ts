@@ -1,12 +1,10 @@
 import { AddShopClass, AuthShopClass, UserShopClass } from '../../models/shop/AuthShopClass';
 import { GlobalApiPromiseError, Nullable, ResponseDataInterface } from "../_init/_initTypes";
-import { NextRouter } from "next/router";
 // ('L', 'Light'), ('R', 'Regular'), ('S', 'Semi-bold'), ('B', 'Black'),
 export type ShopFontNameType = 'L' | 'R' | 'S' | 'B';
 // ('A', 'Address'), ('S', 'Sector')
 export type ShopZoneByType = 'A' | 'S';
 // ('A', 'En attente de confirmation'), ('R', 'Rejeté'), ('C', 'Confirmé'),
-// export type ShopCreatorStatusType = "A" | "R" | "C";
 export type ShopDaysType = 'MO' | 'TU' | 'WE' | 'TH' | 'FR' | 'SA' | 'SU' | 'AL';
 
 export interface ShopPostRootType extends AuthShopClass {
@@ -74,7 +72,6 @@ export interface ShopStateInterface<T, K> {
 	phoneCodes: Array<string>;
 	phoneCodesApi: GlobalApiPromiseError,
 	newShop: AddShopClass | Record<string, unknown>;
-	// newShopApi: GlobalApiPromiseError,
 }
 
 export type ShopGetPhoneCodesResponseType = ResponseDataInterface<PhoneCodesType>;
@@ -102,10 +99,6 @@ export type ShopContactPhoneType = Pick<
 
 export type ShopPatchContactPhoneType = ResponseDataInterface<ShopContactPhoneType>;
 
-// export type ShopWhatsappType = Pick<UserShopClass, 'whatsapp_code' | 'whatsapp'>;
-
-// export type ShopPatchWhatsappType = ResponseDataInterface<ShopWhatsappType>;
-
 export type ShopBioType = Pick<UserShopClass, 'bio'>;
 
 export type ShopPatchBioType = ResponseDataInterface<ShopBioType>;
@@ -127,5 +120,3 @@ export type ShopPatchContactType = ResponseDataInterface<ShopContactType>;
 export type ShopAddressType = Pick<UserShopClass, 'zone_by' | 'longitude' | 'latitude' | 'address_name' | 'km_radius'>;
 
 export type ShopPatchAddressType = ResponseDataInterface<ShopAddressType>;
-
-// export type TypeExcludedShopPostRootType = Omit<ShopPostRootType, 'type'>;

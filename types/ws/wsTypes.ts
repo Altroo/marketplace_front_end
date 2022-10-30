@@ -5,47 +5,6 @@ export type WSEvent<T> = {
 };
 /*
 "message": {
-	"pk": instance.id,
-	"initiator_pk": instance.user.pk,
-	"recipient_pk": instance.recipient.pk,
-	"body": body,
-}
- */
-export type WSChatNewMessage = {
-	type: WSEventType, // NEW_MESSAGE
-	pk: number,
-	initiator: number,
-	recipient: number,
-	body: string
-};
-/*
-"message": {
-	"pk": self.id,
-	"initiator": self.user.id,
-	"recipient": self.recipient.id,
-}
- */
-export type WSChatMessageSeen = {
-	type: WSEventType, // MSG_SEEN
-	pk: number,
-	initiator: number,
-	recipient: number,
-};
-/*
-"message": {
-	"user_pk": self.user.pk,
-	"online": True,
-	"recipient_pk": user_pk,
-}
- */
-export type WSChatUserStatus = {
-	type: WSEventType, // USER_STATUS
-	user: number,
-	online: boolean,
-	recipient: number,
-};
-/*
-"message": {
 	"pk": offer.pk,
 	"offer_thumbnail": offer.get_absolute_picture_1_thumbnail,
 }

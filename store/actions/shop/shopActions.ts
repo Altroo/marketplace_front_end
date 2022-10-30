@@ -37,20 +37,6 @@ export const setShopFontAction = (font_name: ShopFontNameType) => {
 	};
 };
 
-export const setShopBorderAction = (border: string) => {
-	return {
-		type: Types.SET_SHOP_BORDER,
-		border,
-	};
-};
-
-export const setShopIconColorAction = (iconColor: IconColorType) => {
-	return {
-		type: Types.SET_SHOP_ICON_COLOR,
-		iconColor,
-	};
-};
-
 export const loadNewAddedShopAction = () => {
 	return {
 		type: Types.LOAD_NEW_ADDED_SHOP_DATA,
@@ -79,30 +65,6 @@ export const shopPostRootAction = (
 	};
 };
 
-// // POST : /api/1.0.0/shop/
-// export const shopPostRootAction =
-// 	(
-// 		shop_name: string,
-// 		avatar: ArrayBuffer | string,
-// 		color_code: string,
-// 		bg_color_code: string,
-// 		border: string,
-// 		icon_color: IconColorType,
-// 		font_name: ShopFontNameType,
-// 	) =>
-// 	async (dispatch: AppDispatch) => {
-// 		dispatch({
-// 			type: Types.SHOP_POST_ROOT,
-// 			shop_name,
-// 			avatar,
-// 			color_code,
-// 			bg_color_code,
-// 			border,
-// 			icon_color,
-// 			font_name,
-// 		});
-// 	};
-
 // GET : /api/1.0.0/shop/
 export const shopGetRootAction = (qaryb_link?: string) => {
 	return {
@@ -112,7 +74,7 @@ export const shopGetRootAction = (qaryb_link?: string) => {
 };
 
 // GET : /api/1.0.0/shop/phone_codes/
-export const shopGetPhoneCodesAction = () => {
+export const shopGetPhoneCodesAction = () => { // <= saga used as export
 	return {
 		type: Types.SHOP_GET_PHONE_CODES,
 	};
@@ -236,11 +198,5 @@ export const shopPatchAddressAction = (
 		latitude,
 		address_name,
 		km_radius,
-	};
-};
-
-export const shopPostCreatorAction = () => {
-	return {
-		type: Types.SHOP_POST_CREATOR,
 	};
 };

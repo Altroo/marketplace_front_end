@@ -7,11 +7,7 @@ import JumelleIlluSVG from '../../../../public/assets/images/jumelle-illu.svg';
 import { useRouter } from "next/router";
 import { DASHBOARD_SUBSCRIPTION } from "../../../../utils/routes";
 
-type Props = {
-	children?: React.ReactNode;
-};
-
-const ShopNotIndexed: React.FC<Props> = (props: Props) => {
+const ShopNotIndexed: React.FC = () => {
 	const router = useRouter();
 
 	return (

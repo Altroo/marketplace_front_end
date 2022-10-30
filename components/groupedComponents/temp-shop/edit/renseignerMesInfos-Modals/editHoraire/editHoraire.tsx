@@ -7,7 +7,7 @@ import {
 	getNewShopIsEditInProgress, getShopAfternoonHourFrom, getShopMorningHourFrom, getShopMorningHourTo,
 	getShopAfternoonHourTo, getShopOpeningDays
 } from "../../../../../../store/selectors";
-import { Chip, Stack, createTheme, ThemeProvider, TextField } from '@mui/material';
+import { Chip, Stack, ThemeProvider, TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { shopAvailabilityDaysSchema } from '../../../../../../utils/formValidationSchemas';
 import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
@@ -15,14 +15,7 @@ import HelperDescriptionHeader from '../../../../../headers/helperDescriptionHea
 import ApiProgress from '../../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import ApiAlert from '../../../../../formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
 import { shopPatchAvailabilityAction } from '../../../../../../store/actions/shop/shopActions';
-import { CustomTheme, horairesInputTheme } from "../../../../../../utils/themes";
-// import { ShopDaysType } from '../../../../../types/shop/shopTypes';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-// import { MobileTimePicker, TimePicker, DesktopTimePicker, StaticTimePicker } from '@mui/x-date-pickers';
-// import moment from 'moment/moment';
-// import { DesktopTimePicker } from 'formik-mui-lab';
+import { horairesInputTheme } from "../../../../../../utils/themes";
 
 type Props = {
 	handleClose: () => void;
@@ -198,7 +191,6 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 						errors,
 						isValid,
 						isSubmitting,
-						// setFieldValue,
 					}) => (
 						<Form>
 							<Stack

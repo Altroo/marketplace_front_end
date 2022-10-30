@@ -408,26 +408,6 @@ export const offerPutRootServiceAction = (
 	};
 };
 
-export const offerGetRootAction = (pk: number) => {
-	return {
-		type: Types.OFFER_GET_ROOT,
-		pk,
-	};
-};
-
-export const offerGetOffersByShopIDAction = (
-	pk: number,
-	next_page: string,
-	sort_by?: string,
-) => {
-	return {
-		type: Types.OFFER_GET_OFFERS_BY_SHOP_ID,
-		pk,
-		next_page,
-		sort_by
-	};
-};
-
 export const offerGetOffersByShopIDWithQueryParamsAction = (
 	url: string,
 ) => {
@@ -454,12 +434,6 @@ export const offerGetAvailableFiltersByUniqueID = (
 		unique_id,
 	}
 }
-
-export const setEmptySelectedOffer = () => {
-	return {
-		type: Types.OFFER_SET_EMPTY_SELECTED_OFFER,
-	};
-};
 
 export const setEmptyUserLocalOffer = () => {
 	return {
@@ -507,11 +481,6 @@ export const offerPostPinWithCallBackAction = (offer_pk: number) => {
 	};
 }
 
-export const offerGetMyOffersAction = () => {
-	return {
-		type: Types.OFFER_GET_MY_OFFERS,
-	};
-};
 
 export const offerPostSolderAction = (
 	offer_pk: number,
@@ -525,15 +494,6 @@ export const offerPostSolderAction = (
 		solder_type,
 		solder_value,
 		router,
-	};
-};
-
-
-
-export const offerGetSolderAction = (offer_pk: number) => {
-	return {
-		type: Types.OFFER_GET_SOLDER,
-		offer_pk,
 	};
 };
 

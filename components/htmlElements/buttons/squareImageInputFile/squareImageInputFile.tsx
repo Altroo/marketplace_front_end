@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import Styles from './squareImageInputFile.module.sass';
 import { Button, Stack, ThemeProvider } from '@mui/material';
 import BlueAdd from '../../../../public/assets/svgs/globalIcons/blue-add.svg';
@@ -7,20 +6,6 @@ import { getDefaultTheme } from '../../../../utils/themes';
 import { default as ImageFuture } from "next/future/image";
 
 type Props = {
-	// // React image uploading has any signature in it's source
-	// dragProps: {
-	// 	// eslint-disable-next-line
-	// 	onDrop: (e: any) => void;
-	// 	// eslint-disable-next-line
-	// 	onDragEnter: (e: any) => void;
-	// 	// eslint-disable-next-line
-	// 	onDragLeave: (e: any) => void;
-	// 	// eslint-disable-next-line
-	// 	onDragOver: (e: any) => void;
-	// 	// eslint-disable-next-line
-	// 	onDragStart: (e: any) => void;
-	// };
-	// isDragging: boolean;
 	onImageUpload: () => void;
 	children?: React.ReactNode;
 };

@@ -1,5 +1,4 @@
 import React, { CSSProperties } from 'react';
-// import Styles from "./apiProgress.module.sass";
 import { Box, CircularProgress, Backdrop } from '@mui/material';
 
 type Props = {

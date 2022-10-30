@@ -1,9 +1,8 @@
 import React from 'react';
-import Styles from './zoneByNav.module.sass';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import { createTheme, ThemeProvider } from '@mui/material';
-import { CustomTheme, doubleTabNavigationTheme } from "../../../utils/themes";
+import { ThemeProvider } from '@mui/material';
+import { doubleTabNavigationTheme } from "../../../utils/themes";
 import { ShopZoneByType } from "../../../types/shop/shopTypes";
 
 type Props = {

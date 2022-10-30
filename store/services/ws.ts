@@ -1,8 +1,5 @@
 import { eventChannel } from 'redux-saga';
 import {
-	WSChatMessageSeen,
-	WSChatNewMessage,
-	WSChatUserStatus,
 	WSEvent,
 	WSEventType,
 	WSMaintenance,
@@ -12,12 +9,9 @@ import {
 } from '../../types/ws/wsTypes';
 import {
 	WSMaintenanceAction,
-	WSMessageSeenAction,
-	WSNewMessageAction,
 	WSOfferThumbnailAction,
 	WSShopAvatarAction,
 	WSUserAvatarAction,
-	WSUserStatusAction,
 } from '../actions/ws/wsActions';
 
 let ws: WebSocket;
@@ -40,19 +34,7 @@ export function initWebsocket(token: string) {
 					if (msg) {
 						const { message } = msg;
 						const SignalType : WSEventType = message.type;
-						if (SignalType === 'NEW_MESSAGE') {
-							const { message } = msg as WSEvent<WSChatNewMessage>;
-							const {pk, initiator, recipient, body} = message;
-							return emitter(WSNewMessageAction(pk, initiator, recipient, body));
-						} else if (SignalType === 'MSG_SEEN') {
-							const { message } = msg as WSEvent<WSChatMessageSeen>;
-							const {pk, initiator, recipient} = message;
-							return emitter(WSMessageSeenAction(pk, initiator, recipient));
-						} else if (SignalType === 'USER_STATUS') {
-							const { message } = msg as WSEvent<WSChatUserStatus>;
-							const {user, online, recipient} = message;
-							return emitter(WSUserStatusAction(user, online, recipient));
-						} else if (SignalType === 'OFFER_THUMBNAIL') {
+						if (SignalType === 'OFFER_THUMBNAIL') {
 							const { message } = msg as WSEvent<WSOfferThumbnails>;
 							const {pk, offer_thumbnail} = message;
 							return emitter(WSOfferThumbnailAction(pk, offer_thumbnail));

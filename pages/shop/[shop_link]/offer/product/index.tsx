@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from '../../../../../styles/temp-offer/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../../styles/temp-shop/create/shopCreateShared.module.sass';
+import Styles from '../../../../../styles/offers/create/offerCreateShared.module.sass';
+import SharedStyles from '../../../../../styles/shop/create/shopCreateShared.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
@@ -16,7 +16,7 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
-	TEMP_SHOP_ADD_SHOP_NAME,
+	REAL_SHOP_ADD_SHOP_NAME,
 } from '../../../../../utils/routes';
 import { useRouter } from 'next/router';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
@@ -92,7 +92,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					return {
 						redirect: {
 							permanent: false,
-							destination: TEMP_SHOP_ADD_SHOP_NAME,
+							destination: REAL_SHOP_ADD_SHOP_NAME,
 						},
 					};
 				}
@@ -101,7 +101,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 				return {
 					redirect: {
 						permanent: false,
-						destination: TEMP_SHOP_ADD_SHOP_NAME,
+						destination: REAL_SHOP_ADD_SHOP_NAME,
 					},
 				};
 			}
@@ -111,7 +111,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		return {
 			redirect: {
 				permanent: false,
-				destination: TEMP_SHOP_ADD_SHOP_NAME,
+				destination: REAL_SHOP_ADD_SHOP_NAME,
 			},
 		};
 	}

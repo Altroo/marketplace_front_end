@@ -1,7 +1,7 @@
 import React from "react";
 import Styles from "./mobileOffersFilterButton.module.sass";
 import { CustomTheme } from "../../../../utils/themes";
-import { Fab, ThemeProvider, Box } from "@mui/material";
+import { Fab, ThemeProvider } from "@mui/material";
 import Image from "next/image";
 
 type Props = {

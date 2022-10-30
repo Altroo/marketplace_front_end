@@ -76,21 +76,6 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 	const [availableFilters, setAvailableFilters] = useState<OfferGetAvailableShopFiltersType>(availableFiltersInit);
 	const [applyFiltersClicked, setApplyFiltersClicked] = useState<boolean>(false);
 
-	// const getCurrentQueryParams = useCallback(async () => {
-	// 	return generateQueryParams(router.query);
-	// }, [router.query]);
-	// const checkNextPage = async (index: number) => {
-	// 	if (isLoadingNextPageInProgress) {
-	// 		return;
-	// 	}
-	// 	if (offersLinkedHashMap.offersMap) {
-	// 		if (index >= offersLinkedHashMap.offersMap.size() - 1) {
-	// 			setIsLoadingNextPageInProgress(true);
-	// 			await getOffers();
-	// 			setIsLoadingNextPageInProgress(false);
-	// 		}
-	// 	}
-	// };
 	const [availableFiltersHasData, setAvailableFiltersHasData] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -164,22 +149,16 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		};
 
 		const loadFirstPage = () => {
-			// setIsLoadingInitInProgress(true);
 			getOffers(true);
 		};
 
 		// on page first load
 		if (!firstPageLoaded) {
 			loadFirstPage();
-			// setFirstPageLoaded(true);
 		}
 
 		// load more pressed
 		if (loadMoreState) {
-			// if (isLoadingNextPageInProgress) {
-			// 	return;
-			// }
-			// setIsLoadingNextPageInProgress(true);
 			if (offersLinkedHashMap.offersMap) {
 				const isReset = offersLinkedHashMap.offersMap.size() >= offersLinkedHashMap.count;
 				getOffers(isReset);
@@ -282,13 +261,6 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 							/>
 						</Stack>
 						<Stack direction="row" justifyContent="space-between" gap="28px" className={Styles.rootShopFilterWrapper}>
-							{/* filter search removed */}
-							{/*<IconTextInput*/}
-							{/*	active={true}*/}
-							{/*	placeholder="Rechercher"*/}
-							{/*	value={searchValue}*/}
-							{/*	onChange={(e) => setSearchValue(e.target.value)}*/}
-							{/*/>*/}
 							{availableFiltersHasData && (
 								<Stack direction="column" className={Styles.shopFilterWrapperDesktopOnly}>
 									<AccordionFilter

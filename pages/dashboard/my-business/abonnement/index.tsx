@@ -44,7 +44,7 @@ import {
 } from '../../../../types/subscription/subscriptionTypes';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
-import TextAnchorButton from '../../../../components/htmlElements/buttons/textAnchorButton/textButton';
+import TextAnchorButton from '../../../../components/htmlElements/buttons/textAnchorButton/textAnchorButton';
 
 type AbonnementAvantageItemProps = {
 	text: string;

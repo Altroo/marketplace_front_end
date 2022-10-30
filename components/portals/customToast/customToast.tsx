@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Snackbar, ThemeProvider, Slide, SlideProps } from '@mui/material';
+import { Stack, Snackbar, ThemeProvider, Slide } from '@mui/material';
 import Styles from './customToast.module.sass';
 import MuiAlert, { AlertProps, AlertColor } from '@mui/material/Alert';
 import { customToastTheme } from '../../../utils/themes';

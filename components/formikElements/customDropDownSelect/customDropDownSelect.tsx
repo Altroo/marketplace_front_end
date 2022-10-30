@@ -51,12 +51,6 @@ const CustomDropDownSelect: React.FC<Props> = (props: Props) => {
 				>
 					{props.helperText ? <FormHelperText>{props.helperText}</FormHelperText> : null}
 					{props.items.map((item, index) => (
-						// <MenuItem key={index} value={item.value}>
-						// 	<Stack direction="row" justifyContent="space-between" sx={{width: '100%'}}>
-						// 		{item}
-						// 		{props.value.indexOf(item.value) > -1 && <ImageFuture src={ActiveCheckBlue} alt="" />}
-						// 	</Stack>
-						// </MenuItem>
 						<MenuItem key={index} value={item.value}>
 							<Stack direction="row" justifyContent="space-between" sx={{ width: '100%' }}>
 								<span>{item.value}</span>

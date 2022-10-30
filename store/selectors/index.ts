@@ -1,19 +1,14 @@
 import { RootState } from '../store';
 import { ShopFontNameType, ShopGetRootUniqueIDType } from "../../types/shop/shopTypes";
 import { IconColorType, InitStateUniqueID, TokenChoices } from "../../types/_init/_initTypes";
-import { createSelector } from "reselect";
-import { ChatGetConversationsType } from "../../types/chat/chatTypes";
 import { OfferGetMyOffersProductServiceType, OfferTagsType } from "../../types/offer/offerTypes";
 import { CountriesType } from "../../types/places/placesTypes";
 
-// For createSelector
-const selectSelf = (state: RootState) => state;
 // _Init
 export const getTokenType = (state: RootState) => state._init.tokenType as TokenChoices;
 export const getInitStateToken = (state: RootState) => state._init.initStateToken;
 export const getAccessToken = (state: RootState) => state._init.initStateToken.access_token;
 export const getInitStateUniqueID = (state: RootState) => state._init.initStateUniqueID as InitStateUniqueID;
-// export const getShopUniqueID = (state: RootState) => state._init.initStateUniqueID.unique_id as string;
 // New shop
 export const getNewShopName = (state: RootState) => state.shop.newShop?.shop_name as string;
 export const getNewShopAvatar = (state: RootState) => state.shop.newShop?.avatar as ArrayBuffer;
@@ -78,30 +73,21 @@ export const getLocalisationName = (state: RootState) => state.places.localisati
 export const getPlacesApiError = (state: RootState) => state.places.placesApi.error;
 export const getPlacesApiFetchPromiseStatus = (state: RootState) => state.places.placesApi.fetchPromiseStatus;
 export const getAvailableCities = (state: RootState) => state.places.cities;
-export const getAvailableCountryCodes = (state: RootState) => state.places.country_codes as Array<string>;
 export const getAvailableCountries = (state: RootState) => state.places.countries as Array<CountriesType>;
-
-// export const getPlacesApiFetchInProgress = (state: RootState) => state.places.placesApi.isFetchInProgress;
 // Account
 export const getUserProfilAvatar = (state: RootState) => state.account.check_account?.picture as string;
 export const getUserFirstName = (state: RootState) => state.account.check_account?.first_name as string;
 export const getUserLastName = (state: RootState) => state.account.check_account?.last_name as string;
 export const getUserShopUrl = (state: RootState) => state.account.check_account?.shop_url as string | undefined | boolean;
 export const getCheckUserHasShop = (state: RootState) => state.account.check_account?.has_shop as boolean;
-export const getCheckUserHasPassword = (state: RootState) => state.account.check_account?.has_password as boolean;
 export const getCheckUserIsCreator = (state: RootState) => state.account.check_account?.is_creator as boolean;
-export const getUserIsLoggedIn = (state: RootState) => state.account.isLoggedIn;
-export const getCheckEmailAlreadyExists = createSelector(selectSelf, (state: RootState) => state.account.email_exists);
 
 // Offers
 export const getMyOffersList = (state: RootState) => state.offer.userOffersList.results as Array<OfferGetMyOffersProductServiceType>;
-export const getMyOffersNextPage = (state: RootState) => state.offer.userOffersList.next as string | null;
-export const getOfferVuesNextPage = (state: RootState) => state.offer.offerVuesList.next as string | null;
 export const getOfferTags = (state: RootState) => state.offer.selectedTags as OfferTagsType;
 // Local offers
 // Product
 export const getUserLocalOfferProductEditPK = (state: RootState) => state.offer.userLocalProduct?.pk;
-export const getUserLocalOfferProduct = (state: RootState) => state.offer.userLocalProduct;
 export const getLocalOfferProductCategories = (state: RootState) => state.offer.userLocalProduct?.categoriesList;
 export const getLocalOfferProductTitle = (state: RootState) => state.offer.userLocalProduct?.title;
 export const getLocalOfferProductDescription = (state: RootState) => state.offer.userLocalProduct?.description;
@@ -156,49 +142,6 @@ export const getLocalOfferServicePriceBy = (state: RootState) => state.offer.use
 
 // Offer by pk
 export const getOfferOfferApi = (state: RootState) => state.offer.offerApi;
-// export const getMyOffersFirstPageApiFetchPromiseStatus = (state: RootState) => state.offer.offerApi;
-// export const getSelectedOfferPk = (state: RootState) => state.offer.selectedOffer?.pk;
-// export const getSelectedOfferTitle = (state: RootState) => state.offer.selectedOffer?.title;
-// export const getSelectedOfferOfferType = (state: RootState) => state.offer.selectedOffer?.offer_type;
-// export const getSelectedOfferOfferCategories = (state: RootState) => state.offer.selectedOffer?.offer_categories;
-// export const getSelectedOfferShopName = (state: RootState) => state.offer.selectedOffer?.shop_name;
-// export const getSelectedOfferPicture1 = (state: RootState) => state.offer.selectedOffer?.picture_1;
-// export const getSelectedOfferPicture2 = (state: RootState) => state.offer.selectedOffer?.picture_2;
-// export const getSelectedOfferPicture3 = (state: RootState) => state.offer.selectedOffer?.picture_3;
-// export const getSelectedOfferPicture4 = (state: RootState) => state.offer.selectedOffer?.picture_4;
-// export const getSelectedOfferPicture1Thumb = (state: RootState) => state.offer.selectedOffer?.picture_1_thumb;
-// export const getSelectedOfferPicture2Thumb = (state: RootState) => state.offer.selectedOffer?.picture_2_thumb;
-// export const getSelectedOfferPicture3Thumb = (state: RootState) => state.offer.selectedOffer?.picture_3_thumb;
-// export const getSelectedOfferPicture4Thumb = (state: RootState) => state.offer.selectedOffer?.picture_4_thumb;
-// export const getSelectedOfferDescription = (state: RootState) => state.offer.selectedOffer?.description;
-// export const getSelectedOfferForWhom = (state: RootState) => state.offer.selectedOffer?.for_whom;
-// export const getSelectedOfferPrice = (state: RootState) => state.offer.selectedOffer?.price;
-// export const getSelectedOfferPrixPar = (state: RootState) =>
-// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_price_by;
-// export const getSelectedOfferQuantity = (state: RootState) =>
-// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_quantity;
-// export const getSelectedOfferLongitude = (state: RootState) =>
-// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_longitude;
-// export const getSelectedOfferLatitude = (state: RootState) =>
-// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_latitude;
-// export const getSelectedOfferAddress = (state: RootState) =>
-// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_address;
-// export const getSelectedOfferColors = (state: RootState) =>
-// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_colors;
-// export const getSelectedOfferSizes = (state: RootState) =>
-// 	(state.offer.selectedOffer?.details_offer as DetailsOfferProductType)?.product_sizes;
-// export const getSelectedOfferDeliveries = (state: RootState) => (state.offer.selectedOffer as OfferGetRootProductInterface)?.deliveries;
-// export const getSelectedOfferPinned = (state: RootState) => state.offer.selectedOffer?.pinned;
-// export const getSelectedOfferSolderType = (state: RootState) => state.offer.selectedOffer?.solder_type;
-// export const getSelectedOfferSolderValue = (state: RootState) => state.offer.selectedOffer?.solder_value;
-
-// Chat
-export const getMyConversationsResults = (state: RootState) => state.chat.conversationsList.results as Array<ChatGetConversationsType>;
-export const getMyConversationsNextPage = (state: RootState) => state.chat.conversationsList.next as string | null;
-
-// Order
-export const getMyBuyingsListNextPage = (state: RootState) => state.order.buyingsList.next as string | null;
-export const getMySellingsListNextPage = (state: RootState) => state.order.sellingsList.next as string | null;
 
 // Subscription
 export const getAvailableSubscriptions = (state: RootState) => state.subscription.available_subscription_plan;

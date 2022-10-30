@@ -32,21 +32,15 @@ import {
 	AUTH_LOGIN,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	DASHBOARD,
-	TEMP_SHOP_ADD_SHOP_NAME,
+	REAL_SHOP_ADD_SHOP_NAME,
 	SITE_ROOT
 } from "../../../utils/routes";
 import { deleteRemoteCookiesAppToken } from '../../../utils/helpers';
 import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
-// import CustomBadge from '../../../htmlElements/customBadge[not-working]/customBadge';
 
-type Props = {
-	children?: React.ReactNode;
-};
-
-const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
+const UserMainNavigationBar: React.FC = () => {
 	const { data: session, status } = useSession();
-	// const router = useRouter();
 	const avatar = useAppSelector(getUserProfilAvatar);
 	const firstName = useAppSelector(getUserFirstName);
 	const lastName = useAppSelector(getUserLastName);
@@ -103,7 +97,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 		} else {
 			return (
 				<MenuItem onClick={props.handleClose} className={`${Styles.menuItem}`}>
-					<Link href={TEMP_SHOP_ADD_SHOP_NAME} passHref>
+					<Link href={REAL_SHOP_ADD_SHOP_NAME} passHref>
 						<a className={`${Styles.purpleAnchorWrapperNoWidth}`}>
 							<ImageFuture
 								src={CreerVotreBoutiqueSVG}
@@ -422,7 +416,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 													</a>
 												</Link>
 											) : (
-												<Link href={TEMP_SHOP_ADD_SHOP_NAME} passHref>
+												<Link href={REAL_SHOP_ADD_SHOP_NAME} passHref>
 													<a className={`${Styles.purpleAnchorWrapper}`}>
 														<ImageFuture
 															src={CreerVotreBoutiqueSVG}
@@ -453,7 +447,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										</Stack>
 									) : (
 										<Stack direction="column" paddingX="40px" paddingY="18px" paddingTop={0} spacing={2}>
-											<Link href={TEMP_SHOP_ADD_SHOP_NAME} passHref>
+											<Link href={REAL_SHOP_ADD_SHOP_NAME} passHref>
 												<a className={Styles.purpleAnchorWrapper}>
 													<ImageFuture
 														src={CreerVotreBoutiqueSVG}

@@ -12,8 +12,7 @@ import {
 	DASHBOARD_SUBSCRIPTION,
 	NOT_FOUND_404,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	TEMP_SHOP_ADD_SHOP_NAME,
-	USER_VIEW_PROFILE_BY_ID,
+	REAL_SHOP_ADD_SHOP_NAME,
 } from '../../utils/routes';
 import { Stack, Box, Skeleton } from '@mui/material';
 import UserMainNavigationBar from '../../components/layouts/userMainNavigationBar/userMainNavigationBar';
@@ -178,11 +177,11 @@ const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentTy
 					</Box>
 				</Stack>
 			</Stack>
-			<Stack direction="row" justifyContent="flex-end" alignItems="flex-end">
-				<Link passHref href={USER_VIEW_PROFILE_BY_ID(user_id)}>
-					<a className={Styles.dashboardAnchorLink}>Voir mon profil</a>
-				</Link>
-			</Stack>
+			{/*<Stack direction="row" justifyContent="flex-end" alignItems="flex-end">*/}
+			{/*	<Link passHref href={USER_VIEW_PROFILE_BY_ID(user_id)}>*/}
+			{/*		<a className={Styles.dashboardAnchorLink}>Voir mon profil</a>*/}
+			{/*	</Link>*/}
+			{/*</Stack>*/}
 		</Stack>
 	);
 };
@@ -319,7 +318,7 @@ const UserMyBusinessCardContent: React.FC<UserMyBusinessCardContentType> = (prop
 					type="button"
 					backgroundColor="#FFFFFF"
 					cssClass={Styles.dashboardCreateShopButton}
-					onClick={() => router.push(TEMP_SHOP_ADD_SHOP_NAME).then()}
+					onClick={() => router.push(REAL_SHOP_ADD_SHOP_NAME).then()}
 				/>
 			</Stack>
 		</Stack>

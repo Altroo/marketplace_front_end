@@ -15,6 +15,5 @@ export const INPUT_INSTAGRAM_URL = "Assurez-vous que ce champ comporte un lien v
 export const INPUT_TWITTER_URL = "Assurez-vous que ce champ comporte un lien valide ex: http://twitter.com/MaPage";
 export const IMAGE_COUNT_LIMIT_REACHED = (char: number) => `Le nombre d'images sélectionnées dépasse ${char} images.`;
 export const IMAGE_FORMAT = "Seulement les images du type jpg, png, jpeg, sont autorisé.";
-export const IMAGE_SIZE_LIMIT_REACHED = "La taille d'image sélectionné dépasse 1mg";
-export const INPUT_EMAIL_ALREADY_EXISTS = "Un utilisateur avec ce champ adresse électronique existe déjà."
+export const IMAGE_SIZE_LIMIT_REACHED = "La taille d'image sélectionné dépasse 5mg";
 export const INPUT_PASSWORD_MIN = (char: number) => `Ce mot de passe est trop court. Il doit contenir au moins ${char} caractères`;

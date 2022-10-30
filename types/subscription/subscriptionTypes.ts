@@ -1,6 +1,4 @@
-import { PaginationResponseType, ResponseDataInterface, SagaCallBackBase, SagaCallBackType } from "../_init/_initTypes";
-import { OfferPinType } from "../offer/offerTypes";
-import { ChatGetConversationsType } from "../chat/chatTypes";
+import { PaginationResponseType, ResponseDataInterface, SagaCallBackBase } from "../_init/_initTypes";
 
 // ('C', 'Carte'), ('V', 'Virement')
 export type PaymentTypeType = 'C' | 'V';

@@ -15,15 +15,6 @@ import ShowAdresse from './showAdresse/showAdresse';
 import { addMyInfosStackType } from '../../../../../types/ui/uiTypes';
 
 const AjouterMesInfosStack: React.FC<addMyInfosStackType> = (props: addMyInfosStackType) => {
-	// const [openInfoModal, setInfoModalOpen] = useState(false);
-	//
-	// const handleOpen = () => {
-	// 	setInfoModalOpen(true);
-	// };
-	// const handleClose = () => {
-	// 	setInfoModalOpen(false);
-	// };
-
 	let modalContent: React.ReactNode;
 	let addMyInfosStackContent: React.ReactNode;
 

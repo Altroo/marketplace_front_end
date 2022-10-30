@@ -10,7 +10,6 @@ type Props = {
 	text: string;
 	checked: boolean;
 	active: boolean;
-	// onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onClick: () => void;
 	disabled?: boolean;
 	activeColor?: string;

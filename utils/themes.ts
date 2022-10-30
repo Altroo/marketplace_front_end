@@ -487,36 +487,6 @@ export const OfferQuantityFieldTheme = (primaryColor: string | undefined = undef
 	});
 };
 
-// Offer thumbnails overview
-export const OfferThumbnailsTheme = (backgroundColor: string, textColor: string, border: string) => {
-	return createTheme({
-		components: {
-			MuiImageList: {
-				styleOverrides: {
-					root: {
-						marginTop: '0px',
-						marginBottom: '0px',
-					},
-				},
-			},
-			MuiChip: {
-				styleOverrides: {
-					root: {
-						fontFamily: 'Poppins',
-						fontSize: '15px',
-						border: border,
-						borderRadius: '40px',
-					},
-					filled: {
-						backgroundColor: backgroundColor,
-						color: textColor,
-					},
-				},
-			},
-		},
-	});
-};
-
 export const doubleTabNavigationTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
@@ -568,55 +538,6 @@ export const doubleTabNavigationTheme = (primaryColor: string | undefined = unde
 	});
 };
 
-export const solderPourcentageInputTheme = (primaryColor: string | undefined = undefined) => {
-	const defaultTheme = getDefaultTheme(primaryColor);
-	const blueColor = '#0274d7';
-
-	return createTheme({
-		...defaultTheme,
-		components: {
-			MuiInputBase: {
-				styleOverrides: {
-					root: {
-						'& fieldset': {
-							borderRadius: '16px',
-							border: '1px solid #A3A3AD',
-						},
-						'& fieldset > legend': {
-							// size of red error line (label) (input size - 5px)
-							fontFamily: 'Poppins',
-							fontSize: '14px',
-						},
-					},
-					input: {
-						fontFamily: 'Poppins',
-						fontSize: '19px',
-						caretColor: blueColor,
-						width: '100%',
-					},
-				},
-			},
-			MuiFormControl: {
-				styleOverrides: {
-					root: {
-						width: '50%',
-						'& .MuiFormLabel-root': {
-							fontFamily: 'Poppins',
-							fontSize: '16px',
-							color: '#A3A3AD',
-						},
-						'& .MuiFormLabel-root.Mui-focused': {
-							fontFamily: 'Poppins',
-							fontSize: '16px',
-							color: blueColor,
-						},
-					},
-				},
-			},
-		},
-	});
-};
-
 export const SolderPourcentageChipTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
@@ -645,44 +566,6 @@ export const SolderPourcentageChipTheme = (primaryColor: string | undefined = un
 						'&:hover': {
 							backgroundColor: 'rgba(0, 0, 0, 0.7)',
 						},
-					},
-				},
-			},
-		},
-	});
-};
-
-export const solderPourcentageCustomInputTheme = (primaryColor: string | undefined = undefined) => {
-	const defaultTheme = getDefaultTheme(primaryColor);
-
-	return createTheme({
-		...defaultTheme,
-		components: {
-			MuiInputBase: {
-				styleOverrides: {
-					// input wrapper (div)
-					root: {
-						fontFamily: 'Poppins',
-						fontSize: '19px',
-						height: '55px',
-						// padding: '10px',
-						width: '100%',
-						'& fieldset': {
-							// padding: '10px 18px',
-							height: '59px',
-							fontFamily: 'Poppins',
-							fontSize: '19px',
-							borderRadius: '16px',
-							border: '1px solid #A3A3AD',
-						},
-					},
-				},
-			},
-			MuiFormControl: {
-				styleOverrides: {
-					root: {
-						width: '50%',
-						height: '100%',
 					},
 				},
 			},
@@ -726,32 +609,6 @@ export const codeTextInputTheme = (error: boolean | undefined) => {
 						borderRight: '2px solid transparent !important',
 						borderLeft: '2px solid transparent !important',
 						borderBottom: `2px solid ${borderColor}`,
-					},
-				},
-			},
-		},
-	});
-};
-
-export const badgeTheme = (primaryColor: string | undefined = undefined) => {
-	const defaultTheme = getDefaultTheme(primaryColor);
-	return createTheme({
-		...defaultTheme,
-		components: {
-			MuiBadge: {
-				styleOverrides: {
-					dot: {
-						backgroundColor: '#FF5D6B',
-						width: '20px',
-						height: '20px',
-						borderRadius: '50%',
-						top: '15%',
-					},
-					badge: {
-						backgroundColor: '#FF5D6B',
-						width: '20px',
-						height: '20px',
-						top: '15%',
 					},
 				},
 			},

@@ -5,13 +5,9 @@ import OutlineButton from "../../../htmlElements/buttons/outlineButton/outlineBu
 import { default as ImageFuture } from "next/future/image";
 import CreateShopWideSVG from "../../../../public/assets/images/cards_illu/create-shop-wide.svg";
 import { useRouter } from "next/router";
-import { TEMP_SHOP_ADD_SHOP_NAME } from "../../../../utils/routes";
+import { REAL_SHOP_ADD_SHOP_NAME } from "../../../../utils/routes";
 
-type Props = {
-	children?: React.ReactNode;
-}
-
-const CreateYourShop: React.FC<Props> = (props: Props) => {
+const CreateYourShop: React.FC = () => {
 	const router = useRouter();
 	return (
 		<Stack direction="row" justifyContent="space-between" className={Styles.rootStackWrapper}>
@@ -24,7 +20,7 @@ const CreateYourShop: React.FC<Props> = (props: Props) => {
 					type="button"
 					backgroundColor="#F3D8E1"
 					cssClass={Styles.actionButton}
-					onClick={() => router.push(TEMP_SHOP_ADD_SHOP_NAME, undefined, {shallow: true})}
+					onClick={() => router.push(REAL_SHOP_ADD_SHOP_NAME, undefined, {shallow: true})}
 				/>
 			</Stack>
 			<ImageFuture

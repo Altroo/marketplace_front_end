@@ -7,19 +7,10 @@ import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
 import { getOfferTags } from '../../../../store/selectors';
 import { offerGetTagsAction } from '../../../../store/actions/offer/offerActions';
 import closeWhiteSVG from '../../../../public/assets/svgs/navigationIcons/close-white.svg';
-import Image from 'next/image';
-import { filter } from 'dom7';
-import PlusSVG from '../../../../public/assets/svgs/globalIcons/plus-circular.svg';
 import { default as ImageFuture } from 'next/future/image';
-
-// type tagOptions = {
-// 	pk: number;
-// 	name_tag: string;
-// };
 
 type Props = {
 	pickedTags: Array<string>;
-	// setPickedTags: React.Dispatch<React.SetStateAction<Array<string>>>;
 	onChange: (event: React.SyntheticEvent<Element, Event>, values: Array<string>) => void;
 	children?: React.ReactNode;
 };
@@ -72,29 +63,6 @@ const TagChips: React.FC<Props> = (props: Props) => {
 						borderRadius: '16px',
 					}}
 					color="primary"
-					// isOptionEqualToValue={(option: tagOptions, value: tagOptions) => {
-					//
-					// 	return false;
-					// 	// return option === value;
-					// }}
-					// isOptionEqualToValue={(option: tagOptions | string, value: tagOptions | string) => {
-					// 	if (typeof option === 'object') {
-					// 		if (typeof value === 'object'){
-					// 			return option.name_tag === value.name_tag;
-					// 		} else {
-					// 			return option.name_tag === value;
-					// 		}
-					// 	} else {
-					// 		if (typeof value === 'object'){
-					// 			console.log('VALUE is string');
-					// 			console.log(option);
-					// 			console.log(value);
-					// 			return option === value.name_tag;
-					// 		} else {
-					// 			return option === value;
-					// 		}
-					// 	}
-					// }}
 					renderInput={(params) => (
 						<TextField
 							{...params}

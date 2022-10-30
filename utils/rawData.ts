@@ -7,8 +7,7 @@ import {
 	OfferServiceAvailabilityDaysArray,
 	OfferServicePriceByType,
 } from '../types/offer/offerTypes';
-import { AccountGenderCodeValueType, AccountGenderType } from '../types/account/accountTypes';
-import { Mark } from '@mui/base/SliderUnstyled/useSlider.types';
+import { AccountGenderCodeValueType } from '../types/account/accountTypes';
 
 export const monthItemsList = [
 	'janv',
@@ -50,19 +49,7 @@ export const genderItemsList: Array<AccountGenderCodeValueType> = [
 		value: 'Femme',
 	},
 ];
-/*
-('', 'Unset'),
-('M', 'Male'),
-('F', 'Female'),
- */
-export const getGenderData = (gender: AccountGenderType) => {
-	switch (gender) {
-		case 'M':
-			return 'Homme';
-		case 'F':
-			return 'Femme';
-	}
-};
+
 export const getCategoriesDataArray = (categoryCodes: Array<OfferCategoriesType>) => {
 	const categoryArray: Array<string> = [];
 	categoryCodes.map((categoryCode) => {

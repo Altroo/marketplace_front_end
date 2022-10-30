@@ -4,11 +4,7 @@ import { Stack } from "@mui/material";
 import AlertSVG from '../../../../../public/assets/svgs/globalIcons/alert.svg';
 import { default as ImageFuture } from 'next/future/image';
 
-type Props = {
-	children?: React.ReactNode;
-};
-
-const ShopNotVerified: React.FC<Props> = (props: Props) => {
+const ShopNotVerified: React.FC = () => {
 	return (
 		<Stack className={Styles.stackWrapper} direction="column" justifyContent="center">
 			<Stack direction="row" spacing={1} className={Styles.stackAlert}>

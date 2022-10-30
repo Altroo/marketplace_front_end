@@ -25,7 +25,6 @@ type Props = {
 
 const CustomTextInput = forwardRef<HTMLInputElement, Props>((props:Props, ref: ForwardedRef<HTMLInputElement>) => {
 	const { cssClass, theme, ...restOfProps } = props;
-	// const {cssClass, theme} = props;
 
 	return (
 		<ThemeProvider theme={theme}>

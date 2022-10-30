@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React from 'react';
 import Styles from './tab.module.sass';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
@@ -72,8 +72,6 @@ const tabIDS = (index: number) => {
 };
 
 type BasicTabsProps = {
-	// active: boolean;
-	// text: string;
 	borderColor: string;
 	color: string;
 	shopContent: React.ReactNode;

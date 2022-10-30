@@ -5,11 +5,7 @@ import { getShopBio } from '../../../../../../store/selectors';
 import { Stack, Button, Box, ThemeProvider, createTheme } from '@mui/material';
 import {CustomTheme} from '../../../../../../utils/themes';
 
-type Props = {
-	children?: React.ReactNode;
-};
-
-const ShowBio: React.FC<Props> = (props: Props) => {
+const ShowBio: React.FC = () => {
 	const shopBio = useAppSelector(getShopBio);
 	let voirPlusState = true;
 	const shopBioMaxLength = 90;

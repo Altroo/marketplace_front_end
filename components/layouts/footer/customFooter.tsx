@@ -7,11 +7,7 @@ import InstagramMiniSVG from '../../../public/assets/svgs/globalIcons/instagram-
 import TikTokMiniSVG from '../../../public/assets/svgs/globalIcons/tiktok-mini.svg';
 import { default as ImageFuture } from 'next/future/image';
 
-type Props = {
-	children?: React.ReactNode;
-};
-
-const CustomFooter: React.FC<Props> = (props: Props) => {
+const CustomFooter: React.FC = () => {
 	return (
 		<footer>
 			<Box className={Styles.desktopFooter}>

@@ -5,7 +5,6 @@ import { ThemeProvider, MenuItem, FormControl, InputLabel, OutlinedInput, Stack,
 import { Theme } from "@mui/material/styles/createTheme";
 import ActiveCheckBlue from '../../../public/assets/svgs/globalIcons/active-check-blue.svg';
 import { default as ImageFuture } from "next/future/image";
-import ReactCountryFlag from "react-country-flag";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -33,16 +32,7 @@ type Props = {
 	cssClass?: string;
 	children?: React.ReactNode;
 };
-/*
-onBlur={handleBlur('delivery_price_1')}
-	helperText={
-		touched.delivery_price_1 ? errors.delivery_price_1 : ''
-	}
-	error={
-		touched.delivery_price_1 &&
-		Boolean(errors.delivery_price_1)
-	}
- */
+
 const CustomDropDownChoices: React.FC<Props> = (props: Props) => {
 	return (
 		<ThemeProvider theme={props.theme}>

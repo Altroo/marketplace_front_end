@@ -1,10 +1,6 @@
 import React from 'react';
 import Styles from './actionModals.module.sass';
 
-// comingSoon - default false (coming soon)
-// title
-// body - default empty.
-// actions + actions style => action active - action text - action function (dismiss or func)
 type Props = {
 	title: string;
 	actions: Array<{ active: boolean; text: string; onClick: () => void }>;

@@ -5,10 +5,7 @@ import { watchOffer } from './offer/offerSaga';
 import { watchPlaces } from './places/placesSaga';
 import { watchVersion } from './version/versionSaga';
 import { watchAccount } from './account/accountSaga';
-import { watchChat } from './chat/chatSaga';
 import { watchWS } from './ws/wsSaga';
-import { watchCart } from './cart/cartSaga';
-import { watchOrder } from './order/orderSaga';
 import {watchSubscription} from './subscription/subscriptionSaga';
 
 // spawn : whenever a watcher get's crashed somehow,
@@ -23,9 +20,6 @@ export function* rootSaga() {
 		fork(watchPlaces),
 		fork(watchVersion),
 		fork(watchAccount),
-		fork(watchChat),
-		fork(watchCart),
-		fork(watchOrder),
 		fork(watchSubscription),
 		// yield spawn(watchOrder),
 		// yield spawn(watchRating),

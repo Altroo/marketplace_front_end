@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import Styles from './readAdresse.module.sass';
 import { Stack } from '@mui/material';
 import dynamic from "next/dynamic";

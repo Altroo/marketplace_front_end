@@ -19,103 +19,15 @@ import { store } from '../store/store';
 import { ShopFontNameType } from '../types/shop/shopTypes';
 import { GetServerSidePropsContext } from 'next';
 import { getCookie } from 'cookies-next';
-import { NextRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { SITE_ROOT } from "./routes";
-
-// export const loadAppToken = (): InitStateInterface<InitStateToken, InitStateUniqueID> => {
-// 	// load required data from storage
-// 	// using this check since next use server side rendering
-// 	if (typeof window !== 'undefined') {
-// 		const tokenType: string | null = localStorage.getItem('@tokenType');
-// 		const stateToken: string | null = localStorage.getItem('@initStateToken');
-// 		const stateUniqueID: string | null = localStorage.getItem('@initStateUniqueID');
-// 		if (tokenType === 'TOKEN' && stateToken !== null) {
-// 			return {
-// 				tokenType: 'TOKEN',
-// 				initStateToken: JSON.parse(stateToken) as InitStateToken,
-// 				initStateUniqueID: emptyInitStateUniqueID,
-// 			};
-// 		} else if (tokenType === 'UNIQUE_ID' && stateUniqueID !== null) {
-// 			return {
-// 				tokenType: 'UNIQUE_ID',
-// 				initStateToken: emptyInitStateToken,
-// 				initStateUniqueID: JSON.parse(stateUniqueID) as InitStateUniqueID,
-// 			};
-// 		} else {
-// 			return initialState;
-// 		}
-// 	} else {
-// 		return initialState;
-// 	}
-// };
-
-// export const setLocalStorageAppToken = (newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID>) => {
-// 	if (typeof window !== 'undefined') {
-// 		localStorage.setItem('@tokenType', newInitStateToken.tokenType as 'TOKEN' | 'UNIQUE_ID');
-// 		localStorage.setItem('@initStateToken', JSON.stringify(newInitStateToken.initStateToken));
-// 		localStorage.setItem('@initStateUniqueID', JSON.stringify(newInitStateToken.initStateUniqueID));
-// 	}
-// };
-
-// export const setLocalStorageTokenOnly = (InitStateToken: InitStateToken) => {
-// 	if (typeof window !== 'undefined') {
-// 		localStorage.setItem('@tokenType', 'TOKEN');
-// 		localStorage.setItem('@initStateToken', JSON.stringify(InitStateToken));
-// 	}
-// };
-//
-// export const emptyLocalStorageUniqueIDOnly = () => {
-// 	if (typeof window !== 'undefined') {
-// 		localStorage.setItem('@initStateUniqueID', JSON.stringify(emptyInitStateUniqueID));
-// 	}
-// };
-
-// export const emptyLocalStorageAppToken = () => {
-// 	if (typeof window !== 'undefined') {
-// 		localStorage.setItem('@tokenType', '');
-// 		localStorage.setItem('@initStateToken', JSON.stringify(emptyInitStateToken));
-// 		localStorage.setItem('@initStateUniqueID', JSON.stringify(emptyInitStateUniqueID));
-// 	}
-// };
 
 const refreshToken = async (refresh_token: string): Promise<ResponseDataTokenRefreshType> => {
 	return await tokenRefreshApi(refresh_token);
 };
 
-// const loadAccessToken: () => string | null = () => {
-// 	if (typeof window !== 'undefined') {
-// 		const localStateToken = localStorage.getItem('@initStateToken');
-// 		if (localStateToken !== null) {
-// 			const stateToken: InitStateToken = JSON.parse(localStateToken) as InitStateToken;
-// 			return stateToken.access_token;
-// 		}
-// 	}
-// 	return null;
-// };
-
-// const loadAccessTokenCookie: () => string | null = () => {
-// 	cookiesFetcher('/cookies').then((value: { data: { cookies: AppTokensCookieType }; status: number }) => {
-// 		if (value.status === 200) {
-// 			const localStateToken = value.data.cookies['@initStateToken'];
-// 			if (localStateToken !== null) {
-// 				if (typeof localStateToken === 'string') {
-// 					const stateToken: InitStateToken = JSON.parse(localStateToken) as InitStateToken;
-// 					return stateToken.access_token;
-// 				}
-// 			}
-// 		}else {
-// 			return null;
-// 		}
-// 	});
-// 	// console.log('Returned null');
-// 	// return null;
-// };
-
 export const isAuthenticatedInstance = (
 	initStateToken: InitStateToken,
 	contentType: APIContentTypeInterface = 'application/json',
-	// useTokenParam = false,
 ) => {
 	const instance: AxiosInstance = axios.create({
 		baseURL: `${process.env.NEXT_PUBLIC_ROOT_API_URL}`,
@@ -129,17 +41,6 @@ export const isAuthenticatedInstance = (
 			// load new access token from storage instead.
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			config.headers!['Authorization'] = 'Bearer ' + initStateToken.access_token;
-			// if (useTokenParam) {
-			// 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			// 	config.headers!['Authorization'] = 'Bearer ' + initStateToken.access_token;
-			// } else {
-			// 	// const access_token: string | null = loadAccessToken();
-			// 	const access_token: string | null | undefined = loadAccessTokenCookie();
-			// 	if (typeof access_token === 'string') {
-			// 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			// 		config.headers!['Authorization'] = 'Bearer ' + access_token;
-			// 	}
-			// }
 			return config;
 		},
 		(error) => {
@@ -310,7 +211,6 @@ export const defaultInstance = (BaseUrl: string, contentType: APIContentTypeInte
 				}
 				return Promise.reject(errorObj);
 			}
-			// return Promise.reject(error);
 		},
 	);
 	return instance;
@@ -506,13 +406,6 @@ export const getBackendNextPageNumber = (url: string | null) => {
 		}
 	}
 	return '1';
-	// using split
-	// const queryIndex = url.search(regexp);
-	// const pageNumber = url.slice(queryIndex + regexp.length);
-	// if (pageNumber.includes('&')){
-	// 	return pageNumber.split('&')[0];
-	// }
-	// return pageNumber;
 };
 
 export const generateQueryParams = (query: ParsedUrlQuery, nextPage?: string) => {

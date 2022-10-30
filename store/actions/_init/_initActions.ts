@@ -3,8 +3,6 @@ import {
 	AppTokensCookieType,
 	NewShopCookieType
 } from "../../../types/_init/_initTypes";
-import { Session } from "next-auth";
-import { REFRESH_APP_TOKEN_STATES } from "../index";
 import { AuthInterface } from "../../../types/next-auth";
 
 export const initAppAction = () => {
@@ -33,16 +31,3 @@ export const initNewShopBorderIconAction = (cookies: NewShopCookieType) => {
 		cookies,
 	}
 }
-
-// // Api Error handler
-// export const apiErrorAction = (
-// 	type: string,
-// 	promise_status: ApiPromiseStatus,
-// 	error: string
-// ) => {
-// 	return {
-// 		type,
-// 		promise_status,
-// 		error,
-// 	}
-// }

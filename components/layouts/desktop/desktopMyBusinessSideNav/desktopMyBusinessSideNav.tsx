@@ -9,7 +9,6 @@ import MobileAudiencesSVG from '../../../../public/assets/svgs/dashboardIcons/ma
 import MobileChiffreAffaireSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-usd.svg';
 
 import {
-	DASHBOARD_ADD_INDEX_OFFERS,
 	DASHBOARD_AUDIENCES,
 	DASHBOARD_CHIFFRE_DAFFAIRE,
 	DASHBOARD_INDEXED_OFFERS,

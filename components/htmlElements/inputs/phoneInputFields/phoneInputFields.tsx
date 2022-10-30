@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import Styles from "./contactInput.module.sass";
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Collapse, ThemeProvider } from '@mui/material';
@@ -53,15 +52,10 @@ const PhoneInputFields: React.FC<inputProps> = (props: inputProps) => {
 							props.setCode(value.label);
 							setValue({ label: value.label, code: value.code });
 						}}
-						/*inputValue={inputValue}
-						onInputChange={(_, newInputValue) => {
-							setInputValue(newInputValue);
-						}}*/
 						disablePortal
 						disableClearable
 						autoSelect
 						noOptionsText="Invalide"
-						// filterOptions={(x) => x}
 						options={phoneCodesObj ? phoneCodesObj : [{ label: '+212', code: '+212' }]}
 						sx={{ width: 205 }}
 						isOptionEqualToValue={(option: phoneOptions | undefined, value: phoneOptions | undefined) =>

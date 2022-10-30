@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import OfferStyles from '../../../../../styles/temp-offer/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../../styles/temp-shop/create/shopCreateShared.module.sass';
+import OfferStyles from '../../../../../styles/offers/create/offerCreateShared.module.sass';
+import SharedStyles from '../../../../../styles/shop/create/shopCreateShared.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import Styles from '../../../../../styles/temp-offer/create/price.module.sass';
+import Styles from '../../../../../styles/offers/create/price.module.sass';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_PRODUCT_DELIVERIES,
 	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
-	TEMP_SHOP_ADD_SHOP_NAME
+	REAL_SHOP_ADD_SHOP_NAME
 } from "../../../../../utils/routes";
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
@@ -196,7 +196,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					return {
 						redirect: {
 							permanent: false,
-							destination: TEMP_SHOP_ADD_SHOP_NAME,
+							destination: REAL_SHOP_ADD_SHOP_NAME,
 						},
 					};
 				}
@@ -205,7 +205,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 				return {
 					redirect: {
 						permanent: false,
-						destination: TEMP_SHOP_ADD_SHOP_NAME,
+						destination: REAL_SHOP_ADD_SHOP_NAME,
 					},
 				};
 			}
@@ -215,7 +215,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		return {
 			redirect: {
 				permanent: false,
-				destination: TEMP_SHOP_ADD_SHOP_NAME,
+				destination: REAL_SHOP_ADD_SHOP_NAME,
 			},
 		};
 	}

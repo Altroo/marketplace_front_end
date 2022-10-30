@@ -1,7 +1,6 @@
 import React from 'react';
 import Styles from './outlineButton.module.sass';
-import Button from '@mui/material/Button';
-import { ThemeProvider } from '@mui/material';
+import {Button, ThemeProvider} from '@mui/material';
 import {CustomTheme} from '../../../../utils/themes';
 
 type Props = {

@@ -8,7 +8,7 @@ type Props = {
 	children?: React.ReactNode;
 };
 
-const DesktopColorPicker: React.FC<Props> = (props: Props) => {
+const MobileColorPicker: React.FC<Props> = (props: Props) => {
 	return (
 		<div className={`${Styles.colorWrapper} ${props.color === props.selectedColor ? Styles.colorActive : ''}`}>
 			<div
@@ -22,4 +22,4 @@ const DesktopColorPicker: React.FC<Props> = (props: Props) => {
 	);
 };
 
-export default DesktopColorPicker;
+export default MobileColorPicker;

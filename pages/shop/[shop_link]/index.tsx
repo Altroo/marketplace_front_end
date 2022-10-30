@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../styles/shop/shopIndex.module.sass';
-import SharedStyles from '../../../styles/temp-shop/create/shopCreateShared.module.sass';
+import SharedStyles from '../../../styles/shop/create/shopCreateShared.module.sass';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '../../../utils/hooks';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
@@ -35,7 +35,7 @@ import {
 	shopPatchFontAction,
 	shopPatchPhoneContactAction,
 } from '../../../store/actions/shop/shopActions';
-import IconButton from '../../../components/htmlElements/buttons/iconButton/iconButton';
+import CustomIconButton from '../../../components/htmlElements/buttons/customIconButton/customIconButton';
 import AvatarIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-avatar.svg';
 import ColorIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-color.svg';
 import FontIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-font.svg';
@@ -43,15 +43,15 @@ import ContactIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-co
 import { Backdrop, Box, Skeleton, Stack } from '@mui/material';
 import AjouterMesInfosStack from '../../../components/groupedComponents/temp-shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack';
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
-import { colors } from '../../temp-shop/create/color';
+import { colors } from '../create/color';
 import { getApi } from '../../../store/services/_init/_initAPI';
 import { IconColorType } from '../../../types/_init/_initTypes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
-import { availableFonts } from '../../temp-shop/create/font';
+import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE, TEMP_SHOP_EDIT_ROUTE } from '../../../utils/routes';
+import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE, REAL_SHOP_EDIT_ROUTE } from '../../../utils/routes';
 import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
@@ -614,7 +614,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								cssClass={Styles.iconButton}
 							/>
 							{(phoneValue || whatsappValue) !== '' ? (
-								<IconButton
+								<CustomIconButton
 									buttonText="Contacter"
 									svgIcon={contactIcon}
 									onClick={handleContactModalOpen}
@@ -648,7 +648,6 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 									borderColor={bgColorCode}
 									shopContent={
 										<EditShopTabContent
-											shop_type="AUTH_SHOP"
 											activeColor={bgColorCode}
 											shop_pk={pk}
 											openFilterModal={openFilterModal}

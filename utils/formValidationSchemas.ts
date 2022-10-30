@@ -157,7 +157,6 @@ export const passwordResetConfirmationSchema = Yup.object().shape({
 export const profilSchema = Yup.object().shape({
 	first_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
 	last_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
-	// city: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
 });
 
 export const changeEmailSchema = Yup.object().shape({
@@ -197,7 +196,6 @@ export const subscriptionSchema = Yup.object().shape({
 	city: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
 	code_postal: Yup.number().typeError(INPUT_POSTAL_CODE).required(INPUT_REQUIRED),
 	country: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
-	// nbr_articles: Yup.number().required(INPUT_REQUIRED),
 });
 
 export const promoCodeSchema = Yup.object().shape({

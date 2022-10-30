@@ -80,7 +80,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/borderIconAnchorButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/circularAvatarInputFile" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/iconButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/primaryAnchorButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/primaryButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/checkBoxes" isTestSource="false" />
@@ -154,6 +153,7 @@
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/customSwitch" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/toolTip" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/create" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/largeBorderIconAnchorButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/buttons" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/buttons/mobileOffersFilterButton" isTestSource="false" />
@@ -216,7 +216,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/shopFilterSelect" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/startYourShopContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/offer" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/offer/[offer_pk]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/temp-offer" isTestSource="false" />
@@ -229,8 +228,6 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/temp-offer/service/add" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/temp-offer/service/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/temp-shop" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/temp-shop/create" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/temp-shop/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/user" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/user" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/mobile/navbars/mobileUserMainNavigationBar" isTestSource="false" />
@@ -242,15 +239,7 @@
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/customBadge[not-working]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/footer" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/userMainNavigationBar" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/styles/temp-offer" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/styles/temp-offer/create" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/styles/temp-offer/edit" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/styles/temp-offer/product" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/styles/temp-offer/service" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/styles/temp-offer/service/add" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/styles/temp-offer/service/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/get/shopInfoTabContent/readAdresse" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/get/shopNotVerified" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/get/shopVerified" isTestSource="false" />
@@ -322,10 +311,21 @@
       <sourceFolder url="file://$MODULE_DIR$/store/actions/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/sagas/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/subscription" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/styles/temp-shop/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customTextMaskInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/radioCheckButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/textAnchorButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/customIconButton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offers" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offers/create" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offers/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offers/product" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offers/service" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offers/service/add" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/offers/service/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop/create" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />

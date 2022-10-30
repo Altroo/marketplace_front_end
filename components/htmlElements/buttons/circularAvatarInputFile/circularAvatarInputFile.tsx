@@ -1,7 +1,6 @@
 import React, { useMemo, useRef } from "react";
 import Styles from './circularAvatarInputFile.module.sass';
 import { default as ImageFuture } from 'next/future/image';
-import Image from 'next/image';
 import AvatarIconSVG from '../../../../public/assets/svgs/globalIcons/avatar.svg';
 
 type Props = {

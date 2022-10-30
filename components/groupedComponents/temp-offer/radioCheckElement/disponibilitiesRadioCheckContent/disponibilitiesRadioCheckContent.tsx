@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useCallback } from "react";
+// TODO - check stackRoot style margin
 import Styles from "./disponibilitiesRadioCheckContent.module.sass";
 import { OfferBulkStatesListType } from "../../../../../types/ui/uiTypes";
 import { OfferChipTheme } from "../../../../../utils/themes";

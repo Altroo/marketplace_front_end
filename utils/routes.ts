@@ -9,15 +9,13 @@ shop/abc/offer/1 => index
 shop/abc/offer/new => index
  */
 
-// Temp Shop Routes
-// export const TEMP_SHOP_ROUTE = '/temp-shop';
-export const TEMP_SHOP_ADD_SHOP_NAME = '/temp-shop/create';
-export const TEMP_SHOP_ADD_AVATAR = '/temp-shop/create/avatar';
-export const TEMP_SHOP_ADD_COLOR = '/temp-shop/create/color';
-export const TEMP_SHOP_ADD_FONT = '/temp-shop/create/font';
+// Auth Shop Routes
+export const REAL_SHOP_ADD_SHOP_NAME = '/shop/create';
+export const REAL_SHOP_ADD_AVATAR = '/shop/create/avatar';
+export const REAL_SHOP_ADD_COLOR = '/shop/create/color';
+export const REAL_SHOP_ADD_FONT = '/shop/create/font';
 
 // Auth Shop Routes
-// export const AUTH_SHOP_ROUTE = '/shop';
 export const REAL_SHOP_BY_SHOP_LINK_ROUTE = (shop_link: string) => `/shop/${shop_link}`;
 // Real Offers Routes
 // offer details by offer_pk
@@ -34,18 +32,7 @@ export const REAL_OFFER_ADD_PRODUCT_DESCRIPTION = (shop_link: string) => `/shop/
 export const REAL_OFFER_ADD_PRODUCT_PRICE = (shop_link: string) => `/shop/${shop_link}/offer/product/prix`;
 export const REAL_OFFER_ADD_PRODUCT_DELIVERIES = (shop_link: string) => `/shop/${shop_link}/offer/product/livraison`;
 
-export const TEMP_SHOP_EDIT_ROUTE = '/temp-shop/edit';
-// Temp Offers Routes
-export const TEMP_OFFER_ROUTE = (offer_pk: string) => `/temp-offer/${offer_pk}/`;
-// export const TEMP_OFFER_ROUTE = '/temp-offer';
-export const TEMP_OFFER_ADD_INDEX = '/temp-offer';
-export const TEMP_OFFER_ADD_PRODUCT_CATEGORIES = '/temp-offer/product';
-export const TEMP_OFFER_ADD_SERVICE_CATEGORIES = '/temp-offer/service';
-export const TEMP_OFFER_ADD_SERVICE_DESCRIPTION = '/temp-offer/service/description';
-export const TEMP_OFFER_ADD_SERVICE_PRICE = '/temp-offer/service/prix';
-export const TEMP_OFFER_ADD_PRODUCT_DESCRIPTION = '/temp-offer/product/description';
-export const TEMP_OFFER_ADD_PRODUCT_PRICE = '/temp-offer/product/prix';
-export const TEMP_OFFER_ADD_PRODUCT_DELIVERIES = '/temp-offer/product/livraison';
+export const REAL_SHOP_EDIT_ROUTE = '/shop/edit';
 
 // Auth Routes
 export const AUTH_REGISTER = '/auth/register';
@@ -64,19 +51,12 @@ export const AUTH_RESET_PASSWORD_COMPLETE = '/auth/reset-password/set-password-c
 
 // dashboard index
 export const DASHBOARD = '/dashboard';
-// my business (sellers only)
+// Mon profil
 export const DASHBOARD_ACCOUNT = '/dashboard/compte'; // placeholder with redirect
 export const DASHBOARD_EDIT_PROFILE = '/dashboard/compte/edit-profil'; // phase 1
-export const DASHBOARD_DELIVERIES = '/dashboard/compte/adresses-de-livraison';
-export const DASHBOARD_RATINGS = '/dashboard/compte/evaluation';
 export const DASHBOARD_ADRESSE_EMAIL = '/dashboard/compte/adresse-email'; // phase 1
 export const DASHBOARD_PASSWORD = '/dashboard/compte/mot-de-passe'; // phase 1
-export const DASHBOARD_LINKED_ACCOUNTS = '/dashboard/compte/comptes-relies';
-export const DASHBOARD_MANAGE_ACCOUNT = '/dashboard/compte/gestion-des-donnes'; // placeholder needs redirect
-export const DASHBOARD_MANAGE_ACCOUNT_CLOTURER = '/dashboard/compte/gestion-des-donnes/cloturer-mon-compte';
-export const DASHBOARD_MANAGE_ACCOUNT_DELETE = '/dashboard/compte/gestion-des-donnes/supprimer-ma-boutique';
-export const DASHBOARD_BLOCKED_ACCOUNTS = '/dashboard/compte/comptes-bloques';
-export const DASHBOARD_MY_BUSINESS = '/dashboard/my-business'; // placeholder with redirect
+// my business
 export const DASHBOARD_SUBSCRIPTION = '/dashboard/my-business/abonnement';
 export const DASHBOARD_NEW_SUBSCRIPTION = '/dashboard/my-business/abonnement/checkout';
 export const DASHBOARD_UPGRADE_SUBSCRIPTION = '/dashboard/my-business/abonnement/update-checkout';
@@ -85,7 +65,3 @@ export const DASHBOARD_INDEXED_OFFERS = '/dashboard/my-business/articles-referen
 export const DASHBOARD_ADD_INDEX_OFFERS = '/dashboard/my-business/articles-references/add-offers';
 export const DASHBOARD_AUDIENCES = "/dashboard/my-business/audience";
 export const DASHBOARD_CHIFFRE_DAFFAIRE = "/dashboard/my-business/chiffre-d'affaire";
-export const DASHBOARD_MESSAGES = '/dashboard/messages';
-export const DASHBOARD_ORDERS = '/dashboard/orders';
-// user index - (view profil - has shop data - user data or both)
-export const USER_VIEW_PROFILE_BY_ID = (user_id: number) => `/user/${user_id}/`;

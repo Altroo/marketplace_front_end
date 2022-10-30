@@ -1,12 +1,9 @@
 import React from 'react';
-import Styles from './quantityRadioCheckContent.module.sass';
 import { OfferQuantityFieldTheme } from '../../../../../utils/themes';
 import { ThemeProvider, Stack, IconButton, TextField } from '@mui/material';
 import RadioCheckElement from '../radioCheckElement';
 import MinusSVG from '../../../../../public/assets/svgs/globalIcons/minus-circular.svg';
 import PlusSVG from '../../../../../public/assets/svgs/globalIcons/plus-circular.svg';
-import Image from 'next/image';
-import RightArrowSVG from "../../../../../public/assets/svgs/navigationIcons/right-arrow-long.svg";
 import { default as ImageFuture } from "next/future/image";
 
 type Props = {

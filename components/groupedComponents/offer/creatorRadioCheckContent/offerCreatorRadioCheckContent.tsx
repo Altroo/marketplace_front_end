@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Styles from './offerCreatorRadioCheckContent.module.sass';
 import { getDefaultTheme, OfferChipTheme, offerForWhomDropdownTheme } from '../../../../utils/themes';
 import { ThemeProvider, Stack } from '@mui/material';

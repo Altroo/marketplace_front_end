@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetServerSidePropsContext, NextPage } from "next";
-import Styles from '../../../../styles/temp-offer/create/offerCreateShared.module.sass';
+import Styles from '../../../../styles/offers/create/offerCreateShared.module.sass';
 import OfferTypeCard from '../../../../components/groupedComponents/temp-offer/offerTypeCard/offerTypeCard';
 import SellProductIcon from '../../../../public/assets/svgs/globalIcons/sell-product-icon.svg';
 import SellServiceIcon from '../../../../public/assets/svgs/globalIcons/sell-service-icon.svg';
@@ -9,7 +9,7 @@ import { Stack } from '@mui/material';
 import {
 	REAL_OFFER_ADD_PRODUCT_CATEGORIES,
 	REAL_OFFER_ADD_SERVICE_CATEGORIES,
-	TEMP_SHOP_ADD_SHOP_NAME
+	REAL_SHOP_ADD_SHOP_NAME
 } from "../../../../utils/routes";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
@@ -55,7 +55,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		return {
 			redirect: {
 				permanent: false,
-				destination: TEMP_SHOP_ADD_SHOP_NAME,
+				destination: REAL_SHOP_ADD_SHOP_NAME,
 			},
 		};
 	}

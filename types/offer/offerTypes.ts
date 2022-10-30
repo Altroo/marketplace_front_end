@@ -1,6 +1,5 @@
 import { OfferProductClass, OfferServiceClass } from '../../models/offer/OfferProductClass';
 import {
-	Nullable,
 	ResponseDataInterface,
 	PaginationResponseType,
 	GlobalApiPromiseError,
@@ -110,20 +109,10 @@ export interface OfferPutRootServiceType extends Omit<OfferPostRootServiceType, 
 	pk: number;
 }
 
-export interface OfferPkRootType {
-	type: string;
-	pk: number;
-}
-
 export interface OfferGetTagsType {
 	type: string;
 	nameTag: string;
 }
-
-// type OfferTags = {
-// 	pk: number;
-// 	name_tag: string;
-// };
 
 export type OfferTagsType = Array<string> | [];
 
@@ -176,9 +165,6 @@ export interface OfferServiceInterface extends Omit<OfferServiceClass, 'title'> 
 	pinned: boolean;
 }
 
-export type OfferProductColorsArray = Array<{ pk: number; code_color: OfferProductColors; name_color: string }>;
-export type OfferProductSizesArray = Array<{ pk: number; code_size: OfferProductSizes; name_size: string }>;
-
 export type DetailsOfferProductType = {
 	product_quantity: number;
 	product_price_by: OfferProductPriceByType;
@@ -204,9 +190,6 @@ export type DetailsOfferServiceType = {
 	service_address: string;
 	service_km_radius: number | null;
 };
-
-export type OfferCategoriesArray = Array<{ pk: number; code_category: OfferCategoriesType; name_category: string }>;
-export type OfferForWhomArray = Array<{ pk: number; code_for_whom: OfferForWhomType; name_for_whom: string }>;
 
 export interface OfferGetRootProductInterface
 	extends Omit<
@@ -303,10 +286,6 @@ export interface OfferServiceLocalisation extends OfferProductLocalisation {
 export type OfferGetLastUsedLocalisationResponseType = ResponseDataInterface<
 	OfferProductLocalisation | OfferServiceLocalisation
 >;
-
-export type OfferDeliveries = {
-	deliveries: Array<DeliveriesResponseType>;
-};
 
 export type OfferCustomDeliveries = {
 	delivery_city_1: string;
@@ -406,12 +385,9 @@ export interface UserLocalServiceType {
 export interface OfferStateInterface {
 	userOffers: Array<OfferProductInterface | OfferServiceInterface>;
 	userOffersList: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
-	offerVuesList: OfferGetVuesType;
 	selectedOffer: OfferGetRootProductInterface | OfferGetRootServiceInterface | null;
-	selectedSolder: Nullable<OfferSolderInterface> | Record<string, unknown>;
 	selectedTags: OfferTagsType;
 	lastUsedLocalisation: OfferProductLocalisation | OfferServiceLocalisation | Record<string, unknown>;
-	lastUsedDeliveries: Array<DeliveriesResponseType> | Record<string, unknown>;
 	userLocalProduct: UserLocalProductType; // kept for product
 	userLocalService: UserLocalServiceType;
 	offerApi: GlobalApiPromiseError;
@@ -446,17 +422,9 @@ export type OfferGetMyOffersProductServiceType = {
 	creator_label: boolean;
 };
 
-// export interface OfferGetMyOffersProductInterface extends OfferGetMyOffersProductServiceType {
-// 	details_offer: DetailsOfferProductType;
-// }
-
 export type OfferGetMyOffersProductInterface = OfferGetMyOffersProductServiceType;
 
 export type OfferGetMyOffersServiceInterface = OfferGetMyOffersProductServiceType;
-
-// export interface OfferGetMyOffersServiceInterface extends OfferGetMyOffersProductServiceType {
-// 	details_offer: DetailsOfferServiceType;
-// }
 
 export type OfferGetMyOffersResponseType = ResponseDataInterface<
 	PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
@@ -496,10 +464,6 @@ export type OfferGetShopAvailableFiltersResponseType = ResponseDataInterface<Off
 export type LocalOfferProductDescriptionPageType = {
 	type: string;
 	title: string;
-	// picture_1: string;
-	// picture_2: string | null;
-	// picture_3: string | null;
-	// picture_4: string | null;
 	pictures: ImageUploadingType;
 	description: string;
 	for_whom: string | null;
@@ -539,16 +503,4 @@ export interface setOfferProductToEditPayloadType extends UserLocalProductType {
 
 export interface setOfferServiceToEditPayloadType extends UserLocalServiceType {
 	type: string;
-}
-
-export type OffersGetMiniOffersList = {
-	pk: number,
-	thumbnail: string, // Altroo backend can return None
-	title: string,
-	price: number,
-	solder_type: OfferSolderByType | null,
-	solder_value: number | null,
-	creator_label: boolean,
-	offer_type: OfferOfferTypeType,
-	pinned: boolean,
 }

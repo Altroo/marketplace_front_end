@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Styles from './editShopTabContent.module.sass';
 import SharedStyles from '../../../../groupedComponents/temp-shop/edit/startYourShopContent/startYourShopContent.module.sass';
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
-import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from "@mui/material";
+import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from '@mui/material';
 import {
 	GetOffersSagaCallBackOnCompleteDataType,
 	OfferGetAvailableShopFiltersType,
@@ -18,7 +18,6 @@ import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creato
 import { useAppDispatch } from '../../../../../utils/hooks';
 import {
 	offerGetAvailableFiltersByShopID,
-	offerGetAvailableFiltersByUniqueID,
 	offerGetLastThreeUsedDeliveriesAction,
 	offerGetOffersByShopIDWithQueryParamsAction,
 	offerPostPinWithCallBackAction,
@@ -37,12 +36,7 @@ import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.sv
 import CenteredInfoAction from '../../../temp-shop/create/centeredInfoAction/centeredInfoAction';
 import BorderIconAnchorButton from '../../../../htmlElements/buttons/borderIconAnchorButton/borderIconAnchorButton';
 import ActivatedAddIconSVG from '../../../../../public/assets/svgs/globalIcons/blue-add.svg';
-import {
-	REAL_OFFER_ADD_INDEX,
-	REAL_OFFER_ROUTE,
-	TEMP_OFFER_ADD_INDEX,
-	TEMP_OFFER_ROUTE,
-} from '../../../../../utils/routes';
+import { REAL_OFFER_ADD_INDEX, REAL_OFFER_ROUTE } from '../../../../../utils/routes';
 import LargeBorderIconAnchorButton from '../../../../htmlElements/buttons/largeBorderIconAnchorButton/largeBorderIconAnchorButton';
 import PinInactiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-inactive.svg';
 
@@ -57,7 +51,6 @@ type Props = {
 	activeColor: string;
 	openFilterModal: boolean;
 	setOpenFilterModal: React.Dispatch<React.SetStateAction<boolean>>;
-	shop_type: 'TEMP_SHOP' | 'AUTH_SHOP';
 	children?: React.ReactNode;
 };
 
@@ -74,7 +67,7 @@ const availableFiltersInit: OfferGetAvailableShopFiltersType = {
 };
 
 const EditShopTabContent: React.FC<Props> = (props: Props) => {
-	const { shop_pk, shop_type } = props;
+	const { shop_pk } = props;
 	const router = useRouter();
 	const [filter, setFilter] = useState<'D' | 'C'>('D');
 	const dispatch = useAppDispatch();
@@ -92,64 +85,28 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 	const [availableFilters, setAvailableFilters] = useState<OfferGetAvailableShopFiltersType>(availableFiltersInit);
 	const [applyFiltersClicked, setApplyFiltersClicked] = useState<boolean>(false);
 
-	// const getCurrentQueryParams = useCallback(async () => {
-	// 	return generateQueryParams(router.query);
-	// }, [router.query]);
-	// const checkNextPage = async (index: number) => {
-	// 	if (isLoadingNextPageInProgress) {
-	// 		return;
-	// 	}
-	// 	if (offersLinkedHashMap.offersMap) {
-	// 		if (index >= offersLinkedHashMap.offersMap.size() - 1) {
-	// 			setIsLoadingNextPageInProgress(true);
-	// 			await getOffers();
-	// 			setIsLoadingNextPageInProgress(false);
-	// 		}
-	// 	}
-	// };
 	const [availableFiltersHasData, setAvailableFiltersHasData] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (!availableFiltersFetched) {
-			if (shop_type === 'AUTH_SHOP') {
-				const action = offerGetAvailableFiltersByShopID(shop_pk as number);
-				dispatch({
-					...action,
-					onComplete: ({
-						error,
-						cancelled,
-						data,
-					}: {
-						error: ApiErrorResponseType;
-						cancelled: boolean;
-						data: OfferGetAvailableShopFiltersType;
-					}) => {
-						if (!error && !cancelled && data) {
-							setAvailableFilters(data);
-							setAvailableFiltersHasData(true);
-						}
-					},
-				});
-			} else if (shop_type === 'TEMP_SHOP') {
-				const action = offerGetAvailableFiltersByUniqueID(shop_pk as string);
-				dispatch({
-					...action,
-					onComplete: ({
-						error,
-						cancelled,
-						data,
-					}: {
-						error: ApiErrorResponseType;
-						cancelled: boolean;
-						data: OfferGetAvailableShopFiltersType;
-					}) => {
-						if (!error && !cancelled && data) {
-							setAvailableFilters(data);
-							setAvailableFiltersHasData(true);
-						}
-					},
-				});
-			}
+			const action = offerGetAvailableFiltersByShopID(shop_pk as number);
+			dispatch({
+				...action,
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: {
+					error: ApiErrorResponseType;
+					cancelled: boolean;
+					data: OfferGetAvailableShopFiltersType;
+				}) => {
+					if (!error && !cancelled && data) {
+						setAvailableFilters(data);
+						setAvailableFiltersHasData(true);
+					}
+				},
+			});
 			setAvailableFiltersFetched(true);
 		}
 
@@ -245,7 +202,6 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 		offersLinkedHashMap,
 		router.query,
 		shop_pk,
-		shop_type,
 	]);
 
 	const filterOnChange = (
@@ -379,11 +335,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 												dispatch(setEmptyUserLocalOffer());
 												dispatch(offerGetLastThreeUsedDeliveriesAction());
 											}}
-											nextPage={
-												shop_type === 'AUTH_SHOP'
-													? REAL_OFFER_ADD_INDEX(router.query.shop_link as string)
-													: TEMP_OFFER_ADD_INDEX
-											}
+											nextPage={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
 										/>
 									</Grid>
 									{offersLinkedHashMap.offersMap
@@ -402,11 +354,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 												}
 												return (
 													<Link
-														href={
-															shop_type === 'AUTH_SHOP'
-																? REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))
-																: TEMP_OFFER_ROUTE(encodeURIComponent(data.key))
-														}
+														href={REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))}
 														passHref
 														key={data.key}
 													>
@@ -438,17 +386,19 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 																			/>
 																		)}
 																		{!data.value.thumbnail ? (
-																			<Skeleton variant="rectangular" width={250} height={165}/>
-																		) : <ImageFuture
-																			src={data.value.thumbnail}
-																			alt=""
-																			width="0"
-																			height="0"
-																			sizes="100vw"
-																			className={Styles.offerThumb}
-																			loading="eager"
-																			priority={true}
-																		/>}
+																			<Skeleton variant="rectangular" width={250} height={165} />
+																		) : (
+																			<ImageFuture
+																				src={data.value.thumbnail}
+																				alt=""
+																				width="0"
+																				height="0"
+																				sizes="100vw"
+																				className={Styles.offerThumb}
+																				loading="eager"
+																				priority={true}
+																			/>
+																		)}
 																		{data.value.creator_label && (
 																			<ImageFuture
 																				className={Styles.creatorImageTag}
@@ -525,31 +475,29 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 							</div>
 						</Stack>
 					</>
-				) : !isLoadingInitInProgress && (
-					<>
-						<div className={SharedStyles.shopAddOfferWrapper}>
-							<div className={SharedStyles.addOfferContainer}>
-								<div className={SharedStyles.centeredInfoActionWrapper}>
-									<CenteredInfoAction
-										header="Démarrer votre boutique"
-										subHeader="Ajoutez votre premier article !"
-										cssHeaderClass={SharedStyles.infoHeader}
-										cssSubHeaderClass={SharedStyles.infoSubHeader}
-									/>
-									<BorderIconAnchorButton
-										buttonText="Ajouter un article"
-										svgIcon={ActivatedAddIconSVG}
-										active={true}
-										nextPage={
-											shop_type === 'AUTH_SHOP'
-												? REAL_OFFER_ADD_INDEX(router.query.shop_link as string)
-												: TEMP_OFFER_ADD_INDEX
-										}
-									/>
+				) : (
+					!isLoadingInitInProgress && (
+						<>
+							<div className={SharedStyles.shopAddOfferWrapper}>
+								<div className={SharedStyles.addOfferContainer}>
+									<div className={SharedStyles.centeredInfoActionWrapper}>
+										<CenteredInfoAction
+											header="Démarrer votre boutique"
+											subHeader="Ajoutez votre premier article !"
+											cssHeaderClass={SharedStyles.infoHeader}
+											cssSubHeaderClass={SharedStyles.infoSubHeader}
+										/>
+										<BorderIconAnchorButton
+											buttonText="Ajouter un article"
+											svgIcon={ActivatedAddIconSVG}
+											active={true}
+											nextPage={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
+										/>
+									</div>
 								</div>
 							</div>
-						</div>
-					</>
+						</>
+					)
 				)}
 				{/* Mobile filter MODAL */}
 				{availableFiltersHasData && (

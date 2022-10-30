@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { default as ImageFuture } from 'next/future/image';
-import Styles from '../../../../../styles/temp-offer/create/overview.module.sass';
+import Styles from '../../../../../styles/offers/create/overview.module.sass';
 import { Stack, ThemeProvider, ImageListItem, Box, Grid, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';
 import {

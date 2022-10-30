@@ -1,7 +1,6 @@
 import React from "react";
 import Styles from "./horairesRadioCheckContent.module.sass";
-import { Box, Grid, Stack, ThemeProvider } from "@mui/material";
-import Chip from "@mui/material/Chip";
+import { Stack, ThemeProvider } from "@mui/material";
 import RadioCheckElement from "../radioCheckElement";
 import { horairesInputTheme } from "../../../../../utils/themes";
 

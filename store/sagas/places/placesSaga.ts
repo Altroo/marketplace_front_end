@@ -4,19 +4,18 @@ import { allowAnyInstance } from '../../../utils/helpers';
 import { getApi } from '../../services/_init/_initAPI';
 import {
 	setGetLocalisation, setGetCities, setGetCountries,
-	setGetPlacesIsLoading, placesGETApiErrorAction, setEmptyGetLocalisation, setGetCountryCodes
+	setGetPlacesIsLoading, placesGETApiErrorAction,
 } from "../../slices/places/placesSlice";
 import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
 import {
 	PlacesGetCitiesResponseType,
-	PlacesGetCountriesResponseType, PlacesGetCountryCodesResponseType,
+	PlacesGetCountriesResponseType,
 	PlacesGetLocalisationResponseType
 } from "../../../types/places/placesTypes";
 import { AxiosInstance } from "axios";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
-import { PLACES_GET_COUNTRY_CODES } from "../../actions";
 
-export function* placesGetLocalisationSaga(payload: { type: string; longitude: number; latitude: number }) {
+function* placesGetLocalisationSaga(payload: { type: string; longitude: number; latitude: number }) {
 	yield put(setGetPlacesIsLoading());
 	const url = `${process.env.NEXT_PUBLIC_PLACES_LOCALISATION}${payload.longitude}/${payload.latitude}/`;
 	try {
@@ -31,11 +30,7 @@ export function* placesGetLocalisationSaga(payload: { type: string; longitude: n
 	}
 }
 
-function* placesEmptyGetLocalisationSaga() {
-	yield put(setEmptyGetLocalisation());
-}
-
-export function* placesGetCountriesSaga() {
+function* placesGetCountriesSaga() {
 	const url = `${process.env.NEXT_PUBLIC_PLACES_COUNTRIES}`;
 	const params = {all : true};
 	try {
@@ -50,21 +45,7 @@ export function* placesGetCountriesSaga() {
 	}
 }
 
-export function* placesGetCountryCodesSaga() {
-	const url = `${process.env.NEXT_PUBLIC_PLACES_COUNTRY_CODES}`;
-	try {
-		const instance : AxiosInstance = yield call(() => allowAnyInstance());
-		const response: PlacesGetCountryCodesResponseType = yield call(() => getApi(url, instance));
-		if (response.status === 200) {
-			yield put(setGetCountryCodes(response.data));
-		}
-	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-	}
-}
-
-export function* placesGetCitiesSaga(payload: { type: string; code: string; q?: string }) {
+function* placesGetCitiesSaga(payload: { type: string; code: string; q?: string }) {
 	const url = `${process.env.NEXT_PUBLIC_PLACES_CITIES}`;
 	const params = {code : payload.code, q: payload.q};
 	try {
@@ -84,8 +65,6 @@ export function* placesGetCitiesSaga(payload: { type: string; code: string; q?: 
 
 export function* watchPlaces() {
 	yield takeLatest(Types.PLACES_GET_LOCALISATION, placesGetLocalisationSaga);
-	yield takeLatest(Types.PLACES_EMPTY_GET_LOCALISATION, placesEmptyGetLocalisationSaga);
 	yield takeLatest(Types.PLACES_GET_COUNTRIES, placesGetCountriesSaga);
-	yield takeLatest(Types.PLACES_GET_COUNTRY_CODES, placesGetCountryCodesSaga);
 	yield takeLatest(Types.PLACES_GET_CITIES, placesGetCitiesSaga);
 }

@@ -4,15 +4,9 @@ import { useAppSelector } from '../../../../../../utils/hooks';
 import { getShopObj } from '../../../../../../store/selectors';
 import { Stack, Box } from '@mui/material';
 import ClockSVG from '../../../../../../public/assets/svgs/globalIcons/clock-gray.svg';
-import Image from 'next/image';
-import WhatsappCircularSVG from "../../../../../../public/assets/svgs/globalIcons/whatsapp-circular.svg";
 import { default as ImageFuture } from "next/future/image";
 
-type Props = {
-	children?: React.ReactNode;
-};
-
-const ShowHoraire: React.FC<Props> = (props: Props) => {
+const ShowHoraire: React.FC = () => {
 	const { opening_days, morning_hour_from, morning_hour_to, afternoon_hour_from, afternoon_hour_to } =
 		useAppSelector(getShopObj);
 	const [horaireAllContent, setHoraireAllContent] = useState<string>('');

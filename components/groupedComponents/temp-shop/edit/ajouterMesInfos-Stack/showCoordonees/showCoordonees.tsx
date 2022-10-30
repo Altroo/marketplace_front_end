@@ -1,7 +1,6 @@
 import React from 'react';
 import Styles from './showCoordonees.module.sass';
 import { Stack, Box, Divider } from '@mui/material';
-import Image from 'next/image';
 import PhoneOutlinedSVG from '../../../../../../public/assets/svgs/globalIcons/phone-outlined.svg';
 import WebsiteOutlinedSVG from '../../../../../../public/assets/svgs/globalIcons/website-outlined.svg';
 import EmailOutlinedSVG from '../../../../../../public/assets/svgs/globalIcons/email-outlined.svg';
@@ -12,14 +11,9 @@ import WhatsappCircularSVG from '../../../../../../public/assets/svgs/globalIcon
 import { useAppSelector } from '../../../../../../utils/hooks';
 import { getShopObj } from '../../../../../../store/selectors';
 import Link from 'next/link';
-import BlackStarSVG from "../../../../../../public/assets/svgs/globalIcons/black-star.svg";
 import { default as ImageFuture } from "next/future/image";
 
-type Props = {
-	children?: React.ReactNode;
-};
-
-const ShowCoordonees: React.FC<Props> = (props: Props) => {
+const ShowCoordonees: React.FC = () => {
 	const { phone, twitter_link, website_link, instagram_link, whatsapp, contact_email, facebook_link } =
 		useAppSelector(getShopObj);
 	return (

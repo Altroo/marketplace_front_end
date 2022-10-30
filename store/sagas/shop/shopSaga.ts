@@ -27,7 +27,6 @@ import {
 	InitStateInterface,
 	InitStateToken,
 	InitStateUniqueID,
-	ResponseDataErrorInterface,
 } from '../../../types/_init/_initTypes';
 import {
 	setShopAvatar,
@@ -41,14 +40,11 @@ import {
 	setShopAvailability,
 	setShopContact,
 	setShopAddress,
-	setCreator,
 	setWSShopAvatar,
 	setNewShopName,
 	setNewShopAvatar,
 	setNewShopColor,
 	setNewShopFont,
-	setBorder,
-	setIconColor,
 	setShopPhoneContact,
 	setGetShopIsLoading,
 	userShopGETApiErrorAction,
@@ -72,54 +68,17 @@ import {
 import { withCallback } from 'redux-saga-callback';
 import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
-import { getApi, patchApi, patchFormDataApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
+import { getApi, patchApi, patchFormDataApi, postFormDataApi } from '../../services/_init/_initAPI';
 import {
-	TEMP_SHOP_ADD_AVATAR,
-	TEMP_SHOP_ADD_COLOR,
-	TEMP_SHOP_ADD_FONT,
-	TEMP_SHOP_EDIT_ROUTE,
+	REAL_SHOP_ADD_AVATAR,
+	REAL_SHOP_ADD_COLOR,
+	REAL_SHOP_ADD_FONT,
 } from '../../../utils/routes';
 import { NextRouter } from 'next/router';
 import { AxiosInstance } from 'axios';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { Saga } from "redux-saga";
 import { accountGetCheckAccountSaga } from "../account/accountSaga";
-
-// interface TokenNoAuthSagaBaseGeneratorParams {
-//     payloadRecord: Record<string, unknown>;
-//     apiCall: (
-//         instance: AxiosInstance,
-//         payload: Record<string, unknown>,
-//         uniqueID?: (string | null)
-//     ) => Promise<{ data: Record<string, unknown>, status: number }>;
-// }
-//
-// function* tokenNoAuthSagaBaseGenerator({payloadRecord, apiCall}: TokenNoAuthSagaBaseGeneratorParams) {
-//     const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
-//     try {
-//         if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-//             const instance : AxiosInstance = yield call(() => tokenInstance(authSagaContext.initStateToken));
-//             return yield call(() =>
-//                 apiCall(instance, payloadRecord));
-//         } else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-//             const instance : AxiosInstance = yield call(() => noAuthInstance());
-//             return yield call(() =>
-//                 // const response: typeof responseType = yield call(() =>
-//                 apiCall(instance, payloadRecord,
-//                     authSagaContext.initStateUniqueID.unique_id));
-//         }
-//         return {
-//             status: 500,
-//         };
-//     } catch (e) {
-//         const errors = e as AxiosErrorDefaultType;
-//         console.log(errors);
-//         return {
-//             data: errors.error,
-//             status: errors.status,
-//         };
-//     }
-// }
 
 function* shopPostRootSaga(payload: ShopPostRootType) {
 	yield put(setPostShopIsLoading());
@@ -529,26 +488,6 @@ function* shopPatchAddressSaga(payload: Partial<ShopPatchRootType>) {
 	}
 }
 
-function* shopPostCreatorSaga() {
-	const url = `${process.env.NEXT_PUBLIC_SHOP_CREATOR}`;
-	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: ResponseDataErrorInterface = yield call(() => postApi(url, instance));
-			if (response.status === 204) {
-				yield put(setCreator(true));
-			} else {
-				console.log(response.data);
-				console.log(response.status);
-			}
-		}
-	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-	}
-}
-
 function* wsShopAvatarSaga(payload: { type: string; pk: number; shop_avatar: string }) {
 	yield put(setWSShopAvatar(payload.shop_avatar));
 }
@@ -557,13 +496,13 @@ function* wsShopAvatarSaga(payload: { type: string; pk: number; shop_avatar: str
 function* setShopLocalShopNameSaga(payload: { type: string; shop_name: string; router: NextRouter }) {
 	yield put(setNewShopName(payload.shop_name));
 	yield call(() => setLocalStorageNewShopName(payload.shop_name));
-	yield call(() => payload.router.push(TEMP_SHOP_ADD_AVATAR));
+	yield call(() => payload.router.push(REAL_SHOP_ADD_AVATAR));
 }
 
 function* setShopLocalAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string; router: NextRouter }) {
 	yield put(setNewShopAvatar(payload.avatar));
 	yield call(() => setLocalStorageNewShopAvatar(payload.avatar as string));
-	yield call(() => payload.router.push(TEMP_SHOP_ADD_COLOR));
+	yield call(() => payload.router.push(REAL_SHOP_ADD_COLOR));
 }
 
 function* setShopLocalColorSaga(payload: {
@@ -585,20 +524,12 @@ function* setShopLocalColorSaga(payload: {
 	yield call(() =>
 		setLocalStorageNewShopColor(payload.color_code, payload.bg_color_code, payload.border, payload.icon_color),
 	);
-	yield call(() => payload.router.push(TEMP_SHOP_ADD_FONT));
+	yield call(() => payload.router.push(REAL_SHOP_ADD_FONT));
 }
 
 function* setShopLocalFontSaga(payload: { type: string; font_name: ShopFontNameType }) {
 	yield put(setNewShopFont(payload.font_name));
 	yield call(() => setLocalStorageNewShopFont(payload.font_name));
-}
-
-function* setShopLocalBorderSaga(payload: { type: string; border: string }) {
-	yield put(setBorder(payload.border));
-}
-
-function* setShopLocalIconColorSaga(payload: { type: string; iconColor: IconColorType }) {
-	yield put(setIconColor(payload.iconColor));
 }
 
 function* loadNewAddedShopDataSaga() {
@@ -633,8 +564,6 @@ export function* watchShop() {
 	yield takeLatest(Types.SET_SHOP_AVATAR, setShopLocalAvatarSaga);
 	yield takeLatest(Types.SET_SHOP_COLOR, setShopLocalColorSaga);
 	yield takeLatest(Types.SET_SHOP_FONT, setShopLocalFontSaga);
-	yield takeLatest(Types.SET_SHOP_BORDER, setShopLocalBorderSaga);
-	yield takeLatest(Types.SET_SHOP_ICON_COLOR, setShopLocalIconColorSaga);
 	yield takeLatest(Types.SHOP_POST_ROOT, withCallback(shopPostRootSaga as Saga));
 	yield takeLatest(Types.SHOP_GET_ROOT, shopGetRootSaga);
 	yield takeLatest(Types.SHOP_GET_PHONE_CODES, shopGetPhoneCodesSaga);
@@ -647,6 +576,5 @@ export function* watchShop() {
 	yield takeLatest(Types.SHOP_PATCH_AVAILABILITY, shopPatchAvailabilitySaga);
 	yield takeLatest(Types.SHOP_PATCH_CONTACT, shopPatchContactSaga);
 	yield takeLatest(Types.SHOP_PATCH_ADDRESS, shopPatchAddressSaga);
-	yield takeLatest(Types.SHOP_POST_CREATOR, shopPostCreatorSaga);
 	yield takeLatest(Types.WS_SHOP_AVATAR, wsShopAvatarSaga);
 }

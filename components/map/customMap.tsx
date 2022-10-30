@@ -100,7 +100,6 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 				<MapMoveEnd />
 				<TileLayer
 					url={`${process.env.NEXT_PUBLIC_MAP_URL}`}
-					// accessToken={`Basic ${process.env.MAP_ACCESS_TOOKEN}`}
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				/>
 				{props.zoneBy === 'A' ? (

@@ -23,8 +23,6 @@ import {
 	getUserShopUrl
 } from "../store/selectors";
 import { placesGetCitiesAction } from "../store/actions/places/placesActions";
-// import { offerGetMyOffersFirstPageAction } from "../store/actions/offer/offerActions";
-// import { offerGetMyOffersFirstPageAction } from "../store/actions/offer/offerActions";
 
 const InitContext = createContext<InitStateInterface<InitStateToken, InitStateUniqueID>>({
 	tokenType: null,
