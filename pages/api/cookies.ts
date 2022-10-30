@@ -26,13 +26,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 				...options,
 			});
 		}
-		// if ('bg_color_code' in query) {
-		// 	setCookie(res, '@bg_color_code', query.bg_color_code, {
-		// 		maxAge: query.maxAge,
-		// 		sameSite: 'none',
-		// 		...options,
-		// 	});
-		// }
 		// Color code & bg_color_code
 		if ('color_code' in query) {
 			setCookie(res, '@color_code', query.color_code, {

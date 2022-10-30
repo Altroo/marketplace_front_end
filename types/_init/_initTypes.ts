@@ -1,52 +1,6 @@
 import { ShopFontNameType } from '../shop/shopTypes';
 import { OfferPinType } from '../offer/offerTypes';
 
-/*
-	CASE 1 (GLOBAL ERROR):
-	{
-    "error": {
-        "status_code": 400,
-        "message": "Bad request syntax or unsupported method",
-        "details": {
-            "error": [
-                "Doit inclure “email” et “password”."
-            ]
-        }
-    }
-	}
-CASE 2 (SPECIFIC SOLO EACH ERROR):
-{
-    "error": {
-        "status_code": 400,
-        "message": "Bad request syntax or unsupported method",
-        "details": {
-            "email": [
-                "Saisissez une adresse e-mail valide."
-            ],
-            "password": [
-                "Ce champ ne peut être nul."
-            ],
-            "password2": [
-                "Ce champ ne peut être nul."
-            ]
-        }
-    }
-}
-CASE 3 (SPECIFIC SOLO MULTI ERRORS):
-{
-    "error": {
-        "status_code": 400,
-        "message": "Bad request syntax or unsupported method",
-        "details": {
-            "email": [
-                "Assurez-vous que ce champ comporte au plus 254 caractères.",
-                "Saisissez une adresse e-mail valide."
-            ]
-        }
-    }
-}
- */
-
 export type ApiErrorType = {
 	status_code: number | null;
 	message: string | null;
@@ -92,8 +46,6 @@ export interface GlobalApiPromiseError extends ApiErrorResponseType {
 	editPromiseStatus: ApiPromiseStatus;
 }
 
-// export type ApiPromiseStatus = 'PENDING' | 'RESOLVED' | 'REJECTED';
-
 export interface ResponseDataInterface<T> {
 	data: T;
 	status: number;
@@ -119,7 +71,6 @@ export type APIContentTypeInterface = 'application/json' | 'application/x-www-fo
 
 export type Nullable<T> = { [K in keyof T]: T[K] | null };
 // export type Undefinedable<T> = { [K in keyof T]: T[K] | undefined };
-
 // export type DeepNullable<T> = { [K in keyof T]: DeepNullable<T[K]> | null };
 
 export type TokenChoices = 'TOKEN' | 'UNIQUE_ID';

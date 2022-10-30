@@ -31,7 +31,7 @@ import {
 	AccountPatchProfilType,
 	AccountPutChangeEmailHasPasswordResponseType
 } from "../../../types/account/accountTypes";
-import { setTokenState, setEmptyUniqueIDState, setFbEmailInInit } from "../../slices/_init/_initSlice";
+import { setTokenState, setFbEmailInInit } from "../../slices/_init/_initSlice";
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { withCallback } from 'redux-saga-callback';
 import { AxiosInstance } from "axios";
@@ -199,7 +199,7 @@ function* accountPostRegisterSaga(payload: {type: string, tokens: InitStateNonNu
 	// set localStorage token only
 	yield call(() => setRemoteCookiesTokenOnly(payload.tokens));
 	// Empty unique ID state & cookies in case
-	yield put(setEmptyUniqueIDState());
+	// yield put(setEmptyUniqueIDState());
 	yield call(() => emptyRemoteCookiesUniqueIDOnly());
 	yield put(setIsLoggedIn(true));
 	// }

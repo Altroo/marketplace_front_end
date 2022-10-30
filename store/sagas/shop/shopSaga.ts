@@ -196,16 +196,17 @@ function* shopPatchShopNameSaga(payload: Partial<ShopPatchRootType>) {
 				// update state
 				yield put(setShopName({ ...response.data }));
 			}
-		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-			const instance: AxiosInstance = yield call(() => allowAnyInstance());
-			const response: ShopPatchShopNameType = yield call(() =>
-				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-			);
-			if (response.status === 200) {
-				// update state
-				yield put(setShopName({ ...response.data }));
-			}
 		}
+		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance());
+		// 	const response: ShopPatchShopNameType = yield call(() =>
+		// 		patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
+		// 	);
+		// 	if (response.status === 200) {
+		// 		// update state
+		// 		yield put(setShopName({ ...response.data }));
+		// 	}
+		// }
 	} catch (e) {
 		const apiError = e as ApiErrorResponseType;
 		yield put<ActionCreatorWithPayload<ApiErrorResponseType>>(yield call(() => userShopPATCHApiErrorAction(apiError)));
@@ -231,19 +232,20 @@ function* shopPatchAvatarSaga(payload: Partial<ShopPatchRootType>) {
 				// set error state
 				console.log(response.status);
 			}
-		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-			const instance: AxiosInstance = yield call(() => allowAnyInstance('multipart/form-data'));
-			const response: ShopPatchAvatarType = yield call(() =>
-				patchFormDataApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-			);
-			if (response.status === 200) {
-				// update state
-				yield put(setShopAvatar({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
-			}
 		}
+		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance('multipart/form-data'));
+		// 	const response: ShopPatchAvatarType = yield call(() =>
+		// 		patchFormDataApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
+		// 	);
+		// 	if (response.status === 200) {
+		// 		// update state
+		// 		yield put(setShopAvatar({ ...response.data }));
+		// 	} else {
+		// 		// set error state
+		// 		console.log(response.status);
+		// 	}
+		// }
 	} catch (e) {
 		const errors = e as ApiErrorResponseType;
 		console.log(errors);
@@ -267,19 +269,20 @@ function* shopPatchColorSaga(payload: Partial<ShopPatchRootType>) {
 				// set error state
 				console.log(response.status);
 			}
-		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-			const instance: AxiosInstance = yield call(() => allowAnyInstance());
-			const response: ShopPatchColorType = yield call(() =>
-				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-			);
-			if (response.status === 200) {
-				// update state
-				yield put(setShopColors({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
-			}
 		}
+		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance());
+		// 	const response: ShopPatchColorType = yield call(() =>
+		// 		patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
+		// 	);
+		// 	if (response.status === 200) {
+		// 		// update state
+		// 		yield put(setShopColors({ ...response.data }));
+		// 	} else {
+		// 		// set error state
+		// 		console.log(response.status);
+		// 	}
+		// }
 	} catch (e) {
 		const errors = e as ApiErrorResponseType;
 		console.log(errors);
@@ -303,19 +306,20 @@ function* shopPatchFontSaga(payload: Partial<ShopPatchRootType>) {
 				// set error state
 				console.log(response.status);
 			}
-		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-			const instance: AxiosInstance = yield call(() => allowAnyInstance());
-			const response: ShopPatchFontType = yield call(() =>
-				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-			);
-			if (response.status === 200) {
-				// update state
-				yield put(setShopFont({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
-			}
 		}
+		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance());
+		// 	const response: ShopPatchFontType = yield call(() =>
+		// 		patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
+		// 	);
+		// 	if (response.status === 200) {
+		// 		// update state
+		// 		yield put(setShopFont({ ...response.data }));
+		// 	} else {
+		// 		// set error state
+		// 		console.log(response.status);
+		// 	}
+		// }
 	} catch (e) {
 		const errors = e as ApiErrorResponseType;
 		console.log(errors);
@@ -343,16 +347,17 @@ function* shopPatchPhoneContactSaga(payload: {
 				// update state
 				yield put(setShopPhoneContact(response.data));
 			}
-		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-			const instance: AxiosInstance = yield call(() => allowAnyInstance());
-			const response: ShopPatchContactPhoneType = yield call(() =>
-				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-			);
-			if (response.status === 200) {
-				// update state
-				yield put(setShopPhoneContact(response.data));
-			}
 		}
+		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance());
+		// 	const response: ShopPatchContactPhoneType = yield call(() =>
+		// 		patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
+		// 	);
+		// 	if (response.status === 200) {
+		// 		// update state
+		// 		yield put(setShopPhoneContact(response.data));
+		// 	}
+		// }
 	} catch (e) {
 		const errors = e as ApiErrorResponseType;
 		console.log(errors);
@@ -374,16 +379,17 @@ function* shopPatchBioSaga(payload: Partial<ShopPatchRootType>) {
 				// update state
 				yield put(setShopBio({ ...response.data }));
 			}
-		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-			const instance: AxiosInstance = yield call(() => allowAnyInstance());
-			const response: ShopPatchBioType = yield call(() =>
-				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-			);
-			if (response.status === 200) {
-				// update state
-				yield put(setShopBio({ ...response.data }));
-			}
 		}
+		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance());
+		// 	const response: ShopPatchBioType = yield call(() =>
+		// 		patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
+		// 	);
+		// 	if (response.status === 200) {
+		// 		// update state
+		// 		yield put(setShopBio({ ...response.data }));
+		// 	}
+		// }
 	} catch (e) {
 		const apiError = e as ApiErrorResponseType;
 		yield put<ActionCreatorWithPayload<ApiErrorResponseType>>(yield call(() => userShopPATCHApiErrorAction(apiError)));
@@ -405,16 +411,17 @@ function* shopPatchAvailabilitySaga(payload: Partial<ShopPatchRootType>) {
 				// update state
 				yield put(setShopAvailability({ ...response.data }));
 			}
-		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-			const instance: AxiosInstance = yield call(() => allowAnyInstance());
-			const response: ShopPatchAvailabilityType = yield call(() =>
-				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-			);
-			if (response.status === 200) {
-				// update state
-				yield put(setShopAvailability({ ...response.data }));
-			}
 		}
+		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance());
+		// 	const response: ShopPatchAvailabilityType = yield call(() =>
+		// 		patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
+		// 	);
+		// 	if (response.status === 200) {
+		// 		// update state
+		// 		yield put(setShopAvailability({ ...response.data }));
+		// 	}
+		// }
 	} catch (e) {
 		const apiError = e as ApiErrorResponseType;
 		yield put<ActionCreatorWithPayload<ApiErrorResponseType>>(yield call(() => userShopPATCHApiErrorAction(apiError)));
@@ -436,16 +443,17 @@ function* shopPatchContactSaga(payload: Partial<ShopPatchRootType>) {
 				// update state
 				yield put(setShopContact({ ...response.data }));
 			}
-		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-			const instance: AxiosInstance = yield call(() => allowAnyInstance());
-			const response: ShopPatchContactType = yield call(() =>
-				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-			);
-			if (response.status === 200) {
-				// update state
-				yield put(setShopContact({ ...response.data }));
-			}
 		}
+		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance());
+		// 	const response: ShopPatchContactType = yield call(() =>
+		// 		patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
+		// 	);
+		// 	if (response.status === 200) {
+		// 		// update state
+		// 		yield put(setShopContact({ ...response.data }));
+		// 	}
+		// }
 	} catch (e) {
 		const apiError = e as ApiErrorResponseType;
 		yield put<ActionCreatorWithPayload<ApiErrorResponseType>>(yield call(() => userShopPATCHApiErrorAction(apiError)));
@@ -469,19 +477,20 @@ function* shopPatchAddressSaga(payload: Partial<ShopPatchRootType>) {
 				// set error state
 				console.log(response.status);
 			}
-		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-			const instance: AxiosInstance = yield call(() => allowAnyInstance());
-			const response: ShopPatchAddressType = yield call(() =>
-				patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-			);
-			if (response.status === 200) {
-				// update state
-				yield put(setShopAddress({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
-			}
 		}
+		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance());
+		// 	const response: ShopPatchAddressType = yield call(() =>
+		// 		patchApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
+		// 	);
+		// 	if (response.status === 200) {
+		// 		// update state
+		// 		yield put(setShopAddress({ ...response.data }));
+		// 	} else {
+		// 		// set error state
+		// 		console.log(response.status);
+		// 	}
+		// }
 	} catch (e) {
 		const errors = e as ApiErrorResponseType;
 		console.log(errors);

@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { InitStateInterface, InitStateToken, InitStateUniqueID } from '../../../types/_init/_initTypes';
-import { HYDRATE } from "next-redux-wrapper";
 
 export const apiErrorInitialState = {
 	error: {
@@ -66,11 +65,6 @@ const _initSlice = createSlice({
 		setFbEmailInInit: (state, action: PayloadAction<{email : string}>) => {
 			state.initStateToken.user.email = action.payload.email;
 		},
-		setEmptyUniqueIDState: (state) => {
-			state.initStateUniqueID = emptyInitStateUniqueID;
-			// return state;
-		},
-
 		initToken: () => {
 			return initialState;
 		},
@@ -82,6 +76,6 @@ const _initSlice = createSlice({
 	// },
 });
 
-export const { setInitState, setTokenState, setEmptyUniqueIDState, initToken, setFbEmailInInit } = _initSlice.actions;
+export const { setInitState, setTokenState, setFbEmailInInit } = _initSlice.actions;
 
 export default _initSlice.reducer;
