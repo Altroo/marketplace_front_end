@@ -370,18 +370,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			}
 		} else {
 			// not connected, status unknown
-			if (!avatar) {
-				return {
-					redirect: {
-						permanent: false,
-						destination: REAL_SHOP_ADD_AVATAR,
-					},
-				};
-			} else {
-				return {
-					props: {},
-				};
-			}
+			return {
+				redirect: {
+					permanent: false,
+					destination: AUTH_LOGIN,
+				},
+			};
 		}
 	} catch (e) {
 		// fallback case.

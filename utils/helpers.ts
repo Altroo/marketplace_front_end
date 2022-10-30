@@ -118,7 +118,6 @@ export const isAuthenticatedInstance = (
 
 export const allowAnyInstance = (
 	contentType: APIContentTypeInterface = 'application/json',
-	expectUniqueID?: boolean,
 ) => {
 	const instance: AxiosInstance = axios.create({
 		baseURL: `${process.env.NEXT_PUBLIC_ROOT_API_URL}`,
@@ -128,18 +127,18 @@ export const allowAnyInstance = (
 	});
 	instance.interceptors.response.use(
 		(response: AxiosResponse) => {
-			if (expectUniqueID) {
-				const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
-					tokenType: 'UNIQUE_ID',
-					initStateToken: emptyInitStateToken,
-					initStateUniqueID: {
-						unique_id: response.data.unique_id,
-						unique_id_expiration: response.data.unique_id_expiration,
-					},
-				};
-				setRemoteCookiesAppToken(newInitStateToken).then();
-				store.dispatch(setInitState(newInitStateToken));
-			}
+			// if (expectUniqueID) {
+			// 	const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
+			// 		tokenType: 'UNIQUE_ID',
+			// 		initStateToken: emptyInitStateToken,
+			// 		initStateUniqueID: {
+			// 			unique_id: response.data.unique_id,
+			// 			unique_id_expiration: response.data.unique_id_expiration,
+			// 		},
+			// 	};
+			// 	setRemoteCookiesAppToken(newInitStateToken).then();
+			// 	store.dispatch(setInitState(newInitStateToken));
+			// }
 			return response;
 		},
 		(error) => {

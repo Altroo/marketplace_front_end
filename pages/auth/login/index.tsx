@@ -65,7 +65,7 @@ const LoginPageContent = () => {
 				const instance = allowAnyInstance();
 				const response: AccountPostLoginResponseType = await postApi(url, instance, {email: values.email, password: values.password});
 				if (response.status === 200) {
-					dispatch(accountPostRegisterAction(false, response.data));
+					dispatch(accountPostRegisterAction(response.data));
 					await signIn('credentials', {
 						email: values.email,
 						password: values.password,

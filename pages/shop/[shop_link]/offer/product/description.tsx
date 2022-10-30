@@ -6,11 +6,12 @@ import LeftSideBar from '../../../../../components/groupedComponents/shared/left
 import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
+	AUTH_LOGIN,
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ADD_PRODUCT_CATEGORIES,
 	REAL_OFFER_ADD_PRODUCT_PRICE,
-	REAL_SHOP_ADD_SHOP_NAME,
-} from '../../../../../utils/routes';
+	REAL_SHOP_ADD_SHOP_NAME
+} from "../../../../../utils/routes";
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
@@ -506,7 +507,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 				return {
 					redirect: {
 						permanent: false,
-						destination: REAL_SHOP_ADD_SHOP_NAME,
+						destination: AUTH_LOGIN,
 					},
 				};
 			}
@@ -516,7 +517,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		return {
 			redirect: {
 				permanent: false,
-				destination: REAL_SHOP_ADD_SHOP_NAME,
+				destination: AUTH_LOGIN,
 			},
 		};
 	}

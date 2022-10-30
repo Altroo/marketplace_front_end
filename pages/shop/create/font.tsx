@@ -40,25 +40,19 @@ import {
 	getNewShopFontName,
 	getNewShopBorder,
 	getNewShopIconColor,
-	getNewShopIsAddInProgress,
-	getNewShopApiError,
-	getNewShopAddPromiseStatus,
 } from '../../../store/selectors';
-import ApiAlert from '../../../components/formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
-import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import {
 	REAL_SHOP_ADD_COLOR,
 	SITE_ROOT,
-	REAL_SHOP_EDIT_ROUTE,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	AUTH_LOGIN,
 } from '../../../utils/routes';
 import { getCookie } from 'cookies-next';
 import { Box } from '@mui/material';
 import { SagaCallBackOnCompleteStrType } from '../../../types/_init/_initTypes';
-import { useSession } from 'next-auth/react';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from "../../../utils/helpers";
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
+import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
 	{
@@ -80,8 +74,8 @@ export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
 ];
 
 const Font: NextPage = () => {
-	const { data: session, status } = useSession();
-	const loading = status === 'loading';
+	// const { data: session, status } = useSession();
+	// const loading = status === 'loading';
 	const activeStep = '4';
 	const dispatch = useAppDispatch();
 	const router = useRouter();
@@ -94,9 +88,9 @@ const Font: NextPage = () => {
 	const shopIconColor = useAppSelector(getNewShopIconColor);
 	const shopFontName = useAppSelector(getNewShopFontName);
 	// const uniqueID = useAppSelector(getTokenType);
-	const isAddInProgressSelector = useAppSelector(getNewShopIsAddInProgress);
-	const isAddErrorSelector = useAppSelector(getNewShopApiError);
-	const isAddPromiseStatusSelector = useAppSelector(getNewShopAddPromiseStatus);
+	// const isAddInProgressSelector = useAppSelector(getNewShopIsAddInProgress);
+	// const isAddErrorSelector = useAppSelector(getNewShopApiError);
+	// const isAddPromiseStatusSelector = useAppSelector(getNewShopAddPromiseStatus);
 
 	// page states
 	const [preview, setPreview] = useState<ArrayBuffer | null>(null);
@@ -109,6 +103,8 @@ const Font: NextPage = () => {
 	const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
 	// Gray contact Icon
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconSVG);
+	const [showApiDataAction, setShowApiDataAction] = useState<boolean>(false);
+	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
 	const chipCategoriesAction: chipActionsType = [
 		{
@@ -170,6 +166,7 @@ const Font: NextPage = () => {
 
 	const fontHandler = (font: ShopFontNameType | undefined) => {
 		if (font) {
+			setIsApiCallInProgress(true);
 			dispatch(setShopFontAction(font));
 			const action = shopPostRootAction(
 				shopName,
@@ -184,22 +181,26 @@ const Font: NextPage = () => {
 				...action,
 				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteStrType) => {
 					if (!error && !cancelled && data) {
-						if (!loading && session) {
-							let url: string = REAL_SHOP_BY_SHOP_LINK_ROUTE(data as string);
-							url += '?created=true';
-							router.replace(url).then();
-						} else {
-							router.replace(`${REAL_SHOP_EDIT_ROUTE}?created=true`).then();
-						}
+						let url: string = REAL_SHOP_BY_SHOP_LINK_ROUTE(data as string);
+						url += '?created=true';
+						router.replace(url).then();
 					}
 				},
 			});
+			setIsApiCallInProgress(false);
 		}
 		// router.push(`${TEMP_SHOP_EDIT_ROUTE}?created=true`)
 	};
 
 	return (
 		<>
+			{isApiCallInProgress && (
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+					backdropColor="#FFFFFF"
+					circularColor="#0D070B"
+				/>
+			)}
 			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SHOP" />
 				<Box sx={{ width: '100%', height: '100%' }}>
@@ -324,39 +325,10 @@ const Font: NextPage = () => {
 						/>
 					</div>
 				</Box>
-				{isAddInProgressSelector && isAddPromiseStatusSelector === 'PENDING' && (
-					<ApiProgress
-						cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
-						backdropColor="#FFFFFF"
-						circularColor="#FFFFFF"
-					/>
-				)}
-				{!isAddInProgressSelector && isAddPromiseStatusSelector === 'REJECTED' && isAddErrorSelector && (
-					<ApiAlert
-						errorDetails={isAddErrorSelector.details}
-						cssStyle={{ position: 'absolute', left: '50%', top: '50%', margin: '0 -60px -60px -60px' }}
-					/>
-				)}
 			</main>
 		</>
 	);
 };
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-// 	const color_code = getCookie('@color_code', { req: context.req, res: context.res });
-// 	const bg_color_code = getCookie('@bg_color_code', { req: context.req, res: context.res });
-// 	if (!color_code && !bg_color_code) {
-// 		return {
-// 			redirect: {
-// 				permanent: false,
-// 				destination: TEMP_SHOP_ADD_COLOR,
-// 			},
-// 		};
-// 	}
-// 	return {
-// 		props: {},
-// 	};
-// }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const color_code = getCookie('@color_code', { req: context.req, res: context.res });
@@ -392,16 +364,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			}
 		} else {
 			// not connected, status unknown
-			if (!color_code && !bg_color_code) {
-				return {
-					redirect: {
-						permanent: false,
-						destination: REAL_SHOP_ADD_COLOR,
-					},
-				};
-			}
 			return {
-				props: {},
+				redirect: {
+					permanent: false,
+					destination: AUTH_LOGIN,
+				},
 			};
 		}
 	} catch (e) {

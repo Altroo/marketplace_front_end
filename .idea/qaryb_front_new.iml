@@ -315,8 +315,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/radioCheckButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/textAnchorButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/customIconButton" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/shop/edit" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/shop/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/offers" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/offers/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/offers/edit" isTestSource="false" />
@@ -324,6 +322,7 @@
       <sourceFolder url="file://$MODULE_DIR$/styles/offers/service" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/offers/service/add" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/offers/service/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/archives/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
@@ -341,6 +340,7 @@
       <excludeFolder url="file://$MODULE_DIR$/archives/shopNameField" />
       <excludeFolder url="file://$MODULE_DIR$/archives/offerTitleField" />
       <excludeFolder url="file://$MODULE_DIR$/archives/shop/edit" />
+      <excludeFolder url="file://$MODULE_DIR$/archives/edit" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -1,3 +1,5 @@
+// @ts-ignore
+// eslint-disable-next-line no-empty
 {}
 // export const getServerSideProps = wrapper.getServerSideProps(async ({ store }) => {
 // 	store.dispatch(tickClock(false))

@@ -62,11 +62,9 @@ import {
 	loadLocalStorageNewShopData,
 	setLocalStorageNewShopColor,
 	setLocalStorageNewShopName,
-	setRemoteCookiesAppToken,
 	deleteCookieStorageNewShopData,
 } from '../../../utils/helpers';
 import { withCallback } from 'redux-saga-callback';
-import { emptyInitStateToken, setInitState } from '../../slices/_init/_initSlice';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { getApi, patchApi, patchFormDataApi, postFormDataApi } from '../../services/_init/_initAPI';
 import {
@@ -84,85 +82,87 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 	yield put(setPostShopIsLoading());
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SHOP_ROOT}/`;
-	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const instance: AxiosInstance = yield call(() =>
-				isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
-			);
-			const response: ShopPostRootTokenResponseType = yield call(() => postFormDataApi(url, instance, payload));
-			if (response.status === 200) {
-				yield put(setPostShopState(response.data));
-				// empty temporary new shop data
-				yield call(() => emptyLocalStorageNewShopData());
-				// delete cookies
-				yield call(() => deleteCookieStorageNewShopData());
-				// refresh check account data -> has shop true
-				yield call(() => accountGetCheckAccountSaga());
-				return response.data.qaryb_link;
-			}
-		} else {
-			// User is not authenticated
-			const instance: AxiosInstance = yield call(() => allowAnyInstance('multipart/form-data', true));
-			const response: ShopPostRootUniqueIDResponseType = yield call(() => postFormDataApi(url, instance, payload));
-			if (response.status === 200) {
-				// set UNIQUE_ID to local storage & states
-				const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
-					tokenType: 'UNIQUE_ID',
-					initStateToken: emptyInitStateToken,
-					initStateUniqueID: {
-						unique_id: response.data.unique_id,
-						unique_id_expiration: response.data.expiration_date,
-					},
-				};
-				// yield call(() => setLocalStorageAppToken(newInitStateToken));
-				yield call(() => setRemoteCookiesAppToken(newInitStateToken));
-				yield put(setInitState(newInitStateToken));
-				yield put(setPostShopState(response.data));
-				// empty temporary new shop data
-				yield call(() => emptyLocalStorageNewShopData());
-				// delete cookies
-				yield call(() => deleteCookieStorageNewShopData());
-				return response.data.qaryb_link;
-			}
+	// try {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const instance: AxiosInstance = yield call(() =>
+			isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
+		);
+		const response: ShopPostRootTokenResponseType = yield call(() => postFormDataApi(url, instance, payload));
+		if (response.status === 200) {
+			yield put(setPostShopState(response.data));
+			// empty temporary new shop data
+			yield call(() => emptyLocalStorageNewShopData());
+			// delete cookies
+			yield call(() => deleteCookieStorageNewShopData());
+			// refresh check account data -> has shop true
+			yield call(() => accountGetCheckAccountSaga());
+			return response.data.qaryb_link;
 		}
-	} catch (e) {
-		const apiError = e as ApiErrorResponseType;
-		yield put<ActionCreatorWithPayload<ApiErrorResponseType>>(yield call(() => userShopPOSTApiErrorAction(apiError)));
 	}
+		// } else {
+		// 	// User is not authenticated
+		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance('multipart/form-data', true));
+		// 	const response: ShopPostRootUniqueIDResponseType = yield call(() => postFormDataApi(url, instance, payload));
+		// 	if (response.status === 200) {
+		// 		// set UNIQUE_ID to local storage & states
+		// 		const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
+		// 			tokenType: 'UNIQUE_ID',
+		// 			initStateToken: emptyInitStateToken,
+		// 			initStateUniqueID: {
+		// 				unique_id: response.data.unique_id,
+		// 				unique_id_expiration: response.data.expiration_date,
+		// 			},
+		// 		};
+		// 		// yield call(() => setLocalStorageAppToken(newInitStateToken));
+		// 		yield call(() => setRemoteCookiesAppToken(newInitStateToken));
+		// 		yield put(setInitState(newInitStateToken));
+		// 		yield put(setPostShopState(response.data));
+		// 		// empty temporary new shop data
+		// 		yield call(() => emptyLocalStorageNewShopData());
+		// 		// delete cookies
+		// 		yield call(() => deleteCookieStorageNewShopData());
+		// 		return response.data.qaryb_link;
+		// 	}
+		// }
+	// } catch (e) {
+	// 	const apiError = e as ApiErrorResponseType;
+	// 	yield put<ActionCreatorWithPayload<ApiErrorResponseType>>(yield call(() => userShopPOSTApiErrorAction(apiError)));
+	// }
 }
 
 function* shopGetRootSaga(payload: ShopGetRootType) {
 	yield put(setGetShopIsLoading());
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_SHOP_ROOT}/`;
-	try {
-		// User authenticated
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			// get shop data using qaryb link.
-			// else get user data.
-			if (payload.qaryb_link) {
-				url += `${payload.qaryb_link}/`;
-			}
-			const response: ShopGetRootTokenResponseType = yield call(() => getApi(url, instance));
-			if (response.status === 200) {
-				// update state
-				yield put(setGetShopState(response.data));
-			}
-		} else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-			// User is not authenticated
-			const instance: AxiosInstance = yield call(() => allowAnyInstance());
-			url += `${authSagaContext.initStateUniqueID.unique_id}/`;
-			const response: ShopGetRootUniqueIDResponseType = yield call(() => getApi(url, instance));
-			if (response.status === 200) {
-				yield put(setGetShopState(response.data));
-			}
+	// try {
+	// User authenticated
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		// get shop data using qaryb link.
+		// else get user data.
+		if (payload.qaryb_link) {
+			url += `${payload.qaryb_link}/`;
 		}
-	} catch (e) {
-		const apiError = e as ApiErrorResponseType;
-		yield put<ActionCreatorWithPayload<ApiErrorResponseType>>(yield call(() => userShopGETApiErrorAction(apiError)));
-		// set error state
+		const response: ShopGetRootTokenResponseType = yield call(() => getApi(url, instance));
+		if (response.status === 200) {
+			// update state
+			yield put(setGetShopState(response.data));
+		}
 	}
+	// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+	// 	// User is not authenticated
+	// 	const instance: AxiosInstance = yield call(() => allowAnyInstance());
+	// 	url += `${authSagaContext.initStateUniqueID.unique_id}/`;
+	// 	const response: ShopGetRootUniqueIDResponseType = yield call(() => getApi(url, instance));
+	// 	if (response.status === 200) {
+	// 		yield put(setGetShopState(response.data));
+	// 	}
+	// }
+	// } catch (e) {
+	// 	const apiError = e as ApiErrorResponseType;
+	// 	yield put<ActionCreatorWithPayload<ApiErrorResponseType>>(yield call(() => userShopGETApiErrorAction(apiError)));
+	// 	// set error state
+	// }
 }
 
 export function* shopGetPhoneCodesSaga() {

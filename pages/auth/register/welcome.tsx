@@ -5,19 +5,24 @@ import { GetServerSidePropsContext } from 'next';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import { getApi } from '../../../store/services/_init/_initAPI';
-import { AUTH_LOGIN, AUTH_REGISTER, DASHBOARD } from "../../../utils/routes";
+import { AUTH_LOGIN, AUTH_REGISTER, DASHBOARD, REAL_SHOP_ADD_SHOP_NAME } from '../../../utils/routes';
 import SuccessIlluSVG from '../../../public/assets/images/success-illu.svg';
 import { default as ImageFuture } from 'next/future/image';
 import { Stack } from '@mui/material';
 import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
-import Link from "next/link";
-import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
+import Link from 'next/link';
+import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 
 type Props = {
-	children?: React.ReactNode;
+	pageProps: {
+		has_shop: boolean;
+		children?: React.ReactNode;
+	};
 };
 
 const Welcome: React.FC<Props> = (props: Props) => {
+	const { has_shop } = props.pageProps;
+
 	return (
 		<>
 			<div className={Styles.desktopOnly}>
@@ -32,28 +37,28 @@ const Welcome: React.FC<Props> = (props: Props) => {
 						<ImageFuture src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 						<h2 className={Styles.header}>Bienvenue dans la famille Qaryb !</h2>
 						<p className={Styles.subHeader}>Pensez à activer votre compte pour finaliser votre inscription</p>
-						<PrimaryAnchorButton buttonText="Aller au dashboard" active={true} nextPage={DASHBOARD} />
+						<PrimaryAnchorButton
+							buttonText={has_shop ? 'Aller au dashboard' : 'Créez ma boutique'}
+							active={true}
+							nextPage={has_shop ? DASHBOARD : REAL_SHOP_ADD_SHOP_NAME}
+						/>
 					</Stack>
 				</AuthPageLayout>
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
 					<Stack direction="column" justifyContent="space-between" className={Styles.rootStack}>
-						<UserMainNavigationBar/>
-						<Stack
-						direction="column"
-						spacing={4}
-						alignItems="center"
-						>
+						<UserMainNavigationBar />
+						<Stack direction="column" spacing={4} alignItems="center">
 							<ImageFuture src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 							<h2 className={Styles.header}>Bienvenue dans la famille Qaryb !</h2>
 							<p className={Styles.subHeader}>Pensez à activer votre compte pour finaliser votre inscription</p>
 						</Stack>
 						<div className={Styles.primaryButtonWrapper}>
 							<PrimaryAnchorButton
-								buttonText="Aller au dashboard"
+								buttonText={has_shop ? 'Aller au dashboard' : 'Créez ma boutique'}
 								active={true}
-								nextPage={DASHBOARD}
+								nextPage={has_shop ? DASHBOARD : REAL_SHOP_ADD_SHOP_NAME}
 							/>
 						</div>
 					</Stack>
@@ -82,7 +87,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			if (response.status === 200) {
 				// case user already loggedIn show page.
 				return {
-					props: {},
+					props: {
+						has_shop: response.data.has_shop,
+					},
 				};
 			}
 		} else {

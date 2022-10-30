@@ -71,7 +71,7 @@ import PrimaryButton from '../../../../../components/htmlElements/buttons/primar
 import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_PRODUCT_PRICE, REAL_OFFER_ROUTE,
-	REAL_SHOP_ADD_SHOP_NAME
+	REAL_SHOP_ADD_SHOP_NAME, AUTH_LOGIN
 } from "../../../../../utils/routes";
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
@@ -774,7 +774,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 				return {
 					redirect: {
 						permanent: false,
-						destination: REAL_SHOP_ADD_SHOP_NAME,
+						destination: AUTH_LOGIN,
 					},
 				};
 			}
@@ -784,7 +784,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		return {
 			redirect: {
 				permanent: false,
-				destination: REAL_SHOP_ADD_SHOP_NAME,
+				destination: AUTH_LOGIN,
 			},
 		};
 	}

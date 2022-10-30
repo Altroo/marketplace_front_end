@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Styles from './editShopTabContent.module.sass';
-import SharedStyles from '../../../../groupedComponents/temp-shop/edit/startYourShopContent/startYourShopContent.module.sass';
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
 import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from '@mui/material';
 import {
@@ -326,7 +325,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 							)}
 							<div className={`${offersLinkedHashMap.nextPage ? Styles.gridInStack : Styles.gridInBlock}`}>
 								<Grid container gap="15px" wrap="wrap">
-									<Grid item xs="auto" className={SharedStyles.gridButtonAddAnOfferWrapper}>
+									<Grid item xs="auto" className={Styles.gridButtonAddAnOfferWrapper}>
 										<LargeBorderIconAnchorButton
 											buttonText="Ajouter un article"
 											svgIcon={ActivatedAddIconSVG}
@@ -478,14 +477,14 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 				) : (
 					!isLoadingInitInProgress && (
 						<>
-							<div className={SharedStyles.shopAddOfferWrapper}>
-								<div className={SharedStyles.addOfferContainer}>
-									<div className={SharedStyles.centeredInfoActionWrapper}>
+							<div className={Styles.shopAddOfferWrapper}>
+								<div className={Styles.addOfferContainer}>
+									<div className={Styles.centeredInfoActionWrapper}>
 										<CenteredInfoAction
 											header="Démarrer votre boutique"
 											subHeader="Ajoutez votre premier article !"
-											cssHeaderClass={SharedStyles.infoHeader}
-											cssSubHeaderClass={SharedStyles.infoSubHeader}
+											cssHeaderClass={Styles.infoHeader}
+											cssSubHeaderClass={Styles.infoSubHeader}
 										/>
 										<BorderIconAnchorButton
 											buttonText="Ajouter un article"

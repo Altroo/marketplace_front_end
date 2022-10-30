@@ -20,7 +20,6 @@ import {
 	SITE_ROOT,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	AUTH_LOGIN,
-	NOT_FOUND_404,
 } from '../../../utils/routes';
 import { shopNameTextInputTheme } from '../../../utils/themes';
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
@@ -32,16 +31,9 @@ const ShopName: NextPage = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const shopName = useAppSelector(getNewShopName);
-	// const userHasShop = useAppSelector(getCheckUserHasShop);
-	// const userShopUrl = useAppSelector(getUserShopUrl);
-	// redux states
-	// page states
 	const [inputShopName, setInputShopName] = useState<string>('');
 
 	useEffect(() => {
-		// if (userHasShop && userShopUrl) {
-		// 	router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string), undefined, { shallow: true }).then();
-		// }
 		if (shopName) {
 			setInputShopName(shopName);
 		}
@@ -130,7 +122,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		} else {
 			// not connected, status unknown
 			return {
-				props: {},
+				redirect: {
+					permanent: false,
+					destination: AUTH_LOGIN,
+				},
 			};
 		}
 	} catch (e) {

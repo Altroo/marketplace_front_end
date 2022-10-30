@@ -16,8 +16,8 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
-	REAL_SHOP_ADD_SHOP_NAME,
-} from '../../../../../utils/routes';
+	REAL_SHOP_ADD_SHOP_NAME, AUTH_LOGIN
+} from "../../../../../utils/routes";
 import { useRouter } from 'next/router';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
@@ -101,7 +101,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 				return {
 					redirect: {
 						permanent: false,
-						destination: REAL_SHOP_ADD_SHOP_NAME,
+						destination: AUTH_LOGIN,
 					},
 				};
 			}
@@ -111,7 +111,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		return {
 			redirect: {
 				permanent: false,
-				destination: REAL_SHOP_ADD_SHOP_NAME,
+				destination: AUTH_LOGIN,
 			},
 		};
 	}

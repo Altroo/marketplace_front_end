@@ -2,12 +2,10 @@ import * as types from '../index';
 import { InitStateNonNullableToken } from "../../../types/_init/_initTypes";
 
 export const accountPostRegisterAction = (
-	unique_id_exists: boolean,
 	tokens: InitStateNonNullableToken
 ) => {
 	return {
 		type: types.ACCOUNT_POST_REGISTER,
-		unique_id_exists,
 		tokens,
 	};
 };

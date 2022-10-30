@@ -35,7 +35,6 @@ import { SagaCallBackType } from '../../../../types/_init/_initTypes';
 import ApiProgress from '../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import { getDefaultTheme } from '../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../components/htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
-import OutlineButton from '../../../../components/htmlElements/buttons/outlineButton/outlineButton';
 
 type offerLinkedHashMapType = {
 	total_vues: number;
@@ -140,12 +139,12 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 						setOfferVuesLinkedHashMap(result);
 						setIsLoadingNextPageInProgress(false);
 						if (isReset) {
-							setIsLoadingInitInProgress(false);
 							setFirstPageLoaded(true);
 						}
 					}
 				},
 			});
+			setIsLoadingInitInProgress(false);
 		};
 		const loadFirstPage = () => {
 			getVues(true);

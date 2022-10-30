@@ -67,20 +67,20 @@ const AboutPageContent = (props: AboutPageContent) => {
 					password2: values.password2
 				});
 				if (response.status === 200) {
-					if (tokenType === "UNIQUE_ID" && uniqueID.unique_id !== null) {
-						const unique_id = uniqueID.unique_id;
-						setRemoteCookiesTokenOnly(response.data);
-						const transferShopUrl = `${process.env.NEXT_PUBLIC_SHOP_TRANSFER_SHOP}`;
-						// using tokens from the register response
-						const authInstance = isAuthenticatedInstance(response.data);
-						// Get transfer shop response
-						const transferResponse: ResponseDataErrorInterface = await postApi(transferShopUrl, authInstance, { unique_id: unique_id });
-						if (transferResponse.status === 204) {
-							dispatch(accountPostRegisterAction(true, response.data));
-						}
-					} else {
-						dispatch(accountPostRegisterAction(false, response.data));
-					}
+					// if (tokenType === "UNIQUE_ID" && uniqueID.unique_id !== null) {
+					// 	const unique_id = uniqueID.unique_id;
+					// 	setRemoteCookiesTokenOnly(response.data);
+					// 	const transferShopUrl = `${process.env.NEXT_PUBLIC_SHOP_TRANSFER_SHOP}`;
+					// 	// using tokens from the register response
+					// 	const authInstance = isAuthenticatedInstance(response.data);
+					// 	// Get transfer shop response
+					// 	const transferResponse: ResponseDataErrorInterface = await postApi(transferShopUrl, authInstance, { unique_id: unique_id });
+					// 	if (transferResponse.status === 204) {
+					// 		dispatch(accountPostRegisterAction(true, response.data));
+					// 	}
+					// } else {
+					dispatch(accountPostRegisterAction(response.data));
+					// }
 					await signIn('credentials', {
 						email: props.email,
 						password: values.password,

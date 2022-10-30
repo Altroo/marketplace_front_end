@@ -51,7 +51,7 @@ import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE, REAL_SHOP_EDIT_ROUTE } from '../../../utils/routes';
+import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../../../utils/routes';
 import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';

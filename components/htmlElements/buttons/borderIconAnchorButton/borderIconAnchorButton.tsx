@@ -2,9 +2,9 @@ import React, { ForwardedRef, forwardRef } from 'react';
 import Styles from './borderIconAnchorButton.module.sass';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
-import {CustomTheme} from '../../../../utils/themes';
+import { CustomTheme } from '../../../../utils/themes';
 import { ThemeProvider } from '@mui/material';
-import { default as ImageFuture } from "next/future/image";
+import { default as ImageFuture } from 'next/future/image';
 
 type Props = {
 	buttonText: string;
@@ -25,13 +25,7 @@ const BorderIconAnchorButton = forwardRef<HTMLAnchorElement, Props>(
 					<a ref={ref} className={Styles.anchor}>
 						<Button disabled={!props.active} className={`${Styles.button} ${Styles.activated}`}>
 							<div className={Styles.container}>
-								<ImageFuture
-						src={props.svgIcon}
-						alt=""
-						width="18.67"
-						height="18.67"
-						sizes="100vw"
-					/>
+								<ImageFuture src={props.svgIcon} alt="" width="18.67" height="18.67" sizes="100vw" className={Styles.svgIcon} />
 								<span className={`${Styles.textActivated}`}>{props.buttonText}</span>
 							</div>
 						</Button>
@@ -41,13 +35,7 @@ const BorderIconAnchorButton = forwardRef<HTMLAnchorElement, Props>(
 		) : (
 			<button disabled className={`${Styles.button} ${Styles.desactivatedButton}`}>
 				<div className={Styles.container}>
-					<ImageFuture
-						src={props.svgIcon}
-						alt=""
-						width="18.67"
-						height="18.67"
-						sizes="100vw"
-					/>
+					<ImageFuture src={props.svgIcon} alt="" width="18.67" height="18.67" sizes="100vw" />
 					<span>{props.buttonText}</span>
 				</div>
 			</button>

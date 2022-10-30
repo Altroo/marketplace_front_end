@@ -74,11 +74,14 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 			if (userHasShop && typeof userShopUrl === 'string') {
 				dispatch(shopGetRootAction(userShopUrl));
 			}
-		} else if (tokenType === 'UNIQUE_ID' && uniqueID !== null) {
+		}
+		/*
+		else if (tokenType === 'UNIQUE_ID' && uniqueID !== null) {
 			// try to get unique ID shop if exists.
 			dispatch(shopGetRootAction());
 		}
-	}, [dispatch, tokenType, token, uniqueID, userHasShop, appTokenCookiesLoaded, newShopCookiesLoaded, userShopUrl]);
+		 */
+	}, [appTokenCookiesLoaded, dispatch, newShopCookiesLoaded, token, tokenType, userHasShop, userShopUrl]);
 
 	const contextValue: InitStateInterface<InitStateToken, InitStateUniqueID> = {
 		tokenType: tokenType,

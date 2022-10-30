@@ -32,7 +32,7 @@ export const REAL_OFFER_ADD_PRODUCT_DESCRIPTION = (shop_link: string) => `/shop/
 export const REAL_OFFER_ADD_PRODUCT_PRICE = (shop_link: string) => `/shop/${shop_link}/offer/product/prix`;
 export const REAL_OFFER_ADD_PRODUCT_DELIVERIES = (shop_link: string) => `/shop/${shop_link}/offer/product/livraison`;
 
-export const REAL_SHOP_EDIT_ROUTE = '/shop/edit';
+// export const REAL_SHOP_EDIT_ROUTE = '/shop/edit'; //replaced by shop url page itself
 
 // Auth Routes
 export const AUTH_REGISTER = '/auth/register';

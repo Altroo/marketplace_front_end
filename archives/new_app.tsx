@@ -1,3 +1,5 @@
+// @ts-ignore
+// eslint-disable-next-line no-empty
 {}
 // import React from 'react';
 // import App, { AppProps } from 'next/app';
