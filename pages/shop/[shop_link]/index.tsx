@@ -294,7 +294,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	];
 
 	const [openFilterModal, setOpenFilterModal] = useState<boolean>(false);
-
+	const [showMobileFilterButton, setShowMobileFilterButton] = useState<boolean>(false);
 	// Modals
 	const [openContacterModal, setContacterModalOpen] = useState<boolean>(false);
 	const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
@@ -636,13 +636,15 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					<Box>
 						<Stack className={Styles.shopDetailsWrapper} direction="column">
 							<Stack className={Styles.shopTabs} direction="row">
-								<MobileOffersFilterButton
-									buttonText="Filtrer"
-									svgIcon={MobileFilterWhiteSVG}
-									textColor="#FFFFFF"
-									backgroundColor="#0D070B"
-									onClick={() => setOpenFilterModal(true)}
-								/>
+								{showMobileFilterButton && (
+									<MobileOffersFilterButton
+										buttonText="Filtrer"
+										svgIcon={MobileFilterWhiteSVG}
+										textColor="#FFFFFF"
+										backgroundColor="#0D070B"
+										onClick={() => setOpenFilterModal(true)}
+									/>
+								)}
 								<ShopInfoTabs
 									color={bgColorCode}
 									borderColor={bgColorCode}
@@ -652,6 +654,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 											shop_pk={pk}
 											openFilterModal={openFilterModal}
 											setOpenFilterModal={setOpenFilterModal}
+											setShowMobileFilterButton={setShowMobileFilterButton}
 										/>
 									}
 									InfoContent={
