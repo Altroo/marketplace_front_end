@@ -311,7 +311,6 @@ const Description: NextPage = () => {
 									}
 									if (
 										values.title &&
-										availabilityDaysString.length > 0 &&
 										values.service_morning_hour_from &&
 										values.service_morning_hour_to &&
 										values.tags.length > 0 &&
