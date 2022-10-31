@@ -39,7 +39,13 @@ const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
 					/>
 				</IconButton>
 				<ThemeProvider theme={quantityTheme}>
-					<TextField variant="outlined" value={props.quantity} color="primary" />
+					<TextField variant="outlined" value={props.quantity} onChange={(e) => {
+						if (e.target.value) {
+							props.setQuantity(parseInt(e.target.value));
+						} else {
+							props.setQuantity(0);
+						}
+					}} color="primary" />
 				</ThemeProvider>
 				<IconButton onClick={() => props.setQuantity((prevState) => prevState + 1)}>
 					<ImageFuture
