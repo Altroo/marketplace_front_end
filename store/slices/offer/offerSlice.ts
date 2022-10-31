@@ -296,7 +296,7 @@ const OfferSlice = createSlice({
 			state.userLocalProduct.quantity = action.payload.product_quantity;
 			state.userLocalProduct.made_in = action.payload.made_in;
 			state.userLocalProduct.creator = action.payload.creator;
-			state.userLocalProduct.tags = action.payload.tags;
+			// state.userLocalProduct.tags = action.payload.tags;
 		},
 		setLocalOfferServiceDescription: (
 			state,
@@ -311,7 +311,7 @@ const OfferSlice = createSlice({
 			state.userLocalService.service_morning_hour_to = action.payload.service_morning_hour_to;
 			state.userLocalService.service_afternoon_hour_from = action.payload.service_afternoon_hour_from;
 			state.userLocalService.service_afternoon_hour_to = action.payload.service_afternoon_hour_to;
-			state.userLocalService.tags = action.payload.tags;
+			// state.userLocalService.tags = action.payload.tags;
 		},
 		setLocalOfferProductPrice: (state, action: PayloadAction<{ price: string; price_by: 'U' | 'K' | 'L' }>) => {
 			state.userLocalProduct.prix = action.payload.price;

@@ -150,7 +150,7 @@ function* offerGetTagsSaga(payload: OfferGetTagsType) {
 
 function* offerGetLastUsedLocalisationSaga(payload: { type: string; offer_type: OfferOfferTypeType }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-	let url = `${process.env.NEXT_PUBLIC_OFFER_LOCALISATION}${payload.offer_type}/`;
+	const url = `${process.env.NEXT_PUBLIC_OFFER_LOCALISATION}${payload.offer_type}/`;
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
@@ -582,7 +582,7 @@ function* setOfferProductDescriptionPageSaga(payload: {
 	product_quantity: number | null;
 	made_in: string;
 	creator: boolean;
-	tags: string | null;
+	// tags: string | null;
 }) {
 	yield put(setLocalOfferProductDescription({ ...payload }));
 	return true;
@@ -598,7 +598,7 @@ function* setOfferServiceDescriptionPageSaga(payload: {
 	service_morning_hour_to: string | null,
 	service_afternoon_hour_from: string | null,
 	service_afternoon_hour_to: string | null,
-	tags: string | null,
+	// tags: string | null,
 }) {
 	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
 	const url = `${process.env.NEXT_PUBLIC_OFFER_GET_SERVICES_DAYS}`;
@@ -618,7 +618,7 @@ function* setOfferServiceDescriptionPageSaga(payload: {
 				service_morning_hour_to: payload.service_morning_hour_to,
 				service_afternoon_hour_from: payload.service_afternoon_hour_from,
 				service_afternoon_hour_to: payload.service_afternoon_hour_to,
-				tags: payload.tags,
+				// tags: payload.tags,
 			}
 			yield put(setLocalOfferServiceDescription(newPayload));
 			return true;
@@ -693,7 +693,7 @@ function* setOfferProductToEditSaga(payload: setOfferProductToEditPayloadType) {
 		made_in: payload.made_in,
 		creator: payload.creator,
 		product_quantity: payload.quantity,
-		tags: payload.tags,
+		// tags: payload.tags,
 	};
 	yield put(setLocalOfferProductDescription(description));
 	// Set price page
@@ -738,7 +738,7 @@ function* setOfferServiceToEditSaga(payload: setOfferServiceToEditPayloadType) {
 		service_morning_hour_to: payload.service_morning_hour_to,
 		service_afternoon_hour_from: payload.service_afternoon_hour_from,
 		service_afternoon_hour_to: payload.service_afternoon_hour_to,
-		tags: payload.tags,
+		// tags: payload.tags,
 	}
 	yield put(setLocalOfferServiceDescription(newPayload));
 	// Set localisation

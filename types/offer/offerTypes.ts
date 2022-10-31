@@ -206,7 +206,7 @@ export interface OfferGetRootProductInterface
 		| 'offer_categories'
 		| 'for_whom'
 		| 'pictures'
-		| 'tags'
+		// | 'tags'
 	> {
 	pk: number;
 	user_pk: number;
@@ -222,7 +222,7 @@ export interface OfferGetRootProductInterface
 	picture_4_thumb: string | null;
 	for_whom: Array<OfferForWhomType>;
 	details_offer: DetailsOfferProductType;
-	tags: Array<string>;
+	// tags: Array<string>;
 	creator_label?: boolean | null;
 	made_in_label?: {
 		name: string;
@@ -246,7 +246,7 @@ export interface OfferGetRootServiceInterface
 		| 'offer_categories'
 		| 'for_whom'
 		| 'pictures'
-		| 'tags'
+		// | 'tags'
 	> {
 	pk: number;
 	user_pk: number;
@@ -262,7 +262,7 @@ export interface OfferGetRootServiceInterface
 	picture_4_thumb: string | null;
 	for_whom: Array<OfferForWhomType>;
 	details_offer: DetailsOfferServiceType;
-	tags: Array<string>;
+	// tags: Array<string>;
 	creator_label?: null;
 	made_in_label?: {
 		name: null;
@@ -352,7 +352,7 @@ export interface UserLocalProductType {
 	quantity: number | null;
 	made_in: string | null;
 	creator: boolean | null;
-	tags: string | null;
+	// tags: string | null;
 	prix: string | null;
 	prix_par: 'U' | 'K' | 'L' | null;
 	clickAndCollect: clickAndCollect;
@@ -376,7 +376,7 @@ export interface UserLocalServiceType {
 	service_latitude: number | null,
 	service_address: string | null,
 	service_km_radius: number | null,
-	tags: string | null;
+	// tags: string | null;
 	price: string | null;
 	service_price_by: OfferServicePriceByType | null;
 }
@@ -472,7 +472,7 @@ export type LocalOfferProductDescriptionPageType = {
 	product_quantity: number | null;
 	made_in: string | null;
 	creator: boolean | null;
-	tags: string | null;
+	// tags: string | null;
 	router: NextRouter;
 };
 
@@ -486,7 +486,7 @@ export type LocalOfferServiceDescriptionPageType = {
 	service_morning_hour_to: string | null,
 	service_afternoon_hour_from: string | null,
 	service_afternoon_hour_to: string | null,
-	tags: string | null,
+	// tags: string | null,
 };
 
 export type OfferGetServicesDaysResponseType = ResponseDataInterface<OfferServiceAvailabilityDaysArray>;

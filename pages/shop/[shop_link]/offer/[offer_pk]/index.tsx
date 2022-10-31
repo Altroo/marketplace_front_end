@@ -178,7 +178,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		creator_label,
 		made_in_label,
 		pinned,
-		tags,
+		// tags,
 	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -517,7 +517,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 			quantity: details_offer.product_quantity,
 			made_in: made_in_label?.name as string,
 			creator: creator_label as boolean,
-			tags: tags.join(','),
+			// tags: tags.join(','),
 			prix: price as string,
 			prix_par: details_offer.product_price_by,
 			clickAndCollect: {
@@ -1199,7 +1199,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		shop_name,
 		for_whom,
 		pinned,
-		tags,
+		// tags,
 	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -1456,7 +1456,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			service_latitude: details_offer.service_latitude,
 			service_address: details_offer.service_address,
 			service_km_radius: details_offer.service_km_radius,
-			tags: tags.join(','),
+			// tags: tags.join(','),
 			price: price as string,
 			service_price_by: details_offer.service_price_by,
 		});

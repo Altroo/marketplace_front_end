@@ -85,11 +85,11 @@ export const addOfferProductSchema = Yup.object().shape({
 			}),
 	})).min(1, INPUT_IMG_MIN(1)),
 	made_in: Yup.string().required(INPUT_REQUIRED),
-	tags: Yup.lazy((val) =>
-		Array.isArray(val)
-			? Yup.array().of(Yup.string().required(INPUT_REQUIRED))
-			: Yup.string().required(INPUT_REQUIRED),
-	),
+	// tags: Yup.lazy((val) =>
+	// 	Array.isArray(val)
+	// 		? Yup.array().of(Yup.string().required(INPUT_REQUIRED))
+	// 		: Yup.string().required(INPUT_REQUIRED),
+	// ),
 });
 
 export const addOfferServiceSchema = Yup.object().shape({
@@ -118,7 +118,7 @@ export const addOfferServiceSchema = Yup.object().shape({
 	service_morning_hour_to: Yup.string().required(SHORT_INPUT_REQUIRED),
 	service_afternoon_hour_from: Yup.string().nullable().notRequired(),
 	service_afternoon_hour_to: Yup.string().nullable().notRequired(),
-	tags: Yup.array().of(Yup.string().required(INPUT_REQUIRED)),
+	// tags: Yup.array().of(Yup.string().required(INPUT_REQUIRED)),
 });
 
 export const clickAndCollectSchema = Yup.object().shape({

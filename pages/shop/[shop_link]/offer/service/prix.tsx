@@ -60,7 +60,7 @@ const Prix: NextPage = () => {
 		service_latitude,
 		service_address,
 		service_km_radius,
-		tags,
+		// tags,
 	} = localServiceObj;
 	const activeStep = '3';
 	const router = useRouter();
@@ -123,7 +123,7 @@ const Prix: NextPage = () => {
 							service_km_radius,
 							price as string,
 							price_by,
-							tags,
+							// tags,
 						);
 						dispatch({
 							...action,
@@ -162,7 +162,7 @@ const Prix: NextPage = () => {
 							service_km_radius,
 							price as string,
 							price_by,
-							tags,
+							// tags,
 						);
 						dispatch({
 							...action,

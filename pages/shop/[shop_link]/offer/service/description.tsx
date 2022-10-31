@@ -31,7 +31,7 @@ import CustomDropDownChoices from '../../../../../components/formikElements/cust
 import { SelectChangeEvent } from '@mui/material/Select';
 import { addOfferServiceSchema } from '../../../../../utils/formValidationSchemas';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import TagChips from '../../../../../components/groupedComponents/temp-offer/tagChips/tagChips';
+// import TagChips from '../../../../../components/groupedComponents/temp-offer/tagChips/tagChips';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import { useRouter } from 'next/router';
 import {
@@ -46,7 +46,7 @@ import {
 	getLocalOfferServiceMorningHourFrom,
 	getLocalOfferServiceMorningHourTo,
 	getLocalOfferServicePictures,
-	getLocalOfferServiceTags,
+	// getLocalOfferServiceTags,
 	getLocalOfferServiceTitle,
 	getLocalOfferServiceZoneBy,
 } from '../../../../../store/selectors';
@@ -74,8 +74,8 @@ const Description: NextPage = () => {
 	const [typingTitle, setTypingTitle] = useState<boolean>(false);
 	const [typingDescription, setTypingDescription] = useState<boolean>(false);
 	const [pickingImages, setPickingImages] = useState<boolean>(false);
-	const [pickingTags, setPickingTags] = useState<boolean>(false);
-	const [offerTags, setOfferTags] = useState<Array<string>>([]);
+	// const [pickingTags, setPickingTags] = useState<boolean>(false);
+	// const [offerTags, setOfferTags] = useState<Array<string>>([]);
 	const [images, setImages] = useState<ImageUploadingType>([]);
 	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	// local states
@@ -83,7 +83,7 @@ const Description: NextPage = () => {
 	const pickedPictures = useAppSelector(getLocalOfferServicePictures);
 	const pickedForWhom = useAppSelector(getLocalOfferServiceForwhom);
 	const pickedDescription = useAppSelector(getLocalOfferServiceDescription);
-	const pickedTags = useAppSelector(getLocalOfferServiceTags);
+	// const pickedTags = useAppSelector(getLocalOfferServiceTags);
 	const morningHourFrom = useAppSelector(getLocalOfferServiceMorningHourFrom);
 	const morningHourTo = useAppSelector(getLocalOfferServiceMorningHourTo);
 	const afternoonHourFrom = useAppSelector(getLocalOfferServiceAfternoonHourFrom);
@@ -108,7 +108,7 @@ const Description: NextPage = () => {
 		service_morning_hour_to: string | null;
 		service_afternoon_hour_from: string | null;
 		service_afternoon_hour_to: string | null;
-		tags: Array<string>;
+		// tags: Array<string>;
 	};
 	const [morningHourFromState, setMorningHourFromState] = useState<string>('');
 	const [morningHourToState, setMorningHourToState] = useState<string>('');
@@ -171,9 +171,9 @@ const Description: NextPage = () => {
 		if (pickedDescription && !typingDescription) {
 			setOfferDescription(pickedDescription);
 		}
-		if (typeof pickedTags === 'string' && !pickingTags) {
-			setOfferTags(pickedTags.split(','));
-		}
+		// if (typeof pickedTags === 'string' && !pickingTags) {
+		// 	setOfferTags(pickedTags.split(','));
+		// }
 		if (typeof pickedForWhom === 'string') {
 			setForWhomChoice(getForWhomDataArray(pickedForWhom.split(',') as Array<OfferForWhomType>));
 		}
@@ -185,10 +185,10 @@ const Description: NextPage = () => {
 		pickedDescription,
 		pickedForWhom,
 		pickedPictures,
-		pickedTags,
+		// pickedTags,
 		pickedTitle,
 		pickingImages,
-		pickingTags,
+		// pickingTags,
 		typingDescription,
 		typingTitle,
 	]);
@@ -212,7 +212,7 @@ const Description: NextPage = () => {
 			values.service_morning_hour_to,
 			values.service_afternoon_hour_from,
 			values.service_afternoon_hour_to,
-			values.tags.join(','),
+			// values.tags.join(','),
 		);
 		dispatch({
 			...action,
@@ -279,7 +279,7 @@ const Description: NextPage = () => {
 									service_morning_hour_to: morningHourToState,
 									service_afternoon_hour_from: afternoonHourFromState,
 									service_afternoon_hour_to: afternoonHourToState,
-									tags: offerTags,
+									// tags: offerTags,
 								}}
 								validateOnMount={true}
 								onSubmit={(values, { setSubmitting }) => {
@@ -313,7 +313,7 @@ const Description: NextPage = () => {
 										values.title &&
 										values.service_morning_hour_from &&
 										values.service_morning_hour_to &&
-										values.tags.length > 0 &&
+										// values.tags.length > 0 &&
 										images.length > 0 &&
 										address_name
 									) {
@@ -334,7 +334,7 @@ const Description: NextPage = () => {
 											service_afternoon_hour_to: values.service_afternoon_hour_to
 												? values.service_afternoon_hour_to.slice(0, 5)
 												: null,
-											tags: values.tags,
+											// tags: values.tags,
 										});
 									}
 								}}
@@ -589,13 +589,13 @@ const Description: NextPage = () => {
 													</span>
 												)}
 											</Stack>
-											<TagChips
-												pickedTags={offerTags}
-												onChange={(e, values) => {
-													setPickingTags(true);
-													setOfferTags(values);
-												}}
-											/>
+											{/*<TagChips*/}
+											{/*	pickedTags={offerTags}*/}
+											{/*	onChange={(e, values) => {*/}
+											{/*		setPickingTags(true);*/}
+											{/*		setOfferTags(values);*/}
+											{/*	}}*/}
+											{/*/>*/}
 										</Stack>
 										<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
 											<div
@@ -607,7 +607,7 @@ const Description: NextPage = () => {
 													active={
 														isValid &&
 														!isSubmitting &&
-														offerTags.length > 0 &&
+														// offerTags.length > 0 &&
 														!!address_name &&
 														!!longitude &&
 														!!latitude &&

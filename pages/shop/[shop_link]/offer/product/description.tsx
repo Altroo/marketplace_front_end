@@ -33,7 +33,7 @@ import SizesRadioCheckContent from '../../../../../components/groupedComponents/
 import QuantityRadioCheckContent from '../../../../../components/groupedComponents/temp-offer/radioCheckElement/quantityRadioCheckContent/quantityRadioCheckContent';
 import { addOfferProductSchema } from '../../../../../utils/formValidationSchemas';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import TagChips from '../../../../../components/groupedComponents/temp-offer/tagChips/tagChips';
+// import TagChips from '../../../../../components/groupedComponents/temp-offer/tagChips/tagChips';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import { setOfferProductDescriptionPage } from '../../../../../store/actions/offer/offerActions';
 import { useRouter } from 'next/router';
@@ -47,7 +47,7 @@ import {
 	getLocalOfferProductPictures,
 	getLocalOfferProductQuantity,
 	getLocalOfferProductSizes,
-	getLocalOfferProductTags,
+	// getLocalOfferProductTags,
 	getLocalOfferProductTitle,
 } from '../../../../../store/selectors';
 import { forWhomItemsList, getForWhomDataArray } from '../../../../../utils/rawData';
@@ -70,8 +70,8 @@ const Description: NextPage = () => {
 	const [typingTitle, setTypingTitle] = useState<boolean>(false);
 	const [typingDescription, setTypingDescription] = useState<boolean>(false);
 	const [pickingImages, setPickingImages] = useState<boolean>(false);
-	const [pickingTags, setPickingTags] = useState<boolean>(false);
-	const [offerTags, setOfferTags] = useState<Array<string>>([]);
+	// const [pickingTags, setPickingTags] = useState<boolean>(false);
+	// const [offerTags, setOfferTags] = useState<Array<string>>([]);
 	const [images, setImages] = useState<ImageUploadingType>([]);
 	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	const [xsState, setXsState] = useState<boolean>(false);
@@ -106,7 +106,7 @@ const Description: NextPage = () => {
 	const pickedQuantity = useAppSelector(getLocalOfferProductQuantity);
 	const pickedMadeIn = useAppSelector(getLocalOfferProductMadeIn);
 	const pickedCreator = useAppSelector(getLocalOfferProductCreator);
-	const pickedTags = useAppSelector(getLocalOfferProductTags);
+	// const pickedTags = useAppSelector(getLocalOfferProductTags);
 	const availableCountries = useAppSelector(getAvailableCountries);
 	// on change images
 	const imagesOnChangeHandler = (imageList: ImageUploadingType) => {
@@ -116,7 +116,7 @@ const Description: NextPage = () => {
 	type submitDataType = {
 		title: string;
 		description: string;
-		tags: Array<string>;
+		// tags: Array<string>;
 	};
 	const [colorSwitchOpen, setColorSwitchOpen] = useState<boolean>(false);
 	const [labelsSwitchOpen, setLabelsSwitchOpen] = useState<boolean>(false);
@@ -150,9 +150,9 @@ const Description: NextPage = () => {
 		if (pickedDescription && !typingDescription) {
 			setOfferDescription(pickedDescription);
 		}
-		if (typeof pickedTags === 'string' && !pickingTags) {
-			setOfferTags(pickedTags.split(','));
-		}
+		// if (typeof pickedTags === 'string' && !pickingTags) {
+		// 	setOfferTags(pickedTags.split(','));
+		// }
 		if (typeof pickedForWhom === 'string') {
 			setForWhomChoice(getForWhomDataArray(pickedForWhom.split(',') as Array<OfferForWhomType>));
 		}
@@ -200,13 +200,12 @@ const Description: NextPage = () => {
 		pickedDescription,
 		pickedForWhom,
 		pickedPictures,
-		pickedTags,
+		// pickedTags,
 		pickedTitle,
 		pickedSizesList,
 		typingTitle,
 		pickingImages,
 		typingDescription,
-		pickingTags,
 		dispatch,
 		pickedCreator,
 		pickedMadeIn,
@@ -253,7 +252,7 @@ const Description: NextPage = () => {
 			quantity,
 			madeIn,
 			togglePickedCreator,
-			values.tags.join(','),
+			// values.tags.join(','),
 		);
 		dispatch({
 			...action,
@@ -309,7 +308,7 @@ const Description: NextPage = () => {
 									images: images,
 									description: offerDescription,
 									made_in: madeIn,
-									tags: offerTags,
+									// tags: offerTags,
 								}}
 								validateOnMount={true}
 								onSubmit={(values) => {
@@ -444,13 +443,13 @@ const Description: NextPage = () => {
 													</Grid>
 												</Grid>
 											</Stack>
-											<TagChips
-												pickedTags={offerTags}
-												onChange={(e, values) => {
-													setPickingTags(true);
-													setOfferTags(values);
-												}}
-											/>
+											{/*<TagChips*/}
+											{/*	pickedTags={offerTags}*/}
+											{/*	onChange={(e, values) => {*/}
+											{/*		setPickingTags(true);*/}
+											{/*		setOfferTags(values);*/}
+											{/*	}}*/}
+											{/*/>*/}
 										</Stack>
 										<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
 											<div
@@ -461,8 +460,8 @@ const Description: NextPage = () => {
 													buttonText="Continuer"
 													active={
 														isValid &&
-														!isSubmitting &&
-														offerTags.length > 0
+														!isSubmitting
+														// && offerTags.length > 0
 													}
 													onClick={handleSubmit}
 													type="submit"

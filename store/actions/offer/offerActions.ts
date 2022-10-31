@@ -36,7 +36,7 @@ export const setOfferProductDescriptionPage = (
 	product_quantity: number | null,
 	made_in: string,
 	creator: boolean,
-	tags: string | null,
+	// tags: string | null,
 ) => {
 	return {
 		type: Types.SET_OFFER_PRODUCT_DESCRIPTION_PAGE,
@@ -49,7 +49,7 @@ export const setOfferProductDescriptionPage = (
 		product_quantity,
 		made_in,
 		creator,
-		tags,
+		// tags,
 	};
 };
 
@@ -80,7 +80,7 @@ export const setOfferServiceDescriptionPage = (
 	service_morning_hour_to: string | null,
 	service_afternoon_hour_from: string | null,
 	service_afternoon_hour_to: string | null,
-	tags: string | null,
+	// tags: string | null,
 ) => {
 	return {
 		type: Types.SET_OFFER_SERVICE_DESCRIPTION_PAGE,
@@ -93,7 +93,7 @@ export const setOfferServiceDescriptionPage = (
 		service_morning_hour_to,
 		service_afternoon_hour_from,
 		service_afternoon_hour_to,
-		tags,
+		// tags,
 	};
 };
 
@@ -215,7 +215,7 @@ export const offerPostRootProductAction = (
 	all_cities_3: boolean | null,
 	delivery_price_3: string | null,
 	delivery_days_3: string | null,
-	tags: string | null,
+	// tags: string | null,
 	creator_label?: boolean,
 	made_in_label?: string,
 ) => {
@@ -247,7 +247,7 @@ export const offerPostRootProductAction = (
 		all_cities_3,
 		delivery_price_3,
 		delivery_days_3,
-		tags,
+		// tags,
 		creator_label,
 		made_in_label,
 	};
@@ -272,7 +272,7 @@ export const offerPostRootServiceAction = (
 	service_km_radius: number | null,
 	price: string | null,
 	service_price_by: OfferServicePriceByType | null,
-	tags: string | null,
+	// tags: string | null,
 ) => {
 	return {
 		type: Types.OFFER_POST_ROOT,
@@ -294,7 +294,7 @@ export const offerPostRootServiceAction = (
 		service_km_radius,
 		price,
 		service_price_by,
-		tags
+		// tags
 	};
 };
 
@@ -325,7 +325,7 @@ export const offerPutRootProductAction = (
 	all_cities_3: boolean | null,
 	delivery_price_3: string | null,
 	delivery_days_3: string | null,
-	tags: string | null,
+	// tags: string | null,
 	creator_label?: boolean,
 	made_in_label?: string,
 ) => {
@@ -357,7 +357,7 @@ export const offerPutRootProductAction = (
 		all_cities_3,
 		delivery_price_3,
 		delivery_days_3,
-		tags,
+		// tags,
 		creator_label,
 		made_in_label,
 	};
@@ -382,7 +382,7 @@ export const offerPutRootServiceAction = (
 	service_km_radius: number | null,
 	price: string | null,
 	service_price_by: OfferServicePriceByType | null,
-	tags: string | null,
+	// tags: string | null,
 ) => {
 	return {
 		type: Types.OFFER_PUT_ROOT,
@@ -404,7 +404,7 @@ export const offerPutRootServiceAction = (
 		service_km_radius,
 		price,
 		service_price_by,
-		tags
+		// tags
 	};
 };
 

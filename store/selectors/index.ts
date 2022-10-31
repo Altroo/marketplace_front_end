@@ -95,7 +95,7 @@ export const getLocalOfferProductMadeIn = (state: RootState) => state.offer.user
 export const getLocalOfferProductCreator = (state: RootState) => state.offer.userLocalProduct?.creator;
 export const getLocalOfferProductPictures = (state: RootState) => state.offer.userLocalProduct?.pictures;
 export const getLocalOfferProductForwhom = (state: RootState) => state.offer.userLocalProduct?.forWhom;
-export const getLocalOfferProductTags = (state: RootState) => state.offer.userLocalProduct?.tags;
+// export const getLocalOfferProductTags = (state: RootState) => state.offer.userLocalProduct?.tags;
 export const getLocalOfferProductAddressName = (state: RootState) => state.offer.userLocalProduct?.clickAndCollect.address_name;
 export const getLocalOfferProductLongitude = (state: RootState) => state.offer.userLocalProduct?.clickAndCollect.longitude;
 export const getLocalOfferProductLatitude = (state: RootState) => state.offer.userLocalProduct?.clickAndCollect.latitude;
@@ -125,7 +125,7 @@ export const getLocalOfferServiceTitle = (state: RootState) => state.offer.userL
 export const getLocalOfferServiceDescription = (state: RootState) => state.offer.userLocalService?.description;
 export const getLocalOfferServicePictures = (state: RootState) => state.offer.userLocalService?.pictures;
 export const getLocalOfferServiceForwhom = (state: RootState) => state.offer.userLocalService?.forWhom;
-export const getLocalOfferServiceTags = (state: RootState) => state.offer.userLocalService?.tags;
+// export const getLocalOfferServiceTags = (state: RootState) => state.offer.userLocalService?.tags;
 export const getLocalOfferServiceMorningHourFrom = (state: RootState) => state.offer.userLocalService?.service_morning_hour_from;
 export const getLocalOfferServiceMorningHourTo = (state: RootState) => state.offer.userLocalService?.service_morning_hour_to;
 export const getLocalOfferServiceAfternoonHourFrom = (state: RootState) => state.offer.userLocalService?.service_afternoon_hour_from;

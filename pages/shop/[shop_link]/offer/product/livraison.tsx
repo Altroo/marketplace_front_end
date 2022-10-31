@@ -48,7 +48,7 @@ import {
 	getLocalOfferProductQuantity,
 	getLocalOfferProductPrice,
 	getLocalOfferProductPriceBy,
-	getLocalOfferProductTags,
+	// getLocalOfferProductTags,
 	getUserLocalOfferProductEditPK,
 	getOfferOfferApi,
 	getLocalOfferProductMadeIn,
@@ -139,7 +139,7 @@ const Livraison: NextPage = () => {
 	const pickedCreator = useAppSelector(getLocalOfferProductCreator);
 	const pickedPrice = useAppSelector(getLocalOfferProductPrice);
 	const pickedPriceBy = useAppSelector(getLocalOfferProductPriceBy);
-	const pickedTags = useAppSelector(getLocalOfferProductTags);
+	// const pickedTags = useAppSelector(getLocalOfferProductTags);
 	const pickedAddressName = useAppSelector(getLocalOfferProductAddressName);
 
 	// Api selectors
@@ -379,7 +379,7 @@ const Livraison: NextPage = () => {
 				deliveryAllCity3,
 				deliveryPrice3,
 				deliveryDays3,
-				pickedTags,
+				// pickedTags,
 				pickedCreator as boolean,
 				pickedMadeIn as string,
 			);
@@ -428,7 +428,7 @@ const Livraison: NextPage = () => {
 				deliveryAllCity3,
 				deliveryPrice3,
 				deliveryDays3,
-				pickedTags,
+				// pickedTags,
 				pickedCreator as boolean,
 				pickedMadeIn as string,
 			);
