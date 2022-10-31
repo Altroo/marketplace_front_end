@@ -974,3 +974,73 @@ export const checkBoxTheme = (primaryColor: string | undefined = undefined) => {
 		},
 	});
 }
+
+export const newsLetterEmailInputTheme = () => {
+	const whiteColor = '#FFFFFF';
+
+	return createTheme({
+		palette: {
+			primary: {
+				main: whiteColor,
+			},
+		},
+		breakpoints: {
+			values: {
+				xs: 0,
+				sm: 767,
+				md: 991,
+				lg: 1200,
+				xl: 1920,
+			},
+		},
+		typography: {
+			fontFamily: 'Poppins',
+		},
+		components: {
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						'& fieldset': {
+							borderRadius: '16px',
+							border: '1px solid #A3A3AD',
+						},
+						'& fieldset > legend': {
+							// size of red error line (label) (input size - 5px)
+							fontFamily: 'Poppins',
+							fontSize: '14px',
+						},
+						'&:hover': {
+							borderRadius: '16px',
+							border: '1px solid #A3A3AD',
+						}
+					},
+					input: {
+						fontFamily: 'Poppins',
+						fontSize: '19px',
+						caretColor: whiteColor,
+					},
+				},
+			},
+			MuiFormControl: {
+				styleOverrides: {
+					root: {
+						'& .MuiFormLabel-root': {
+							fontFamily: 'Poppins',
+							fontSize: '19px',
+							color: '#A3A3AD',
+						},
+						'& .MuiFormLabel-root.Mui-focused': {
+							fontFamily: 'Poppins',
+							fontSize: '19px',
+							color: whiteColor,
+						},
+						'& .MuiInputBase-root': {
+							color: whiteColor,
+						},
+
+					},
+				},
+			},
+		},
+	});
+};

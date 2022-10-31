@@ -39,6 +39,7 @@ const FormikContentWithOldPassword: React.FC<formikContentType> = (props: formik
 	const { email } = props;
 	const dispatch = useAppDispatch();
 	const [newEmail, setNewEmail] = useState<string>(email);
+
 	const formik = useFormik({
 		initialValues: {
 			email: '',
@@ -68,6 +69,7 @@ const FormikContentWithOldPassword: React.FC<formikContentType> = (props: formik
 			});
 		},
 	});
+
 	const inputTheme = coordonneeTextInputTheme();
 
 	return (

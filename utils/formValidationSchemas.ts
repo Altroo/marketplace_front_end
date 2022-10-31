@@ -14,7 +14,7 @@ import {
 	SHORT_INPUT_REQUIRED,
 	INPUT_POSTAL_CODE,
 	INPUT_ICE,
-	INPUT_NUMBER_MIN, INPUT_NUMBER_MAX
+	INPUT_NUMBER_MIN, INPUT_NUMBER_MAX, MINI_INPUT_EMAIL
 } from "./formValidationErrorMessages";
 
 export const shopNameSchema = Yup.object().shape({
@@ -200,4 +200,8 @@ export const subscriptionSchema = Yup.object().shape({
 
 export const promoCodeSchema = Yup.object().shape({
 	promo_code: Yup.string().notRequired().nullable(),
+});
+
+export const newsLetterEmailSchema = Yup.object().shape({
+	email: Yup.string().email(MINI_INPUT_EMAIL).notRequired().nullable(),
 });

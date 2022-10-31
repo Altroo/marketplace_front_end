@@ -9,6 +9,7 @@ export const INPUT_PONE = "Assurez-vous que ce champ comporte votre téléphone 
 export const INPUT_POSTAL_CODE = "Assurez-vous que ce champ comporte votre code postal ex: 10000";
 export const INPUT_ICE = "Assurez-vous que ce champ comporte votre ICE ex: 00000 00000 00000";
 export const INPUT_EMAIL = "Assurez-vous que ce champ comporte votre email ex: abc@gmail.com";
+export const MINI_INPUT_EMAIL = "l'email doit être un email valide";
 export const INPUT_URL = "Assurez-vous que ce champ comporte un lien valide ex: http(s)://abc.com";
 export const INPUT_FACEBOOK_URL = "Assurez-vous que ce champ comporte un lien valide ex: http://facebook.com/MaPage";
 export const INPUT_INSTAGRAM_URL = "Assurez-vous que ce champ comporte un lien valide ex: http://instagram.com/MaPage";
