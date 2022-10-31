@@ -810,7 +810,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 														className={Styles.madeInFlag}
 														countryCode={made_in_label.code}
 													/>
-													<span className={Styles.madeInSpan}>Fabriqué au {made_in_label.name}</span>
+													<span className={Styles.madeInSpan}>Made in {made_in_label.name}</span>
 												</Stack>
 											)}
 										</Stack>

@@ -36,27 +36,29 @@ const OfferCreatorRadioCheckContent: React.FC<Props> = (props: Props) => {
 		<ThemeProvider theme={defaultTheme}>
 			<RadioCheckElement title="Labels" defaultValue={props.switchOpen}>
 				<Stack direction="column" gap={2}>
-					<span className={Styles.creatorLabel}>Produit original &quot;Creator&quot;</span>
-					<ThemeProvider theme={chipTheme}>
-						<Stack direction="row" flexWrap="wrap" gap={2} alignItems="center" sx={{ marginTop: '6px' }}>
-							<Chip
-								label="Oui"
-								variant={props.pickedCreator ? 'filled' : 'outlined'}
-								onClick={() => {
-									toggleCreatorState();
-								}}
-								disabled={!isCreator}
-							/>
-							<Chip
-								label="Non"
-								variant={!props.pickedCreator ? 'filled' : 'outlined'}
-								onClick={() => {
-									toggleCreatorState();
-								}}
-								disabled={!isCreator}
-							/>
-						</Stack>
-					</ThemeProvider>
+					{isCreator && (
+						<>
+							<span className={Styles.creatorLabel}>Produit original &quot;Creator&quot;</span>
+							<ThemeProvider theme={chipTheme}>
+								<Stack direction="row" flexWrap="wrap" gap={2} alignItems="center" sx={{ marginTop: '6px' }}>
+									<Chip
+										label="Oui"
+										variant={props.pickedCreator ? 'filled' : 'outlined'}
+										onClick={() => {
+											toggleCreatorState();
+										}}
+									/>
+									<Chip
+										label="Non"
+										variant={!props.pickedCreator ? 'filled' : 'outlined'}
+										onClick={() => {
+											toggleCreatorState();
+										}}
+									/>
+								</Stack>
+							</ThemeProvider>
+						</>
+					)}
 					<CustomSingleCountrySelect
 						onChange={(e: SelectChangeEvent) => {
 							props.setPickedCountry(e.target.value);
