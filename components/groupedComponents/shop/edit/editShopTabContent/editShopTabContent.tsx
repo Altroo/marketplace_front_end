@@ -158,23 +158,16 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 		};
 
 		const loadFirstPage = () => {
-			// setIsLoadingInitInProgress(true);
 			getOffers(true);
-			// setIsLoadingInitInProgress(false);
 		};
 
 		// on page first load
 		if (!firstPageLoaded) {
 			loadFirstPage();
-			// setFirstPageLoaded(true);
 		}
 
 		// load more pressed
 		if (loadMoreState) {
-			// if (isLoadingNextPageInProgress) {
-			// 	return;
-			// }
-			// setIsLoadingNextPageInProgress(true);
 			if (offersLinkedHashMap.offersMap) {
 				const isReset = offersLinkedHashMap.offersMap.size() >= offersLinkedHashMap.count;
 				getOffers(isReset);
@@ -269,7 +262,9 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 									.toArray()
 									.sort((a, b) => Number(b.value?.pinned) - Number(a.value?.pinned));
 								setOffersLinkedHashMap(offersLinkedHashMap);
-								router.replace(router.asPath).then();
+								router.replace(router.asPath, undefined, {
+									scroll: false,
+								}).then();
 							}
 						}
 					}
