@@ -70,9 +70,11 @@ import DeliveryOptionElements from '../../../../../components/groupedComponents/
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	REAL_OFFER_ADD_PRODUCT_PRICE, REAL_OFFER_ROUTE,
-	REAL_SHOP_ADD_SHOP_NAME, AUTH_LOGIN
-} from "../../../../../utils/routes";
+	REAL_OFFER_ADD_PRODUCT_PRICE,
+	REAL_OFFER_ROUTE,
+	REAL_SHOP_ADD_SHOP_NAME,
+	AUTH_LOGIN,
+} from '../../../../../utils/routes';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import ApiLoadingResponseOrError from '../../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
@@ -82,8 +84,10 @@ import { getApi } from '../../../../../store/services/_init/_initAPI';
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 import {
 	OfferPostRootProductResponseType,
-	OfferPostRootServiceResponseType, OfferPutRootProductResponseType, OfferPutRootServiceResponseType
-} from "../../../../../types/offer/offerTypes";
+	OfferPostRootServiceResponseType,
+	OfferPutRootProductResponseType,
+	OfferPutRootServiceResponseType,
+} from '../../../../../types/offer/offerTypes';
 
 const CustomMap = dynamic(() => import('../../../../../components/map/customMap'), {
 	ssr: false,
@@ -198,14 +202,14 @@ const Livraison: NextPage = () => {
 	};
 
 	const [isFormOptionOneValid, setIsFormOptionOneValid] = useState<boolean>(false);
-	const [isFormOptionTwoValid, setIsFormOptionTwoValid] = useState<boolean>(true);
-	const [isFormOptionThreeValid, setIsFormOptionThreeValid] = useState<boolean>(true);
+	const [isFormOptionTwoValid, setIsFormOptionTwoValid] = useState<boolean>(false);
+	const [isFormOptionThreeValid, setIsFormOptionThreeValid] = useState<boolean>(false);
 
 	const [secondDeliveryState, setSecondDeliveryState] = useState<boolean>(
-		deliveryCity2 !== null && deliveryAllCity2 !== null,
+		deliveryCity2 !== null && deliveryCity2 !== undefined && typeof deliveryAllCity2 === 'boolean',
 	);
 	const [thirdDeliveryState, setThirdDeliveryState] = useState<boolean>(
-		deliveryCity3 !== null && deliveryAllCity3 !== null,
+		deliveryCity3 !== null && deliveryCity3 !== undefined && typeof deliveryAllCity3 === 'boolean',
 	);
 	const [optionTwoNumber, setOptionTwoNumber] = useState<'2' | '3'>('2');
 	const [optionThreeNumber, setOptionThreeNumber] = useState<'2' | '3'>('3');
@@ -248,6 +252,9 @@ const Livraison: NextPage = () => {
 	const [deliveriesSwitchOpen, setDeliveriesSwitchOpen] = useState<boolean>(false);
 
 	useEffect(() => {
+		console.log(isFormOptionOneValid);
+		console.log(isFormOptionTwoValid);
+		console.log(isFormOptionThreeValid);
 		if (localisationName && addressNameRef.current !== null) {
 			addressNameRef.current.value = localisationName;
 		}
@@ -263,7 +270,7 @@ const Livraison: NextPage = () => {
 			setOptionTwoNumber('2');
 			setOptionThreeNumber('3');
 		}
-		if (deliveryCity1 !== null && deliveryAllCity1 !== null) {
+		if (deliveryCity1 !== null && deliveryCity1 !== undefined && typeof deliveryAllCity1 === 'boolean') {
 			if (deliveryCity1.length > 0 || deliveryAllCity1) {
 				setDeliveriesSwitchOpen(true);
 				setShowEmptyDeliveriesMessage(false);
@@ -272,6 +279,8 @@ const Livraison: NextPage = () => {
 		if (pickedLocalisationName && pickedLongitude && pickedLatitude) {
 			setLocalisationSwitchOpen(true);
 		}
+		console.log(deliveryCity1);
+		console.log(typeof deliveryCity1);
 	}, [
 		showEmptyDeliveriesMessage,
 		deliveryAllCity1,
@@ -284,6 +293,9 @@ const Livraison: NextPage = () => {
 		position.lng,
 		secondDeliveryState,
 		thirdDeliveryState,
+		isFormOptionOneValid,
+		isFormOptionTwoValid,
+		isFormOptionThreeValid,
 	]);
 
 	const addDeliveriesHandler = () => {
@@ -390,36 +402,36 @@ const Livraison: NextPage = () => {
 		} else {
 			// dispatch edit
 			const action = offerPutRootProductAction(
-					offer_pk,
-					pickedCategories.join(','),
-					pickedTitle,
-					pickedPictures,
-					pickedDescription,
-					pickedForWhom,
-					pickedColors,
-					pickedSizes,
-					pickedQuantity,
-					pickedPrice,
-					pickedPriceBy,
-					pickedAddressName,
-					pickedLongitude,
-					pickedLatitude,
-					deliveryCity1,
-					deliveryAllCity1,
-					deliveryPrice1,
-					deliveryDays1,
-					deliveryCity2,
-					deliveryAllCity2,
-					deliveryPrice2,
-					deliveryDays2,
-					deliveryCity3,
-					deliveryAllCity3,
-					deliveryPrice3,
-					deliveryDays3,
-					pickedTags,
-					pickedCreator as boolean,
-					pickedMadeIn as string,
-				);
+				offer_pk,
+				pickedCategories.join(','),
+				pickedTitle,
+				pickedPictures,
+				pickedDescription,
+				pickedForWhom,
+				pickedColors,
+				pickedSizes,
+				pickedQuantity,
+				pickedPrice,
+				pickedPriceBy,
+				pickedAddressName,
+				pickedLongitude,
+				pickedLatitude,
+				deliveryCity1,
+				deliveryAllCity1,
+				deliveryPrice1,
+				deliveryDays1,
+				deliveryCity2,
+				deliveryAllCity2,
+				deliveryPrice2,
+				deliveryDays2,
+				deliveryCity3,
+				deliveryAllCity3,
+				deliveryPrice3,
+				deliveryDays3,
+				pickedTags,
+				pickedCreator as boolean,
+				pickedMadeIn as string,
+			);
 			dispatch({
 				...action,
 				onComplete: ({
@@ -503,7 +515,6 @@ const Livraison: NextPage = () => {
 										alignItems="center"
 									>
 										<Image src={ClickCollectSVG} width={70} height={70} alt="" />
-										{/* eslint-disable-next-line react/no-unescaped-entities */}
 										<p
 											className={`${Styles.defaultLocalisationName} ${
 												selectedClickAndCollect && selectedClickAndCollect.address_name && Styles.activeCardValue
@@ -600,16 +611,20 @@ const Livraison: NextPage = () => {
 										<Image src={DeliverySVG} width={70} height={70} alt="" />
 										<div
 											className={`${Styles.defaultLocalisationName} ${
-												(deliveryCity1 ||
-													deliveryCity2 ||
-													deliveryCity3 ||
+												(
+													// deliveryCity1 ||
+													// deliveryCity2 ||
+													// deliveryCity3 ||
+													typeof deliveryCity1 === 'string' ||
+													typeof deliveryCity2  === 'string' ||
+													typeof deliveryCity3 === 'string'||
 													deliveryAllCity1 ||
 													deliveryAllCity2 ||
 													deliveryAllCity3) &&
 												Styles.activeCardValue
 											}`}
 										>
-											{(deliveryCity1 || deliveryAllCity1) && (
+											{(deliveryCity1 || deliveryAllCity1) && deliveryPrice1 && (
 												<Stack direction="row" justifyContent="space-between">
 													<span>
 														{deliveryCity1
@@ -621,7 +636,7 @@ const Livraison: NextPage = () => {
 													<span>{deliveryPrice1 !== '0' ? deliveryPrice1 + 'DH' : 'Gratuite'}</span>
 												</Stack>
 											)}
-											{(deliveryCity2 || deliveryAllCity2) && (
+											{(deliveryCity2 || deliveryAllCity2) && deliveryPrice2 && (
 												<Stack direction="row" justifyContent="space-between">
 													<span>
 														{deliveryCity2
@@ -633,7 +648,7 @@ const Livraison: NextPage = () => {
 													<span>{deliveryPrice2 !== '0' ? deliveryPrice2 + 'DH' : 'Gratuite'}</span>
 												</Stack>
 											)}
-											{(deliveryCity3 || deliveryAllCity3) && (
+											{(deliveryCity3 || deliveryAllCity3) && deliveryPrice3 && (
 												<Stack direction="row" justifyContent="space-between">
 													<span>
 														{deliveryCity3
