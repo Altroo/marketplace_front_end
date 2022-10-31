@@ -276,6 +276,7 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 		router.replace({ query: { ...queryParams } }, undefined, options).then(() => {
 			props.setApplyFiltersClicked(true);
 		});
+
 		if (props.closeModal){
 			props.closeModal();
 		}
@@ -314,9 +315,8 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 	};
 
 	// Content
-	let categoriesFilter = null;
+	let categoriesFilter;
 	if (available_categories.length > 0) {
-		// tags = categories
 		const categories = getCategoriesDataArray(available_categories);
 		if (available_services) {
 			categories.push('Services');
@@ -330,6 +330,20 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 				/>
 			</AccordionFilterContent>
 		);
+	} else {
+		const categories: Array<string> = [];
+		if (available_services) {
+			categories.push('Services');
+		}
+		categoriesFilter = (
+			<AccordionFilterContent title="Tags">
+				<AccordionChipContent
+					pickedList={pickedCategories}
+					setPickedList={setPickedCategories}
+					objectToMap={categories}
+				/>
+			</AccordionFilterContent>
+		)
 	}
 
 	let colorsFilter = null;
