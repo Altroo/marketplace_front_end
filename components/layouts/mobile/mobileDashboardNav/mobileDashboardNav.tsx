@@ -33,7 +33,12 @@ export const MobileSideNavElement: React.FC<MobileSideNavElementType> = (props: 
 					if (current) {
 						setContent(prevState => !prevState);
 					} else {
-						router.replace(props.link).then();
+						router.replace({
+							query: {
+								direct: true,
+							},
+							pathname: props.link,
+						}, props.link).then();
 					}
 				}}
 			>

@@ -32,6 +32,7 @@ import MiniBackSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavI
 import CustomToast from "../../../components/portals/customToast/customToast";
 import CustomFooter from "../../../components/layouts/footer/customFooter";
 import Portal from "../../../contexts/Portal";
+import { useRouter } from "next/router";
 
 type formikContentType = {
 	data: UserClass;
@@ -225,7 +226,9 @@ type IndexProps = {
 const EditProfil: NextPage<IndexProps> = (props: IndexProps) => {
 	const { data } = props.pageProps;
 	const [showDataUpdated, setShowDataUpdated] = useState<boolean>(false);
-	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(false);
+	const router = useRouter()
+	const direct = router.query.direct as boolean | undefined;
+	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(direct ? direct : false);
 
 	return (
 		<Stack direction="column" sx={{position: 'relative'}}>

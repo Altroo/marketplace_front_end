@@ -211,7 +211,9 @@ type IndexProps = {
 const MotDePasse: NextPage<IndexProps> = (props: IndexProps) => {
 	const { has_password } = props.pageProps;
 	const [showDataUpdated, setShowDataUpdated] = useState<boolean>(false);
-	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(true);
+	const router = useRouter()
+	const direct = router.query.direct as boolean | undefined;
+	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(direct ? direct : false);
 
 	return (
 		<Stack direction="column" sx={{position: 'relative'}}>
