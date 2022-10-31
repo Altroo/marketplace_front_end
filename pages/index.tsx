@@ -1,5 +1,4 @@
 import type { NextPage } from 'next';
-import Link from 'next/link';
 import { RootState } from '../store/store';
 import Styles from '../styles/index.module.sass';
 import { Stack, Box, ThemeProvider, InputAdornment } from '@mui/material';
@@ -26,9 +25,9 @@ const DesktopLineBreak = () => {
 const Home: NextPage<RootState> = () => {
 	const dispatch = useAppDispatch();
 	const [ticClockImg, setTicClockImg] = useState<boolean>(false);
-	const [counterDays, setCounterDays] = useState<string>('12');
-	const [counterHours, setCounterHours] = useState<string>('13');
-	const [counterMinutes, setCounterMinutes] = useState<string>('14');
+	const [counterDays, setCounterDays] = useState<string>('');
+	const [counterHours, setCounterHours] = useState<string>('');
+	const [counterMinutes, setCounterMinutes] = useState<string>('');
 
 	const [emailSentState, setEmailSentState] = useState<boolean>(false);
 	const expirationDate = new Date(2022, 10, 21, 24, 59, 0).getTime();
@@ -169,17 +168,5 @@ const Home: NextPage<RootState> = () => {
 		</main>
 	);
 };
-
-// getStaticProps
-// getInitialProps
-
-// export const getServerSideProps = ({ req, res }) => {
-//     // setCookie('test', 'value', { req, res, maxAge: 60 * 6 * 24 });
-//     const cookie = getCookie('test_cookie', { req, res });
-//     console.log(cookie);
-//     // getCookies({ req, res });
-//     // deleteCookie('test', { req, res });
-//     return { props: {} };
-// };
 
 export default Home;
