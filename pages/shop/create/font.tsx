@@ -41,18 +41,13 @@ import {
 	getNewShopBorder,
 	getNewShopIconColor,
 } from '../../../store/selectors';
-import {
-	REAL_SHOP_ADD_COLOR,
-	SITE_ROOT,
-	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	AUTH_LOGIN,
-} from '../../../utils/routes';
+import { REAL_SHOP_ADD_COLOR, SITE_ROOT, REAL_SHOP_BY_SHOP_LINK_ROUTE, AUTH_LOGIN } from '../../../utils/routes';
 import { getCookie } from 'cookies-next';
 import { Box } from '@mui/material';
 import { SagaCallBackOnCompleteStrType } from '../../../types/_init/_initTypes';
-import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from "../../../utils/helpers";
+import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
-import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
+import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 
 export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
 	{
@@ -74,8 +69,6 @@ export const availableFonts: Array<{ name: string; code: ShopFontNameType }> = [
 ];
 
 const Font: NextPage = () => {
-	// const { data: session, status } = useSession();
-	// const loading = status === 'loading';
 	const activeStep = '4';
 	const dispatch = useAppDispatch();
 	const router = useRouter();
@@ -87,10 +80,6 @@ const Font: NextPage = () => {
 	const shopBorder = useAppSelector(getNewShopBorder);
 	const shopIconColor = useAppSelector(getNewShopIconColor);
 	const shopFontName = useAppSelector(getNewShopFontName);
-	// const uniqueID = useAppSelector(getTokenType);
-	// const isAddInProgressSelector = useAppSelector(getNewShopIsAddInProgress);
-	// const isAddErrorSelector = useAppSelector(getNewShopApiError);
-	// const isAddPromiseStatusSelector = useAppSelector(getNewShopAddPromiseStatus);
 
 	// page states
 	const [preview, setPreview] = useState<ArrayBuffer | null>(null);
@@ -103,7 +92,6 @@ const Font: NextPage = () => {
 	const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
 	// Gray contact Icon
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconSVG);
-	const [showApiDataAction, setShowApiDataAction] = useState<boolean>(false);
 	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
 	const chipCategoriesAction: chipActionsType = [
@@ -181,15 +169,16 @@ const Font: NextPage = () => {
 				...action,
 				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteStrType) => {
 					if (!error && !cancelled && data) {
-						let url: string = REAL_SHOP_BY_SHOP_LINK_ROUTE(data as string);
-						url += '?created=true';
-						router.replace(url).then();
+						const url: string = REAL_SHOP_BY_SHOP_LINK_ROUTE(data as string);
+						router
+							.replace({ query: { created: 'true' }, pathname: url }, undefined)
+							.then(() => {
+								setIsApiCallInProgress(false);
+							});
 					}
 				},
 			});
-			setIsApiCallInProgress(false);
 		}
-		// router.push(`${TEMP_SHOP_EDIT_ROUTE}?created=true`)
 	};
 
 	return (
