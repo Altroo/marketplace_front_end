@@ -36,7 +36,7 @@ const Prix: NextPage = () => {
 	const pickedPriceBy = useAppSelector(getLocalOfferProductPriceBy);
 	const pickedPrice = useAppSelector(getLocalOfferProductPrice);
 	const [price, setPrice] = useState<string | number>(pickedPrice ? pickedPrice : '');
-	const [unity, setUnity] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'U'));
+	const [unity, setUnity] = useState<boolean>(pickedPrice ? !!(pickedPriceBy && pickedPriceBy === 'U') : true);
 	const [kg, setKg] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'K'));
 	const [liter, setLiter] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'L'));
 
@@ -110,12 +110,13 @@ const Prix: NextPage = () => {
 					<Stack direction="column" justifyContent="space-between" sx={{ height: '90%' }}>
 						<Stack direction="column" justifyContent="center" alignItems="center" sx={{ marginTop: '2rem' }}>
 							<CurrencyInput
+								allowDecimals={false}
 								className={Styles.priceInputField}
 								id="prix-input"
 								name="prix-input"
-								placeholder="0.00"
+								placeholder="0"
 								value={price}
-								decimalsLimit={2}
+								// decimalsLimit={2}
 								onValueChange={(value) => {
 									if (value) {
 										setPrice(value);

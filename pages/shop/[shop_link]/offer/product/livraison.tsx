@@ -50,7 +50,7 @@ import {
 	getLocalOfferProductPriceBy,
 	// getLocalOfferProductTags,
 	getUserLocalOfferProductEditPK,
-	getOfferOfferApi,
+	// getOfferOfferApi,
 	getLocalOfferProductMadeIn,
 	getLocalOfferProductCreator,
 } from '../../../../../store/selectors';
@@ -77,7 +77,7 @@ import {
 } from '../../../../../utils/routes';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import ApiLoadingResponseOrError from '../../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
+// import ApiLoadingResponseOrError from '../../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
 import { getApi } from '../../../../../store/services/_init/_initAPI';
@@ -143,7 +143,7 @@ const Livraison: NextPage = () => {
 	const pickedAddressName = useAppSelector(getLocalOfferProductAddressName);
 
 	// Api selectors
-	const offerApi = useAppSelector(getOfferOfferApi);
+	// const offerApi = useAppSelector(getOfferOfferApi);
 
 	if (latitude && longitude) {
 		CENTER = {
@@ -252,9 +252,6 @@ const Livraison: NextPage = () => {
 	const [deliveriesSwitchOpen, setDeliveriesSwitchOpen] = useState<boolean>(false);
 
 	useEffect(() => {
-		console.log(isFormOptionOneValid);
-		console.log(isFormOptionTwoValid);
-		console.log(isFormOptionThreeValid);
 		if (localisationName && addressNameRef.current !== null) {
 			addressNameRef.current.value = localisationName;
 		}
@@ -279,10 +276,7 @@ const Livraison: NextPage = () => {
 		if (pickedLocalisationName && pickedLongitude && pickedLatitude) {
 			setLocalisationSwitchOpen(true);
 		}
-		console.log(deliveryCity1);
-		console.log(typeof deliveryCity1);
 	}, [
-		showEmptyDeliveriesMessage,
 		deliveryAllCity1,
 		deliveryCity1,
 		localisationName,
@@ -293,9 +287,6 @@ const Livraison: NextPage = () => {
 		position.lng,
 		secondDeliveryState,
 		thirdDeliveryState,
-		isFormOptionOneValid,
-		isFormOptionTwoValid,
-		isFormOptionThreeValid,
 	]);
 
 	const addDeliveriesHandler = () => {
@@ -396,6 +387,10 @@ const Livraison: NextPage = () => {
 				}) => {
 					if (!error && !cancelled && data.data) {
 						router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+					} else {
+						console.log(error);
+						console.log(cancelled);
+						console.log(data);
 					}
 				},
 			});
@@ -611,13 +606,12 @@ const Livraison: NextPage = () => {
 										<Image src={DeliverySVG} width={70} height={70} alt="" />
 										<div
 											className={`${Styles.defaultLocalisationName} ${
-												(
-													// deliveryCity1 ||
-													// deliveryCity2 ||
-													// deliveryCity3 ||
-													typeof deliveryCity1 === 'string' ||
-													typeof deliveryCity2  === 'string' ||
-													typeof deliveryCity3 === 'string'||
+												// deliveryCity1 ||
+												// deliveryCity2 ||
+												// deliveryCity3 ||
+												(typeof deliveryCity1 === 'string' ||
+													typeof deliveryCity2 === 'string' ||
+													typeof deliveryCity3 === 'string' ||
 													deliveryAllCity1 ||
 													deliveryAllCity2 ||
 													deliveryAllCity3) &&
@@ -752,11 +746,11 @@ const Livraison: NextPage = () => {
 						/>
 					</div>
 				</Box>
-				<ApiLoadingResponseOrError
-					inProgress={offer_pk ? offerApi.isEditInProgress : offerApi.isAddInProgress}
-					promiseStatus={offer_pk ? offerApi.editPromiseStatus : offerApi.addPromiseStatus}
-					error={offerApi.error}
-				/>
+				{/*<ApiLoadingResponseOrError*/}
+				{/*	inProgress={offer_pk ? offerApi.isEditInProgress : offerApi.isAddInProgress}*/}
+				{/*	promiseStatus={offer_pk ? offerApi.editPromiseStatus : offerApi.addPromiseStatus}*/}
+				{/*	error={offerApi.error}*/}
+				{/*/>*/}
 			</main>
 		</ThemeProvider>
 	);

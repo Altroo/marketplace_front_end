@@ -72,7 +72,7 @@ import { Saga } from 'redux-saga';
 import { ShopZoneByType } from '../../../types/shop/shopTypes';
 
 function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootServiceType) {
-	yield put(appendPostOfferIsLoading());
+	// yield put(appendPostOfferIsLoading());
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/`;
 	const { type, ...payloadData } = payload;
@@ -103,34 +103,30 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 		picture_3,
 		picture_4,
 	};
-	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const instance: AxiosInstance = yield call(() =>
-				isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
-			);
-			const response: OfferPostRootProductResponseType | OfferPostRootServiceResponseType = yield call(() =>
-				postFormDataApi(url, instance, { ...dataToSend }),
-			);
-			if (response.status === 200) {
-				// update state
-				yield put(appendPostOfferState(response.data));
-				return response;
-			}
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const instance: AxiosInstance = yield call(() =>
+			isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
+		);
+		const response: OfferPostRootProductResponseType | OfferPostRootServiceResponseType = yield call(() =>
+			postFormDataApi(url, instance, { ...dataToSend }),
+		);
+		console.log(response);
+		if (response.status === 200) {
+			// update state
+			yield put(appendPostOfferState(response.data));
+			return response;
 		}
-		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance('multipart/form-data'));
-		// 	const response: OfferPostRootProductResponseType | OfferPostRootServiceResponseType = yield call(() =>
-		// 		postFormDataApi(url, instance, { ...dataToSend }, authSagaContext.initStateUniqueID.unique_id),
-		// 	);
-		// 	if (response.status === 200) {
-		// 		yield put(appendPostOfferState(response.data));
-		// 		return response;
-		// 	}
-		// }
-	} catch (e) {
-		const apiError = e as ApiErrorResponseType;
-		yield put<ActionCreatorWithPayload<ApiErrorResponseType>>(yield call(() => offersPOSTApiErrorAction(apiError)));
 	}
+	// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
+	// 	const instance: AxiosInstance = yield call(() => allowAnyInstance('multipart/form-data'));
+	// 	const response: OfferPostRootProductResponseType | OfferPostRootServiceResponseType = yield call(() =>
+	// 		postFormDataApi(url, instance, { ...dataToSend }, authSagaContext.initStateUniqueID.unique_id),
+	// 	);
+	// 	if (response.status === 200) {
+	// 		yield put(appendPostOfferState(response.data));
+	// 		return response;
+	// 	}
+	// }
 }
 
 function* offerGetTagsSaga(payload: OfferGetTagsType) {

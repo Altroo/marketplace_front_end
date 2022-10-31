@@ -280,7 +280,7 @@ const Description: NextPage = () => {
 
 	return (
 		<>
-			<main className={SharedStyles.main}>
+			<main className={SharedStyles.fullPageMain}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar
