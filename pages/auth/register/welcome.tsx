@@ -26,7 +26,7 @@ const Welcome: React.FC<Props> = (props: Props) => {
 	return (
 		<>
 			<div className={Styles.desktopOnly}>
-				<AuthPageLayout href="/" topBarText="CONNECT">
+				<AuthPageLayout>
 					<Stack
 						direction="column"
 						spacing={4}
@@ -49,10 +49,12 @@ const Welcome: React.FC<Props> = (props: Props) => {
 				<main className={Styles.main}>
 					<Stack direction="column" justifyContent="space-between" className={Styles.rootStack}>
 						<UserMainNavigationBar />
-						<Stack direction="column" spacing={4} alignItems="center">
+						<Stack direction="column" spacing="50px" alignItems="center">
 							<ImageFuture src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
-							<h2 className={Styles.header}>Bienvenue dans la famille Qaryb !</h2>
-							<p className={Styles.subHeader}>Pensez à activer votre compte pour finaliser votre inscription</p>
+							<Stack direction="column" spacing="18px">
+								<h2 className={Styles.header}>Bienvenue dans la famille Qaryb !</h2>
+								<p className={Styles.subHeader}>Pensez à activer votre compte pour finaliser votre inscription</p>
+							</Stack>
 						</Stack>
 						<div className={Styles.primaryButtonWrapper}>
 							<PrimaryAnchorButton
@@ -62,14 +64,14 @@ const Welcome: React.FC<Props> = (props: Props) => {
 							/>
 						</div>
 					</Stack>
-					<Stack direction="column" justifyContent="center" alignItems="center">
-						<p className={Styles.bottomLinks}>
-							Vous avez déjà un compte ?{' '}
-							<Link passHref href={AUTH_LOGIN}>
-								<a>Connectez-vous</a>
-							</Link>
-						</p>
-					</Stack>
+					{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
+					{/*	<p className={Styles.bottomLinks}>*/}
+					{/*		Vous avez déjà un compte ?{' '}*/}
+					{/*		<Link passHref href={AUTH_LOGIN}>*/}
+					{/*			<a>Connectez-vous</a>*/}
+					{/*		</Link>*/}
+					{/*	</p>*/}
+					{/*</Stack>*/}
 				</main>
 			</div>
 		</>

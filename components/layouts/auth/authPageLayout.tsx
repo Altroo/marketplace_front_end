@@ -1,20 +1,20 @@
-import React, { ForwardedRef, forwardRef, useEffect, useState } from "react";
+import React, { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 import Styles from './authPageLayout.module.sass';
 import { Box, Stack } from '@mui/material';
 import { default as ImageFuture } from 'next/future/image';
 import QarybSVG from '../../../public/assets/images/logo.svg';
 import Link from 'next/link';
-import BurgerSVG from "../../../public/assets/images/auth_illu/burger.svg";
-import TeeshirtSVG from "../../../public/assets/images/auth_illu/teeshirt.svg";
-import WatchSVG from "../../../public/assets/images/auth_illu/watch.svg";
-import WeddingSVG from "../../../public/assets/images/auth_illu/wedding.svg";
-import MessagesSVG from "../../../public/assets/images/auth_illu/messages.svg";
-import UnderPantsSVG from "../../../public/assets/images/auth_illu/underpants.svg";
-import MaintenanceSVG from "../../../public/assets/images/auth_illu/maintenance.svg";
+import BurgerSVG from '../../../public/assets/images/auth_illu/burger.svg';
+import TeeshirtSVG from '../../../public/assets/images/auth_illu/teeshirt.svg';
+import WatchSVG from '../../../public/assets/images/auth_illu/watch.svg';
+import WeddingSVG from '../../../public/assets/images/auth_illu/wedding.svg';
+import MessagesSVG from '../../../public/assets/images/auth_illu/messages.svg';
+import UnderPantsSVG from '../../../public/assets/images/auth_illu/underpants.svg';
+import MaintenanceSVG from '../../../public/assets/images/auth_illu/maintenance.svg';
 
 type Props = {
-	topBarText: 'CONNECT' | 'CREATE';
-	href: string;
+	topBarText?: 'CONNECT' | 'CREATE';
+	href?: string;
 	children?: React.ReactNode;
 };
 
@@ -22,10 +22,10 @@ export type svgImageType = {
 	src: string;
 	height: number;
 	width: number;
-}
+};
 
 const AuthPageLayout = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: ForwardedRef<HTMLAnchorElement>) => {
-	const [authIlluRandom, setAuthIlluRandom] = useState<{image: svgImageType;color: string} | null>(null);
+	const [authIlluRandom, setAuthIlluRandom] = useState<{ image: svgImageType; color: string } | null>(null);
 
 	useEffect(() => {
 		if (authIlluRandom === null) {
@@ -84,30 +84,32 @@ const AuthPageLayout = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: 
 				</Box>
 				{/* Right side */}
 				<Box className={Styles.rightBox}>
-					<Stack direction="row" justifyContent="flex-end">
-						{props.topBarText === 'CONNECT' ? (
-							<p className={Styles.topBarTitle}>
-								Vous avez déjà un compte ?{' '}
-								<Link passHref href={props.href}>
-									<a ref={ref}>Connectez-vous</a>
-								</Link>
-							</p>) : (
-							<p className={Styles.topBarTitle}>
-								Pas encore de compte ?{' '}
-								<Link passHref href={props.href}>
-									<a ref={ref}>Inscrivez-vous</a>
-								</Link>
-							</p>
-						)}
-					</Stack>
+					{props.topBarText && (
+						<Stack direction="row" justifyContent="flex-end">
+							{props.topBarText === 'CONNECT' ? (
+								<p className={Styles.topBarTitle}>
+									Vous avez déjà un compte ?{' '}
+									<Link passHref href={props.href}>
+										<a ref={ref}>Connectez-vous</a>
+									</Link>
+								</p>
+							) : (
+								<p className={Styles.topBarTitle}>
+									Pas encore de compte ?{' '}
+									<Link passHref href={props.href}>
+										<a ref={ref}>Inscrivez-vous</a>
+									</Link>
+								</p>
+							)}
+						</Stack>
+					)}
 					{/* Children content */}
 					{props.children}
 				</Box>
 			</Stack>
 		</main>
 	);
-	},
-);
+});
 AuthPageLayout.displayName = 'AuthPageLayout';
 
 export default AuthPageLayout;
