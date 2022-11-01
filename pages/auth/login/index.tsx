@@ -82,9 +82,11 @@ const LoginPageContent = () => {
 
 	const inputTheme = coordonneeTextInputTheme();
 	return (
-		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.contentWrapper} spacing={4}>
-			<h2 className={Styles.content}>Connection</h2>
-			<Stack direction="column" spacing={2}>
+		<Stack direction="column" spacing={4} className={Styles.contentWrapper}>
+			<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" width="100%">
+				<h2 className={Styles.content}>Connection</h2>
+			</Stack>
+			<Stack direction="column" spacing={2} className={Styles.mobileWidth}>
 				<GoogleSignInButton onClick={googleSignIn} />
 				<FacebookSignInButton onClick={facebookSignIn} />
 				{error && <span className={Styles.errorMessage}>{error}</span>}
@@ -172,7 +174,7 @@ const Login: React.FC<Props> = (props: Props) => {
 					</div>
 					<div className={Styles.mobileOnly}>
 						<main className={Styles.main}>
-							<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{height: '100vh'}}>
+							<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{minHeight: '100vh'}}>
 								<UserMainNavigationBar/>
 								<LoginPageContent/>
 								<Stack direction="column" justifyContent="center" alignItems="center">

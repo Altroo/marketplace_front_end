@@ -51,7 +51,7 @@ const RegisterPageContent = (props: registerPageContentProps) => {
 				<h2 className={Styles.content}>Inscription</h2>
 				<p className={Styles.subHeader}>Inscrivez vous pour créer votre boutique. ça ne prend que quelques secondes.</p>
 			</Stack>
-			<Stack direction="column" spacing={2}>
+			<Stack direction="column" spacing={2} className={Styles.mobileWidth}>
 				<GoogleSignInButton onClick={props.googleSignIn} />
 				<FacebookSignInButton onClick={props.facebookSignIn} />
 				{props.error && <span className={Styles.errorMessage}>{props.error}</span>}
