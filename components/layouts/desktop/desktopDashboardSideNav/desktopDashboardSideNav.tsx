@@ -28,7 +28,7 @@ export type DesktopSideNavElementType = {
 export const DesktopSideNavElement: React.FC<DesktopSideNavElementType> = (props: DesktopSideNavElementType) => {
 	return (
 		<Stack direction="row" justifyContent="space-between" alignItems="center" className={`${props.disabled && Styles.disabledElement}`}>
-			<Link href={props.link} passHref>
+			<Link href={props.link} passHref replace>
 				<a className={`${props.disabled && Styles.disabledCursor}`}>
 					<Stack direction="row" spacing={2} alignItems="center">
 						<ImageFuture src={props.icon} alt="" width="0" height="0" sizes="100vw" className={Styles.mainIcon} />
