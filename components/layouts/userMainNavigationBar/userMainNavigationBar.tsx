@@ -38,7 +38,6 @@ import {
 import { deleteRemoteCookiesAppToken } from '../../../utils/helpers';
 import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
-import { accountGetCheckAccountAction } from "../../../store/actions/account/accountActions";
 
 const UserMainNavigationBar: React.FC = () => {
 	const { data: session, status } = useSession();
@@ -48,17 +47,10 @@ const UserMainNavigationBar: React.FC = () => {
 	const userHasShop = useAppSelector(getCheckUserHasShop);
 	const userShopUrl: string | boolean | undefined = useAppSelector(getUserShopUrl);
 	const loading = status === 'loading';
-	const dispatch = useAppDispatch();
 	const [searchValue, setSearchValue] = useState<string>('');
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
-
-	useEffect(() => {
-		if (!loading && session && !avatar) {
-			dispatch(accountGetCheckAccountAction());
-		}
-	}, [avatar, dispatch, loading, session]);
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);

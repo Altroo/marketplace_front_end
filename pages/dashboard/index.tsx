@@ -154,16 +154,20 @@ const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentTy
 				<Stack direction="column" mb="12px" justifyContent="center" alignItems="center">
 					<Box>
 						<div className={Styles.dashboardAvatarSubWrapper}>
-							<ImageFuture
-								src={avatar}
-								alt={`${first_name} ${last_name}`}
-								width="0"
-								height="0"
-								sizes="100vw"
-								className={Styles.dashboardAvatar}
-								loading="eager"
-								priority={true}
-							/>
+							{!avatar ? (
+									<Skeleton variant="circular" width={98} height={98} />
+								) : (
+									<ImageFuture
+										src={avatar}
+										alt={`${first_name} ${last_name}`}
+										width="0"
+										height="0"
+										sizes="100vw"
+										className={Styles.dashboardAvatar}
+										loading="eager"
+										priority={true}
+									/>
+								)}
 						</div>
 					</Box>
 					<span className={Styles.dashboardShopName}>
