@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from './userMainNavigationBar.module.sass';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,7 +18,7 @@ import HambourgerMenuSVG from '../../../public/assets/svgs/mainNavBarIcons/hambo
 import LogoutSVG from '../../../public/assets/svgs/mainNavBarIcons/logout.svg';
 import HeartShapeSVG from '../../../public/assets/svgs/mainNavBarIcons/heart-shape.svg';
 import { useSession, signOut } from 'next-auth/react';
-import { useAppSelector } from '../../../utils/hooks';
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
 import {
 	getCheckUserHasShop,
 	getUserFirstName,
@@ -38,6 +38,7 @@ import {
 import { deleteRemoteCookiesAppToken } from '../../../utils/helpers';
 import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
+import { accountGetCheckAccountAction } from "../../../store/actions/account/accountActions";
 
 const UserMainNavigationBar: React.FC = () => {
 	const { data: session, status } = useSession();
@@ -47,10 +48,18 @@ const UserMainNavigationBar: React.FC = () => {
 	const userHasShop = useAppSelector(getCheckUserHasShop);
 	const userShopUrl: string | boolean | undefined = useAppSelector(getUserShopUrl);
 	const loading = status === 'loading';
+	const dispatch = useAppDispatch();
 	const [searchValue, setSearchValue] = useState<string>('');
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
+
+	useEffect(() => {
+		if (!loading && session && !avatar) {
+			dispatch(accountGetCheckAccountAction());
+		}
+	}, [avatar, dispatch, loading, session]);
+
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
