@@ -84,7 +84,7 @@ const AuthPageLayout = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: 
 				</Box>
 				{/* Right side */}
 				<Box className={Styles.rightBox}>
-					{props.topBarText && (
+					{(props.topBarText && props.href) && (
 						<Stack direction="row" justifyContent="flex-end">
 							{props.topBarText === 'CONNECT' ? (
 								<p className={Styles.topBarTitle}>
