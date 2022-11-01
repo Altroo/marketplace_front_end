@@ -162,12 +162,10 @@ const UserMainNavigationBar: React.FC = () => {
 											<ImageFuture
 												src={avatar as string}
 												alt=""
-												width="0"
-												height="0"
+												width="30"
+												height="30"
 												sizes="100vw"
 												className={Styles.avatarButton}
-												priority={true}
-												loading="eager"
 											/>
 										)}
 									</IconButton>
@@ -380,8 +378,6 @@ const UserMainNavigationBar: React.FC = () => {
 														height={48}
 														sizes="100vw"
 														className={Styles.avatarDrawerButton}
-														priority={true}
-														loading="eager"
 													/>
 												)}
 												<span className={Styles.mobileProfileName}>
@@ -501,12 +497,10 @@ const UserMainNavigationBar: React.FC = () => {
 											<ImageFuture
 												src={avatar as string}
 												alt=""
-												width="0"
-												height="0"
+												width="30"
+												height="30"
 												sizes="100vw"
 												className={Styles.avatarButton}
-												priority={true}
-												loading="eager"
 											/>
 										)}
 									</IconButton>

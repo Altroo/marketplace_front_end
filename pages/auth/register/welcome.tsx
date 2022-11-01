@@ -47,22 +47,24 @@ const Welcome: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<Stack direction="column" justifyContent="space-between" className={Styles.rootStack}>
+					<Stack direction="column">
 						<UserMainNavigationBar />
-						<Stack direction="column" spacing="50px" alignItems="center">
-							<ImageFuture src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
-							<Stack direction="column" spacing="18px">
-								<h2 className={Styles.header}>Bienvenue dans la famille Qaryb !</h2>
-								<p className={Styles.subHeader}>Pensez à activer votre compte pour finaliser votre inscription</p>
+						<Stack direction="column" justifyContent="space-between" spacing="24px" className={Styles.rootStack}>
+							<Stack direction="column" spacing="50px" alignItems="center">
+								<ImageFuture src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+								<Stack direction="column" spacing="18px">
+									<h2 className={Styles.header}>Bienvenue dans la famille Qaryb !</h2>
+									<p className={Styles.subHeader}>Pensez à activer votre compte pour finaliser votre inscription</p>
+								</Stack>
 							</Stack>
+							<div className={Styles.primaryButtonWrapper}>
+								<PrimaryAnchorButton
+									buttonText={has_shop ? 'Aller au dashboard' : 'Créer ma boutique'}
+									active={true}
+									nextPage={has_shop ? DASHBOARD : REAL_SHOP_ADD_SHOP_NAME}
+								/>
+							</div>
 						</Stack>
-						<div className={Styles.primaryButtonWrapper}>
-							<PrimaryAnchorButton
-								buttonText={has_shop ? 'Aller au dashboard' : 'Créer ma boutique'}
-								active={true}
-								nextPage={has_shop ? DASHBOARD : REAL_SHOP_ADD_SHOP_NAME}
-							/>
-						</div>
 					</Stack>
 					{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
 					{/*	<p className={Styles.bottomLinks}>*/}
