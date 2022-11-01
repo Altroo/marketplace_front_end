@@ -107,7 +107,7 @@ const UserMainNavigationBar: React.FC = () => {
 								sizes="100vw"
 								className={Styles.subMenuIcons}
 							/>
-							<span className={`${Styles.mobileAnchorSpan}`}>Créer votre boutique</span>
+							<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
 						</a>
 					</Link>
 				</MenuItem>
@@ -426,7 +426,7 @@ const UserMainNavigationBar: React.FC = () => {
 															sizes="100vw"
 															className={Styles.subMenuDrawerIcons}
 														/>
-														<span className={`${Styles.mobileAnchorSpan}`}>Créer votre boutique</span>
+														<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
 													</a>
 												</Link>
 											)}
@@ -457,7 +457,7 @@ const UserMainNavigationBar: React.FC = () => {
 														sizes="100vw"
 														className={Styles.subMenuDrawerIcons}
 													/>
-													<span className={`${Styles.mobileAnchorSpan}`}>Créer votre boutique</span>
+													<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
 												</a>
 											</Link>
 											<Link href={AUTH_LOGIN} passHref>

@@ -104,7 +104,7 @@ const AboutPageContent = (props: AboutPageContent) => {
 		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.rootStack} spacing={6}>
 			<Stack direction="column" spacing={2}>
 				<span className={Styles.header}>Dites-nous en plus</span>
-				<p className={Styles.subHeader}>Pour vous inscrire, nous avons besoin de quelques informations</p>
+				<p className={Styles.subHeader}>Pour vous inscrire, nous avons besoin de quelques informations.</p>
 			</Stack>
 			<form>
 				<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>

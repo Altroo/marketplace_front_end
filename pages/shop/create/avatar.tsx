@@ -92,7 +92,7 @@ const Avatar: NextPage = () => {
 					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header header="Ajouter un avatar" HelpText="Bien choisir sa photo de profil" />
+					<HelperH1Header header="Ajouter un avatar" HelpText="Ajoutez le logo de votre marque ou une photo de vous" />
 					<DefaultCardSection>
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} setAvatar={setAvatar} preview={preview} active />

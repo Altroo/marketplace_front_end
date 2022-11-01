@@ -54,7 +54,7 @@ const ShopName: NextPage = () => {
 					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} closeButtonHref={SITE_ROOT} />
 					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} closeButtonHref={SITE_ROOT} />
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header header="Nommez votre boutique" HelpText="Comment choisir son nom ?" />
+					<HelperH1Header header="Nommez votre boutique" HelpText="Ce peut être le nom de votre marque ou votre propre nom" />
 					<Formik
 						enableReinitialize={true}
 						initialValues={{

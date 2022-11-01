@@ -175,7 +175,7 @@ const Color: NextPage = () => {
 					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_AVATAR} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_AVATAR} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header header="Choisir une couleur" HelpText="Les couleurs et leurs valeurs" />
+					<HelperH1Header header="Choisir une couleur" HelpText="Choisissez une couleur selon l'univers de votre marque" />
 					<DefaultCardSection>
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} preview={preview} active={false} />

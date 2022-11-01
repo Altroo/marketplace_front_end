@@ -500,7 +500,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 			{created && !modalDismissed && (
 				<DismissMessageModal
 					title="Voilà le résultat !"
-					body="Vous pouvez désormais publier votre boutique ou continuer à la peaufiner."
+					body="Vous pouvez désormais publier vos produit ou service ou modifier votre boutique."
 					visible={!modalDismissed}
 					buttonText="Compris !"
 					dismissHandler={() => {

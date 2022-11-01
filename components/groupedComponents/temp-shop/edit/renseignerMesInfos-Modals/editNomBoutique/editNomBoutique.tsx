@@ -65,7 +65,7 @@ const EditNomBoutique: React.FC<Props> = (props: Props) => {
 									header="Changer le nom de ma boutique"
 									description="Soyez sûr quand vous changez le nom de votre boutique, certains utilisateurs
 									pourraient ne pas vous reconnaître…"
-									HelpText="Comment choisir son nom ?"
+									HelpText="Ce peut être le nom de votre marque ou votre propre nom"
 									headerClasses={Styles.header}
 									descriptionClasses={Styles.description}
 								/>

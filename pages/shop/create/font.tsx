@@ -196,7 +196,7 @@ const Font: NextPage = () => {
 					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_COLOR} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_COLOR} returnButton closeButtonHref={SITE_ROOT} />
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header header="Choisir une police" HelpText="L'importance d'un type de police" />
+					<HelperH1Header header="Choisir une police" HelpText="Le style s'applique à la typographie du nom de votre boutique" />
 					<DefaultCardSection>
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} preview={preview} font={fontName} active={false} />

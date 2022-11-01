@@ -38,7 +38,7 @@ const Welcome: React.FC<Props> = (props: Props) => {
 						<h2 className={Styles.header}>Bienvenue dans la famille Qaryb !</h2>
 						<p className={Styles.subHeader}>Pensez à activer votre compte pour finaliser votre inscription</p>
 						<PrimaryAnchorButton
-							buttonText={has_shop ? 'Aller au dashboard' : 'Créez ma boutique'}
+							buttonText={has_shop ? 'Aller au dashboard' : 'Créer ma boutique'}
 							active={true}
 							nextPage={has_shop ? DASHBOARD : REAL_SHOP_ADD_SHOP_NAME}
 						/>
@@ -56,7 +56,7 @@ const Welcome: React.FC<Props> = (props: Props) => {
 						</Stack>
 						<div className={Styles.primaryButtonWrapper}>
 							<PrimaryAnchorButton
-								buttonText={has_shop ? 'Aller au dashboard' : 'Créez ma boutique'}
+								buttonText={has_shop ? 'Aller au dashboard' : 'Créer ma boutique'}
 								active={true}
 								nextPage={has_shop ? DASHBOARD : REAL_SHOP_ADD_SHOP_NAME}
 							/>
