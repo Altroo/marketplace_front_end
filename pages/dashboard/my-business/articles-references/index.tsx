@@ -603,7 +603,9 @@ type IndexProps = {
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	const { data, indexedData } = props.pageProps;
 	const { indexed_articles_count, all_slots_count } = data;
-	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(true);
+	const router = useRouter();
+	const direct = router.query.direct as boolean | undefined;
+	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(direct ? direct : false);
 
 	const [showToast, setShowToast] = useState<boolean>(false);
 

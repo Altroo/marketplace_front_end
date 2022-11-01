@@ -20,6 +20,7 @@ import QuestionMarkSVG from '../../../../public/assets/svgs/globalIcons/question
 import DesktopUSDSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/desktop-usd.svg';
 import { fullMonthItemsList } from '../../../../utils/rawData';
 import ColoredOrdersIlluSVG from '../../../../public/assets/images/dashboard_illu/colored-orders.svg';
+import { useRouter } from "next/router";
 
 type PageContentType = {
 	data: AccountGetDashboardType;
@@ -84,7 +85,10 @@ type IndexProps = {
 };
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	const { data } = props.pageProps;
-	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(true);
+	const router = useRouter();
+	const direct = router.query.direct as boolean | undefined;
+	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(direct ? direct : false);
+
 	return (
 		<Stack direction="column">
 			<UserMainNavigationBar />

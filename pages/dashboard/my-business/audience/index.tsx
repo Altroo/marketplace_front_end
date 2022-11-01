@@ -310,7 +310,9 @@ type IndexProps = {
 };
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	const { data, vuesData } = props.pageProps;
-	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(true);
+	const router = useRouter();
+	const direct = router.query.direct as boolean | undefined;
+	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(direct ? direct : false);
 
 	return (
 		<Stack direction="column">

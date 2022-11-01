@@ -471,7 +471,9 @@ type ReferencerDesArticlesProps = {
 };
 const ReferencerDesArticles: NextPage<ReferencerDesArticlesProps> = (props: ReferencerDesArticlesProps) => {
 	const { data, offersData } = props.pageProps;
-	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(false);
+	const router = useRouter();
+	const direct = router.query.direct as boolean | undefined;
+	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(direct ? direct : false);
 
 	const [showToast, setShowToast] = useState<boolean>(false);
 
