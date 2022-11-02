@@ -68,9 +68,9 @@ const UserMainNavigationBar: React.FC = () => {
 		setAnchorMobileEl(null);
 	};
 
-	const logOutHandler = () => {
-		signOut({ redirect: true, callbackUrl: SITE_ROOT, }).then(() => {
-			deleteRemoteCookiesAppToken();
+	const logOutHandler = async () => {
+		await signOut({ redirect: true, callbackUrl: SITE_ROOT, }).then(async () => {
+			await deleteRemoteCookiesAppToken();
 		});
 	};
 

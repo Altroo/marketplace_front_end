@@ -321,10 +321,10 @@ export const emptyRemoteCookiesUniqueIDOnly = () => {
 	cookiesPoster('/cookies', { initStateToken: emptyInitStateToken }).then();
 };
 
-export const deleteRemoteCookiesAppToken = () => {
-	cookiesDeleter('/cookies', { tokenType: 0 }).then(() => {
-		cookiesDeleter('/cookies', { initStateToken: 0 }).then(() => {
-			cookiesDeleter('/cookies', { initStateUniqueID: 0 }).then();
+export const deleteRemoteCookiesAppToken = async () => {
+	await cookiesDeleter('/cookies', { tokenType: 0 }).then(async () => {
+		await cookiesDeleter('/cookies', { initStateToken: 0 }).then(async () => {
+			await cookiesDeleter('/cookies', { initStateUniqueID: 0 }).then();
 		});
 	});
 };
