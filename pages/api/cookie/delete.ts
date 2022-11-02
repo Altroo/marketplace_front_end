@@ -20,8 +20,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		httpOnly: true,
 		secure: true,
 		path: '/',
-		hostOnly: true,
-		domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
+		// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 	};
 	if (req.method === 'DELETE') {
 		const query = req.body as cookieDeleterType;

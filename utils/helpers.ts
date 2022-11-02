@@ -329,12 +329,12 @@ export const deleteRemoteCookiesAppToken = async () => {
 	});
 };
 
-export const deleteRemoteCookiesAppTokenInBulk = async () => {
-	await cookiesDeleter('/cookie/delete', {
+export const deleteRemoteCookiesAppTokenInBulk = () => {
+	cookiesDeleter('/cookie/delete', {
 		'@tokenType': 0,
 		'@initStateToken': 0,
 		'@initStateUniqueID': 0
-	});
+	}).then();
 };
 
 // convert hex color to rgba
