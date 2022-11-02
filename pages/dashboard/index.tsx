@@ -357,12 +357,10 @@ const MobileDashboardCards: React.FC<MobileDashboardCardsType> = (props: MobileD
 type IndexProps = {
 	pageProps: {
 		data: AccountGetDashboardType;
-		first_name: string;
-		last_name: string;
 	};
 };
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
-	const { data, first_name, last_name } = props.pageProps;
+	const { data } = props.pageProps;
 	const dispatch = useAppDispatch();
 	const [mobileMessagesIconState, setMobileMessagesIconState] = useState<string>(MobileMessageSVG);
 	const [mobileNotificationsIconState, setMobileNotificationsIconState] = useState<string>(MobileNotificationSVG);
@@ -392,6 +390,8 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		total_vue_pourcentage,
 		avatar,
 		pk,
+		first_name,
+		last_name
 	} = data;
 
 	const [totalSellsPourcentageCSS, setTotalSellsPourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
@@ -628,8 +628,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 				return {
 					props: {
 						data: response.data,
-						first_name: appToken.initStateToken.user.first_name,
-						last_name: appToken.initStateToken.user.last_name,
 					},
 				};
 			}

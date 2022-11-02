@@ -378,8 +378,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						return {
 							props: {
 								data: response_shop.data,
-								first_name: appToken.initStateToken.user.first_name,
-								last_name: appToken.initStateToken.user.last_name,
+								first_name: response.data.first_name,
+								last_name: response.data.last_name,
 								vuesData: response_vues.data,
 							},
 						};
@@ -387,8 +387,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						return {
 							props: {
 								data: response_shop.data,
-								first_name: appToken.initStateToken.user.first_name,
-								last_name: appToken.initStateToken.user.last_name,
+								first_name: response.data.first_name,
+								last_name: response.data.last_name,
 								vuesData: null,
 							},
 						};

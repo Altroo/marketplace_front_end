@@ -96,6 +96,8 @@ export type AccountPutChangeEmailHasPasswordResponseType = ResponseDataInterface
 export type AccountGetDashboardType = {
 	pk: number;
 	email: string;
+	first_name: string;
+	last_name: string;
 	avatar: string;
 	is_verified: boolean;
 	is_subscribed: boolean;
