@@ -35,7 +35,7 @@ const BorderIconAnchorButton = forwardRef<HTMLAnchorElement, Props>(
 		) : (
 			<button disabled className={`${Styles.button} ${Styles.desactivatedButton}`}>
 				<div className={Styles.container}>
-					<ImageFuture src={props.svgIcon} alt="" width="18.67" height="18.67" sizes="100vw" />
+					<ImageFuture src={props.svgIcon} alt="" width="18.67" height="18.67" sizes="100vw" className={Styles.svgIcon} />
 					<span>{props.buttonText}</span>
 				</div>
 			</button>

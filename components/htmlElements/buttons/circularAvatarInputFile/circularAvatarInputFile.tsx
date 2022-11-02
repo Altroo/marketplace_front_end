@@ -57,8 +57,8 @@ const CircularAvatarInputFile: React.FC<Props> = (props: Props) => {
 				<ImageFuture
 						src={AvatarIconSVG}
 						alt=""
-						width="40"
-						height="40"
+						width="30"
+						height="27"
 						sizes="100vw"
 						className={`${props.preview !== null ? Styles.hideIcon : ''}`}
 					/>

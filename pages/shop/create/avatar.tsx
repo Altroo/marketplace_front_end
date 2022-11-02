@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Styles from '../../../styles/shop/create/shopCreateShared.module.sass';
+import Styles from '../../../styles/shop/create/avatar.module.sass';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
@@ -25,7 +25,12 @@ import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
-import { REAL_SHOP_ADD_SHOP_NAME, SITE_ROOT, REAL_SHOP_BY_SHOP_LINK_ROUTE, AUTH_LOGIN } from '../../../utils/routes';
+import {
+	REAL_SHOP_ADD_SHOP_NAME,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE,
+	AUTH_LOGIN,
+	DASHBOARD
+} from "../../../utils/routes";
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
@@ -88,17 +93,19 @@ const Avatar: NextPage = () => {
 		<>
 			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SHOP" />
-				<Box sx={{ width: '100%', height: '100%' }}>
-					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} returnButton closeButtonHref={SITE_ROOT} />
-					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} returnButton closeButtonHref={SITE_ROOT} />
+				<Box className={Styles.rootBox}>
+					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} returnButton closeButtonHref={DASHBOARD} />
+					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} returnButton closeButtonHref={DASHBOARD} />
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header header="Ajouter un avatar" HelpText="Ajoutez le logo de votre marque ou une photo de vous" />
-					<DefaultCardSection>
+					<Box className={Styles.marginLeft}>
+						<HelperH1Header header="Ajouter un avatar" HelpText="Ajoutez le logo de votre marque ou une photo de vous" />
+					</Box>
+					<DefaultCardSection cssClass={Styles.cardSection}>
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} setAvatar={setAvatar} preview={preview} active />
 							<div className={Styles.actionsWrapper}>
-								<IconAnchorButton buttonText="Message" svgIcon={MessageIconSVG} />
-								<IconAnchorButton buttonText="Contacter" svgIcon={CallIconSVG} />
+								{/*<IconAnchorButton buttonText="Message" svgIcon={MessageIconSVG} />*/}
+								<IconAnchorButton buttonText="Contacter" svgIcon={CallIconSVG} cssClass={Styles.contacterButton} />
 							</div>
 						</div>
 						<div className={Styles.shopDetailsWrapper}>

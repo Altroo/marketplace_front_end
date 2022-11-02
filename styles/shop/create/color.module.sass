@@ -3,24 +3,36 @@
 @import 'styles/sass/mixins'
 
 // Global styles
-// add/avatar
+// new
+.marginLeft
+  margin-left: 30px
+.cardSection
+  padding: 22px !important
+  min-height: 100% !important
+  position: relative // <- new
+.rootBox
+  margin-left: 30px
+  width: calc(100% - 440px)
+  height: 100%
 .contacterButton
   +Medium
-  font-size: 15px
+  font-size: 15px !important
+@media #{$tablette}
+  .cardSection
+    padding: 24px 10px 60px 10px !important
+  .marginLeft
+    margin-left: 0
+  .rootBox
+    margin-left: 0
+    width: 100%
+// end new --
 .main
   position: relative
   display: flex
   flex-direction: row
-  padding-right: 60px
+  padding-right: 30px // <- new
   width: 100%
   min-height: 100vh
-.fullPageMain
-  @extend .main
-  height: 100vh
-  overflow: hidden
-.fullPageNoOverflowMain
-  @extend .main
-  height: 100vh
 .avatarActionsWrapper
   display: flex
   width: 100%
@@ -111,26 +123,17 @@
   justify-content: center
   align-items: center
   margin: 0 auto
-.shopNameForm
-  width: 100%
-  height: 100%
-  display: flex
-  flex-direction: column
-  justify-content: space-between
 .marginButtonBottom
   margin-bottom: 60px
-.miniMarginButtonBottom
-  margin-bottom: 30px
 .primaryButtonWrapper
   width: 100%
   text-align: center
 .primaryButtonZindexWrapper
   @extend .primaryButtonWrapper
   z-index: 10
-
 .desktopContainerModal
   position: absolute
-  bottom: calc(100% - 90%)
+  bottom: 0
   background: $white
   box-shadow: 0 0 24px rgba(0, 0, 0, 0.25)
   padding: 20px
@@ -158,35 +161,6 @@
   padding: 37px 40px 37px 40px
   height: 300px
   font-size: 31px
-.mobileFontWrapper
-  border-radius: 20px 20px 0 0
-  display: flex
-  justify-content: space-between
-  flex-direction: column
-  background: $white
-  box-shadow: 0 0 24px rgb(0 0 0 / 25%)
-  width: 100%
-  left: 0
-  bottom: 0
-  position: fixed
-  padding: 20px
-  font-size: 31px
-  @extend .mobileContainerModal
-  height: 250px
-.desktopFontWrapper
-  position: absolute
-  bottom: calc(100vh - 90%)
-  background: $white
-  box-shadow: 0 0 24px rgb(0 0 0 / 25%)
-  width: 60%
-  display: flex
-  padding: 20px
-  border-radius: 100px
-  justify-content: space-evenly
-  align-items: center
-  font-size: 24px
-  z-index: 1
-  align-self: center
 .mobileSwiper
   width: 100%
   height: 100%
@@ -196,14 +170,16 @@
   justify-items: center
   grid-template-columns: repeat(5, 1fr)
   grid-template-rows: repeat(3, 1fr)
-.mobileFontContainerModal
-  display: grid
-  grid-template-columns: 1fr 1fr
-  grid-template-rows: 1fr 1fr
-  grid-row-gap: 20px
-  text-align: center
-  margin-bottom: 2rem
-
+.customTextField
+  margin-top: 77px
+  outline: none
+  &:focus
+    border: 2px solid $blue !important
+  & ::placeholder
+    font-family: $poppins !important
+    font-weight: 400
+    color: $grayInput
+    font-size: 1.1rem
 @media #{$desktop}
   .shopAddOfferWrapper
     flex: 1
@@ -220,12 +196,8 @@
   .main
     width: 100%
     padding: 18px 24px 28px 24px
-  .steps
-    display: flex !important
   .shopAddOfferWrapper
     margin-top: 32px
-    width: 100%
-  .continueButton
     width: 100%
   .avatarActionsWrapper
     display: flex
@@ -233,8 +205,6 @@
     justify-content: space-evenly
     width: 100%
     align-items: center
-  .blockContactsContainer
-    width: 50%
   .filterWrapper
     +Hidden
   .shopDetailsAside
@@ -243,27 +213,11 @@
     +Hidden
   .desktopContainerModal
     +Hidden
-  .desktopFontWrapper
-    +Hidden
-  .primaryButtonDesktopWrapper
-    +Hidden
-  //.primaryButtonWrapper
-  //  padding-bottom: 60px
   .primaryButton
     width: 100%
     height: 54px !important
   .marginButtonBottom
     margin-bottom: 32px !important
-.customTextField
-  margin-top: 77px
-  outline: none
-  &:focus
-    border: 2px solid $blue !important
-  & ::placeholder
-    font-family: $poppins !important
-    font-weight: 400
-    color: $grayInput
-    font-size: 1.1rem
 @media #{$mobile}
   .primaryButton
     width: 100% !important

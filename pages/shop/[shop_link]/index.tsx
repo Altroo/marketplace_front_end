@@ -602,36 +602,36 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						<Stack direction="row" justifyContent="space-evenly" flexWrap="wrap">
-							<IconAnchorButton
-								buttonText="Message"
-								svgIcon={messageIcon}
+						{/*<Stack direction="row" justifyContent="space-evenly" flexWrap="wrap">*/}
+						{/*	<IconAnchorButton*/}
+						{/*		buttonText="Message"*/}
+						{/*		svgIcon={messageIcon}*/}
+						{/*		backgroundColor={bgColorCode}*/}
+						{/*		textColor={colorCode}*/}
+						{/*		border={borderState}*/}
+						{/*		// nextPage={AUTH_LOGIN}*/}
+						{/*		active={true}*/}
+						{/*		cssClass={Styles.iconButton}*/}
+						{/*	/>*/}
+						{(phoneValue || whatsappValue) !== '' ? (
+							<CustomIconButton
+								buttonText="Contacter"
+								svgIcon={contactIcon}
+								onClick={handleContactModalOpen}
 								backgroundColor={bgColorCode}
 								textColor={colorCode}
 								border={borderState}
-								// nextPage={AUTH_LOGIN}
-								active={true}
 								cssClass={Styles.iconButton}
 							/>
-							{(phoneValue || whatsappValue) !== '' ? (
-								<CustomIconButton
-									buttonText="Contacter"
-									svgIcon={contactIcon}
-									onClick={handleContactModalOpen}
-									backgroundColor={bgColorCode}
-									textColor={colorCode}
-									border={borderState}
-									cssClass={Styles.iconButton}
-								/>
-							) : (
-								<BorderIconButton
-									buttonText="Contacter"
-									svgIcon={ContactIconBlueSVG}
-									onClick={handleContactModalOpen}
-									cssClass={Styles.iconButton}
-								/>
-							)}
-						</Stack>
+						) : (
+							<BorderIconButton
+								buttonText="Contacter"
+								svgIcon={ContactIconBlueSVG}
+								onClick={handleContactModalOpen}
+								cssClass={Styles.iconButton}
+							/>
+						)}
+						{/*</Stack>*/}
 					</Stack>
 					<Box>
 						<Stack className={Styles.shopDetailsWrapper} direction="column">

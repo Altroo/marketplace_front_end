@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from '../../../styles/shop/create/shopCreateShared.module.sass';
+import Styles from '../../../styles/shop/create/color.module.sass';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
@@ -39,10 +39,9 @@ import { chipActionsType } from '../../../types/ui/uiTypes';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
 import {
+	DASHBOARD,
 	REAL_SHOP_ADD_AVATAR,
-	SITE_ROOT,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	REAL_SHOP_ADD_SHOP_NAME,
 	AUTH_LOGIN,
 } from '../../../utils/routes';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
@@ -171,29 +170,31 @@ const Color: NextPage = () => {
 		<>
 			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SHOP" />
-				<Box sx={{ width: '100%', height: '100%' }}>
-					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_AVATAR} returnButton closeButtonHref={SITE_ROOT} />
-					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_AVATAR} returnButton closeButtonHref={SITE_ROOT} />
+				<Box className={Styles.rootBox}>
+					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_AVATAR} returnButton closeButtonHref={DASHBOARD} />
+					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_AVATAR} returnButton closeButtonHref={DASHBOARD} />
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header header="Choisir une couleur" HelpText="Choisissez une couleur selon l'univers de votre marque" />
-					<DefaultCardSection>
+					<Box className={Styles.marginLeft}>
+						<HelperH1Header header="Choisir une couleur" HelpText="Choisissez une couleur selon l'univers de votre marque" />
+					</Box>
+					<DefaultCardSection cssClass={Styles.cardSection}>
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} preview={preview} active={false} />
 							<div className={Styles.actionsWrapper}>
-								<IconAnchorButton
-									buttonText="Message"
-									svgIcon={messageIcon}
-									backgroundColor={bgColorCode}
-									textColor={colorCode}
-									border={border}
-								/>
+								{/*<IconAnchorButton*/}
+								{/*	buttonText="Message"*/}
+								{/*	svgIcon={messageIcon}*/}
+								{/*	backgroundColor={bgColorCode}*/}
+								{/*	textColor={colorCode}*/}
+								{/*	border={border}*/}
+								{/*/>*/}
 								<IconAnchorButton
 									buttonText="Contacter"
 									svgIcon={contactIcon}
 									backgroundColor={bgColorCode}
 									textColor={colorCode}
 									border={border}
-								/>
+									cssClass={Styles.contacterButton} />
 							</div>
 						</div>
 						<div className={Styles.shopDetailsWrapper}>

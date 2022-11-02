@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import Styles from '../../../styles/shop/create/shopCreateShared.module.sass';
+import Styles from '../../../styles/shop/create/font.module.sass';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
@@ -41,11 +41,11 @@ import {
 	getNewShopBorder,
 	getNewShopIconColor,
 } from '../../../store/selectors';
-import { REAL_SHOP_ADD_COLOR, SITE_ROOT, REAL_SHOP_BY_SHOP_LINK_ROUTE, AUTH_LOGIN } from '../../../utils/routes';
+import { REAL_SHOP_ADD_COLOR, DASHBOARD, REAL_SHOP_BY_SHOP_LINK_ROUTE, AUTH_LOGIN } from '../../../utils/routes';
 import { getCookie } from 'cookies-next';
 import { Box } from '@mui/material';
 import { SagaCallBackOnCompleteStrType } from '../../../types/_init/_initTypes';
-import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from '../../../utils/helpers';
+import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 
@@ -192,29 +192,31 @@ const Font: NextPage = () => {
 			)}
 			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SHOP" />
-				<Box sx={{ width: '100%', height: '100%' }}>
-					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_COLOR} returnButton closeButtonHref={SITE_ROOT} />
-					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_COLOR} returnButton closeButtonHref={SITE_ROOT} />
+				<Box className={Styles.rootBox}>
+					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_COLOR} returnButton closeButtonHref={DASHBOARD} />
+					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_COLOR} returnButton closeButtonHref={DASHBOARD} />
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header header="Choisir une police" HelpText="Le style s'applique à la typographie du nom de votre boutique" />
-					<DefaultCardSection>
+					<Box className={Styles.marginLeft}>
+						<HelperH1Header header="Choisir une police" HelpText="Le style s'applique à la typographie du nom de votre boutique" />
+					</Box>
+					<DefaultCardSection cssClass={Styles.cardSection}>
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} preview={preview} font={fontName} active={false} />
 							<div className={Styles.actionsWrapper}>
-								<IconAnchorButton
-									buttonText="Message"
-									svgIcon={messageIcon}
-									backgroundColor={bgColorCode}
-									textColor={colorCode}
-									border={border}
-								/>
+								{/*<IconAnchorButton*/}
+								{/*	buttonText="Message"*/}
+								{/*	svgIcon={messageIcon}*/}
+								{/*	backgroundColor={bgColorCode}*/}
+								{/*	textColor={colorCode}*/}
+								{/*	border={border}*/}
+								{/*/>*/}
 								<IconAnchorButton
 									buttonText="Contacter"
 									svgIcon={contactIcon}
 									backgroundColor={bgColorCode}
 									textColor={colorCode}
 									border={border}
-								/>
+									cssClass={Styles.contacterButton} />
 							</div>
 						</div>
 						<div className={Styles.shopDetailsWrapper}>
@@ -296,6 +298,7 @@ const Font: NextPage = () => {
 								</div>
 								<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 									<PrimaryButton
+										cssClass={Styles.primaryButton}
 										buttonText="Continuer"
 										active={fontName !== undefined}
 										onClick={() => fontHandler(fontName)}

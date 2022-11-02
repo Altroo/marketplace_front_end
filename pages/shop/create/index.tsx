@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
-import Styles from '../../../styles/shop/create/shopCreateShared.module.sass';
+import Styles from '../../../styles/shop/create/index.module.sass';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
@@ -11,17 +11,17 @@ import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import { getNewShopName } from '../../../store/selectors';
 import { Formik, Form } from 'formik';
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { shopNameSchema } from '../../../utils/formValidationSchemas';
 import {
 	REAL_SHOP_ADD_SHOP_NAME,
-	SITE_ROOT,
+	DASHBOARD,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	AUTH_LOGIN,
 } from '../../../utils/routes';
-import { shopNameTextInputTheme } from '../../../utils/themes';
+import { shopNameTextInputTheme } from "../../../utils/themes";
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
@@ -48,11 +48,11 @@ const ShopName: NextPage = () => {
 
 	return (
 		<>
-			<main className={Styles.fullPageNoOverflowMain}>
+			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SHOP" />
-				<Box sx={{ width: '100%', height: '100%' }}>
-					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} closeButtonHref={SITE_ROOT} />
-					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} closeButtonHref={SITE_ROOT} />
+				<Stack direction="column" className={Styles.rootStack}>
+					<DesktopTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} closeButtonHref={DASHBOARD} />
+					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} closeButtonHref={DASHBOARD} />
 					<MobileStepsBar activeStep={activeStep} />
 					<HelperH1Header header="Nommez votre boutique" HelpText="Ce peut être le nom de votre marque ou votre propre nom" />
 					<Formik
@@ -91,7 +91,7 @@ const ShopName: NextPage = () => {
 							</Form>
 						)}
 					</Formik>
-				</Box>
+				</Stack>
 			</main>
 		</>
 	);

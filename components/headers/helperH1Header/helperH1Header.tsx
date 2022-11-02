@@ -2,6 +2,7 @@ import React from 'react';
 import Styles from './helperH1Header.module.sass';
 import QuestionMarkSVG from "../../../public/assets/svgs/globalIcons/question-mark.svg";
 import { default as ImageFuture } from "next/future/image";
+import { Stack } from "@mui/material";
 
 type Props = {
 	header: string,
@@ -13,17 +14,20 @@ type Props = {
 const HelperH1Header: React.FC<Props> = (props: Props) => {
 	return (
 		<div className={Styles.headerWrapper}>
-			<h1 className={`${Styles.header} ${props.headerClasses}`}>{props.header}</h1>
-			<div className={Styles.helpTextWrapper}>
-				<ImageFuture
-						src={QuestionMarkSVG}
-						alt=""
-						width="18"
-						height="18"
-						sizes="100vw"
-					/>
+			<Stack direction="column" className={Styles.helpTextWrapper}>
+				<h1 className={`${Styles.header} ${props.headerClasses}`}>{props.header}</h1>
 				<span>{props.HelpText}</span>
-			</div>
+			</Stack>
+
+			{/*<Stack direction="row" alignItems="baseline" className={Styles.helpTextWrapper} gap="3px">*/}
+			{/*	<ImageFuture*/}
+			{/*			src={QuestionMarkSVG}*/}
+			{/*			alt=""*/}
+			{/*			width="18"*/}
+			{/*			height="18"*/}
+			{/*			sizes="100vw"*/}
+			{/*		/>*/}
+			{/*</Stack>*/}
 		</div>
 	);
 };

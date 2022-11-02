@@ -283,7 +283,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 					circularColor="#0D070B"
 				/>
 			)}
-			<Box sx={{ minHeight: '450px' }}>
+			<Box sx={{ minHeight: '450px' }}> {/* TODO : fix tab min height */}
 				{!offersLinkedHashMap.offersMap?.isEmpty() && firstPageLoaded ? (
 					<>
 						<Stack

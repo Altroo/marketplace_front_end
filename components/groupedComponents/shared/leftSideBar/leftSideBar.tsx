@@ -32,7 +32,7 @@ const SideBarElem: React.FC<SideBarProps> = (props: SideBarProps) => {
 					height="32"
 					sizes="100vw"
 					/>
-					<span style={{ color: element.textColor }}>{element.title}</span>
+					<span style={{ color: element.active ? element.textColor : '#84848A' }}>{element.title}</span>
 				</div>
 				{element.active && <ImageFuture
 					src={RightArrowSVG}

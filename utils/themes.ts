@@ -97,11 +97,11 @@ export const shopNameTextInputTheme = (primaryColor: string | undefined = undefi
 					root: {
 						fontFamily: 'Poppins',
 						fontSize: '19px',
-						height: '55px',
+						height: '68px',
 						padding: '10px',
 						'& fieldset': {
 							padding: '10px 18px',
-							height: '59px',
+							// height: '59px',
 							fontFamily: 'Poppins',
 							fontSize: '19px',
 							borderRadius: '16px',

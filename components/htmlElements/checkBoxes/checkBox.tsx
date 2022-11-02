@@ -7,9 +7,9 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import { hexToRGB } from '../../../utils/helpers';
 
 
-export const CheckBoxSVG = (fill: string, width = 20, height = 20) => {
+export const CheckBoxSVG = (fill: string, width = 20, height = 20, fillOpacity = '1') => {
 	return (
-		<svg width={width} height={height} viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<svg width={width} height={height} viewBox="0 0 14 15" fill="none" fillOpacity={fillOpacity} xmlns="http://www.w3.org/2000/svg">
 		<path
 			fillRule="evenodd"
 			clipRule="evenodd"
@@ -33,7 +33,7 @@ interface checkBoxForWhomBaseType extends Omit<checkBoxForWhomType, 'onChange'> 
 const CheckBox: React.FC<checkBoxForWhomBaseType> = (props: checkBoxForWhomBaseType) => {
 	let CheckboxIcon = CheckBoxSVG('#0D070B');
 	if (!props.active) {
-		CheckboxIcon = CheckBoxSVG('#84848A');
+		CheckboxIcon = CheckBoxSVG('#000000', 20, 20, '0.38');
 	}
 	let alphaColor = 'rgba(25, 118, 210, 0.04)';
 	let activeColor = '#0D070B';

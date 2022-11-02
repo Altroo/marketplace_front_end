@@ -20,32 +20,32 @@ const AvatarShopNameRating: React.FC<Props> = (props: Props) => {
 			<div>
 				<CircularAvatarInputFile setAvatar={props.setAvatar} preview={props.preview} active={props.active}/>
 			</div>
-			<div className={Styles.shopNameContainer}>
-				<h2
-					className={Styles.shopName}
-					style={{
-						fontFamily:
-							props.font === 'L'
-								? 'Poppins-Light'
-								: props.font === 'B'
-								? 'Poppins-ExtraBold'
-								: props.font === 'S'
-								? 'Poppins-SemiBold'
-								: 'Poppins',
-					}}>
-					{props.shopName}
-				</h2>
-				<div className={Styles.ratingContainer}>
-					<ImageFuture
-								src={BlackStarSVG}
-								alt=""
-								width="20"
-								height="20"
-								sizes="100vw"
-							/>
-					<span>Votre note</span>
-				</div>
-			</div>
+			{/*<div className={Styles.shopNameContainer}>*/}
+			<h2
+				className={Styles.shopName}
+				style={{
+					fontFamily:
+						props.font === 'L'
+							? 'Poppins-Light'
+							: props.font === 'B'
+							? 'Poppins-ExtraBold'
+							: props.font === 'S'
+							? 'Poppins-SemiBold'
+							: 'Poppins',
+				}}>
+				{props.shopName}
+			</h2>
+				{/*<div className={Styles.ratingContainer}>*/}
+				{/*	<ImageFuture*/}
+				{/*				src={BlackStarSVG}*/}
+				{/*				alt=""*/}
+				{/*				width="20"*/}
+				{/*				height="20"*/}
+				{/*				sizes="100vw"*/}
+				{/*			/>*/}
+				{/*	<span>Votre note</span>*/}
+				{/*</div>*/}
+			{/*</div>*/}
 		</div>
 	);
 };
