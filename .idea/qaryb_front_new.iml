@@ -324,6 +324,7 @@
       <sourceFolder url="file://$MODULE_DIR$/styles/offers/service/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/archives/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/create" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/api/cookie" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/edit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />

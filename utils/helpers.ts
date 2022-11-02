@@ -329,6 +329,14 @@ export const deleteRemoteCookiesAppToken = async () => {
 	});
 };
 
+export const deleteRemoteCookiesAppTokenInBulk = async () => {
+	await cookiesDeleter('/cookie/delete', {
+		'@tokenType': 0,
+		'@initStateToken': 0,
+		'@initStateUniqueID': 0
+	});
+};
+
 // convert hex color to rgba
 export const hexToRGB = (hex: string, alpha: number) => {
 	const r: number = parseInt(hex.slice(1, 3), 16),

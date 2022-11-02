@@ -35,7 +35,7 @@ import {
 	REAL_SHOP_ADD_SHOP_NAME,
 	SITE_ROOT
 } from "../../../utils/routes";
-import { deleteRemoteCookiesAppToken } from '../../../utils/helpers';
+import { deleteRemoteCookiesAppToken, deleteRemoteCookiesAppTokenInBulk } from "../../../utils/helpers";
 import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 
@@ -70,7 +70,7 @@ const UserMainNavigationBar: React.FC = () => {
 
 	const logOutHandler = async () => {
 		await signOut({ redirect: true, callbackUrl: SITE_ROOT, }).then(async () => {
-			await deleteRemoteCookiesAppToken();
+			await deleteRemoteCookiesAppTokenInBulk();
 		});
 	};
 
