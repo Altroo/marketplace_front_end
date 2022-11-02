@@ -7,7 +7,7 @@ import {
 	AccountPostFacebookResponseType,
 	AccountPostGoogleResponseType,
 	AccountPostLoginFixNextAuthResponseType,
-} from "../../../types/account/accountTypes";
+} from '../../../types/account/accountTypes';
 import { postApi } from '../../../store/services/_init/_initAPI';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { InitStateInterface, InitStateToken, InitStateUniqueID, tokenUser } from '../../../types/_init/_initTypes';
@@ -263,7 +263,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					};
 					setAuthTokenCookie(res, newInitStateToken, {
 						maxAge: 30 * 24 * 60 * 60, // 30 days
-						sameSite: 'none',
+						sameSite: 'lax',
 						...options,
 					});
 				}
