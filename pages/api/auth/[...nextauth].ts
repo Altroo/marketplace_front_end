@@ -242,6 +242,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					secure: true,
 					path: '/',
+					hostOnly: true,
 					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				};
 				if (account) {

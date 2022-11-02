@@ -7,6 +7,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 			httpOnly: true,
 			secure: true,
 			path: '/',
+			hostOnly: true,
 			domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 		};
 		const query = req.body;
@@ -112,6 +113,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 			path: '/',
 			httpOnly: true,
 			secure: true,
+			hostOnly: true,
 			domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 		};
 		const query = req.body;
