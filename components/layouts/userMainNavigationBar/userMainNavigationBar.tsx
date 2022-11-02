@@ -70,7 +70,7 @@ const UserMainNavigationBar: React.FC = () => {
 
 	const logOutHandler = async () => {
 		await deleteRemoteCookiesAppTokenInBulk();
-		await signOut({ redirect: true, callbackUrl: SITE_ROOT, }).then();
+		signOut({ redirect: true, callbackUrl: SITE_ROOT}).then();
 	};
 
 	const [openMobileDrawer, setOpenMobileDrawer] = useState<boolean>(false);
