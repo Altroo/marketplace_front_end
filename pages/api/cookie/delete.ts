@@ -17,24 +17,24 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		sameSite: "lax",
 	};
 
-	const options_two: CookieSerializeOptions = {
-		httpOnly: true,
-    secure: process.env.NODE_ENV !== "development",
-    path: "/",
-    maxAge: 5,
-    sameSite: "lax",
-	}
+	// const options_two: CookieSerializeOptions = {
+	// 	httpOnly: true,
+  //   secure: process.env.NODE_ENV !== "development",
+  //   path: "/",
+  //   maxAge: 5,
+  //   sameSite: "lax",
+	// }
 
 	if (req.method === 'POST' && req.body.tokens) {
 		res.setHeader("Set-Cookie", [
       serialize("@tokenType", "false", {
-        ...options_two
+        ...options
       }),
 			serialize("@initStateToken", "false", {
-        ...options_two
+        ...options
       }),
 			serialize("@initStateUniqueID", "false", {
-        ...options_two
+        ...options
       }),
     ]);
 		// res.setHeader('Set-Cookie', [
