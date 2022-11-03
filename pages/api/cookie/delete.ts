@@ -13,6 +13,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		secure: true,
 		path: '/',
 		expires: new Date(Date.now()),
+		maxAge: 0,
 		sameSite: "lax",
 	};
 	if (req.method === 'DELETE') {
