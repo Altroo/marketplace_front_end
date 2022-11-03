@@ -595,11 +595,11 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 										/>
 									</div>
 								</Stack>
-								<Stack direction="row" alignItems="center">
-									<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />
-									{/* TODO - phase 2 : link rating when backend is done */}
-									<span>0 (0 notes)</span>
-								</Stack>
+								{/*<Stack direction="row" alignItems="center">*/}
+								{/*	<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />*/}
+								{/*	/!* TODO - phase 2 : link rating when backend is done *!/*/}
+								{/*	<span>0 (0 notes)</span>*/}
+								{/*</Stack>*/}
 							</Stack>
 						</Stack>
 						{/*<Stack direction="row" justifyContent="space-evenly" flexWrap="wrap">*/}
