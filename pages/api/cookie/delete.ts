@@ -21,7 +21,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		secure: true,
 		path: '/',
 		expires: new Date(Date.now()),
-		// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 	};
 	if (req.method === 'DELETE') {
 		deleteBulkCookie(res, {
