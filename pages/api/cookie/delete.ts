@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { CookieSerializeOptions, serialize } from 'cookie';
 
-type cookieDeleterType = {
-	'@tokenType': string;
-	'@initStateToken': string;
-	'@initStateUniqueID': string;
-};
+// type cookieDeleterType = {
+// 	'@tokenType': string;
+// 	'@initStateToken': string;
+// 	'@initStateUniqueID': string;
+// };
 
 const deleteBulkCookie = (res: NextApiResponse, options: CookieSerializeOptions = {}) => {
 	res.setHeader('Set-Cookie', [
