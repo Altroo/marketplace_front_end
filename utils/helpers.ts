@@ -13,7 +13,7 @@ import {
 	initialState,
 	setInitState,
 } from '../store/slices/_init/_initSlice';
-import { cookiesDeleter, cookiesPoster, tokenRefreshApi } from '../store/services/_init/_initAPI';
+import { bulkCookiesDeleter, cookiesDeleter, cookiesPoster, tokenRefreshApi } from "../store/services/_init/_initAPI";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store/store';
 import { ShopFontNameType } from '../types/shop/shopTypes';
@@ -330,11 +330,7 @@ export const deleteRemoteCookiesAppToken = async () => {
 };
 
 export const deleteRemoteCookiesAppTokenInBulk = () => {
-	cookiesDeleter('/cookie/delete', {
-		'@tokenType': 0,
-		'@initStateToken': 0,
-		'@initStateUniqueID': 0
-	}).then();
+	bulkCookiesDeleter('/cookie/delete').then();
 };
 
 // convert hex color to rgba
