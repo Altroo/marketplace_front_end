@@ -20,6 +20,7 @@ import { default as ImageFuture } from 'next/future/image';
 import UserMainNavigationBar from '../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../components/layouts/footer/customFooter';
 import PrimaryAnchorButton from '../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
+import { NextSeo } from 'next-seo';
 
 type InstaListItem = {
 	img: string;
@@ -50,7 +51,12 @@ const Insta: NextPage = () => {
 	};
 
 	return (
-		<Stack direction="column">
+		<>
+			<NextSeo
+        title="Boutique en ligne Maroc"
+        // description="A short description goes here."
+      />
+			<Stack direction="column">
 			<UserMainNavigationBar />
 			<main className={Styles.main}>
 				<Stack direction="column" spacing="48px">
@@ -173,6 +179,7 @@ const Insta: NextPage = () => {
 			</main>
 			<CustomFooter />
 		</Stack>
+		</>
 	);
 };
 
