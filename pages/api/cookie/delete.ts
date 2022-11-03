@@ -37,6 +37,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         ...options
       }),
     ]);
+		res.status(204);
+		res.end(res.getHeader('Set-Cookie'));
 		// res.setHeader('Set-Cookie', [
 		// 	serialize('@tokenType', '', options),
 		// 	serialize('@initStateToken', '', options),
