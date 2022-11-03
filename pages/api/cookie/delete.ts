@@ -9,9 +9,9 @@ type cookieDeleterType = {
 
 const deleteBulkCookie = (res: NextApiResponse, name: cookieDeleterType, options: CookieSerializeOptions = {}) => {
 	res.setHeader('Set-Cookie', [
-		serialize(name['@tokenType'], '0', options),
-		serialize(name['@initStateToken'], '0', options),
-		serialize(name['@initStateUniqueID'], '0', options),
+		serialize(name['@tokenType'], '', options),
+		serialize(name['@initStateToken'], '', options),
+		serialize(name['@initStateUniqueID'], '', options),
 	]);
 };
 
@@ -28,5 +28,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 			sameSite: 'lax',
 				...options,
 		})
+		res.status(204);
+		res.end();
 	}
 }
