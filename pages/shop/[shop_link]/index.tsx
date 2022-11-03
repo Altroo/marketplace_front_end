@@ -562,7 +562,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								) : (
 									<div className={Styles.avatarSubWrapper}>
 										{!preview ? (
-											<Skeleton variant="circular" width={98} height={98} />
+											<Skeleton variant="circular" width={120} height={120} />
 										) : (
 											<ImageFuture
 												src={preview as string}
