@@ -16,13 +16,33 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		maxAge: 0,
 		sameSite: "lax",
 	};
-	if (req.method === 'POST' && 'tokens' in req.body) {
-		res.setHeader('Set-Cookie', [
-			serialize('@tokenType', '', options),
-			serialize('@initStateToken', '', options),
-			serialize('@initStateUniqueID', '', options),
-		]);
-		return res.status(204);
+
+	const options_two: CookieSerializeOptions = {
+		httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    path: "/",
+    maxAge: 5,
+    sameSite: "lax",
+	}
+
+	if (req.method === 'POST' && req.body.tokens) {
+		res.setHeader("Set-Cookie", [
+      serialize("@tokenType", "false", {
+        ...options_two
+      }),
+			serialize("@initStateToken", "false", {
+        ...options_two
+      }),
+			serialize("@initStateUniqueID", "false", {
+        ...options_two
+      }),
+    ]);
+		// res.setHeader('Set-Cookie', [
+		// 	serialize('@tokenType', '', options),
+		// 	serialize('@initStateToken', '', options),
+		// 	serialize('@initStateUniqueID', '', options),
+		// ]);
+		return res.status(200).json({ disconnected: true });
 	}
 	return res.status(400).json({ status: 'fail', message: 'Bad request happened!' });
 }
