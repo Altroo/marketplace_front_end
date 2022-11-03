@@ -218,37 +218,17 @@ function* shopPatchAvatarSaga(payload: Partial<ShopPatchRootType>) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { type, ...payloadData } = payload;
-	try {
-		// User authenticated
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const instance: AxiosInstance = yield call(() =>
-				isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
-			);
-			const response: ShopPatchAvatarType = yield call(() => patchFormDataApi(url, instance, payloadData));
-			if (response.status === 200) {
-				// update state
-				yield put(setShopAvatar({ ...response.data }));
-			} else {
-				// set error state
-				console.log(response.status);
-			}
+	// User authenticated
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const instance: AxiosInstance = yield call(() =>
+			isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
+		);
+		const response: ShopPatchAvatarType = yield call(() => patchFormDataApi(url, instance, payloadData));
+		if (response.status === 200) {
+			// update state
+			yield put(setShopAvatar({ ...response.data }));
+			return true;
 		}
-		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-		// 	const instance: AxiosInstance = yield call(() => allowAnyInstance('multipart/form-data'));
-		// 	const response: ShopPatchAvatarType = yield call(() =>
-		// 		patchFormDataApi(url, instance, payloadData, authSagaContext.initStateUniqueID.unique_id),
-		// 	);
-		// 	if (response.status === 200) {
-		// 		// update state
-		// 		yield put(setShopAvatar({ ...response.data }));
-		// 	} else {
-		// 		// set error state
-		// 		console.log(response.status);
-		// 	}
-		// }
-	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
 	}
 }
 
@@ -577,7 +557,7 @@ export function* watchShop() {
 	yield takeLatest(Types.SHOP_GET_ROOT, shopGetRootSaga);
 	yield takeLatest(Types.SHOP_GET_PHONE_CODES, shopGetPhoneCodesSaga);
 	yield takeLatest(Types.SHOP_PATCH_SHOP_NAME, shopPatchShopNameSaga);
-	yield takeLatest(Types.SHOP_PATCH_AVATAR, shopPatchAvatarSaga);
+	yield takeLatest(Types.SHOP_PATCH_AVATAR, withCallback(shopPatchAvatarSaga as Saga));
 	yield takeLatest(Types.SHOP_PATCH_COLOR, shopPatchColorSaga);
 	yield takeLatest(Types.SHOP_PATCH_FONT, shopPatchFontSaga);
 	yield takeLatest(Types.SHOP_PATCH_PHONE_CONTACT, shopPatchPhoneContactSaga);

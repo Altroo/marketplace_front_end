@@ -45,15 +45,23 @@ import AjouterMesInfosStack from '../../../components/groupedComponents/temp-sho
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../create/color';
 import { getApi } from '../../../store/services/_init/_initAPI';
-import { IconColorType } from '../../../types/_init/_initTypes';
+import { IconColorType, SagaCallBackOnCompleteBoolType } from "../../../types/_init/_initTypes";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
 import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../../../utils/routes';
-import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
-import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
+import {
+	defaultInstance,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	setFormikAutoErrors
+} from "../../../utils/helpers";
+import {
+	AccountGetCheckAccountResponseType,
+	AccountPutChangeEmailHasPasswordSagaCallback
+} from "../../../types/account/accountTypes";
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../components/layouts/footer/customFooter';
 import { default as ImageFuture } from 'next/future/image';
@@ -68,6 +76,8 @@ import EditShopInfoTabContent from '../../../components/groupedComponents/shop/e
 import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
 import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
+import { accountPutChangeEmailHasPasswordAction } from "../../../store/actions/account/accountActions";
+import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 export type ShopInfoDataType = {
 	shop_name: string;
@@ -141,6 +151,8 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const contact_mode = data.contact_mode;
 	// refs
 	const avatarInputRef = useRef<HTMLInputElement>(null);
+	// apiCall
+	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 	// avatar preview
 	const [preview, setPreview] = useState<string | null>(avatar);
 	// colors
@@ -481,13 +493,22 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 			if (!e.target.files) {
 				return;
 			}
+			setIsApiCallInProgress(true);
 			const file = e.target.files[0];
 			if (file && file.type.substring(0, 5) === 'image') {
 				const reader = new FileReader();
 				reader.readAsDataURL(file);
 				reader.onloadend = () => {
-					dispatch(shopPatchAvatarAction(reader.result as string));
-					router.replace(router.asPath).then();
+					const action = shopPatchAvatarAction(reader.result as string);
+					dispatch({
+						...action,
+						onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
+							if (!error && !cancelled && data) {
+								router.replace(router.asPath).then();
+							}
+						},
+					});
+					setIsApiCallInProgress(false);
 				};
 			}
 		},
@@ -496,6 +517,13 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 
 	return (
 		<>
+			{isApiCallInProgress && (
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+					backdropColor="#FFFFFF"
+					circularColor="#0D070B"
+				/>
+			)}
 			{/* Show shop created modal */}
 			{created && !modalDismissed && (
 				<DismissMessageModal
