@@ -487,9 +487,9 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 				reader.readAsDataURL(file);
 				reader.onloadend = () => {
 					dispatch(shopPatchAvatarAction(reader.result as string));
+					router.replace(router.asPath).then();
 				};
 			}
-			router.replace(router.asPath).then();
 		},
 		[dispatch, router],
 	);
