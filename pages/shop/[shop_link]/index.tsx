@@ -152,7 +152,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	// refs
 	const avatarInputRef = useRef<HTMLInputElement>(null);
 	// apiCall
-	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
+	// const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 	// avatar preview
 	const [preview, setPreview] = useState<string | null>(avatar);
 	// colors
@@ -493,7 +493,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 			if (!e.target.files) {
 				return;
 			}
-			setIsApiCallInProgress(true);
+			setPreview(null);
 			const file = e.target.files[0];
 			if (file && file.type.substring(0, 5) === 'image') {
 				const reader = new FileReader();
@@ -508,7 +508,6 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 							}
 						},
 					});
-					setIsApiCallInProgress(false);
 				};
 			}
 		},
@@ -517,13 +516,13 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 
 	return (
 		<>
-			{isApiCallInProgress && (
-				<ApiProgress
-					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
-					backdropColor="#FFFFFF"
-					circularColor="#0D070B"
-				/>
-			)}
+			{/*{isApiCallInProgress && (*/}
+			{/*	<ApiProgress*/}
+			{/*		cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}*/}
+			{/*		backdropColor="#FFFFFF"*/}
+			{/*		circularColor="#0D070B"*/}
+			{/*	/>*/}
+			{/*)}*/}
 			{/* Show shop created modal */}
 			{created && !modalDismissed && (
 				<DismissMessageModal
