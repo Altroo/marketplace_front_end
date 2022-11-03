@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { default as ImageFuture } from 'next/future/image';
 import Styles from '../../../../../styles/offers/create/overview.module.sass';
@@ -413,7 +413,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		}
 	};
 
-	const editOfferHandler = () => {
+	const editOfferHandler = useCallback(() => {
 		const pictures: ImageUploadingType = [];
 		if (picture_1) {
 			pictures.push({
@@ -517,7 +517,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 			quantity: details_offer.product_quantity,
 			made_in: made_in_label?.name as string,
 			creator: creator_label as boolean,
-			// tags: tags.join(','),
 			prix: price as string,
 			prix_par: details_offer.product_price_by,
 			clickAndCollect: {
@@ -535,7 +534,30 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 				}
 			},
 		});
-	};
+	}, [
+		creator_label,
+		deliveries,
+		description,
+		details_offer.product_address,
+		details_offer.product_colors,
+		details_offer.product_latitude,
+		details_offer.product_longitude,
+		details_offer.product_price_by,
+		details_offer.product_quantity,
+		details_offer.product_sizes,
+		dispatch,
+		for_whom,
+		made_in_label?.name,
+		offer_categories,
+		picture_1,
+		picture_2,
+		picture_3,
+		picture_4,
+		pk,
+		price,
+		router,
+		title,
+	]);
 
 	const togglePinOfferHandler = () => {
 		dispatch(offerPostPinAction(pk));

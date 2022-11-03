@@ -260,16 +260,7 @@ const OfferSlice = createSlice({
 			state.userLocalService.service_km_radius = action.payload.service_km_radius;
 		},
 		setLocalOfferProductMultiCategories: (state, action: PayloadAction<Array<OfferCategoriesType>>) => {
-			action.payload.map((category) => {
-				if (!state.userLocalProduct.categoriesList.includes(category)) {
-					state.userLocalProduct.categoriesList.push(category);
-				} else {
-					const index = state.userLocalProduct.categoriesList.indexOf(category);
-					if (index !== -1) {
-						state.userLocalProduct.categoriesList.splice(index, 1);
-					}
-				}
-			});
+			state.userLocalProduct.categoriesList = action.payload;
 		},
 		setLocalOfferServiceMultiCategories: (state, action: PayloadAction<Array<OfferCategoriesType>>) => {
 			action.payload.map((category) => {

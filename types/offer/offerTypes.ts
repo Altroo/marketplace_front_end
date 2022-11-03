@@ -352,7 +352,6 @@ export interface UserLocalProductType {
 	quantity: number | null;
 	made_in: string | null;
 	creator: boolean | null;
-	// tags: string | null;
 	prix: string | null;
 	prix_par: 'U' | 'K' | 'L' | null;
 	clickAndCollect: clickAndCollect;
