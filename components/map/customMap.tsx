@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 import Styles from './customMap.module.sass';
 import { useAppDispatch } from '../../utils/hooks';
-import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import { placesGetGeolocalisationAction } from '../../store/actions/places/placesActions';
 import { MarkerProps } from 'react-leaflet/lib/Marker';
@@ -57,28 +57,25 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 		return <Marker autoPan={true} draggable={false} position={position} ref={markerRef} icon={props.icon}></Marker>;
 	};
 
-	function MapMoveStart() {
-		const map = useMapEvent('move', () => {
-			const marker = markerRef.current;
-			const centerOfMap = map.getCenter();
-			if (marker !== null && props.positionHandler) {
-				marker.setLatLng(centerOfMap);
-				props.positionHandler({ lat: centerOfMap.lat, lng: centerOfMap.lng });
-			}
+	const CustomMapEvents = () => {
+		const marker = markerRef.current;
+		const map = useMapEvents({
+			drag: () => {
+				const centerOfMap = map.getCenter();
+				if (marker !== null && props.positionHandler) {
+					marker.setLatLng(centerOfMap);
+					props.positionHandler({ lat: centerOfMap.lat, lng: centerOfMap.lng });
+				}
+			},
+			dragend: () => {
+				if (props.kmRadiusHandler) {
+					props.kmRadiusHandler(map.getZoom());
+				}
+				dispatch(placesGetGeolocalisationAction(props.position.lng, props.position.lat));
+			},
 		});
 		return null;
-	}
-
-	function MapMoveEnd() {
-		useMapEvent('moveend', () => {
-			const map = mapRef.current;
-			if (map && props.kmRadiusHandler){
-				props.kmRadiusHandler(map.getZoom());
-			}
-			dispatch(placesGetGeolocalisationAction(props.position.lng, props.position.lat));
-		});
-		return null;
-	}
+	};
 
 	useEffect(() => {
 		const map = mapRef.current;
@@ -93,11 +90,10 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 				center={[props.position.lat, props.position.lng]}
 				zoom={props.kmRadius}
 				scrollWheelZoom={false}
-				style={{height: '100%', borderRadius: '20px' }}
+				style={{ height: '100%', borderRadius: '20px' }}
 				ref={mapRef}
 			>
-				<MapMoveStart />
-				<MapMoveEnd />
+				<CustomMapEvents/>
 				<TileLayer
 					url={`${process.env.NEXT_PUBLIC_MAP_URL}`}
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
