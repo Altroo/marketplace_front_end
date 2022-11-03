@@ -57,7 +57,9 @@ export const cookiesDeleter = async (url: string, body: object) => {
 // DELETE Next api/cookies
 export const bulkCookiesDeleter = async (url: string) => {
 	axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_BACKEND_API}`;
-	const response = await axios.delete(url);
+	const response = await axios.post(url, {
+		'tokens': true,
+	});
 	return {
 		status: response.status,
 	};

@@ -16,14 +16,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		maxAge: 0,
 		sameSite: "lax",
 	};
-	if (req.method === 'DELETE') {
+	if (req.method === 'POST' && 'tokens' in req.body) {
 		res.setHeader('Set-Cookie', [
 			serialize('@tokenType', '', options),
 			serialize('@initStateToken', '', options),
 			serialize('@initStateUniqueID', '', options),
 		]);
 		return res.status(204);
-		// res.end();
 	}
 	return res.status(400).json({ status: 'fail', message: 'Bad request happened!' });
 }
