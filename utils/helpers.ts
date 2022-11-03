@@ -329,9 +329,9 @@ export const deleteRemoteCookiesAppToken = async () => {
 	});
 };
 
-export const deleteRemoteCookiesAppTokenInBulk = () => {
-	bulkCookiesDeleter('/cookie/delete').then();
-};
+// export const deleteRemoteCookiesAppTokenInBulk = async () => {
+//
+// };
 
 // convert hex color to rgba
 export const hexToRGB = (hex: string, alpha: number) => {

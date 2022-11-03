@@ -35,9 +35,9 @@ import {
 	REAL_SHOP_ADD_SHOP_NAME,
 	SITE_ROOT
 } from "../../../utils/routes";
-import { deleteRemoteCookiesAppToken, deleteRemoteCookiesAppTokenInBulk } from "../../../utils/helpers";
 import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
+import { bulkCookiesDeleter } from "../../../store/services/_init/_initAPI";
 
 const UserMainNavigationBar: React.FC = () => {
 	const { data: session, status } = useSession();
@@ -68,10 +68,9 @@ const UserMainNavigationBar: React.FC = () => {
 		setAnchorMobileEl(null);
 	};
 
-	const logOutHandler = () => {
-		signOut({ redirect: true, callbackUrl: SITE_ROOT, }).then(() => {
-			deleteRemoteCookiesAppTokenInBulk();
-		});
+	const logOutHandler = async () => {
+		await bulkCookiesDeleter('/cookie/delete');
+		await signOut({ redirect: true, callbackUrl: SITE_ROOT, });
 	};
 
 	const [openMobileDrawer, setOpenMobileDrawer] = useState<boolean>(false);

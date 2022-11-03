@@ -42,7 +42,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		// 	serialize('@initStateToken', '', options),
 		// 	serialize('@initStateUniqueID', '', options),
 		// ]);
-		return res.status(200).json({ disconnected: true });
+		// return res.status(200).json({ disconnected: true });
 	}
-	return res.status(400).json({ status: 'fail', message: 'Bad request happened!' });
+	// return res.status(400).json({ status: 'fail', message: 'Bad request happened!' });
 }
