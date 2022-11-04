@@ -224,9 +224,11 @@ export const constructApiFormData = (apiData: object) => {
 };
 
 // New shop set LocalStorage
-export const setLocalStorageNewShopName = (shop_name: string) => {
+export const setLocalStorageNewShopName = async (shop_name: string) => {
 	if (typeof window !== 'undefined') {
-		localStorage.setItem('@shop_name', shop_name);
+		await localStorage.setItem('@shop_name', shop_name);
+	} else {
+		console.log("can't set to local currently in server");
 	}
 };
 

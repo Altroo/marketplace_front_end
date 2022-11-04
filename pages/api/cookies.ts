@@ -99,9 +99,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 				...options,
 			});
 		}
-		// Return created with cookies set.
 		res.status(204);
-		res.end(res.getHeader('Set-Cookie'));
+		res.end();
 	} else if (req.method === 'GET') {
 		res.status(200).json({
 			cookies: req.cookies,

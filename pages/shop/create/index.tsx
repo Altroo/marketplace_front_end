@@ -7,7 +7,7 @@ import HelperH1Header from '../../../components/headers/helperH1Header/helperH1H
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import React, { useEffect, useState } from 'react';
 import { setShopNameAction } from '../../../store/actions/shop/shopActions';
-import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
+import { cookiesPoster, getApi } from "../../../store/services/_init/_initAPI";
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import { getNewShopName } from '../../../store/selectors';
 import { Formik, Form } from 'formik';

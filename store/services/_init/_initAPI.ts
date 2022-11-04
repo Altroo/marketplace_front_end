@@ -33,6 +33,16 @@ export const cookiesPoster = async (url: string, body: object) => {
 		status: response.status,
 	};
 };
+//
+// export const notAxios = async (url: string, body: object) => {
+// 	return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}${url}`, {
+//     method: 'POST',
+//     headers: {
+// 			'Content-Type': 'application/json',
+// 		},
+// 		body: JSON.stringify(body),
+//   })
+// }
 
 // GET Next api/cookies
 export const cookiesFetcher = async (url: string) => {
