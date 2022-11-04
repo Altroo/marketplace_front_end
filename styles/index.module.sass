@@ -12,13 +12,14 @@
 .mobileOnly
   +Hidden
 .indexMain
+  display: flex
   flex-direction: column
-  height: 100%
+  justify-content: space-between
+  height: 100vh
 .rootStack
   background-color: #FFFFFF
   padding: 80px 160px 80px 160px
   position: relative
-  height: 60vh
 .logoRootStack
   padding-left: 23px
 .qarybLogo
@@ -112,8 +113,8 @@
 @media #{$tablette}
   .desktopOnly
     +Hidden
-  .indexMain
-    height: 100vh
+  //.indexMain
+  //  height: 100vh
   .rootStack
     padding: 47px 25px 47px 25px
     align-items: center
