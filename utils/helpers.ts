@@ -56,7 +56,7 @@ export const isAuthenticatedInstance = (
 			const originalConfig = error.config;
 			if (error.response) {
 				// access token expired
-				if ('code' in error && error.code !== ('ERR_BAD_REQUEST' || 'ERR_BAD_RESPONSE')) {
+				if ('code' in error && error.code !== 'ERR_BAD_REQUEST') {
 					const errorObj = {
 						error: {
 							status_code: 502,
@@ -311,27 +311,15 @@ export const setRemoteCookiesAppToken = async (
 	});
 };
 
-export const setRemoteCookiesTokenOnly = (InitStateToken: InitStateToken) => {
-	cookiesPoster('/cookies', { tokenType: 'TOKEN' }).then(() => {
+export const setRemoteCookiesTokenOnly = async (InitStateToken: InitStateToken) => {
+	await cookiesPoster('/cookies', { tokenType: 'TOKEN' }).then(async () => {
 		cookiesPoster('/cookies', { initStateToken: InitStateToken }).then();
 	});
 };
 
 export const emptyRemoteCookiesUniqueIDOnly = () => {
-	cookiesPoster('/cookies', { initStateToken: emptyInitStateToken }).then();
+	cookiesPoster('/cookies', { InitStateUniqueID: emptyInitStateUniqueID }).then();
 };
-
-export const deleteRemoteCookiesAppToken = async () => {
-	await cookiesDeleter('/cookies', { tokenType: 0 }).then(async () => {
-		await cookiesDeleter('/cookies', { initStateToken: 0 }).then(async () => {
-			await cookiesDeleter('/cookies', { initStateUniqueID: 0 }).then();
-		});
-	});
-};
-
-// export const deleteRemoteCookiesAppTokenInBulk = async () => {
-//
-// };
 
 // convert hex color to rgba
 export const hexToRGB = (hex: string, alpha: number) => {

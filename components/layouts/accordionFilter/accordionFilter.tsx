@@ -215,14 +215,6 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 		available_services,
 	} = availableFilters;
 
-	// useEffect(() => {
-	// 	console.log(pickedCategories);
-	// 	console.log(pickedColors);
-	// 	console.log(pickedSizes);
-	// 	console.log(pickedForWhom);
-	// 	console.log(pickedCities);
-	// }, [pickedCategories, pickedColors, pickedSizes, pickedForWhom, pickedCities]);
-
 	const applyFilterHandler = () => {
 		let queryParams: ParsedUrlQueryInput = {
 			...router.query,

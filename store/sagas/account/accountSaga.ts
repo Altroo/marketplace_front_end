@@ -182,27 +182,11 @@ function* wsUserAvatarSaga(payload: { type: string; pk: number; avatar_thumbnail
 }
 
 function* accountPostRegisterSaga(payload: {type: string, tokens: InitStateNonNullableToken}) {
-	// if (payload.unique_id_exists) {
-	// 	// Transfer complete
-	// 	// localStorage token was previously set
-	// 	// Set new token state
-	// 	yield put(setTokenState(payload.tokens));
-	// 	// Empty unique ID state
-	// 	yield put(setEmptyUniqueIDState());
-	// 	// Empty unique ID localStorage
-	// 	yield call(() => emptyRemoteCookiesUniqueIDOnly());
-	// 	yield put(setIsLoggedIn(true));
-	// } else {
-	// this part is used in login also.
 	// Set new token state
 	yield put(setTokenState(payload.tokens));
-	// set localStorage token only
-	yield call(() => setRemoteCookiesTokenOnly(payload.tokens));
 	// Empty unique ID state & cookies in case
-	// yield put(setEmptyUniqueIDState());
 	yield call(() => emptyRemoteCookiesUniqueIDOnly());
 	yield put(setIsLoggedIn(true));
-	// }
 }
 
 

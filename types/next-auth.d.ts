@@ -1,5 +1,5 @@
-import NextAuth, { DefaultSession } from "next-auth"
 import { tokenUser } from './_init/_initTypes';
+import { ProviderType } from "next-auth/providers";
 
 export interface AuthInterface {
 	user: tokenUser;
@@ -37,12 +37,14 @@ declare module 'next-auth' {
 	 * and also extends `TokenSet`, which is different tokens returned by OAuth Providers.
 	 */
 	interface Account {
+		providerAccountId: string | undefined,
+		type: ProviderType,
 		provider: string,
 		user: tokenUser,
 		access_token: string,
+		refresh_token: string,
 		access_token_expiration: string,
 		refresh_token_expiration: string,
-		refresh_token: string,
 	}
 	// /** The OAuth profile returned from your provider */
 	// interface Profile {}

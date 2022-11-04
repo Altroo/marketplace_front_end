@@ -15,14 +15,6 @@ const nextConfig = {
         hostname: `${process.env.API_ROOT_URL}`
       }
 		]
-	},
-	experimental: {
-		swcMinifyDebugOptions: {
-			compress: {
-				defaults: true,
-				side_effects: false
-			}
-		}
 	}
 };
 
