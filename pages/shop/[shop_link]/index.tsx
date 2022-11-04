@@ -56,11 +56,9 @@ import {
 	defaultInstance,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance,
-	setFormikAutoErrors
 } from "../../../utils/helpers";
 import {
 	AccountGetCheckAccountResponseType,
-	AccountPutChangeEmailHasPasswordSagaCallback
 } from "../../../types/account/accountTypes";
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../components/layouts/footer/customFooter';
@@ -76,8 +74,6 @@ import EditShopInfoTabContent from '../../../components/groupedComponents/shop/e
 import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
 import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
-import { accountPutChangeEmailHasPasswordAction } from "../../../store/actions/account/accountActions";
-import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 export type ShopInfoDataType = {
 	shop_name: string;

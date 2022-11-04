@@ -56,7 +56,7 @@ export const isAuthenticatedInstance = (
 			const originalConfig = error.config;
 			if (error.response) {
 				// access token expired
-				if ('code' in error && error.code !== 'ERR_BAD_REQUEST') {
+				if ('code' in error && error.code !== ('ERR_BAD_REQUEST' || 'ERR_BAD_RESPONSE')) {
 					const errorObj = {
 						error: {
 							status_code: 502,

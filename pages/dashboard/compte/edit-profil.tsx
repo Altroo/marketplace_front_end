@@ -130,7 +130,9 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 		<Stack direction="column" alignItems="center" spacing={2}>
 			<h2 className={Styles.pageTitle}>Profil</h2>
 			<Stack direction="column" spacing={1} justifyContent="center" alignItems="center">
-				<CircularAvatarInputFile setAvatar={setAvatar} preview={preview} active={true} />
+				<div>
+					<CircularAvatarInputFile setAvatar={setAvatar} preview={preview} active={true} />
+				</div>
 				<span className={Styles.addPictureSpan}>Modifier ma photo</span>
 			</Stack>
 			<form>
