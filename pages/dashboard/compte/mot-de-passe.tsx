@@ -9,7 +9,7 @@ import { AccountGetCheckAccountResponseType } from '../../../types/account/accou
 import { getApi } from '../../../store/services/_init/_initAPI';
 import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../utils/routes';
 import MobileDashboardNav from '../../../components/layouts/mobile/mobileDashboardNav/mobileDashboardNav';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import MiniBackSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import { useAppDispatch } from '../../../utils/hooks';
 import { useFormik } from 'formik';
@@ -243,7 +243,7 @@ const MotDePasse: NextPage<IndexProps> = (props: IndexProps) => {
 										onClick={() => setMobileElementClicked(false)}
 										alignItems="center"
 									>
-										<ImageFuture
+										<Image
 											src={MiniBackSVG}
 											alt=""
 											width="0"

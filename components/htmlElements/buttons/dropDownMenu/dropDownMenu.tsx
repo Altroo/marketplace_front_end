@@ -6,7 +6,7 @@ import Styles from './dropDownMenu.module.sass';
 import { DropDownActionType, DropDownVariantType } from '../../../../types/ui/uiTypes';
 import { ThemeProvider } from '@mui/material';
 import { getDropDownMenuTheme } from '../../../../utils/themes';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 
 type Props = {
 	menuID: string;
@@ -44,7 +44,7 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 						aria-haspopup="true"
 						aria-expanded={open ? 'true' : undefined}
 						onClick={handleClick}
-						endIcon={<ImageFuture src={props.dropDownIcon} alt="" />}
+						endIcon={<Image src={props.dropDownIcon} alt="" />}
 					>
 						{props.dropDownText}
 					</Button>
@@ -73,7 +73,7 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 								className={`${Styles.menuItem} ${action.text === 'Supprimer' ? Styles.deleteColor : null} `}
 							>
 								{action.icon && (
-									<ImageFuture src={action.icon} alt="" width="0" height="0" sizes="100vw" className={Styles.icon} />
+									<Image src={action.icon} alt="" width="0" height="0" sizes="100vw" className={Styles.icon} />
 								)}
 								{action.text}
 							</MenuItem>

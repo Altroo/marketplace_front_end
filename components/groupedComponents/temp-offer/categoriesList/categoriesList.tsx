@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Styles from './categoriesList.module.sass';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import ActiveCheckBlue from '../../../../public/assets/svgs/globalIcons/active-check-blue.svg';
 import Divider from '@mui/material/Divider';
 // import black icons
@@ -99,11 +99,11 @@ const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps
 				justifyContent="space-between"
 			>
 				<Stack direction="row" spacing={3} sx={{ height: '56px', alignItems: 'center' }}>
-					<ImageFuture src={active ? props.blackIcon : props.grayIcon} alt="" />
+					<Image src={active ? props.blackIcon : props.grayIcon} alt="" />
 					<span className={`${Styles.categoryTitle} ${active && Styles.active}`}>{props.title}</span>
 				</Stack>
 				<Stack direction="row" spacing={1}>
-					{active && <ImageFuture src={ActiveCheckBlue} alt="" />}
+					{active && <Image src={ActiveCheckBlue} alt="" />}
 				</Stack>
 			</Stack>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />

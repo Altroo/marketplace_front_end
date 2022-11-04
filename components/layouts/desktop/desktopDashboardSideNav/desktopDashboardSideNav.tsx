@@ -8,7 +8,7 @@ import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideN
 import MonProfilSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mon-profil.svg';
 import AdresseEmailSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/adresse-email.svg';
 import MotDePasseSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mot-de-passe.svg';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
@@ -28,16 +28,14 @@ export type DesktopSideNavElementType = {
 export const DesktopSideNavElement: React.FC<DesktopSideNavElementType> = (props: DesktopSideNavElementType) => {
 	return (
 		<Stack direction="row" justifyContent="space-between" alignItems="center" className={`${props.disabled && Styles.disabledElement}`}>
-			<Link href={props.link} passHref replace>
-				<a className={`${props.disabled && Styles.disabledCursor}`}>
-					<Stack direction="row" spacing={2} alignItems="center">
-						<ImageFuture src={props.icon} alt="" width="0" height="0" sizes="100vw" className={Styles.mainIcon} />
-						<span className={`${props.current ? Styles.selectedElement : Styles.unselectedElement}`}>{props.text}</span>
-					</Stack>
-				</a>
+			<Link href={props.link} replace className={`${props.disabled && Styles.disabledCursor}`}>
+				<Stack direction="row" spacing={2} alignItems="center">
+					<Image src={props.icon} alt="" width="0" height="0" sizes="100vw" className={Styles.mainIcon} />
+					<span className={`${props.current ? Styles.selectedElement : Styles.unselectedElement}`}>{props.text}</span>
+				</Stack>
 			</Link>
 			{props.current && (
-				<ImageFuture src={ArrowActiveSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.arrowIcon} />
+				<Image src={ArrowActiveSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.arrowIcon} />
 			)}
 		</Stack>
 	);
@@ -88,7 +86,7 @@ const DesktopDashboardSideNav: React.FC<Props> = (props: Props) => {
 							onClick={() => router.back()}
 							alignItems="center"
 						>
-							<ImageFuture src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
+							<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
 							<span className={Styles.backText}>Retour</span>
 						</Stack>
 					</Stack>

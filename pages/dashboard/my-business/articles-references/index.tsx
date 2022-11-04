@@ -23,7 +23,7 @@ import {
 import { Stack, Box, Button, IconButton, Divider, Checkbox, ThemeProvider, Skeleton, AlertColor } from "@mui/material";
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import DesktopMyBusinessSideNav from '../../../../components/layouts/desktop/desktopMyBusinessSideNav/desktopMyBusinessSideNav';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import JumelleIlluSVG from '../../../../public/assets/images/jumelle-illu.svg';
 import EmptyIndexedArticlesSVG from '../../../../public/assets/images/dashboard_illu/empty-indexed-articles.svg';
@@ -100,7 +100,7 @@ const EmptyIndexedContent: React.FC<EmptyIndexedContentType> = (props: EmptyInde
 							référencé, abonnez vous pour toucher plus de gens.
 						</span>
 						<Box sx={{ position: 'relative', width: '100%' }}>
-							<ImageFuture
+							<Image
 								src={JumelleIlluSVG}
 								alt=""
 								width="273"
@@ -113,7 +113,7 @@ const EmptyIndexedContent: React.FC<EmptyIndexedContentType> = (props: EmptyInde
 				</Box>
 				<Box className={SharedStyles.mobileOnly}>
 					<Stack direction="column" spacing="24px" className={Styles.emptyIndexedParagraphe}>
-						<ImageFuture
+						<Image
 							src={JumelleIlluSVG}
 							alt=""
 							width="273"
@@ -142,15 +142,13 @@ const EmptyIndexedContent: React.FC<EmptyIndexedContentType> = (props: EmptyInde
 
 const BlueAddButton = () => {
 	return (
-		<Link href={DASHBOARD_ADD_INDEX_OFFERS} passHref>
-			<a>
-				<Button color="primary" className={Styles.indexedArticlesAddActionButton}>
-					<Stack direction="row" spacing="9px" alignItems="center">
-						<ImageFuture src={AddWhiteSVG} width="14" height="14" sizes="100vw" alt="" />
-						<span>Ajouter</span>
-					</Stack>
-				</Button>
-			</a>
+		<Link href={DASHBOARD_ADD_INDEX_OFFERS}>
+			<Button color="primary" className={Styles.indexedArticlesAddActionButton}>
+				<Stack direction="row" spacing="9px" alignItems="center">
+					<Image src={AddWhiteSVG} width="14" height="14" sizes="100vw" alt="" />
+					<span>Ajouter</span>
+				</Stack>
+			</Button>
 		</Link>
 	);
 };
@@ -167,7 +165,7 @@ const RedDeleteButton: React.FC<DeleteButtonType> = (props: DeleteButtonType) =>
 	return (
 		<Button color="primary" className={Styles.indexedArticlesDeleteActionButton} onClick={() => onClick(idsToDelete)}>
 			<Stack direction="row" spacing="9px" alignItems="center">
-				<ImageFuture src={DeleteRedSVG} width="12" height="12" sizes="100vw" alt="" />
+				<Image src={DeleteRedSVG} width="12" height="12" sizes="100vw" alt="" />
 				<span>Supprimer</span>
 			</Stack>
 		</Button>
@@ -460,7 +458,7 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 									onClick={selectAllClickHandler}
 								>
 									<Stack direction="row" spacing="8px" alignItems="center">
-										<ImageFuture
+										<Image
 											src={!selectAllState ? SelectMultipleGraySVG : SelectMultipleBlueSVG}
 											width="24"
 											height="24"
@@ -514,7 +512,7 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 																	className={SharedStyles.offerVuesThumbnail}
 																/>
 															) : (
-																<ImageFuture
+																<Image
 																	src={data.value.thumbnail}
 																	alt=""
 																	width="54"
@@ -526,7 +524,7 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 															<span className={SharedStyles.offerVuesOfferTitle}>{data.value.title}</span>
 														</Stack>
 														<IconButton onClick={() => deleteItemsHandler(data.key)} size="large" color="inherit">
-															<ImageFuture src={CloseSVG} alt="" width={19} height={19} sizes="100vw" />
+															<Image src={CloseSVG} alt="" width={19} height={19} sizes="100vw" />
 														</IconButton>
 													</Stack>
 													<Divider orientation="horizontal" flexItem className={SharedStyles.divider} />
@@ -578,7 +576,7 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 								</Stack>
 								<Box className={Styles.emptyIndexedBox}>
 									<Stack direction="column" alignItems="center" spacing="20px">
-										<ImageFuture src={EmptyIndexedArticlesSVG} alt="" width="140" height="119" sizes="100vw" />
+										<Image src={EmptyIndexedArticlesSVG} alt="" width="140" height="119" sizes="100vw" />
 										<Stack direction="column" alignItems="center" className={Styles.emptyIndexedBoxContent}>
 											<span>Pas d&apos;article référencé</span>
 											<span>Commencez dès maintenant à référencer vos articles pour plus de visibilité !</span>
@@ -638,7 +636,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 												onClick={() => setMobileElementClicked(false)}
 												alignItems="center"
 											>
-												<ImageFuture
+												<Image
 													src={MiniBackSVG}
 													alt=""
 													width="0"
@@ -680,7 +678,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 												onClick={() => setMobileElementClicked(false)}
 												alignItems="center"
 											>
-												<ImageFuture
+												<Image
 													src={MiniBackSVG}
 													alt=""
 													width="0"

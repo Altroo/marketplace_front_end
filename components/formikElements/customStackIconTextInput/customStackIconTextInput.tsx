@@ -1,7 +1,7 @@
 import React from "react";
 import { Theme } from "@mui/material/styles/createTheme";
 import { Stack, TextField, ThemeProvider } from "@mui/material";
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 
 type Props = {
 	icon: string;
@@ -25,7 +25,7 @@ const CustomStackIconTextInput: React.FC<Props> = (props: Props) => {
 	return (
 		<ThemeProvider theme={props.theme}>
 			<Stack direction="row" spacing={1}>
-				<ImageFuture
+				<Image
 					src={props.icon}
 					alt=""
 					width="42"

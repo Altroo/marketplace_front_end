@@ -1,7 +1,7 @@
 import React from "react";
 import Styles from "./facebookSignInButton.module.sass";
 import { Button, Stack, ThemeProvider } from "@mui/material";
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 import FacebookSVG from "../../../../public/assets/svgs/authIcons/facebook.svg";
 import { getDefaultTheme } from "../../../../utils/themes";
 
@@ -20,7 +20,7 @@ const FacebookSignInButton: React.FC<Props> = (props: Props) => {
 				onClick={props.onClick}
 				className={Styles.button}>
 				<Stack direction="row" alignItems="center">
-					<ImageFuture
+					<Image
 						src={FacebookSVG}
 						alt=""
 						width="0"

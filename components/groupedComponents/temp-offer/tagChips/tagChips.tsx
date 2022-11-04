@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
 import { getOfferTags } from '../../../../store/selectors';
 import { offerGetTagsAction } from '../../../../store/actions/offer/offerActions';
 import closeWhiteSVG from '../../../../public/assets/svgs/navigationIcons/close-white.svg';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 
 type Props = {
 	pickedTags: Array<string>;
@@ -53,7 +53,7 @@ const TagChips: React.FC<Props> = (props: Props) => {
 										'& fieldset': { borderRadius: '16px 0px 0px 16px' },
 									}}
 									{...getTagProps({ index })}
-									deleteIcon={<ImageFuture src={closeWhiteSVG} alt="" width="25" height="25" sizes="100vw" />}
+									deleteIcon={<Image src={closeWhiteSVG} alt="" width="25" height="25" sizes="100vw" />}
 									key={index}
 								/>
 							);

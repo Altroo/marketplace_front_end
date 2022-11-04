@@ -8,7 +8,7 @@ import {
 	OfferGetMyOffersProductServiceType,
 } from '../../../../../types/offer/offerTypes';
 import Link from 'next/link';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
 import BlackStarSVG from '../../../../../public/assets/svgs/globalIcons/black-star.svg';
 import { useRouter } from 'next/router';
@@ -20,7 +20,6 @@ import {
 } from '../../../../../store/actions/offer/offerActions';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
-import { ParsedUrlQueryInput } from 'node:querystring';
 import { generateQueryParams, getBackendNextPageNumber } from '../../../../../utils/helpers';
 import { Iterables } from 'langx-js';
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
@@ -29,6 +28,7 @@ import CustomSwipeModal from '../../../../desktop/modals/rightSwipeModal/customS
 import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
 import { REAL_OFFER_ROUTE } from '../../../../../utils/routes';
 import ApiProgress from "../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
+import { ParsedUrlQueryInput } from "querystring";
 
 type offerLinkedHashMapType = {
 	offersMap: Iterables.LinkedHashMap<number, OfferGetMyOffersProductServiceType> | null;
@@ -287,15 +287,14 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 												return (
 													<Link
 														href={REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))}
-														passHref
 														key={data.key}
+														className={Styles.gridCardOfferWrapper}
 													>
-														<a className={Styles.gridCardOfferWrapper}>
-															<Grid item xs="auto">
+														<Grid item xs="auto">
 																<Stack direction="column" spacing={2}>
 																	<Box className={Styles.thumbnailWrapper}>
 																		{data.value.pinned && (
-																			<ImageFuture
+																			<Image
 																				src={PinActiveIconSVG}
 																				alt=""
 																				width={32}
@@ -305,7 +304,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																				priority={true}
 																			/>
 																		)}
-																		<ImageFuture
+																		<Image
 																			src={data.value.thumbnail}
 																			alt=""
 																			width="0"
@@ -316,7 +315,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																			priority={true}
 																		/>
 																		{data.value.creator_label && (
-																			<ImageFuture
+																			<Image
 																				className={Styles.creatorImageTag}
 																				src={CreatorIconSVG}
 																				alt="creator"
@@ -333,7 +332,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																				: data.value.title}
 																		</span>
 																		<Stack direction="row">
-																			<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />
+																			<Image src={BlackStarSVG} width={20} height={20} alt="" />
 																			<span className={Styles.offerRating}>0 (0 notes)</span>
 																		</Stack>
 																		<Stack direction="row" spacing={1}>
@@ -351,7 +350,6 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																	</Stack>
 																</Stack>
 															</Grid>
-														</a>
 													</Link>
 												);
 											}
@@ -408,7 +406,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 							rowGap={0}
 						>
 							<Box className={Styles.closeButtonWrapper}>
-								<ImageFuture src={CloseSVG}
+								<Image src={CloseSVG}
 									width={40}
 									height={40}
 									alt=""

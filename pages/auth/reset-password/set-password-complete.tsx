@@ -3,7 +3,7 @@ import Styles from '../../../styles/auth/reset-password/set-password-complete.mo
 import { GetServerSidePropsContext } from 'next';
 import AuthPageLayout from '../../../components/layouts/auth/authPageLayout';
 import { Stack } from '@mui/material';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import SuccessIlluSVG from '../../../public/assets/images/success-illu.svg';
 import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import { AUTH_LOGIN, AUTH_REGISTER, DASHBOARD } from '../../../utils/routes';
@@ -30,7 +30,7 @@ const SetPasswordComplete: React.FC<Props> = (props: Props) => {
 						alignItems="center"
 						className={Styles.rootStack}
 					>
-						<ImageFuture src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+						<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 						<h2 className={Styles.header}>Mot de passe modifié</h2>
 						<p className={Styles.subHeader}>Votre mot de passe a été modifier, connectez-vous</p>
 						<PrimaryAnchorButton buttonText="Me connecter" active={true} nextPage={AUTH_LOGIN} />
@@ -42,7 +42,7 @@ const SetPasswordComplete: React.FC<Props> = (props: Props) => {
 					<Stack direction="column" justifyContent="space-between" className={Styles.rootStack}>
 						<UserMainNavigationBar/>
 						<Stack direction="column" spacing={4} alignItems="center">
-							<ImageFuture src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+							<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 							<h2 className={Styles.header}>Mot de passe modifié</h2>
 							<p className={Styles.subHeader}>Votre mot de passe a été modifier, connectez-vous</p>
 						</Stack>
@@ -53,9 +53,9 @@ const SetPasswordComplete: React.FC<Props> = (props: Props) => {
 					<Stack direction="column" justifyContent="center" alignItems="center">
 						<p className={Styles.bottomLinks}>
 							Pas encore de compte ?{' '}
-							<Link passHref href={AUTH_REGISTER}>
-								<a href={AUTH_REGISTER}>Inscrivez-vous</a>
-							</Link>
+							<Link href={AUTH_REGISTER}>
+									Inscrivez-vous
+								</Link>
 						</p>
 					</Stack>
 				</main>

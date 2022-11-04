@@ -229,8 +229,8 @@ const EnterCode: React.FC<Props> = (props: Props) => {
 						<Stack direction="column" justifyContent="center" alignItems="center">
 							<p className={Styles.bottomLinks}>
 								Pas encore de compte ?{' '}
-								<Link passHref href={AUTH_REGISTER}>
-									<a href={AUTH_REGISTER}>Inscrivez-vous</a>
+								<Link href={AUTH_REGISTER}>
+									Inscrivez-vous
 								</Link>
 							</p>
 						</Stack>

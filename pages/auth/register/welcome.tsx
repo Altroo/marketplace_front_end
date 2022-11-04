@@ -7,7 +7,7 @@ import { AccountGetCheckAccountResponseType } from '../../../types/account/accou
 import { getApi } from '../../../store/services/_init/_initAPI';
 import { AUTH_LOGIN, AUTH_REGISTER, DASHBOARD, REAL_SHOP_ADD_SHOP_NAME } from '../../../utils/routes';
 import SuccessIlluSVG from '../../../public/assets/images/success-illu.svg';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import { Stack } from '@mui/material';
 import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import Link from 'next/link';
@@ -34,7 +34,7 @@ const Welcome: React.FC<Props> = (props: Props) => {
 						alignItems="center"
 						className={Styles.rootStack}
 					>
-						<ImageFuture src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+						<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 						<h2 className={Styles.header}>Bienvenue dans la famille Qaryb !</h2>
 						<p className={Styles.subHeader}>Pensez à activer votre compte pour finaliser votre inscription</p>
 						<PrimaryAnchorButton
@@ -51,7 +51,7 @@ const Welcome: React.FC<Props> = (props: Props) => {
 						<UserMainNavigationBar />
 						<Stack direction="column" justifyContent="space-between" spacing="24px" className={Styles.rootStack}>
 							<Stack direction="column" spacing="50px" alignItems="center">
-								<ImageFuture src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+								<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 								<Stack direction="column" spacing="18px">
 									<h2 className={Styles.header}>Bienvenue dans la famille Qaryb !</h2>
 									<p className={Styles.subHeader}>Pensez à activer votre compte pour finaliser votre inscription</p>
@@ -69,8 +69,8 @@ const Welcome: React.FC<Props> = (props: Props) => {
 					{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
 					{/*	<p className={Styles.bottomLinks}>*/}
 					{/*		Vous avez déjà un compte ?{' '}*/}
-					{/*		<Link passHref href={AUTH_LOGIN}>*/}
-					{/*			<a>Connectez-vous</a>*/}
+					{/*		<Link href={AUTH_LOGIN}>*/}
+					{/*			Connectez-vous*/}
 					{/*		</Link>*/}
 					{/*	</p>*/}
 					{/*</Stack>*/}

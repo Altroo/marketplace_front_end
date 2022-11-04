@@ -19,7 +19,7 @@ import {
 import { Stack, Box } from '@mui/material';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import DesktopMyBusinessSideNav from '../../../../components/layouts/desktop/desktopMyBusinessSideNav/desktopMyBusinessSideNav';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import MobileMyBusinessNav from '../../../../components/layouts/mobile/mobileMyBusinessNav/mobileMyBusinessNav';
 import CustomFooter from '../../../../components/layouts/footer/customFooter';
@@ -52,7 +52,7 @@ type AbonnementAvantageItemProps = {
 const AbonnementAvantageItem: React.FC<AbonnementAvantageItemProps> = (props: AbonnementAvantageItemProps) => {
 	return (
 		<Stack direction="row" spacing="6px">
-			<ImageFuture src={SubscriptionCheckSVG} alt="" width="24" height="24" sizes="100vw" />
+			<Image src={SubscriptionCheckSVG} alt="" width="24" height="24" sizes="100vw" />
 			<span className={Styles.dashboardNotSubscribedAvantageItem}>{props.text}</span>
 		</Stack>
 	);
@@ -168,7 +168,7 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 								</span>
 								<span className={Styles.dashboardNotSubscribedSpanHeaderTwo}>Et vous ?</span>
 							</Stack>
-							<ImageFuture src={JumelleIlluSVG} alt="" width="281" height="178" sizes="100vw" />
+							<Image src={JumelleIlluSVG} alt="" width="281" height="178" sizes="100vw" />
 						</Stack>
 						<Box className={Styles.dashboardNotSubscribedMobileMain}>
 							<Stack direction="column" spacing="24px">
@@ -178,8 +178,8 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 								</p>
 								<Stack direction="column" alignItems="center" className={Styles.dashboardNotSubscribedHeadline}>
 									<span>Combien d’articles désirez-vous référencer ?</span>
-									<Link href="/" passHref>
-										<a>En savoir plus sur les articles référencés</a>
+									<Link href="/">
+										En savoir plus sur les articles référencés
 									</Link>
 								</Stack>
 								<Stack direction="column" pt="48px" className={Styles.dashboardNotSubscribedPopulaireBannerWrapper}>
@@ -363,7 +363,7 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 									alignItems="center"
 									className={SubscribedStyles.subscribedIndexedArticlesMiniBox}
 								>
-									<ImageFuture src={ArticlesIndexedSVG} alt="" width="18" height="18" sizes="100vw" />
+									<Image src={ArticlesIndexedSVG} alt="" width="18" height="18" sizes="100vw" />
 									<span>Articles référencés</span>
 								</Stack>
 								<span className={SubscribedStyles.subscribedValableDate}>Valable jusqu&apos;au {expiration_date}</span>
@@ -386,7 +386,7 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 					<Box className={SubscribedStyles.subscribedTarifBox}>
 						<Stack direction="column" spacing="24px" justifyContent="space-between">
 							<Stack direction="row" spacing="7px" className={SubscribedStyles.subscribedIndexedTarifMiniBox}>
-								<ImageFuture src={USDBlackSVG} alt="" width="18" height="18" sizes="100vw" />
+								<Image src={USDBlackSVG} alt="" width="18" height="18" sizes="100vw" />
 								<span>Tarif</span>
 							</Stack>
 							<Stack direction="column" spacing="15px">
@@ -425,7 +425,7 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 				<Box className={SubscribedStyles.subscribedAvantageBox}>
 					<Stack direction="column" spacing="32px">
 						<Stack direction="row" spacing="7px" className={SubscribedStyles.subscribedIndexedTarifMiniBox}>
-							<ImageFuture src={BlackStarSVG} alt="" width="18" height="18" sizes="100vw" />
+							<Image src={BlackStarSVG} alt="" width="18" height="18" sizes="100vw" />
 							<span>Vos avantages</span>
 						</Stack>
 						<Stack direction="column" spacing="24px" pb="12px">
@@ -492,7 +492,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 											onClick={() => setMobileElementClicked(false)}
 											alignItems="center"
 										>
-											<ImageFuture
+											<Image
 												src={MiniBackSVG}
 												alt=""
 												width="0"
@@ -536,7 +536,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 											onClick={() => setMobileElementClicked(false)}
 											alignItems="center"
 										>
-											<ImageFuture
+											<Image
 												src={MiniBackSVG}
 												alt=""
 												width="0"

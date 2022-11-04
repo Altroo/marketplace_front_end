@@ -5,7 +5,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import { useAppSelector } from "../../../../utils/hooks";
 import { getShopObj } from "../../../../store/selectors";
 import CloseSVG from "../../../../public/assets/svgs/navigationIcons/close.svg";
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 import { customModalTheme } from "../../../../utils/themes";
 
 // left
@@ -108,7 +108,7 @@ const CustomSwipeModal: React.FC<Props> = (props: Props) => {
 				className={`${Styles.dialog} ${cssClasse && cssClasse}`}
 			>
 				{showCloseIcon && <Box className={Styles.closeButtonWrapper}>
-					<ImageFuture
+					<Image
 						src={CloseSVG}
 						alt=""
 						width="40"

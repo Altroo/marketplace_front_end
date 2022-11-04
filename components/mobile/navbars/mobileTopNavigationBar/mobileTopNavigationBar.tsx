@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Styles from './mobileTopNavigationBar.module.sass';
 import ArrowLeftSVG from '../../../../public/assets/svgs/navigationIcons/arrow-left.svg';
 import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 
 type Props = {
 	backHref?: string;
@@ -17,25 +17,21 @@ const MobileTopNavigationBar = forwardRef<HTMLAnchorElement, Props>(
 		return props.backHref ? (
 			<nav className={Styles.topBar}>
 				{props.returnButton ? (
-					<Link href={props.backHref} passHref prefetch={false}>
-						<a ref={ref} className={Styles.backLink}>
-							<ImageFuture
-								src={ArrowLeftSVG}
-								alt=""
-								width="40"
-								height="40"
-								sizes="100vw"
-								style={{ cursor: 'pointer' }}
-							/>
-						</a>
+					<Link href={props.backHref} prefetch={false} ref={ref} className={Styles.backLink}>
+						<Image
+							src={ArrowLeftSVG}
+							alt=""
+							width="40"
+							height="40"
+							sizes="100vw"
+							style={{ cursor: 'pointer' }}
+						/>
 					</Link>
 				) : (
 					<div className={Styles.backLink}></div>
 				)}
 				<Link href={props.closeButtonHref}>
-					<a>
-						<ImageFuture src={CloseSVG} alt="" width="40" height="40" sizes="100vw" />
-					</a>
+					<Image src={CloseSVG} alt="" width="40" height="40" sizes="100vw" />
 				</Link>
 			</nav>
 		) : (

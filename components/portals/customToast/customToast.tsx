@@ -7,7 +7,7 @@ import ErrorIconSVG from '../../../public/assets/svgs/portals/error.svg';
 import WarningIconSVG from '../../../public/assets/svgs/portals/warning.svg';
 import InfoIconSVG from '../../../public/assets/svgs/portals/info.svg';
 import SuccessIconSVG from '../../../public/assets/svgs/portals/success.svg';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import { TransitionProps } from "@mui/material/transitions";
 
 type Props = {
@@ -59,7 +59,7 @@ const CustomToast: React.FC<Props> = (props: Props) => {
 						className={Styles.alert}
 						iconMapping={{
 							success: (
-								<ImageFuture
+								<Image
 									src={SuccessIconSVG}
 									alt=""
 									width="0"
@@ -69,7 +69,7 @@ const CustomToast: React.FC<Props> = (props: Props) => {
 								/>
 							),
 							error: (
-								<ImageFuture
+								<Image
 									src={ErrorIconSVG}
 									alt=""
 									width="0"
@@ -79,10 +79,10 @@ const CustomToast: React.FC<Props> = (props: Props) => {
 								/>
 							),
 							info: (
-								<ImageFuture src={InfoIconSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.alertIcon} />
+								<Image src={InfoIconSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.alertIcon} />
 							),
 							warning: (
-								<ImageFuture
+								<Image
 									src={WarningIconSVG}
 									alt=""
 									width="0"

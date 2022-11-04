@@ -2,7 +2,7 @@ import React from "react";
 import Styles from "./activateYourAccount.module.sass";
 import { Stack } from "@mui/material";
 import OutlineButton from "../../../htmlElements/buttons/outlineButton/outlineButton";
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 import ActivateAccountSVG from "../../../../public/assets/images/cards_illu/activate.svg";
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 const ActivateYourAccount: React.FC<Props> = (props: Props) => {
 	return (
 		<Stack direction="row" spacing="40px" className={Styles.rootStackWrapper} alignItems="center">
-			<ImageFuture
+			<Image
 				src={ActivateAccountSVG}
 				alt=""
 				width="0"

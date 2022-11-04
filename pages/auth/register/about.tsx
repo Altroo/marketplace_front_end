@@ -222,8 +222,8 @@ const About: React.FC<Props> = (props: Props) => {
 						<Stack direction="column" justifyContent="center" alignItems="center">
 							<p className={Styles.bottomLinks}>
 								Vous avez déjà un compte ?{" "}
-								<Link passHref href={AUTH_LOGIN}>
-									<a>Connectez-vous</a>
+								<Link href={AUTH_LOGIN}>
+									Connectez-vous
 								</Link>
 							</p>
 						</Stack>

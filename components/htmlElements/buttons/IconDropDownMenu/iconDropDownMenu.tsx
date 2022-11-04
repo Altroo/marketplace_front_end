@@ -5,7 +5,7 @@ import Styles from './iconDropDownMenu.module.sass';
 import { DropDownActionType, DropDownVariantType } from '../../../../types/ui/uiTypes';
 import { ThemeProvider } from '@mui/material';
 import { getDropDownMenuTheme } from '../../../../utils/themes';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import EditBlueSVG from "../../../../public/assets/svgs/globalIcons/edit-blue.svg";
 
 type Props = {
@@ -32,7 +32,7 @@ const IconDropDownMenu: React.FC<Props> = (props: Props) => {
 	return (
 		<div className={Styles.dropDownWrapper}>
 			<ThemeProvider theme={customTheme}>
-				<ImageFuture
+				<Image
 					id={props.buttonID}
 					src={EditBlueSVG}
 					alt=""
@@ -70,7 +70,7 @@ const IconDropDownMenu: React.FC<Props> = (props: Props) => {
 									action.text === 'Supprimer' ? Styles.deleteColor : null
 								} `}
 							>
-								{action.icon && <ImageFuture
+								{action.icon && <Image
 											src={action.icon}
 											alt=""
 											width="0"

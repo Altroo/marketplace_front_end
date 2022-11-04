@@ -15,7 +15,7 @@ import {
 	DASHBOARD_SUBSCRIPTION
 } from "../../../../utils/routes";
 import { Stack } from '@mui/material';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import { AccountGetDashboardType } from "../../../../types/account/accountTypes";
 import { ShopInfoContent } from "../../../../pages/dashboard";
@@ -84,7 +84,7 @@ const DesktopMyBusinessSideNav: React.FC<Props> = (props: Props) => {
 								onClick={() => router.back()}
 								alignItems="center"
 							>
-								<ImageFuture src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
+								<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
 								<span className={Styles.backText}>Retour</span>
 							</Stack>
 						</Stack>

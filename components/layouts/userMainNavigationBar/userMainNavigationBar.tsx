@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import { Divider, Menu, MenuItem, Skeleton, Stack, ThemeProvider } from '@mui/material';
 import { getDropDownMenuTheme, userMainNavigationBarTheme } from '../../../utils/themes';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import QarybSVG from '../../../public/assets/images/logo.svg';
 import ProfileSVG from '../../../public/assets/svgs/mainNavBarIcons/profile.svg';
 import CreerVotreBoutiqueSVG from '../../../public/assets/svgs/mainNavBarIcons/boutique-purple.svg';
@@ -79,36 +79,32 @@ const UserMainNavigationBar: React.FC = () => {
 		if (userHasShop && userShopUrl) {
 			return (
 				<MenuItem onClick={props.handleClose} className={Styles.menuItem}>
-					<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} passHref>
-						<a className={Styles.anchorWrapper}>
-							<ImageFuture
-								src={BoutiqueSVG}
-								alt=""
-								width="0"
-								height="0"
-								sizes="100vw"
-								className={Styles.subMenuIcons}
-							/>
-							<span>Ma boutique</span>
-						</a>
+					<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} className={Styles.anchorWrapper}>
+						<Image
+							src={BoutiqueSVG}
+							alt=""
+							width="0"
+							height="0"
+							sizes="100vw"
+							className={Styles.subMenuIcons}
+						/>
+						<span>Ma boutique</span>
 					</Link>
 				</MenuItem>
 			);
 		} else {
 			return (
 				<MenuItem onClick={props.handleClose} className={`${Styles.menuItem}`}>
-					<Link href={REAL_SHOP_ADD_SHOP_NAME} passHref>
-						<a className={`${Styles.purpleAnchorWrapperNoWidth}`}>
-							<ImageFuture
-								src={CreerVotreBoutiqueSVG}
-								alt=""
-								width="0"
-								height="0"
-								sizes="100vw"
-								className={Styles.subMenuIcons}
-							/>
-							<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
-						</a>
+					<Link href={REAL_SHOP_ADD_SHOP_NAME}  className={`${Styles.purpleAnchorWrapperNoWidth}`}>
+						<Image
+							src={CreerVotreBoutiqueSVG}
+							alt=""
+							width="0"
+							height="0"
+							sizes="100vw"
+							className={Styles.subMenuIcons}
+						/>
+						<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
 					</Link>
 				</MenuItem>
 			);
@@ -120,9 +116,9 @@ const UserMainNavigationBar: React.FC = () => {
 			<Box className={Styles.desktopOnly}>
 				<AppBar position="static" className={Styles.appBar}>
 					<Toolbar>
-						<ImageFuture src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+						<Image src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 						<Stack alignItems="center" className={Styles.searchWrapper} direction="row">
-							<ImageFuture
+							<Image
 								src={SearchIconSVG}
 								alt=""
 								width="0"
@@ -159,7 +155,7 @@ const UserMainNavigationBar: React.FC = () => {
 										{!avatar ? (
 											<Skeleton variant="circular" width={24} height={24} />
 										) : (
-											<ImageFuture
+											<Image
 												src={avatar as string}
 												alt=""
 												width="30"
@@ -182,25 +178,23 @@ const UserMainNavigationBar: React.FC = () => {
 											keepMounted
 										>
 											<MenuItem onClick={handleClose} className={Styles.menuItem}>
-												<Link href={DASHBOARD} passHref>
-													<a className={Styles.anchorWrapper}>
-														<ImageFuture
-															src={DashboardSVG}
-															alt=""
-															width="0"
-															height="0"
-															sizes="100vw"
-															className={Styles.subMenuIcons}
-														/>
-														<span>Mon dashboard</span>
-													</a>
+												<Link href={DASHBOARD} className={Styles.anchorWrapper}>
+													<Image
+														src={DashboardSVG}
+														alt=""
+														width="0"
+														height="0"
+														sizes="100vw"
+														className={Styles.subMenuIcons}
+													/>
+													<span>Mon dashboard</span>
 												</Link>
 											</MenuItem>
 											<ShopMenuItem handleClose={handleClose} />
 											<Divider orientation="horizontal" flexItem />
 											<MenuItem onClick={handleClose} className={Styles.fadedMenuItem}>
 												<Box onClick={logOutHandler} className={Styles.anchorWrapper}>
-													<ImageFuture
+													<Image
 														src={LogoutSVG}
 														alt=""
 														width="0"
@@ -223,7 +217,7 @@ const UserMainNavigationBar: React.FC = () => {
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
 										{/*	<Badge badgeContent={4} color="primary">*/}
-										<ImageFuture
+										<Image
 											src={NotificationsSVG}
 											alt=""
 											width={24}
@@ -241,16 +235,14 @@ const UserMainNavigationBar: React.FC = () => {
 									aria-haspopup="true"
 									color="inherit"
 								>
-									<Link href={AUTH_LOGIN} passHref>
-										<a className={Styles.anchorWrapper}>
-											<ImageFuture
-												src={ProfileSVG}
-												alt=""
-												width={24}
-												height={24}
-												sizes="100vw"
-											/>
-										</a>
+									<Link href={AUTH_LOGIN}  className={Styles.anchorWrapper}>
+										<Image
+											src={ProfileSVG}
+											alt=""
+											width={24}
+											height={24}
+											sizes="100vw"
+										/>
 									</Link>
 								</IconButton>
 							)}
@@ -264,7 +256,7 @@ const UserMainNavigationBar: React.FC = () => {
 							>
 								{/*<ThemeProvider theme={badgeTheme()}>*/}
 								{/*	<Badge badgeContent={4} color="primary">*/}
-								<ImageFuture
+								<Image
 									src={EmptyCartSVG}
 									alt=""
 									width={24}
@@ -279,27 +271,25 @@ const UserMainNavigationBar: React.FC = () => {
 					</Toolbar>
 				</AppBar>
 				<Stack direction="row" spacing="32px" className={Styles.bottomStackAnchor} alignItems="center">
-					<Link href="/" passHref>
-						<a className={Styles.anchorText}>Collections lifestyle</a>
+					<Link href="/" className={Styles.anchorText}>
+						Collections lifestyle
 					</Link>
-					<Link href="/" passHref>
+					<Link href="/">
 						{/*<a className={Styles.anchorText}>Boutique coup de </a>*/}
-						<a>
-							<Stack direction="row" alignItems="center">
-								<span className={Styles.heartShapeAnchorText}>Boutique coup de</span>
-								<ImageFuture alt="" width="0" height="0" sizes="100vw" src={HeartShapeSVG} />
-							</Stack>
-						</a>
+						<Stack direction="row" alignItems="center">
+							<span className={Styles.heartShapeAnchorText}>Boutique coup de</span>
+							<Image alt="" width="0" height="0" sizes="100vw" src={HeartShapeSVG} />
+						</Stack>
 					</Link>
-					<Link href="/" passHref>
-						<a className={Styles.anchorText}>Nos produits</a>
+					<Link href="/" className={Styles.anchorText}>
+						Nos produits
 					</Link>
 					<Stack direction="row" alignItems="center">
 						<span className={Styles.disabledAnchorText}>Nos services</span>
 						<span className={Styles.comingSoon}>Coming soon</span>
 					</Stack>
-					<Link href="/" passHref>
-						<a className={Styles.anchorText}>Blog</a>
+					<Link href="/" className={Styles.anchorText}>
+						Blog
 					</Link>
 				</Stack>
 			</Box>
@@ -314,7 +304,7 @@ const UserMainNavigationBar: React.FC = () => {
 							className={Styles.hambourgerIconWrapper}
 							onClick={() => setOpenMobileDrawer(true)}
 						>
-							<ImageFuture
+							<Image
 								src={HambourgerMenuSVG}
 								alt=""
 								width={24}
@@ -327,7 +317,7 @@ const UserMainNavigationBar: React.FC = () => {
 						<SideNavDrawer open={openMobileDrawer} handleClose={() => setOpenMobileDrawer(false)} keepMounted={true}>
 							<Stack direction="column" spacing={2}>
 								<Stack direction="row" justifyContent="flex-end" paddingX={2} paddingY={2} paddingBottom={0}>
-									<ImageFuture
+									<Image
 										src={CloseSVG}
 										width={0} 
 										height={0}
@@ -338,27 +328,25 @@ const UserMainNavigationBar: React.FC = () => {
 									/>
 								</Stack>
 								<Stack direction="column" paddingX="40px" paddingY="18px" paddingTop={0} paddingBottom={0} spacing={1}>
-									<Link href="/" passHref>
-										<a className={Styles.anchorText}>Collections lifestyle</a>
+									<Link href="/" className={Styles.anchorText}>
+										Collections lifestyle
 									</Link>
-									<Link href="/" passHref>
-										<a>
-											<Stack direction="row" alignItems="center">
-												<span className={Styles.heartShapeAnchorText}>Boutique coup de</span>
-												<ImageFuture src={HeartShapeSVG} alt="" width={32} height={32} />
-											</Stack>
-										</a>
+									<Link href="/">
+										<Stack direction="row" alignItems="center">
+											<span className={Styles.heartShapeAnchorText}>Boutique coup de</span>
+											<Image src={HeartShapeSVG} alt="" width={32} height={32} />
+										</Stack>
 									</Link>
-									<Link href="/" passHref>
-										<a className={Styles.anchorText}>Nos produits</a>
+									<Link href="/" className={Styles.anchorText}>
+										Nos produits
 									</Link>
 									<Stack direction="row" alignItems="center">
 										<span className={Styles.disabledAnchorText}>Nos services</span>
 										<span className={Styles.comingSoon}>Coming soon</span>
 									</Stack>
 									<span className={Styles.miniDivider}>—</span>
-									<Link href="/" passHref>
-										<a className={Styles.anchorText}>Blog</a>
+									<Link href="/" className={Styles.anchorText}>
+										Blog
 									</Link>
 								</Stack>
 								<Box paddingTop="16px" paddingBottom="16px" paddingX="40px">
@@ -371,7 +359,7 @@ const UserMainNavigationBar: React.FC = () => {
 												{!avatar ? (
 													<Skeleton variant="circular" width={48} height={48} />
 												) : (
-													<ImageFuture
+													<Image
 														src={avatar as string}
 														alt=""
 														width={48}
@@ -384,53 +372,47 @@ const UserMainNavigationBar: React.FC = () => {
 													{firstName} {lastName}
 												</span>
 											</Stack>
-											<Link href={DASHBOARD} passHref>
-												<a className={Styles.anchorWrapper}>
-													<ImageFuture
-														src={DashboardSVG}
+											<Link href={DASHBOARD} className={Styles.anchorWrapper}>
+												<Image
+													src={DashboardSVG}
+													alt=""
+													width={24}
+													height={24}
+													sizes="100vw"
+													className={Styles.subMenuDrawerIcons}
+												/>
+												<span className={Styles.mobileAnchorSpan}>Mon dashboard</span>
+											</Link>
+											{userHasShop && userShopUrl ? (
+												<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} className={Styles.anchorWrapper}>
+													<Image
+														src={BoutiqueSVG}
 														alt=""
 														width={24}
 														height={24}
 														sizes="100vw"
 														className={Styles.subMenuDrawerIcons}
 													/>
-													<span className={Styles.mobileAnchorSpan}>Mon dashboard</span>
-												</a>
-											</Link>
-											{userHasShop && userShopUrl ? (
-												<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} passHref>
-													<a className={Styles.anchorWrapper}>
-														<ImageFuture
-															src={BoutiqueSVG}
-															alt=""
-															width={24}
-															height={24}
-															sizes="100vw"
-															className={Styles.subMenuDrawerIcons}
-														/>
-														<span className={Styles.mobileAnchorSpan}>Ma boutique</span>
-													</a>
+													<span className={Styles.mobileAnchorSpan}>Ma boutique</span>
 												</Link>
 											) : (
-												<Link href={REAL_SHOP_ADD_SHOP_NAME} passHref>
-													<a className={`${Styles.purpleAnchorWrapper}`}>
-														<ImageFuture
-															src={CreerVotreBoutiqueSVG}
-															alt=""
-															width={24}
-															height={24}
-															sizes="100vw"
-															className={Styles.subMenuDrawerIcons}
-														/>
-														<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
-													</a>
+												<Link href={REAL_SHOP_ADD_SHOP_NAME} className={`${Styles.purpleAnchorWrapper}`}>
+													<Image
+														src={CreerVotreBoutiqueSVG}
+														alt=""
+														width={24}
+														height={24}
+														sizes="100vw"
+														className={Styles.subMenuDrawerIcons}
+													/>
+													<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
 												</Link>
 											)}
 											<Box paddingTop={1} paddingBottom={1}>
 												<Divider orientation="horizontal" flexItem />
 											</Box>
 											<Box onClick={logOutHandler} className={Styles.anchorWrapper}>
-												<ImageFuture
+												<Image
 													src={LogoutSVG}
 													alt=""
 													width={24}
@@ -443,31 +425,27 @@ const UserMainNavigationBar: React.FC = () => {
 										</Stack>
 									) : (
 										<Stack direction="column" paddingX="40px" paddingY="18px" paddingTop={0} spacing={2}>
-											<Link href={REAL_SHOP_ADD_SHOP_NAME} passHref>
-												<a className={Styles.purpleAnchorWrapper}>
-													<ImageFuture
-														src={CreerVotreBoutiqueSVG}
-														alt=""
-														width={24}
-														height={24}
-														sizes="100vw"
-														className={Styles.subMenuDrawerIcons}
-													/>
-													<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
-												</a>
+											<Link href={REAL_SHOP_ADD_SHOP_NAME} className={Styles.purpleAnchorWrapper}>
+												<Image
+													src={CreerVotreBoutiqueSVG}
+													alt=""
+													width={24}
+													height={24}
+													sizes="100vw"
+													className={Styles.subMenuDrawerIcons}
+												/>
+												<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
 											</Link>
-											<Link href={AUTH_LOGIN} passHref>
-												<a className={Styles.anchorWrapper}>
-													<ImageFuture
-														src={ProfileSVG}
-														alt=""
-														width={24}
-														height={24}
-														sizes="100vw"
-														className={Styles.subMenuDrawerIcons}
-													/>
-													<span className={Styles.mobileAnchorSpan}>Connexion</span>
-												</a>
+											<Link href={AUTH_LOGIN} className={Styles.anchorWrapper}>
+												<Image
+													src={ProfileSVG}
+													alt=""
+													width={24}
+													height={24}
+													sizes="100vw"
+													className={Styles.subMenuDrawerIcons}
+												/>
+												<span className={Styles.mobileAnchorSpan}>Connexion</span>
 											</Link>
 										</Stack>
 									)}
@@ -476,7 +454,7 @@ const UserMainNavigationBar: React.FC = () => {
 						</SideNavDrawer>
 						{/* FIN MOBILE SIDE NAV DRAWER */}
 						<Stack direction="row" justifySelf="center" className={Styles.mobileRootLogoStack}>
-							<ImageFuture src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+							<Image src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 						</Stack>
 						<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
 							{!loading && session ? (
@@ -494,7 +472,7 @@ const UserMainNavigationBar: React.FC = () => {
 										{!avatar ? (
 											<Skeleton variant="circular" width={24} height={24} />
 										) : (
-											<ImageFuture
+											<Image
 												src={avatar as string}
 												alt=""
 												width="30"
@@ -515,25 +493,23 @@ const UserMainNavigationBar: React.FC = () => {
 											}}
 										>
 											<MenuItem onClick={handleMobileClose} className={Styles.menuItem}>
-												<Link href={DASHBOARD} passHref>
-													<a className={Styles.anchorWrapper}>
-														<ImageFuture
-															src={DashboardSVG}
-															alt=""
-															width="0"
-															height="0"
-															sizes="100vw"
-															className={Styles.subMenuIcons}
-														/>
-														<span>Mon dashboard</span>
-													</a>
+												<Link href={DASHBOARD} className={Styles.anchorWrapper}>
+													<Image
+														src={DashboardSVG}
+														alt=""
+														width="0"
+														height="0"
+														sizes="100vw"
+														className={Styles.subMenuIcons}
+													/>
+													<span>Mon dashboard</span>
 												</Link>
 											</MenuItem>
 											<ShopMenuItem handleClose={handleMobileClose} />
 											<Divider orientation="horizontal" flexItem />
 											<MenuItem onClick={handleMobileClose} className={Styles.fadedMenuItem}>
 												<Box onClick={logOutHandler} className={Styles.anchorWrapper}>
-													<ImageFuture
+													<Image
 														src={LogoutSVG}
 														alt=""
 														width="0"
@@ -556,17 +532,15 @@ const UserMainNavigationBar: React.FC = () => {
 									color="inherit"
 									className={Styles.iconButton}
 								>
-									<Link href={AUTH_LOGIN} passHref>
-										<a className={Styles.anchorWrapper}>
-											<ImageFuture
-												src={ProfileSVG}
-												alt=""
-												width={24}
-												height={24}
-												sizes="100vw"
-												className={Styles.mobileIcons}
-											/>
-										</a>
+									<Link href={AUTH_LOGIN} className={Styles.anchorWrapper}>
+										<Image
+											src={ProfileSVG}
+											alt=""
+											width={24}
+											height={24}
+											sizes="100vw"
+											className={Styles.mobileIcons}
+										/>
 									</Link>
 								</IconButton>
 							)}
@@ -578,7 +552,7 @@ const UserMainNavigationBar: React.FC = () => {
 								color="inherit"
 								className={Styles.iconButton}
 							>
-								<ImageFuture
+								<Image
 									src={EmptyCartSVG}
 									alt=""
 									width="0"
@@ -591,7 +565,7 @@ const UserMainNavigationBar: React.FC = () => {
 					</Toolbar>
 				</AppBar>
 				<Stack alignItems="center" className={Styles.searchWrapper} direction="row">
-					<ImageFuture src={SearchIconSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.searchIcon} />
+					<Image src={SearchIconSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.searchIcon} />
 					<input
 						value={searchValue}
 						onChange={(e) => {

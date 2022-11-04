@@ -4,7 +4,7 @@ import { useAppSelector } from '../../../../../../utils/hooks';
 import { getShopObj } from '../../../../../../store/selectors';
 import { Stack, Box } from '@mui/material';
 import ClockSVG from '../../../../../../public/assets/svgs/globalIcons/clock-gray.svg';
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 
 const ShowHoraire: React.FC = () => {
 	const { opening_days, morning_hour_from, morning_hour_to, afternoon_hour_from, afternoon_hour_to } =
@@ -78,7 +78,7 @@ const ShowHoraire: React.FC = () => {
 	return (
 		<>
 			<Stack direction="row" spacing={1} sx={{ wordWrap: 'break-word' }} className={Styles.wrapper}>
-				<ImageFuture
+				<Image
 								src={ClockSVG}
 								alt=""
 								width="24"

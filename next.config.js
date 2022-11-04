@@ -23,8 +23,7 @@ const nextConfig = {
 				side_effects: false
 			}
 		}
-	},
-	swcMinify: true
+	}
 };
 
 module.exports = nextConfig;

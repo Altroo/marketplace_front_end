@@ -1,6 +1,6 @@
 import React from 'react';
 import Styles from './iconTextInput.module.sass';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import SearchIconSVG from '../../../../public/assets/svgs/globalIcons/search.svg';
 import { Stack } from "@mui/material";
 
@@ -15,7 +15,7 @@ type Props = {
 const IconTextInput: React.FC<Props> = (props: Props) => {
 	return (
 		<Stack alignItems="center" direction="row" className={Styles.searchWrapper}>
-			<ImageFuture
+			<Image
 				src={SearchIconSVG}
 				alt=""
 				className={Styles.searchIcon}

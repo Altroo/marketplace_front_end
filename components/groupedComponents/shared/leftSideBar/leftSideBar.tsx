@@ -10,7 +10,7 @@ import StepFourSVG from '../../../../public/assets/svgs/navigationIcons/step-4.s
 import StepTwoBlackSVG from '../../../../public/assets/svgs/navigationIcons/second-step-black.svg';
 import StepThreeBlackSVG from '../../../../public/assets/svgs/navigationIcons/step-three-black.svg';
 import StepFourBlackSVG from '../../../../public/assets/svgs/navigationIcons/fourth-step-black.svg';
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 
 const Spacer = () => <div className={Styles.OneRemSpace}></div>;
 
@@ -24,7 +24,7 @@ const SideBarElem: React.FC<SideBarProps> = (props: SideBarProps) => {
 		<>
 			<div className={Styles.sideBarItemWrapper}>
 				<div className={Styles.sideBarItem}>
-					<ImageFuture
+					<Image
 					src={element.stepImage}
 					alt=""
 					width="32"
@@ -33,7 +33,7 @@ const SideBarElem: React.FC<SideBarProps> = (props: SideBarProps) => {
 					/>
 					<span style={{ color: element.active ? element.textColor : '#84848A' }}>{element.title}</span>
 				</div>
-				{element.active && <ImageFuture
+				{element.active && <Image
 					src={RightArrowSVG}
 					alt=""
 					width="18"
@@ -85,7 +85,7 @@ const LeftSideBar: React.FC<Props> = (props: Props) => {
 	return (
 		<aside className={Styles.sideBar}>
 			<div>
-				<ImageFuture
+				<Image
 					src={LogoSVG}
 					alt=""
 					width="152"

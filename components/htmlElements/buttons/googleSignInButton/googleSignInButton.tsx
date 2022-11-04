@@ -1,7 +1,7 @@
 import React from "react";
 import Styles from "./googleSignInButton.module.sass";
 import { Button, Stack, ThemeProvider } from "@mui/material";
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 import GoogleSVG from "../../../../public/assets/svgs/authIcons/google.svg";
 import { getDefaultTheme } from "../../../../utils/themes";
 
@@ -20,7 +20,7 @@ const GoogleSignInButton: React.FC<Props> = (props: Props) => {
 				onClick={props.onClick}
 				className={Styles.button}>
 				<Stack direction="row" alignItems="center">
-					<ImageFuture
+					<Image
 						src={GoogleSVG}
 						alt=""
 						width="0"

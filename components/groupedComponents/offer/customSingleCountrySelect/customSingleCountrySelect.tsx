@@ -3,7 +3,7 @@ import Styles from './customSingleCountrySelect.module.sass';
 import { FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Stack, ThemeProvider } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Theme } from '@mui/material/styles/createTheme';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import ActiveCheckBlue from '../../../../public/assets/svgs/globalIcons/active-check-blue.svg';
 import ReactCountryFlag from 'react-country-flag';
 import { CountriesType } from '../../../../types/places/placesTypes';
@@ -64,7 +64,7 @@ const CustomSingleCountrySelect: React.FC<Props> = (props: Props) => {
 										/>
 										<span>{item.name}</span>
 									</Stack>
-									{props.value.indexOf(item.name) > -1 && <ImageFuture src={ActiveCheckBlue} alt="" />}
+									{props.value.indexOf(item.name) > -1 && <Image src={ActiveCheckBlue} alt="" />}
 								</Stack>
 							</MenuItem>
 						))}

@@ -29,7 +29,7 @@ import UserMainNavigationBar from '../../../../components/layouts/userMainNaviga
 import { Box, Button, Checkbox, Divider, Skeleton, Stack, ThemeProvider } from '@mui/material';
 import DesktopMyBusinessSideNav from '../../../../components/layouts/desktop/desktopMyBusinessSideNav/desktopMyBusinessSideNav';
 import MobileMyBusinessNav from '../../../../components/layouts/mobile/mobileMyBusinessNav/mobileMyBusinessNav';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import CustomFooter from '../../../../components/layouts/footer/customFooter';
 import { Iterables } from 'langx-js';
 import { useAppDispatch } from '../../../../utils/hooks';
@@ -72,24 +72,20 @@ const BackButton = () => {
 	return (
 		<>
 			<Box className={SharedStyles.desktopOnly}>
-				<Link href={DASHBOARD_INDEXED_OFFERS} passHref>
-					<a>
-						<Button color="primary" className={Styles.availableArticlesBackButton}>
-							<Stack direction="row" spacing="7px" alignItems="center">
-								<span>Annuler</span>
-								<ImageFuture src={CloseSVG} width="32" height="32" sizes="100vw" alt="" />
-							</Stack>
-						</Button>
-					</a>
+				<Link href={DASHBOARD_INDEXED_OFFERS}>
+					<Button color="primary" className={Styles.availableArticlesBackButton}>
+						<Stack direction="row" spacing="7px" alignItems="center">
+							<span>Annuler</span>
+							<Image src={CloseSVG} width="32" height="32" sizes="100vw" alt="" />
+						</Stack>
+					</Button>
 				</Link>
 			</Box>
 			<Box className={SharedStyles.mobileOnly}>
-				<Link href={DASHBOARD_INDEXED_OFFERS} passHref>
-					<a>
-						<Stack direction="row" alignItems="center">
-							<ImageFuture src={CloseSVG} width="32" height="32" sizes="100vw" alt="" />
-						</Stack>
-					</a>
+				<Link href={DASHBOARD_INDEXED_OFFERS}>
+					<Stack direction="row" alignItems="center">
+						<Image src={CloseSVG} width="32" height="32" sizes="100vw" alt="" />
+					</Stack>
 				</Link>
 			</Box>
 		</>
@@ -337,7 +333,7 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 								sx={{ opacity: `${itemIDS.length === availableSlotsState ? '.5' : '1'}` }}
 							>
 								<Stack direction="row" spacing="8px" alignItems="center">
-									<ImageFuture
+									<Image
 										src={!selectAllState ? SelectMultipleGraySVG : SelectMultipleBlueSVG}
 										width="24"
 										height="24"
@@ -356,7 +352,7 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 									sx={{ opacity: `${itemIDS.length > availableSlotsState ? '.5' : '1'}` }}
 								>
 									<Stack direction="row" spacing="9px" alignItems="center">
-										<ImageFuture src={AddWhiteSVG} width="14" height="14" sizes="100vw" alt="" />
+										<Image src={AddWhiteSVG} width="14" height="14" sizes="100vw" alt="" />
 										<span>Ajouter {`${itemIDS.length}/${availableSlotsState}`}</span>
 									</Stack>
 								</Button>
@@ -404,7 +400,7 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 																className={SharedStyles.offerVuesThumbnail}
 															/>
 														) : (
-															<ImageFuture
+															<Image
 																src={data.value.thumbnail}
 																alt=""
 																width="54"
@@ -501,7 +497,7 @@ const ReferencerDesArticles: NextPage<ReferencerDesArticlesProps> = (props: Refe
 										onClick={() => setMobileElementClicked(false)}
 										alignItems="center"
 									>
-										<ImageFuture
+										<Image
 											src={MiniBackSVG}
 											alt=""
 											width="0"

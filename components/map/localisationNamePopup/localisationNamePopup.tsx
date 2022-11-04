@@ -8,7 +8,7 @@ import {
 	getPlacesApiFetchPromiseStatus, getShopAddressName,
 } from "../../../store/selectors";
 import { useAppSelector } from '../../../utils/hooks';
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 
 type Props = {
 	address_name?: string;
@@ -42,7 +42,7 @@ const LocalisationNamePopup: React.FC<Props> = (props: Props) => {
 			{localisationName && apiFetchPromiseStatus !== 'REJECTED' ? (
 				<Stack direction="row" justifyContent="space-around">
 					<div className={Styles.localisationIconWrapper}>
-						<ImageFuture
+						<Image
 									src={MarkerBlueSVG}
 									alt=""
 									width="20"

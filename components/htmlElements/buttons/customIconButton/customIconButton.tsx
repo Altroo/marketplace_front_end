@@ -1,7 +1,7 @@
 import React from "react";
 import Styles from "./customIconButton.module.sass";
 import {CustomTheme} from "../../../../utils/themes";
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 import { ThemeProvider } from "@mui/material";
 import Button from "@mui/material/Button";
 
@@ -41,7 +41,7 @@ const CustomIconButton: React.FC<Props> = (props: Props) => {
 				${props.cssClass && props.cssClass}`}
 				disabled={props.disabled}
 				style={{...cssStyle}}>
-				<ImageFuture src={props.svgIcon} width={20} height={20} alt="" className={Styles.icon} />
+				<Image src={props.svgIcon} width={20} height={20} alt="" className={Styles.icon} />
 				{props.buttonText}
 			</Button>
 		</ThemeProvider>

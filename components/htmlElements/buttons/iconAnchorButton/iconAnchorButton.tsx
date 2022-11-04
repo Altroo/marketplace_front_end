@@ -1,7 +1,7 @@
 import React, { ForwardedRef, forwardRef } from 'react';
 import Styles from './iconAnchorButton.module.sass';
 import Button from '@mui/material/Button';
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 import Link from 'next/link';
 import {CustomTheme} from "../../../../utils/themes";
 import { ThemeProvider } from "@mui/material";
@@ -38,20 +38,18 @@ const IconAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref
 
 	return props.nextPage ? (
 		<ThemeProvider theme={customTheme}>
-		<Link href={props.nextPage} passHref>
-			<a ref={ref}>
-				<Button
-					color="primary"
-					disabled={!props.active}
-					className={`${Styles.iconButton} 
-					${props.active ? Styles.active : ''}
-					${props.cssClass && props.cssClass}
-					`}
-					style={{...cssStyle}}>
-					<ImageFuture src={props.svgIcon} width={20} height={20} alt="" className={Styles.icon} />
-					{props.buttonText}
-				</Button>
-			</a>
+		<Link href={props.nextPage} ref={ref}>
+			<Button
+				color="primary"
+				disabled={!props.active}
+				className={`${Styles.iconButton} 
+				${props.active ? Styles.active : ''}
+				${props.cssClass && props.cssClass}
+				`}
+				style={{...cssStyle}}>
+				<Image src={props.svgIcon} width={20} height={20} alt="" className={Styles.icon} />
+				{props.buttonText}
+			</Button>
 		</Link>
 		</ThemeProvider>
 	) : (
@@ -60,7 +58,7 @@ const IconAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref
 			${props.cssClass && props.cssClass}`}
 			disabled={!props.active}
 			style={{...cssStyle}}>
-			<ImageFuture src={props.svgIcon} width={20} height={20} alt="" className={Styles.icon} />
+			<Image src={props.svgIcon} width={20} height={20} alt="" className={Styles.icon} />
 			{props.buttonText}
 		</button>
 	);

@@ -58,15 +58,8 @@ const ParVirement: NextPage<ParVirementProps> = (props: ParVirementProps) => {
 											3 ) Envoyez votre reçu avec la référence dans l&apos;objet de l&apos;email à
 										</span>
 										<Box className={Styles.parVirementListItemBox}>
-											<Link href={`mailto:${data.email}`} passHref target="_blank" rel="noreferrer">
-												<a
-													href={`mailto:${data.email}`}
-													target="_blank"
-													rel="noreferrer"
-													className={Styles.parVirementListEmailItem}
-												>
-													{data.email}
-												</a>
+											<Link href={`mailto:${data.email}`} target="_blank" rel="noreferrer" className={Styles.parVirementListEmailItem}>
+												{data.email}
 											</Link>
 										</Box>
 									</Stack>

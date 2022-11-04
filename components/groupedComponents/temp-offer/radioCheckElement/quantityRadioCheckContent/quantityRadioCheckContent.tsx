@@ -4,7 +4,7 @@ import { ThemeProvider, Stack, IconButton, TextField } from '@mui/material';
 import RadioCheckElement from '../radioCheckElement';
 import MinusSVG from '../../../../../public/assets/svgs/globalIcons/minus-circular.svg';
 import PlusSVG from '../../../../../public/assets/svgs/globalIcons/plus-circular.svg';
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 
 type Props = {
 	switchOpen: boolean;
@@ -30,7 +30,7 @@ const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
 						})
 					}
 				>
-					<ImageFuture
+					<Image
 						src={MinusSVG}
 						alt=""
 						width="40"
@@ -48,7 +48,7 @@ const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
 					}} color="primary" />
 				</ThemeProvider>
 				<IconButton onClick={() => props.setQuantity((prevState) => prevState + 1)}>
-					<ImageFuture
+					<Image
 						src={PlusSVG}
 						alt=""
 						width="40"

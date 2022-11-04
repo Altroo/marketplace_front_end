@@ -16,7 +16,7 @@ import DeliverySVG from '../../../../../public/assets/svgs/globalIcons/delivery-
 import { getDefaultTheme } from '../../../../../utils/themes';
 import CustomSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import dynamic from 'next/dynamic';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import 'leaflet/dist/leaflet.css';
 import {
 	getLocalisationName,
@@ -508,7 +508,7 @@ const Livraison: NextPage = () => {
 										justifyContent="center"
 										alignItems="center"
 									>
-										<ImageFuture src={ClickCollectSVG} width={70} height={70} alt="" />
+										<Image src={ClickCollectSVG} width={70} height={70} alt="" />
 										<p
 											className={`${Styles.defaultLocalisationName} ${
 												selectedClickAndCollect && selectedClickAndCollect.address_name && Styles.activeCardValue
@@ -602,7 +602,7 @@ const Livraison: NextPage = () => {
 										justifyContent="center"
 										alignItems="center"
 									>
-										<ImageFuture src={DeliverySVG} width={70} height={70} alt="" />
+										<Image src={DeliverySVG} width={70} height={70} alt="" />
 										<div
 											className={`${Styles.defaultLocalisationName} ${
 												// deliveryCity1 ||
@@ -727,7 +727,7 @@ const Livraison: NextPage = () => {
 												className={Styles.addDeliveryButton}
 												color="primary"
 											>
-												<ImageFuture src={BlueAddSVG} width={20} height={20} alt="" />
+												<Image src={BlueAddSVG} width={20} height={20} alt="" />
 												<span>Ajouter une livraison</span>
 											</Button>
 										) : null}

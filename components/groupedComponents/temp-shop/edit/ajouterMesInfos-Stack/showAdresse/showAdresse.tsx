@@ -4,7 +4,7 @@ import MapEditSVG from '../../../../../../public/assets/svgs/globalIcons/edit-bl
 import { Stack } from '@mui/material';
 import { useAppSelector } from '../../../../../../utils/hooks';
 import { getShopObj } from '../../../../../../store/selectors';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import dynamic from "next/dynamic";
 
 const CustomMap = dynamic(() => import('../../../../../map/customMap'), {
@@ -21,7 +21,7 @@ const ShowAdresse: React.FC<Props> = (props: Props) => {
 	return longitude && latitude && address_name && km_radius ? (
 		<Stack direction="column" spacing={1} sx={{ height: '100%', width: '100%' }}>
 			<div className={Styles.miniMapWrapper}>
-				<ImageFuture
+				<Image
 					className={Styles.editButton}
 					onClick={props.onClick}
 					src={MapEditSVG}

@@ -2,7 +2,7 @@ import React from "react";
 import Styles from "./mobileOffersFilterButton.module.sass";
 import { CustomTheme } from "../../../../utils/themes";
 import { Fab, ThemeProvider } from "@mui/material";
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 
 type Props = {
 	buttonText: string;
@@ -50,7 +50,7 @@ const MobileOffersFilterButton: React.FC<Props> = (props: Props) => {
 				disabled={props.disabled}
 				style={{...cssStyle}}>
 				{props.buttonText}
-				<ImageFuture src={props.svgIcon} width={20} height={20} alt="" />
+				<Image src={props.svgIcon} width={20} height={20} alt="" />
 			</Fab>
 		</ThemeProvider>
 

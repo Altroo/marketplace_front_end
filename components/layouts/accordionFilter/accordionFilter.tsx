@@ -12,7 +12,7 @@ import {
 	Box,
 	Button,
 } from '@mui/material';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import AccordionDropDownSVG from '../../../public/assets/svgs/globalIcons/filter-drop-down.svg';
 import { OfferGetAvailableShopFiltersType, OfferProductColors } from '../../../types/offer/offerTypes';
 import { useRouter } from 'next/router';
@@ -23,7 +23,7 @@ import IosSwitch from '../../htmlElements/switches/iosSwitch';
 import TextButton from '../../htmlElements/buttons/textButton/textButton';
 import PrimaryButton from '../../htmlElements/buttons/primaryButton/primaryButton';
 import { OfferColorsListType } from '../../../types/ui/uiTypes';
-import { ParsedUrlQueryInput } from 'node:querystring';
+import { ParsedUrlQueryInput } from "querystring";
 
 type FilterColorsGridParentType = {
 	availableColors: Array<OfferProductColors>;
@@ -96,7 +96,7 @@ type AccordionFilterContentType = {
 const AccordionFilterContent: React.FC<AccordionFilterContentType> = (props: AccordionFilterContentType) => {
 	return (
 		<Accordion disableGutters square expanded>
-			<AccordionSummary expandIcon={<ImageFuture src={AccordionDropDownSVG} alt="" width={16} height={16} />}>
+			<AccordionSummary expandIcon={<Image src={AccordionDropDownSVG} alt="" width={16} height={16} />}>
 				<span className={Styles.filterTitle}>{props.title}</span>
 			</AccordionSummary>
 			<AccordionDetails>{props.children}</AccordionDetails>

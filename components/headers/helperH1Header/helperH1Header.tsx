@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './helperH1Header.module.sass';
 import QuestionMarkSVG from "../../../public/assets/svgs/globalIcons/question-mark.svg";
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 import { Stack } from "@mui/material";
 
 type Props = {
@@ -20,7 +20,7 @@ const HelperH1Header: React.FC<Props> = (props: Props) => {
 			</Stack>
 
 			{/*<Stack direction="row" alignItems="baseline" className={Styles.helpTextWrapper} gap="3px">*/}
-			{/*	<ImageFuture*/}
+			{/*	<Image*/}
 			{/*			src={QuestionMarkSVG}*/}
 			{/*			alt=""*/}
 			{/*			width="18"*/}

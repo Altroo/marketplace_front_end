@@ -2,7 +2,7 @@ import React from 'react';
 import Styles from './serviceMiniMap.module.sass';
 import MapEditSVG from '../../../../../public/assets/svgs/globalIcons/edit-blue.svg';
 import { Stack } from '@mui/material';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import dynamic from "next/dynamic";
 import { ShopZoneByType } from "../../../../../types/shop/shopTypes";
 
@@ -26,7 +26,7 @@ const ServiceMiniMap: React.FC<Props> = (props: Props) => {
 	return (
 		<Stack direction="column" spacing={1} sx={{ height: '100%', width: '100%' }}>
 			<div className={Styles.miniMapWrapper}>
-				<ImageFuture
+				<Image
 					className={Styles.editButton}
 					onClick={props.onClick}
 					src={MapEditSVG}

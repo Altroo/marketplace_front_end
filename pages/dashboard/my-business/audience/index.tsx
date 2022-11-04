@@ -17,7 +17,7 @@ import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../../utils/routes';
 import { Stack, Box, Divider, ThemeProvider, Button } from '@mui/material';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import DesktopMyBusinessSideNav from '../../../../components/layouts/desktop/desktopMyBusinessSideNav/desktopMyBusinessSideNav';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import MobileMyBusinessNav from '../../../../components/layouts/mobile/mobileMyBusinessNav/mobileMyBusinessNav';
 import CustomFooter from '../../../../components/layouts/footer/customFooter';
@@ -176,12 +176,12 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 				<Stack direction="column">
 					<h2 className={Styles.userShopTitle}>Audience</h2>
 					<Stack direction="row" gap="3px" alignItems="center">
-						<ImageFuture src={QuestionMarkSVG} width={18} height={18} alt="" sizes="100vw" />
+						<Image src={QuestionMarkSVG} width={18} height={18} alt="" sizes="100vw" />
 						<span className={Styles.myBusinessQuestion}>Comment booster ses ventes</span>
 					</Stack>
 				</Stack>
 				<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardVuesDesktopCard}>
-					<ImageFuture src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />
+					<Image src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />
 					<Stack direction="column" sx={{ width: '100%' }}>
 						<span className={Styles.dashboardMiniCardCounter}>{total_offers_vue_count}</span>
 						<Stack direction="row" justifyContent="space-between">
@@ -213,7 +213,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 												>
 													<Stack direction="row" justifyContent="space-between" sx={{ width: '100%' }}>
 														<Stack direction="row" spacing="12px" alignItems="center">
-															<ImageFuture
+															<Image
 																src={data.value.thumbnail}
 																alt=""
 																width="54"
@@ -225,7 +225,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 														</Stack>
 														<Stack direction="row" spacing="8px" alignItems="center">
 															<span className={Styles.offerVuesNumber}>{data.value.nbr_total_vue}</span>
-															<ImageFuture
+															<Image
 																src={MiniVuesSVG}
 																alt=""
 																width="18"
@@ -284,7 +284,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 					) : (
 						!isLoadingInitInProgress && (
 							<Box className={Styles.dashboardEmptyVuesDesktopBox}>
-								<ImageFuture src={ColoredVuesIlluSVG} alt="" width="173" height="110" sizes="100vw" />
+								<Image src={ColoredVuesIlluSVG} alt="" width="173" height="110" sizes="100vw" />
 								<Stack direction="column" alignItems="center">
 									<span className={Styles.dashboardShopName}>Aucune vue</span>
 									<span className={Styles.dashboardSellsDesktopBoxContent}>
@@ -338,7 +338,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 										onClick={() => setMobileElementClicked(false)}
 										alignItems="center"
 									>
-										<ImageFuture
+										<Image
 											src={MiniBackSVG}
 											alt=""
 											width="0"

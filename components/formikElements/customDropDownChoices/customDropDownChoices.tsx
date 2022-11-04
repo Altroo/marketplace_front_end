@@ -4,7 +4,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ThemeProvider, MenuItem, FormControl, InputLabel, OutlinedInput, Stack, FormHelperText } from "@mui/material";
 import { Theme } from "@mui/material/styles/createTheme";
 import ActiveCheckBlue from '../../../public/assets/svgs/globalIcons/active-check-blue.svg';
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -55,7 +55,7 @@ const CustomDropDownChoices: React.FC<Props> = (props: Props) => {
 						<MenuItem key={index} value={item}>
 							<Stack direction="row" justifyContent="space-between" sx={{width: '100%'}}>
 								{item}
-								{props.value.indexOf(item) > -1 && <ImageFuture src={ActiveCheckBlue} alt="" />}
+								{props.value.indexOf(item) > -1 && <Image src={ActiveCheckBlue} alt="" />}
 							</Stack>
 						</MenuItem>
 					))}

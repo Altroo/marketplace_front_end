@@ -5,7 +5,7 @@ import UserMainNavigationBar from '../../../components/layouts/userMainNavigatio
 import DesktopDashboardSideNav from '../../../components/layouts/desktop/desktopDashboardSideNav/desktopDashboardSideNav';
 import { Box, Stack } from '@mui/material';
 import { coordonneeTextInputTheme } from '../../../utils/themes';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useFormik } from 'formik';
@@ -265,7 +265,7 @@ const AdresseEmail: NextPage<IndexProps> = (props: IndexProps) => {
 										onClick={() => setMobileElementClicked(false)}
 										alignItems="center"
 									>
-										<ImageFuture
+										<Image
 											src={MiniBackSVG}
 											alt=""
 											width="0"

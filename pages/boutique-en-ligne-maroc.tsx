@@ -16,7 +16,7 @@ import SeoIlluSVG from '../public/assets/images/seo-illu.svg';
 import ZenIlluSVG from '../public/assets/images/zen-illu.svg';
 import UserExperienceIlluSVG from '../public/assets/images/user-experience-illu.svg';
 import { Stack, Box } from '@mui/material';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import UserMainNavigationBar from '../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../components/layouts/footer/customFooter';
 import PrimaryAnchorButton from '../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
@@ -24,8 +24,8 @@ import { NextSeo } from 'next-seo';
 
 type InstaListItem = {
 	img: string;
-	img_width: string;
-	img_height: string;
+	img_width: number;
+	img_height: number;
 	title: string;
 	children: React.ReactNode;
 };
@@ -35,7 +35,7 @@ const InstaListItem: React.FC<InstaListItem> = (props: InstaListItem) => {
 	return (
 		<Stack direction="column" alignItems="center" justifyContent="center" component="section" className={Styles.mobileRootSection}>
 			<Stack direction="column" spacing="26px" alignItems="center" justifyContent="center">
-				<ImageFuture src={img} alt="" width={img_width} height={img_height} sizes="100vw" />
+				<Image src={img} alt="" width={img_width} height={img_height} sizes="100vw" />
 				<Stack direction="column" spacing="6px" alignItems="center" justifyContent="center">
 					<h2 className={Styles.sectionTitle}>{title}</h2>
 					<p className={Styles.sectionParagraphe}>{children}</p>
@@ -66,7 +66,7 @@ const Insta: NextPage = () => {
 						justifyContent="center"
 						className={`${Styles.mobilePadding} ${Styles.mobileRootMain}`}
 					>
-						<ImageFuture
+						<Image
 							src={ImliPawIlluSVG}
 							alt=""
 							width="347"
@@ -108,18 +108,18 @@ const Insta: NextPage = () => {
 							>
 								<InstaListItem
 									img={JumelleReverseIlluSVG}
-									img_width="157"
-									img_height="100"
+									img_width={157}
+									img_height={100}
 									title="Une présence sur le web"
 								>
 									En créant votre boutique en ligne <DesktopLineBreak /> vous obtenez un site web pour votre
 									<DesktopLineBreak /> marque
 								</InstaListItem>
-								<InstaListItem img={ZenIlluSVG} img_width="78" img_height="100" title="Sans effort">
+								<InstaListItem img={ZenIlluSVG} img_width={78} img_height={100} title="Sans effort">
 									Concentrez vous <DesktopLineBreak /> sur votre coeur de métier,
 									<DesktopLineBreak /> on s’occupe du ecommerce
 								</InstaListItem>
-								<InstaListItem img={SeoIlluSVG} img_width="170" img_height="100" title="Bien référencé">
+								<InstaListItem img={SeoIlluSVG} img_width={170} img_height={100} title="Bien référencé">
 									Vous ajoutez vos articles à votre
 									<DesktopLineBreak /> boutique, nous les référençons sur
 									<DesktopLineBreak /> Google et Qaryb
@@ -131,12 +131,12 @@ const Insta: NextPage = () => {
 								alignItems="center"
 								className={Styles.sectionMobileStackPartTwo}
 							>
-								<InstaListItem img={MoneyIlluSVG} img_width="165" img_height="76" title="Économique">
+								<InstaListItem img={MoneyIlluSVG} img_width={165} img_height={76} title="Économique">
 									On s’occupe du marketing.
 									<DesktopLineBreak /> Vous économisez votre budget de
 									<DesktopLineBreak /> com et votre dotation en devises
 								</InstaListItem>
-								<InstaListItem img={MeterIlluSVG} img_width="286" img_height="95" title="Adapté">
+								<InstaListItem img={MeterIlluSVG} img_width={286} img_height={95} title="Adapté">
 									Payez à mesure
 									<DesktopLineBreak /> que vous grandissez, de plus nous ne
 									<DesktopLineBreak /> prenons pas de commissions sur vos
@@ -144,8 +144,8 @@ const Insta: NextPage = () => {
 								</InstaListItem>
 								<InstaListItem
 									img={UserExperienceIlluSVG}
-									img_width="226"
-									img_height="100"
+									img_width={226}
+									img_height={100}
 									title="La meilleure expérience"
 								>
 									Vos clients sont importants,
@@ -159,7 +159,7 @@ const Insta: NextPage = () => {
 				</Stack>
 				<Box className={Styles.thirdSectionBox}>
 					<Stack direction="row" spacing="84px" alignItems="center" justifyContent="center" className={Styles.mobileRootMain}>
-						<ImageFuture src={CreateShopIlluSVG} alt="" width="230" height="214" sizes="100vw" />
+						<Image src={CreateShopIlluSVG} alt="" width="230" height="214" sizes="100vw" />
 						<Stack direction="column" spacing="24px" className={Styles.mobileThirdSection}>
 							<h4 className={Styles.thirdSectionHeader}>
 								Vous aussi, rejoignez notre

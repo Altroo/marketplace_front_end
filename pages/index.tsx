@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { RootState } from '../store/store';
 import Styles from '../styles/index.module.sass';
 import { Stack, Box, ThemeProvider, InputAdornment } from '@mui/material';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import QarybLogoSVG from '../public/assets/svgs/indexIcons/Qaryb.svg';
 import ClockSVG from '../public/assets/svgs/indexIcons/clock.svg';
@@ -81,7 +81,7 @@ const Home: NextPage<RootState> = () => {
 	return (
 		<main className={Styles.indexMain}>
 			<Stack direction="column" spacing="40px" className={Styles.rootStack}>
-				<ImageFuture
+				<Image
 					className={Styles.qarybLogo}
 					src={QarybLogoSVG}
 					width={150}
@@ -139,7 +139,7 @@ const Home: NextPage<RootState> = () => {
 									InputProps={{
 										endAdornment: (
 											<InputAdornment position="end">
-												<ImageFuture
+												<Image
 													src={EmailSentSVG}
 													width={18}
 													height={18}

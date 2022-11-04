@@ -17,17 +17,15 @@ type Props = {
 
 const PrimaryAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: ForwardedRef<HTMLAnchorElement>) => {
 	return props.nextPage ? (
-		<Link href={props.nextPage} passHref scroll={props.scroll} shallow={props.shallow} replace={props.replace}>
-			<a ref={ref}>
-				<button
-					className={`${Styles.primaryButtonDisabled} 
-					${props.active ? `${Styles.primaryButtonActive}` : ''}
-					${props.cssClass && `${props.cssClass}`}`}
-					onClick={props.onClick}
-					disabled={!props.active}>
-					{props.buttonText}
-				</button>
-			</a>
+		<Link href={props.nextPage} scroll={props.scroll} shallow={props.shallow} replace={props.replace} ref={ref}>
+			<button
+				className={`${Styles.primaryButtonDisabled} 
+				${props.active ? `${Styles.primaryButtonActive}` : ''}
+				${props.cssClass && `${props.cssClass}`}`}
+				onClick={props.onClick}
+				disabled={!props.active}>
+				{props.buttonText}
+			</button>
 		</Link>
 	): <></>;
 });

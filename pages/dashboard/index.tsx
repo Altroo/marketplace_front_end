@@ -17,7 +17,7 @@ import {
 import { Stack, Box, Skeleton } from '@mui/material';
 import UserMainNavigationBar from '../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import Styles from '../../styles/dashboard/dashboard.module.sass';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import MobileNewMessageSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-new-message.svg';
 import MobileMessageSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-message.svg';
 import MobileNotificationSVG from '../../public/assets/svgs/mainNavBarIcons/notification.svg';
@@ -90,7 +90,7 @@ export const ShopInfoContent: React.FC<ShopInfoContentType> = (props: ShopInfoCo
 								{!shop_avatar ? (
 									<Skeleton variant="circular" width={98} height={98} />
 								) : (
-									<ImageFuture
+									<Image
 										src={shop_avatar}
 										alt={shop_name}
 										width="0"
@@ -107,30 +107,30 @@ export const ShopInfoContent: React.FC<ShopInfoContentType> = (props: ShopInfoCo
 					<span className={Styles.dashboardShopName}>{shop_name}</span>
 					<Box>
 						<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
-							<ImageFuture src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />
+							<Image src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />
 							<span className={Styles.dashboardRatingText}>{global_rating} sur 5</span>
 						</Stack>
 					</Box>
 				</Stack>
 				<Stack direction="row" justifyContent="center" spacing={2} alignItems="center">
 					<Stack direction="row" spacing={1} alignItems="center">
-						<ImageFuture src={MiniArticlesTotalCountSVG} alt="" width="15" height="15" sizes="100vw" />
+						<Image src={MiniArticlesTotalCountSVG} alt="" width="15" height="15" sizes="100vw" />
 						<span className={Styles.dashboardValuesCount}>{total_offers_count}</span>
 						<span className={Styles.dashboardValuesCount}>articles</span>
 					</Stack>
 					<Stack direction="row" spacing={1} alignItems="center">
-						<ImageFuture src={MiniArticlesVueCountSVG} alt="" width="15" height="10.5" sizes="100vw" />
+						<Image src={MiniArticlesVueCountSVG} alt="" width="15" height="10.5" sizes="100vw" />
 						<span className={Styles.dashboardValuesCount}>{total_offers_vue_count}</span>
 					</Stack>
 					<Stack direction="row" spacing={1} alignItems="center">
-						<ImageFuture src={MiniUSDSVG} alt="" width="9" height="15" sizes="100vw" />
+						<Image src={MiniUSDSVG} alt="" width="9" height="15" sizes="100vw" />
 						<span className={Styles.dashboardValuesCount}>{total_sells_count}</span>
 					</Stack>
 				</Stack>
 			</Stack>
 			<Stack direction="row" justifyContent="flex-end" alignItems="flex-end">
-				<Link passHref href={REAL_SHOP_BY_SHOP_LINK_ROUTE(shop_url)}>
-					<a className={Styles.dashboardAnchorLink}>Gérer ma boutique</a>
+				<Link className={Styles.dashboardAnchorLink} href={REAL_SHOP_BY_SHOP_LINK_ROUTE(shop_url)}>
+					Gérer ma boutique
 				</Link>
 			</Stack>
 		</Stack>
@@ -157,7 +157,7 @@ const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentTy
 							{!avatar ? (
 									<Skeleton variant="circular" width={98} height={98} />
 								) : (
-									<ImageFuture
+									<Image
 										src={avatar}
 										alt={`${first_name} ${last_name}`}
 										width="0"
@@ -175,7 +175,7 @@ const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentTy
 					</span>
 					<Box>
 						<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
-							<ImageFuture src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />
+							<Image src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />
 							<span className={Styles.dashboardRatingText}>{global_rating} sur 5</span>
 						</Stack>
 					</Box>
@@ -221,78 +221,70 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 		<Stack direction="column" spacing={2} className={Styles.dashboardMyBusinessCardStack}>
 			<Stack direction="row" justifyContent="space-between" alignItems="center">
 				<Stack direction="row" spacing="18px" alignItems="center">
-					<ImageFuture src={MyBusinessSVG} alt="" width="54" height="54" sizes="100vw" />
+					<Image src={MyBusinessSVG} alt="" width="54" height="54" sizes="100vw" />
 					<span className={Styles.dashboardCardIconText}>My business</span>
 				</Stack>
-				<ImageFuture src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
+				<Image src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
 			</Stack>
 			<Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
-				<Link passHref href={DASHBOARD_INDEXED_OFFERS}>
-					<a>
-						<Stack
-							direction="row"
-							spacing={1}
-							justifyContent="center"
-							alignItems="center"
-							className={Styles.dashboardIndexedMiniCard}
-						>
-							<ImageFuture src={DesktopIndexedSVG} alt="" width="40" height="40" sizes="100vw" />
-							<Stack direction="column" alignSelf="flex-start">
-								<span className={Styles.dashboardMiniCardCounter}>{indexed_articles_count}</span>
-								<span className={Styles.dashboardMiniCardSubHeader}>Référencés</span>
-							</Stack>
+				<Link href={DASHBOARD_INDEXED_OFFERS}>
+					<Stack
+						direction="row"
+						spacing={1}
+						justifyContent="center"
+						alignItems="center"
+						className={Styles.dashboardIndexedMiniCard}
+					>
+						<Image src={DesktopIndexedSVG} alt="" width="40" height="40" sizes="100vw" />
+						<Stack direction="column" alignSelf="flex-start">
+							<span className={Styles.dashboardMiniCardCounter}>{indexed_articles_count}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>Référencés</span>
 						</Stack>
-					</a>
+					</Stack>
 				</Link>
-				<Link passHref href={DASHBOARD_SUBSCRIPTION}>
-					<a>
-						<Stack
-							direction="row"
-							spacing={1}
-							justifyContent="center"
-							alignItems="center"
-							className={Styles.dashboardSubscribedMiniCard}
-						>
-							<ImageFuture src={DesktopSubscribedSVG} alt="" width="40" height="40" sizes="100vw" />
-							<Stack direction="column">
-								<span className={Styles.dashboardMiniCardCounter}>{all_slots_count}</span>
-								<span className={Styles.dashboardMiniCardSubHeader}>S&apos;abonner</span>
-							</Stack>
+				<Link href={DASHBOARD_SUBSCRIPTION}>
+					<Stack
+						direction="row"
+						spacing={1}
+						justifyContent="center"
+						alignItems="center"
+						className={Styles.dashboardSubscribedMiniCard}
+					>
+						<Image src={DesktopSubscribedSVG} alt="" width="40" height="40" sizes="100vw" />
+						<Stack direction="column">
+							<span className={Styles.dashboardMiniCardCounter}>{all_slots_count}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>S&apos;abonner</span>
 						</Stack>
-					</a>
+					</Stack>
 				</Link>
 			</Stack>
-			<Link href={DASHBOARD_AUDIENCES} passHref>
-				<a>
-					<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardVuesMiniCard}>
-						<ImageFuture src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />
-						<Stack direction="column" sx={{ width: '100%' }}>
-							<span className={Styles.dashboardMiniCardCounter}>{`${total_offers_vue_count} vues`}</span>
-							<Stack direction="row" justifyContent="space-between">
-								<span className={Styles.dashboardMiniCardSubHeader}>{fullMonthItemsList[total_vue_month]}</span>
-								<span className={`${Styles.dashboardMiniCardPourcentage} ${totalVuePourcentageCSS}`}>
-									{total_vue_pourcentage}
-								</span>
-							</Stack>
+			<Link href={DASHBOARD_AUDIENCES}>
+				<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardVuesMiniCard}>
+					<Image src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />
+					<Stack direction="column" sx={{ width: '100%' }}>
+						<span className={Styles.dashboardMiniCardCounter}>{`${total_offers_vue_count} vues`}</span>
+						<Stack direction="row" justifyContent="space-between">
+							<span className={Styles.dashboardMiniCardSubHeader}>{fullMonthItemsList[total_vue_month]}</span>
+							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalVuePourcentageCSS}`}>
+								{total_vue_pourcentage}
+							</span>
 						</Stack>
 					</Stack>
-				</a>
+				</Stack>
 			</Link>
-			<Link href={DASHBOARD_CHIFFRE_DAFFAIRE} passHref>
-				<a>
-					<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardSellsMiniCard}>
-						<ImageFuture src={DesktopUSDSVG} alt="" width="40" height="40" sizes="100vw" />
-						<Stack direction="column" sx={{ width: '100%' }}>
-							<span className={Styles.dashboardMiniCardCounter}>{total_sells_count} DH</span>
-							<Stack direction="row" justifyContent="space-between">
-								<span className={Styles.dashboardMiniCardSubHeader}>{fullMonthItemsList[total_sells_month]}</span>
-								<span className={`${Styles.dashboardMiniCardPourcentage} ${totalSellsPourcentageCSS}`}>
-									{total_sells_pourcentage}
-								</span>
-							</Stack>
+			<Link href={DASHBOARD_CHIFFRE_DAFFAIRE}>
+				<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardSellsMiniCard}>
+					<Image src={DesktopUSDSVG} alt="" width="40" height="40" sizes="100vw" />
+					<Stack direction="column" sx={{ width: '100%' }}>
+						<span className={Styles.dashboardMiniCardCounter}>{total_sells_count} DH</span>
+						<Stack direction="row" justifyContent="space-between">
+							<span className={Styles.dashboardMiniCardSubHeader}>{fullMonthItemsList[total_sells_month]}</span>
+							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalSellsPourcentageCSS}`}>
+								{total_sells_pourcentage}
+							</span>
 						</Stack>
 					</Stack>
-				</a>
+				</Stack>
 			</Link>
 		</Stack>
 	);
@@ -307,11 +299,11 @@ const UserMyBusinessCardContent: React.FC<UserMyBusinessCardContentType> = (prop
 	return (
 		<Stack direction="column" spacing={2} className={Styles.dashboardMyBusinessCardStack} sx={props.rootSX}>
 			<Stack direction="row" spacing="18px" alignItems="center">
-				<ImageFuture src={DisabledMyBusinessSVG} alt="" width="54" height="54" sizes="100vw" />
+				<Image src={DisabledMyBusinessSVG} alt="" width="54" height="54" sizes="100vw" />
 				<span className={Styles.dashboardCardIconText}>My business</span>
 			</Stack>
 			<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
-				<ImageFuture src={CreateShopIlluSVG} alt="" width="137" height="127" sizes="100vw" />
+				<Image src={CreateShopIlluSVG} alt="" width="137" height="127" sizes="100vw" />
 				<Stack direction="column" justifyContent="center" alignItems="center">
 					<span className={Styles.dashboardShopName}>Créez votre boutique</span>
 					<span className={Styles.dashboardCreateShopSubTitle}>Vous aussi vendez sur Qaryb!</span>
@@ -339,16 +331,14 @@ const MobileDashboardCards: React.FC<MobileDashboardCardsType> = (props: MobileD
 	const { icon, title, link } = props;
 	return (
 		<Stack className={Styles.dashboardCardBox} justifyContent="center" sx={{ height: '110px !important' }}>
-			<Link href={link} passHref>
-				<a>
-					<Stack direction="row" justifyContent="space-between" alignItems="center">
-						<Stack direction="row" spacing="18px" alignItems="center">
-							<ImageFuture src={icon} alt="" width="54" height="54" sizes="100vw" />
-							<span className={Styles.dashboardCardIconText}>{title}</span>
-						</Stack>
-						<ImageFuture src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
+			<Link href={link}>
+				<Stack direction="row" justifyContent="space-between" alignItems="center">
+					<Stack direction="row" spacing="18px" alignItems="center">
+						<Image src={icon} alt="" width="54" height="54" sizes="100vw" />
+						<span className={Styles.dashboardCardIconText}>{title}</span>
 					</Stack>
-				</a>
+					<Image src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
+				</Stack>
 			</Link>
 		</Stack>
 	);
@@ -471,16 +461,14 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 								<UserMyBusinessCardContent rootSX={{ width: '379px' }} />
 							)}
 							<Stack className={Styles.dashboardCardBox} justifyContent="center" sx={{ height: '110px !important' }}>
-								<Link href={DASHBOARD_EDIT_PROFILE} passHref>
-									<a>
-										<Stack direction="row" justifyContent="space-between" alignItems="center">
-											<Stack direction="row" spacing="18px" alignItems="center">
-												<ImageFuture src={DesktopMonCompteSVG} alt="" width="54" height="54" sizes="100vw" />
-												<span className={Styles.dashboardCardIconText}>Mon compte</span>
-											</Stack>
-											<ImageFuture src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
+								<Link href={DASHBOARD_EDIT_PROFILE}>
+									<Stack direction="row" justifyContent="space-between" alignItems="center">
+										<Stack direction="row" spacing="18px" alignItems="center">
+											<Image src={DesktopMonCompteSVG} alt="" width="54" height="54" sizes="100vw" />
+											<span className={Styles.dashboardCardIconText}>Mon compte</span>
 										</Stack>
-									</a>
+										<Image src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
+									</Stack>
 								</Link>
 							</Stack>
 						</Stack>
@@ -503,7 +491,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 								<Box className={Styles.dashboardSizedBox}>
 									<Stack direction="column" spacing="12px" className={Styles.maxHeight}>
 										<Stack direction="row" spacing="18px" alignItems="center">
-											<ImageFuture src={DesktopMessageSVG} alt="" width="54" height="54" sizes="100vw" />
+											<Image src={DesktopMessageSVG} alt="" width="54" height="54" sizes="100vw" />
 											<span className={Styles.dashboardCardIconText}>Messages</span>
 										</Stack>
 										<Stack
@@ -515,7 +503,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 										>
 											{/* TODO - Altroo : apply case has messages */}
 											<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
-												<ImageFuture src={EmptyMessagesIlluSVG} alt="" width="123" height="83" sizes="100vw" />
+												<Image src={EmptyMessagesIlluSVG} alt="" width="123" height="83" sizes="100vw" />
 											</Box>
 											<span className={Styles.dashboardNoContentHeader}>Aucun message</span>
 											<span className={Styles.dashboardNoContentText}>
@@ -528,7 +516,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 								<Box className={Styles.dashboardSizedBox}>
 									<Stack direction="column" spacing="12px" className={Styles.maxHeight}>
 										<Stack direction="row" spacing="18px" alignItems="center">
-											<ImageFuture src={DesktopOrdersSVG} alt="" width="54" height="54" sizes="100vw" />
+											<Image src={DesktopOrdersSVG} alt="" width="54" height="54" sizes="100vw" />
 											<span className={Styles.dashboardCardIconText}>Mes commandes</span>
 										</Stack>
 										<Stack
@@ -540,7 +528,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 										>
 											{/* TODO - Altroo : apply case has orders */}
 											<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
-												<ImageFuture src={EmptyOrdersIlluSVG} alt="" width="123" height="83" sizes="100vw" />
+												<Image src={EmptyOrdersIlluSVG} alt="" width="123" height="83" sizes="100vw" />
 											</Box>
 											<span className={Styles.dashboardNoContentHeader}>Aucune commande</span>
 											<span className={Styles.dashboardNoContentText}>

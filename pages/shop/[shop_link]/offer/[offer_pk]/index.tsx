@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import Styles from '../../../../../styles/offers/create/overview.module.sass';
 import { Stack, ThemeProvider, ImageListItem, Box, Grid, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -97,11 +97,11 @@ const NoCommentsAvailableContent = () => {
 				<span className={Styles.noAvailableComments}>Pas encore de commentaires</span>
 				<span>
 					<Stack direction="row">
-						<ImageFuture src={GrayRatingSVG} width={20} height={20} alt="" />
-						<ImageFuture src={GrayRatingSVG} width={20} height={20} alt="" />
-						<ImageFuture src={GrayRatingSVG} width={20} height={20} alt="" />
-						<ImageFuture src={GrayRatingSVG} width={20} height={20} alt="" />
-						<ImageFuture src={GrayRatingSVG} width={20} height={20} alt="" />
+						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
+						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
+						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
+						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
+						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
 						<span className={Styles.noAvailableRatings}>(0 notes)</span>
 					</Stack>
 				</span>
@@ -124,7 +124,7 @@ const OfferCreatorBanner = () => {
 		>
 			<Stack direction="column" spacing={4}>
 				<Stack direction="column" spacing={2}>
-					<ImageFuture
+					<Image
 						className={Styles.creatorImage}
 						src={CreatorIlluSVG}
 						alt="creator"
@@ -678,7 +678,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											availableImages.map((image, index) => (
 												<ImageListItem key={index}>
 													{image ? (
-														<ImageFuture
+														<Image
 															className={`${Styles.thumbnails} ${
 																image === selectedImage ? Styles.selectedThumbnail : null
 															}`}
@@ -717,7 +717,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 										</Box>
 									) : (
 										<Box className={Styles.mainImageWrapper}>
-											<ImageFuture
+											<Image
 												className={Styles.selectedImage}
 												src={selectedImage}
 												width={500}
@@ -729,7 +729,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 												decoding="async"
 											/>
 											{creator_label && (
-												<ImageFuture
+												<Image
 													className={Styles.creatorImageTag}
 													src={CreatorIconSVG}
 													alt="creator"
@@ -764,7 +764,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 												return (
 													<SwiperSlide key={index}>
 														<Box className={Styles.mainImageWrapper}>
-															<ImageFuture
+															<Image
 																className={Styles.selectedImage}
 																src={image}
 																width={365}
@@ -773,7 +773,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 																alt=""
 															/>
 															{creator_label && (
-																<ImageFuture
+																<Image
 																	className={Styles.creatorImageTag}
 																	src={CreatorIconSVG}
 																	alt="creator"
@@ -802,19 +802,16 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 										<Stack direction="column">
 											<h1 className={Styles.title}>{title}</h1>
 											<Stack direction="row">
-												<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />
+												<Image src={BlackStarSVG} width={20} height={20} alt="" />
 												<span className={Styles.rating}>0 (0 notes)</span>
 											</Stack>
 											<Link
 												href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
-												passHref
 												prefetch={false}
 												target="_blank"
 												rel="noreferrer"
 											>
-												<a target="_blank" rel="noreferrer">
-													<span className={Styles.shopName}>{shop_name}</span>
-												</a>
+												<span className={Styles.shopName}>{shop_name}</span>
 											</Link>
 										</Stack>
 										<Stack direction="column" spacing={1}>
@@ -894,7 +891,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 													alignItems="center"
 												>
 													<Stack direction="row" alignItems="center">
-														<ImageFuture src={ClickAndCollectSVG} width={40} height={40} alt="" />
+														<Image src={ClickAndCollectSVG} width={40} height={40} alt="" />
 														<Stack direction="column">
 															<span className={Styles.deliveriesTitle}>Click & collect</span>
 															<span className={Styles.deliveryDetails}>Dès demain</span>
@@ -911,7 +908,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 													alignItems="center"
 												>
 													<Stack direction="row" alignItems="center">
-														<ImageFuture src={ClickAndCollectDisabledSVG} width={40} height={40} alt="" />
+														<Image src={ClickAndCollectDisabledSVG} width={40} height={40} alt="" />
 														<Stack direction="column">
 															<span className={Styles.deliveriesTitleNotFound}>Click & collect</span>
 															<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
@@ -930,7 +927,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 															alignItems="center"
 														>
 															<Stack direction="row" alignItems="center">
-																<ImageFuture src={DeliverySVG} width={40} height={40} alt="" />
+																<Image src={DeliverySVG} width={40} height={40} alt="" />
 																<Stack direction="column">
 																	<span className={Styles.deliveriesTitle}>
 																		{delivery.all_cities
@@ -956,7 +953,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 													alignItems="center"
 												>
 													<Stack direction="row" alignItems="center">
-														<ImageFuture src={DeliveryDisabledSVG} width={40} height={40} alt="" />
+														<Image src={DeliveryDisabledSVG} width={40} height={40} alt="" />
 														<Stack direction="column">
 															<span className={Styles.deliveriesTitleNotFound}>Livraison</span>
 															<span className={Styles.deliveryDetailsNotFound}>Non disponible</span>
@@ -1610,7 +1607,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 											availableImages.map((image, index) => (
 												<ImageListItem key={index}>
 													{image ? (
-														<ImageFuture
+														<Image
 															className={`${Styles.thumbnails} ${
 																image === selectedImage ? Styles.selectedThumbnail : null
 															}`}
@@ -1649,7 +1646,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										</Box>
 									) : (
 										<Box className={Styles.mainImageWrapper}>
-											<ImageFuture
+											<Image
 												className={Styles.selectedImage}
 												src={selectedImage}
 												width={500}
@@ -1684,7 +1681,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 												return (
 													<SwiperSlide key={index}>
 														<Box className={Styles.mainImageWrapper}>
-															<ImageFuture
+															<Image
 																className={Styles.selectedImage}
 																src={image}
 																width={365}
@@ -1715,19 +1712,16 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										<Stack direction="column">
 											<h1 className={Styles.title}>{title}</h1>
 											<Stack direction="row">
-												<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />
+												<Image src={BlackStarSVG} width={20} height={20} alt="" />
 												<span className={Styles.rating}>0 (0 notes)</span>
 											</Stack>
 											<Link
 												href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
-												passHref
 												prefetch={false}
 												target="_blank"
 												rel="noreferrer"
 											>
-												<a target="_blank" rel="noreferrer">
-													<span className={Styles.shopName}>{shop_name}</span>
-												</a>
+												<span className={Styles.shopName}>{shop_name}</span>
 											</Link>
 										</Stack>
 										<Stack direction="column" spacing={1}>

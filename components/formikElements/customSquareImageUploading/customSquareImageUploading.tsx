@@ -2,7 +2,7 @@ import React from 'react';
 import Styles from './customSquareImageUploading.module.sass';
 import ImageUploading from 'react-images-uploading';
 import { Box, Stack } from '@mui/material';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import CircularRemoveBlack from '../../../public/assets/svgs/globalIcons/circular-remove-black.svg';
 import SquareImageInputFile from '../../htmlElements/buttons/squareImageInputFile/squareImageInputFile';
 import { ImageListType } from 'react-images-uploading/dist/typings';
@@ -45,7 +45,7 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 											justifyContent="center"
 											alignItems="center"
 										>
-											<ImageFuture
+											<Image
 												className={Styles.showImage}
 												src={image['dataURL'] as string}
 												alt=""
@@ -55,7 +55,7 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 												priority={true}
 											/>
 											<Box className={Styles.closeButtonWrapper} onClick={() => onImageRemove(index)}>
-												<ImageFuture
+												<Image
 													src={CircularRemoveBlack}
 													alt=""
 													width="32"

@@ -61,7 +61,7 @@ import {
 } from "../../../types/account/accountTypes";
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../components/layouts/footer/customFooter';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import ShopTabContent from '../../../components/groupedComponents/shop/get/shopTabContent/shopTabContent';
 import ShopInfoTabContent from '../../../components/groupedComponents/shop/get/shopInfoTabContent/shopInfoTabContent';
 import ShopNotVerified from '../../../components/groupedComponents/shop/get/shopNotVerified/shopNotVerified';
@@ -559,7 +559,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 										{!preview ? (
 											<Skeleton variant="circular" width={120} height={120} />
 										) : (
-											<ImageFuture
+											<Image
 												src={preview as string}
 												alt={shop_name}
 												width="0"
@@ -618,7 +618,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 									</div>
 								</Stack>
 								{/*<Stack direction="row" alignItems="center">*/}
-								{/*	<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />*/}
+								{/*	<Image src={BlackStarSVG} width={20} height={20} alt="" />*/}
 								{/*	/!* TODO - phase 2 : link rating when backend is done *!/*/}
 								{/*	<span>0 (0 notes)</span>*/}
 								{/*</Stack>*/}
@@ -698,7 +698,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					<CustomSwipeModal keepMounted={true} open={openContacterModal} handleClose={handleContactModalClose}>
 							<div className={Styles.modalContentWrapper}>
 								<div className={Styles.topBar}>
-									<ImageFuture src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
+									<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
 								</div>
 								<HelperDescriptionHeader
 									header="Ajouter un moyen de contact"
@@ -735,7 +735,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
-								<ImageFuture src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
+								<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
 							</div>
 							<HelperDescriptionHeader header="Ajouter mes infos" />
 							<Stack direction="column" spacing={4}>
@@ -1007,7 +1007,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								<ShopVerified shop_name={shop_name} avatar={avatar} />
 							) : (
 								<div className={Styles.avatarSubWrapper}>
-									<ImageFuture
+									<Image
 										src={avatar}
 										alt={shop_name}
 										width="0"
@@ -1042,7 +1042,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								{shop_name}
 							</h2>
 							<Stack direction="row" alignItems="center">
-								<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />
+								<Image src={BlackStarSVG} width={20} height={20} alt="" />
 								{/* TODO - phase 2 : link rating when backend is done */}
 								<span>0 (0 notes)</span>
 							</Stack>

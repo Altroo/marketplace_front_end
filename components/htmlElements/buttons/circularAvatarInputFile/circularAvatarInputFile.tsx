@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from "react";
 import Styles from './circularAvatarInputFile.module.sass';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import AvatarIconSVG from '../../../../public/assets/svgs/globalIcons/avatar.svg';
 
 type Props = {
@@ -50,11 +50,11 @@ const CircularAvatarInputFile: React.FC<Props> = (props: Props) => {
 					}
 				}}>
 				{props.preview && (
-					<ImageFuture src={props.preview as string} alt="" width={100} height={100}
+					<Image src={props.preview as string} alt="" width={100} height={100}
 						className={`${Styles.previewAvatar} ${Styles.avatarIcon}`}
 					/>
 				)}
-				<ImageFuture
+				<Image
 						src={AvatarIconSVG}
 						alt=""
 						width="30"

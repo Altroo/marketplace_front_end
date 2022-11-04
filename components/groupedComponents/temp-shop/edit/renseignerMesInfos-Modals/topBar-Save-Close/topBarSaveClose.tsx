@@ -3,7 +3,7 @@ import Styles from './topBarSaveClose.module.sass';
 import PrimaryButton from '../../../../../htmlElements/buttons/primaryButton/primaryButton';
 import CloseSVG from '../../../../../../public/assets/svgs/navigationIcons/close.svg';
 import { Stack } from '@mui/material';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 
 type Props = {
 	buttonText: string;
@@ -25,7 +25,7 @@ const TopBarSaveClose: React.FC<Props> = (props: Props) => {
 				type="submit"
 				cssClass={Styles.button}
 			/>
-			<ImageFuture
+			<Image
 				src={CloseSVG}
 				alt=""
 				width="40"

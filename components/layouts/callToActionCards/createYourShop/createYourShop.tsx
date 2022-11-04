@@ -2,7 +2,7 @@ import React from "react";
 import Styles from "./createYourShop.module.sass";
 import { Stack } from "@mui/material";
 import OutlineButton from "../../../htmlElements/buttons/outlineButton/outlineButton";
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 import CreateShopWideSVG from "../../../../public/assets/images/cards_illu/create-shop-wide.svg";
 import { useRouter } from "next/router";
 import { REAL_SHOP_ADD_SHOP_NAME } from "../../../../utils/routes";
@@ -23,7 +23,7 @@ const CreateYourShop: React.FC = () => {
 					onClick={() => router.push(REAL_SHOP_ADD_SHOP_NAME, undefined, {shallow: true})}
 				/>
 			</Stack>
-			<ImageFuture
+			<Image
 				src={CreateShopWideSVG}
 				alt=""
 				width="0"

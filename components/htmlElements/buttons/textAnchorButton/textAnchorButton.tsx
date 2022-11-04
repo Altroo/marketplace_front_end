@@ -20,13 +20,11 @@ type Props = {
 
 const TextAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: ForwardedRef<HTMLAnchorElement>) => {
 	return (
-		<Link href={props.nextPage} rel={props.rel} target={props.target} passHref scroll={props.scroll} shallow={props.shallow} replace={props.replace}>
-			<a ref={ref} rel={props.rel} target={props.target}>
-				<Button className={`${Styles.textAnchorButton} ${props.cssClass && `${props.cssClass}`}`}
-					disabled={props.disabled} onClick={props.onClick} variant="text">
-					{props.buttonText}
-				</Button>
-			</a>
+		<Link ref={ref} href={props.nextPage} rel={props.rel} target={props.target} scroll={props.scroll} shallow={props.shallow} replace={props.replace}>
+			<Button className={`${Styles.textAnchorButton} ${props.cssClass && `${props.cssClass}`}`}
+				disabled={props.disabled} onClick={props.onClick} variant="text">
+				{props.buttonText}
+			</Button>
 		</Link>
 	);
 });

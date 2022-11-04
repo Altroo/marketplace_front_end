@@ -1,6 +1,6 @@
 import React from 'react';
 import Styles from './circularAvatar.module.sass';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 
 type Props = {
 	imageSrc: string | null;
@@ -10,7 +10,7 @@ type Props = {
 const CircularAvatar: React.FC<Props> = (props: Props) => {
 	return (
 		<div className={Styles.wrapper}>
-			<ImageFuture
+			<Image
 				src={props.imageSrc as string}
 				alt=""
 				width="0"

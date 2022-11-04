@@ -27,7 +27,7 @@ import { placesGetCountriesAction } from '../../../store/actions/places/placesAc
 import { accountPatchProfilAction } from '../../../store/actions/account/accountActions';
 import { SagaCallBackOnCompleteBoolType } from '../../../types/_init/_initTypes';
 import MobileDashboardNav from '../../../components/layouts/mobile/mobileDashboardNav/mobileDashboardNav';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import MiniBackSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import CustomToast from "../../../components/portals/customToast/customToast";
 import CustomFooter from "../../../components/layouts/footer/customFooter";
@@ -256,7 +256,7 @@ const EditProfil: NextPage<IndexProps> = (props: IndexProps) => {
 										onClick={() => setMobileElementClicked(false)}
 										alignItems="center"
 									>
-										<ImageFuture
+										<Image
 											src={MiniBackSVG}
 											alt=""
 											width="0"

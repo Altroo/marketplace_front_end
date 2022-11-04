@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Divider from '@mui/material/Divider';
 import InstagramMiniSVG from '../../../public/assets/svgs/globalIcons/instagram-mini-.svg';
 import TikTokMiniSVG from '../../../public/assets/svgs/globalIcons/tiktok-mini.svg';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 
 const CustomFooter: React.FC = () => {
 	return (
@@ -15,69 +15,65 @@ const CustomFooter: React.FC = () => {
 					<Stack direction="row" justifyContent="space-between" alignItems="flex-start">
 						<Stack direction="column" spacing={1}>
 							<span className={Styles.header}>Qaryb</span>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Notre histoire</a>
+							<Link href="/" className={Styles.anchor}>
+								Notre histoire
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Partenariat</a>
+							<Link href="/" className={Styles.anchor}>
+								Partenariat
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Carrière</a>
+							<Link href="/" className={Styles.anchor}>
+								Carrière
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Nouveautés (bientôt)</a>
+							<Link href="/" className={Styles.anchor}>
+								Nouveautés (bientôt)
 							</Link>
 						</Stack>
 						<Stack direction="column" spacing={1}>
 							<span className={Styles.header}>Pour les vendeurs</span>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Créez votre boutique</a>
+							<Link href="/" className={Styles.anchor}>
+								Créez votre boutique
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Les vendeurs Instagram</a>
+							<Link href="/" className={Styles.anchor}>
+								Les vendeurs Instagram
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Référencez vos articles</a>
+							<Link href="/" className={Styles.anchor}>
+								Référencez vos articles
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Carte cadeaux</a>
+							<Link href="/" className={Styles.anchor}>
+								Carte cadeaux
 							</Link>
 						</Stack>
 						<Stack direction="column" spacing={1}>
 							<Stack direction="row" spacing={1}>
-								<Link passHref href="/">
-									<a>
-										<ImageFuture
-											src={InstagramMiniSVG}
-											alt=""
-											width="0"
-											height="0"
-											sizes="100vw"
-											className={Styles.miniIcon}
-										/>
-									</a>
+								<Link href="/">
+									<Image
+										src={InstagramMiniSVG}
+										alt=""
+										width="0"
+										height="0"
+										sizes="100vw"
+										className={Styles.miniIcon}
+									/>
 								</Link>
-								<Link passHref href="/">
-									<a>
-										<ImageFuture
-											src={TikTokMiniSVG}
-											alt=""
-											width="0"
-											height="0"
-											sizes="100vw"
-											className={Styles.miniIcon}
-										/>
-									</a>
+								<Link href="/">
+									<Image
+										src={TikTokMiniSVG}
+										alt=""
+										width="0"
+										height="0"
+										sizes="100vw"
+										className={Styles.miniIcon}
+									/>
 								</Link>
 							</Stack>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Des questions ? Contactez nous</a>
+							<Link href="/" className={Styles.anchor}>
+								Des questions ? Contactez nous
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Faites votre shopping</a>
+							<Link href="/" className={Styles.anchor}>
+								Faites votre shopping
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Blog</a>
+							<Link href="/" className={Styles.anchor}>
+								Blog
 							</Link>
 						</Stack>
 					</Stack>
@@ -85,8 +81,8 @@ const CustomFooter: React.FC = () => {
 						<Divider orientation="horizontal" flexItem className={Styles.divider} />
 						<Stack direction="row" justifyContent="space-between">
 							<span className={Styles.bottomFooterSpan}>© 2022 Qaryb</span>
-							<Link passHref href="/">
-								<a className={Styles.bottomAnchor}>Conditions générales d&apos;Utilisation</a>
+							<Link href="/" className={Styles.bottomAnchor}>
+								Conditions générales d&apos;Utilisation
 							</Link>
 						</Stack>
 					</Stack>
@@ -97,78 +93,74 @@ const CustomFooter: React.FC = () => {
 					<Stack direction="row" justifyContent="space-between" alignItems="flex-start">
 						<Stack direction="column" spacing={1}>
 							<span className={Styles.header}>Qaryb</span>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Notre histoire</a>
+							<Link href="/" className={Styles.anchor}>
+								Notre histoire
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Partenariat</a>
+							<Link href="/" className={Styles.anchor}>
+								Partenariat
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Carrière</a>
+							<Link href="/" className={Styles.anchor}>
+								Carrière
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Nouveautés (bientôt)</a>
+							<Link href="/" className={Styles.anchor}>
+								Nouveautés (bientôt)
 							</Link>
 						</Stack>
 						<Stack direction="column" spacing={1}>
 							<span className={Styles.header}>Pour les vendeurs</span>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Créez votre boutique</a>
+							<Link href="/" className={Styles.anchor}>
+								Créez votre boutique
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Les vendeurs Instagram</a>
+							<Link href="/" className={Styles.anchor}>
+								Les vendeurs Instagram
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Référencez vos articles</a>
+							<Link href="/" className={Styles.anchor}>
+								Référencez vos articles
 							</Link>
-							<Link passHref href="/">
-								<a className={Styles.anchor}>Carte cadeaux</a>
+							<Link href="/" className={Styles.anchor}>
+								Carte cadeaux
 							</Link>
 						</Stack>
 					</Stack>
 					<Stack direction="column" spacing={1}>
 						<Stack direction="row" spacing={1}>
-							<Link passHref href="/">
-								<a>
-									<ImageFuture
-										src={InstagramMiniSVG}
-										alt=""
-										width="0"
-										height="0"
-										sizes="100vw"
-										className={Styles.miniIcon}
-									/>
-								</a>
+							<Link href="/">
+								<Image
+									src={InstagramMiniSVG}
+									alt=""
+									width="0"
+									height="0"
+									sizes="100vw"
+									className={Styles.miniIcon}
+								/>
 							</Link>
-							<Link passHref href="/">
-								<a>
-									<ImageFuture
-										src={TikTokMiniSVG}
-										alt=""
-										width="0"
-										height="0"
-										sizes="100vw"
-										className={Styles.miniIcon}
-									/>
-								</a>
+							<Link href="/">
+								<Image
+									src={TikTokMiniSVG}
+									alt=""
+									width="0"
+									height="0"
+									sizes="100vw"
+									className={Styles.miniIcon}
+								/>
 							</Link>
 						</Stack>
-						<Link passHref href="/">
-							<a className={Styles.anchor}>Des questions ? Contactez nous</a>
+						<Link href="/" className={Styles.anchor}>
+							Des questions ? Contactez nous
 						</Link>
-						<Link passHref href="/">
-							<a className={Styles.anchor}>Faites votre shopping</a>
+						<Link href="/" className={Styles.anchor}>
+							Faites votre shopping
 						</Link>
-						<Link passHref href="/">
-							<a className={Styles.anchor}>Blog</a>
+						<Link href="/" className={Styles.anchor}>
+							Blog
 						</Link>
 					</Stack>
 					<Stack direction="column" spacing={2}>
 						<Divider orientation="horizontal" flexItem className={Styles.divider} />
 						<Stack direction="row" justifyContent="space-between">
 							<span className={Styles.bottomFooterSpan}>© 2022 Qaryb</span>
-							<Link passHref href="/">
-								<a className={Styles.bottomAnchor}>Conditions générales d&apos;Utilisation</a>
+							<Link href="/" className={Styles.bottomAnchor}>
+								Conditions générales d&apos;Utilisation
 							</Link>
 						</Stack>
 					</Stack>

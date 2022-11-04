@@ -24,7 +24,7 @@
     "formik": "^2.2.9",
     "langx-js": "^1.1.0",
     "leaflet": "^1.9.2",
-    "next": "^12.3.1",
+    "next": "^13.0.2",
     "next-auth": "^4.15.1",
     "next-redux-wrapper": "^8.0.0",
     "next-seo": "^5.13.0",

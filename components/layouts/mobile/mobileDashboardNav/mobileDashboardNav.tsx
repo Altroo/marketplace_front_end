@@ -4,7 +4,7 @@ import Styles from './mobileDashboardNav.module.sass';
 import MonProfilSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mon-profil.svg';
 import AdresseEmailSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/adresse-email.svg';
 import MotDePasseSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mot-de-passe.svg';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
 	DASHBOARD_ADRESSE_EMAIL,
@@ -43,7 +43,7 @@ export const MobileSideNavElement: React.FC<MobileSideNavElementType> = (props: 
 				}}
 			>
 				<Stack direction="row" spacing={2} alignItems="center">
-					<ImageFuture src={props.icon} alt="" width="0" height="0" sizes="100vw" className={Styles.mainIcon} />
+					<Image src={props.icon} alt="" width="0" height="0" sizes="100vw" className={Styles.mainIcon} />
 					<span className={Styles.unselectedElement}>{props.text}</span>
 				</Stack>
 			</Button>
@@ -101,7 +101,7 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 							onClick={() => router.back()}
 							alignItems="center"
 						>
-							<ImageFuture
+							<Image
 								src={MiniBackSVG}
 								alt=""
 								width="0"

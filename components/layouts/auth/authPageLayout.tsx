@@ -1,7 +1,7 @@
 import React, { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 import Styles from './authPageLayout.module.sass';
 import { Box, Stack } from '@mui/material';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import QarybSVG from '../../../public/assets/images/logo.svg';
 import Link from 'next/link';
 import BurgerSVG from '../../../public/assets/images/auth_illu/burger.svg';
@@ -80,7 +80,7 @@ const AuthPageLayout = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: 
 						backgroundSize: 'contain',
 					}}
 				>
-					<ImageFuture src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+					<Image src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 				</Box>
 				{/* Right side */}
 				<Box className={Styles.rightBox}>
@@ -89,15 +89,15 @@ const AuthPageLayout = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: 
 							{props.topBarText === 'CONNECT' ? (
 								<p className={Styles.topBarTitle}>
 									Vous avez déjà un compte ?{' '}
-									<Link passHref href={props.href}>
-										<a ref={ref}>Connectez-vous</a>
+									<Link href={props.href} ref={ref}>
+										Connectez-vous
 									</Link>
 								</p>
 							) : (
 								<p className={Styles.topBarTitle}>
 									Pas encore de compte ?{' '}
-									<Link passHref href={props.href}>
-										<a ref={ref}>Inscrivez-vous</a>
+									<Link href={props.href} ref={ref}>
+										Inscrivez-vous
 									</Link>
 								</p>
 							)}

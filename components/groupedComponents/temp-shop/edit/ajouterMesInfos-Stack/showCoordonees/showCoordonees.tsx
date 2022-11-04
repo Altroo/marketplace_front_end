@@ -11,7 +11,7 @@ import WhatsappCircularSVG from '../../../../../../public/assets/svgs/globalIcon
 import { useAppSelector } from '../../../../../../utils/hooks';
 import { getShopObj } from '../../../../../../store/selectors';
 import Link from 'next/link';
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 
 const ShowCoordonees: React.FC = () => {
 	const { phone, twitter_link, website_link, instagram_link, whatsapp, contact_email, facebook_link } =
@@ -20,24 +20,22 @@ const ShowCoordonees: React.FC = () => {
 		<Stack direction="column" justifyContent="space-between" alignContent="space-between" spacing={2}>
 			{phone ? (
 				<Stack direction="row" spacing={2}>
-					<ImageFuture
+					<Image
 								src={PhoneOutlinedSVG}
 								alt=""
 								width="24"
 								height="24"
 								sizes="100vw"
 							/>
-					<Link href={`tel:${phone}`} passHref target="_blank" rel="noreferrer">
-						<a href={`tel:${phone}`} target="_blank" rel="noreferrer" className={Styles.link}>
-							{phone}
-						</a>
+					<Link href={`tel:${phone}`} target="_blank" rel="noreferrer" className={Styles.link}>
+						{phone}
 					</Link>
 				</Stack>
 			) : null}
 			{contact_email ? (
 				<>
 					<Stack direction="row" spacing={2}>
-						<ImageFuture
+						<Image
 								src={EmailOutlinedSVG}
 								alt=""
 								width="24"
@@ -45,10 +43,8 @@ const ShowCoordonees: React.FC = () => {
 								sizes="100vw"
 							/>
 						<Box component="span">
-							<Link href={`mailto:${contact_email}`} passHref target="_blank" rel="noreferrer">
-								<a href={`mailto:${contact_email}`} target="_blank" rel="noreferrer" className={Styles.link}>
-									{contact_email}
-								</a>
+							<Link href={`mailto:${contact_email}`} target="_blank" rel="noreferrer" className={Styles.link}>
+								{contact_email}
 							</Link>
 						</Box>
 					</Stack>
@@ -58,7 +54,7 @@ const ShowCoordonees: React.FC = () => {
 			{website_link ? (
 				<>
 					<Stack direction="row" spacing={2}>
-						<ImageFuture
+						<Image
 								src={WebsiteOutlinedSVG}
 								alt=""
 								width="24"
@@ -66,10 +62,8 @@ const ShowCoordonees: React.FC = () => {
 								sizes="100vw"
 							/>
 						<Box component="span">
-							<Link href={website_link} passHref target="_blank" rel="noreferrer">
-								<a href={website_link} target="_blank" rel="noreferrer" className={Styles.link}>
-									{website_link}
-								</a>
+							<Link href={website_link} target="_blank" rel="noreferrer" className={Styles.link}>
+								{website_link}
 							</Link>
 						</Box>
 					</Stack>
@@ -79,59 +73,50 @@ const ShowCoordonees: React.FC = () => {
 
 			<Stack direction="row" columnGap={2}>
 				{facebook_link ? (
-					<Link href={facebook_link} passHref target="_blank" rel="noreferrer">
-						<a href={facebook_link} target="_blank" rel="noreferrer" className={Styles.link}>
-							<ImageFuture
-								src={FacebookCircularSVG}
-								alt=""
-								width="40"
-								height="40"
-								sizes="100vw"
-							/>
-						</a>
+					<Link href={facebook_link} target="_blank" rel="noreferrer" className={Styles.link}>
+						<Image
+							src={FacebookCircularSVG}
+							alt=""
+							width="40"
+							height="40"
+							sizes="100vw"
+						/>
 					</Link>
 				) : null}
 				{twitter_link ? (
-					<Link href={twitter_link} passHref target="_blank" rel="noreferrer">
-						<a href={twitter_link} target="_blank" rel="noreferrer" className={Styles.link}>
-							<ImageFuture
-								src={TwitterCircularSVG}
-								alt=""
-								width="40"
-								height="40"
-								sizes="100vw"
-							/>
-						</a>
+					<Link href={twitter_link} target="_blank" rel="noreferrer" className={Styles.link}>
+						<Image
+							src={TwitterCircularSVG}
+							alt=""
+							width="40"
+							height="40"
+							sizes="100vw"
+						/>
 					</Link>
 				) : null}
 				{instagram_link ? (
-					<Link href={instagram_link} passHref target="_blank" rel="noreferrer">
-						<a href={instagram_link} target="_blank" rel="noreferrer" className={Styles.link}>
-							<ImageFuture
-								src={InstagramCircularSVG}
-								alt=""
-								width="40"
-								height="40"
-								sizes="100vw"
-							/>
-						</a>
+					<Link href={instagram_link} target="_blank" rel="noreferrer" className={Styles.link}>
+						<Image
+							src={InstagramCircularSVG}
+							alt=""
+							width="40"
+							height="40"
+							sizes="100vw"
+						/>
 					</Link>
 				) : null}
 				{whatsapp ? (
 					<Link
 						href={`https://web.whatsapp.com/send?phone=${whatsapp}`}
-						passHref
 						target="_blank"
-						rel="noreferrer">
-						<a href={`https://web.whatsapp.com/send?phone=${whatsapp}`} target="_blank" rel="noreferrer" className={Styles.link}>
-							<ImageFuture
-								src={WhatsappCircularSVG}
-								alt=""
-								width="40"
-								height="40"
-								sizes="100vw"
-							/>
-						</a>
+						rel="noreferrer" className={Styles.link}>
+						<Image
+							src={WhatsappCircularSVG}
+							alt=""
+							width="40"
+							height="40"
+							sizes="100vw"
+						/>
 					</Link>
 				) : null}
 			</Stack>

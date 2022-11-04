@@ -2,7 +2,7 @@ import React from 'react';
 import Styles from './contacterPhoneInput.module.sass';
 import IosSwitch from '../../../../htmlElements/switches/iosSwitch';
 import PhoneInputFields from '../../../../htmlElements/inputs/phoneInputFields/phoneInputFields';
-import { default as ImageFuture } from "next/future/image";
+import Image from 'next/image';
 
 
 type Props = {
@@ -23,7 +23,7 @@ const ContacterPhoneInput: React.FC<Props> = (props: Props) => {
 		<>
 			<div className={Styles.switchBoxWrapper}>
 				<div className={Styles.iconTextWrapper}>
-					<ImageFuture
+					<Image
 								src={props.icon}
 								alt=""
 								width="40"

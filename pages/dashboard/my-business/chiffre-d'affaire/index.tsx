@@ -13,7 +13,7 @@ import { Stack, Box } from '@mui/material';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import DesktopMyBusinessSideNav from '../../../../components/layouts/desktop/desktopMyBusinessSideNav/desktopMyBusinessSideNav';
 import MobileMyBusinessNav from '../../../../components/layouts/mobile/mobileMyBusinessNav/mobileMyBusinessNav';
-import { default as ImageFuture } from 'next/future/image';
+import Image from 'next/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import CustomFooter from '../../../../components/layouts/footer/customFooter';
 import QuestionMarkSVG from '../../../../public/assets/svgs/globalIcons/question-mark.svg';
@@ -42,12 +42,12 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 			<Stack direction="column">
 				<h2 className={Styles.userShopTitle}>Chiffre d&apos;affaires</h2>
 				<Stack direction="row" gap="3px" alignItems="center">
-					<ImageFuture src={QuestionMarkSVG} width={18} height={18} alt="" sizes="100vw" />
+					<Image src={QuestionMarkSVG} width={18} height={18} alt="" sizes="100vw" />
 					<span className={Styles.myBusinessQuestion}>Comment booster ses ventes</span>
 				</Stack>
 			</Stack>
 			<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardSellsDesktopCard}>
-				<ImageFuture src={DesktopUSDSVG} alt="" width="40" height="40" sizes="100vw" />
+				<Image src={DesktopUSDSVG} alt="" width="40" height="40" sizes="100vw" />
 				<Stack direction="column" sx={{ width: '100%' }}>
 					<span className={Styles.dashboardMiniCardCounter}>{total_sells_count} DH</span>
 					<Stack direction="row" justifyContent="space-between">
@@ -63,7 +63,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 					<span className={Styles.dashboardShopName}>Mes commandes</span>
 				</Stack>
 				<Stack className={Styles.dashboardSellsDesktopBox} direction="column" alignItems="center" gap="20px">
-					<ImageFuture src={ColoredOrdersIlluSVG} alt="" width="140" height="108" sizes="100vw" />
+					<Image src={ColoredOrdersIlluSVG} alt="" width="140" height="108" sizes="100vw" />
 					<Stack direction="column" alignItems="center">
 						<span className={Styles.dashboardShopName}>C&apos;est bien vide ici...</span>
 						<span className={Styles.dashboardSellsDesktopBoxContent}>
@@ -113,7 +113,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 										onClick={() => setMobileElementClicked(false)}
 										alignItems="center"
 									>
-										<ImageFuture
+										<Image
 											src={MiniBackSVG}
 											alt=""
 											width="0"
