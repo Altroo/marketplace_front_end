@@ -10,7 +10,6 @@ import {
 import Link from 'next/link';
 import { default as ImageFuture } from 'next/future/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
-import Image from 'next/image';
 import BlackStarSVG from '../../../../../public/assets/svgs/globalIcons/black-star.svg';
 import { useRouter } from 'next/router';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
@@ -334,7 +333,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																				: data.value.title}
 																		</span>
 																		<Stack direction="row">
-																			<Image src={BlackStarSVG} width={20} height={20} alt="" />
+																			<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />
 																			<span className={Styles.offerRating}>0 (0 notes)</span>
 																		</Stack>
 																		<Stack direction="row" spacing={1}>
@@ -409,8 +408,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 							rowGap={0}
 						>
 							<Box className={Styles.closeButtonWrapper}>
-								<Image
-									src={CloseSVG}
+								<ImageFuture src={CloseSVG}
 									width={40}
 									height={40}
 									alt=""

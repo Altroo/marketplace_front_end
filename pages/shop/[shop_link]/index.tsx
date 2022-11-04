@@ -18,7 +18,6 @@ import {
 	ShopGetRootTokenType,
 	ShopZoneByType,
 } from '../../../types/shop/shopTypes';
-import Image from 'next/image';
 import BlackStarSVG from '../../../public/assets/svgs/globalIcons/black-star.svg';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 import PhoneSVG from '../../../public/assets/svgs/globalIcons/contact-phone.svg';
@@ -699,7 +698,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					<CustomSwipeModal keepMounted={true} open={openContacterModal} handleClose={handleContactModalClose}>
 							<div className={Styles.modalContentWrapper}>
 								<div className={Styles.topBar}>
-									<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
+									<ImageFuture src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
 								</div>
 								<HelperDescriptionHeader
 									header="Ajouter un moyen de contact"
@@ -736,7 +735,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
-								<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
+								<ImageFuture src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
 							</div>
 							<HelperDescriptionHeader header="Ajouter mes infos" />
 							<Stack direction="column" spacing={4}>

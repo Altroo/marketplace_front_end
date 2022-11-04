@@ -12,7 +12,6 @@ import {
 	OfferProductPriceByType,
 	OfferSolderByType,
 } from '../../../../../types/offer/offerTypes';
-import Image from 'next/image';
 import CreatorIlluSVG from '../../../../../public/assets/images/creator-illu.svg';
 import CreatorBgIlluSVG from '../../../../../public/assets/images/creator-bg-illu.svg';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
@@ -98,11 +97,11 @@ const NoCommentsAvailableContent = () => {
 				<span className={Styles.noAvailableComments}>Pas encore de commentaires</span>
 				<span>
 					<Stack direction="row">
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
+						<ImageFuture src={GrayRatingSVG} width={20} height={20} alt="" />
+						<ImageFuture src={GrayRatingSVG} width={20} height={20} alt="" />
+						<ImageFuture src={GrayRatingSVG} width={20} height={20} alt="" />
+						<ImageFuture src={GrayRatingSVG} width={20} height={20} alt="" />
+						<ImageFuture src={GrayRatingSVG} width={20} height={20} alt="" />
 						<span className={Styles.noAvailableRatings}>(0 notes)</span>
 					</Stack>
 				</span>
@@ -803,7 +802,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 										<Stack direction="column">
 											<h1 className={Styles.title}>{title}</h1>
 											<Stack direction="row">
-												<Image src={BlackStarSVG} width={20} height={20} alt="" />
+												<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />
 												<span className={Styles.rating}>0 (0 notes)</span>
 											</Stack>
 											<Link
@@ -1716,7 +1715,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										<Stack direction="column">
 											<h1 className={Styles.title}>{title}</h1>
 											<Stack direction="row">
-												<Image src={BlackStarSVG} width={20} height={20} alt="" />
+												<ImageFuture src={BlackStarSVG} width={20} height={20} alt="" />
 												<span className={Styles.rating}>0 (0 notes)</span>
 											</Stack>
 											<Link

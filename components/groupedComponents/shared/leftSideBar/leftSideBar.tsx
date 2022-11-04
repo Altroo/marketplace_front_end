@@ -1,6 +1,5 @@
 import React from 'react';
 import Styles from './leftSideBar.module.sass';
-import Image from 'next/image';
 import LogoSVG from '../../../../public/assets/svgs/globalIcons/logo.svg';
 import RightArrowSVG from '../../../../public/assets/svgs/navigationIcons/right-arrow-long.svg';
 import StepActiveSVG from '../../../../public/assets/svgs/navigationIcons/step-check.svg';

@@ -1,7 +1,7 @@
 import React, { ForwardedRef, forwardRef } from 'react';
 import Styles from './iconAnchorButton.module.sass';
 import Button from '@mui/material/Button';
-import Image from 'next/image';
+import { default as ImageFuture } from "next/future/image";
 import Link from 'next/link';
 import {CustomTheme} from "../../../../utils/themes";
 import { ThemeProvider } from "@mui/material";
@@ -48,7 +48,7 @@ const IconAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref
 					${props.cssClass && props.cssClass}
 					`}
 					style={{...cssStyle}}>
-					<Image src={props.svgIcon} alt="" className={Styles.icon} />
+					<ImageFuture src={props.svgIcon} width={20} height={20} alt="" className={Styles.icon} />
 					{props.buttonText}
 				</Button>
 			</a>
@@ -60,7 +60,7 @@ const IconAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref
 			${props.cssClass && props.cssClass}`}
 			disabled={!props.active}
 			style={{...cssStyle}}>
-			<Image src={props.svgIcon} alt="" className={Styles.icon} />
+			<ImageFuture src={props.svgIcon} width={20} height={20} alt="" className={Styles.icon} />
 			{props.buttonText}
 		</button>
 	);

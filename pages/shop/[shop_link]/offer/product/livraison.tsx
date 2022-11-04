@@ -13,10 +13,10 @@ import RadioCheckElement from '../../../../../components/groupedComponents/temp-
 import ClickCollectSVG from '../../../../../public/assets/svgs/globalIcons/click-and-collect-icon.svg';
 import BlueAddSVG from '../../../../../public/assets/svgs/globalIcons/blue-add.svg';
 import DeliverySVG from '../../../../../public/assets/svgs/globalIcons/delivery-icon.svg';
-import Image from 'next/image';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import CustomSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import dynamic from 'next/dynamic';
+import { default as ImageFuture } from 'next/future/image';
 import 'leaflet/dist/leaflet.css';
 import {
 	getLocalisationName,
@@ -77,7 +77,6 @@ import {
 } from '../../../../../utils/routes';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-// import ApiLoadingResponseOrError from '../../../../../components/formikElements/apiLoadingResponseOrError/apiLoadingResponseOrError';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
 import { getApi } from '../../../../../store/services/_init/_initAPI';
@@ -509,7 +508,7 @@ const Livraison: NextPage = () => {
 										justifyContent="center"
 										alignItems="center"
 									>
-										<Image src={ClickCollectSVG} width={70} height={70} alt="" />
+										<ImageFuture src={ClickCollectSVG} width={70} height={70} alt="" />
 										<p
 											className={`${Styles.defaultLocalisationName} ${
 												selectedClickAndCollect && selectedClickAndCollect.address_name && Styles.activeCardValue
@@ -603,7 +602,7 @@ const Livraison: NextPage = () => {
 										justifyContent="center"
 										alignItems="center"
 									>
-										<Image src={DeliverySVG} width={70} height={70} alt="" />
+										<ImageFuture src={DeliverySVG} width={70} height={70} alt="" />
 										<div
 											className={`${Styles.defaultLocalisationName} ${
 												// deliveryCity1 ||
@@ -728,7 +727,7 @@ const Livraison: NextPage = () => {
 												className={Styles.addDeliveryButton}
 												color="primary"
 											>
-												<Image src={BlueAddSVG} width={20} height={20} alt="" />
+												<ImageFuture src={BlueAddSVG} width={20} height={20} alt="" />
 												<span>Ajouter une livraison</span>
 											</Button>
 										) : null}

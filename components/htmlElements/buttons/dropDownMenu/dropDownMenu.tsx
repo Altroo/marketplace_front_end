@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Styles from './dropDownMenu.module.sass';
-import Image from 'next/image';
 import { DropDownActionType, DropDownVariantType } from '../../../../types/ui/uiTypes';
 import { ThemeProvider } from '@mui/material';
 import { getDropDownMenuTheme } from '../../../../utils/themes';
@@ -45,7 +44,7 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 						aria-haspopup="true"
 						aria-expanded={open ? 'true' : undefined}
 						onClick={handleClick}
-						endIcon={<Image src={props.dropDownIcon} alt="" />}
+						endIcon={<ImageFuture src={props.dropDownIcon} alt="" />}
 					>
 						{props.dropDownText}
 					</Button>

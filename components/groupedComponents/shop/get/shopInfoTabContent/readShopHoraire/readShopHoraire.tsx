@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Styles from './readShopHoraire.module.sass';
 import { Stack, Box } from '@mui/material';
 import ClockSVG from '../../../../../../public/assets/svgs/globalIcons/clock-gray.svg';
-import Image from 'next/image';
+import { default as ImageFuture } from "next/future/image";
 import { OpeningDaysArray } from '../../../../../../types/shop/shopTypes';
 
 type Props = {
@@ -81,7 +81,7 @@ const ReadShopHoraire: React.FC<Props> = (props: Props) => {
 	return (
 		<>
 			<Stack direction="row" spacing={1} sx={{ wordWrap: 'break-word' }} className={Styles.wrapper}>
-				<Image src={ClockSVG} width={24} height={24} alt="" />
+				<ImageFuture src={ClockSVG} width={24} height={24} alt="" />
 				<Box component="p" sx={{ wordWrap: 'break-word', width: '100%' }}>
 					{horaireAllContent !== '' ? horaireAllContent : openingDaysArray.join(', ')}
 				</Box>
