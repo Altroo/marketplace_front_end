@@ -85,11 +85,11 @@ const AboutPageContent = (props: AboutPageContent) => {
 						email: props.email,
 						password: values.password,
 						redirect: false,
-					}).then(() => {
+					}).then(async () => {
 						setSubmitting(true);
 						// delete new email cookie so it'll be used else where.
-						cookiesDeleter('/cookies', { new_email: 0 }).then();
-						router.replace(router.asPath).then();
+						await cookiesDeleter('/cookies', { new_email: 0 });
+						await router.replace(router.asPath);
 					});
 				}
 			} catch (e) {
