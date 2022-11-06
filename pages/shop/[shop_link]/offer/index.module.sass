@@ -3,29 +3,40 @@
 @import 'styles/sass/mixins'
 
 // Global styles
-
+.desktopOnly
+  display: flex
+.mobileOnly
+  +Hidden
 .main
   display: flex
   flex-direction: column
   justify-content: center
-  margin-bottom: 140px
-  margin-top: 140px
+  //margin-bottom: 140px
+  //margin-top: 140px
   padding: 0 60px 60px 60px
   width: 100%
+  min-height: calc(100vh - 140px)
 .header
   +Bold
   font-size: 45px
   color: $primary
   max-width: 40%
 @media #{$tablette}
+  .desktopOnly
+    +Hidden
+  .mobileOnly
+    display: flex !important
   .main
     padding: 20px
+    min-height: calc(100vh - 110.3px)
   .header
-    +Regular
-    font-weight: 600
+    +SemiBold
     font-size: 21px
+    letter-spacing: -0.01em
     text-align: start
     max-width: 100%
+    margin-left: 0 !important
+    margin-bottom: 33px !important
   .flexWrapper
     justify-content: flex-start !important
     align-items: flex-start !important

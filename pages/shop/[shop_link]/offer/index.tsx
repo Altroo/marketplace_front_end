@@ -23,7 +23,8 @@ const Index: NextPage = () => {
 			<UserMainNavigationBar />
 			<main className={Styles.main}>
 			<Stack direction="row" justifyContent="space-evenly" alignItems="center" spacing={3} className={Styles.flexWrapper}>
-				<h2 className={Styles.header}>Choississez le type d&apos;offre que vous souhaitez vendre</h2>
+				<h2 className={`${Styles.header} ${Styles.desktopOnly}`}>Choississez le type d&apos;offre que vous souhaitez vendre</h2>
+				<h2 className={`${Styles.header} ${Styles.mobileOnly}`}>Je souhaite...</h2>
 				<Stack direction="column" spacing={2} className={Styles.cardsWrapper}>
 					<OfferTypeCard
 						title="Vendre"
