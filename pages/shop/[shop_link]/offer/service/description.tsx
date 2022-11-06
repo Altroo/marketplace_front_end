@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './description.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import { Box, ClickAwayListener, Stack, TextField } from '@mui/material';
-import Grid2 from '@mui/material/Unstable_Grid2';
+import { Box, ClickAwayListener, Grid, Stack, TextField } from "@mui/material";
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	AUTH_LOGIN,
@@ -239,7 +238,7 @@ const Description: NextPage = () => {
 		<>
 			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SERVICE" />
-				<Box sx={{ width: '100%', height: '100%' }}>
+				<Box className={Styles.rootBox}>
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_SERVICE_CATEGORIES(router.query.shop_link as string)}
 						returnButton
@@ -251,382 +250,377 @@ const Description: NextPage = () => {
 						closeButtonHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
-					<Stack direction="column" spacing={4}>
-						<HelperDescriptionHeader
-							header="Décrivez votre offre"
-							description="Commencez par lui donnez un titre, une description et ajoutez quelques photos."
-							HelpText="Apprendre à créer une offre"
-						/>
-						<Stack direction="column">
-							<Formik
-								enableReinitialize={true}
-								initialValues={{
-									title: offerTitle,
-									images: images,
-									description: offerDescription,
-									al_day: alState ? 'AL' : '',
-									mo_day: moState ? 'MO' : '',
-									tu_day: tuState ? 'TU' : '',
-									we_day: weState ? 'WE' : '',
-									th_day: thState ? 'TH' : '',
-									fr_day: frState ? 'FR' : '',
-									sa_day: saState ? 'SA' : '',
-									su_day: suState ? 'SU' : '',
-									service_morning_hour_from: morningHourFromState,
-									service_morning_hour_to: morningHourToState,
-									service_afternoon_hour_from: afternoonHourFromState,
-									service_afternoon_hour_to: afternoonHourToState,
-									// tags: offerTags,
-								}}
-								validateOnMount={true}
-								onSubmit={(values, { setSubmitting }) => {
-									setSubmitting(false);
-									let availabilityDaysString = '';
-									if (values.al_day !== '') {
-										availabilityDaysString = availabilityDaysString + values.al_day + ',';
-									}
-									if (values.mo_day !== '') {
-										availabilityDaysString = availabilityDaysString + values.mo_day + ',';
-									}
-									if (values.tu_day !== '') {
-										availabilityDaysString = availabilityDaysString + values.tu_day + ',';
-									}
-									if (values.we_day !== '') {
-										availabilityDaysString = availabilityDaysString + values.we_day + ',';
-									}
-									if (values.th_day !== '') {
-										availabilityDaysString = availabilityDaysString + values.th_day + ',';
-									}
-									if (values.fr_day !== '') {
-										availabilityDaysString = availabilityDaysString + values.fr_day + ',';
-									}
-									if (values.sa_day !== '') {
-										availabilityDaysString = availabilityDaysString + values.sa_day + ',';
-									}
-									if (values.su_day !== '') {
-										availabilityDaysString = availabilityDaysString + values.su_day + ',';
-									}
-									if (
-										values.title &&
-										values.service_morning_hour_from &&
-										values.service_morning_hour_to &&
-										// values.tags.length > 0 &&
-										images.length > 0 &&
-										address_name
-									) {
-										setSubmitting(true);
-										addDescriptionSubmitHandler({
-											title: values.title,
-											description: values.description,
-											service_availability_days: availabilityDaysString,
-											service_morning_hour_from: values.service_morning_hour_from
-												? values.service_morning_hour_from.slice(0, 5)
-												: null,
-											service_morning_hour_to: values.service_morning_hour_to
-												? values.service_morning_hour_to.slice(0, 5)
-												: null,
-											service_afternoon_hour_from: values.service_afternoon_hour_from
-												? values.service_afternoon_hour_from.slice(0, 5)
-												: null,
-											service_afternoon_hour_to: values.service_afternoon_hour_to
-												? values.service_afternoon_hour_to.slice(0, 5)
-												: null,
-											// tags: values.tags,
-										});
-									}
-								}}
-								validationSchema={addOfferServiceSchema}
-							>
-								{({
-									handleBlur,
-									handleChange,
-									values,
-									handleSubmit,
-									setFieldValue,
-									touched,
-									errors,
-									isSubmitting,
-									isValid,
-								}) => (
-									<Form
-										className={Styles.formStyle}
-										onKeyDown={(e) => {
-											if (e.code === 'enter') e.preventDefault();
-										}}
-									>
-										<Stack direction="column" spacing={4}>
-											<Stack direction="column" spacing={2}>
-												<Stack direction="column" spacing={4}>
-													<ClickAwayListener onClickAway={() => setTitleTooltip(false)}>
-														<div>
-															<CustomToolTip
-																title="Soyez court et précis ! Comment écrire un titre ? En savoir plus"
-																onClose={() => setTitleTooltip(false)}
-																open={titleTooltip}
-																theme={titleTooltipTheme}
-															>
-																<CustomTextInput
-																	id="title"
-																	label="Titre"
-																	value={values.title ? values.title : ''}
-																	onChange={(e) => {
-																		setTypingTitle(true);
-																		handleChange('title')(e);
-																		setOfferTitle(e.target.value);
-																	}}
-																	onBlur={handleBlur('title')}
-																	helperText={touched.title ? errors.title : ''}
-																	error={touched.title && Boolean(errors.title)}
-																	theme={titleFieldTheme}
-																	fullWidth={false}
-																	size="medium"
-																	type="text"
-																	cssClass={Styles.titleTextField}
-																	onClick={() => setTitleTooltip(true)}
-																/>
-															</CustomToolTip>
-														</div>
-													</ClickAwayListener>
-													<CustomSquareImageUploading
-														images={images}
-														onChange={(e) => {
-															setPickingImages(true);
-															imagesOnChangeHandler(e);
-															setFieldValue('images', e);
-														}}
-														maxNumber={4}
-													/>
-													<Stack direction="column" spacing={2}>
-														<span className={Styles.spanTitle}>Description</span>
-														<CustomTextArea
-															type="text"
-															id="description"
-															label="Description"
-															value={values.description ? values.description : ''}
-															onChange={(e) => {
-																setTypingDescription(true);
-																handleChange('description')(e);
-																setOfferDescription(e.target.value);
-															}}
-															onBlur={handleBlur('description')}
-															helperText={touched.description ? errors.description : ''}
-															error={touched.description && Boolean(errors.description)}
-															minRows={4}
-															multiline={true}
-															theme={descriptionFieldTheme}
-															fullWidth={true}
-															size="medium"
-														/>
-													</Stack>
-												</Stack>
-												<CustomDropDownChoices
-													id="forWhom"
-													label="Pour qui (optionnel)"
-													items={forWhomItemsList}
-													theme={forWhomFieldTheme}
-													onChange={forWhomHandleChange}
-													value={forWhomChoice}
-													multiple={true}
+					<Stack direction="column"  spacing={{ xs: "36px", sm: "36px", md: "60px", lg: "60px", xl: "60px" }}>
+						<Box className={Styles.marginLeft}>
+							<HelperDescriptionHeader
+								header="Décrivez votre offre"
+								description="Commencez par lui donnez un titre, une description et ajoutez quelques photos."
+								HelpText="Apprendre à créer une offre"
+							/>
+						</Box>
+						<Formik
+							enableReinitialize={true}
+							initialValues={{
+								title: offerTitle,
+								images: images,
+								description: offerDescription,
+								al_day: alState ? 'AL' : '',
+								mo_day: moState ? 'MO' : '',
+								tu_day: tuState ? 'TU' : '',
+								we_day: weState ? 'WE' : '',
+								th_day: thState ? 'TH' : '',
+								fr_day: frState ? 'FR' : '',
+								sa_day: saState ? 'SA' : '',
+								su_day: suState ? 'SU' : '',
+								service_morning_hour_from: morningHourFromState,
+								service_morning_hour_to: morningHourToState,
+								service_afternoon_hour_from: afternoonHourFromState,
+								service_afternoon_hour_to: afternoonHourToState,
+								// tags: offerTags,
+							}}
+							validateOnMount={true}
+							onSubmit={(values, { setSubmitting }) => {
+								setSubmitting(false);
+								let availabilityDaysString = '';
+								if (values.al_day !== '') {
+									availabilityDaysString = availabilityDaysString + values.al_day + ',';
+								}
+								if (values.mo_day !== '') {
+									availabilityDaysString = availabilityDaysString + values.mo_day + ',';
+								}
+								if (values.tu_day !== '') {
+									availabilityDaysString = availabilityDaysString + values.tu_day + ',';
+								}
+								if (values.we_day !== '') {
+									availabilityDaysString = availabilityDaysString + values.we_day + ',';
+								}
+								if (values.th_day !== '') {
+									availabilityDaysString = availabilityDaysString + values.th_day + ',';
+								}
+								if (values.fr_day !== '') {
+									availabilityDaysString = availabilityDaysString + values.fr_day + ',';
+								}
+								if (values.sa_day !== '') {
+									availabilityDaysString = availabilityDaysString + values.sa_day + ',';
+								}
+								if (values.su_day !== '') {
+									availabilityDaysString = availabilityDaysString + values.su_day + ',';
+								}
+								if (
+									values.title &&
+									values.service_morning_hour_from &&
+									values.service_morning_hour_to &&
+									// values.tags.length > 0 &&
+									images.length > 0 &&
+									address_name
+								) {
+									setSubmitting(true);
+									addDescriptionSubmitHandler({
+										title: values.title,
+										description: values.description,
+										service_availability_days: availabilityDaysString,
+										service_morning_hour_from: values.service_morning_hour_from
+											? values.service_morning_hour_from.slice(0, 5)
+											: null,
+										service_morning_hour_to: values.service_morning_hour_to
+											? values.service_morning_hour_to.slice(0, 5)
+											: null,
+										service_afternoon_hour_from: values.service_afternoon_hour_from
+											? values.service_afternoon_hour_from.slice(0, 5)
+											: null,
+										service_afternoon_hour_to: values.service_afternoon_hour_to
+											? values.service_afternoon_hour_to.slice(0, 5)
+											: null,
+										// tags: values.tags,
+									});
+								}
+							}}
+							validationSchema={addOfferServiceSchema}
+						>
+							{({
+								handleBlur,
+								handleChange,
+								values,
+								handleSubmit,
+								setFieldValue,
+								touched,
+								errors,
+								isSubmitting,
+								isValid,
+							}) => (
+								<Stack
+									direction="column"
+									justifyContent="space-between"
+									component={Form}
+									className={Styles.stackWrapper}
+									onKeyDown={(e) => {
+										if (e.code === 'enter') e.preventDefault();
+									}}
+								>
+									<Stack direction="column" spacing={{xs: "40px", sm: "40px", md: "48px", lg: "48px", xl: "48px"}}>
+										<Stack direction="column" spacing="18px">
+											<Stack direction="column" spacing="48px">
+												<ClickAwayListener onClickAway={() => setTitleTooltip(false)}>
+													<div>
+														<CustomToolTip
+															title="Soyez court et précis ! Comment écrire un titre ? En savoir plus"
+															onClose={() => setTitleTooltip(false)}
+															open={titleTooltip}
+															theme={titleTooltipTheme}
+														>
+															<CustomTextInput
+																id="title"
+																label="Titre"
+																value={values.title ? values.title : ''}
+																onChange={(e) => {
+																	setTypingTitle(true);
+																	handleChange('title')(e);
+																	setOfferTitle(e.target.value);
+																}}
+																onBlur={handleBlur('title')}
+																helperText={touched.title ? errors.title : ''}
+																error={touched.title && Boolean(errors.title)}
+																theme={titleFieldTheme}
+																fullWidth={false}
+																size="medium"
+																type="text"
+																cssClass={Styles.titleTextField}
+																onClick={() => setTitleTooltip(true)}
+															/>
+														</CustomToolTip>
+													</div>
+												</ClickAwayListener>
+												<CustomSquareImageUploading
+													images={images}
+													onChange={(e) => {
+														setPickingImages(true);
+														imagesOnChangeHandler(e);
+														setFieldValue('images', e);
+													}}
+													maxNumber={4}
 												/>
+												<Stack direction="column" spacing="18px">
+													<span className={Styles.spanTitle}>Description</span>
+													<CustomTextArea
+														type="text"
+														id="description"
+														label="Description"
+														value={values.description ? values.description : ''}
+														onChange={(e) => {
+															setTypingDescription(true);
+															handleChange('description')(e);
+															setOfferDescription(e.target.value);
+														}}
+														onBlur={handleBlur('description')}
+														helperText={touched.description ? errors.description : ''}
+														error={touched.description && Boolean(errors.description)}
+														minRows={4}
+														multiline={true}
+														theme={descriptionFieldTheme}
+														fullWidth={true}
+														size="medium"
+													/>
+												</Stack>
 											</Stack>
-											<Stack direction="column" spacing={2} alignItems="flex-end">
-												<Grid2 container columnSpacing={6}>
-													<Grid2 md={6} sm={6} xs={12}>
-														<DisponibilitiesRadioCheckContent
-															selectedDisponibilities={selectedDisponibilities}
-															setSelectedDisponibilities={setSelectedDisponibilities}
-															switchOpen={true}
-														/>
-													</Grid2>
-													<Grid2 md={6} sm={6} xs={12}>
-														<HorairesRadioCheckContent switchOpen={true}>
+											<CustomDropDownChoices
+												id="forWhom"
+												label="Pour qui (optionnel)"
+												items={forWhomItemsList}
+												theme={forWhomFieldTheme}
+												onChange={forWhomHandleChange}
+												value={forWhomChoice}
+												multiple={true}
+											/>
+										</Stack>
+										<Stack direction="column" spacing={{xs: 0, sm: 0, md: "20px", lg: "20px", xl: "20px"}} alignItems="flex-end">
+											<Grid container columnSpacing={{ md: "120px", lg: "120px", xl: "120px" }} rowSpacing={{ xs: "40px", sm: "40px"}}>
+												<Grid item md={6} sm={12} xs={12}>
+													<DisponibilitiesRadioCheckContent
+														selectedDisponibilities={selectedDisponibilities}
+														setSelectedDisponibilities={setSelectedDisponibilities}
+														switchOpen={true}
+													/>
+												</Grid>
+												<Grid item md={6} sm={12} xs={12}>
+													<HorairesRadioCheckContent switchOpen={true}>
+														<Stack
+															direction="column"
+															flexWrap="wrap"
+															justifyContent="flex-start"
+															rowGap={0}
+															justifyItems="flex-start"
+															sx={{ width: '100%', marginTop: '24px' }}
+														>
 															<Stack
-																direction="column"
-																flexWrap="wrap"
-																justifyContent="flex-start"
-																rowGap={0}
-																justifyItems="flex-start"
+																direction="row"
+																columnGap={4}
+																justifyContent="space-between"
 																sx={{ width: '100%' }}
 															>
-																<div className={Styles.grayTitle}>
-																	<p>Horaire du matin</p>
-																</div>
-																<Stack
-																	direction="row"
-																	columnGap={4}
-																	justifyContent="space-between"
-																	sx={{ width: '100%' }}
-																>
-																	<TextField
-																		fullWidth={true}
-																		type="time"
-																		id="service_morning_hour_from"
-																		label="De"
-																		value={
-																			values.service_morning_hour_from
-																				? values.service_morning_hour_from.slice(0, 5)
-																				: ''
-																		}
-																		onBlur={handleBlur('service_morning_hour_from')}
-																		onChange={(e) => {
-																			handleChange('service_morning_hour_from')(e);
-																			setMorningHourFromState(e.target.value);
-																		}}
-																		helperText={
-																			touched.service_morning_hour_from ? errors.service_morning_hour_from : ''
-																		}
-																		error={
-																			touched.service_morning_hour_from && Boolean(errors.service_morning_hour_from)
-																		}
-																	/>
-																	<TextField
-																		fullWidth={true}
-																		type="time"
-																		id="service_morning_hour_to"
-																		label="A"
-																		value={
-																			values.service_morning_hour_to ? values.service_morning_hour_to.slice(0, 5) : ''
-																		}
-																		onBlur={handleBlur('service_morning_hour_to')}
-																		onChange={(e) => {
-																			handleChange('service_morning_hour_to')(e);
-																			setMorningHourToState(e.target.value);
-																		}}
-																		helperText={touched.service_morning_hour_to ? errors.service_morning_hour_to : ''}
-																		error={touched.service_morning_hour_to && Boolean(errors.service_morning_hour_to)}
-																	/>
-																</Stack>
-																<div className={Styles.grayTitle}>
-																	<p>Horaire de l&apos;après-midi</p>
-																</div>
-																<Stack
-																	direction="row"
-																	columnGap={4}
-																	justifyContent="space-between"
-																	sx={{ width: '100%' }}
-																>
-																	<TextField
-																		fullWidth={true}
-																		size="medium"
-																		label="De"
-																		type="time"
-																		id="service_afternoon_hour_from"
-																		value={
-																			values.service_afternoon_hour_from
-																				? values.service_afternoon_hour_from.slice(0, 5)
-																				: ''
-																		}
-																		onBlur={handleBlur('service_afternoon_hour_from')}
-																		onChange={(e) => {
-																			handleChange('service_afternoon_hour_from')(e);
-																			setAfternoonHourFromState(e.target.value);
-																		}}
-																		helperText={
-																			touched.service_afternoon_hour_from ? errors.service_afternoon_hour_from : ''
-																		}
-																		error={
-																			touched.service_afternoon_hour_from && Boolean(errors.service_afternoon_hour_from)
-																		}
-																	/>
-																	<TextField
-																		fullWidth={true}
-																		label="A"
-																		type="time"
-																		id="service_afternoon_hour_to"
-																		value={
-																			values.service_afternoon_hour_to
-																				? values.service_afternoon_hour_to.slice(0, 5)
-																				: ''
-																		}
-																		onBlur={handleBlur('service_afternoon_hour_to')}
-																		onChange={(e) => {
-																			handleChange('service_afternoon_hour_to')(e);
-																			setAfternoonHourToState(e.target.value);
-																		}}
-																		helperText={
-																			touched.service_afternoon_hour_to ? errors.service_afternoon_hour_to : ''
-																		}
-																		error={
-																			touched.service_afternoon_hour_to && Boolean(errors.service_afternoon_hour_to)
-																		}
-																	/>
-																</Stack>
+																<TextField
+																	fullWidth={true}
+																	type="time"
+																	id="service_morning_hour_from"
+																	label="De"
+																	value={
+																		values.service_morning_hour_from
+																			? values.service_morning_hour_from.slice(0, 5)
+																			: ''
+																	}
+																	onBlur={handleBlur('service_morning_hour_from')}
+																	onChange={(e) => {
+																		handleChange('service_morning_hour_from')(e);
+																		setMorningHourFromState(e.target.value);
+																	}}
+																	helperText={
+																		touched.service_morning_hour_from ? errors.service_morning_hour_from : ''
+																	}
+																	error={
+																		touched.service_morning_hour_from && Boolean(errors.service_morning_hour_from)
+																	}
+																/>
+																<TextField
+																	fullWidth={true}
+																	type="time"
+																	id="service_morning_hour_to"
+																	label="A"
+																	value={
+																		values.service_morning_hour_to ? values.service_morning_hour_to.slice(0, 5) : ''
+																	}
+																	onBlur={handleBlur('service_morning_hour_to')}
+																	onChange={(e) => {
+																		handleChange('service_morning_hour_to')(e);
+																		setMorningHourToState(e.target.value);
+																	}}
+																	helperText={touched.service_morning_hour_to ? errors.service_morning_hour_to : ''}
+																	error={touched.service_morning_hour_to && Boolean(errors.service_morning_hour_to)}
+																/>
 															</Stack>
-														</HorairesRadioCheckContent>
-													</Grid2>
-												</Grid2>
-											</Stack>
-											<Stack direction="column" spacing={1}>
-												<Stack direction="row" justifyContent="space-between">
-													<span className={Styles.spanTitle}>Localisation</span>
-													{address_name && longitude && latitude && km_radius && zone_by ? null : (
-														<TextButton
-															buttonText="Ajouter"
-															onClick={() => setLocalisationModalOpen(true)}
-															cssClass={Styles.addAdresseButton}
-														/>
-													)}
-												</Stack>
-												{address_name && longitude && latitude && km_radius && zone_by ? (
-													<Grid2 container>
-														<Grid2 md={6} sm={6} xs={12}>
-															<ServiceMiniMap
-																address_name={address_name}
-																longitude={longitude}
-																latitude={latitude}
-																zone_by={zone_by}
-																km_radius={km_radius}
-																onClick={() => setLocalisationModalOpen(true)}
-															/>
-														</Grid2>
-													</Grid2>
-												) : (
-													<span className={Styles.noAdresseFound}>
-														Vous n&apos;avez pas encore renseigné votre adresse.
-													</span>
+															<div className={Styles.grayTitle}>
+																<p>Horaire de l&apos;après-midi</p>
+															</div>
+															<Stack
+																direction="row"
+																columnGap={4}
+																justifyContent="space-between"
+																sx={{ width: '100%' }}
+															>
+																<TextField
+																	fullWidth={true}
+																	size="medium"
+																	label="De"
+																	type="time"
+																	id="service_afternoon_hour_from"
+																	value={
+																		values.service_afternoon_hour_from
+																			? values.service_afternoon_hour_from.slice(0, 5)
+																			: ''
+																	}
+																	onBlur={handleBlur('service_afternoon_hour_from')}
+																	onChange={(e) => {
+																		handleChange('service_afternoon_hour_from')(e);
+																		setAfternoonHourFromState(e.target.value);
+																	}}
+																	helperText={
+																		touched.service_afternoon_hour_from ? errors.service_afternoon_hour_from : ''
+																	}
+																	error={
+																		touched.service_afternoon_hour_from && Boolean(errors.service_afternoon_hour_from)
+																	}
+																/>
+																<TextField
+																	fullWidth={true}
+																	label="A"
+																	type="time"
+																	id="service_afternoon_hour_to"
+																	value={
+																		values.service_afternoon_hour_to
+																			? values.service_afternoon_hour_to.slice(0, 5)
+																			: ''
+																	}
+																	onBlur={handleBlur('service_afternoon_hour_to')}
+																	onChange={(e) => {
+																		handleChange('service_afternoon_hour_to')(e);
+																		setAfternoonHourToState(e.target.value);
+																	}}
+																	helperText={
+																		touched.service_afternoon_hour_to ? errors.service_afternoon_hour_to : ''
+																	}
+																	error={
+																		touched.service_afternoon_hour_to && Boolean(errors.service_afternoon_hour_to)
+																	}
+																/>
+															</Stack>
+														</Stack>
+													</HorairesRadioCheckContent>
+												</Grid>
+											</Grid>
+										</Stack>
+										<Stack direction="column" spacing="6px">
+											<Stack direction="row" justifyContent="space-between">
+												<span className={Styles.spanTitle}>Localisation</span>
+												{address_name && longitude && latitude && km_radius && zone_by ? null : (
+													<TextButton
+														buttonText="Ajouter"
+														onClick={() => setLocalisationModalOpen(true)}
+														cssClass={Styles.addAdresseButton}
+													/>
 												)}
 											</Stack>
-											{/*<TagChips*/}
-											{/*	pickedTags={offerTags}*/}
-											{/*	onChange={(e, values) => {*/}
-											{/*		setPickingTags(true);*/}
-											{/*		setOfferTags(values);*/}
-											{/*	}}*/}
-											{/*/>*/}
+											{address_name && longitude && latitude && km_radius && zone_by ? (
+												<Grid container rowSpacing="26px">
+													<Grid item md={6} sm={12} xs={12}>
+														<ServiceMiniMap
+															address_name={address_name}
+															longitude={longitude}
+															latitude={latitude}
+															zone_by={zone_by}
+															km_radius={km_radius}
+															onClick={() => setLocalisationModalOpen(true)}
+														/>
+													</Grid>
+												</Grid>
+											) : (
+												<span className={Styles.noAdresseFound}>
+													Vous n&apos;avez pas encore renseigné votre adresse.
+												</span>
+											)}
 										</Stack>
-										<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
-											<div
-												className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton} 
-											${Styles.marginBottom}`}
-											>
-												<PrimaryButton
-													buttonText="Continuer"
-													active={
-														isValid &&
-														!isSubmitting &&
-														// offerTags.length > 0 &&
-														!!address_name &&
-														!!longitude &&
-														!!latitude &&
-														!!zone_by &&
-														!!km_radius
-													}
-													onClick={handleSubmit}
-													type="submit"
-												/>
-											</div>
-										</Stack>
-										{localisationModalOpen && (
-											<CustomSwipeModal open={localisationModalOpen} handleClose={() => setLocalisationModalOpen(false)}>
-												<Box sx={{ marginTop: '24px', height: '100%' }}>
-													<ServiceLocalisation handleClose={() => setLocalisationModalOpen(false)} />
-												</Box>
-											</CustomSwipeModal>
-										)}
-									</Form>
-								)}
-							</Formik>
-						</Stack>
+										{/*<TagChips*/}
+										{/*	pickedTags={offerTags}*/}
+										{/*	onChange={(e, values) => {*/}
+										{/*		setPickingTags(true);*/}
+										{/*		setOfferTags(values);*/}
+										{/*	}}*/}
+										{/*/>*/}
+									</Stack>
+									<div className={Styles.primaryButtonWrapper}>
+										<PrimaryButton
+											buttonText="Continuer"
+											active={
+												isValid &&
+												!isSubmitting &&
+												// offerTags.length > 0 &&
+												!!address_name &&
+												!!longitude &&
+												!!latitude &&
+												!!zone_by &&
+												!!km_radius
+											}
+											onClick={handleSubmit}
+											type="submit"
+										/>
+									</div>
+									{localisationModalOpen && (
+										<CustomSwipeModal open={localisationModalOpen} handleClose={() => setLocalisationModalOpen(false)}>
+											<Box sx={{ marginTop: '24px', height: '100%' }}>
+												<ServiceLocalisation handleClose={() => setLocalisationModalOpen(false)} />
+											</Box>
+										</CustomSwipeModal>
+									)}
+								</Stack>
+							)}
+						</Formik>
 					</Stack>
 				</Box>
 			</main>

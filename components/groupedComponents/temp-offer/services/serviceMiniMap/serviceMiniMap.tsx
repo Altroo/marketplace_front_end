@@ -24,7 +24,7 @@ const ServiceMiniMap: React.FC<Props> = (props: Props) => {
 	const { address_name, longitude, latitude, zone_by, km_radius } = props;
 
 	return (
-		<Stack direction="column" spacing={1} sx={{ height: '100%', width: '100%' }}>
+		<Stack direction="column" spacing={1} className={Styles.rootStack}>
 			<div className={Styles.miniMapWrapper}>
 				<Image
 					className={Styles.editButton}

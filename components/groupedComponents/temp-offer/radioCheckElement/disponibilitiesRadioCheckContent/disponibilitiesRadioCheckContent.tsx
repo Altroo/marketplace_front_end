@@ -1,8 +1,7 @@
 import React, { useRef, useEffect, useCallback } from "react";
-// TODO - check stackRoot style margin
 import Styles from "./disponibilitiesRadioCheckContent.module.sass";
 import { OfferBulkStatesListType } from "../../../../../types/ui/uiTypes";
-import { OfferChipTheme } from "../../../../../utils/themes";
+import { SizesChipTheme } from "../../../../../utils/themes";
 import RadioCheckElement from "../radioCheckElement";
 import { Grid, Stack, ThemeProvider } from "@mui/material";
 import Chip from "@mui/material/Chip";
@@ -137,14 +136,14 @@ const DisponibilitiesRadioCheckContent: React.FC<Props> = (props: Props) => {
 			setState: props.setSelectedDisponibilities.setSuState,
 		},
 	];
-	const chipTheme = OfferChipTheme();
+	const chipTheme = SizesChipTheme();
 
 	return (
 		<RadioCheckElement title="Disponibilités" defaultValue={props.switchOpen}>
 			<Stack
 				direction="row"
 				flexWrap="wrap"
-				gap={5}
+				gap="24px"
 				justifyContent="space-between"
 				alignItems="center"
 				className={Styles.rootStack}

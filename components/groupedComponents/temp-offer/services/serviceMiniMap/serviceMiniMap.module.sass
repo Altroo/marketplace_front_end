@@ -3,6 +3,9 @@
 @import 'styles/sass/mixins'
 
 // Global styles
+.rootStack
+  max-width: 386px
+  height: 100%
 .miniMapWrapper
   width: auto
   height: 220px
@@ -13,6 +16,8 @@
   z-index: 1000
   right: 10px
   cursor: pointer
-// @media #{}
+@media #{$tablette}
+  .rootStack
+    max-width: 100%
 // @media #{}
 // @media #{}

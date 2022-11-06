@@ -17,10 +17,9 @@ const HorairesRadioCheckContent: React.FC<Props> = (props: Props) => {
 			<Stack
 				direction="row"
 				flexWrap="wrap"
-				gap={5}
+				gap="12px"
 				justifyContent="space-between"
 				alignItems="center"
-				className={Styles.rootStack}
 			>
 				<ThemeProvider theme={horaireTheme}>
 						{props.children}
