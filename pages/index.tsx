@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import { RootState } from '../store/store';
-import Styles from '../styles/index.module.sass';
+import Styles from './index.module.sass';
 import { Stack, Box, ThemeProvider, InputAdornment } from '@mui/material';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';

@@ -21,6 +21,11 @@
     "incremental": true,
     "experimentalDecorators": true
   },
+  "plugins": [
+    {
+      "name": "next"
+    }
+  ],
   "include": [
     ".eslintrc.json",
     "next-env.d.ts",
@@ -29,6 +34,6 @@
   ],
   "exclude": [
     "node_modules",
-    "archives",
+    "archives"
   ]
 }

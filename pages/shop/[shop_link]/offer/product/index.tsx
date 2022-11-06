@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from '../../../../../styles/offers/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../../styles/shop/create/shopCreateShared.module.sass';
+import Styles from './index.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
@@ -39,7 +38,7 @@ const Index: NextPage = () => {
 
 	return (
 		<>
-			<main className={SharedStyles.fullPageNoOverflowMain}>
+			<main className={Styles.fullPageNoOverflowMain}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar
@@ -61,7 +60,7 @@ const Index: NextPage = () => {
 					<Stack direction="column" className={Styles.stackWrapper} justifyContent="space-between">
 						<CategoriesList offerType="V" />
 					</Stack>
-					<div className={SharedStyles.primaryButtonWrapper}>
+					<div className={Styles.primaryButtonWrapper}>
 						<PrimaryAnchorButton
 							buttonText="Continuer"
 							active={isValid}

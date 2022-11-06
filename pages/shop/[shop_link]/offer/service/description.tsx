@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from '../../../../../styles/offers/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../../styles/shop/create/shopCreateShared.module.sass';
+import Styles from './description.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import { Box, ClickAwayListener, Stack, TextField } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
@@ -31,7 +30,6 @@ import CustomDropDownChoices from '../../../../../components/formikElements/cust
 import { SelectChangeEvent } from '@mui/material/Select';
 import { addOfferServiceSchema } from '../../../../../utils/formValidationSchemas';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
-// import TagChips from '../../../../../components/groupedComponents/temp-offer/tagChips/tagChips';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import { useRouter } from 'next/router';
 import {
@@ -46,7 +44,6 @@ import {
 	getLocalOfferServiceMorningHourFrom,
 	getLocalOfferServiceMorningHourTo,
 	getLocalOfferServicePictures,
-	// getLocalOfferServiceTags,
 	getLocalOfferServiceTitle,
 	getLocalOfferServiceZoneBy,
 } from '../../../../../store/selectors';
@@ -240,7 +237,7 @@ const Description: NextPage = () => {
 
 	return (
 		<>
-			<main className={SharedStyles.main}>
+			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SERVICE" />
 				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar
@@ -599,7 +596,7 @@ const Description: NextPage = () => {
 										</Stack>
 										<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
 											<div
-												className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton} 
+												className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton} 
 											${Styles.marginBottom}`}
 											>
 												<PrimaryButton

@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import OfferStyles from '../../../../../styles/offers/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../../styles/shop/create/shopCreateShared.module.sass';
-import Styles from '../../../../../styles/offers/create/livraison.module.sass';
+import Styles from './livraison.module.sass';
 import { useRouter } from 'next/router';
 import { Box, Stack, ThemeProvider, Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
@@ -474,7 +472,7 @@ const Livraison: NextPage = () => {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<main className={SharedStyles.fullPageNoOverflowMain}>
+			<main className={Styles.fullPageNoOverflowMain}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.boxWrapper}>
 					<DesktopTopNavigationBar
@@ -491,7 +489,7 @@ const Livraison: NextPage = () => {
 					<HelperH1Header
 						header="Choisir des modes de livraison"
 						HelpText="Quelle différence entre livraison et Click & Collect"
-						headerClasses={OfferStyles.topHeader}
+						headerClasses={Styles.topHeader}
 					/>
 					<Stack direction="column" justifyContent="space-between" sx={{ height: '100%' }}>
 						<Stack direction="column" spacing={5} className={Styles.buttonCardWrapper}>
@@ -736,7 +734,7 @@ const Livraison: NextPage = () => {
 							</RadioCheckElement>
 						</Stack>
 					</Stack>
-					<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+					<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 						<PrimaryButton
 							buttonText={offer_pk ? 'Modifier' : 'Publier'}
 							active={submitActive}

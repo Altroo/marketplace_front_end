@@ -326,6 +326,11 @@
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/create" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/api/cookie" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/edit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/offer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/offer/offer_pk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/offer/product" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/offer/service" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />

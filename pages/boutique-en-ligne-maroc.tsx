@@ -1,11 +1,6 @@
 import React from 'react';
-// import { GetServerSidePropsContext, NextPage } from 'next';
 import { NextPage } from 'next';
-import Styles from '../styles/insta.module.sass';
-// import { getServerSideCookieTokens, isAuthenticatedInstance } from '../utils/helpers';
-// import { AccountGetCheckAccountResponseType } from '../types/account/accountTypes';
-// import { getApi } from '../store/services/_init/_initAPI';
-// import { AUTH_REGISTER, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../utils/routes';
+import Styles from './boutique-en-ligne-maroc.module.sass';
 import { AUTH_REGISTER } from '../utils/routes';
 import ImliPawIlluSVG from '../public/assets/images/imli-paw-illu.svg';
 import JumelleReverseIlluSVG from '../public/assets/images/jumelle-reversed-illu.svg';

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import OfferStyles from '../../../../../styles/offers/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../../styles/shop/create/shopCreateShared.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import Styles from '../../../../../styles/offers/create/price.module.sass';
+import Styles from './prix.module.sass';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
@@ -209,7 +207,7 @@ const Prix: NextPage = () => {
 	const chipTheme = OfferChipTheme();
 	return (
 		<>
-			<main className={SharedStyles.fullPageMain}>
+			<main className={Styles.fullPageMain}>
 				<LeftSideBar step={activeStep} which="SERVICE" />
 				<Box className={Styles.boxWrapper}>
 					<DesktopTopNavigationBar
@@ -226,7 +224,7 @@ const Prix: NextPage = () => {
 					<HelperH1Header
 						header="Fixer un prix"
 						HelpText="Apprendre à définir son prix"
-						headerClasses={OfferStyles.topHeader}
+						headerClasses={Styles.topHeader}
 					/>
 					<Stack direction="column" justifyContent="space-between" sx={{ height: '90%' }}>
 						<Stack direction="column" justifyContent="center" alignItems="center" sx={{ marginTop: '2rem' }}>
@@ -316,7 +314,7 @@ const Prix: NextPage = () => {
 							</Stack>
 						</Stack>
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
-							<div className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+							<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 								<PrimaryButton
 									buttonText={offer_pk ? 'Modifier' : 'Publier'}
 									active={submitActive}

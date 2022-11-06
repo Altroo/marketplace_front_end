@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from '../../../../../styles/offers/create/offerCreateShared.module.sass';
-import SharedStyles from '../../../../../styles/shop/create/shopCreateShared.module.sass';
+import Styles from './description.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
@@ -280,7 +279,7 @@ const Description: NextPage = () => {
 
 	return (
 		<>
-			<main className={SharedStyles.fullPageMain}>
+			<main className={Styles.fullPageMain}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box sx={{ width: '100%', height: '100%' }}>
 					<DesktopTopNavigationBar
@@ -453,7 +452,7 @@ const Description: NextPage = () => {
 										</Stack>
 										<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
 											<div
-												className={`${SharedStyles.primaryButtonWrapper} ${Styles.primaryButton} 
+												className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton} 
 											${Styles.marginBottom}`}
 											>
 												<PrimaryButton

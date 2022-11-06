@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from '../../../styles/shop/shopIndex.module.sass';
-import SharedStyles from '../../../styles/shop/create/shopCreateShared.module.sass';
+import Styles from './index.module.sass';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '../../../utils/hooks';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
@@ -765,7 +764,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								}}
 								open={openColorModal}
 							>
-								<div className={SharedStyles.desktopContainerModal}>
+								<div className={Styles.desktopContainerModal}>
 									{colors.map((color: string, index: number) => {
 										return (
 											<DesktopColorPicker
@@ -788,7 +787,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 									/>
 								</div>
 								<div>
-									<div className={SharedStyles.mobileContainerModal}>
+									<div className={Styles.mobileContainerModal}>
 										<Swiper
 											pagination={{
 												clickable: true,
@@ -798,9 +797,9 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 											}}
 											modules={[Navigation, Pagination, Lazy]}
 											scrollbar={{ enabled: false }}
-											className={SharedStyles.mobileSwiper}
+											className={Styles.mobileSwiper}
 										>
-											<SwiperSlide className={SharedStyles.swiperSlide}>
+											<SwiperSlide className={Styles.swiperSlide}>
 												{colors.slice(0, 10).map((color: string, index: number) => {
 													return (
 														<MobileColorPicker
@@ -812,7 +811,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 													);
 												})}
 											</SwiperSlide>
-											<SwiperSlide className={SharedStyles.swiperSlide}>
+											<SwiperSlide className={Styles.swiperSlide}>
 												{colors.slice(10, 20).map((color: string, index: number) => {
 													return (
 														<MobileColorPicker
@@ -826,7 +825,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 											</SwiperSlide>
 										</Swiper>
 										<div
-											className={`${SharedStyles.primaryButtonMobileWrapper} ${SharedStyles.primaryButtonZindexWrapper}`}
+											className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}
 										>
 											<PrimaryButton
 												buttonText="Enregistrer"
@@ -878,8 +877,8 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 									/>
 								</div>
 								<div>
-									<div className={SharedStyles.mobileFontWrapper}>
-										<div className={SharedStyles.mobileFontContainerModal}>
+									<div className={Styles.mobileFontWrapper}>
+										<div className={Styles.mobileFontContainerModal}>
 											{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
 												return (
 													<FontPicker
@@ -894,7 +893,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 											})}
 										</div>
 										<div
-											className={`${SharedStyles.primaryButtonMobileWrapper} ${SharedStyles.primaryButtonZindexWrapper}`}
+											className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}
 										>
 											<PrimaryButton
 												buttonText="Enregistrer"

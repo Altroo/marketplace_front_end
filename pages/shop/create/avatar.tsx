@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Styles from '../../../styles/shop/create/avatar.module.sass';
+import Styles from './avatar.module.sass';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';

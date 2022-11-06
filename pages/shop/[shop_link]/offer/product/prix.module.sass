@@ -1,0 +1,61 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+.main
+  position: relative
+  display: flex
+  flex-direction: row
+  padding-right: 60px
+  width: 100%
+  min-height: 100vh
+.fullPageMain
+  @extend .main
+  height: 100vh
+  overflow: hidden
+.topHeader
+  font-size: 24px !important
+.primaryButtonWrapper
+  width: 100%
+  text-align: center
+// Global styles
+.boxWrapper
+  width: 100%
+  height: 100%
+  margin-top: 1rem
+  margin-bottom: 1rem
+  display: flex
+  flex-direction: column
+.priceInputField
+  +SemiBold
+  font-size: 75px
+  font-weight: 600
+  text-align: center
+  margin: 0 auto
+  border: 0
+  width: 100%
+  &::before
+    content: "|"
+.priceLabel
+  +Medium
+  font-size: 15px
+  color: #0D070B
+.primaryButton
+  margin-bottom: 2rem
+@media #{$tablette}
+  .boxWrapper
+    margin-top: 0 !important
+    margin-bottom: 0 !important
+  .priceInputField
+    width: 100%
+  .stackRow
+    flex-direction: column
+  .primaryButton
+    justify-content: center
+    text-align: center
+    width: 300px
+    margin-bottom: 1.5rem
+// @media #{$desktop}
+// @media #{$tablette}
+
+// @media #{$mobile}
