@@ -13,7 +13,7 @@ import {
 	initialState,
 	setInitState,
 } from '../store/slices/_init/_initSlice';
-import { bulkCookiesDeleter, cookiesDeleter, cookiesPoster, tokenRefreshApi } from "../store/services/_init/_initAPI";
+import { cookiesDeleter, cookiesPoster, tokenRefreshApi } from "../store/services/_init/_initAPI";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store/store';
 import { ShopFontNameType } from '../types/shop/shopTypes';

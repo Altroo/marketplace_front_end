@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './description.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
+import { Box, ClickAwayListener, Grid, Stack } from "@mui/material";
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	AUTH_LOGIN,
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ADD_PRODUCT_CATEGORIES,
 	REAL_OFFER_ADD_PRODUCT_PRICE,
-	REAL_SHOP_ADD_SHOP_NAME
-} from "../../../../../utils/routes";
+	REAL_SHOP_ADD_SHOP_NAME,
+} from '../../../../../utils/routes';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
@@ -279,9 +279,9 @@ const Description: NextPage = () => {
 
 	return (
 		<>
-			<main className={Styles.fullPageMain}>
+			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
-				<Box sx={{ width: '100%', height: '100%' }}>
+				<Box className={Styles.rootBox}>
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_PRODUCT_CATEGORIES(router.query.shop_link as string)}
 						returnButton
@@ -293,184 +293,175 @@ const Description: NextPage = () => {
 						closeButtonHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
-					<Stack direction="column" spacing={4}>
-						<HelperDescriptionHeader
-							header="Décrivez votre offre"
-							description="Commencez par lui donnez un titre, une description et ajoutez quelques photos."
-							HelpText="Apprendre à créer une offre"
-						/>
-						<Stack direction="column">
-							<Formik
-								enableReinitialize={true}
-								initialValues={{
-									title: offerTitle,
-									images: images,
-									description: offerDescription,
-									made_in: madeIn,
-									// tags: offerTags,
-								}}
-								validateOnMount={true}
-								onSubmit={(values) => {
-									addDescriptionSubmitHandler(values);
-								}}
-								validationSchema={addOfferProductSchema}
-							>
-								{({
-									handleBlur,
-									handleChange,
-									values,
-									handleSubmit,
-									setFieldValue,
-									touched,
-									errors,
-									isSubmitting,
-									isValid,
-								}) => (
-									<Form
-										className={Styles.formStyle}
-										onKeyDown={(e) => {
-											if (e.code === 'enter') e.preventDefault();
-										}}
-									>
-										<Stack direction="column" spacing={4}>
-											<Stack direction="column" spacing={2}>
-												<Stack direction="column" spacing={4}>
-													<ClickAwayListener onClickAway={() => setTitleTooltip(false)}>
-														<div>
-															<CustomToolTip
-																title="Soyez court et précis ! Comment écrire un titre ? En savoir plus"
-																onClose={() => setTitleTooltip(false)}
-																open={titleTooltip}
-																theme={titleTooltipTheme}
-															>
-																<CustomTextInput
-																	id="title"
-																	label="Titre"
-																	value={values.title ? values.title : ''}
-																	onChange={(e) => {
-																		setTypingTitle(true);
-																		handleChange('title')(e);
-																		setOfferTitle(e.target.value);
-																	}}
-																	onBlur={handleBlur('title')}
-																	helperText={touched.title ? errors.title : ''}
-																	error={touched.title && Boolean(errors.title)}
-																	theme={titleFieldTheme}
-																	fullWidth={false}
-																	size="medium"
-																	type="text"
-																	cssClass={Styles.titleTextField}
-																	onClick={() => setTitleTooltip(true)}
-																/>
-															</CustomToolTip>
-														</div>
-													</ClickAwayListener>
-													<CustomSquareImageUploading
-														images={images}
+					<Stack direction="column" spacing={{ xs: "36px", sm: "36px", md: "60px", lg: "60px", xl: "60px" }}>
+						<Box className={Styles.marginLeft}>
+							<HelperDescriptionHeader
+								header="Décrivez votre offre"
+								description="Commencez par lui donnez un titre, une description et ajoutez quelques photos."
+								HelpText="Apprendre à créer une offre"
+							/>
+						</Box>
+						<Formik
+							enableReinitialize={true}
+							initialValues={{
+								title: offerTitle,
+								images: images,
+								description: offerDescription,
+								made_in: madeIn,
+								// tags: offerTags,
+							}}
+							validateOnMount={true}
+							onSubmit={(values) => {
+								addDescriptionSubmitHandler(values);
+							}}
+							validationSchema={addOfferProductSchema}
+						>
+							{({
+								handleBlur,
+								handleChange,
+								values,
+								handleSubmit,
+								setFieldValue,
+								touched,
+								errors,
+								isSubmitting,
+								isValid,
+							}) => (
+								<Stack
+									direction="column"
+									justifyContent="space-between"
+									component={Form}
+									className={Styles.stackWrapper}
+									onKeyDown={(e) => {
+										if (e.code === 'enter') e.preventDefault();
+									}}
+								>
+									<Stack direction="column" spacing="48px">
+										<Stack direction="column" spacing="18px">
+											<Stack direction="column" spacing="48px">
+												<ClickAwayListener onClickAway={() => setTitleTooltip(false)}>
+													<div>
+														<CustomToolTip
+															title="Soyez court et précis ! Comment écrire un titre ? En savoir plus"
+															onClose={() => setTitleTooltip(false)}
+															open={titleTooltip}
+															theme={titleTooltipTheme}
+														>
+															<CustomTextInput
+																id="title"
+																label="Titre"
+																value={values.title ? values.title : ''}
+																onChange={(e) => {
+																	setTypingTitle(true);
+																	handleChange('title')(e);
+																	setOfferTitle(e.target.value);
+																}}
+																onBlur={handleBlur('title')}
+																helperText={touched.title ? errors.title : ''}
+																error={touched.title && Boolean(errors.title)}
+																theme={titleFieldTheme}
+																fullWidth={false}
+																size="medium"
+																type="text"
+																cssClass={Styles.titleTextField}
+																onClick={() => setTitleTooltip(true)}
+															/>
+														</CustomToolTip>
+													</div>
+												</ClickAwayListener>
+												<CustomSquareImageUploading
+													images={images}
+													onChange={(e) => {
+														setPickingImages(true);
+														imagesOnChangeHandler(e);
+														setFieldValue('images', e);
+													}}
+													maxNumber={4}
+												/>
+												<Stack direction="column" spacing="18px">
+													<span className={Styles.spanTitle}>Description</span>
+													<CustomTextArea
+														type="text"
+														id="description"
+														label="Description"
+														value={values.description ? values.description : ''}
 														onChange={(e) => {
-															setPickingImages(true);
-															imagesOnChangeHandler(e);
-															setFieldValue('images', e);
+															setTypingDescription(true);
+															handleChange('description')(e);
+															setOfferDescription(e.target.value);
 														}}
-														maxNumber={4}
+														onBlur={handleBlur('description')}
+														helperText={touched.description ? errors.description : ''}
+														error={touched.description && Boolean(errors.description)}
+														minRows={4}
+														multiline={true}
+														theme={descriptionFieldTheme}
+														fullWidth={true}
+														size="medium"
 													/>
-													<Stack direction="column" spacing={2}>
-														<span className={Styles.spanTitle}>Description</span>
-														<CustomTextArea
-															type="text"
-															id="description"
-															label="Description"
-															value={values.description ? values.description : ''}
-															onChange={(e) => {
-																setTypingDescription(true);
-																handleChange('description')(e);
-																setOfferDescription(e.target.value);
-															}}
-															onBlur={handleBlur('description')}
-															helperText={touched.description ? errors.description : ''}
-															error={touched.description && Boolean(errors.description)}
-															minRows={4}
-															multiline={true}
-															theme={descriptionFieldTheme}
-															fullWidth={true}
-															size="medium"
-														/>
-													</Stack>
 												</Stack>
-												<CustomDropDownChoices
-													id="forWhom"
-													label="Pour qui (optionnel)"
-													items={forWhomItemsList}
-													theme={forWhomFieldTheme}
-													onChange={forWhomHandleChange}
-													value={forWhomChoice}
-													multiple={true}
-												/>
 											</Stack>
-											<Stack direction="column" spacing={2} alignItems="flex-end">
-												<Grid container columnSpacing={1}>
-													<Grid item md={6} sm={12} xs={12}>
-														<ColorsRadioCheckContent
-															selectedColorsList={selectedColorsList}
-															setselectedColorsList={setselectedColorsList}
-															switchOpen={colorSwitchOpen}
-														/>
-													</Grid>
-													<Grid item md={6} sm={12} xs={12}>
-														<OfferCreatorRadioCheckContent
-															pickedCountry={madeIn}
-															setPickedCountry={setMadeIn}
-															pickedCreator={togglePickedCreator}
-															togglePickedCreator={setTogglePickedCreator}
-															switchOpen={labelsSwitchOpen}/>
-													</Grid>
-												</Grid>
-												<Grid container columnSpacing={1}>
-													<Grid item md={6} sm={12} xs={12}>
-														<SizesRadioCheckContent
-															switchOpen={sizesSwitchOpen}
-															sizesStates={sizesStates}
-															setSizesStates={setSizesStates}
-														/>
-													</Grid>
-													<Grid item md={6} sm={12} xs={12}>
-														<QuantityRadioCheckContent
-															switchOpen={quantitySwitchOpen}
-															quantity={quantity}
-															setQuantity={setQuantity}
-														/>
-													</Grid>
-												</Grid>
-											</Stack>
-											{/*<TagChips*/}
-											{/*	pickedTags={offerTags}*/}
-											{/*	onChange={(e, values) => {*/}
-											{/*		setPickingTags(true);*/}
-											{/*		setOfferTags(values);*/}
-											{/*	}}*/}
-											{/*/>*/}
+											<CustomDropDownChoices
+												id="forWhom"
+												label="Pour qui (optionnel)"
+												items={forWhomItemsList}
+												theme={forWhomFieldTheme}
+												onChange={forWhomHandleChange}
+												value={forWhomChoice}
+												multiple={true}
+											/>
 										</Stack>
-										<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
-											<div
-												className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton} 
-											${Styles.marginBottom}`}
-											>
-												<PrimaryButton
-													buttonText="Continuer"
-													active={
-														isValid &&
-														!isSubmitting
-														// && offerTags.length > 0
-													}
-													onClick={handleSubmit}
-													type="submit"
-												/>
-											</div>
+										<Stack direction="column" spacing={{xs: 0, sm: 0, md: "20px", lg: "20px", xl: "20px"}} alignItems="flex-end">
+											<Grid container columnSpacing={{ md: "120px", lg: "120px", xl: "120px" }} rowSpacing={{ xs: "40px", sm: "40px"}}>
+												<Grid item md={6} sm={12} xs={12}>
+													<ColorsRadioCheckContent
+														selectedColorsList={selectedColorsList}
+														setselectedColorsList={setselectedColorsList}
+														switchOpen={colorSwitchOpen}
+													/>
+												</Grid>
+												<Grid item md={6} sm={12} xs={12}>
+													<OfferCreatorRadioCheckContent
+														pickedCountry={madeIn}
+														setPickedCountry={setMadeIn}
+														pickedCreator={togglePickedCreator}
+														togglePickedCreator={setTogglePickedCreator}
+														switchOpen={labelsSwitchOpen}
+													/>
+												</Grid>
+											</Grid>
+											<Grid container columnSpacing={{ md: "120px", lg: "120px", xl: "120px" }} rowSpacing={{ xs: "40px", sm: "40px"}}>
+												<Grid item md={6} sm={12} xs={12}>
+													<SizesRadioCheckContent
+														switchOpen={sizesSwitchOpen}
+														sizesStates={sizesStates}
+														setSizesStates={setSizesStates}
+													/>
+												</Grid>
+												<Grid item md={6} sm={12} xs={12}>
+													<QuantityRadioCheckContent
+														switchOpen={quantitySwitchOpen}
+														quantity={quantity}
+														setQuantity={setQuantity}
+													/>
+												</Grid>
+											</Grid>
 										</Stack>
-									</Form>
-								)}
-							</Formik>
-						</Stack>
+									</Stack>
+									<div className={Styles.primaryButtonWrapper}>
+										<PrimaryButton
+											buttonText="Continuer"
+											active={
+												isValid && !isSubmitting
+												// && offerTags.length > 0
+											}
+											onClick={handleSubmit}
+											type="submit"
+										/>
+									</div>
+								</Stack>
+							)}
+						</Formik>
 					</Stack>
 				</Box>
 			</main>

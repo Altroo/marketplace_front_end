@@ -464,11 +464,12 @@ export const OfferQuantityFieldTheme = (primaryColor: string | undefined = undef
 			MuiInputBase: {
 				styleOverrides: {
 					root: {
-						width: '65px',
+						width: '64px',
+						height: '49px',
 						'& fieldset': {
 							borderRadius: '16px',
 							border: '1px solid #A3A3AD',
-							width: '65px',
+							width: '64px',
 						},
 						'& fieldset > legend': {
 							// size of red error line (label) (input size - 5px)
@@ -480,6 +481,7 @@ export const OfferQuantityFieldTheme = (primaryColor: string | undefined = undef
 						fontFamily: 'Poppins',
 						fontSize: '19px',
 						caretColor: blueColor,
+						textAlign: 'center',
 					},
 				},
 			},
@@ -1038,6 +1040,40 @@ export const newsLetterEmailInputTheme = () => {
 							color: whiteColor,
 						},
 
+					},
+				},
+			},
+		},
+	});
+};
+
+export const SizesChipTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		components: {
+			...defaultTheme,
+			MuiChip: {
+				styleOverrides: {
+					root: {
+						fontFamily: 'Poppins',
+						fontSize: '15px',
+						paddingTop: '10px',
+						paddingBottom: '10px',
+						height: '37px',
+						border: '1px solid #0D070B',
+						borderRadius: '40px',
+					},
+					outlined: {
+						'&:hover': {
+							backgroundColor: 'rgba(0, 0, 0, 0.17)',
+						},
+					},
+					filled: {
+						backgroundColor: '#0D070B',
+						color: 'white',
+						'&:hover': {
+							backgroundColor: 'rgba(0, 0, 0, 0.7)',
+						},
 					},
 				},
 			},

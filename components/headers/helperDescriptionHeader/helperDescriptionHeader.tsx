@@ -22,14 +22,14 @@ const HelperDescriptionHeader: React.FC<Props> = (props: Props) => {
 			</div>
 			{props.HelpText && (
 				<div className={Styles.helpTextWrapper}>
-					<Image
-						src={QuestionMarkSVG}
-						alt=""
-						width="18"
-						height="18"
-						sizes="100vw"
-					/>
-					<p>{props.HelpText}</p>
+					{/*<Image*/}
+					{/*	src={QuestionMarkSVG}*/}
+					{/*	alt=""*/}
+					{/*	width="18"*/}
+					{/*	height="18"*/}
+					{/*	sizes="100vw"*/}
+					{/*/>*/}
+					{props.HelpText}
 				</div>
 			)}
 		</div>

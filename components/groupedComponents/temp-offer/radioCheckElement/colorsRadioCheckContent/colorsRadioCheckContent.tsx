@@ -98,18 +98,16 @@ const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<RadioCheckElement title="Couleurs" defaultValue={props.switchOpen}>
-				<Box mb={4}>
-					<Grid container>
+				<Grid container rowGap="18pxs" columnGap="50px" justifyContent="space-between" sx={{marginTop: '16px'}}>
 					{availableColorsList.map((color, index) => {
 						const rippleColor = hexToRGB(color.hex, 0.5);
 						return (
-							<Grid item md={3} sm={3} xs={4} key={index}>
+							<Grid item key={index}>
 								<Stack direction="column" key={index} alignItems="center">
 									<Box
 										className={`${Styles.colorWrapper} ${
 											props.selectedColorsList.includes(color.code) ? Styles.colorActive : ''
-										}`}
-									>
+										}`}>
 										<Button
 											className={Styles.colorButton}
 											sx={{
@@ -130,7 +128,6 @@ const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
 						);
 					})}
 				</Grid>
-				</Box>
 			</RadioCheckElement>
 		</ThemeProvider>
 	);

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Styles from './sizesRadioCheckContent.module.sass';
-import { OfferChipTheme } from '../../../../../utils/themes';
+import { OfferChipTheme, SizesChipTheme } from "../../../../../utils/themes";
 import { ThemeProvider, Stack, Grid } from '@mui/material';
 import RadioCheckElement from '../radioCheckElement';
 import { OfferBulkStatesListType } from '../../../../../types/ui/uiTypes';
@@ -80,22 +80,22 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 		},
 	];
 
-	const chipTheme = OfferChipTheme();
+	const chipTheme = SizesChipTheme();
 	return (
 		<RadioCheckElement title="Tailles" defaultValue={props.switchOpen}>
 			<Stack
 				direction="row"
 				flexWrap="wrap"
-				gap={5}
+				gap="24px"
 				justifyContent="space-between"
 				alignItems="center"
 				className={Styles.rootStack}
 			>
 				<ThemeProvider theme={chipTheme}>
-					<Grid container spacing={2}>
+					<Grid container gap="24px">
 						{availableSizesList.map((size, index) => {
 							return (
-								<Grid item md={5} sm={3} xs={5} lg={3} xl={4} key={index}>
+								<Grid item key={index}>
 									<Chip
 										label={size.value}
 										variant={size.state ? 'filled' : 'outlined'}

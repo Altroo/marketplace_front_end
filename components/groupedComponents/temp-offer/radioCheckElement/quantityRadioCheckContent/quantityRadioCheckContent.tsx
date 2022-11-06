@@ -5,6 +5,7 @@ import RadioCheckElement from '../radioCheckElement';
 import MinusSVG from '../../../../../public/assets/svgs/globalIcons/minus-circular.svg';
 import PlusSVG from '../../../../../public/assets/svgs/globalIcons/plus-circular.svg';
 import Image from 'next/image';
+import Styles from './quantityRadioCheckContent.module.sass';
 
 type Props = {
 	switchOpen: boolean;
@@ -18,7 +19,7 @@ const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
 
 	return (
 		<RadioCheckElement title="Quantité" defaultValue={props.switchOpen}>
-			<Stack direction="row" flexWrap="wrap" gap={5}>
+			<Stack direction="row" flexWrap="wrap" spacing="40px" sx={{marginTop: '20px'}}>
 				<IconButton
 					onClick={() =>
 						props.setQuantity((prevState) => {
@@ -29,6 +30,7 @@ const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
 							}
 						})
 					}
+					className={Styles.iconButton}
 				>
 					<Image
 						src={MinusSVG}
@@ -47,7 +49,7 @@ const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
 						}
 					}} color="primary" />
 				</ThemeProvider>
-				<IconButton onClick={() => props.setQuantity((prevState) => prevState + 1)}>
+				<IconButton onClick={() => props.setQuantity((prevState) => prevState + 1)} className={Styles.iconButton}>
 					<Image
 						src={PlusSVG}
 						alt=""

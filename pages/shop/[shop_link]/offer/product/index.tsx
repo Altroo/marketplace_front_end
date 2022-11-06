@@ -15,8 +15,9 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
-	REAL_SHOP_ADD_SHOP_NAME, AUTH_LOGIN
-} from "../../../../../utils/routes";
+	REAL_SHOP_ADD_SHOP_NAME,
+	AUTH_LOGIN,
+} from '../../../../../utils/routes';
 import { useRouter } from 'next/router';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
@@ -62,12 +63,12 @@ const Index: NextPage = () => {
 					<Stack direction="column" className={Styles.stackWrapper} justifyContent="space-between">
 						<CategoriesList offerType="V" />
 						<div className={Styles.primaryButtonWrapper}>
-						<PrimaryAnchorButton
-							buttonText="Continuer"
-							active={isValid}
-							nextPage={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
-						/>
-					</div>
+							<PrimaryAnchorButton
+								buttonText="Continuer"
+								active={isValid}
+								nextPage={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
+							/>
+						</div>
 					</Stack>
 				</Box>
 			</main>

@@ -35,7 +35,7 @@ const OfferCreatorRadioCheckContent: React.FC<Props> = (props: Props) => {
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<RadioCheckElement title="Labels" defaultValue={props.switchOpen}>
-				<Stack direction="column" gap={2}>
+				<Stack direction="column" sx={{marginTop: '20px'}}>
 					{isCreator && (
 						<>
 							<span className={Styles.creatorLabel}>Produit original &quot;Creator&quot;</span>
@@ -69,6 +69,7 @@ const OfferCreatorRadioCheckContent: React.FC<Props> = (props: Props) => {
 						items={availableCountries}
 						theme={madeInFieldTheme}
 						disabled={false}
+						cssClass={Styles.inputFieldWidth}
 					/>
 				</Stack>
 			</RadioCheckElement>
