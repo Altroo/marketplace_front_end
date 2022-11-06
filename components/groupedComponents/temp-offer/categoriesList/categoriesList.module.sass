@@ -17,6 +17,10 @@
 .divider
   color: $buttonInputDisabled
 
+.categoryItem:last-child
+    .divider
+      +Hidden
+
 @media #{$tablette}
   .categoriesListWrapper
     flex-direction: column
@@ -24,5 +28,6 @@
     margin-left: 0 !important
   .mobileHidden
     +Hidden
+
 // @media #{}
 // @media #{}

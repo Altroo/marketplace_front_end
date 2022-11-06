@@ -89,7 +89,7 @@ const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps
 	};
 
 	return (
-		<>
+		<Box className={Styles.categoryItem}>
 			<Stack
 				direction="row"
 				spacing={1}
@@ -107,7 +107,7 @@ const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps
 				</Stack>
 			</Stack>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />
-		</>
+		</Box>
 	);
 };
 

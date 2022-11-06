@@ -9,14 +9,15 @@ import HelperH1Header from '../../../../../components/headers/helperH1Header/hel
 import CategoriesList from '../../../../../components/groupedComponents/temp-offer/categoriesList/categoriesList';
 import { Stack, Box } from '@mui/material';
 import { useAppSelector } from '../../../../../utils/hooks';
-import { getLocalOfferServiceCategories } from "../../../../../store/selectors";
+import { getLocalOfferServiceCategories } from '../../../../../store/selectors';
 import PrimaryAnchorButton from '../../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ADD_SERVICE_DESCRIPTION,
-	REAL_SHOP_ADD_SHOP_NAME, AUTH_LOGIN
-} from "../../../../../utils/routes";
+	REAL_SHOP_ADD_SHOP_NAME,
+	AUTH_LOGIN,
+} from '../../../../../utils/routes';
 import { useRouter } from 'next/router';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
@@ -39,9 +40,9 @@ const Index: NextPage = () => {
 
 	return (
 		<>
-			<main className={Styles.fullPageNoOverflowMain}>
+			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SERVICE" />
-				<Box sx={{ width: '100%', height: '100%' }}>
+				<Box className={Styles.rootBox}>
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
 						returnButton
@@ -53,21 +54,23 @@ const Index: NextPage = () => {
 						closeButtonHref={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header
-						header="Choisissez une ou plusieurs catégories"
-						HelpText="Bien choisir ses catégories"
-						headerClasses={Styles.topHeader}
-					/>
-					<Stack direction="column" className={Styles.stackWrapper} justifyContent="space-between">
-						<CategoriesList offerType="S"/>
-					</Stack>
-					<div className={Styles.primaryButtonWrapper}>
-						<PrimaryAnchorButton
-							buttonText="Continuer"
-							active={isValid}
-							nextPage={REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)}
+					<Box className={Styles.marginLeft}>
+						<HelperH1Header
+							header="Choisissez une ou plusieurs catégories"
+							HelpText="Bien choisir ses catégories"
+							headerClasses={Styles.topHeader}
 						/>
-					</div>
+					</Box>
+					<Stack direction="column" className={Styles.stackWrapper} justifyContent="space-between">
+						<CategoriesList offerType="S" />
+						<div className={Styles.primaryButtonWrapper}>
+							<PrimaryAnchorButton
+								buttonText="Continuer"
+								active={isValid}
+								nextPage={REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)}
+							/>
+						</div>
+					</Stack>
 				</Box>
 			</main>
 		</>

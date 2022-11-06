@@ -3,6 +3,8 @@
 @import 'styles/sass/mixins'
 
 // Global styles
+.marginLeft
+  margin-left: 30px
 .main
   position: relative
   display: flex
@@ -10,25 +12,37 @@
   padding-right: 60px
   width: 100%
   min-height: 100vh
+.rootBox
+  margin-left: 30px
+  width: calc(100% - 440px)
+  height: 100%
 .topHeader
   font-size: 24px !important
 .stackWrapper
   width: 100%
   margin-top: 60px
-  min-height: 70vh
+  margin-left: 30px
+  min-height: calc(100vh - 268px)
   display: flex
   flex-direction: column
   background: white
-  margin-bottom: 40px
-.fullPageNoOverflowMain
-  @extend .main
-  height: 100vh
+  padding-right: 30px
+  justify-content: space-between
 .primaryButtonWrapper
   width: 100%
   text-align: center
 @media #{$tablette}
   .main
     padding: 20px
+  .rootBox
+    margin-left: 0
+    width: 100%
+  .marginLeft
+    margin-left: 0
   .stackWrapper
     margin-top: 20px
-    padding: 20px 10px
+    margin-left: 0 !important
+    padding-right: 0 !important
+  .primaryButtonWrapper
+    margin-top: 40px
+    margin-bottom: 40px

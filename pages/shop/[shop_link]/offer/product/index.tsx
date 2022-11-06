@@ -38,9 +38,9 @@ const Index: NextPage = () => {
 
 	return (
 		<>
-			<main className={Styles.fullPageNoOverflowMain}>
+			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
-				<Box sx={{ width: '100%', height: '100%' }}>
+				<Box className={Styles.rootBox}>
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
 						returnButton
@@ -52,21 +52,23 @@ const Index: NextPage = () => {
 						closeButtonHref={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header
-						header="Choisissez une ou plusieurs catégories"
-						HelpText="Bien choisir ses catégories"
-						headerClasses={Styles.topHeader}
-					/>
+					<Box className={Styles.marginLeft}>
+						<HelperH1Header
+							header="Choisissez une ou plusieurs catégories"
+							HelpText="Bien choisir ses catégories"
+							headerClasses={Styles.topHeader}
+						/>
+					</Box>
 					<Stack direction="column" className={Styles.stackWrapper} justifyContent="space-between">
 						<CategoriesList offerType="V" />
-					</Stack>
-					<div className={Styles.primaryButtonWrapper}>
+						<div className={Styles.primaryButtonWrapper}>
 						<PrimaryAnchorButton
 							buttonText="Continuer"
 							active={isValid}
 							nextPage={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
 						/>
 					</div>
+					</Stack>
 				</Box>
 			</main>
 		</>
