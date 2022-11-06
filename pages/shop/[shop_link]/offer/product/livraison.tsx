@@ -472,9 +472,9 @@ const Livraison: NextPage = () => {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<main className={Styles.fullPageNoOverflowMain}>
+			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
-				<Box className={Styles.boxWrapper}>
+				<Box className={Styles.rootBox}>
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_PRODUCT_PRICE(router.query.shop_link as string)}
 						returnButton
@@ -486,13 +486,16 @@ const Livraison: NextPage = () => {
 						closeButtonHref={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header
-						header="Choisir des modes de livraison"
-						HelpText="Quelle différence entre livraison et Click & Collect"
-						headerClasses={Styles.topHeader}
-					/>
-					<Stack direction="column" justifyContent="space-between" sx={{ height: '100%' }}>
-						<Stack direction="column" spacing={5} className={Styles.buttonCardWrapper}>
+					<Stack direction="column" spacing={{ xs: "30px", sm: "30px", md: "66px", lg: "66px", xl: "66px" }}>
+						<Box className={Styles.marginLeft}>
+						<HelperH1Header
+							header="Choisir des modes de livraison"
+							HelpText="Quelle différence entre livraison et Click & Collect"
+							headerClasses={Styles.topHeader}
+						/>
+					</Box>
+						<Stack direction="column" justifyContent="space-between" className={Styles.stackWrapper}>
+						<Stack direction="column" spacing="18px" className={Styles.buttonCardWrapper}>
 							<RadioCheckElement
 								title="Click & collect"
 								defaultValue={localisationSwitchOpen}
@@ -733,15 +736,16 @@ const Livraison: NextPage = () => {
 								</CustomSwipeModal>
 							</RadioCheckElement>
 						</Stack>
+						<div className={Styles.primaryButtonWrapper}>
+							<PrimaryButton
+								buttonText={offer_pk ? 'Modifier' : 'Publier'}
+								active={submitActive}
+								onClick={handleSubmit}
+								type="submit"
+							/>
+						</div>
 					</Stack>
-					<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-						<PrimaryButton
-							buttonText={offer_pk ? 'Modifier' : 'Publier'}
-							active={submitActive}
-							onClick={handleSubmit}
-							type="submit"
-						/>
-					</div>
+					</Stack>
 				</Box>
 				{/*<ApiLoadingResponseOrError*/}
 				{/*	inProgress={offer_pk ? offerApi.isEditInProgress : offerApi.isAddInProgress}*/}

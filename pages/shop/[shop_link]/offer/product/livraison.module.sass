@@ -2,6 +2,8 @@
 @import 'styles/sass/variables'
 @import 'styles/sass/mixins'
 
+.marginLeft
+  margin-left: 30px
 .main
   position: relative
   display: flex
@@ -9,14 +11,25 @@
   padding-right: 60px
   width: 100%
   min-height: 100vh
-.fullPageNoOverflowMain
-  @extend .main
-  height: 100vh
+.rootBox
+  margin-left: 30px
+  width: calc(100% - 440px)
+  height: 100%
+.stackWrapper
+  width: 100%
+  margin-left: 30px !important
+  min-height: calc(100vh - 275px)
+  display: flex
+  flex-direction: column
+  background: white
+  padding-right: 30px
+  justify-content: space-between
 .topHeader
   font-size: 24px !important
 .primaryButtonWrapper
   width: 100%
   text-align: center
+  margin-top: 40px
 // Global styles
 .boxWrapper
   width: 100%
@@ -27,10 +40,9 @@
   flex-direction: column
 .buttonCardWrapper
   width: 360px
-  margin-top: 2rem
 .buttonCard
+  margin-top: 9px
   background: $white
-  // box-shadow: 0 2.80058px 11.2023px rgba(13, 7, 11, 0.2)
   border: 1px solid #D9D9DD
   border-radius: 15px
   padding: 20px
@@ -38,7 +50,6 @@
   font-size: 16px
   color: #84848A
   text-transform: none
-  //margin-bottom: 40px
 
 .leaflet-container
   max-height: 100%
@@ -96,9 +107,18 @@
     color: $grayInput
   &:hover
     border-color: $primary
-.primaryButton
-  margin-bottom: 2rem
 @media #{$tablette}
+  .main
+    padding: 20px
+  .marginLeft
+    margin-left: 0
+  .rootBox
+    margin-left: 0
+    width: 100%
+  .stackWrapper
+    margin-top: 20px
+    margin-left: 0 !important
+    padding-right: 0 !important
   .boxWrapper
     margin-top: 0 !important
     margin-bottom: 0 !important
@@ -110,15 +130,11 @@
   .header
     font-size: 21px
     letter-spacing: -0.01em
-  .primaryButton
-    justify-content: center
-    text-align: center
-    width: 300px
-    margin: 0 auto
+  .primaryButtonWrapper
+    margin-top: 40px
+    margin-bottom: 40px
 @media #{$mobile}
   .buttonCard
     width: 100%
-  .primaryButton
-    margin-top: 2rem
 // @media #{$tablette}
 // @media #{$mobile}
