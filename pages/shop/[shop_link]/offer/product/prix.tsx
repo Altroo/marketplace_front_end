@@ -7,8 +7,9 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_PRODUCT_DELIVERIES,
 	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
-	REAL_SHOP_ADD_SHOP_NAME, AUTH_LOGIN
-} from "../../../../../utils/routes";
+	REAL_SHOP_ADD_SHOP_NAME,
+	AUTH_LOGIN,
+} from '../../../../../utils/routes';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import { Box, Stack, ThemeProvider } from '@mui/material';
@@ -18,13 +19,13 @@ import { OfferChipTheme } from '../../../../../utils/themes';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CurrencyInput from 'react-currency-input-field';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
-import { setOfferProductPricePage } from "../../../../../store/actions/offer/offerActions";
+import { setOfferProductPricePage } from '../../../../../store/actions/offer/offerActions';
 import { useRouter } from 'next/router';
 import { getLocalOfferProductPrice, getLocalOfferProductPriceBy } from '../../../../../store/selectors';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
 import { getApi } from '../../../../../store/services/_init/_initAPI';
-import { ApiErrorResponseType } from "../../../../../types/_init/_initTypes";
+import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 
 const Prix: NextPage = () => {
 	const activeStep = '3';
@@ -49,10 +50,7 @@ const Prix: NextPage = () => {
 		if (liter) {
 			price_by = 'L';
 		}
-		const action = setOfferProductPricePage(
-			price as string,
-			price_by
-		);
+		const action = setOfferProductPricePage(price as string, price_by);
 		dispatch({
 			...action,
 			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
@@ -86,9 +84,9 @@ const Prix: NextPage = () => {
 	const chipTheme = OfferChipTheme();
 	return (
 		<>
-			<main className={Styles.fullPageMain}>
+			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
-				<Box className={Styles.boxWrapper}>
+				<Box className={Styles.rootBox}>
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)}
 						returnButton
@@ -100,13 +98,15 @@ const Prix: NextPage = () => {
 						closeButtonHref={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header
-						header="Fixer un prix"
-						HelpText="Apprendre à définir son prix"
-						headerClasses={Styles.topHeader}
-					/>
-					<Stack direction="column" justifyContent="space-between" sx={{ height: '90%' }}>
-						<Stack direction="column" justifyContent="center" alignItems="center" sx={{ marginTop: '2rem' }}>
+					<Box className={Styles.marginLeft}>
+						<HelperH1Header
+							header="Fixer un prix"
+							HelpText="Apprendre à définir son prix"
+							headerClasses={Styles.topHeader}
+						/>
+					</Box>
+					<Stack direction="column" className={Styles.stackWrapper} justifyContent="space-between">
+						<Stack direction="column" spacing="12px" alignItems="center">
 							<CurrencyInput
 								allowDecimals={false}
 								className={Styles.priceInputField}
@@ -114,7 +114,6 @@ const Prix: NextPage = () => {
 								name="prix-input"
 								placeholder="0"
 								value={price}
-								// decimalsLimit={2}
 								onValueChange={(value) => {
 									if (value) {
 										setPrice(value);
@@ -165,11 +164,9 @@ const Prix: NextPage = () => {
 								</ThemeProvider>
 							</Stack>
 						</Stack>
-						<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
-							<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-								<PrimaryButton buttonText="Continuer" active={submitActive} onClick={handleSubmit} type="submit" />
-							</div>
-						</Stack>
+						<div className={Styles.primaryButtonWrapper}>
+							<PrimaryButton buttonText="Continuer" active={submitActive} onClick={handleSubmit} type="submit" />
+						</div>
 					</Stack>
 				</Box>
 			</main>
