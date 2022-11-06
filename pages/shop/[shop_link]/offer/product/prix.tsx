@@ -15,7 +15,7 @@ import MobileStepsBar from '../../../../../components/mobile/navbars/mobileSteps
 import { Box, Stack, ThemeProvider } from '@mui/material';
 import HelperH1Header from '../../../../../components/headers/helperH1Header/helperH1Header';
 import Chip from '@mui/material/Chip';
-import { OfferChipTheme } from '../../../../../utils/themes';
+import { SizesChipTheme } from "../../../../../utils/themes";
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CurrencyInput from 'react-currency-input-field';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
@@ -81,7 +81,7 @@ const Prix: NextPage = () => {
 		}
 	}, [kg, liter, price, unity]);
 
-	const chipTheme = OfferChipTheme();
+	const chipTheme = SizesChipTheme();
 	return (
 		<>
 			<main className={Styles.main}>

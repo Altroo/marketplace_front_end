@@ -14,7 +14,7 @@ import MobileStepsBar from '../../../../../components/mobile/navbars/mobileSteps
 import { Box, Stack, ThemeProvider } from '@mui/material';
 import HelperH1Header from '../../../../../components/headers/helperH1Header/helperH1Header';
 import Chip from '@mui/material/Chip';
-import { OfferChipTheme } from '../../../../../utils/themes';
+import { SizesChipTheme } from "../../../../../utils/themes";
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CurrencyInput from 'react-currency-input-field';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
@@ -204,12 +204,12 @@ const Prix: NextPage = () => {
 		}
 	}, [heur, jour, mois, prestation, price, semaine]);
 
-	const chipTheme = OfferChipTheme();
+	const chipTheme = SizesChipTheme();
 	return (
 		<>
-			<main className={Styles.fullPageMain}>
+			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SERVICE" />
-				<Box className={Styles.boxWrapper}>
+				<Box className={Styles.rootBox}>
 					<DesktopTopNavigationBar
 						backHref={REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)}
 						returnButton
@@ -221,13 +221,15 @@ const Prix: NextPage = () => {
 						closeButtonHref={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
-					<HelperH1Header
-						header="Fixer un prix"
-						HelpText="Apprendre à définir son prix"
-						headerClasses={Styles.topHeader}
-					/>
-					<Stack direction="column" justifyContent="space-between" sx={{ height: '90%' }}>
-						<Stack direction="column" justifyContent="center" alignItems="center" sx={{ marginTop: '2rem' }}>
+					<Box className={Styles.marginLeft}>
+						<HelperH1Header
+							header="Fixer un prix"
+							HelpText="Apprendre à définir son prix"
+							headerClasses={Styles.topHeader}
+						/>
+					</Box>
+					<Stack direction="column" className={Styles.stackWrapper} justifyContent="space-between">
+						<Stack direction="column" spacing="12px" alignItems="center">
 							<CurrencyInput
 								className={Styles.priceInputField}
 								id="prix-input"
@@ -250,6 +252,7 @@ const Prix: NextPage = () => {
 										flexWrap="wrap"
 										gap={2}
 										alignItems="center"
+										justifyContent="center"
 										sx={{ marginTop: '6px' }}
 										className={Styles.stackRow}
 									>
@@ -313,16 +316,14 @@ const Prix: NextPage = () => {
 								</ThemeProvider>
 							</Stack>
 						</Stack>
-						<Stack direction="row" justifyContent="center" alignItems="center" spacing={5}>
-							<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-								<PrimaryButton
-									buttonText={offer_pk ? 'Modifier' : 'Publier'}
-									active={submitActive}
-									onClick={handleSubmit}
-									type="submit"
-								/>
-							</div>
-						</Stack>
+						<div className={Styles.primaryButtonWrapper}>
+							<PrimaryButton
+								buttonText={offer_pk ? 'Modifier' : 'Publier'}
+								active={submitActive}
+								onClick={handleSubmit}
+								type="submit"
+							/>
+						</div>
 					</Stack>
 				</Box>
 			</main>

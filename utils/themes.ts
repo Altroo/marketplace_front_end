@@ -1060,7 +1060,7 @@ export const SizesChipTheme = (primaryColor: string | undefined = undefined) => 
 						paddingTop: '10px',
 						paddingBottom: '10px',
 						height: '37px',
-						border: '1px solid #0D070B',
+						border: '1.5px solid #0D070B',
 						borderRadius: '40px',
 					},
 					outlined: {
