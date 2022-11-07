@@ -67,8 +67,8 @@ const SetPasswordPageContent = (props: setPasswordPageContentProps) => {
 	const inputTheme = coordonneeTextInputTheme();
 
 	return (
-		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.contentWrapper} spacing={6}>
-			<Stack direction="column" sx={{ width: '100%' }}>
+		<Stack direction="column" className={Styles.contentWrapper} spacing={6}>
+			<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" width="100%">
 				<span className={Styles.content}>
 					Nouveau <br />
 					mot de passe
@@ -139,18 +139,16 @@ const SetPassword: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100vh' }}>
-						<UserMainNavigationBar/>
-						<SetPasswordPageContent email={email} code={code} />
-						<Stack direction="column" justifyContent="center" alignItems="center">
-							<p className={Styles.bottomLinks}>
-								Pas encore de compte ?{' '}
-								<Link href={AUTH_REGISTER}>
-									Inscrivez-vous
-								</Link>
-							</p>
-						</Stack>
-					</Stack>
+					<UserMainNavigationBar/>
+					<SetPasswordPageContent email={email} code={code} />
+					{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
+					{/*	<p className={Styles.bottomLinks}>*/}
+					{/*		Pas encore de compte ?{' '}*/}
+					{/*		<Link href={AUTH_REGISTER}>*/}
+					{/*			Inscrivez-vous*/}
+					{/*		</Link>*/}
+					{/*	</p>*/}
+					{/*</Stack>*/}
 				</main>
 			</div>
 		</>

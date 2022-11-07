@@ -103,8 +103,6 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 		<>
 			<Stack
 				direction="column"
-				justifyContent="center"
-				alignItems="center"
 				className={`${Styles.contentWrapper} ${props.cssClass}`}
 				spacing={4}
 			>
