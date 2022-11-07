@@ -8,12 +8,8 @@ import {
 	setFormikAutoErrors,
 } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType, AccountPostLoginResponseType } from '../../../types/account/accountTypes';
-import { cookiesPoster, getApi, postApi } from "../../../store/services/_init/_initAPI";
-import {
-	AUTH_REGISTER,
-	AUTH_RESET_PASSWORD_ENTER_CODE,
-	DASHBOARD
-} from "../../../utils/routes";
+import { cookiesPoster, getApi, postApi } from '../../../store/services/_init/_initAPI';
+import { AUTH_REGISTER, AUTH_RESET_PASSWORD_ENTER_CODE, DASHBOARD } from '../../../utils/routes';
 import AuthPageLayout from '../../../components/layouts/auth/authPageLayout';
 import { Stack } from '@mui/material';
 import Link from 'next/link';
@@ -23,14 +19,14 @@ import { emailSchema } from '../../../utils/formValidationSchemas';
 import { coordonneeTextInputTheme } from '../../../utils/themes';
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
+import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 
 const ResetPasswordPageContent = () => {
 	const router = useRouter();
 
 	const formik = useFormik({
 		initialValues: {
-			email: "",
+			email: '',
 		},
 		validateOnMount: true,
 		validationSchema: emailSchema,
@@ -44,7 +40,7 @@ const ResetPasswordPageContent = () => {
 				});
 				if (response.status === 204) {
 					setSubmitting(true);
-					cookiesPoster("/cookies", { new_email: values.email }).then(() => {
+					cookiesPoster('/cookies', { new_email: values.email }).then(() => {
 						router.push(AUTH_RESET_PASSWORD_ENTER_CODE).then();
 					});
 				}
@@ -58,7 +54,7 @@ const ResetPasswordPageContent = () => {
 
 	return (
 		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.contentWrapper} spacing={4}>
-			<Stack direction="column" spacing={1}>
+			<Stack direction="column" spacing={1} alignItems="flex-start" width="100%">
 				<Stack direction="column">
 					<span className={Styles.content}>Récupération</span>
 					<span className={Styles.subContent}>du mot de passe</span>
@@ -67,7 +63,7 @@ const ResetPasswordPageContent = () => {
 					Entrez votre email pour recevoir un code et modifier votre mot de passe.
 				</span>
 			</Stack>
-			<form style={{ width: "100%"}}>
+			<form style={{ width: '100%' }}>
 				<Stack direction="column" spacing={4}>
 					<CustomTextInput
 						id="email"
@@ -111,17 +107,12 @@ const ResetPassword: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100vh' }}>
-						<UserMainNavigationBar/>
-						<ResetPasswordPageContent />
-						<Stack direction="column" justifyContent="center" alignItems="center">
-							<p className={Styles.bottomLinks}>
-								Pas encore de compte ?{' '}
-								<Link href={AUTH_REGISTER}>
-									Inscrivez-vous
-								</Link>
-							</p>
-						</Stack>
+					<UserMainNavigationBar />
+					<ResetPasswordPageContent />
+					<Stack direction="column" justifyContent="center" alignItems="center" sx={{marginTop: '60px'}}>
+						<p className={Styles.bottomLinks}>
+							Pas encore de compte ? <Link href={AUTH_REGISTER}>Inscrivez-vous</Link>
+						</p>
 					</Stack>
 				</main>
 			</div>
