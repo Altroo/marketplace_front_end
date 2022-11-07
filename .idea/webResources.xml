@@ -23,6 +23,7 @@
             <path value="file://$PROJECT_DIR$/public/assets/images/cards_illu" />
             <path value="file://$PROJECT_DIR$/public/assets/images/dashboard_illu" />
             <path value="file://$PROJECT_DIR$/public/assets/svgs/indexIcons" />
+            <path value="file://$PROJECT_DIR$/public/ico" />
           </resourceRoots>
         </entryData>
       </entry>
