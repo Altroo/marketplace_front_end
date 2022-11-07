@@ -84,7 +84,7 @@ const LoginPageContent = () => {
 	return (
 		<Stack direction="column" spacing={4} className={Styles.contentWrapper}>
 			<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" width="100%">
-				<h2 className={Styles.content}>Connection</h2>
+				<h2 className={Styles.content}>Connexion</h2>
 			</Stack>
 			<Stack direction="column" spacing={2} className={Styles.mobileWidth}>
 				<GoogleSignInButton onClick={googleSignIn} />
@@ -174,17 +174,15 @@ const Login: React.FC<Props> = (props: Props) => {
 					</div>
 					<div className={Styles.mobileOnly}>
 						<main className={Styles.main}>
-							<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{minHeight: '100vh'}}>
-								<UserMainNavigationBar/>
-								<LoginPageContent/>
-								<Stack direction="column" justifyContent="center" alignItems="center">
-									<p className={Styles.bottomLinks}>
-										Pas encore de compte ?{' '}
-										<Link href={AUTH_REGISTER}>
-											Inscrivez-vous
-										</Link>
-									</p>
-								</Stack>
+							<UserMainNavigationBar/>
+							<LoginPageContent/>
+							<Stack direction="column" justifyContent="center" alignItems="center" sx={{marginTop: '60px'}}>
+								<p className={Styles.bottomLinks}>
+									Pas encore de compte ?{' '}
+									<Link href={AUTH_REGISTER}>
+										Inscrivez-vous
+									</Link>
+								</p>
 							</Stack>
 						</main>
 					</div>
