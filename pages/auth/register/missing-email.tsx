@@ -80,7 +80,7 @@ const AddMissingEmail = () => {
 				<span className={Styles.header}>Ajoutez votre email</span>
 				<p className={Styles.subHeader}>Pour vous inscrire, nous avons besoin de votre email.</p>
 			</Stack>
-			<form>
+			<form style={{ width: "100%"}}>
 				<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
 					<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
 						<CustomTextInput

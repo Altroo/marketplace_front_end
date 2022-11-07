@@ -106,7 +106,7 @@ const AboutPageContent = (props: AboutPageContent) => {
 				<span className={Styles.header}>Dites-nous en plus</span>
 				<p className={Styles.subHeader}>Pour vous inscrire, nous avons besoin de quelques informations.</p>
 			</Stack>
-			<form>
+			<form style={{ width: "100%"}}>
 				<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
 					<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
 						<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>

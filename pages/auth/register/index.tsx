@@ -57,7 +57,7 @@ const RegisterPageContent = (props: registerPageContentProps) => {
 				{props.error && <span className={Styles.errorMessage}>{props.error}</span>}
 			</Stack>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />
-			<form>
+			<form style={{ width: "100%"}}>
 			<Stack direction="column" spacing="24px">
 				<CustomTextInput
 					id="email"

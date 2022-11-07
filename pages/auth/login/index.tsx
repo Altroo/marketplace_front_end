@@ -92,7 +92,7 @@ const LoginPageContent = () => {
 				{error && <span className={Styles.errorMessage}>{error}</span>}
 			</Stack>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />
-			<form>
+			<form style={{ width: "100%"}}>
 				<Stack direction="column" spacing={2}>
 					<CustomTextInput
 						id="email"
