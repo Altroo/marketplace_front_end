@@ -53,7 +53,7 @@ const ResetPasswordPageContent = () => {
 	const inputTheme = coordonneeTextInputTheme();
 
 	return (
-		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.contentWrapper} spacing={4}>
+		<Stack direction="column" className={Styles.contentWrapper} spacing={4}>
 			<Stack direction="column" spacing={1} alignItems="flex-start" width="100%">
 				<Stack direction="column">
 					<span className={Styles.content}>Récupération</span>

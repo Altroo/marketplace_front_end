@@ -75,14 +75,14 @@ const AddMissingEmail = () => {
 	const inputTheme = coordonneeTextInputTheme();
 
 	return (
-		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.rootStack} spacing={6}>
-			<Stack direction="column" spacing={2}>
+		<Stack direction="column" className={Styles.contentWrapper} spacing={4}>
+			<Stack direction="column" spacing={2} alignItems="flex-start" width="100%">
 				<span className={Styles.header}>Ajoutez votre email</span>
 				<p className={Styles.subHeader}>Pour vous inscrire, nous avons besoin de votre email.</p>
 			</Stack>
 			<form style={{ width: "100%"}}>
-				<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
-					<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+				<Stack direction="column" justifyContent="center" alignItems="center" spacing={4} width="100%">
+					<Stack direction="column" justifyContent="center" alignItems="center" spacing={2} width="100%">
 						<CustomTextInput
 							id="first_name"
 							type="text"
@@ -127,18 +127,16 @@ const MissingEmail: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: "100vh" }}>
-						<UserMainNavigationBar/>
-						<AddMissingEmail/>
-						<Stack direction="column" justifyContent="center" alignItems="center">
-							<p className={Styles.bottomLinks}>
-								Vous avez déjà un compte ?{" "}
-								<Link href={AUTH_LOGIN}>
-									Connectez-vous
-								</Link>
-							</p>
-						</Stack>
-					</Stack>
+					<UserMainNavigationBar/>
+					<AddMissingEmail/>
+					{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
+					{/*	<p className={Styles.bottomLinks}>*/}
+					{/*		Vous avez déjà un compte ?{" "}*/}
+					{/*		<Link href={AUTH_LOGIN}>*/}
+					{/*			Connectez-vous*/}
+					{/*		</Link>*/}
+					{/*	</p>*/}
+					{/*</Stack>*/}
 				</main>
 			</div>
 		</>

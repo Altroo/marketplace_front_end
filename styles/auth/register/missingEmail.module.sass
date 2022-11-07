@@ -7,10 +7,12 @@
   display: flex
 .mobileOnly
   display: none
-.rootStack
+.contentWrapper
   width: 364px
   height: calc(100% - 4rem)
   margin: 0 auto
+  justify-content: center
+  align-items: center
 .header
   +Bold
   font-size: 32px
@@ -21,12 +23,14 @@
   color: #84848A
 .registerButton
   width: 100% !important
+.mobileInput
+  width: 100%
 @media #{$tablette}
   .main
     display: flex
     flex-direction: column
-    justify-content: space-between
     width: 100%
+    min-height: 100vh
     height: 100%
   .desktopOnly
     display: none
@@ -34,9 +38,15 @@
     display: flex
     width: 100%
     height: 100%
-  .rootStack
-    padding-left: 1rem
-    padding-right: 1rem
+  .header
+    margin: 40px 0 0 0 !important
+  .contentWrapper
+    width: 100% !important
+    height: 100% !important
+    padding-left: 24px
+    padding-right: 24px
+    margin: 0 !important
+    justify-content: flex-start
   .bottomLinks
     +Regular
     font-size: 15px
