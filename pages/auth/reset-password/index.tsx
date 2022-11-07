@@ -67,7 +67,7 @@ const ResetPasswordPageContent = () => {
 					Entrez votre email pour recevoir un code et modifier votre mot de passe.
 				</span>
 			</Stack>
-			<form>
+			<form style={{ width: "100%"}}>
 				<Stack direction="column" spacing={4}>
 					<CustomTextInput
 						id="email"

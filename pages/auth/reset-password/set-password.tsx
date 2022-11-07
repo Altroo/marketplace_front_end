@@ -74,7 +74,7 @@ const SetPasswordPageContent = (props: setPasswordPageContentProps) => {
 					mot de passe
 				</span>
 			</Stack>
-			<form>
+			<form style={{ width: "100%"}}>
 				<Stack direction="column" spacing={4}>
 					<Stack direction="column" spacing={2}>
 					<CustomPasswordInput

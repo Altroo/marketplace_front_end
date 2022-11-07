@@ -115,7 +115,7 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 						Un code a été envoyé au <span className={Styles.email}>{email}</span>
 					</span>
 				</Stack>
-				<form>
+				<form style={{ width: "100%"}}>
 					<Stack direction="column" spacing={8}>
 						<Stack
 							direction="row"
