@@ -26,9 +26,7 @@ const SetPasswordComplete: React.FC<Props> = (props: Props) => {
 					<Stack
 						direction="column"
 						spacing={4}
-						justifyContent="center"
-						alignItems="center"
-						className={Styles.rootStack}
+						className={Styles.contentWrapper}
 					>
 						<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 						<h2 className={Styles.header}>Mot de passe modifié</h2>
@@ -39,25 +37,15 @@ const SetPasswordComplete: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<Stack direction="column" justifyContent="space-between" className={Styles.rootStack}>
-						<UserMainNavigationBar/>
-						<Stack direction="column" spacing={4} alignItems="center">
-							<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
-							<h2 className={Styles.header}>Mot de passe modifié</h2>
-							<p className={Styles.subHeader}>Votre mot de passe a été modifier, connectez-vous</p>
-						</Stack>
-						<div className={Styles.primaryButtonWrapper}>
-							<PrimaryAnchorButton buttonText="Me connecter" active={true} nextPage={AUTH_LOGIN} />
-						</div>
+					<UserMainNavigationBar/>
+					<Stack direction="column" spacing={4} className={Styles.contentWrapper}>
+						<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+						<h2 className={Styles.header}>Mot de passe modifié</h2>
+						<p className={Styles.subHeader}>Votre mot de passe a été modifier, connectez-vous</p>
 					</Stack>
-					<Stack direction="column" justifyContent="center" alignItems="center">
-						<p className={Styles.bottomLinks}>
-							Pas encore de compte ?{' '}
-							<Link href={AUTH_REGISTER}>
-									Inscrivez-vous
-								</Link>
-						</p>
-					</Stack>
+					<div className={Styles.primaryButtonWrapper}>
+						<PrimaryAnchorButton buttonText="Me connecter" active={true} nextPage={AUTH_LOGIN} />
+					</div>
 				</main>
 			</div>
 		</>
