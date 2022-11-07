@@ -77,7 +77,6 @@ const ResetPasswordPageContent = () => {
 						type="email"
 						label="Adresse email"
 						placeholder="Adresse email"
-						cssClass={Styles.mobileEmailInput}
 						theme={inputTheme}
 					/>
 					<PrimaryButton

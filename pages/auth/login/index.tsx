@@ -106,7 +106,6 @@ const LoginPageContent = () => {
 						type="email"
 						label="Adresse email"
 						placeholder="Adresse email"
-						cssClass={Styles.mobileEmailInput}
 						theme={inputTheme}
 					/>
 					<CustomPasswordInput
@@ -120,7 +119,6 @@ const LoginPageContent = () => {
 						size="medium"
 						label="Mot de passe"
 						placeholder="Mot de passe"
-						cssClass={Styles.mobileEmailInput}
 						theme={inputTheme}
 					/>
 					{formik.errors.globalError && <span className={Styles.errorMessage}>{formik.errors.globalError}</span>}

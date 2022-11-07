@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import AuthPageLayout from "../../../components/layouts/auth/authPageLayout";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
-// import { getCsrfToken, signIn } from "next-auth/react";
 import { signIn, useSession } from "next-auth/react";
 import {
 	allowAnyInstance,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance, setFormikAutoErrors,
-	setRemoteCookiesTokenOnly
 } from "../../../utils/helpers";
 import {
 	AccountGetCheckAccountResponseType,
@@ -21,14 +19,10 @@ import Styles from "../../../styles/auth/register/about.module.sass";
 import { Stack } from "@mui/material";
 import { useFormik } from "formik";
 import { tellUsMoreSchema } from "../../../utils/formValidationSchemas";
-import {
-	ResponseDataErrorInterface,
-} from "../../../types/_init/_initTypes";
 import CustomTextInput from "../../../components/formikElements/customTextInput/customTextInput";
 import { coordonneeTextInputTheme } from "../../../utils/themes";
 import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
 import CustomPasswordInput from "../../../components/formikElements/customPasswordInput/customPasswordInput";
-import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
 import { getInitStateUniqueID, getTokenType } from "../../../store/selectors";
 import { accountPostRegisterAction } from "../../../store/actions/account/accountActions";
@@ -40,8 +34,8 @@ type AboutPageContent = {
 };
 
 const AboutPageContent = (props: AboutPageContent) => {
-	const tokenType = useAppSelector(getTokenType);
-	const uniqueID = useAppSelector(getInitStateUniqueID);
+	// const tokenType = useAppSelector(getTokenType);
+	// const uniqueID = useAppSelector(getInitStateUniqueID);
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 
@@ -101,15 +95,15 @@ const AboutPageContent = (props: AboutPageContent) => {
 	const inputTheme = coordonneeTextInputTheme();
 
 	return (
-		<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.rootStack} spacing={6}>
-			<Stack direction="column" spacing={2}>
+		<Stack direction="column" className={Styles.contentWrapper} spacing={4}>
+			<Stack direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start" width="100%">
 				<span className={Styles.header}>Dites-nous en plus</span>
 				<p className={Styles.subHeader}>Pour vous inscrire, nous avons besoin de quelques informations.</p>
 			</Stack>
 			<form style={{ width: "100%"}}>
-				<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
-					<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
-						<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+				<Stack direction="column" justifyContent="center" alignItems="center" spacing={4} width="100%">
+					<Stack direction="column" justifyContent="center" alignItems="center" spacing={4} width="100%">
+						<Stack direction="column" justifyContent="center" alignItems="center" spacing={2} width="100%">
 							<CustomTextInput
 								id="first_name"
 								type="text"
@@ -141,7 +135,7 @@ const AboutPageContent = (props: AboutPageContent) => {
 								theme={inputTheme}
 							/>
 						</Stack>
-						<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+						<Stack direction="column" justifyContent="center" alignItems="center" spacing={2} width="100%">
 							<CustomPasswordInput
 								id="password"
 								value={formik.values.password}
@@ -216,18 +210,18 @@ const About: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: "100vh" }}>
-						<UserMainNavigationBar/>
-						<AboutPageContent email={newEmail} />
-						<Stack direction="column" justifyContent="center" alignItems="center">
-							<p className={Styles.bottomLinks}>
-								Vous avez déjà un compte ?{" "}
-								<Link href={AUTH_LOGIN}>
-									Connectez-vous
-								</Link>
-							</p>
-						</Stack>
-					</Stack>
+					{/*<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: "100vh" }}>*/}
+					<UserMainNavigationBar/>
+					<AboutPageContent email={newEmail} />
+						{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
+						{/*	<p className={Styles.bottomLinks}>*/}
+						{/*		Vous avez déjà un compte ?{" "}*/}
+						{/*		<Link href={AUTH_LOGIN}>*/}
+						{/*			Connectez-vous*/}
+						{/*		</Link>*/}
+						{/*	</p>*/}
+						{/*</Stack>*/}
+					{/*</Stack>*/}
 				</main>
 			</div>
 		</>
