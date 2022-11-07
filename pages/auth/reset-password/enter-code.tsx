@@ -223,17 +223,15 @@ const EnterCode: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: '100vh' }}>
-						<UserMainNavigationBar/>
-						<EnterCodePageContent email={email} whichCode="PASSWORD_RESET" />
-						<Stack direction="column" justifyContent="center" alignItems="center">
-							<p className={Styles.bottomLinks}>
-								Pas encore de compte ?{' '}
-								<Link href={AUTH_REGISTER}>
-									Inscrivez-vous
-								</Link>
-							</p>
-						</Stack>
+					<UserMainNavigationBar/>
+					<EnterCodePageContent email={email} whichCode="PASSWORD_RESET" />
+					<Stack direction="column" justifyContent="center" alignItems="center" sx={{marginTop: '60px'}}>
+						<p className={Styles.bottomLinks}>
+							Pas encore de compte ?{' '}
+							<Link href={AUTH_REGISTER}>
+								Inscrivez-vous
+							</Link>
+						</p>
 					</Stack>
 				</main>
 			</div>
