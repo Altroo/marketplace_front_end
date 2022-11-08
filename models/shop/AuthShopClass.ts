@@ -25,6 +25,16 @@ export class AddShopClass {
 	) {}
 }
 
+export type newShopType = {
+	shop_name: string | null,
+	avatar: string | ArrayBuffer | null,
+	icon_color: IconColorType | null,
+	border: string | null,
+	font_name: ShopFontNameType | null,
+	bg_color_code: string | null,
+	color_code: string | null,
+}
+
 export class UserShopClass extends AuthShopClass {
 	constructor(
 		public pk: number,

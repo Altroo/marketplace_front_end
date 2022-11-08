@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './description.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import { Box, ClickAwayListener, Grid, Stack } from "@mui/material";
+import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	AUTH_LOGIN,
@@ -293,7 +293,7 @@ const Description: NextPage = () => {
 						closeButtonHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
-					<Stack direction="column" spacing={{ xs: "36px", sm: "36px", md: "60px", lg: "60px", xl: "60px" }}>
+					<Stack direction="column" spacing={{ xs: '36px', sm: '36px', md: '60px', lg: '60px', xl: '60px' }}>
 						<Box className={Styles.marginLeft}>
 							<HelperDescriptionHeader
 								header="Décrivez votre offre"
@@ -411,8 +411,16 @@ const Description: NextPage = () => {
 												multiple={true}
 											/>
 										</Stack>
-										<Stack direction="column" spacing={{xs: 0, sm: 0, md: "20px", lg: "20px", xl: "20px"}} alignItems="flex-end">
-											<Grid container columnSpacing={{ md: "120px", lg: "120px", xl: "120px" }} rowSpacing={{ xs: "40px", sm: "40px"}}>
+										<Stack
+											direction="column"
+											spacing={{ xs: 0, sm: 0, md: '20px', lg: '20px', xl: '20px' }}
+											alignItems="flex-end"
+										>
+											<Grid
+												container
+												columnSpacing={{ md: '120px', lg: '120px', xl: '120px' }}
+												rowSpacing={{ xs: '40px', sm: '40px' }}
+											>
 												<Grid item md={6} sm={12} xs={12}>
 													<ColorsRadioCheckContent
 														selectedColorsList={selectedColorsList}
@@ -430,7 +438,11 @@ const Description: NextPage = () => {
 													/>
 												</Grid>
 											</Grid>
-											<Grid container columnSpacing={{ md: "120px", lg: "120px", xl: "120px" }} rowSpacing={{ xs: "40px", sm: "40px"}}>
+											<Grid
+												container
+												columnSpacing={{ md: '120px', lg: '120px', xl: '120px' }}
+												rowSpacing={{ xs: '40px', sm: '40px' }}
+											>
 												<Grid item md={6} sm={12} xs={12}>
 													<SizesRadioCheckContent
 														switchOpen={sizesSwitchOpen}
@@ -500,6 +512,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					},
 				};
 			}
+		} else {
+			// user not authenticated
+			return {
+				redirect: {
+					permanent: false,
+					destination: AUTH_LOGIN,
+				},
+			};
 		}
 	} catch (e) {
 		// fall back error

@@ -9,7 +9,6 @@ import DefaultCardSection from '../../../components/htmlElements/cards/defaultCa
 import { setShopAvatarAction } from '../../../store/actions/shop/shopActions';
 import AvatarShopNameRating from '../../../components/groupedComponents/temp-shop/create/avatarShopNameRating/avatarShopNameRating';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
-import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg';
 import CallIconSVG from '../../../public/assets/svgs/globalIcons/call.svg';
 import DisactivatedAddIconSVG from '../../../public/assets/svgs/globalIcons/gray-add.svg';
 import { DisactivatedTab } from '../../../components/htmlElements/tabs/tab';
@@ -25,12 +24,7 @@ import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
-import {
-	REAL_SHOP_ADD_SHOP_NAME,
-	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	AUTH_LOGIN,
-	DASHBOARD
-} from "../../../utils/routes";
+import { REAL_SHOP_ADD_SHOP_NAME, REAL_SHOP_BY_SHOP_LINK_ROUTE, AUTH_LOGIN, DASHBOARD } from '../../../utils/routes';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
@@ -71,6 +65,9 @@ const Avatar: NextPage = () => {
 	];
 
 	useEffect(() => {
+		if (!shopName) {
+			router.replace(REAL_SHOP_ADD_SHOP_NAME).then();
+		}
 		const reader = new FileReader();
 		if (avatar) {
 			reader.onloadend = () => {
@@ -81,7 +78,7 @@ const Avatar: NextPage = () => {
 		} else {
 			setPreview(avatarInitial);
 		}
-	}, [avatarInitial, avatar]);
+	}, [avatarInitial, avatar, shopName, router]);
 
 	const avatarHandler = (avatar: string | ArrayBuffer | null) => {
 		if (avatar) {
@@ -98,7 +95,10 @@ const Avatar: NextPage = () => {
 					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_SHOP_NAME} returnButton closeButtonHref={DASHBOARD} />
 					<MobileStepsBar activeStep={activeStep} />
 					<Box className={Styles.marginLeft}>
-						<HelperH1Header header="Ajouter un avatar" HelpText="Ajoutez le logo de votre marque ou une photo de vous" />
+						<HelperH1Header
+							header="Ajouter un avatar"
+							HelpText="Ajoutez le logo de votre marque ou une photo de vous"
+						/>
 					</Box>
 					<DefaultCardSection cssClass={Styles.cardSection}>
 						<div className={Styles.avatarActionsWrapper}>
@@ -171,8 +171,6 @@ const Avatar: NextPage = () => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const shop_name = getCookie('@shop_name', { req: context.req, res: context.res });
-	// redirect if user already logged in
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	const appToken = getServerSideCookieTokens(context);
 	try {
@@ -188,19 +186,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					},
 				};
 			} else {
-				// connected no shop created yet - proceed to create.
-				if (!shop_name) {
-					return {
-						redirect: {
-							permanent: false,
-							destination: REAL_SHOP_ADD_SHOP_NAME,
-						},
-					};
-				} else {
-					return {
-						props: {},
-					};
-				}
+				return {
+					props: {},
+				};
 			}
 		} else {
 			// not connected, status unknown

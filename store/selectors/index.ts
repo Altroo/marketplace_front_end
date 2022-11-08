@@ -10,13 +10,13 @@ export const getInitStateToken = (state: RootState) => state._init.initStateToke
 export const getAccessToken = (state: RootState) => state._init.initStateToken.access_token;
 export const getInitStateUniqueID = (state: RootState) => state._init.initStateUniqueID as InitStateUniqueID;
 // New shop
-export const getNewShopName = (state: RootState) => state.shop.newShop?.shop_name as string;
-export const getNewShopAvatar = (state: RootState) => state.shop.newShop?.avatar as ArrayBuffer;
-export const getNewShopColorCode = (state: RootState) => state.shop.newShop?.color_code as string;
-export const getNewShopBgColorCode = (state: RootState) => state.shop.newShop?.bg_color_code as string;
-export const getNewShopBorder = (state: RootState) => state.shop.newShop?.border as string;
-export const getNewShopIconColor = (state: RootState) => state.shop.newShop?.icon_color as IconColorType;
-export const getNewShopFontName = (state: RootState) => state.shop.newShop?.font_name as ShopFontNameType;
+export const getNewShopName = (state: RootState) => state.shop.newShop.shop_name as string;
+export const getNewShopAvatar = (state: RootState) => state.shop.newShop.avatar as ArrayBuffer;
+export const getNewShopColorCode = (state: RootState) => state.shop.newShop.color_code as string;
+export const getNewShopBgColorCode = (state: RootState) => state.shop.newShop.bg_color_code as string;
+export const getNewShopBorder = (state: RootState) => state.shop.newShop.border as string;
+export const getNewShopIconColor = (state: RootState) => state.shop.newShop.icon_color as IconColorType;
+export const getNewShopFontName = (state: RootState) => state.shop.newShop.font_name as ShopFontNameType;
 
 // Global
 export const getNewShopApiError = (state: RootState) => state.shop.userShopApi.error;

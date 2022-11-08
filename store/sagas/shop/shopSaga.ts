@@ -2,10 +2,8 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import * as Types from '../../actions';
 import {
 	ShopGetRootTokenResponseType,
-	ShopGetRootUniqueIDResponseType,
 	ShopPostRootType,
 	ShopPostRootTokenResponseType,
-	ShopPostRootUniqueIDResponseType,
 	ShopGetPhoneCodesResponseType,
 	ShopPatchShopNameType,
 	ShopPatchAvatarType,
@@ -24,9 +22,6 @@ import {
 	ApiErrorResponseType,
 	AuthSagaContextType,
 	IconColorType,
-	InitStateInterface,
-	InitStateToken,
-	InitStateUniqueID,
 } from '../../../types/_init/_initTypes';
 import {
 	setShopAvatar,
@@ -47,8 +42,6 @@ import {
 	setNewShopFont,
 	setShopPhoneContact,
 	setGetShopIsLoading,
-	userShopGETApiErrorAction,
-	userShopPOSTApiErrorAction,
 	setPostShopIsLoading,
 	setPatchShopDataIsLoading,
 	userShopPATCHApiErrorAction,
@@ -61,7 +54,6 @@ import {
 	setLocalStorageNewShopFont,
 	loadLocalStorageNewShopData,
 	setLocalStorageNewShopColor,
-	setLocalStorageNewShopName,
 	deleteCookieStorageNewShopData,
 } from '../../../utils/helpers';
 import { withCallback } from 'redux-saga-callback';
@@ -482,10 +474,9 @@ function* wsShopAvatarSaga(payload: { type: string; pk: number; shop_avatar: str
 }
 
 // Create Temporary shop
-function* setShopLocalShopNameSaga(payload: { type: string; shop_name: string; router: NextRouter }) {
+function* setShopLocalShopNameSaga(payload: { type: string; shop_name: string}) {
 	yield put(setNewShopName(payload.shop_name));
-	yield call(() => setLocalStorageNewShopName(payload.shop_name));
-	yield call(() => payload.router.push(REAL_SHOP_ADD_AVATAR));
+	return true;
 }
 
 function* setShopLocalAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string; router: NextRouter }) {
@@ -549,7 +540,7 @@ function* loadNewAddedShopDataSaga() {
 
 export function* watchShop() {
 	yield takeLatest(Types.LOAD_NEW_ADDED_SHOP_DATA, loadNewAddedShopDataSaga);
-	yield takeLatest(Types.SET_SHOP_NAME, setShopLocalShopNameSaga);
+	yield takeLatest(Types.SET_SHOP_NAME, withCallback(setShopLocalShopNameSaga));
 	yield takeLatest(Types.SET_SHOP_AVATAR, setShopLocalAvatarSaga);
 	yield takeLatest(Types.SET_SHOP_COLOR, setShopLocalColorSaga);
 	yield takeLatest(Types.SET_SHOP_FONT, setShopLocalFontSaga);

@@ -659,6 +659,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					},
 				};
 			}
+		} else {
+			// user not authenticated
+			return {
+				redirect: {
+					permanent: false,
+					destination: AUTH_LOGIN,
+				},
+			};
 		}
 	} catch (e) {
 		// fall back error

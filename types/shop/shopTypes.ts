@@ -1,4 +1,4 @@
-import { AddShopClass, AuthShopClass, UserShopClass } from '../../models/shop/AuthShopClass';
+import { AddShopClass, AuthShopClass, newShopType, UserShopClass } from "../../models/shop/AuthShopClass";
 import { GlobalApiPromiseError, Nullable, ResponseDataInterface } from "../_init/_initTypes";
 // ('L', 'Light'), ('R', 'Regular'), ('S', 'Semi-bold'), ('B', 'Black'),
 export type ShopFontNameType = 'L' | 'R' | 'S' | 'B';
@@ -49,11 +49,7 @@ export interface ShopGetRootUniqueIDType extends Omit<Nullable<UserShopClass>, '
 
 export type ShopPostRootTokenResponseType = ResponseDataInterface<ShopPostRootTokenType>;
 
-export type ShopPostRootUniqueIDResponseType = ResponseDataInterface<ShopPostRootUniqueIDType>;
-
 export type ShopGetRootTokenResponseType = ResponseDataInterface<ShopGetRootTokenType>;
-
-export type ShopGetRootUniqueIDResponseType = ResponseDataInterface<ShopGetRootUniqueIDType>;
 
 export interface ShopStateToken extends Nullable<AuthShopClass> {
 	pk: number | null;
@@ -71,7 +67,7 @@ export interface ShopStateInterface<T, K> {
 	userShopApi: GlobalApiPromiseError,
 	phoneCodes: Array<string>;
 	phoneCodesApi: GlobalApiPromiseError,
-	newShop: AddShopClass | Record<string, unknown>;
+	newShop: newShopType;
 }
 
 export type ShopGetPhoneCodesResponseType = ResponseDataInterface<PhoneCodesType>;

@@ -34,7 +34,15 @@ const initialState:
 	userShopApi: apiErrorInitialState,
 	phoneCodes: [],
 	phoneCodesApi: apiErrorInitialState,
-	newShop: {},
+	newShop: {
+		shop_name: null,
+		avatar: null,
+		icon_color: null,
+		border: null,
+		font_name: null,
+		bg_color_code: null,
+		color_code: null,
+	},
 };
 
 const shopSlice = createSlice({

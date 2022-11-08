@@ -6,8 +6,8 @@ import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mo
 import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import React, { useEffect, useState } from 'react';
-import { setShopNameAction } from '../../../store/actions/shop/shopActions';
-import { cookiesPoster, getApi } from "../../../store/services/_init/_initAPI";
+import { setShopNameAction } from "../../../store/actions/shop/shopActions";
+import { getApi } from "../../../store/services/_init/_initAPI";
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import { getNewShopName } from '../../../store/selectors';
 import { Formik, Form } from 'formik';
@@ -19,12 +19,14 @@ import {
 	REAL_SHOP_ADD_SHOP_NAME,
 	DASHBOARD,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	AUTH_LOGIN,
-} from '../../../utils/routes';
+	AUTH_LOGIN, REAL_SHOP_ADD_AVATAR
+} from "../../../utils/routes";
 import { shopNameTextInputTheme } from "../../../utils/themes";
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
+import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
+import { SagaCallBackOnCompleteBoolType } from "../../../types/_init/_initTypes";
 
 const ShopName: NextPage = () => {
 	const activeStep = '1';
@@ -32,6 +34,7 @@ const ShopName: NextPage = () => {
 	const dispatch = useAppDispatch();
 	const shopName = useAppSelector(getNewShopName);
 	const [inputShopName, setInputShopName] = useState<string>('');
+	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (shopName) {
@@ -40,14 +43,30 @@ const ShopName: NextPage = () => {
 	}, [router, shopName]);
 
 	const shopNameSubmitHandler = (value: string) => {
-		cookiesPoster('/cookies', { shop_name: 1 }).then(() => {
-			dispatch(setShopNameAction(value, router));
+		setIsApiCallInProgress(true);
+		const action = setShopNameAction(value);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
+				if (!error && !cancelled && data) {
+					router.push(REAL_SHOP_ADD_AVATAR).then(() => {
+						setIsApiCallInProgress(false);
+					})
+				}
+			},
 		});
 	};
 	const inputTheme = shopNameTextInputTheme();
 
 	return (
 		<>
+			{isApiCallInProgress && (
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+					backdropColor="#FFFFFF"
+					circularColor="#0D070B"
+				/>
+			)}
 			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SHOP" />
 				<Stack direction="column" className={Styles.rootStack}>
