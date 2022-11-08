@@ -595,6 +595,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 							email={email}
 							cssClass={Styles.enterCodePageContentRoot}
 							whichCode="ACCOUNT_VERIFICATION"
+							handleClose={() => setShowActivateNowModal(false)}
 						/>
 					</CustomSwipeModal>
 				</div>

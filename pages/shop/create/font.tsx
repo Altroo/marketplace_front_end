@@ -336,8 +336,6 @@ const Font: NextPage = () => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const color_code = getCookie('@color_code', { req: context.req, res: context.res });
-	const bg_color_code = getCookie('@bg_color_code', { req: context.req, res: context.res });
 	// redirect if user already logged in
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	const appToken = getServerSideCookieTokens(context);

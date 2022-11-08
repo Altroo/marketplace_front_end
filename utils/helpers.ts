@@ -1,7 +1,6 @@
 import {
 	APIContentTypeInterface,
 	ApiErrorResponseType,
-	IconColorType,
 	InitStateInterface,
 	InitStateToken,
 	InitStateUniqueID,
@@ -13,10 +12,9 @@ import {
 	initialState,
 	setInitState,
 } from '../store/slices/_init/_initSlice';
-import { cookiesDeleter, cookiesPoster, tokenRefreshApi } from "../store/services/_init/_initAPI";
+import { cookiesPoster, tokenRefreshApi } from "../store/services/_init/_initAPI";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store/store';
-import { ShopFontNameType } from '../types/shop/shopTypes';
 import { GetServerSidePropsContext } from 'next';
 import { getCookie } from 'cookies-next';
 import { ParsedUrlQuery } from 'querystring';
@@ -252,11 +250,11 @@ export const constructApiFormData = (apiData: object) => {
 // 	}
 // };
 
-export const setLocalStorageNewShopFont = (font_name: ShopFontNameType) => {
-	if (typeof window !== 'undefined') {
-		localStorage.setItem('@font_name', font_name);
-	}
-};
+// export const setLocalStorageNewShopFont = (font_name: ShopFontNameType) => {
+// 	if (typeof window !== 'undefined') {
+// 		localStorage.setItem('@font_name', font_name);
+// 	}
+// };
 // // New shop load LocalStorage
 // export const loadLocalStorageNewShopData = () => {
 // 	if (typeof window !== 'undefined') {

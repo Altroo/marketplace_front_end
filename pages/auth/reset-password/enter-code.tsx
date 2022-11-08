@@ -9,7 +9,7 @@ import {
 } from '../../../utils/helpers';
 import { getCookie } from 'cookies-next';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
-import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
+import { cookiesPoster, getApi, postApi } from "../../../store/services/_init/_initAPI";
 import { AUTH_REGISTER, AUTH_RESET_PASSWORD, AUTH_RESET_PASSWORD_SET_PASSWORD, DASHBOARD } from '../../../utils/routes';
 import AuthPageLayout from '../../../components/layouts/auth/authPageLayout';
 import { Stack } from '@mui/material';
@@ -17,10 +17,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import { passwordResetCodeSchema } from '../../../utils/formValidationSchemas';
-import {
-	ResponseOnlyInterface,
-	SagaCallBackOnCompleteBoolType
-} from "../../../types/_init/_initTypes";
+import { ResponseOnlyInterface, SagaCallBackOnCompleteBoolType } from '../../../types/_init/_initTypes';
 import { codeTextInputTheme } from '../../../utils/themes';
 import CustomOutlinedText from '../../../components/formikElements/customOutlinedText/customOutlinedText';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
@@ -29,22 +26,24 @@ import { useAppDispatch } from '../../../utils/hooks';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import {
 	accountPostResendActivationAction,
-	accountPostSendPasswordResetAction
-} from "../../../store/actions/account/accountActions";
-import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
-import Portal from "../../../contexts/Portal";
-import CustomToast from "../../../components/portals/customToast/customToast";
+	accountPostSendPasswordResetAction,
+} from '../../../store/actions/account/accountActions';
+import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
+import Portal from '../../../contexts/Portal';
+import CustomToast from '../../../components/portals/customToast/customToast';
 
 type enterCodePageContentProps = {
 	email: string;
-	whichCode: "PASSWORD_RESET" | "ACCOUNT_VERIFICATION";
+	whichCode: 'PASSWORD_RESET' | 'ACCOUNT_VERIFICATION';
 	cssClass?: string;
+	handleClose?: () => void;
 };
 
 export const EnterCodePageContent = (props: enterCodePageContentProps) => {
-	const { email, whichCode } = props;
+	const { email, whichCode, handleClose } = props;
 	const router = useRouter();
 	const [showDataUpdated, setShowDataUpdated] = useState<boolean>(false);
+	const [toastMessage, setToastMessage] = useState<string>('');
 	const dispatch = useAppDispatch();
 
 	const [loading, setLoading] = useState<boolean>(false);
@@ -64,6 +63,7 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
 				if (!error && !cancelled && data) {
 					setLoading(false);
+					setToastMessage('code envoyer.');
 					setShowDataUpdated(true);
 				}
 			},
@@ -83,37 +83,61 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 		onSubmit: async (values, { setFieldError, setSubmitting }) => {
 			setSubmitting(false);
 			const code = values.one + values.two + values.three + values.four;
-			const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PASSWORD_RESET}${email}/${code}/`;
-			try {
-				const instance = allowAnyInstance();
-				const response: ResponseOnlyInterface = await getApi(url, instance);
-				if (response.status === 204) {
-					setSubmitting(true);
-					cookiesPoster('/cookies', { code: code }).then(() => {
-						router.push(AUTH_RESET_PASSWORD_SET_PASSWORD).then();
-					});
+			const instance = allowAnyInstance();
+			if (whichCode === 'PASSWORD_RESET') {
+				const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PASSWORD_RESET}${email}/${code}/`;
+				try {
+					const response: ResponseOnlyInterface = await getApi(url, instance);
+					if (response.status === 204) {
+						setSubmitting(true);
+						cookiesPoster('/cookies', { code: code }).then(() => {
+							router.push(AUTH_RESET_PASSWORD_SET_PASSWORD).then();
+						});
+					}
+				} catch (e) {
+					setFormikAutoErrors({ e, setFieldError });
 				}
-			} catch (e) {
-				setFormikAutoErrors({ e, setFieldError });
+			} else {
+				const url = `${process.env.NEXT_PUBLIC_ACCOUNT_VERIFY_ACCOUNT}`;
+				try {
+					const response: ResponseOnlyInterface = await postApi(url, instance, {
+						email: email,
+						code: code,
+					});
+					if (response.status === 204) {
+						setShowDataUpdated(true);
+						setToastMessage('compte activer.');
+						setSubmitting(true);
+						router.replace(router.asPath).then(() => {
+							if (handleClose) {
+								handleClose();
+							}
+						});
+					}
+				} catch (e) {
+					setFormikAutoErrors({ e, setFieldError });
+				}
 			}
 		},
 	});
 
 	return (
 		<>
-			<Stack
-				direction="column"
-				className={`${Styles.contentWrapper} ${props.cssClass}`}
-				spacing={4}
-			>
-				{loading && <ApiProgress cssStyle={{ position: 'absolute', top: '50%', left: '50%' }} backdropColor="#FFFFFF" circularColor="#FFFFFF"/>}
+			<Stack direction="column" className={`${Styles.contentWrapper} ${props.cssClass}`} spacing={4}>
+				{loading && (
+					<ApiProgress
+						cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+						backdropColor="#FFFFFF"
+						circularColor="#FFFFFF"
+					/>
+				)}
 				<Stack direction="column" spacing={1}>
 					<span className={Styles.content}>Rentrez le code</span>
 					<span className={Styles.paragraphe}>
 						Un code a été envoyé au <span className={Styles.email}>{email}</span>
 					</span>
 				</Stack>
-				<form style={{ width: "100%"}}>
+				<form style={{ width: '100%' }}>
 					<Stack direction="column" spacing={8}>
 						<Stack
 							direction="row"
@@ -194,8 +218,8 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 				</form>
 			</Stack>
 			<Portal id="snackbar_portal">
-        <CustomToast type="success" message="code envoyer." setShow={setShowDataUpdated} show={showDataUpdated}/>
-      </Portal>
+				<CustomToast type="success" message={toastMessage} setShow={setShowDataUpdated} show={showDataUpdated} />
+			</Portal>
 		</>
 	);
 };
@@ -221,14 +245,11 @@ const EnterCode: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<UserMainNavigationBar hideMobileSearch/>
+					<UserMainNavigationBar hideMobileSearch />
 					<EnterCodePageContent email={email} whichCode="PASSWORD_RESET" />
-					<Stack direction="column" justifyContent="center" alignItems="center" sx={{marginTop: '60px'}}>
+					<Stack direction="column" justifyContent="center" alignItems="center" sx={{ marginTop: '60px' }}>
 						<p className={Styles.bottomLinks}>
-							Pas encore de compte ?{' '}
-							<Link href={AUTH_REGISTER}>
-								Inscrivez-vous
-							</Link>
+							Pas encore de compte ? <Link href={AUTH_REGISTER}>Inscrivez-vous</Link>
 						</p>
 					</Stack>
 				</main>
