@@ -168,7 +168,7 @@ const Login: React.FC = () => {
 					</div>
 					<div className={Styles.mobileOnly}>
 						<main className={Styles.main}>
-							<UserMainNavigationBar/>
+							<UserMainNavigationBar hideMobileSearch />
 							<LoginPageContent/>
 							<Stack direction="column" justifyContent="center" alignItems="center" sx={{marginTop: '60px'}}>
 								<p className={Styles.bottomLinks}>

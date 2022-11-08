@@ -221,7 +221,7 @@ const EnterCode: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<UserMainNavigationBar/>
+					<UserMainNavigationBar hideMobileSearch/>
 					<EnterCodePageContent email={email} whichCode="PASSWORD_RESET" />
 					<Stack direction="column" justifyContent="center" alignItems="center" sx={{marginTop: '60px'}}>
 						<p className={Styles.bottomLinks}>

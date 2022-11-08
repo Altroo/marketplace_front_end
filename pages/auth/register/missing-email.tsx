@@ -122,7 +122,7 @@ const MissingEmail: React.FC = () => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<UserMainNavigationBar/>
+					<UserMainNavigationBar hideMobileSearch/>
 					<AddMissingEmail/>
 					{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
 					{/*	<p className={Styles.bottomLinks}>*/}

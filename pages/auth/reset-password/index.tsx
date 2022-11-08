@@ -102,7 +102,7 @@ const ResetPassword: React.FC = () => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<UserMainNavigationBar />
+					<UserMainNavigationBar hideMobileSearch/>
 					<ResetPasswordPageContent />
 					<Stack direction="column" justifyContent="center" alignItems="center" sx={{marginTop: '60px'}}>
 						<p className={Styles.bottomLinks}>

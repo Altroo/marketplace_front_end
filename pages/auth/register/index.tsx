@@ -47,7 +47,7 @@ type registerPageContentProps = {
 const RegisterPageContent = (props: registerPageContentProps) => {
 	return (
 		<Stack direction="column" spacing={4} className={Styles.contentWrapper}>
-			<Stack direction="column" justifyContent="flex-start" alignItems="flex-start">
+			<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" width="100%">
 				<h2 className={Styles.content}>Inscription</h2>
 				<p className={Styles.subHeader}>Inscrivez vous pour créer votre boutique. ça ne prend que quelques secondes.</p>
 			</Stack>
@@ -173,8 +173,8 @@ const Register: NextPage = () => {
 					</div>
 					<div className={Styles.mobileOnly}>
 						<main className={Styles.main}>
-							<Stack direction="column" justifyContent="space-between" sx={{ minHeight: '100vh' }}>
-								<UserMainNavigationBar />
+							<Stack direction="column" justifyContent="space-between">
+								<UserMainNavigationBar hideMobileSearch />
 								<RegisterPageContent
 									Theme={emailTheme}
 									facebookSignIn={facebookSignIn}
@@ -192,7 +192,7 @@ const Register: NextPage = () => {
 									helperText={formik.touched.email ? formik.errors.email : ''}
 									validationError={formik.touched.email && Boolean(formik.errors.email)}
 								/>
-								<Stack direction="column" justifyContent="center" alignItems="center">
+								<Stack direction="column" justifyContent="center" alignItems="center" sx={{marginTop: '60px'}}>
 									<p className={Styles.bottomLinks}>
 										Vous avez déjà un compte ?{' '}
 										<Link href={AUTH_LOGIN}>

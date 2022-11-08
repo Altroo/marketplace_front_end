@@ -47,7 +47,7 @@ const Welcome: React.FC<Props> = (props: Props) => {
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
 					<Stack direction="column">
-						<UserMainNavigationBar />
+						<UserMainNavigationBar hideMobileSearch />
 						<Stack direction="column" justifyContent="space-between" spacing="24px" className={Styles.rootStack}>
 							<Stack direction="column" spacing="50px" alignItems="center">
 								<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />

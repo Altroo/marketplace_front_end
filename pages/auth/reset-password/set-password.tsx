@@ -99,8 +99,8 @@ const SetPasswordPageContent = (props: setPasswordPageContentProps) => {
 						error={formik.touched.new_password2 && Boolean(formik.errors.new_password2)}
 						fullWidth={false}
 						size="medium"
-						label="Confirmation du mot de passe"
-						placeholder="Confirmation du mot de passe"
+						label="Confirmez mot de passe"
+						placeholder="Confirmez mot de passe"
 						cssClass={Styles.mobileInput}
 						theme={inputTheme}
 					/>
@@ -138,7 +138,7 @@ const SetPassword: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<UserMainNavigationBar/>
+					<UserMainNavigationBar hideMobileSearch/>
 					<SetPasswordPageContent email={email} code={code} />
 					{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
 					{/*	<p className={Styles.bottomLinks}>*/}

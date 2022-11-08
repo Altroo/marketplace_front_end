@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Styles from './userMainNavigationBar.module.sass';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,7 +18,7 @@ import HambourgerMenuSVG from '../../../public/assets/svgs/mainNavBarIcons/hambo
 import LogoutSVG from '../../../public/assets/svgs/mainNavBarIcons/logout.svg';
 import HeartShapeSVG from '../../../public/assets/svgs/mainNavBarIcons/heart-shape.svg';
 import { useSession, signOut } from 'next-auth/react';
-import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
+import { useAppSelector } from "../../../utils/hooks";
 import {
 	getCheckUserHasShop,
 	getUserFirstName,
@@ -39,7 +39,12 @@ import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 import { bulkCookiesDeleter } from "../../../store/services/_init/_initAPI";
 
-const UserMainNavigationBar: React.FC = () => {
+type Props = {
+	hideMobileSearch?: boolean;
+}
+
+const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
+	const {hideMobileSearch} = props;
 	const { data: session, status } = useSession();
 	const avatar = useAppSelector(getUserProfilAvatar);
 	const firstName = useAppSelector(getUserFirstName);
@@ -564,18 +569,20 @@ const UserMainNavigationBar: React.FC = () => {
 						</Stack>
 					</Toolbar>
 				</AppBar>
-				<Stack alignItems="center" className={Styles.searchWrapper} direction="row">
-					<Image src={SearchIconSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.searchIcon} />
-					<input
-						value={searchValue}
-						onChange={(e) => {
-							setSearchValue(e.target.value);
-						}}
-						type="text"
-						placeholder="Rechercher"
-						className={Styles.searchInput}
-					/>
-				</Stack>
+				{!hideMobileSearch && (
+					<Stack alignItems="center" className={Styles.searchWrapper} direction="row">
+						<Image src={SearchIconSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.searchIcon} />
+						<input
+							value={searchValue}
+							onChange={(e) => {
+								setSearchValue(e.target.value);
+							}}
+							type="text"
+							placeholder="Rechercher"
+							className={Styles.searchInput}
+						/>
+					</Stack>
+				)}
 			</Box>
 		</ThemeProvider>
 	);

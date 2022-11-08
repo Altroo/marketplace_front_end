@@ -33,7 +33,7 @@ const SetPasswordComplete: React.FC = () => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<UserMainNavigationBar/>
+					<UserMainNavigationBar hideMobileSearch/>
 					<Stack direction="column" spacing={4} className={Styles.contentWrapper}>
 						<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 						<h2 className={Styles.header}>Mot de passe modifié</h2>

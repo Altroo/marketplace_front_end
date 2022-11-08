@@ -185,8 +185,8 @@ const FormikContentCreatePassword: React.FC<formikContentType> = (props: formikC
 						error={formik.touched.new_password2 && Boolean(formik.errors.new_password2)}
 						fullWidth={false}
 						size="medium"
-						label="Confirmation du mot de passe"
-						placeholder="Confirmation du mot de passe"
+						label="Confirmez mot de passe"
+						placeholder="Confirmez mot de passe"
 						theme={inputTheme}
 					/>
 					<PrimaryButton

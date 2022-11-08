@@ -156,8 +156,8 @@ const AboutPageContent = (props: AboutPageContent) => {
 								error={formik.touched.password2 && Boolean(formik.errors.password2)}
 								fullWidth={false}
 								size="medium"
-								label="Confirmation du mot de passe"
-								placeholder="Confirmation du mot de passe"
+								label="Confirmez mot de passe"
+								placeholder="Confirmez mot de passe"
 								cssClass={Styles.mobileInput}
 								theme={inputTheme}
 							/>
@@ -205,7 +205,7 @@ const About: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					<UserMainNavigationBar/>
+					<UserMainNavigationBar hideMobileSearch/>
 					<AboutPageContent email={newEmail} />
 						{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
 						{/*	<p className={Styles.bottomLinks}>*/}
