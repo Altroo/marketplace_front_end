@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from './showBio.module.sass';
 import { useAppSelector } from '../../../../../../utils/hooks';
 import { getShopBio } from '../../../../../../store/selectors';
@@ -7,15 +7,22 @@ import {CustomTheme} from '../../../../../../utils/themes';
 
 const ShowBio: React.FC = () => {
 	const shopBio = useAppSelector(getShopBio);
-	let voirPlusState = true;
+	const [bio, setBio] = useState<string | null>(null);
 	const shopBioMaxLength = 90;
+	const [voirPlus, setVoirPlus] = useState<boolean>(true);
 
-	if (shopBio && shopBio.length > shopBioMaxLength) {
-		voirPlusState = false;
-	}
-	const [voirPlus, setVoirPlus] = useState<boolean>(voirPlusState);
+	useEffect(() => {
+		if (shopBio) {
+			setBio(shopBio);
+			if (shopBio.length > shopBioMaxLength) {
+				setVoirPlus(false);
+			}
+		}
+	}, [shopBio]);
+
 	const blueColor = '#0274d7';
 	const customTheme = CustomTheme(blueColor);
+
 	const buttonTheme = createTheme({
 		...customTheme,
 		components: {
@@ -28,12 +35,13 @@ const ShowBio: React.FC = () => {
 			},
 		},
 	});
+
 	const voirPlusHandler = (value: boolean) => {
 		setVoirPlus(value);
 	};
 
 	const VoirPlusMoinButtons = () => {
-		if (shopBio && shopBio.length > shopBioMaxLength) {
+		if (bio && bio.length > shopBioMaxLength) {
 			if (voirPlus) {
 				return (
 					<ThemeProvider theme={buttonTheme}>
@@ -60,10 +68,10 @@ const ShowBio: React.FC = () => {
 		<Stack direction="column" spacing={2} sx={{ wordWrap: 'break-word' }}>
 			<span className={Styles.spanParagraphe}>
 				{!voirPlus
-					? shopBio && shopBio.length > shopBioMaxLength
-						? shopBio.substring(0, shopBioMaxLength).concat('...')
-						: shopBio
-					: shopBio}
+					? bio && bio.length > shopBioMaxLength
+						? bio.substring(0, shopBioMaxLength).concat('...')
+						: bio
+					: bio}
 			</span>
 			<Box sx={{ width: 'auto' }}>
 				<VoirPlusMoinButtons />

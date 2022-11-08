@@ -16,6 +16,7 @@ import Image from 'next/image';
 const ShowCoordonees: React.FC = () => {
 	const { phone, twitter_link, website_link, instagram_link, whatsapp, contact_email, facebook_link } =
 		useAppSelector(getShopObj);
+
 	return (
 		<Stack direction="column" justifyContent="space-between" alignContent="space-between" spacing={2}>
 			{phone ? (
