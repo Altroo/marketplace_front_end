@@ -104,7 +104,7 @@ const RegisterPageContent = (props: registerPageContentProps) => {
 					</Stack>
 					<PrimaryButton
 						buttonText="S'inscrire"
-						active={props.isValid && !props.isSubmitting}
+						active={props.isValid && !props.isSubmitting && props.cguCheckbox}
 						onClick={props.handleSubmit}
 						cssClass={Styles.emailRegisterButton}
 						type="submit"
