@@ -2,6 +2,8 @@
 export const SITE_ROOT = '/';
 // 404 page
 export const NOT_FOUND_404 = '/404';
+// CGU page
+export const CGU_PAGE = '/cgu';
 
 /*
 shop/abc/ => index

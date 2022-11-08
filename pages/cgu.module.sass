@@ -1,0 +1,33 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.main
+  display: flex
+  flex-direction: column
+  padding-top: 1rem
+  padding-left: 2rem
+  padding-right: 2rem
+.headerRootStack
+  width: 100%
+  justify-content: center
+  text-align: center
+  border: 1px solid $grayText
+.header
+  +Bold
+  font-size: 16px
+.subHeader
+  +Regular
+  font-size: 13px
+  font-style: italic
+.bodyRoot
+  font-size: 13px
+  h2, h3
+    +Bold
+  p, li
+    +Regular
+
+// @media #{}
+// @media #{}
+// @media #{}

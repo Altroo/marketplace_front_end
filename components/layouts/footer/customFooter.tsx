@@ -6,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import InstagramMiniSVG from '../../../public/assets/svgs/globalIcons/instagram-mini-.svg';
 import TikTokMiniSVG from '../../../public/assets/svgs/globalIcons/tiktok-mini.svg';
 import Image from 'next/image';
+import { CGU_PAGE } from "../../../utils/routes";
 
 const CustomFooter: React.FC = () => {
 	return (
@@ -81,7 +82,7 @@ const CustomFooter: React.FC = () => {
 						<Divider orientation="horizontal" flexItem className={Styles.divider} />
 						<Stack direction="row" justifyContent="space-between">
 							<span className={Styles.bottomFooterSpan}>© 2022 Qaryb</span>
-							<Link href="/" className={Styles.bottomAnchor}>
+							<Link href={CGU_PAGE} className={Styles.bottomAnchor}>
 								Conditions générales d&apos;Utilisation
 							</Link>
 						</Stack>
@@ -159,7 +160,7 @@ const CustomFooter: React.FC = () => {
 						<Divider orientation="horizontal" flexItem className={Styles.divider} />
 						<Stack direction="row" justifyContent="space-between">
 							<span className={Styles.bottomFooterSpan}>© 2022 Qaryb</span>
-							<Link href="/" className={Styles.bottomAnchor}>
+							<Link href={CGU_PAGE} className={Styles.bottomAnchor}>
 								Conditions générales d&apos;Utilisation
 							</Link>
 						</Stack>
