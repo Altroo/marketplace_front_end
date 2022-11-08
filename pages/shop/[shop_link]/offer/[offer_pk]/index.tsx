@@ -599,9 +599,11 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	};
 
 	const handleSaveSolder = () => {
-		let valueToSend = '0.00';
+		let valueToSend;
 		if (solderPourcentageForApi && solderByState === 'P') {
 			valueToSend = solderPourcentageForApi;
+		} else {
+			valueToSend = newSolderValue;
 		}
 		if (!solder_value) {
 			// dispatch post
@@ -1528,9 +1530,11 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	};
 
 	const handleSaveSolder = () => {
-		let valueToSend = '0.00';
+		let valueToSend;
 		if (solderPourcentageForApi && solderByState === 'P') {
 			valueToSend = solderPourcentageForApi;
+		} else {
+			valueToSend = newSolderValue;
 		}
 		if (!solder_value) {
 			// dispatch post

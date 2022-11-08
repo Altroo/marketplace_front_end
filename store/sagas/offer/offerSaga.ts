@@ -372,7 +372,7 @@ function* offerPostSolderSaga(payload: OfferPostSolderType) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_OFFER_SOLDER}`;
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { type, ...payloadData } = payload;
+	const { type, router, ...payloadData } = payload;
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
@@ -382,7 +382,7 @@ function* offerPostSolderSaga(payload: OfferPostSolderType) {
 				// update state
 				yield put(setSolderOffer(response.data));
 				// reload page
-				yield call(() => payload.router.replace(payload.router.asPath));
+				yield call(() => router.replace(payload.router.asPath));
 			}
 		}
 		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
@@ -466,7 +466,7 @@ function* offerPatchSolderSaga(payload: OfferPostSolderType) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_OFFER_SOLDER}`;
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { type, ...payloadData } = payload;
+	const { type, router, ...payloadData } = payload;
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
@@ -475,7 +475,7 @@ function* offerPatchSolderSaga(payload: OfferPostSolderType) {
 			if (response.status === 200) {
 				// update state
 				yield put(setSolderOffer(response.data));
-				yield call(() => payload.router.replace(payload.router.asPath));
+				yield call(() => router.replace(payload.router.asPath));
 			}
 		}
 		// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
