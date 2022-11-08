@@ -28,7 +28,7 @@ import BorderIconAnchorButton from '../../../components/htmlElements/buttons/bor
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import { ShopFontNameType } from '../../../types/shop/shopTypes';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
+import { getApi } from '../../../store/services/_init/_initAPI';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { chipActionsType } from '../../../types/ui/uiTypes';
@@ -41,7 +41,12 @@ import {
 	getNewShopBorder,
 	getNewShopIconColor,
 } from '../../../store/selectors';
-import { REAL_SHOP_ADD_COLOR, DASHBOARD, REAL_SHOP_BY_SHOP_LINK_ROUTE, AUTH_LOGIN } from '../../../utils/routes';
+import {
+	REAL_SHOP_ADD_COLOR,
+	DASHBOARD,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE,
+	AUTH_LOGIN, REAL_SHOP_ADD_AVATAR, REAL_SHOP_ADD_SHOP_NAME
+} from "../../../utils/routes";
 import { getCookie } from 'cookies-next';
 import { Box } from '@mui/material';
 import { SagaCallBackOnCompleteStrType } from '../../../types/_init/_initTypes';
@@ -115,17 +120,26 @@ const Font: NextPage = () => {
 	const blackText = '#0D070B';
 
 	useEffect(() => {
+		if (!shopName) {
+			router.replace(REAL_SHOP_ADD_SHOP_NAME).then();
+		}
 		// avatar
 		if (shopAvatar) {
 			setPreview(shopAvatar);
+		} else {
+			router.replace(REAL_SHOP_ADD_AVATAR).then();
 		}
 		// color code
 		if (shopBgColorCode) {
 			setBgColorCode(shopColorCode);
+		} else {
+			router.replace(REAL_SHOP_ADD_COLOR).then();
 		}
 		// bg color code
 		if (shopColorCode) {
 			setColorCode(shopBgColorCode);
+		} else {
+			router.replace(REAL_SHOP_ADD_COLOR).then();
 		}
 		// border
 		if (shopBorder) {
@@ -143,12 +157,11 @@ const Font: NextPage = () => {
 		if (shopFontName) {
 			setFontName(shopFontName);
 		}
-	}, [shopAvatar, shopBgColorCode, shopBorder, shopColorCode, shopFontName, shopIconColor]);
+	}, [router, shopAvatar, shopBgColorCode, shopBorder, shopColorCode, shopFontName, shopIconColor, shopName]);
 
 	const fontPicker = (font: ShopFontNameType | undefined) => {
 		if (font) {
 			setFontName(font);
-			cookiesPoster('/cookies', { font_name: 1 }).then();
 		}
 	};
 
@@ -341,18 +354,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					},
 				};
 			} else {
-				// connected no shop created yet - proceed to create.
-				if (!color_code && !bg_color_code) {
-					return {
-						redirect: {
-							permanent: false,
-							destination: REAL_SHOP_ADD_COLOR,
-						},
-					};
-				}
 				return {
 					props: {},
 				};
+				// // connected no shop created yet - proceed to create.
+				// if (!color_code && !bg_color_code) {
+				// 	return {
+				// 		redirect: {
+				// 			permanent: false,
+				// 			destination: REAL_SHOP_ADD_COLOR,
+				// 		},
+				// 	};
+				// }
+				// return {
+				// 	props: {},
+				// };
 			}
 		} else {
 			// not connected, status unknown

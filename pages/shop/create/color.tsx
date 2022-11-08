@@ -7,7 +7,7 @@ import HelperH1Header from '../../../components/headers/helperH1Header/helperH1H
 import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import DefaultCardSection from '../../../components/htmlElements/cards/defaultCardSection/defaultCardSection';
-import { setShopColorAction } from '../../../store/actions/shop/shopActions';
+import { setShopAvatarAction, setShopColorAction } from "../../../store/actions/shop/shopActions";
 import AvatarShopNameRating from '../../../components/groupedComponents/temp-shop/create/avatarShopNameRating/avatarShopNameRating';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg';
@@ -17,7 +17,7 @@ import ContactIconSVG from '../../../public/assets/svgs/globalIcons/call.svg';
 import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
 import ContactIconBlackSVG from '../../../public/assets/svgs/globalIcons/call-black.svg';
 import DisactivatedAddIconSVG from '../../../public/assets/svgs/globalIcons/gray-add.svg';
-import { IconColorType } from '../../../types/_init/_initTypes';
+import { IconColorType, SagaCallBackOnCompleteBoolType } from "../../../types/_init/_initTypes";
 import { DisactivatedTab } from '../../../components/htmlElements/tabs/tab';
 import DisabledFilterDropDown from '../../../components/groupedComponents/temp-shop/create/disabledFilterDropDown/disabledFilterDropDown';
 import IconTextInput from '../../../components/htmlElements/inputs/iconTextInput/iconTextInput';
@@ -34,7 +34,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/lazy';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
-import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
+import { getApi } from '../../../store/services/_init/_initAPI';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
@@ -42,14 +42,14 @@ import {
 	DASHBOARD,
 	REAL_SHOP_ADD_AVATAR,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	AUTH_LOGIN,
-} from '../../../utils/routes';
+	AUTH_LOGIN, REAL_SHOP_ADD_FONT, REAL_SHOP_ADD_SHOP_NAME
+} from "../../../utils/routes";
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
-import { getCookie } from 'cookies-next';
 import { Box } from '@mui/material';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
+import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 export const colors = [
 	'#FF5D6B',
@@ -81,7 +81,7 @@ const Color: NextPage = () => {
 	// Redux states
 	const shopName = useAppSelector(getNewShopName);
 	const shopAvatar = useAppSelector(getNewShopAvatar);
-
+	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 	const [preview, setPreview] = useState<ArrayBuffer | null>(null);
 
 	// Load color code
@@ -120,16 +120,26 @@ const Color: NextPage = () => {
 	useEffect(() => {
 		if (shopAvatar) {
 			setPreview(shopAvatar);
+		} else {
+			router.replace(REAL_SHOP_ADD_AVATAR).then();
 		}
-	}, [shopAvatar]);
+	}, [shopAvatar, router]);
 
 	const colorHandler = (_bgColorCode: string | null, _colorCode: string | null) => {
 		if (_colorCode && _bgColorCode) {
-			cookiesPoster('/cookies', { border: border }).then(() => {
-				cookiesPoster('/cookies', { icon_color: iconColor }).then();
-			});
+			setIsApiCallInProgress(true);
 			// _bgColorCode & _colorCode are reversed for this action.
-			dispatch(setShopColorAction(_bgColorCode, _colorCode, border, iconColor, router));
+			const action = setShopColorAction(_bgColorCode, _colorCode, border, iconColor);
+			dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
+				if (!error && !cancelled && data) {
+					router.push(REAL_SHOP_ADD_FONT).then(() => {
+						setIsApiCallInProgress(false);
+					})
+				}
+			},
+		});
 		}
 	};
 	const whiteTextColors = ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
@@ -163,11 +173,17 @@ const Color: NextPage = () => {
 			setIconColor('black');
 			setColorCode(blackText);
 		}
-		cookiesPoster('/cookies', { color_code: 1 }).then();
 	};
 
 	return (
 		<>
+			{isApiCallInProgress && (
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+					backdropColor="#FFFFFF"
+					circularColor="#0D070B"
+				/>
+			)}
 			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SHOP" />
 				<Box className={Styles.rootBox}>
@@ -338,8 +354,6 @@ const Color: NextPage = () => {
 // }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const avatar = getCookie('@avatar', { req: context.req, res: context.res });
-	// redirect if user already logged in
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	const appToken = getServerSideCookieTokens(context);
 	try {
@@ -355,19 +369,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					},
 				};
 			} else {
-				// connected no shop created yet - proceed to create.
-				if (!avatar) {
-					return {
-						redirect: {
-							permanent: false,
-							destination: REAL_SHOP_ADD_AVATAR,
-						},
-					};
-				} else {
-					return {
-						props: {},
-					};
-				}
+				return {
+					props: {},
+				};
 			}
 		} else {
 			// not connected, status unknown

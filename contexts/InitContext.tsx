@@ -12,7 +12,7 @@ import {
 	initNewShopBorderIconAction
 } from "../store/actions/_init/_initActions";
 import { emptyInitStateToken, emptyInitStateUniqueID } from '../store/slices/_init/_initSlice';
-import { loadNewAddedShopAction, shopGetRootAction } from '../store/actions/shop/shopActions';
+import { shopGetRootAction } from '../store/actions/shop/shopActions';
 import { accountGetCheckAccountAction } from '../store/actions/account/accountActions';
 import { cookiesFetcher } from '../store/services/_init/_initAPI';
 import {
@@ -64,7 +64,7 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 		dispatch(placesGetCitiesAction('MA'));
 		// case user didn't complete temporary shop creation
 		// or refreshed the page in the middle of the process
-		dispatch(loadNewAddedShopAction());
+		// dispatch(loadNewAddedShopAction());
 		if (tokenType === 'TOKEN' && token !== null) {
 			// moved to init Saga or in it's page. (in it's page causes infinite loop)
 			// dispatch(accountGetProfilAction());

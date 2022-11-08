@@ -10,22 +10,20 @@ export const setShopNameAction = (shop_name: string) => {
 	};
 };
 
-export const setShopAvatarAction = (avatar: ArrayBuffer | string | null, router: NextRouter) => {
+export const setShopAvatarAction = (avatar: ArrayBuffer | string | null) => {
 	return {
 		type: Types.SET_SHOP_AVATAR,
 		avatar,
-		router
 	};
 };
 // SHOP_ADD_FONT
-export const setShopColorAction = (color_code: string, bg_color_code: string, border: string, icon_color: string, router: NextRouter) => {
+export const setShopColorAction = (color_code: string, bg_color_code: string, border: string, icon_color: string) => {
 	return {
 		type: Types.SET_SHOP_COLOR,
 		color_code,
 		bg_color_code,
 		border,
 		icon_color,
-		router
 	};
 };
 
@@ -36,11 +34,11 @@ export const setShopFontAction = (font_name: ShopFontNameType) => {
 	};
 };
 
-export const loadNewAddedShopAction = () => {
-	return {
-		type: Types.LOAD_NEW_ADDED_SHOP_DATA,
-	};
-};
+// export const loadNewAddedShopAction = () => {
+// 	return {
+// 		type: Types.LOAD_NEW_ADDED_SHOP_DATA,
+// 	};
+// };
 
 // POST : /api/1.0.0/shop/
 export const shopPostRootAction = (

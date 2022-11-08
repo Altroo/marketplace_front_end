@@ -24,13 +24,20 @@ import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
-import { REAL_SHOP_ADD_SHOP_NAME, REAL_SHOP_BY_SHOP_LINK_ROUTE, AUTH_LOGIN, DASHBOARD } from '../../../utils/routes';
+import {
+	REAL_SHOP_ADD_SHOP_NAME,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE,
+	AUTH_LOGIN,
+	DASHBOARD,
+	REAL_SHOP_ADD_AVATAR, REAL_SHOP_ADD_COLOR
+} from "../../../utils/routes";
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
-import { getCookie } from 'cookies-next';
 import { Box } from '@mui/material';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
+import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
+import { SagaCallBackOnCompleteBoolType } from "../../../types/_init/_initTypes";
 
 const Avatar: NextPage = () => {
 	const activeStep = '2';
@@ -38,6 +45,7 @@ const Avatar: NextPage = () => {
 	const router = useRouter();
 	const shopName = useAppSelector(getNewShopName);
 	const shopAvatar = useAppSelector(getNewShopAvatar);
+	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
 	let avatarInitial: string | ArrayBuffer | null = null;
 	if (shopAvatar) {
@@ -72,7 +80,6 @@ const Avatar: NextPage = () => {
 		if (avatar) {
 			reader.onloadend = () => {
 				setPreview(reader.result);
-				cookiesPoster('/cookies', { avatar: 1 }).then();
 			};
 			reader.readAsDataURL(avatar);
 		} else {
@@ -82,12 +89,30 @@ const Avatar: NextPage = () => {
 
 	const avatarHandler = (avatar: string | ArrayBuffer | null) => {
 		if (avatar) {
-			dispatch(setShopAvatarAction(avatar, router));
+			setIsApiCallInProgress(true);
+			const action = setShopAvatarAction(avatar);
+			dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
+				if (!error && !cancelled && data) {
+					router.push(REAL_SHOP_ADD_COLOR).then(() => {
+						setIsApiCallInProgress(false);
+					})
+				}
+			},
+		});
 		}
 	};
 
 	return (
 		<>
+			{isApiCallInProgress && (
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+					backdropColor="#FFFFFF"
+					circularColor="#0D070B"
+				/>
+			)}
 			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SHOP" />
 				<Box className={Styles.rootBox}>

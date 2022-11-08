@@ -232,75 +232,75 @@ export const constructApiFormData = (apiData: object) => {
 // 	}
 // };
 
-export const setLocalStorageNewShopAvatar = (avatar: string) => {
-	if (typeof window !== 'undefined') {
-		localStorage.setItem('@avatar', avatar);
-	}
-};
+// export const setLocalStorageNewShopAvatar = (avatar: string) => {
+// 	if (typeof window !== 'undefined') {
+// 		localStorage.setItem('@avatar', avatar);
+// 	}
+// };
 
-export const setLocalStorageNewShopColor = (
-	color_code: string,
-	bg_color_code: string,
-	border: string,
-	icon_color: IconColorType,
-) => {
-	if (typeof window !== 'undefined') {
-		localStorage.setItem('@color_code', color_code);
-		localStorage.setItem('@bg_color_code', bg_color_code);
-		localStorage.setItem('@border', border);
-		localStorage.setItem('@icon_color', icon_color);
-	}
-};
+// export const setLocalStorageNewShopColor = (
+// 	color_code: string,
+// 	bg_color_code: string,
+// 	border: string,
+// 	icon_color: IconColorType,
+// ) => {
+// 	if (typeof window !== 'undefined') {
+// 		localStorage.setItem('@color_code', color_code);
+// 		localStorage.setItem('@bg_color_code', bg_color_code);
+// 		localStorage.setItem('@border', border);
+// 		localStorage.setItem('@icon_color', icon_color);
+// 	}
+// };
 
 export const setLocalStorageNewShopFont = (font_name: ShopFontNameType) => {
 	if (typeof window !== 'undefined') {
 		localStorage.setItem('@font_name', font_name);
 	}
 };
-// New shop load LocalStorage
-export const loadLocalStorageNewShopData = () => {
-	if (typeof window !== 'undefined') {
-		const shop_name = localStorage.getItem('@shop_name') as string;
-		const avatar = localStorage.getItem('@avatar') as string;
-		const color_code = localStorage.getItem('@color_code') as string;
-		const bg_color_code = localStorage.getItem('@bg_color_code') as string;
-		const border = localStorage.getItem('@border') as string;
-		const icon_color = localStorage.getItem('@icon_color') as IconColorType;
-		const font_name = localStorage.getItem('@font_name') as ShopFontNameType;
-		return {
-			shop_name,
-			avatar,
-			color_code,
-			bg_color_code,
-			border,
-			icon_color,
-			font_name,
-		};
-	}
-	return null;
-};
-// New shop empty localStorage
-export const emptyLocalStorageNewShopData = () => {
-	if (typeof window !== 'undefined') {
-		localStorage.removeItem('@shop_name');
-		localStorage.removeItem('@avatar');
-		localStorage.removeItem('@color_code');
-		localStorage.removeItem('@bg_color_code');
-		localStorage.removeItem('@border');
-		localStorage.removeItem('@icon_color');
-		localStorage.removeItem('@font_name');
-	}
-};
+// // New shop load LocalStorage
+// export const loadLocalStorageNewShopData = () => {
+// 	if (typeof window !== 'undefined') {
+// 		const shop_name = localStorage.getItem('@shop_name') as string;
+// 		const avatar = localStorage.getItem('@avatar') as string;
+// 		const color_code = localStorage.getItem('@color_code') as string;
+// 		const bg_color_code = localStorage.getItem('@bg_color_code') as string;
+// 		const border = localStorage.getItem('@border') as string;
+// 		const icon_color = localStorage.getItem('@icon_color') as IconColorType;
+// 		const font_name = localStorage.getItem('@font_name') as ShopFontNameType;
+// 		return {
+// 			shop_name,
+// 			avatar,
+// 			color_code,
+// 			bg_color_code,
+// 			border,
+// 			icon_color,
+// 			font_name,
+// 		};
+// 	}
+// 	return null;
+// };
+// // New shop empty localStorage
+// export const emptyLocalStorageNewShopData = () => {
+// 	if (typeof window !== 'undefined') {
+// 		localStorage.removeItem('@shop_name');
+// 		localStorage.removeItem('@avatar');
+// 		localStorage.removeItem('@color_code');
+// 		localStorage.removeItem('@bg_color_code');
+// 		localStorage.removeItem('@border');
+// 		localStorage.removeItem('@icon_color');
+// 		localStorage.removeItem('@font_name');
+// 	}
+// };
 
-export const deleteCookieStorageNewShopData = () => {
-	cookiesDeleter('/cookies', { shop_name: 0 }).then(() => {
-		cookiesDeleter('/cookies', { avatar: 0 }).then(() => {
-			cookiesDeleter('/cookies', { color_code: 0 }).then(() => {
-				cookiesDeleter('/cookies', { font_name: 0 }).then();
-			});
-		});
-	});
-};
+// export const deleteCookieStorageNewShopData = () => {
+// 	cookiesDeleter('/cookies', { shop_name: 0 }).then(() => {
+// 		cookiesDeleter('/cookies', { avatar: 0 }).then(() => {
+// 			cookiesDeleter('/cookies', { color_code: 0 }).then(() => {
+// 				cookiesDeleter('/cookies', { font_name: 0 }).then();
+// 			});
+// 		});
+// 	});
+// };
 
 // Set Server token cookies
 export const setRemoteCookiesAppToken = async (

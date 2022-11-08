@@ -49,22 +49,10 @@ import {
 import {
 	allowAnyInstance,
 	isAuthenticatedInstance,
-	emptyLocalStorageNewShopData,
-	setLocalStorageNewShopAvatar,
-	setLocalStorageNewShopFont,
-	loadLocalStorageNewShopData,
-	setLocalStorageNewShopColor,
-	deleteCookieStorageNewShopData,
 } from '../../../utils/helpers';
 import { withCallback } from 'redux-saga-callback';
 import { ctxAuthSaga } from '../_init/_initSaga';
 import { getApi, patchApi, patchFormDataApi, postFormDataApi } from '../../services/_init/_initAPI';
-import {
-	REAL_SHOP_ADD_AVATAR,
-	REAL_SHOP_ADD_COLOR,
-	REAL_SHOP_ADD_FONT,
-} from '../../../utils/routes';
-import { NextRouter } from 'next/router';
 import { AxiosInstance } from 'axios';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { Saga } from "redux-saga";
@@ -83,10 +71,6 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 		if (response.status === 200) {
 			yield put(setPostShopState(response.data));
 			// empty temporary new shop data
-			yield call(() => emptyLocalStorageNewShopData());
-			// delete cookies
-			yield call(() => deleteCookieStorageNewShopData());
-			// refresh check account data -> has shop true
 			yield call(() => accountGetCheckAccountSaga());
 			return response.data.qaryb_link;
 		}
@@ -479,10 +463,9 @@ function* setShopLocalShopNameSaga(payload: { type: string; shop_name: string}) 
 	return true;
 }
 
-function* setShopLocalAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string; router: NextRouter }) {
+function* setShopLocalAvatarSaga(payload: { type: string; avatar: ArrayBuffer | string}) {
 	yield put(setNewShopAvatar(payload.avatar));
-	yield call(() => setLocalStorageNewShopAvatar(payload.avatar as string));
-	yield call(() => payload.router.push(REAL_SHOP_ADD_COLOR));
+	return true;
 }
 
 function* setShopLocalColorSaga(payload: {
@@ -491,7 +474,6 @@ function* setShopLocalColorSaga(payload: {
 	bg_color_code: string;
 	border: string;
 	icon_color: IconColorType;
-	router: NextRouter;
 }) {
 	yield put(
 		setNewShopColor({
@@ -501,49 +483,46 @@ function* setShopLocalColorSaga(payload: {
 			icon_color: payload.icon_color,
 		}),
 	);
-	yield call(() =>
-		setLocalStorageNewShopColor(payload.color_code, payload.bg_color_code, payload.border, payload.icon_color),
-	);
-	yield call(() => payload.router.push(REAL_SHOP_ADD_FONT));
+	return true;
 }
 
 function* setShopLocalFontSaga(payload: { type: string; font_name: ShopFontNameType }) {
 	yield put(setNewShopFont(payload.font_name));
-	yield call(() => setLocalStorageNewShopFont(payload.font_name));
+	return true;
 }
 
-function* loadNewAddedShopDataSaga() {
-	const newShopData: {
-		shop_name: string;
-		avatar: string;
-		color_code: string;
-		bg_color_code: string;
-		border: string;
-		icon_color: IconColorType;
-		font_name: ShopFontNameType;
-	} | null = yield call(() => loadLocalStorageNewShopData());
-	if (newShopData !== null) {
-		yield put(setNewShopName(newShopData.shop_name));
-		yield put(setNewShopAvatar(newShopData.avatar));
-		yield put(
-			setNewShopColor({
-				color_code: newShopData.color_code,
-				bg_color_code: newShopData.bg_color_code,
-				border: newShopData.border,
-				icon_color: newShopData.icon_color,
-			}),
-		);
-		yield put(setNewShopFont(newShopData.font_name));
-	}
-	// else case is handled by the middleware
-}
+// function* loadNewAddedShopDataSaga() {
+// 	const newShopData: {
+// 		shop_name: string;
+// 		avatar: string;
+// 		color_code: string;
+// 		bg_color_code: string;
+// 		border: string;
+// 		icon_color: IconColorType;
+// 		font_name: ShopFontNameType;
+// 	} | null = yield call(() => loadLocalStorageNewShopData());
+// 	if (newShopData !== null) {
+// 		yield put(setNewShopName(newShopData.shop_name));
+// 		yield put(setNewShopAvatar(newShopData.avatar));
+// 		yield put(
+// 			setNewShopColor({
+// 				color_code: newShopData.color_code,
+// 				bg_color_code: newShopData.bg_color_code,
+// 				border: newShopData.border,
+// 				icon_color: newShopData.icon_color,
+// 			}),
+// 		);
+// 		yield put(setNewShopFont(newShopData.font_name));
+// 	}
+// 	// else case is handled by the middleware
+// }
 
 export function* watchShop() {
-	yield takeLatest(Types.LOAD_NEW_ADDED_SHOP_DATA, loadNewAddedShopDataSaga);
-	yield takeLatest(Types.SET_SHOP_NAME, withCallback(setShopLocalShopNameSaga));
-	yield takeLatest(Types.SET_SHOP_AVATAR, setShopLocalAvatarSaga);
-	yield takeLatest(Types.SET_SHOP_COLOR, setShopLocalColorSaga);
-	yield takeLatest(Types.SET_SHOP_FONT, setShopLocalFontSaga);
+	// yield takeLatest(Types.LOAD_NEW_ADDED_SHOP_DATA, loadNewAddedShopDataSaga);
+	yield takeLatest(Types.SET_SHOP_NAME, withCallback(setShopLocalShopNameSaga as Saga));
+	yield takeLatest(Types.SET_SHOP_AVATAR, withCallback(setShopLocalAvatarSaga as Saga));
+	yield takeLatest(Types.SET_SHOP_COLOR, withCallback(setShopLocalColorSaga as Saga));
+	yield takeLatest(Types.SET_SHOP_FONT, withCallback(setShopLocalFontSaga as Saga));
 	yield takeLatest(Types.SHOP_POST_ROOT, withCallback(shopPostRootSaga as Saga));
 	yield takeLatest(Types.SHOP_GET_ROOT, shopGetRootSaga);
 	yield takeLatest(Types.SHOP_GET_PHONE_CODES, shopGetPhoneCodesSaga);
