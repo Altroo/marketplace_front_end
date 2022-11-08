@@ -1,5 +1,5 @@
 import React from "react";
-import Styles from "../../../styles/auth/register/missingEmail.module.sass";
+import Styles from "../../../styles/auth/register/missing-email.module.sass";
 import { GetServerSidePropsContext } from "next";
 import {
 	allowAnyInstance,
@@ -13,7 +13,6 @@ import { getApi, postApi, putApi } from "../../../store/services/_init/_initAPI"
 import { AUTH_LOGIN, AUTH_REGISTER, AUTH_WELCOME } from "../../../utils/routes";
 import AuthPageLayout from "../../../components/layouts/auth/authPageLayout";
 import { Stack } from "@mui/material";
-import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
 import { getInitStateToken } from "../../../store/selectors";
 import { useRouter } from "next/router";
@@ -112,12 +111,8 @@ const AddMissingEmail = () => {
 	);
 };
 
-type Props = {
-	children?: React.ReactNode;
-}
-
 // Missing fb email
-const MissingEmail: React.FC<Props> = (props: Props) => {
+const MissingEmail: React.FC = () => {
 	return (
 		<>
 			<div className={Styles.desktopOnly}>

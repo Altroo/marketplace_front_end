@@ -10,7 +10,6 @@ import { cookiesPoster, getApi, putApi } from "../../../store/services/_init/_in
 import { AUTH_REGISTER, AUTH_RESET_PASSWORD, AUTH_RESET_PASSWORD_COMPLETE, DASHBOARD } from "../../../utils/routes";
 import AuthPageLayout from '../../../components/layouts/auth/authPageLayout';
 import { Stack } from '@mui/material';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import { passwordResetConfirmationSchema } from '../../../utils/formValidationSchemas';

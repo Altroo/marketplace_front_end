@@ -23,8 +23,7 @@ import CustomTextInput from "../../../components/formikElements/customTextInput/
 import { coordonneeTextInputTheme } from "../../../utils/themes";
 import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
 import CustomPasswordInput from "../../../components/formikElements/customPasswordInput/customPasswordInput";
-import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
-import { getInitStateUniqueID, getTokenType } from "../../../store/selectors";
+import { useAppDispatch } from "../../../utils/hooks";
 import { accountPostRegisterAction } from "../../../store/actions/account/accountActions";
 import { refreshAppTokenStatesAction } from "../../../store/actions/_init/_initActions";
 import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
@@ -34,8 +33,6 @@ type AboutPageContent = {
 };
 
 const AboutPageContent = (props: AboutPageContent) => {
-	// const tokenType = useAppSelector(getTokenType);
-	// const uniqueID = useAppSelector(getInitStateUniqueID);
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 
@@ -182,7 +179,6 @@ const AboutPageContent = (props: AboutPageContent) => {
 type Props = {
 	pageProps: {
 		newEmail: string;
-		// csrfToken: string;
 	};
 	children?: React.ReactNode;
 };
@@ -190,7 +186,6 @@ type Props = {
 const About: React.FC<Props> = (props: Props) => {
 	const { data: session } = useSession();
 	const dispatch = useAppDispatch();
-	// const { csrfToken, newEmail } = props.pageProps;
 	const { newEmail } = props.pageProps;
 	const [sessionUpdated, setSessionUpdated] = useState<boolean>(false);
 
@@ -210,7 +205,6 @@ const About: React.FC<Props> = (props: Props) => {
 			</div>
 			<div className={Styles.mobileOnly}>
 				<main className={Styles.main}>
-					{/*<Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ height: "100vh" }}>*/}
 					<UserMainNavigationBar/>
 					<AboutPageContent email={newEmail} />
 						{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}

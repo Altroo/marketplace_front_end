@@ -141,11 +141,7 @@ const LoginPageContent = () => {
 	);
 };
 
-type Props = {
-	children?: React.ReactNode;
-}
-
-const Login: React.FC<Props> = (props: Props) => {
+const Login: React.FC = () => {
 	const { data: session, status } = useSession();
 	const loading = status === "loading";
 	const dispatch = useAppDispatch();

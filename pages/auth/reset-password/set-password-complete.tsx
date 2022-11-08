@@ -6,19 +6,15 @@ import { Stack } from '@mui/material';
 import Image from 'next/image';
 import SuccessIlluSVG from '../../../public/assets/images/success-illu.svg';
 import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
-import { AUTH_LOGIN, AUTH_REGISTER, DASHBOARD } from '../../../utils/routes';
-import Link from 'next/link';
+import { AUTH_LOGIN, DASHBOARD } from '../../../utils/routes';
 import { getCookie } from 'cookies-next';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import { getApi } from '../../../store/services/_init/_initAPI';
 import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 
-type Props = {
-	children?: React.ReactNode;
-};
 
-const SetPasswordComplete: React.FC<Props> = (props: Props) => {
+const SetPasswordComplete: React.FC = () => {
 	return (
 		<>
 			<div className={Styles.desktopOnly}>

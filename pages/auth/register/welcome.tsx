@@ -5,12 +5,11 @@ import { GetServerSidePropsContext } from 'next';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import { getApi } from '../../../store/services/_init/_initAPI';
-import { AUTH_LOGIN, AUTH_REGISTER, DASHBOARD, REAL_SHOP_ADD_SHOP_NAME } from '../../../utils/routes';
+import { AUTH_REGISTER, DASHBOARD, REAL_SHOP_ADD_SHOP_NAME } from '../../../utils/routes';
 import SuccessIlluSVG from '../../../public/assets/images/success-illu.svg';
 import Image from 'next/image';
 import { Stack } from '@mui/material';
 import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
-import Link from 'next/link';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 
 type Props = {

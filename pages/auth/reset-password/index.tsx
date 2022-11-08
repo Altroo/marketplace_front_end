@@ -92,11 +92,7 @@ const ResetPasswordPageContent = () => {
 	);
 };
 
-type Props = {
-	children?: React.ReactNode;
-};
-
-const ResetPassword: React.FC<Props> = (props: Props) => {
+const ResetPassword: React.FC = () => {
 	return (
 		<>
 			<div className={Styles.desktopOnly}>
