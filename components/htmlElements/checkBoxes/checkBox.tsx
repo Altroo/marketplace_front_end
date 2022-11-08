@@ -30,6 +30,23 @@ interface checkBoxForWhomBaseType extends Omit<checkBoxForWhomType, 'onChange'> 
 	labelcssStyles?: CSSProperties;
 }
 
+const colorTheme = (activeColor: string) => {
+	return createTheme({
+		components: {
+			MuiCheckbox: {
+				styleOverrides: {
+					root: {
+						'&.Mui-checked': {
+							color: activeColor,
+						},
+						color: activeColor,
+					},
+				},
+			},
+		},
+	});
+};
+
 const CheckBox: React.FC<checkBoxForWhomBaseType> = (props: checkBoxForWhomBaseType) => {
 	let CheckboxIcon = CheckBoxSVG('#0D070B');
 	if (!props.active) {
@@ -48,24 +65,9 @@ const CheckBox: React.FC<checkBoxForWhomBaseType> = (props: checkBoxForWhomBaseT
 		}
 	}
 
-	const colorTheme = createTheme({
-		components: {
-			MuiCheckbox: {
-				styleOverrides: {
-					root: {
-						'&.Mui-checked': {
-							color: activeColor,
-						},
-						color: activeColor,
-					},
-				},
-			},
-		},
-	});
-
 	return (
 		<div>
-			<ThemeProvider theme={colorTheme}>
+			<ThemeProvider theme={colorTheme(activeColor)}>
 				<Checkbox
 					sx={{ '&:hover': { bgcolor: alphaColor } }}
 					style={{...props.labelcssStyles}}
@@ -79,6 +81,41 @@ const CheckBox: React.FC<checkBoxForWhomBaseType> = (props: checkBoxForWhomBaseT
 				<span className={Styles.checkboxText}>{props.text}</span>
 			</ThemeProvider>
 		</div>
+	);
+};
+
+export const CGUCheckBox: React.FC<checkBoxForWhomBaseType> = (props: checkBoxForWhomBaseType) => {
+	let CheckboxIcon = CheckBoxSVG('#0D070B');
+	if (!props.active) {
+		CheckboxIcon = CheckBoxSVG('#000000', 20, 20, '0.38');
+	}
+	let alphaColor = 'rgba(25, 118, 210, 0.04)';
+	let activeColor = '#0D070B';
+	if (props.activeColor) {
+		if (props.activeColor === '#FFFFFF') {
+			alphaColor = hexToRGB('#0D070B', 0.04);
+			CheckboxIcon = CheckBoxSVG('#0D070B');
+		} else {
+			alphaColor = hexToRGB(props.activeColor, 0.04);
+			activeColor = props.activeColor;
+			CheckboxIcon = CheckBoxSVG(props.activeColor);
+		}
+	}
+
+	return (
+		<ThemeProvider theme={colorTheme(activeColor)}>
+			<Checkbox
+				sx={{ '&:hover': { bgcolor: alphaColor } }}
+				style={{...props.labelcssStyles}}
+				checked={props.checked}
+				onChange={(e) => props.onChange && props.onChange(e.target.checked)}
+				disabled={!props.active}
+				icon={<RadioButtonUncheckedIcon />}
+				checkedIcon={CheckboxIcon}
+				size="small"
+			/>
+			{props.children}
+		</ThemeProvider>
 	);
 };
 

@@ -24,10 +24,17 @@ import { AccountGetCheckAccountResponseType } from '../../../types/account/accou
 import { useFormik } from 'formik';
 import { emailSchema } from '../../../utils/formValidationSchemas';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
-import { AUTH_REGISTER_ABOUT_PAGE, AUTH_FB_EMAIL_MISSING, AUTH_LOGIN, AUTH_WELCOME } from '../../../utils/routes';
+import {
+	AUTH_REGISTER_ABOUT_PAGE,
+	AUTH_FB_EMAIL_MISSING,
+	AUTH_LOGIN,
+	AUTH_WELCOME,
+	CGU_PAGE
+} from "../../../utils/routes";
 import { ResponseOnlyInterface } from '../../../types/_init/_initTypes';
 import Link from 'next/link';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
+import { CGUCheckBox } from '../../../components/htmlElements/checkBoxes/checkBox';
 
 type registerPageContentProps = {
 	googleSignIn: () => void;
@@ -42,6 +49,8 @@ type registerPageContentProps = {
 	isValid: boolean;
 	isSubmitting: boolean;
 	handleSubmit: (e?: React.FormEvent<HTMLFormElement>) => void;
+	cguCheckbox: boolean;
+	setCguCheckBox: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const RegisterPageContent = (props: registerPageContentProps) => {
@@ -57,32 +66,51 @@ const RegisterPageContent = (props: registerPageContentProps) => {
 				{props.error && <span className={Styles.errorMessage}>{props.error}</span>}
 			</Stack>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />
-			<form style={{ width: "100%"}}>
-			<Stack direction="column" spacing="24px">
-				<CustomTextInput
-					id="email"
-					value={props.value}
-					onChange={props.onChange}
-					onBlur={props.onBlur}
-					helperText={props.helperText}
-					error={props.validationError}
-					theme={props.Theme}
-					type="email"
-					placeholder="Adresse email"
-					label="Adresse email"
-					fullWidth={false}
-					size="medium"
-					// cssClass={Styles.emailInputField}
-				/>
-				<PrimaryButton
-					buttonText="S'inscrire"
-					active={props.isValid && !props.isSubmitting}
-					onClick={props.handleSubmit}
-					cssClass={Styles.emailRegisterButton}
-					type="submit"
-				/>
-			</Stack>
-		</form>
+			<form style={{ width: '100%' }}>
+				<Stack direction="column" spacing="24px">
+					<CustomTextInput
+						id="email"
+						value={props.value}
+						onChange={props.onChange}
+						onBlur={props.onBlur}
+						helperText={props.helperText}
+						error={props.validationError}
+						theme={props.Theme}
+						type="email"
+						placeholder="Adresse email"
+						label="Adresse email"
+						fullWidth={false}
+						size="medium"
+						// cssClass={Styles.emailInputField}
+					/>
+					<p className={Styles.cguParagraphe}>
+						Conformément à la loi 09-08, vous disposez d&apos;un droit d&apos;accès, de rectification et
+						d&apos;opposition au traitement de vos données personnelles. Ce traitement a été autorisé par la CNDP sous
+						le numéro D-GC-158/2016.
+					</p>
+					<Stack direction="row" justifyContent="space-between">
+						<CGUCheckBox checked={props.cguCheckbox} active={true} text="" labelcssStyles={{
+							alignItems: 'flex-start',
+							height: "100%",
+						}} onChange={props.setCguCheckBox}>
+							<span className={Styles.cguCheckBoxText}>
+								J&apos;ai lu et j&apos;accepte les{' '}
+									<Link href={CGU_PAGE} className={Styles.cguUnderlineBlue} target="_blank" rel="noreferrer">
+										Conditions générales d&apos;utilisation
+									</Link>, notament la
+								mention relative à la protection des données.
+							</span>
+						</CGUCheckBox>
+					</Stack>
+					<PrimaryButton
+						buttonText="S'inscrire"
+						active={props.isValid && !props.isSubmitting}
+						onClick={props.handleSubmit}
+						cssClass={Styles.emailRegisterButton}
+						type="submit"
+					/>
+				</Stack>
+			</form>
 		</Stack>
 	);
 };
@@ -96,6 +124,7 @@ const Register: NextPage = () => {
 	// const authenticated = status === 'authenticated';
 	// const unauthenticated = status === 'unauthenticated';
 	const [sessionUpdated, setSessionUpdated] = useState<boolean>(false);
+	const [cguCheckBox, setCguCheckBox] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (session && !sessionUpdated) {
@@ -168,6 +197,8 @@ const Register: NextPage = () => {
 								error={error}
 								helperText={formik.touched.email ? formik.errors.email : ''}
 								validationError={formik.touched.email && Boolean(formik.errors.email)}
+								cguCheckbox={cguCheckBox}
+								setCguCheckBox={setCguCheckBox}
 							/>
 						</AuthPageLayout>
 					</div>
@@ -191,13 +222,12 @@ const Register: NextPage = () => {
 									error={error}
 									helperText={formik.touched.email ? formik.errors.email : ''}
 									validationError={formik.touched.email && Boolean(formik.errors.email)}
+									cguCheckbox={cguCheckBox}
+									setCguCheckBox={setCguCheckBox}
 								/>
-								<Stack direction="column" justifyContent="center" alignItems="center" sx={{marginTop: '60px'}}>
+								<Stack direction="column" justifyContent="center" alignItems="center" sx={{ marginTop: '60px' }}>
 									<p className={Styles.bottomLinks}>
-										Vous avez déjà un compte ?{' '}
-										<Link href={AUTH_LOGIN}>
-											Connectez-vous
-										</Link>
+										Vous avez déjà un compte ? <Link href={AUTH_LOGIN}>Connectez-vous</Link>
 									</p>
 								</Stack>
 							</Stack>
