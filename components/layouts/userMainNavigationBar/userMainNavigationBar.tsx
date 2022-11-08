@@ -118,6 +118,31 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 		}
 	};
 
+	const ShopDesktopItem = () => {
+		if (userHasShop && userShopUrl) {
+			return (
+				<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} className={Styles.anchorWrapper}>
+					<Image src={BoutiqueSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.subMenuIcons} />
+					<span className={Styles.desktopSpan}>Ma boutique</span>
+				</Link>
+			);
+		} else {
+			return (
+				<Link href={REAL_SHOP_ADD_SHOP_NAME} className={`${Styles.purpleAnchorWrapperDesktop}`}>
+					<Image
+						src={CreerVotreBoutiqueSVG}
+						alt=""
+						width="0"
+						height="0"
+						sizes="100vw"
+						className={Styles.subMenuIcons}
+					/>
+					<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
+				</Link>
+			);
+		}
+	};
+
 	return (
 		<ThemeProvider theme={userMainNavigationBarTheme()}>
 			<Box className={Styles.desktopOnly}>
@@ -272,6 +297,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 					<Link href="/" className={Styles.anchorText}>
 						Blog
 					</Link>
+					<ShopDesktopItem />
 				</Stack>
 			</Box>
 			<Box className={Styles.mobileOnly}>
