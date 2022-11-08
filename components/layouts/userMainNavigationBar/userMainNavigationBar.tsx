@@ -18,9 +18,10 @@ import HambourgerMenuSVG from '../../../public/assets/svgs/mainNavBarIcons/hambo
 import LogoutSVG from '../../../public/assets/svgs/mainNavBarIcons/logout.svg';
 import HeartShapeSVG from '../../../public/assets/svgs/mainNavBarIcons/heart-shape.svg';
 import { useSession, signOut } from 'next-auth/react';
-import { useAppSelector } from "../../../utils/hooks";
+import { useAppSelector } from '../../../utils/hooks';
 import {
 	getCheckUserHasShop,
+	getShopAvatar,
 	getUserFirstName,
 	getUserLastName,
 	getUserProfilAvatar,
@@ -33,20 +34,21 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	DASHBOARD,
 	REAL_SHOP_ADD_SHOP_NAME,
-	SITE_ROOT
-} from "../../../utils/routes";
+	SITE_ROOT,
+} from '../../../utils/routes';
 import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
-import { bulkCookiesDeleter } from "../../../store/services/_init/_initAPI";
+import { bulkCookiesDeleter } from '../../../store/services/_init/_initAPI';
 
 type Props = {
 	hideMobileSearch?: boolean;
-}
+};
 
 const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
-	const {hideMobileSearch} = props;
+	const { hideMobileSearch } = props;
 	const { data: session, status } = useSession();
 	const avatar = useAppSelector(getUserProfilAvatar);
+	const shopAvatar = useAppSelector(getShopAvatar);
 	const firstName = useAppSelector(getUserFirstName);
 	const lastName = useAppSelector(getUserLastName);
 	const userHasShop = useAppSelector(getCheckUserHasShop);
@@ -75,7 +77,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 
 	const logOutHandler = async () => {
 		await bulkCookiesDeleter('/cookie/delete');
-		await signOut({ redirect: true, callbackUrl: SITE_ROOT, });
+		await signOut({ redirect: true, callbackUrl: SITE_ROOT });
 	};
 
 	const [openMobileDrawer, setOpenMobileDrawer] = useState<boolean>(false);
@@ -85,14 +87,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 			return (
 				<MenuItem onClick={props.handleClose} className={Styles.menuItem}>
 					<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} className={Styles.anchorWrapper}>
-						<Image
-							src={BoutiqueSVG}
-							alt=""
-							width="0"
-							height="0"
-							sizes="100vw"
-							className={Styles.subMenuIcons}
-						/>
+						<Image src={BoutiqueSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.subMenuIcons} />
 						<span>Ma boutique</span>
 					</Link>
 				</MenuItem>
@@ -100,7 +95,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 		} else {
 			return (
 				<MenuItem onClick={props.handleClose} className={`${Styles.menuItem}`}>
-					<Link href={REAL_SHOP_ADD_SHOP_NAME}  className={`${Styles.purpleAnchorWrapperNoWidth}`}>
+					<Link href={REAL_SHOP_ADD_SHOP_NAME} className={`${Styles.purpleAnchorWrapperNoWidth}`}>
 						<Image
 							src={CreerVotreBoutiqueSVG}
 							alt=""
@@ -123,14 +118,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 					<Toolbar>
 						<Image src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
 						<Stack alignItems="center" className={Styles.searchWrapper} direction="row">
-							<Image
-								src={SearchIconSVG}
-								alt=""
-								width="0"
-								height="0"
-								sizes="100vw"
-								className={Styles.searchIcon}
-							/>
+							<Image src={SearchIconSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.searchIcon} />
 							<input
 								value={searchValue}
 								onChange={(e) => {
@@ -157,11 +145,11 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
 										{/*	<Badge badgeContent={4} color="primary">*/}
-										{!avatar ? (
+										{!avatar || !shopAvatar ? (
 											<Skeleton variant="circular" width={24} height={24} />
 										) : (
 											<Image
-												src={avatar as string}
+												src={shopAvatar ? shopAvatar : avatar}
 												alt=""
 												width="30"
 												height="30"
@@ -222,13 +210,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
 										{/*	<Badge badgeContent={4} color="primary">*/}
-										<Image
-											src={NotificationsSVG}
-											alt=""
-											width={24}
-											height={24}
-											sizes="100vw"
-										/>
+										<Image src={NotificationsSVG} alt="" width={24} height={24} sizes="100vw" />
 									</IconButton>
 								</>
 							) : (
@@ -240,14 +222,8 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									aria-haspopup="true"
 									color="inherit"
 								>
-									<Link href={AUTH_LOGIN}  className={Styles.anchorWrapper}>
-										<Image
-											src={ProfileSVG}
-											alt=""
-											width={24}
-											height={24}
-											sizes="100vw"
-										/>
+									<Link href={AUTH_LOGIN} className={Styles.anchorWrapper}>
+										<Image src={ProfileSVG} alt="" width={24} height={24} sizes="100vw" />
 									</Link>
 								</IconButton>
 							)}
@@ -261,14 +237,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 							>
 								{/*<ThemeProvider theme={badgeTheme()}>*/}
 								{/*	<Badge badgeContent={4} color="primary">*/}
-								<Image
-									src={EmptyCartSVG}
-									alt=""
-									width={24}
-									height={24}
-									sizes="100vw"
-									className={Styles.navBarIcons}
-								/>
+								<Image src={EmptyCartSVG} alt="" width={24} height={24} sizes="100vw" className={Styles.navBarIcons} />
 								{/*</Badge>*/}
 								{/*</ThemeProvider>*/}
 							</IconButton>
@@ -324,7 +293,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 								<Stack direction="row" justifyContent="flex-end" paddingX={2} paddingY={2} paddingBottom={0}>
 									<Image
 										src={CloseSVG}
-										width={0} 
+										width={0}
 										height={0}
 										sizes="100vw"
 										className={Styles.mobileCloseButton}
@@ -361,11 +330,11 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									{!loading && session ? (
 										<Stack direction="column" paddingX="40px" paddingY="18px" paddingTop={0} spacing={2}>
 											<Stack direction="row" spacing={2} alignItems="center">
-												{!avatar ? (
+												{!avatar || !shopAvatar ? (
 													<Skeleton variant="circular" width={48} height={48} />
 												) : (
 													<Image
-														src={avatar as string}
+														src={shopAvatar ? shopAvatar : avatar}
 														alt=""
 														width={48}
 														height={48}
@@ -389,7 +358,10 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 												<span className={Styles.mobileAnchorSpan}>Mon dashboard</span>
 											</Link>
 											{userHasShop && userShopUrl ? (
-												<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} className={Styles.anchorWrapper}>
+												<Link
+													href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)}
+													className={Styles.anchorWrapper}
+												>
 													<Image
 														src={BoutiqueSVG}
 														alt=""
@@ -474,11 +446,11 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
 										{/*	<Badge badgeContent={4} color="primary">*/}
-										{!avatar ? (
+										{!avatar || !shopAvatar ? (
 											<Skeleton variant="circular" width={24} height={24} />
 										) : (
 											<Image
-												src={avatar as string}
+												src={shopAvatar ? shopAvatar : avatar}
 												alt=""
 												width="30"
 												height="30"
@@ -557,14 +529,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 								color="inherit"
 								className={Styles.iconButton}
 							>
-								<Image
-									src={EmptyCartSVG}
-									alt=""
-									width="0"
-									height="0"
-									sizes="100vw"
-									className={Styles.mobileIcons}
-								/>
+								<Image src={EmptyCartSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.mobileIcons} />
 							</IconButton>
 						</Stack>
 					</Toolbar>
