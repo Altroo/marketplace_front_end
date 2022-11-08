@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from './userMainNavigationBar.module.sass';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -47,14 +47,21 @@ type Props = {
 const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const { hideMobileSearch } = props;
 	const { data: session, status } = useSession();
-	const avatar = useAppSelector(getUserProfilAvatar);
-	const shopAvatar = useAppSelector(getShopAvatar);
+	const stateAvatar = useAppSelector(getUserProfilAvatar);
+	const stateShopAvatar = useAppSelector(getShopAvatar);
+	const [navBarPicture, setNavBarPicture] = useState<string | null>(null);
 	const firstName = useAppSelector(getUserFirstName);
 	const lastName = useAppSelector(getUserLastName);
 	const userHasShop = useAppSelector(getCheckUserHasShop);
 	const userShopUrl: string | boolean | undefined = useAppSelector(getUserShopUrl);
 	const loading = status === 'loading';
 	const [searchValue, setSearchValue] = useState<string>('');
+
+	useEffect(() => {
+		if (stateAvatar || stateShopAvatar) {
+			setNavBarPicture(stateShopAvatar ? stateShopAvatar : stateAvatar);
+		}
+	}, [stateAvatar, stateShopAvatar]);
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
@@ -145,11 +152,11 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
 										{/*	<Badge badgeContent={4} color="primary">*/}
-										{!avatar || !shopAvatar ? (
+										{!navBarPicture ? (
 											<Skeleton variant="circular" width={24} height={24} />
 										) : (
 											<Image
-												src={shopAvatar ? shopAvatar : avatar}
+												src={navBarPicture as string}
 												alt=""
 												width="30"
 												height="30"
@@ -330,11 +337,11 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									{!loading && session ? (
 										<Stack direction="column" paddingX="40px" paddingY="18px" paddingTop={0} spacing={2}>
 											<Stack direction="row" spacing={2} alignItems="center">
-												{!avatar || !shopAvatar ? (
+												{!navBarPicture ? (
 													<Skeleton variant="circular" width={48} height={48} />
 												) : (
 													<Image
-														src={shopAvatar ? shopAvatar : avatar}
+														src={navBarPicture as string}
 														alt=""
 														width={48}
 														height={48}
@@ -446,11 +453,11 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									>
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
 										{/*	<Badge badgeContent={4} color="primary">*/}
-										{!avatar || !shopAvatar ? (
+										{!navBarPicture ? (
 											<Skeleton variant="circular" width={24} height={24} />
 										) : (
 											<Image
-												src={shopAvatar ? shopAvatar : avatar}
+												src={navBarPicture as string}
 												alt=""
 												width="30"
 												height="30"
