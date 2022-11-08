@@ -105,8 +105,8 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 						code: code,
 					});
 					if (response.status === 204) {
-						setShowDataUpdated(true);
 						setToastMessage('compte activer.');
+						setShowDataUpdated(true);
 						setSubmitting(true);
 						router.replace(router.asPath).then(() => {
 							if (handleClose) {
