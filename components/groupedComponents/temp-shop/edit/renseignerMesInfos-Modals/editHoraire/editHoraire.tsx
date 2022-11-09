@@ -2,9 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Styles from './editHoraire.module.sass';
 import { useAppDispatch, useAppSelector } from '../../../../../../utils/hooks';
 import {
-	getNewShopApiError,
-	getNewShopEditPromiseStatus,
-	getNewShopIsEditInProgress, getShopAfternoonHourFrom, getShopMorningHourFrom, getShopMorningHourTo,
+	getShopAfternoonHourFrom, getShopMorningHourFrom, getShopMorningHourTo,
 	getShopAfternoonHourTo, getShopOpeningDays
 } from "../../../../../../store/selectors";
 import { Chip, Stack, ThemeProvider, TextField } from '@mui/material';
@@ -12,8 +10,6 @@ import { Form, Formik } from 'formik';
 import { shopAvailabilityDaysSchema } from '../../../../../../utils/formValidationSchemas';
 import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
 import HelperDescriptionHeader from '../../../../../headers/helperDescriptionHeader/helperDescriptionHeader';
-import ApiProgress from '../../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
-import ApiAlert from '../../../../../formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
 import { shopPatchAvailabilityAction } from '../../../../../../store/actions/shop/shopActions';
 import { horairesInputTheme } from "../../../../../../utils/themes";
 
@@ -29,9 +25,6 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 	const morning_hour_to = useAppSelector(getShopMorningHourTo);
 	const afternoon_hour_from = useAppSelector(getShopAfternoonHourFrom);
 	const afternoon_hour_to = useAppSelector(getShopAfternoonHourTo);
-	const isEditInProgress = useAppSelector(getNewShopIsEditInProgress);
-	const editPromiseStatus = useAppSelector(getNewShopEditPromiseStatus);
-	const apiError = useAppSelector(getNewShopApiError);
 	// Availability day states
 	const [alState, setAlState] = useState<boolean>(false);
 	const [moState, setMoState] = useState<boolean>(false);
@@ -394,15 +387,6 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 						</Form>
 					)}
 				</Formik>
-				{isEditInProgress && editPromiseStatus === 'PENDING' && (
-					<ApiProgress cssStyle={{ position: 'absolute', top: '45%', left: '45%' }} backdropColor="#FFFFFF" circularColor="#FFFFFF" />
-				)}
-				{!isEditInProgress && editPromiseStatus === 'REJECTED' && apiError && (
-					<ApiAlert
-						errorDetails={apiError.details}
-						cssStyle={{ position: 'absolute', left: '0', top: '50%', margin: '0 -60px -60px -60px' }}
-					/>
-				)}
 			</Stack>
 		</ThemeProvider>
 	);
