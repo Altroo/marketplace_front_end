@@ -264,6 +264,8 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const [openEditAdressModal, setOpenEditAdressModal] = useState<boolean>(false);
 
 	// Infos stack actions
+	// TODO : set states here -
+	// shop name - bio - horaireAdded - coordoneesAdded - address_name
 	const infosStackActions: Array<addMyInfosStackType> = [
 		{
 			title: 'Nom',

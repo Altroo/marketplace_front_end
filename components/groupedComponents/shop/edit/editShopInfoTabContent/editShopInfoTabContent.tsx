@@ -8,7 +8,6 @@ import ShowHoraire from '../../../temp-shop/edit/ajouterMesInfos-Stack/showHorai
 import ShowCoordonees from '../../../temp-shop/edit/ajouterMesInfos-Stack/showCoordonees/showCoordonees';
 import ShowBio from '../../../temp-shop/edit/ajouterMesInfos-Stack/showBio/showBio';
 import ShowAdresse from '../../../temp-shop/edit/ajouterMesInfos-Stack/showAdresse/showAdresse';
-import { OpeningDaysArray } from '../../../../../types/shop/shopTypes';
 
 type Props = {
 	// global info modal
@@ -48,120 +47,26 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 		km_radius,
 	} = useAppSelector(getShopObj);
 
-	const [stateBio, setStateBio] = useState<string | null>(null);
-	const [stateOpeningDays, setStateOpeningDays] = useState<OpeningDaysArray | null>(null);
-	const [stateMorningHourFrom, setStateMorningHourFrom] = useState<string | null>(null);
-	const [stateMorningHourTo, setStateMorningHourTo] = useState<string | null>(null);
-	const [stateAfternoonHourFrom, setStateAfternoonHourFrom] = useState<string | null>(null);
-	const [stateAfternoonHourTo, setStateAfternoonHourTo] = useState<string | null>(null);
-	const [statePhone, setStatePhone] = useState<string | null>(null);
-	const [stateContactEmail, setStateContactEmail] = useState<string | null>(null);
-	const [stateWebsiteLink, setStateWebsiteLink] = useState<string | null>(null);
-	const [stateFacebookLink, setStateFacebookLink] = useState<string | null>(null);
-	const [stateTwitterLink, setStateTwitterLink] = useState<string | null>(null);
-	const [stateInstagramLink, setStateInstagramLink] = useState<string | null>(null);
-	const [stateWhatsapp, setStateWhatsapp] = useState<string | null>(null);
-	const [stateAdressName, setStateAdressName] = useState<string | null>(null);
-	const [stateLatitude, setStateLatitude] = useState<number | null>(null);
-	const [stateLongitude, setStateLongitude] = useState<number | null>(null);
-	const [stateKmRadius, setStateKmRadius] = useState<number | null>(null);
-
-	// global states
-	const [horaireAdded, setHoraireAdded] = useState<boolean>(false);
-	const [coordoneesAdded, setCoordoneesAdded] = useState<boolean>(false);
-
 	// Hide button wrapper if a value is available
 	useEffect(() => {
-		if (bio) {
-			setStateBio(bio);
-			setHideButtonWrapper(true);
-		}
-
-		if (opening_days && opening_days.length > 0) {
-			if (opening_days.length > 0) {
-				setStateOpeningDays(opening_days);
-				setHoraireAdded(true);
-				setHideButtonWrapper(true);
-			}
-		}
-
-		if (morning_hour_from) {
-			setStateMorningHourFrom(morning_hour_from);
-			setHideButtonWrapper(true);
-		}
-
-		if (morning_hour_to) {
-			setStateMorningHourTo(morning_hour_to);
-			setHideButtonWrapper(true);
-		}
-
-		if (afternoon_hour_from) {
-			setStateAfternoonHourFrom(afternoon_hour_from);
-			setHideButtonWrapper(true);
-		}
-
-		if (afternoon_hour_to) {
-			setStateAfternoonHourTo(afternoon_hour_to);
-			setHideButtonWrapper(true);
-		}
-
-		if (phone) {
-			setStatePhone(phone);
-			setHideButtonWrapper(true);
-		}
-
-		if (contact_email) {
-			setStateContactEmail(contact_email);
-			setHideButtonWrapper(true);
-		}
-
-		if (website_link) {
-			setStateWebsiteLink(website_link);
-			setHideButtonWrapper(true);
-		}
-
-		if (facebook_link) {
-			setStateFacebookLink(facebook_link);
-			setHideButtonWrapper(true);
-		}
-
-		if (twitter_link) {
-			setStateTwitterLink(twitter_link);
-			setHideButtonWrapper(true);
-		}
-
-		if (instagram_link) {
-			setStateInstagramLink(instagram_link);
-			setHideButtonWrapper(true);
-		}
-
-		if (whatsapp) {
-			setStateWhatsapp(whatsapp);
-			setHideButtonWrapper(true);
-		}
-
-		if (address_name) {
-			setStateAdressName(address_name);
-			setHideButtonWrapper(true);
-		}
-
-		if (latitude) {
-			setStateLatitude(latitude);
-			setHideButtonWrapper(true);
-		}
-
-		if (longitude) {
-			setStateLongitude(longitude);
-			setHideButtonWrapper(true);
-		}
-
-		if (km_radius) {
-			setStateKmRadius(km_radius);
-			setHideButtonWrapper(true);
-		}
-
-		if (phone || twitter_link || website_link || instagram_link || facebook_link || whatsapp || contact_email) {
-			setCoordoneesAdded(true);
+		if (
+			bio ||
+			morning_hour_from ||
+			morning_hour_to ||
+			afternoon_hour_from ||
+			afternoon_hour_to ||
+			phone ||
+			contact_email ||
+			website_link ||
+			instagram_link ||
+			facebook_link ||
+			twitter_link ||
+			whatsapp ||
+			address_name ||
+			latitude ||
+			longitude ||
+			km_radius
+		) {
 			setHideButtonWrapper(true);
 		}
 	}, [
@@ -170,19 +75,31 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 		afternoon_hour_to,
 		bio,
 		contact_email,
-		facebook_link,
 		instagram_link,
+		facebook_link,
 		km_radius,
 		latitude,
 		longitude,
 		morning_hour_from,
 		morning_hour_to,
-		opening_days,
 		phone,
 		twitter_link,
 		website_link,
 		whatsapp,
 	]);
+
+	// check horaire added
+	let horaireAdded = false;
+	if (opening_days) {
+		if (opening_days.length > 0) {
+			horaireAdded = true;
+		}
+	}
+	// check coordonées added
+	let coordoneesAdded = false;
+	if (phone || twitter_link || website_link || instagram_link || facebook_link || whatsapp || contact_email) {
+		coordoneesAdded = true;
+	}
 
 	return (
 		<div style={{ height: '100%' }}>
@@ -262,7 +179,7 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 							)}
 						</Box>
 						<Box>
-							{!stateAdressName && (
+							{!address_name && (
 								<Stack direction="row" spacing={1} justifyContent="space-between" alignItems="baseline">
 									<Box component="span" className={Styles.stackTitle}>
 										Adresse
@@ -278,11 +195,11 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 										}}
 										className={Styles.stackButton}
 									>
-										{stateAdressName ? 'Modifier' : 'Ajouter'}
+										{address_name ? 'Modifier' : 'Ajouter'}
 									</Button>
 								</Stack>
 							)}
-							{stateAdressName ? (
+							{address_name ? (
 								<ShowAdresse
 									onClick={() => {
 										if (!props.openInfoModal) {
@@ -304,21 +221,18 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 								<Box component="span" className={Styles.stackTitle}>
 									Bio
 								</Box>
-								<Button
-									onClick={() => {
-										if (!props.openInfoModal) {
+								<Button onClick={() => {
+									if (!props.openInfoModal) {
 											props.setOpenInfoModal(true);
 										}
 										setTimeout(() => {
 											props.setOpenEditBioModal(true);
 										}, 1000);
-									}}
-									className={Styles.stackButton}
-								>
-									{stateBio ? 'Modifier' : 'Ajouter'}
+								}} className={Styles.stackButton}>
+									{bio ? 'Modifier' : 'Ajouter'}
 								</Button>
 							</Stack>
-							{stateBio ? (
+							{bio ? (
 								<ShowBio />
 							) : (
 								<span className={Styles.infoNotFound}>Vous n&apos;a pas encore renseigné votre bio</span>
