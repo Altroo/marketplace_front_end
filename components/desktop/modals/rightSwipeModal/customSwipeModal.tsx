@@ -61,6 +61,7 @@ type Props = {
 	direction?: 'left' | 'right' | 'up' | 'down';
 	showCloseIcon?: boolean;
 	cssClasse?: string;
+	onBackdrop?: () => void;
 	children?: React.ReactNode;
 };
 
@@ -73,7 +74,8 @@ const CustomSwipeModal: React.FC<Props> = (props: Props) => {
 		handleClose,
 		open,
 		fullScreen,
-		cssClasse
+		cssClasse,
+		onBackdrop
 	} = props;
 	const [mountDialog, setMountDialog] = useState<boolean>(false);
 	const shopObj = useAppSelector(getShopObj);
@@ -102,7 +104,15 @@ const CustomSwipeModal: React.FC<Props> = (props: Props) => {
 				keepMounted={mountDialog}
 				open={open}
 				TransitionComponent={Transition}
-				onClose={handleClose}
+				onClose={(e, reason) => {
+					if (onBackdrop) {
+						if (reason) {
+							onBackdrop();
+						}
+					} else {
+						handleClose();
+					}
+				}}
 				aria-describedby="alert-dialog-slide-description"
 				fullScreen={typeof fullScreen !== 'undefined' ? fullScreen : true}
 				className={`${Styles.dialog} ${cssClasse && cssClasse}`}

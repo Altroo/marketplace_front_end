@@ -138,9 +138,7 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 										if (!props.openInfoModal) {
 											props.setOpenInfoModal(true);
 										}
-										setTimeout(() => {
-											props.setOpenEditHoraireModal(true);
-										}, 1000);
+										props.setOpenEditHoraireModal(true);
 									}}
 									className={Styles.stackButton}
 								>
@@ -163,9 +161,7 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 										if (!props.openInfoModal) {
 											props.setOpenInfoModal(true);
 										}
-										setTimeout(() => {
-											props.setOpenEditCoordoneeModal(true);
-										}, 1000);
+										props.setOpenEditCoordoneeModal(true);
 									}}
 									className={Styles.stackButton}
 								>
@@ -189,9 +185,7 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 											if (!props.openInfoModal) {
 												props.setOpenInfoModal(true);
 											}
-											setTimeout(() => {
-												props.setOpenEditAdressModal(true);
-											}, 1000);
+											props.setOpenEditAdressModal(true);
 										}}
 										className={Styles.stackButton}
 									>
@@ -205,9 +199,7 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 										if (!props.openInfoModal) {
 											props.setOpenInfoModal(true);
 										}
-										setTimeout(() => {
-											props.setOpenEditAdressModal(true);
-										}, 1000);
+										props.setOpenEditAdressModal(true);
 									}}
 								/>
 							) : (
@@ -225,9 +217,7 @@ const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 									if (!props.openInfoModal) {
 											props.setOpenInfoModal(true);
 										}
-										setTimeout(() => {
-											props.setOpenEditBioModal(true);
-										}, 1000);
+										props.setOpenEditBioModal(true);
 								}} className={Styles.stackButton}>
 									{bio ? 'Modifier' : 'Ajouter'}
 								</Button>

@@ -22,7 +22,7 @@ import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 import PhoneSVG from '../../../public/assets/svgs/globalIcons/contact-phone.svg';
 import WtspSVG from '../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
 import BorderIconButton from '../../../components/htmlElements/buttons/borderIconButton/borderIconButton';
-import { addMyInfosStackType, contacterPhoneInputType, DropDownActionType } from '../../../types/ui/uiTypes';
+import { contacterPhoneInputType, DropDownActionType } from '../../../types/ui/uiTypes';
 import HelperDescriptionHeader from '../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CustomSwipeModal from '../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
@@ -39,7 +39,9 @@ import ColorIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-colo
 import FontIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-font.svg';
 import ContactIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-contact.svg';
 import { Backdrop, Box, Skeleton, Stack } from '@mui/material';
-import AjouterMesInfosStack from '../../../components/groupedComponents/temp-shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack';
+import AjouterMesInfosStack, {
+	addMyInfosStackType
+} from "../../../components/groupedComponents/temp-shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack";
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../create/color';
 import { getApi } from '../../../store/services/_init/_initAPI';
@@ -256,6 +258,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const [openEditHoraireModal, setOpenEditHoraireModal] = useState<boolean>(false);
 	const [openEditCoordoneeModal, setOpenEditCoordoneeModal] = useState<boolean>(false);
 	const [openEditAdressModal, setOpenEditAdressModal] = useState<boolean>(false);
+	const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
 
 	// Infos stack actions
 	// TODO : set states here -
@@ -267,6 +270,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 			added: !!shop_name,
 			openEditModal: openEditShopNameModal,
 			setOpenEditModal: setOpenEditShopNameModal,
+			setOpenParentModal: setOpenInfoModal,
 		},
 		{
 			title: 'Bio',
@@ -274,24 +278,28 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 			added: !!bio,
 			openEditModal: openEditBioModal,
 			setOpenEditModal: setOpenEditBioModal,
+			setOpenParentModal: setOpenInfoModal,
 		},
 		{
 			title: 'Horaire',
 			added: horaireAdded,
 			openEditModal: openEditHoraireModal,
 			setOpenEditModal: setOpenEditHoraireModal,
+			setOpenParentModal: setOpenInfoModal,
 		},
 		{
 			title: 'Coordonées',
 			added: coordoneesAdded,
 			openEditModal: openEditCoordoneeModal,
 			setOpenEditModal: setOpenEditCoordoneeModal,
+			setOpenParentModal: setOpenInfoModal,
 		},
 		{
 			title: 'Adresse',
 			added: !!address_name,
 			openEditModal: openEditAdressModal,
 			setOpenEditModal: setOpenEditAdressModal,
+			setOpenParentModal: setOpenInfoModal,
 		},
 	];
 
@@ -299,7 +307,6 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const [showMobileFilterButton, setShowMobileFilterButton] = useState<boolean>(false);
 	// Modals
 	const [openContacterModal, setContacterModalOpen] = useState<boolean>(false);
-	const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
 	const [openColorModal, setOpenColorModal] = useState<boolean>(false);
 	const [openFontModal, setOpenFontModal] = useState<boolean>(false);
 
@@ -743,6 +750,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 											content={stack.content}
 											openEditModal={stack.openEditModal}
 											setOpenEditModal={stack.setOpenEditModal}
+											setOpenParentModal={setOpenInfoModal}
 										/>
 									);
 								})}

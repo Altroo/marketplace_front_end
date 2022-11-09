@@ -64,13 +64,7 @@ export type SelectInputcontacterType = {
 	code: string;
 };
 
-export type addMyInfosStackType = {
-	title: 'Nom' | 'Bio' | 'Horaire' | 'Coordonées' | 'Adresse';
-	openEditModal: boolean;
-	setOpenEditModal: React.Dispatch<React.SetStateAction<boolean>>;
-	added: boolean;
-	content?: React.ReactNode;
-};
+
 
 export type OfferColorsListType = {
 	code: string;
