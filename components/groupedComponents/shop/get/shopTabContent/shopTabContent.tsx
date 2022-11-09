@@ -331,10 +331,10 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																				? data.value.title.substring(0, 25) + '...'
 																				: data.value.title}
 																		</span>
-																		<Stack direction="row">
-																			<Image src={BlackStarSVG} width={20} height={20} alt="" />
-																			<span className={Styles.offerRating}>0 (0 notes)</span>
-																		</Stack>
+																		{/*<Stack direction="row">*/}
+																		{/*	<Image src={BlackStarSVG} width={20} height={20} alt="" />*/}
+																		{/*	<span className={Styles.offerRating}>0 (0 notes)</span>*/}
+																		{/*</Stack>*/}
 																		<Stack direction="row" spacing={1}>
 																			<span
 																				className={`${Styles.offerPrice} ${

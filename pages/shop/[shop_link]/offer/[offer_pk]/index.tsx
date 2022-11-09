@@ -745,7 +745,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 								</Stack>
 								{/* Desktop creator banner goes here */}
 								{creator_label && <OfferCreatorBanner />}
-								<NoCommentsAvailableContent />
+								{/*<NoCommentsAvailableContent />*/}
 							</Stack>
 							{/* Mobile Only */}
 							<div className={Styles.mobileOnly} style={{ display: 'block', marginLeft: '0' }}>
@@ -803,10 +803,10 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 									<Stack direction="column" spacing={2}>
 										<Stack direction="column">
 											<h1 className={Styles.title}>{title}</h1>
-											<Stack direction="row">
-												<Image src={BlackStarSVG} width={20} height={20} alt="" />
-												<span className={Styles.rating}>0 (0 notes)</span>
-											</Stack>
+											{/*<Stack direction="row">*/}
+											{/*	<Image src={BlackStarSVG} width={20} height={20} alt="" />*/}
+											{/*	<span className={Styles.rating}>0 (0 notes)</span>*/}
+											{/*</Stack>*/}
 											<Link
 												href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 												prefetch={false}
@@ -970,7 +970,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 									<Divider orientation="horizontal" flexItem className={Styles.divider} />
 									{/* mobile creator banner goes here */}
 									{creator_label && <OfferCreatorBanner />}
-									<NoCommentsAvailableContent />
+									{/*<NoCommentsAvailableContent />*/}
 								</Stack>
 							</Stack>
 						</Stack>
@@ -1663,7 +1663,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										</Box>
 									)}
 								</Stack>
-								<NoCommentsAvailableContent />
+								{/*<NoCommentsAvailableContent />*/}
 							</Stack>
 							{/* Mobile Only */}
 							<div className={Styles.mobileOnly} style={{ display: 'block', marginLeft: '0' }}>
@@ -1714,10 +1714,10 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 									<Stack direction="column" spacing={2}>
 										<Stack direction="column">
 											<h1 className={Styles.title}>{title}</h1>
-											<Stack direction="row">
-												<Image src={BlackStarSVG} width={20} height={20} alt="" />
-												<span className={Styles.rating}>0 (0 notes)</span>
-											</Stack>
+											{/*<Stack direction="row">*/}
+											{/*	<Image src={BlackStarSVG} width={20} height={20} alt="" />*/}
+											{/*	<span className={Styles.rating}>0 (0 notes)</span>*/}
+											{/*</Stack>*/}
 											<Link
 												href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
 												prefetch={false}
@@ -1800,10 +1800,10 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										</Stack>
 									</Box>
 								</Stack>
-								<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
-									{/*<Divider orientation="horizontal" flexItem className={Styles.divider} />*/}
-									<NoCommentsAvailableContent />
-								</Stack>
+								{/*<Stack direction="column" spacing={3} className={Styles.mobileOnly}>*/}
+								{/*	/!*<Divider orientation="horizontal" flexItem className={Styles.divider} />*!/*/}
+								{/*	<NoCommentsAvailableContent />*/}
+								{/*</Stack>*/}
 							</Stack>
 						</Stack>
 					</Box>

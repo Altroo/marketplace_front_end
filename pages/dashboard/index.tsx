@@ -105,12 +105,12 @@ export const ShopInfoContent: React.FC<ShopInfoContentType> = (props: ShopInfoCo
 						)}
 					</Box>
 					<span className={Styles.dashboardShopName}>{shop_name}</span>
-					<Box>
-						<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
-							<Image src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />
-							<span className={Styles.dashboardRatingText}>{global_rating} sur 5</span>
-						</Stack>
-					</Box>
+					{/*<Box>*/}
+					{/*	<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">*/}
+					{/*		<Image src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />*/}
+					{/*		<span className={Styles.dashboardRatingText}>{global_rating} sur 5</span>*/}
+					{/*	</Stack>*/}
+					{/*</Box>*/}
 				</Stack>
 				<Stack direction="row" justifyContent="center" spacing={2} alignItems="center">
 					<Stack direction="row" spacing={1} alignItems="center">
@@ -173,12 +173,12 @@ const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentTy
 					<span className={Styles.dashboardShopName}>
 						{first_name} {last_name}
 					</span>
-					<Box>
-						<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
-							<Image src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />
-							<span className={Styles.dashboardRatingText}>{global_rating} sur 5</span>
-						</Stack>
-					</Box>
+					{/*<Box>*/}
+					{/*	<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">*/}
+					{/*		<Image src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />*/}
+					{/*		<span className={Styles.dashboardRatingText}>{global_rating} sur 5</span>*/}
+					{/*	</Stack>*/}
+					{/*</Box>*/}
 				</Stack>
 			</Stack>
 			{/*<Stack direction="row" justifyContent="flex-end" alignItems="flex-end">*/}
