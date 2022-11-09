@@ -3,7 +3,25 @@ import Styles from './editInfoTabContent.module.sass';
 import OutlineButton from '../../../../htmlElements/buttons/outlineButton/outlineButton';
 import { Box, Button, Stack } from '@mui/material';
 import { useAppSelector } from '../../../../../utils/hooks';
-import { getShopObj } from '../../../../../store/selectors';
+import {
+	getShopAddressName,
+	getShopAfternoonHourFrom,
+	getShopAfternoonHourTo,
+	getShopBio,
+	getShopContactEmail,
+	getShopFacebookLink,
+	getShopInstagramLink,
+	getShopKmRadius,
+	getShopLatitude,
+	getShopLongitude,
+	getShopMorningHourFrom,
+	getShopMorningHourTo,
+	getShopOpeningDays,
+	getShopPhone,
+	getShopTwitterLink,
+	getShopWebsiteLink,
+	getShopWhatsapp,
+} from "../../../../../store/selectors";
 import ShowHoraire from '../../../temp-shop/edit/ajouterMesInfos-Stack/showHoraire/showHoraire';
 import ShowCoordonees from '../../../temp-shop/edit/ajouterMesInfos-Stack/showCoordonees/showCoordonees';
 import ShowBio from '../../../temp-shop/edit/ajouterMesInfos-Stack/showBio/showBio';
@@ -27,25 +45,23 @@ type Props = {
 };
 const EditShopInfoTabContent: React.FC<Props> = (props: Props) => {
 	const [hideButtonWrapper, setHideButtonWrapper] = useState<boolean>(false);
-	const {
-		bio,
-		opening_days,
-		morning_hour_from,
-		morning_hour_to,
-		afternoon_hour_from,
-		afternoon_hour_to,
-		phone,
-		contact_email,
-		website_link,
-		facebook_link,
-		twitter_link,
-		instagram_link,
-		whatsapp,
-		address_name,
-		latitude,
-		longitude,
-		km_radius,
-	} = useAppSelector(getShopObj);
+	const bio = useAppSelector(getShopBio);
+	const opening_days = useAppSelector(getShopOpeningDays);
+	const morning_hour_from = useAppSelector(getShopMorningHourFrom);
+	const morning_hour_to = useAppSelector(getShopMorningHourTo);
+	const afternoon_hour_from = useAppSelector(getShopAfternoonHourFrom);
+	const afternoon_hour_to = useAppSelector(getShopAfternoonHourTo);
+	const phone = useAppSelector(getShopPhone);
+	const twitter_link = useAppSelector(getShopTwitterLink);
+	const website_link = useAppSelector(getShopWebsiteLink);
+	const instagram_link = useAppSelector(getShopInstagramLink);
+	const whatsapp = useAppSelector(getShopWhatsapp);
+	const contact_email = useAppSelector(getShopContactEmail);
+	const facebook_link = useAppSelector(getShopFacebookLink);
+	const address_name = useAppSelector(getShopAddressName);
+	const longitude = useAppSelector(getShopLongitude);
+	const latitude = useAppSelector(getShopLatitude);
+	const km_radius = useAppSelector(getShopKmRadius);
 
 	// Hide button wrapper if a value is available
 	useEffect(() => {
