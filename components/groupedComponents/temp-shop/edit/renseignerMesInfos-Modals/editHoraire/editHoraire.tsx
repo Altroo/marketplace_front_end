@@ -175,10 +175,10 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 						}
 						editHoraireHandler({
 							opening_days: availabilityDaysString,
-							morning_hour_from: values.morning_hour_from ? values.morning_hour_from.slice(0, 5) : '',
-							morning_hour_to: values.morning_hour_to ? values.morning_hour_to.slice(0, 5) : '',
-							afternoon_hour_from: values.afternoon_hour_from ? values.afternoon_hour_from.slice(0, 5) : '',
-							afternoon_hour_to: values.afternoon_hour_to ? values.afternoon_hour_to.slice(0, 5) : '',
+							morning_hour_from: values.morning_hour_from ? values.morning_hour_from.slice(0, 5) : null,
+							morning_hour_to: values.morning_hour_to ? values.morning_hour_to.slice(0, 5) : null,
+							afternoon_hour_from: values.afternoon_hour_from ? values.afternoon_hour_from.slice(0, 5) : null,
+							afternoon_hour_to: values.afternoon_hour_to ? values.afternoon_hour_to.slice(0, 5) : null,
 						});
 					}}
 				>
