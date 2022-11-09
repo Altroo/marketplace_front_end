@@ -689,9 +689,9 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 															height={80}
 															onClick={() => showThumbnail(image)}
 															alt=""
-															loading="eager"
-															priority={true}
-															decoding="async"
+															// loading="eager"
+															// priority={true}
+															// decoding="async"
 														/>
 													) : null}
 												</ImageListItem>
@@ -726,9 +726,9 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 												height={500}
 												sizes="100vw"
 												alt=""
-												loading="eager"
-												priority={true}
-												decoding="async"
+												// loading="eager"
+												// priority={true}
+												// decoding="async"
 											/>
 											{creator_label && (
 												<Image
@@ -1620,9 +1620,9 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 															height={80}
 															onClick={() => showThumbnail(image)}
 															alt=""
-															loading="eager"
-															priority={true}
-															decoding="async"
+															// loading="eager"
+															// priority={true}
+															// decoding="async"
 														/>
 													) : null}
 												</ImageListItem>
@@ -1657,9 +1657,9 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 												height={500}
 												sizes="100vw"
 												alt=""
-												loading="eager"
-												priority={true}
-												decoding="async"
+												// loading="eager"
+												// priority={true}
+												// decoding="async"
 											/>
 										</Box>
 									)}
@@ -1691,9 +1691,9 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 																width={365}
 																height={240}
 																sizes="100vw"
-																loading="eager"
-																priority={true}
-																decoding="async"
+																// loading="eager"
+																// priority={true}
+																// decoding="async"
 																alt=""
 															/>
 														</Box>
