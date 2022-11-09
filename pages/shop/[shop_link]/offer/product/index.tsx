@@ -22,6 +22,7 @@ import { useRouter } from 'next/router';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
 import { getApi } from '../../../../../store/services/_init/_initAPI';
+import HelperDescriptionHeader from "../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader";
 
 const Index: NextPage = () => {
 	const router = useRouter();
@@ -54,11 +55,12 @@ const Index: NextPage = () => {
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<Box className={Styles.marginLeft}>
-						<HelperH1Header
-							header="Choisissez une ou plusieurs catégories"
-							HelpText="Bien choisir ses catégories"
-							headerClasses={Styles.topHeader}
-						/>
+						{/*<HelperH1Header*/}
+						{/*	header="Choisissez une ou plusieurs catégories"*/}
+						{/*	HelpText="Bien choisir ses catégories"*/}
+						{/*	headerClasses={Styles.topHeader}*/}
+						{/*/>*/}
+						<HelperDescriptionHeader header="Choisissez une ou plusieurs catégories" headerClasses={Styles.topHeader} />
 					</Box>
 					<Stack direction="column" className={Styles.stackWrapper} justifyContent="space-between">
 						<CategoriesList offerType="V" />

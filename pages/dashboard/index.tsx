@@ -478,7 +478,6 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 								<ActivateYourAccount
 									onClick={() => {
 										setShowActivateNowModal(true);
-										dispatch(accountPostResendActivationAction(email));
 									}}
 								/>
 							)}
@@ -567,7 +566,6 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 								<ActivateYourAccount
 									onClick={() => {
 										setShowActivateNowModal(true);
-										dispatch(accountPostResendActivationAction(email));
 									}}
 								/>
 							)}

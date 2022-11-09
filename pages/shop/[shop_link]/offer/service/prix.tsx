@@ -67,7 +67,7 @@ const Prix: NextPage = () => {
 	const pickedPriceBy = useAppSelector(getLocalOfferServicePriceBy);
 	const pickedPrice = useAppSelector(getLocalOfferServicePrice);
 	const [price, setPrice] = useState<string | number>(pickedPrice ? pickedPrice : '');
-	const [heur, setHeur] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'H'));
+	const [heur, setHeur] = useState<boolean>(pickedPrice ? !!(pickedPriceBy && pickedPriceBy === 'H') : true);
 	const [jour, setJour] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'J'));
 	const [semaine, setSemaine] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'S'));
 	const [mois, setMois] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'M'));

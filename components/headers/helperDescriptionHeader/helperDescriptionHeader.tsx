@@ -17,9 +17,11 @@ const HelperDescriptionHeader: React.FC<Props> = (props: Props) => {
 	return (
 		<div className={`${Styles.headerWrapper} ${props.cssClasses}`}>
 			<h3 className={`${Styles.header} ${props.headerClasses}`}>{props.header}</h3>
-			<div className={`${Styles.descriptionWrapper} ${props.descriptionClasses}`}>
-				<p>{props.description}</p>
-			</div>
+			{props.description && (
+				<div className={`${Styles.descriptionWrapper} ${props.descriptionClasses && props.descriptionClasses}`}>
+					<p>{props.description}</p>
+				</div>
+			)}
 			{props.HelpText && (
 				<div className={Styles.helpTextWrapper}>
 					{/*<Image*/}

@@ -563,8 +563,8 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 											<Image
 												src={preview as string}
 												alt={shop_name}
-												width="0"
-												height="0"
+												width="120"
+												height="120"
 												sizes="100vw"
 												className={Styles.avatar}
 												loading="eager"

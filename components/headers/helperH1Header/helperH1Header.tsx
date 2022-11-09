@@ -16,7 +16,7 @@ const HelperH1Header: React.FC<Props> = (props: Props) => {
 		<div className={Styles.headerWrapper}>
 			<Stack direction="column" className={Styles.helpTextWrapper}>
 				<h1 className={`${Styles.header} ${props.headerClasses}`}>{props.header}</h1>
-				<span>{props.HelpText}</span>
+				{props.HelpText && <span>{props.HelpText}</span>}
 			</Stack>
 
 			{/*<Stack direction="row" alignItems="baseline" className={Styles.helpTextWrapper} gap="3px">*/}
