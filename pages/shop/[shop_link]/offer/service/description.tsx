@@ -255,7 +255,6 @@ const Description: NextPage = () => {
 							<HelperDescriptionHeader
 								header="Décrivez votre offre"
 								description="Commencez par lui donnez un titre, une description et ajoutez quelques photos."
-								HelpText="Apprendre à créer une offre"
 							/>
 						</Box>
 						<Formik
@@ -363,7 +362,7 @@ const Description: NextPage = () => {
 												<ClickAwayListener onClickAway={() => setTitleTooltip(false)}>
 													<div>
 														<CustomToolTip
-															title="Soyez court et précis ! Comment écrire un titre ? En savoir plus"
+															title="Soyez court et précis."
 															onClose={() => setTitleTooltip(false)}
 															open={titleTooltip}
 															theme={titleTooltipTheme}

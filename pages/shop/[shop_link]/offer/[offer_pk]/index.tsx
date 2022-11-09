@@ -994,7 +994,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 								/>
 								<HelperDescriptionHeader
 									header="Solder une offre"
-									HelpText="Apprendre à définir son prix"
 									headerClasses={Styles.header}
 									descriptionClasses={Styles.description}
 									cssClasses={Styles.topContainer}
@@ -1827,7 +1826,6 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 								/>
 								<HelperDescriptionHeader
 									header="Solder une offre"
-									HelpText="Apprendre à définir son prix"
 									headerClasses={Styles.header}
 									descriptionClasses={Styles.description}
 									cssClasses={Styles.topContainer}

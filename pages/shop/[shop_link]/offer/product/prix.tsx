@@ -101,7 +101,6 @@ const Prix: NextPage = () => {
 					<Box className={Styles.marginLeft}>
 						<HelperH1Header
 							header="Fixer un prix"
-							HelpText="Apprendre à définir son prix"
 							headerClasses={Styles.topHeader}
 						/>
 					</Box>
