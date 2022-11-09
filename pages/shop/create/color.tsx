@@ -310,7 +310,7 @@ const Color: NextPage = () => {
 										})}
 									</SwiperSlide>
 								</Swiper>
-								<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}>
+								<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonCreateZindexWrapper}`}>
 									<PrimaryButton
 										cssClass={Styles.primaryButton}
 										buttonText="Continuer"
@@ -323,7 +323,7 @@ const Color: NextPage = () => {
 						</div>
 					</DefaultCardSection>
 					<div
-						className={`${Styles.primaryButtonWrapper} ${Styles.marginButtonBottom} ${Styles.primaryButtonZindexWrapper}`}
+						className={`${Styles.primaryButtonWrapper} ${Styles.marginButtonBottom} ${Styles.primaryButtonCreateZindexWrapper}`}
 					>
 						<PrimaryButton
 							buttonText="Continuer"
