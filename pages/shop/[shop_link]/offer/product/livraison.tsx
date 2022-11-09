@@ -85,6 +85,7 @@ import {
 	OfferPutRootProductResponseType,
 	OfferPutRootServiceResponseType,
 } from '../../../../../types/offer/offerTypes';
+import ApiProgress from "../../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 const CustomMap = dynamic(() => import('../../../../../components/map/customMap'), {
 	ssr: false,
@@ -247,6 +248,7 @@ const Livraison: NextPage = () => {
 
 	const [localisationSwitchOpen, setLocalisationSwitchOpen] = useState<boolean>(false);
 	const [deliveriesSwitchOpen, setDeliveriesSwitchOpen] = useState<boolean>(false);
+	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (localisationName && addressNameRef.current !== null) {
@@ -338,6 +340,7 @@ const Livraison: NextPage = () => {
 	};
 
 	const handleSubmit = () => {
+		setIsApiCallInProgress(true);
 		// dispatch create
 		if (!offer_pk) {
 			const action = offerPostRootProductAction(
@@ -383,11 +386,9 @@ const Livraison: NextPage = () => {
 					data: OfferPostRootProductResponseType | OfferPostRootServiceResponseType;
 				}) => {
 					if (!error && !cancelled && data.data) {
-						router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
-					} else {
-						console.log(error);
-						console.log(cancelled);
-						console.log(data);
+						router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)).then(() => {
+							setIsApiCallInProgress(false);
+						});
 					}
 				},
 			});
@@ -436,7 +437,9 @@ const Livraison: NextPage = () => {
 					data: OfferPutRootProductResponseType | OfferPutRootServiceResponseType;
 				}) => {
 					if (!error && !cancelled && data.data) {
-						router.replace(REAL_OFFER_ROUTE(router.query.shop_link as string, offer_pk.toString())).then();
+						router.replace(REAL_OFFER_ROUTE(router.query.shop_link as string, offer_pk.toString())).then(() => {
+							setIsApiCallInProgress(false);
+						});
 					}
 				},
 			});
@@ -472,6 +475,13 @@ const Livraison: NextPage = () => {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
+			{isApiCallInProgress && (
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+					backdropColor="#FFFFFF"
+					circularColor="#0D070B"
+				/>
+			)}
 			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="PRODUCT" />
 				<Box className={Styles.rootBox}>

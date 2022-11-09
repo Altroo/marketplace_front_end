@@ -39,6 +39,7 @@ import {
 	OfferPostRootServiceResponseType,
 	OfferPutRootServiceResponseType,
 } from '../../../../../types/offer/offerTypes';
+import ApiProgress from "../../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 const Prix: NextPage = () => {
 	const offer_pk = useAppSelector(getLocalOfferServiceEditPK);
@@ -73,8 +74,10 @@ const Prix: NextPage = () => {
 	const [semaine, setSemaine] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'S'));
 	const [mois, setMois] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'M'));
 	const [prestation, setPrestation] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'P'));
+	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
 	const handleSubmit = () => {
+		setIsApiCallInProgress(true);
 		let price_by: 'H' | 'J' | 'S' | 'M' | 'P' = 'P';
 		if (heur) {
 			price_by = 'H';
@@ -132,7 +135,9 @@ const Prix: NextPage = () => {
 					data: OfferPostRootServiceResponseType;
 				}) => {
 					if (!error && !cancelled && data.data) {
-						router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
+						router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)).then(() => {
+							setIsApiCallInProgress(false);
+						});
 					}
 				},
 			});
@@ -171,7 +176,9 @@ const Prix: NextPage = () => {
 					data: OfferPutRootServiceResponseType;
 				}) => {
 					if (!error && !cancelled && data.data) {
-						router.replace(REAL_OFFER_ROUTE(router.query.shop_link as string, offer_pk.toString())).then();
+						router.replace(REAL_OFFER_ROUTE(router.query.shop_link as string, offer_pk.toString())).then(() => {
+							setIsApiCallInProgress(false);
+						});
 					}
 				},
 			});
@@ -201,6 +208,13 @@ const Prix: NextPage = () => {
 	const chipTheme = SizesChipTheme();
 	return (
 		<>
+			{isApiCallInProgress && (
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+					backdropColor="#FFFFFF"
+					circularColor="#0D070B"
+				/>
+			)}
 			<main className={Styles.main}>
 				<LeftSideBar step={activeStep} which="SERVICE" />
 				<Box className={Styles.rootBox}>

@@ -43,21 +43,15 @@ import AjouterMesInfosStack from '../../../components/groupedComponents/temp-sho
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../create/color';
 import { getApi } from '../../../store/services/_init/_initAPI';
-import { IconColorType, SagaCallBackOnCompleteBoolType } from "../../../types/_init/_initTypes";
+import { IconColorType, SagaCallBackOnCompleteBoolType } from '../../../types/_init/_initTypes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
 import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../../../utils/routes';
-import {
-	defaultInstance,
-	getServerSideCookieTokens,
-	isAuthenticatedInstance,
-} from "../../../utils/helpers";
-import {
-	AccountGetCheckAccountResponseType,
-} from "../../../types/account/accountTypes";
+import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../components/layouts/footer/customFooter';
 import Image from 'next/image';
@@ -697,40 +691,40 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					</Box>
 					{/* START right side contact modal */}
 					<CustomSwipeModal keepMounted={true} open={openContacterModal} handleClose={handleContactModalClose}>
-							<div className={Styles.modalContentWrapper}>
-								<div className={Styles.topBar}>
-									<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
-								</div>
-								<HelperDescriptionHeader
-									header="Ajouter un moyen de contact"
-									description="Choississez comment vos client peuvent vous contacter"
-								/>
-								{contacterAction.map((action, index) => {
-									return (
-										<ContacterPhoneInput
-											key={index}
-											checked={action.checked}
-											setStateHandler={action.setStateHandler}
-											label={action.label}
-											backgroundColor={action.backgroundColor}
-											icon={action.icon}
-											code={action.code}
-											setCode={action.setCode}
-											value={action.value}
-											setValue={action.setValue}
-										/>
-									);
-								})}
+						<div className={Styles.modalContentWrapper}>
+							<div className={Styles.topBar}>
+								<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
 							</div>
-							<div className={Styles.actionButtonWrapper}>
-								<PrimaryButton
-									buttonText="Enregistrer"
-									active={true}
-									onClick={contacterSaveHandler}
-									cssClass={Styles.actionButtonWidth}
-								/>
-							</div>
-						</CustomSwipeModal>
+							<HelperDescriptionHeader
+								header="Ajouter un moyen de contact"
+								description="Choississez comment vos client peuvent vous contacter"
+							/>
+							{contacterAction.map((action, index) => {
+								return (
+									<ContacterPhoneInput
+										key={index}
+										checked={action.checked}
+										setStateHandler={action.setStateHandler}
+										label={action.label}
+										backgroundColor={action.backgroundColor}
+										icon={action.icon}
+										code={action.code}
+										setCode={action.setCode}
+										value={action.value}
+										setValue={action.setValue}
+									/>
+								);
+							})}
+						</div>
+						<div className={Styles.actionButtonWrapper}>
+							<PrimaryButton
+								buttonText="Enregistrer"
+								active={true}
+								onClick={contacterSaveHandler}
+								cssClass={Styles.actionButtonWidth}
+							/>
+						</div>
+					</CustomSwipeModal>
 					{/* END right side contact modal */}
 					{/* Edit info modal */}
 					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
@@ -778,16 +772,19 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 										);
 									})}
 								</div>
-								<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
-									<PrimaryButton
-										buttonText="Enregistrer"
-										active={colorCode !== undefined && bgColorCode !== undefined}
-										onClick={() => {
-											editColorHandler(bgColorCode, colorCode);
-											setOpenColorModal(false);
-										}}
-									/>
-								</div>
+								<Box sx={{position: 'absolute', bottom: '50px'}}>
+									<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
+										<PrimaryButton
+											buttonText="Enregistrer"
+											active={colorCode !== undefined && bgColorCode !== undefined}
+											onClick={() => {
+												editColorHandler(bgColorCode, colorCode);
+												setOpenColorModal(false);
+											}}
+										/>
+									</div>
+								</Box>
+
 								<div>
 									<div className={Styles.mobileContainerModal}>
 										<Swiper
@@ -826,16 +823,16 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 												})}
 											</SwiperSlide>
 										</Swiper>
-										<div
-											className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}
-										>
+										<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 											<PrimaryButton
+												cssClass={Styles.primaryButton}
 												buttonText="Enregistrer"
 												active={colorCode !== undefined && bgColorCode !== undefined}
 												onClick={() => {
 													editColorHandler(bgColorCode, colorCode);
 													setOpenColorModal(false);
 												}}
+												type="submit"
 											/>
 										</div>
 									</div>
@@ -854,7 +851,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								}}
 								open={openFontModal}
 							>
-								<div className={Styles.desktopFontWrapper}>
+								<div className={Styles.desktopContainerModal}>
 									{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
 										return (
 											<FontPicker
@@ -868,16 +865,18 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 										);
 									})}
 								</div>
-								<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
-									<PrimaryButton
-										buttonText="Continuer"
-										active={fontName !== undefined}
-										onClick={() => {
-											editFontHandler(fontName);
-											setOpenFontModal(false);
-										}}
-									/>
-								</div>
+								<Box sx={{position: 'absolute', bottom: '50px'}}>
+									<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
+										<PrimaryButton
+											buttonText="Continuer"
+											active={fontName !== undefined}
+											onClick={() => {
+												editFontHandler(fontName);
+												setOpenFontModal(false);
+											}}
+										/>
+									</div>
+								</Box>
 								<div>
 									<div className={Styles.mobileFontWrapper}>
 										<div className={Styles.mobileFontContainerModal}>
@@ -894,10 +893,9 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 												);
 											})}
 										</div>
-										<div
-											className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}
-										>
+										<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 											<PrimaryButton
+												cssClass={Styles.primaryButton}
 												buttonText="Enregistrer"
 												active={fontName !== undefined}
 												onClick={() => {

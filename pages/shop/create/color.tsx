@@ -7,7 +7,7 @@ import HelperH1Header from '../../../components/headers/helperH1Header/helperH1H
 import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import DefaultCardSection from '../../../components/htmlElements/cards/defaultCardSection/defaultCardSection';
-import { setShopAvatarAction, setShopColorAction } from "../../../store/actions/shop/shopActions";
+import { setShopColorAction } from "../../../store/actions/shop/shopActions";
 import AvatarShopNameRating from '../../../components/groupedComponents/temp-shop/create/avatarShopNameRating/avatarShopNameRating';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg';
@@ -42,7 +42,7 @@ import {
 	DASHBOARD,
 	REAL_SHOP_ADD_AVATAR,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	AUTH_LOGIN, REAL_SHOP_ADD_FONT, REAL_SHOP_ADD_SHOP_NAME
+	AUTH_LOGIN, REAL_SHOP_ADD_FONT,
 } from "../../../utils/routes";
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
