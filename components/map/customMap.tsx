@@ -38,12 +38,13 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 
 	const secteurSVG =
 		'<svg width="394" height="394" viewBox="0 0 394 394" fill="none" xmlns="http://www.w3.org/2000/svg"><circle opacity="0.11" cx="197" cy="197" r="197" fill="#0274D7"/><circle cx="197" cy="197" r="11" fill="#0D070B"/></svg>';
+
 	const secteurSVGURL = 'data:image/svg+xml;base64,' + Buffer.from(secteurSVG).toString('base64');
 	const secteurIcon = new L.Icon({
 		iconUrl: secteurSVGURL,
 		iconRetinaUrl: secteurSVGURL,
-		iconSize: [394, 394],
-		iconAnchor: [394 / 2, 394 / 2],
+		iconSize: [300, 300],
+		iconAnchor: [300 / 2, 300 / 2],
 		popupAnchor: [0, 0],
 	});
 
