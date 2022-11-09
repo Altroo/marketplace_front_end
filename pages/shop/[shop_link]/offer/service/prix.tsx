@@ -7,14 +7,15 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	REAL_OFFER_ADD_SERVICE_DESCRIPTION,
 	REAL_OFFER_ROUTE,
-	REAL_SHOP_ADD_SHOP_NAME, AUTH_LOGIN
-} from "../../../../../utils/routes";
+	REAL_SHOP_ADD_SHOP_NAME,
+	AUTH_LOGIN,
+} from '../../../../../utils/routes';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import { Box, Stack, ThemeProvider } from '@mui/material';
 import HelperH1Header from '../../../../../components/headers/helperH1Header/helperH1Header';
 import Chip from '@mui/material/Chip';
-import { SizesChipTheme } from "../../../../../utils/themes";
+import { SizesChipTheme } from '../../../../../utils/themes';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CurrencyInput from 'react-currency-input-field';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
@@ -94,94 +95,87 @@ const Prix: NextPage = () => {
 		service_availability_days.map((day) => {
 			availabilityCodeDaysArray.push(day.code_day);
 		});
-		const priceAction = setOfferServicePricePage(price as string, price_by);
-		dispatch({
-			...priceAction,
-			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
-				if (!error && !cancelled && data) {
-					if (!offer_pk) {
-						// dispatch set price
-						// add service
-						const action = offerPostRootServiceAction(
-							'S',
-							categoriesList.join(','),
-							title,
-							pictures,
-							description,
-							forWhom,
-							availabilityCodeDaysArray.join(','),
-							service_morning_hour_from,
-							service_morning_hour_to,
-							service_afternoon_hour_from,
-							service_afternoon_hour_to,
-							service_zone_by,
-							service_longitude,
-							service_latitude,
-							service_address,
-							service_km_radius,
-							price as string,
-							price_by,
-							// tags,
-						);
-						dispatch({
-							...action,
-							onComplete: ({
-								error,
-								cancelled,
-								data,
-							}: {
-								error: ApiErrorResponseType;
-								cancelled: boolean;
-								data: OfferPostRootServiceResponseType;
-							}) => {
-								if (!error && !cancelled && data.data) {
-									router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
-								}
-							},
-						});
-					} else {
-						// edit service
-						const action = offerPutRootServiceAction(
-							offer_pk,
-							categoriesList.join(','),
-							title,
-							pictures,
-							description,
-							forWhom,
-							availabilityCodeDaysArray.join(','),
-							service_morning_hour_from,
-							service_morning_hour_to,
-							service_afternoon_hour_from,
-							service_afternoon_hour_to,
-							service_zone_by,
-							service_longitude,
-							service_latitude,
-							service_address,
-							service_km_radius,
-							price as string,
-							price_by,
-							// tags,
-						);
-						dispatch({
-							...action,
-							onComplete: ({
-								error,
-								cancelled,
-								data,
-							}: {
-								error: ApiErrorResponseType;
-								cancelled: boolean;
-								data: OfferPutRootServiceResponseType;
-							}) => {
-								if (!error && !cancelled && data.data) {
-									router.replace(REAL_OFFER_ROUTE(router.query.shop_link as string, offer_pk.toString())).then();
-								}
-							},
-						});
+		dispatch(setOfferServicePricePage(price as string, price_by));
+		if (!offer_pk) {
+			// dispatch set price
+			// add service
+			const action = offerPostRootServiceAction(
+				'S',
+				categoriesList.join(','),
+				title,
+				pictures,
+				description,
+				forWhom,
+				availabilityCodeDaysArray.join(','),
+				service_morning_hour_from,
+				service_morning_hour_to,
+				service_afternoon_hour_from,
+				service_afternoon_hour_to,
+				service_zone_by,
+				service_longitude,
+				service_latitude,
+				service_address,
+				service_km_radius,
+				price as string,
+				price_by,
+				// tags,
+			);
+			dispatch({
+				...action,
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: {
+					error: ApiErrorResponseType;
+					cancelled: boolean;
+					data: OfferPostRootServiceResponseType;
+				}) => {
+					if (!error && !cancelled && data.data) {
+						router.replace(REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)).then();
 					}
-				}
-			},
-		});
+				},
+			});
+		} else {
+			// edit service
+			const action = offerPutRootServiceAction(
+				offer_pk,
+				categoriesList.join(','),
+				title,
+				pictures,
+				description,
+				forWhom,
+				availabilityCodeDaysArray.join(','),
+				service_morning_hour_from,
+				service_morning_hour_to,
+				service_afternoon_hour_from,
+				service_afternoon_hour_to,
+				service_zone_by,
+				service_longitude,
+				service_latitude,
+				service_address,
+				service_km_radius,
+				price as string,
+				price_by,
+				// tags,
+			);
+			dispatch({
+				...action,
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: {
+					error: ApiErrorResponseType;
+					cancelled: boolean;
+					data: OfferPutRootServiceResponseType;
+				}) => {
+					if (!error && !cancelled && data.data) {
+						router.replace(REAL_OFFER_ROUTE(router.query.shop_link as string, offer_pk.toString())).then();
+					}
+				},
+			});
+		}
 	};
 
 	useEffect(() => {

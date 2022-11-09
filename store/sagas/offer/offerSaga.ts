@@ -633,7 +633,6 @@ function* setOfferProductPricePageSaga(payload: { type: string; price: string; p
 function* setOfferServicePricePageSaga(payload: { type: string; price: string; service_price_by: "H" | "J" | "S" | "M" | "P" }) {
 	const { type, ...payloadData } = payload;
 	yield put(setLocalOfferServicePrice(payloadData));
-	return true;
 }
 
 function* setOfferDeliveryPageClickAndCollectSaga(payload: {
@@ -767,7 +766,7 @@ export function* watchOffer() {
 	yield takeLatest(Types.SET_OFFER_PRODUCT_DESCRIPTION_PAGE, withCallback(setOfferProductDescriptionPageSaga as Saga));
 	yield takeLatest(Types.SET_OFFER_SERVICE_DESCRIPTION_PAGE, withCallback(setOfferServiceDescriptionPageSaga as Saga));
 	yield takeLatest(Types.SET_OFFER_PRODUCT_PRICE_PAGE, withCallback(setOfferProductPricePageSaga as Saga));
-	yield takeLatest(Types.SET_OFFER_SERVICE_PRICE_PAGE, withCallback(setOfferServicePricePageSaga as Saga));
+	yield takeLatest(Types.SET_OFFER_SERVICE_PRICE_PAGE, setOfferServicePricePageSaga);
 	yield takeLatest(Types.SET_OFFER_DELIVERY_PAGE_CLICK_AND_COLLECT, setOfferDeliveryPageClickAndCollectSaga);
 	yield takeLatest(Types.SET_OFFER_DELIVERY_PAGE_DELIVERIES, setOfferDeliveryPageDeliveriesSaga);
 	yield takeLatest(Types.EMPTY_OFFER_DELIVERY_CLICK_AND_COLLECT, emptyOfferDeliveryClickAndCollectSaga);
