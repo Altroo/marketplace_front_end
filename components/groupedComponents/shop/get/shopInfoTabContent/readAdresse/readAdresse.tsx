@@ -19,7 +19,7 @@ type Props = {
 };
 
 const ReadAdresse: React.FC<Props> = (props: Props) => {
-	const { longitude, latitude, zone_by, km_radius } = props;
+	const { longitude, latitude, zone_by, km_radius, address_name } = props;
 	return (
 		<Stack direction="column" spacing={1} sx={{ height: '100%', width: '100%' }}>
 			<div className={Styles.miniMapWrapper}>
@@ -28,7 +28,7 @@ const ReadAdresse: React.FC<Props> = (props: Props) => {
 					position={{ lat: latitude, lng: longitude }}
 					zoneBy={zone_by}
 					kmRadius={km_radius}
-					address_name={props.address_name}
+					address_name={address_name}
 				/>
 			</div>
 		</Stack>

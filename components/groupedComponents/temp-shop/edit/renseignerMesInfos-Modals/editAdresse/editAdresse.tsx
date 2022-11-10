@@ -4,8 +4,13 @@ import {
 	getLocalisationName,
 	getNewShopApiError,
 	getNewShopEditPromiseStatus,
-	getNewShopIsEditInProgress, getShopAddressName, getShopKmRadius, getShopLatitude, getShopLongitude, getShopZoneBy
-} from "../../../../../../store/selectors";
+	getNewShopIsEditInProgress,
+	getShopAddressName,
+	getShopKmRadius,
+	getShopLatitude,
+	getShopLongitude,
+	getShopZoneBy,
+} from '../../../../../../store/selectors';
 import { shopPatchAddressAction } from '../../../../../../store/actions/shop/shopActions';
 import { ShopZoneByType } from '../../../../../../types/shop/shopTypes';
 import { Stack } from '@mui/material';
@@ -19,7 +24,11 @@ import dynamic from 'next/dynamic';
 import Styles from './editAdresse.module.sass';
 import ZoneByNav from '../../../../../map/zoneByNav/zoneByNav';
 import { PositionType } from '../../../../../map/customMap';
-import { shopAddressSchema } from "../../../../../../utils/formValidationSchemas";
+import { shopAddressSchema } from '../../../../../../utils/formValidationSchemas';
+import { offerGetAvailableFiltersByShopID } from '../../../../../../store/actions/offer/offerActions';
+import { ApiErrorResponseType, SagaCallBackOnCompleteBoolType } from '../../../../../../types/_init/_initTypes';
+import { OfferGetAvailableShopFiltersType } from '../../../../../../types/offer/offerTypes';
+import { useRouter } from 'next/router';
 
 const CustomMap = dynamic(() => import('../../../../../map/customMap'), {
 	ssr: false,
@@ -52,7 +61,7 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 	}
 	// states
 	const [position, setPosition] = useState<PositionType>({ lat: CENTER.lat, lng: CENTER.lng });
-	const [kmRadiusState, setKmRadiusState] = useState<number>(13);
+	const [kmRadiusState, setKmRadiusState] = useState<number>(km_radius ? km_radius : 13);
 	const [zoneByState, setZoneByState] = useState<ShopZoneByType>(zone_by);
 	// refs
 	const zoneByRef = useRef<HTMLInputElement>(null);
@@ -75,20 +84,21 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 	};
 
 	const editAdresseHandler = (values: adressValues) => {
-		dispatch(
-			shopPatchAddressAction(
-				values.zone_by,
-				values.longitude,
-				values.latitude,
-				values.address_name,
-				values.km_radius,
-			),
+		const action = shopPatchAddressAction(
+			values.zone_by,
+			values.longitude,
+			values.latitude,
+			values.address_name,
+			values.km_radius,
 		);
-		if (!isEditInProgress && editPromiseStatus === 'REJECTED' && apiError) {
-			return;
-		} else {
-			props.handleClose();
-		}
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
+				if (!error && !cancelled && data) {
+					props.handleClose();
+				}
+			},
+		});
 	};
 
 	useEffect(() => {
@@ -147,7 +157,7 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 					zone_by: zoneByState ? zoneByState : zone_by,
 					longitude: position.lng ? position.lng : CENTER.lng,
 					latitude: position.lat ? position.lat : CENTER.lat,
-					address_name : localisationName ? localisationName : address_name,
+					address_name: localisationName ? localisationName : address_name,
 					km_radius: kmRadiusState ? kmRadiusState : km_radius,
 				}}
 				validateOnMount={true}
@@ -156,13 +166,7 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 				}}
 				validationSchema={shopAddressSchema}
 			>
-				{({
-					handleChange,
-					handleSubmit,
-					values,
-					isValid,
-					isSubmitting,
-				}) => (
+				{({ handleChange, handleSubmit, values, isValid, isSubmitting }) => (
 					<Form style={{ height: '100%' }}>
 						<Stack
 							direction="column"
@@ -239,7 +243,11 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 				)}
 			</Formik>
 			{isEditInProgress && editPromiseStatus === 'PENDING' && (
-				<ApiProgress cssStyle={{ position: 'absolute', top: '45%', left: '45%' }}  backdropColor="#FFFFFF" circularColor="#FFFFFF"/>
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '45%', left: '45%' }}
+					backdropColor="#FFFFFF"
+					circularColor="#FFFFFF"
+				/>
 			)}
 			{!isEditInProgress && editPromiseStatus === 'REJECTED' && apiError && (
 				<ApiAlert

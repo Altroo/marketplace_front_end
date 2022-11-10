@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import Styles from './customMap.module.sass';
 import { useAppDispatch } from '../../utils/hooks';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
@@ -13,7 +13,7 @@ const adresseSVG =
 const adresseSVGURL = 'data:image/svg+xml;base64,' + Buffer.from(adresseSVG).toString('base64');
 
 const secteurSVG =
-		'<svg width="394" height="394" viewBox="0 0 394 394" fill="none" xmlns="http://www.w3.org/2000/svg"><circle opacity="0.11" cx="197" cy="197" r="197" fill="#0274D7"/><circle cx="197" cy="197" r="11" fill="#0D070B"/></svg>';
+	'<svg width="394" height="394" viewBox="0 0 394 394" fill="none" xmlns="http://www.w3.org/2000/svg"><circle opacity="0.11" cx="197" cy="197" r="197" fill="#0274D7"/><circle cx="197" cy="197" r="11" fill="#0D070B"/></svg>';
 const secteurSVGURL = 'data:image/svg+xml;base64,' + Buffer.from(secteurSVG).toString('base64');
 
 const adresseIcon = new L.Icon({
@@ -48,6 +48,8 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 	const markerRef = useRef<L.Marker>(null);
 	const mapRef = useRef<L.Map>(null);
 
+	const [kmRadiusState, setKmRadiusState] = useState<number>(props.kmRadius);
+
 	const AdresseMarker = useCallback((props: MarkerProps) => {
 		const position = props.position as [number, number];
 		return <Marker autoPan={true} draggable={false} position={position} ref={markerRef} icon={props.icon}></Marker>;
@@ -71,6 +73,7 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 			dragend: () => {
 				if (props.kmRadiusHandler) {
 					props.kmRadiusHandler(map.getZoom());
+					setKmRadiusState(map.getZoom());
 				}
 				dispatch(placesGetGeolocalisationAction(props.position.lng, props.position.lat));
 			},
@@ -79,32 +82,39 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 	};
 
 	useEffect(() => {
-		const map = mapRef.current;
-		if (map && props.position.lat & props.position.lng) {
-			map.flyTo([props.position.lat, props.position.lng]);
+		if (props.kmRadius) {
+			setKmRadiusState(props.kmRadius);
 		}
-	}, [props.position.lat, props.position.lng]);
+		const map = mapRef.current;
+		if (map && props.position.lat & props.position.lng & kmRadiusState) {
+			if (props.readOnly) {
+				map.flyTo([props.position.lat, props.position.lng], kmRadiusState);
+			}
+		}
+	}, [kmRadiusState, props.kmRadius, props.position.lat, props.position.lng, props.readOnly]);
 
 	return (
 		<div className={Styles.mapContainer}>
 			<MapContainer
 				center={[props.position.lat, props.position.lng]}
-				zoom={props.kmRadius}
+				zoom={kmRadiusState}
 				scrollWheelZoom={false}
 				style={{ height: '100%', borderRadius: '20px' }}
 				ref={mapRef}
 			>
-				<CustomMapEvents/>
+				<CustomMapEvents />
 				<TileLayer
 					url={`${process.env.NEXT_PUBLIC_MAP_URL}`}
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				/>
 				{props.zoneBy === 'A' ? (
-					<AdresseMarker icon={adresseIcon} position={[props.position.lat, props.position.lng]} />
+					<>
+						<AdresseMarker icon={adresseIcon} position={[props.position.lat, props.position.lng]} />
+						<LocalisationNamePopup address_name={props.address_name} />
+					</>
 				) : (
 					<SecteurMarker icon={secteurIcon} position={[props.position.lat, props.position.lng]} />
 				)}
-				<LocalisationNamePopup address_name={props.address_name} />
 			</MapContainer>
 		</div>
 	);
