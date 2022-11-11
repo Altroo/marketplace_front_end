@@ -37,7 +37,6 @@ import {
 	deleteUserOffer,
 	setSolderOffer,
 	deleteSolderOffer,
-	setWSOfferThumbnail,
 	setLocalOfferProductCategories,
 	setLocalOfferProductDescription,
 	setLocalOfferProductPrice,
@@ -53,15 +52,21 @@ import {
 	setLocalOfferProductToEditPk,
 	setPutOfferIsLoading,
 	offersPUTApiErrorAction,
-	appendPostOfferIsLoading,
-	offersPOSTApiErrorAction,
 	emptyUserLocalOffer,
 	offersDELETEApiErrorAction,
 	setDeleteOfferIsLoading,
 	setLocalOfferServiceCategories,
 	setLocalOfferServiceLocalisation,
 	setLocalOfferServiceDescription,
-	setLocalOfferServicePrice, setLocalOfferServiceToEditPk, setLocalOfferServiceMultiCategories
+	setLocalOfferServicePrice,
+	setLocalOfferServiceToEditPk,
+	setLocalOfferServiceMultiCategories,
+	setWSOfferPicture4,
+	setWSOfferThumbnail4,
+	setWSOfferThumbnail3,
+	setWSOfferThumbnail2,
+	setWSOfferThumbnail1,
+	setWSOfferPicture2, setWSOfferPicture3, setWSOfferPicture1
 } from "../../slices/offer/offerSlice";
 import { NextRouter } from 'next/router';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
@@ -75,7 +80,7 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 	// yield put(appendPostOfferIsLoading());
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/`;
-	const { type, ...payloadData } = payload;
+	const { type, onComplete, ...payloadData } = payload;
 	const { pictures, ...remainingData } = payloadData;
 	let picture_1 = null;
 	let picture_2 = null;
@@ -110,7 +115,6 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 		const response: OfferPostRootProductResponseType | OfferPostRootServiceResponseType = yield call(() =>
 			postFormDataApi(url, instance, { ...dataToSend }),
 		);
-		console.log(response);
 		if (response.status === 200) {
 			// update state
 			yield put(appendPostOfferState(response.data));
@@ -275,7 +279,7 @@ function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServic
 	yield put(setPutOfferIsLoading());
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/`;
-	const { type, ...payloadData } = payload;
+	const { type, onComplete, ...payloadData } = payload;
 	const { pictures, ...remainingData } = payloadData;
 	let picture_1 = null;
 	let picture_2 = null;
@@ -537,10 +541,6 @@ function* offerGetVuesSaga(payload: {type: string, url: string}) {
 	}
 }
 
-function* wsOfferThumbnailSaga(payload: { type: string; pk: number; offer_thumbnail: string }) {
-	yield put(setWSOfferThumbnail({ offer_pk: payload.pk, offer_thumbnail: payload.offer_thumbnail }));
-}
-
 function* setOfferProductCategoriesPageSaga(payload: { type: string; categories: OfferCategoriesType }) {
 	yield put(setLocalOfferProductCategories(payload.categories));
 }
@@ -759,6 +759,38 @@ function* offerSetEmptyUserLocalOfferSaga() {
 }
 
 
+function* wsOfferPicture1Saga(payload: { type: string; pk: number; offer_picture: string }) {
+	yield put(setWSOfferPicture1({ offer_pk: payload.pk, offer_picture: payload.offer_picture }));
+}
+
+function* wsOfferPicture1ThumbSaga(payload: { type: string; pk: number; offer_picture: string }) {
+	yield put(setWSOfferThumbnail1({ offer_pk: payload.pk, offer_picture: payload.offer_picture }));
+}
+
+function* wsOfferPicture2Saga(payload: { type: string; pk: number; offer_picture: string }) {
+	yield put(setWSOfferPicture2({ offer_pk: payload.pk, offer_picture: payload.offer_picture }));
+}
+
+function* wsOfferPicture2ThumbSaga(payload: { type: string; pk: number; offer_picture: string }) {
+	yield put(setWSOfferThumbnail2({ offer_pk: payload.pk, offer_picture: payload.offer_picture }));
+}
+
+function* wsOfferPicture3Saga(payload: { type: string; pk: number; offer_picture: string }) {
+	yield put(setWSOfferPicture3({ offer_pk: payload.pk, offer_picture: payload.offer_picture }));
+}
+
+function* wsOfferPicture3ThumbSaga(payload: { type: string; pk: number; offer_picture: string }) {
+	yield put(setWSOfferThumbnail3({ offer_pk: payload.pk, offer_picture: payload.offer_picture }));
+}
+
+function* wsOfferPicture4Saga(payload: { type: string; pk: number; offer_picture: string }) {
+	yield put(setWSOfferPicture4({ offer_pk: payload.pk, offer_picture: payload.offer_picture }));
+}
+
+function* wsOfferPicture4ThumbSaga(payload: { type: string; pk: number; offer_picture: string }) {
+	yield put(setWSOfferThumbnail4({ offer_pk: payload.pk, offer_picture: payload.offer_picture }));
+}
+
 export function* watchOffer() {
 	yield takeLatest(Types.SET_OFFER_PRODUCT_CATEGORIES_PAGE, setOfferProductCategoriesPageSaga);
 	yield takeLatest(Types.SET_OFFER_SERVICE_CATEGORIES_PAGE, setOfferServiceCategoriesPageSaga);
@@ -799,5 +831,12 @@ export function* watchOffer() {
 	yield takeLatest(Types.OFFER_DELETE_SOLDER, offerDeleteSolderSaga);
 	yield takeLatest(Types.OFFER_DELETE_ROOT, withCallback(offerDeleteRootSaga as Saga));
 	yield takeLatest(Types.OFFER_GET_VUES, withCallback(offerGetVuesSaga as Saga));
-	yield takeLatest(Types.WS_OFFER_THUMBNAIL, wsOfferThumbnailSaga);
+	yield takeLatest(Types.WS_OFFER_PICTURE_1, wsOfferPicture1Saga);
+	yield takeLatest(Types.WS_OFFER_PICTURE_1_THUMB, wsOfferPicture1ThumbSaga);
+	yield takeLatest(Types.WS_OFFER_PICTURE_2, wsOfferPicture2Saga);
+	yield takeLatest(Types.WS_OFFER_PICTURE_2_THUMB, wsOfferPicture2ThumbSaga);
+	yield takeLatest(Types.WS_OFFER_PICTURE_3, wsOfferPicture3Saga);
+	yield takeLatest(Types.WS_OFFER_PICTURE_3_THUMB, wsOfferPicture3ThumbSaga);
+	yield takeLatest(Types.WS_OFFER_PICTURE_4, wsOfferPicture4Saga);
+	yield takeLatest(Types.WS_OFFER_PICTURE_4_THUMB, wsOfferPicture4ThumbSaga);
 }

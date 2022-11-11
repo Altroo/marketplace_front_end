@@ -12,8 +12,8 @@ import {
 	OfferServiceLocalisation,
 	OfferSolderInterface,
 	OfferStateInterface,
-	OfferTagsType
-} from "../../../types/offer/offerTypes";
+	OfferTagsType,
+} from '../../../types/offer/offerTypes';
 import { ApiErrorResponseType, PaginationResponseType } from '../../../types/_init/_initTypes';
 import { apiErrorInitialState, paginationInitial } from '../_init/_initSlice';
 import { ShopZoneByType } from '../../../types/shop/shopTypes';
@@ -202,21 +202,108 @@ const OfferSlice = createSlice({
 				state.userOffersList.results[userOffersListIndex].solder_value = null;
 			}
 		},
-		setWSOfferThumbnail: (state, action: PayloadAction<{ offer_pk: number; offer_thumbnail: string }>) => {
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.offer_pk);
+		setWSOfferPicture1: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
+			const { offer_pk, offer_picture } = action.payload;
+			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
 			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].picture_1_thumb = action.payload.offer_thumbnail;
-			}
-			const userOffersListIndex = state.userOffersList.results.findIndex((item) => item.pk === action.payload.offer_pk);
-			if (userOffersListIndex >= 0) {
-				state.userOffersList.results[userOffersListIndex].thumbnail = action.payload.offer_thumbnail;
+				state.userOffers[userOffersindex].pictures[0].dataURL = offer_picture;
 			}
 			if (state.selectedOffer) {
-				if (state.selectedOffer.pk === action.payload.offer_pk) {
-					state.selectedOffer.picture_1_thumb = action.payload.offer_thumbnail;
+				if (state.selectedOffer.pk === offer_pk) {
+					state.selectedOffer.picture_1 = offer_picture;
 				}
 			}
 		},
+		setWSOfferThumbnail1: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
+			const { offer_pk, offer_picture } = action.payload;
+			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
+			if (userOffersindex >= 0) {
+				state.userOffers[userOffersindex].picture_1_thumb = offer_picture;
+			}
+			// Setting the list thumbnail for as picture 1 only
+			const userOffersListIndex = state.userOffersList.results.findIndex((item) => item.pk === offer_pk);
+			if (userOffersListIndex >= 0) {
+				state.userOffersList.results[userOffersListIndex].thumbnail = offer_picture;
+			}
+			if (state.selectedOffer) {
+				if (state.selectedOffer.pk === offer_pk) {
+					state.selectedOffer.picture_1_thumb = offer_picture;
+				}
+			}
+		},
+		setWSOfferPicture2: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
+			const { offer_pk, offer_picture } = action.payload;
+			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
+			if (userOffersindex >= 0) {
+				state.userOffers[userOffersindex].pictures[1].dataURL = offer_picture;
+			}
+			if (state.selectedOffer) {
+				if (state.selectedOffer.pk === offer_pk) {
+					state.selectedOffer.picture_2 = offer_picture;
+				}
+			}
+		},
+		setWSOfferThumbnail2: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
+			const { offer_pk, offer_picture } = action.payload;
+			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
+			if (userOffersindex >= 0) {
+				state.userOffers[userOffersindex].picture_2_thumb = offer_picture;
+			}
+			if (state.selectedOffer) {
+				if (state.selectedOffer.pk === offer_pk) {
+					state.selectedOffer.picture_2_thumb = offer_picture;
+				}
+			}
+		},
+		setWSOfferPicture3: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
+			const { offer_pk, offer_picture } = action.payload;
+			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
+			if (userOffersindex >= 0) {
+				state.userOffers[userOffersindex].pictures[2].dataURL = offer_picture;
+			}
+			if (state.selectedOffer) {
+				if (state.selectedOffer.pk === offer_pk) {
+					state.selectedOffer.picture_3 = offer_picture;
+				}
+			}
+		},
+		setWSOfferThumbnail3: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
+			const { offer_pk, offer_picture } = action.payload;
+			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
+			if (userOffersindex >= 0) {
+				state.userOffers[userOffersindex].picture_3_thumb = offer_picture;
+			}
+			if (state.selectedOffer) {
+				if (state.selectedOffer.pk === offer_pk) {
+					state.selectedOffer.picture_3_thumb = offer_picture;
+				}
+			}
+		},
+		setWSOfferPicture4: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
+			const { offer_pk, offer_picture } = action.payload;
+			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
+			if (userOffersindex >= 0) {
+				state.userOffers[userOffersindex].pictures[3].dataURL = offer_picture;
+			}
+			if (state.selectedOffer) {
+				if (state.selectedOffer.pk === offer_pk) {
+					state.selectedOffer.picture_4 = offer_picture;
+				}
+			}
+		},
+		setWSOfferThumbnail4: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
+			const { offer_pk, offer_picture } = action.payload;
+			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
+			if (userOffersindex >= 0) {
+				state.userOffers[userOffersindex].picture_4_thumb = offer_picture;
+			}
+			if (state.selectedOffer) {
+				if (state.selectedOffer.pk === offer_pk) {
+					state.selectedOffer.picture_4_thumb = offer_picture;
+				}
+			}
+		},
+
 		setLocalOfferProductToEditPk: (state, action: PayloadAction<number>) => {
 			state.userLocalProduct.pk = action.payload;
 		},
@@ -289,10 +376,7 @@ const OfferSlice = createSlice({
 			state.userLocalProduct.creator = action.payload.creator;
 			// state.userLocalProduct.tags = action.payload.tags;
 		},
-		setLocalOfferServiceDescription: (
-			state,
-			action: PayloadAction<LocalOfferServiceDescriptionPageType>,
-		) => {
+		setLocalOfferServiceDescription: (state, action: PayloadAction<LocalOfferServiceDescriptionPageType>) => {
 			state.userLocalService.title = action.payload.title;
 			state.userLocalService.description = action.payload.description;
 			state.userLocalService.pictures = action.payload.pictures;
@@ -308,7 +392,10 @@ const OfferSlice = createSlice({
 			state.userLocalProduct.prix = action.payload.price;
 			state.userLocalProduct.prix_par = action.payload.price_by;
 		},
-		setLocalOfferServicePrice: (state, action: PayloadAction<{ price: string; service_price_by: "H" | "J" | "S" | "M" | "P" }>) => {
+		setLocalOfferServicePrice: (
+			state,
+			action: PayloadAction<{ price: string; service_price_by: 'H' | 'J' | 'S' | 'M' | 'P' }>,
+		) => {
 			state.userLocalService.price = action.payload.price;
 			state.userLocalService.service_price_by = action.payload.service_price_by;
 		},
@@ -409,7 +496,6 @@ const OfferSlice = createSlice({
 });
 
 export const {
-	appendPostOfferIsLoading,
 	appendPostOfferState,
 	setSelectedOfferTags,
 	setMyOffersFirstPageListIsLoading,
@@ -422,7 +508,14 @@ export const {
 	setSolderOffer,
 	deleteSolderOffer,
 	initOffer,
-	setWSOfferThumbnail,
+	setWSOfferPicture1,
+	setWSOfferThumbnail1,
+	setWSOfferPicture2,
+	setWSOfferThumbnail2,
+	setWSOfferPicture3,
+	setWSOfferThumbnail3,
+	setWSOfferPicture4,
+	setWSOfferThumbnail4,
 	setLocalOfferProductCategories,
 	setLocalOfferServiceCategories,
 	setLocalOfferServiceLocalisation,

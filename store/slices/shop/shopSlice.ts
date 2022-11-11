@@ -160,12 +160,10 @@ const shopSlice = createSlice({
 				}
 			}
 		},
-		setWSShopAvatar: (state, action: PayloadAction<string>) => {
+		setWSShopAvatar: (state, action: PayloadAction<{avatar: string}>) => {
 			// payload has shop_avatar
 			if (state.userShop) {
-				if ('avatar' in state.userShop) {
-					state.userShop.avatar = action.payload;
-				}
+				state.userShop.avatar = action.payload.avatar;
 			}
 		},
 		// Step by step shop creation

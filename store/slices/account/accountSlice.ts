@@ -67,10 +67,10 @@ const accountSlice = createSlice({
 			state.check_account.email = action.payload.email;
 			state.check_account.verified = false;
 		},
-		setWSUserAvatar: (state, action: PayloadAction<string>) => {
+		setWSUserAvatar: (state, action: PayloadAction<{avatar: string}>) => {
 			// payload has user_avatar
-			state.profil.avatar = action.payload;
-			state.check_account.picture = action.payload;
+			state.profil.avatar = action.payload.avatar;
+			state.check_account.picture = action.payload.avatar;
 		},
 		initAccount: () => {
 			return initialState;

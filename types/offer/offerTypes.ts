@@ -94,11 +94,13 @@ export interface OfferPostRootProductType extends OfferProductClass {
 	type: string;
 	made_in: string | null;
 	creator: boolean | null;
+	onComplete: () => void;
 }
 
 export interface OfferPostRootServiceType extends OfferServiceClass {
 	type: string;
 	router: NextRouter;
+	onComplete: () => void;
 }
 
 export interface OfferPutRootProductType extends Omit<OfferPostRootProductType, 'offer_type'> {

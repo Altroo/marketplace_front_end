@@ -15,8 +15,6 @@ import {
 import CreatorIlluSVG from '../../../../../public/assets/images/creator-illu.svg';
 import CreatorBgIlluSVG from '../../../../../public/assets/images/creator-bg-illu.svg';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
-import BlackStarSVG from '../../../../../public/assets/svgs/globalIcons/black-star.svg';
-import GrayRatingSVG from '../../../../../public/assets/svgs/globalIcons/gray-rating.svg';
 import DeliverySVG from '../../../../../public/assets/svgs/globalIcons/delivery-icon-white.svg';
 import DeliveryDisabledSVG from '../../../../../public/assets/svgs/globalIcons/delivery-icon-gray.svg';
 import ClickAndCollectSVG from '../../../../../public/assets/svgs/globalIcons/click-and-collect-icon-white.svg';
@@ -85,31 +83,31 @@ import { AccountGetCheckAccountResponseType } from '../../../../../types/account
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 import ReadAdresse from '../../../../../components/groupedComponents/shop/get/shopInfoTabContent/readAdresse/readAdresse';
 
-const NoCommentsAvailableContent = () => {
-	return (
-		<>
-			<Stack
-				direction="row"
-				justifyContent="space-between"
-				alignItems="center"
-				className={Styles.noCommentsAvailableContent}
-			>
-				<span className={Styles.noAvailableComments}>Pas encore de commentaires</span>
-				<span>
-					<Stack direction="row">
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
-						<span className={Styles.noAvailableRatings}>(0 notes)</span>
-					</Stack>
-				</span>
-			</Stack>
-			<p className={Styles.noComments}>Effectuez votre première vente pour obtenir un commentaire</p>
-		</>
-	);
-};
+// const NoCommentsAvailableContent = () => {
+// 	return (
+// 		<>
+// 			<Stack
+// 				direction="row"
+// 				justifyContent="space-between"
+// 				alignItems="center"
+// 				className={Styles.noCommentsAvailableContent}
+// 			>
+// 				<span className={Styles.noAvailableComments}>Pas encore de commentaires</span>
+// 				<span>
+// 					<Stack direction="row">
+// 						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
+// 						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
+// 						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
+// 						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
+// 						<Image src={GrayRatingSVG} width={20} height={20} alt="" />
+// 						<span className={Styles.noAvailableRatings}>(0 notes)</span>
+// 					</Stack>
+// 				</span>
+// 			</Stack>
+// 			<p className={Styles.noComments}>Effectuez votre première vente pour obtenir un commentaire</p>
+// 		</>
+// 	);
+// };
 
 const OfferCreatorBanner = () => {
 	return (

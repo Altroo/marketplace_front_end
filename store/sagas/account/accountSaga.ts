@@ -177,8 +177,8 @@ function* accountSetFacebookEmailSaga(payload: {type: string, email :string}) {
 	yield put(setFbEmailInInit({ email: payload.email }));
 }
 
-function* wsUserAvatarSaga(payload: { type: string; pk: number; avatar_thumbnail: string }) {
-	yield put(setWSUserAvatar(payload.avatar_thumbnail));
+function* wsUserAvatarSaga(payload: { type: string; pk: number; avatar: string }) {
+	yield put(setWSUserAvatar({avatar: payload.avatar}));
 }
 
 function* accountPostRegisterSaga(payload: {type: string, tokens: InitStateNonNullableToken}) {

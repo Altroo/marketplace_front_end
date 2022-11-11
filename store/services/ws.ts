@@ -3,15 +3,22 @@ import {
 	WSEvent,
 	WSEventType,
 	WSMaintenance,
-	WSOfferThumbnails,
+	WSOfferPictureType,
 	WSShopAvatar,
-	WSUserAvatar,
-} from '../../types/ws/wsTypes';
+	WSUserAvatar
+} from "../../types/ws/wsTypes";
 import {
 	WSMaintenanceAction,
-	WSOfferThumbnailAction,
 	WSShopAvatarAction,
 	WSUserAvatarAction,
+	WSOfferPicture1Action,
+	WSOfferPicture1ThumbAction,
+	WSOfferPicture2Action,
+	WSOfferPicture2ThumbAction,
+	WSOfferPicture3Action,
+	WSOfferPicture3ThumbAction,
+	WSOfferPicture4Action,
+	WSOfferPicture4ThumbAction,
 } from '../actions/ws/wsActions';
 
 let ws: WebSocket;
@@ -33,20 +40,49 @@ export function initWebsocket(token: string) {
 					const msg = JSON.parse(e.data);
 					if (msg) {
 						const { message } = msg;
-						const SignalType : WSEventType = message.type;
-						if (SignalType === 'OFFER_THUMBNAIL') {
-							const { message } = msg as WSEvent<WSOfferThumbnails>;
-							const {pk, offer_thumbnail} = message;
-							return emitter(WSOfferThumbnailAction(pk, offer_thumbnail));
-						} else if (SignalType === 'SHOP_AVATAR') {
+						const signalType : WSEventType = message.type;
+						console.log(signalType);
+						if (signalType === 'OFFER_PICTURE_1') {
+							const { message } = msg as WSEvent<WSOfferPictureType>;
+							const { pk, offer_picture } = message;
+							return emitter(WSOfferPicture1Action(pk, offer_picture));
+						} else if (signalType === 'OFFER_PICTURE_1_THUMB') {
+							const { message } = msg as WSEvent<WSOfferPictureType>;
+							const { pk, offer_picture } = message;
+							return emitter(WSOfferPicture1ThumbAction(pk, offer_picture));
+						} else if (signalType === 'OFFER_PICTURE_2') {
+							const { message } = msg as WSEvent<WSOfferPictureType>;
+							const { pk, offer_picture } = message;
+							return emitter(WSOfferPicture2Action(pk, offer_picture));
+						} else if (signalType === 'OFFER_PICTURE_2_THUMB') {
+							const { message } = msg as WSEvent<WSOfferPictureType>;
+							const { pk, offer_picture } = message;
+							return emitter(WSOfferPicture2ThumbAction(pk, offer_picture));
+						} else if (signalType === 'OFFER_PICTURE_3') {
+							const { message } = msg as WSEvent<WSOfferPictureType>;
+							const { pk, offer_picture } = message;
+							return emitter(WSOfferPicture3Action(pk, offer_picture));
+						} else if (signalType === 'OFFER_PICTURE_3_THUMB') {
+							const { message } = msg as WSEvent<WSOfferPictureType>;
+							const { pk, offer_picture } = message;
+							return emitter(WSOfferPicture3ThumbAction(pk, offer_picture));
+						} else if (signalType === 'OFFER_PICTURE_4') {
+							const { message } = msg as WSEvent<WSOfferPictureType>;
+							const { pk, offer_picture } = message;
+							return emitter(WSOfferPicture4Action(pk, offer_picture));
+						} else if (signalType === 'OFFER_PICTURE_4_THUMB') {
+							const { message } = msg as WSEvent<WSOfferPictureType>;
+							const { pk, offer_picture } = message;
+							return emitter(WSOfferPicture4ThumbAction(pk, offer_picture));
+						} else if (signalType === 'SHOP_AVATAR') {
 							const { message } = msg as WSEvent<WSShopAvatar>;
-							const {pk, avatar_thumbnail} = message;
-							return emitter(WSShopAvatarAction(pk, avatar_thumbnail));
-						} else if (SignalType === 'USER_AVATAR') {
+							const {pk, avatar} = message;
+							return emitter(WSShopAvatarAction(pk, avatar));
+						} else if (signalType === 'USER_AVATAR') {
 							const { message } = msg as WSEvent<WSUserAvatar>;
-							const {pk, avatar_thumbnail} = message;
-							return emitter(WSUserAvatarAction(pk, avatar_thumbnail));
-						} else if (SignalType === 'MAINTENANCE') {
+							const {pk, avatar} = message;
+							return emitter(WSUserAvatarAction(pk, avatar));
+						} else if (signalType === 'MAINTENANCE') {
 							const { message } = msg as WSEvent<WSMaintenance>;
 							const {maintenance} = message;
 							return emitter(WSMaintenanceAction(maintenance));

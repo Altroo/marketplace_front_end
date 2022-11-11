@@ -446,8 +446,8 @@ function* shopPatchAddressSaga(payload: Partial<ShopPatchRootType>) {
 	// }
 }
 
-function* wsShopAvatarSaga(payload: { type: string; pk: number; shop_avatar: string }) {
-	yield put(setWSShopAvatar(payload.shop_avatar));
+function* wsShopAvatarSaga(payload: { type: string; pk: number; avatar: string }) {
+	yield put(setWSShopAvatar({avatar: payload.avatar}));
 }
 
 // Create Temporary shop
