@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './description.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import { Box, ClickAwayListener, Grid, Stack, TextField } from "@mui/material";
+import { Box, ClickAwayListener, Grid, Stack } from "@mui/material";
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	AUTH_LOGIN,
@@ -109,9 +109,9 @@ const Description: NextPage = () => {
 		// tags: Array<string>;
 	};
 	const [morningHourFromState, setMorningHourFromState] = useState<Dayjs | null>(null);
-	const [morningHourToState, setMorningHourToState] = useState<string>('');
-	const [afternoonHourFromState, setAfternoonHourFromState] = useState<string>('');
-	const [afternoonHourToState, setAfternoonHourToState] = useState<string>('');
+	const [morningHourToState, setMorningHourToState] = useState<Dayjs | null>(null);
+	const [afternoonHourFromState, setAfternoonHourFromState] = useState<Dayjs | null>(null);
+	const [afternoonHourToState, setAfternoonHourToState] = useState<Dayjs | null>(null);
 	const [localisationModalOpen, setLocalisationModalOpen] = useState<boolean>(false);
 	// disponibilities state
 	const [alState, setAlState] = useState<boolean>(false);
@@ -152,13 +152,13 @@ const Description: NextPage = () => {
 			setMorningHourFromState(dayjs(morningHourFrom, 'HH:MM'));
 		}
 		if (morningHourTo) {
-			setMorningHourToState(morningHourTo);
+			setMorningHourToState(dayjs(morningHourTo, 'HH:MM'));
 		}
 		if (afternoonHourFrom) {
-			setAfternoonHourFromState(afternoonHourFrom);
+			setAfternoonHourFromState(dayjs(afternoonHourFrom, 'HH:MM'));
 		}
 		if (afternoonHourTo) {
-			setAfternoonHourToState(afternoonHourTo);
+			setAfternoonHourToState(dayjs(afternoonHourTo, 'HH:MM'));
 		}
 		if (pickedTitle && !typingTitle) {
 			setOfferTitle(pickedTitle);
@@ -235,10 +235,6 @@ const Description: NextPage = () => {
 	const titleTooltipTheme = offerTitleTooltipTheme();
 	const descriptionFieldTheme = coordonneeTextInputTheme();
 	const forWhomFieldTheme = offerForWhomDropdownTheme();
-
-	const handleMorningHourFromChange = (newValue: Dayjs | null) => {
-		setMorningHourFromState(newValue);
-	};
 
 	return (
 		<>
@@ -323,17 +319,11 @@ const Description: NextPage = () => {
 									addDescriptionSubmitHandler({
 										title: values.title,
 										description: values.description,
-										service_availability_days: availabilityDaysString,
-										service_morning_hour_from: values.service_morning_hour_from.toISOString(),
-										service_morning_hour_to: values.service_morning_hour_to
-											? values.service_morning_hour_to.slice(0, 5)
-											: null,
-										service_afternoon_hour_from: values.service_afternoon_hour_from
-											? values.service_afternoon_hour_from.slice(0, 5)
-											: null,
-										service_afternoon_hour_to: values.service_afternoon_hour_to
-											? values.service_afternoon_hour_to.slice(0, 5)
-											: null,
+										service_availability_days: availabilityDaysString, // 2022-11-11T16:30:00.452Z
+										service_morning_hour_from: values.service_morning_hour_from.toISOString().split('T')[1],
+										service_morning_hour_to: values.service_morning_hour_to.toISOString().split('T')[1],
+										service_afternoon_hour_from: values.service_afternoon_hour_from ? values.service_afternoon_hour_from.toISOString().split('T')[1] : null,
+										service_afternoon_hour_to: values.service_afternoon_hour_to ? values.service_afternoon_hour_to.toISOString().split('T')[1] : null,
 										// tags: values.tags,
 									});
 								}
@@ -460,51 +450,25 @@ const Description: NextPage = () => {
 																justifyContent="space-between"
 																sx={{ width: '100%' }}
 															>
-																{/*<TextField*/}
-																{/*	fullWidth={true}*/}
-																{/*	type="time"*/}
-																{/*	id="service_morning_hour_from"*/}
-																{/*	label="De"*/}
-																{/*	value={*/}
-																{/*		values.service_morning_hour_from*/}
-																{/*			? values.service_morning_hour_from.slice(0, 5)*/}
-																{/*			: ''*/}
-																{/*	}*/}
-																{/*	onBlur={handleBlur('service_morning_hour_from')}*/}
-																{/*	onChange={(e) => {*/}
-																{/*		handleChange('service_morning_hour_from')(e);*/}
-																{/*		setMorningHourFromState(e.target.value);*/}
-																{/*	}}*/}
-																{/*	helperText={*/}
-																{/*		touched.service_morning_hour_from ? errors.service_morning_hour_from : ''*/}
-																{/*	}*/}
-																{/*	error={*/}
-																{/*		touched.service_morning_hour_from && Boolean(errors.service_morning_hour_from)*/}
-																{/*	}*/}
-																{/*/>*/}
 																<CustomTimeInput
 																	id="service_morning_hour_from"
 																	label="De"
 																	placeholder="De"
-																	onChange={handleMorningHourFromChange}
+																	onChange={(e) => {
+																		setMorningHourFromState(e);
+																	}}
 																	value={morningHourFromState}
 																	theme={titleFieldTheme}
 																/>
-																<TextField
-																	fullWidth={true}
-																	type="time"
+																<CustomTimeInput
 																	id="service_morning_hour_to"
 																	label="A"
-																	value={
-																		values.service_morning_hour_to ? values.service_morning_hour_to.slice(0, 5) : ''
-																	}
-																	onBlur={handleBlur('service_morning_hour_to')}
+																	placeholder="A"
 																	onChange={(e) => {
-																		handleChange('service_morning_hour_to')(e);
-																		setMorningHourToState(e.target.value);
+																		setMorningHourToState(e);
 																	}}
-																	helperText={touched.service_morning_hour_to ? errors.service_morning_hour_to : ''}
-																	error={touched.service_morning_hour_to && Boolean(errors.service_morning_hour_to)}
+																	value={morningHourToState}
+																	theme={titleFieldTheme}
 																/>
 															</Stack>
 															<div className={Styles.grayTitle}>
@@ -516,50 +480,25 @@ const Description: NextPage = () => {
 																justifyContent="space-between"
 																sx={{ width: '100%' }}
 															>
-																<TextField
-																	fullWidth={true}
-																	size="medium"
-																	label="De"
-																	type="time"
+																<CustomTimeInput
 																	id="service_afternoon_hour_from"
-																	value={
-																		values.service_afternoon_hour_from
-																			? values.service_afternoon_hour_from.slice(0, 5)
-																			: ''
-																	}
-																	onBlur={handleBlur('service_afternoon_hour_from')}
+																	label="De"
+																	placeholder="De"
 																	onChange={(e) => {
-																		handleChange('service_afternoon_hour_from')(e);
-																		setAfternoonHourFromState(e.target.value);
+																		setAfternoonHourFromState(e);
 																	}}
-																	helperText={
-																		touched.service_afternoon_hour_from ? errors.service_afternoon_hour_from : ''
-																	}
-																	error={
-																		touched.service_afternoon_hour_from && Boolean(errors.service_afternoon_hour_from)
-																	}
+																	value={afternoonHourFromState}
+																	theme={titleFieldTheme}
 																/>
-																<TextField
-																	fullWidth={true}
-																	label="A"
-																	type="time"
+																<CustomTimeInput
 																	id="service_afternoon_hour_to"
-																	value={
-																		values.service_afternoon_hour_to
-																			? values.service_afternoon_hour_to.slice(0, 5)
-																			: ''
-																	}
-																	onBlur={handleBlur('service_afternoon_hour_to')}
+																	label="A"
+																	placeholder="A"
 																	onChange={(e) => {
-																		handleChange('service_afternoon_hour_to')(e);
-																		setAfternoonHourToState(e.target.value);
+																		setAfternoonHourToState(e);
 																	}}
-																	helperText={
-																		touched.service_afternoon_hour_to ? errors.service_afternoon_hour_to : ''
-																	}
-																	error={
-																		touched.service_afternoon_hour_to && Boolean(errors.service_afternoon_hour_to)
-																	}
+																	value={afternoonHourToState}
+																	theme={titleFieldTheme}
 																/>
 															</Stack>
 														</Stack>
