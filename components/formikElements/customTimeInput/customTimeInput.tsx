@@ -1,8 +1,8 @@
 import React from "react";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
+// import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 // import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-// import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import { Theme } from '@mui/material/styles/createTheme';
 import { TextField, ThemeProvider } from '@mui/material';
 import { TextFieldProps } from '@mui/material/TextField/TextField';
@@ -28,7 +28,7 @@ const CustomTimeInput: React.FC<Props> = (props: Props) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
-				<DesktopTimePicker
+				<MobileTimePicker
 					{...restOfProps}
 					className={cssClass}
 					disabled={props.disabled}
