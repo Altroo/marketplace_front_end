@@ -486,8 +486,14 @@ const Description: NextPage = () => {
 																	id="service_morning_hour_from"
 																	label="De"
 																	placeholder="De"
-																	onChange={handleMorningHourFromChange}
+																	onChange={(e) => {
+																		if (e) {
+																			handleMorningHourFromChange(e);
+																			handleChange('service_morning_hour_from')(e.toISOString());
+																		}
+																	}}
 																	value={morningHourFromState}
+																	theme={titleFieldTheme}
 																/>
 																<TextField
 																	fullWidth={true}

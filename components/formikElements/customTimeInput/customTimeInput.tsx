@@ -14,7 +14,7 @@ type Props = {
 	id: string;
 	value: Dayjs | null;
 	onChange: (e: Dayjs | null, keyboardInputValue?: string) => void;
-	// theme: Theme;
+	theme: Theme;
 	cssClass?: string;
 	placeholder?: string;
 	label?: string;
@@ -23,25 +23,24 @@ type Props = {
 };
 
 const CustomTimeInput: React.FC<Props> = (props: Props) => {
-	// const { cssClass, theme, ...restOfProps } = props;
-	const { cssClass, ...restOfProps } = props;
+	const { cssClass, theme, ...restOfProps } = props;
 
 	return (
-		// <ThemeProvider theme={theme}>
-		<LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
-			<DesktopTimePicker
-				{...restOfProps}
-				className={cssClass}
-				disabled={props.disabled}
-				toolbarTitle={props.placeholder}
-				label={props.label}
-				inputFormat="HH:MM"
-				value={props.value}
-				onChange={props.onChange}
-				renderInput={(params: TextFieldProps) => <TextField {...params} />}
-			/>
-		</LocalizationProvider>
-		// </ThemeProvider>
+		<ThemeProvider theme={theme}>
+			<LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
+				<DesktopTimePicker
+					{...restOfProps}
+					className={cssClass}
+					disabled={props.disabled}
+					toolbarTitle={props.placeholder}
+					label={props.label}
+					inputFormat="HH:MM"
+					value={props.value}
+					onChange={props.onChange}
+					renderInput={(params: TextFieldProps) => <TextField {...params} />}
+				/>
+			</LocalizationProvider>
+		</ThemeProvider>
 	);
 };
 
