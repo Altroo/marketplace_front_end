@@ -20,7 +20,7 @@ import CheckBox from '../../../components/htmlElements/checkBoxes/checkBox';
 import CenteredInfoAction from '../../../components/groupedComponents/temp-shop/create/centeredInfoAction/centeredInfoAction';
 import BorderIconAnchorButton from '../../../components/htmlElements/buttons/borderIconAnchorButton/borderIconAnchorButton';
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
-import { cookiesPoster, getApi } from '../../../store/services/_init/_initAPI';
+import { getApi } from '../../../store/services/_init/_initAPI';
 import ChipButtons from '../../../components/htmlElements/buttons/chipButtons/chipButtons';
 import { chipActionsType } from '../../../types/ui/uiTypes';
 import { getNewShopName, getNewShopAvatar } from '../../../store/selectors';
@@ -29,7 +29,7 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	AUTH_LOGIN,
 	DASHBOARD,
-	REAL_SHOP_ADD_AVATAR, REAL_SHOP_ADD_COLOR
+	REAL_SHOP_ADD_COLOR
 } from "../../../utils/routes";
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';

@@ -8,8 +8,8 @@ import {
 	REAL_OFFER_ADD_SERVICE_DESCRIPTION,
 	REAL_OFFER_ROUTE,
 	REAL_SHOP_ADD_SHOP_NAME,
-	AUTH_LOGIN,
-} from '../../../../../utils/routes';
+	AUTH_LOGIN, REAL_OFFER_ADD_PRODUCT_DESCRIPTION
+} from "../../../../../utils/routes";
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import { Box, Stack, ThemeProvider } from '@mui/material';
@@ -186,6 +186,9 @@ const Prix: NextPage = () => {
 	};
 
 	useEffect(() => {
+		if(!title){
+			router.replace(REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)).then();
+		}
 		if (price === '' && (!heur || !jour || !semaine || !mois || !prestation)) {
 			setSubmitActive(false);
 		} else {

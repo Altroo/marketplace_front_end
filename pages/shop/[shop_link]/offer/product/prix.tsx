@@ -21,7 +21,11 @@ import CurrencyInput from 'react-currency-input-field';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import { setOfferProductPricePage } from '../../../../../store/actions/offer/offerActions';
 import { useRouter } from 'next/router';
-import { getLocalOfferProductPrice, getLocalOfferProductPriceBy } from '../../../../../store/selectors';
+import {
+	getLocalOfferProductPrice,
+	getLocalOfferProductPriceBy,
+	getLocalOfferProductTitle
+} from "../../../../../store/selectors";
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
 import { getApi } from '../../../../../store/services/_init/_initAPI';
@@ -60,8 +64,11 @@ const Prix: NextPage = () => {
 			},
 		});
 	};
-
+	const pickedTitle = useAppSelector(getLocalOfferProductTitle);
 	useEffect(() => {
+		if(!pickedTitle){
+			router.replace(REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)).then();
+		}
 		if (price === '' && (!unity || !kg || !liter)) {
 			setSubmitActive(false);
 		} else {
@@ -79,7 +86,7 @@ const Prix: NextPage = () => {
 				}
 			}
 		}
-	}, [kg, liter, price, unity]);
+	}, [kg, liter, pickedTitle, price, router, unity]);
 
 	const chipTheme = SizesChipTheme();
 	return (
