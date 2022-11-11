@@ -109,18 +109,18 @@ export const getLocalOfferProductQuantity = (state: RootState) => state.offer.us
 export const getLocalOfferProductPrice = (state: RootState) => state.offer.userLocalProduct?.prix;
 export const getLocalOfferProductPriceBy = (state: RootState) => state.offer.userLocalProduct?.prix_par;
 
-export const getLocalOfferDeliveryCity1 = (state: RootState) => state.offer.userLocalProduct.deliveries?.delivery_city_1;
-export const getLocalOfferDeliveryAllCities1 = (state: RootState) => state.offer.userLocalProduct.deliveries?.all_cities_1;
-export const getLocalOfferDeliveryPrice1 = (state: RootState) => state.offer.userLocalProduct.deliveries?.delivery_price_1;
-export const getLocalOfferDeliveryDays1 = (state: RootState) => state.offer.userLocalProduct.deliveries?.delivery_days_1;
-export const getLocalOfferDeliveryCity2 = (state: RootState) => state.offer.userLocalProduct.deliveries?.delivery_city_2;
-export const getLocalOfferDeliveryAllCities2 = (state: RootState) => state.offer.userLocalProduct.deliveries?.all_cities_2;
-export const getLocalOfferDeliveryPrice2 = (state: RootState) => state.offer.userLocalProduct.deliveries?.delivery_price_2;
-export const getLocalOfferDeliveryDays2 = (state: RootState) => state.offer.userLocalProduct.deliveries?.delivery_days_2;
-export const getLocalOfferDeliveryCity3 = (state: RootState) => state.offer.userLocalProduct.deliveries?.delivery_city_3;
-export const getLocalOfferDeliveryAllCities3 = (state: RootState) => state.offer.userLocalProduct.deliveries?.all_cities_3;
-export const getLocalOfferDeliveryPrice3 = (state: RootState) => state.offer.userLocalProduct.deliveries?.delivery_price_3;
-export const getLocalOfferDeliveryDays3 = (state: RootState) => state.offer.userLocalProduct.deliveries?.delivery_days_3;
+export const getLocalOfferDeliveryCity1 = (state: RootState) => state.offer.userLocalProduct.deliveries.delivery_city_1;
+export const getLocalOfferDeliveryAllCities1 = (state: RootState) => state.offer.userLocalProduct.deliveries.all_cities_1;
+export const getLocalOfferDeliveryPrice1 = (state: RootState) => state.offer.userLocalProduct.deliveries.delivery_price_1;
+export const getLocalOfferDeliveryDays1 = (state: RootState) => state.offer.userLocalProduct.deliveries.delivery_days_1;
+export const getLocalOfferDeliveryCity2 = (state: RootState) => state.offer.userLocalProduct.deliveries.delivery_city_2;
+export const getLocalOfferDeliveryAllCities2 = (state: RootState) => state.offer.userLocalProduct.deliveries.all_cities_2;
+export const getLocalOfferDeliveryPrice2 = (state: RootState) => state.offer.userLocalProduct.deliveries.delivery_price_2;
+export const getLocalOfferDeliveryDays2 = (state: RootState) => state.offer.userLocalProduct.deliveries.delivery_days_2;
+export const getLocalOfferDeliveryCity3 = (state: RootState) => state.offer.userLocalProduct.deliveries.delivery_city_3;
+export const getLocalOfferDeliveryAllCities3 = (state: RootState) => state.offer.userLocalProduct.deliveries.all_cities_3;
+export const getLocalOfferDeliveryPrice3 = (state: RootState) => state.offer.userLocalProduct.deliveries.delivery_price_3;
+export const getLocalOfferDeliveryDays3 = (state: RootState) => state.offer.userLocalProduct.deliveries.delivery_days_3;
 // service
 export const getLocalOfferServiceObj = (state: RootState) => state.offer.userLocalService;
 export const getLocalOfferServiceEditPK = (state: RootState) => state.offer.userLocalService?.pk;

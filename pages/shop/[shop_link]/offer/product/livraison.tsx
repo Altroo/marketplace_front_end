@@ -622,12 +622,9 @@ const Livraison: NextPage = () => {
 											<Image src={DeliverySVG} width={70} height={70} alt="" />
 											<div
 												className={`${Styles.defaultLocalisationName} ${
-													// deliveryCity1 ||
-													// deliveryCity2 ||
-													// deliveryCity3 ||
-													(typeof deliveryCity1 === 'string' ||
-														typeof deliveryCity2 === 'string' ||
-														typeof deliveryCity3 === 'string' ||
+													(deliveryCity1 ||
+														deliveryCity2 ||
+														deliveryCity3 ||
 														deliveryAllCity1 ||
 														deliveryAllCity2 ||
 														deliveryAllCity3) &&

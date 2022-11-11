@@ -27,7 +27,7 @@ import {
 	OfferGetShopAvailableFiltersResponseType,
 	OfferGetServicesDaysResponseType,
 	setOfferProductToEditPayloadType,
-	setOfferServiceToEditPayloadType, OfferGetRootProductInterface, OfferGetRootServiceInterface, OfferSolderByType
+	setOfferServiceToEditPayloadType, OfferGetRootProductInterface, OfferGetRootServiceInterface,
 } from "../../../types/offer/offerTypes";
 import {
 	setOfferLastUsedLocalisation,
@@ -39,8 +39,6 @@ import {
 	setLocalOfferDeliveries,
 	emptyLocalOfferDeliveryClickAndCollect,
 	emptyLocalOfferDeliveries,
-	setMyOffersFirstPageListIsLoading,
-	myOffersListGETApiErrorAction,
 	setLocalOfferProductMultiCategories,
 	setLocalOfferProductToEditPk,
 	setPutOfferIsLoading,
@@ -64,7 +62,6 @@ import {
 	setWSOfferPicture3,
 	setWSOfferPicture1
 } from "../../slices/offer/offerSlice";
-import { NextRouter } from 'next/router';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
 import { withCallback } from 'redux-saga-callback';
 import { AxiosInstance } from 'axios';
@@ -116,16 +113,6 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 			return response;
 		}
 	}
-	// else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-	// 	const instance: AxiosInstance = yield call(() => allowAnyInstance('multipart/form-data'));
-	// 	const response: OfferPostRootProductResponseType | OfferPostRootServiceResponseType = yield call(() =>
-	// 		postFormDataApi(url, instance, { ...dataToSend }, authSagaContext.initStateUniqueID.unique_id),
-	// 	);
-	// 	if (response.status === 200) {
-	// 		yield put(appendPostOfferState(response.data));
-	// 		return response;
-	// 	}
-	// }
 }
 
 function* offerGetTagsSaga(payload: OfferGetTagsType) {
@@ -183,18 +170,6 @@ function* offerGetLastThreeUsedDeliveriesSaga() {
 			yield put(setLocalOfferDeliveries(response.data));
 		}
 	}
-	// 	else if (authSagaContext.tokenType === 'UNIQUE_ID' && authSagaContext.initStateUniqueID.unique_id !== null) {
-	// 		const instance: AxiosInstance = yield call(() => allowAnyInstance());
-	// 		url += `${authSagaContext.initStateUniqueID.unique_id}/`;
-	// 		const response: OfferGetLastThreeUsedDeliveriesResponseType = yield call(() => getApi(url, instance));
-	// 		if (response.status === 200 && response.data) {
-	// 			yield put(setLocalOfferDeliveries(response.data));
-	// 		}
-	// 	}
-	// } catch (e) {
-	// 	const errors = e as ApiErrorResponseType;
-	// 	console.log(errors);
-	// }
 }
 
 function* offerGetOffersByShopNewIDSaga(payload: { type: string; url: string }) {
