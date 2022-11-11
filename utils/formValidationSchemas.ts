@@ -114,7 +114,7 @@ export const addOfferServiceSchema = Yup.object().shape({
 	fr_day: Yup.string().nullable().notRequired(),
 	sa_day: Yup.string().nullable().notRequired(),
 	su_day: Yup.string().nullable().notRequired(),
-	service_morning_hour_from: Yup.date().required(SHORT_INPUT_REQUIRED),
+	service_morning_hour_from: Yup.string().required(SHORT_INPUT_REQUIRED),
 	service_morning_hour_to: Yup.string().required(SHORT_INPUT_REQUIRED),
 	service_afternoon_hour_from: Yup.string().nullable().notRequired(),
 	service_afternoon_hour_to: Yup.string().nullable().notRequired(),
