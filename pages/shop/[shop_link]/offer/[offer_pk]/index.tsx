@@ -768,15 +768,15 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 									</Stack>
 									{!selectedImage ? (
 										<Box className={Styles.mainImageWrapper}>
-											<Skeleton variant="rectangular" width={500} height={500} className={Styles.selectedImage} />
+											<Skeleton variant="rectangular" width={590} height={388} className={Styles.selectedImage} />
 										</Box>
 									) : (
 										<Box className={Styles.mainImageWrapper}>
 											<Image
 												className={Styles.selectedImage}
 												src={selectedImage}
-												width={500}
-												height={500}
+												width={590}
+												height={388}
 												sizes="100vw"
 												alt=""
 												// loading="eager"
@@ -1735,15 +1735,15 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 									</Stack>
 									{!selectedImage ? (
 										<Box className={Styles.mainImageWrapper}>
-											<Skeleton variant="rectangular" width={500} height={500} className={Styles.selectedImage} />
+											<Skeleton variant="rectangular" width={590} height={388} className={Styles.selectedImage} />
 										</Box>
 									) : (
 										<Box className={Styles.mainImageWrapper}>
 											<Image
 												className={Styles.selectedImage}
 												src={selectedImage}
-												width={500}
-												height={500}
+												width={590}
+												height={388}
 												sizes="100vw"
 												alt=""
 												// loading="eager"
