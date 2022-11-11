@@ -468,22 +468,16 @@ export const offerGetLastThreeUsedDeliveriesAction = () => {
 	};
 };
 
-export const offerGetMyOffersFirstPageAction = () => {
-	return {
-		type: Types.OFFER_GET_MY_OFFERS_FIRST_PAGE,
-	};
-};
+// export const offerPostPinAction = (offer_pk: number) => {
+// 	return {
+// 		type: Types.OFFER_POST_PIN,
+// 		offer_pk,
+// 	};
+// };
 
 export const offerPostPinAction = (offer_pk: number) => {
 	return {
 		type: Types.OFFER_POST_PIN,
-		offer_pk,
-	};
-};
-
-export const offerPostPinWithCallBackAction = (offer_pk: number) => {
-	return {
-		type: Types.OFFER_POST_PIN_WITH_CALLBACK,
 		offer_pk,
 	};
 }
@@ -493,14 +487,12 @@ export const offerPostSolderAction = (
 	offer_pk: number,
 	solder_type: OfferSolderByType,
 	solder_value: number,
-	router: NextRouter,
 ) => {
 	return {
 		type: Types.OFFER_POST_SOLDER,
 		offer_pk,
 		solder_type,
 		solder_value,
-		router,
 	};
 };
 
@@ -508,22 +500,19 @@ export const offerPatchSolderAction = (
 	offer_pk: number,
 	solder_type: OfferSolderByType,
 	solder_value: number,
-	router: NextRouter,
 ) => {
 	return {
 		type: Types.OFFER_PATCH_SOLDER,
 		offer_pk,
 		solder_type,
 		solder_value,
-		router,
 	};
 };
 
-export const offerDeleteSolderAction = (offer_pk: number, router: NextRouter) => {
+export const offerDeleteSolderAction = (offer_pk: number) => {
 	return {
 		type: Types.OFFER_DELETE_SOLDER,
 		offer_pk,
-		router
 	};
 };
 

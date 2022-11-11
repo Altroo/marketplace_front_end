@@ -41,7 +41,6 @@ export function initWebsocket(token: string) {
 					if (msg) {
 						const { message } = msg;
 						const signalType : WSEventType = message.type;
-						console.log(signalType);
 						if (signalType === 'OFFER_PICTURE_1') {
 							const { message } = msg as WSEvent<WSOfferPictureType>;
 							const { pk, offer_picture } = message;

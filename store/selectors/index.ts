@@ -87,7 +87,6 @@ export const getCheckUserHasShop = (state: RootState) => state.account.check_acc
 export const getCheckUserIsCreator = (state: RootState) => state.account.check_account?.is_creator as boolean;
 
 // Offers
-export const getMyOffersList = (state: RootState) => state.offer.userOffersList.results as Array<OfferGetMyOffersProductServiceType>;
 export const getOfferTags = (state: RootState) => state.offer.selectedTags as OfferTagsType;
 export const getSelectedOffer = (state: RootState) => state.offer.selectedOffer as OfferGetRootProductInterface | OfferGetRootServiceInterface | null;
 // Local offers

@@ -85,8 +85,6 @@ const userLocalServiceInitial = {
 };
 
 const initialState: OfferStateInterface = {
-	userOffers: [],
-	userOffersList: paginationInitial,
 	selectedOffer: null,
 	selectedTags: [],
 	lastUsedLocalisation: {},
@@ -105,11 +103,6 @@ const OfferSlice = createSlice({
 			state.offerApi.addPromiseStatus = 'PENDING';
 			state.offerApi.error = apiErrorInitialState.error;
 		},
-		appendPostOfferState: (state, action: PayloadAction<OfferProductInterface | OfferServiceInterface>) => {
-			state.userOffers.push(action.payload);
-			state.offerApi.addPromiseStatus = 'RESOLVED';
-			state.offerApi.isAddInProgress = false;
-		},
 		setSelectedOfferTags: (state, action: PayloadAction<OfferTagsType>) => {
 			state.selectedTags = action.payload;
 		},
@@ -124,90 +117,18 @@ const OfferSlice = createSlice({
 			state.offerApi.fetchPromiseStatus = 'PENDING';
 			state.offerApi.error = apiErrorInitialState.error;
 		},
-		setMyOffersFirstPageList: (
-			state,
-			action: PayloadAction<
-				PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>
-			>,
-		) => {
-			const { next, previous, count, results } = action.payload;
-			state.userOffersList.count = count;
-			state.userOffersList.next = next;
-			state.userOffersList.previous = previous;
-			state.userOffersList.results = results;
-			state.offerApi.fetchPromiseStatus = 'RESOLVED';
-			state.offerApi.isFetchInProgress = false;
-		},
 		setPutOfferIsLoading: (state) => {
 			state.offerApi.isEditInProgress = true;
 			state.offerApi.editPromiseStatus = 'PENDING';
 			state.offerApi.error = apiErrorInitialState.error;
-		},
-		setPutOffer: (state, action: PayloadAction<OfferProductInterface | OfferServiceInterface>) => {
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.pk);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex] = action.payload;
-			}
-			const userOffersListIndex = state.userOffersList.results.findIndex((item) => item.pk === action.payload.pk);
-			const updatedOffer = state.userOffersList.results[userOffersListIndex];
-			if (userOffersListIndex >= 0) {
-				updatedOffer.title = action.payload.title;
-				//*** thumbnail will be updated via ws
-				// updatedOffer.thumbnail = action.payload.picture_1_thumb
-				updatedOffer.price = parseInt(action.payload.price as string);
-			}
-			state.userOffers.sort((a, b) => Number(b.pinned) - Number(a.pinned));
-			state.offerApi.editPromiseStatus = 'RESOLVED';
-			state.offerApi.isEditInProgress = false;
-			// return state;
 		},
 		setDeleteOfferIsLoading: (state) => {
 			state.offerApi.isDeleteInProgress = true;
 			state.offerApi.deletePromiseStatus = 'PENDING';
 			state.offerApi.error = apiErrorInitialState.error;
 		},
-		deleteUserOffer: (state, action: PayloadAction<{ offer_pk: number }>) => {
-			// update userOffers
-			state.userOffers = state.userOffers.filter((item) => item.pk !== action.payload.offer_pk);
-			// update userOffersList results
-			state.userOffersList.results = state.userOffersList.results.filter((item) => item.pk !== action.payload.offer_pk);
-			state.offerApi.deletePromiseStatus = 'RESOLVED';
-			state.offerApi.isDeleteInProgress = false;
-		},
-		setSolderOffer: (state, action: PayloadAction<OfferSolderInterface>) => {
-			// update userOffers
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.offer);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].solder_type = action.payload.solder_type;
-				state.userOffers[userOffersindex].solder_value = action.payload.solder_value;
-			}
-			// update userOffersList results
-			const userOffersListIndex = state.userOffersList.results.findIndex((item) => item.pk === action.payload.offer);
-			if (userOffersListIndex >= 0) {
-				state.userOffersList.results[userOffersListIndex].solder_type = action.payload.solder_type;
-				state.userOffersList.results[userOffersListIndex].solder_value = action.payload.solder_value;
-			}
-		},
-		deleteSolderOffer: (state, action: PayloadAction<{ offer_pk: number }>) => {
-			// update userOffers
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.offer_pk);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].solder_type = null;
-				state.userOffers[userOffersindex].solder_value = null;
-			}
-			// update userOffersList results
-			const userOffersListIndex = state.userOffersList.results.findIndex((item) => item.pk === action.payload.offer_pk);
-			if (userOffersListIndex >= 0) {
-				state.userOffersList.results[userOffersListIndex].solder_type = null;
-				state.userOffersList.results[userOffersListIndex].solder_value = null;
-			}
-		},
 		setWSOfferPicture1: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
 			const { offer_pk, offer_picture } = action.payload;
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].pictures[0].dataURL = offer_picture;
-			}
 			if (state.selectedOffer) {
 				if (state.selectedOffer.pk === offer_pk) {
 					state.selectedOffer.picture_1 = offer_picture;
@@ -216,15 +137,6 @@ const OfferSlice = createSlice({
 		},
 		setWSOfferThumbnail1: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
 			const { offer_pk, offer_picture } = action.payload;
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].picture_1_thumb = offer_picture;
-			}
-			// Setting the list thumbnail for as picture 1 only
-			const userOffersListIndex = state.userOffersList.results.findIndex((item) => item.pk === offer_pk);
-			if (userOffersListIndex >= 0) {
-				state.userOffersList.results[userOffersListIndex].thumbnail = offer_picture;
-			}
 			if (state.selectedOffer) {
 				if (state.selectedOffer.pk === offer_pk) {
 					state.selectedOffer.picture_1_thumb = offer_picture;
@@ -233,10 +145,6 @@ const OfferSlice = createSlice({
 		},
 		setWSOfferPicture2: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
 			const { offer_pk, offer_picture } = action.payload;
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].pictures[1].dataURL = offer_picture;
-			}
 			if (state.selectedOffer) {
 				if (state.selectedOffer.pk === offer_pk) {
 					state.selectedOffer.picture_2 = offer_picture;
@@ -245,10 +153,6 @@ const OfferSlice = createSlice({
 		},
 		setWSOfferThumbnail2: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
 			const { offer_pk, offer_picture } = action.payload;
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].picture_2_thumb = offer_picture;
-			}
 			if (state.selectedOffer) {
 				if (state.selectedOffer.pk === offer_pk) {
 					state.selectedOffer.picture_2_thumb = offer_picture;
@@ -257,10 +161,6 @@ const OfferSlice = createSlice({
 		},
 		setWSOfferPicture3: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
 			const { offer_pk, offer_picture } = action.payload;
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].pictures[2].dataURL = offer_picture;
-			}
 			if (state.selectedOffer) {
 				if (state.selectedOffer.pk === offer_pk) {
 					state.selectedOffer.picture_3 = offer_picture;
@@ -269,10 +169,6 @@ const OfferSlice = createSlice({
 		},
 		setWSOfferThumbnail3: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
 			const { offer_pk, offer_picture } = action.payload;
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].picture_3_thumb = offer_picture;
-			}
 			if (state.selectedOffer) {
 				if (state.selectedOffer.pk === offer_pk) {
 					state.selectedOffer.picture_3_thumb = offer_picture;
@@ -281,10 +177,6 @@ const OfferSlice = createSlice({
 		},
 		setWSOfferPicture4: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
 			const { offer_pk, offer_picture } = action.payload;
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].pictures[3].dataURL = offer_picture;
-			}
 			if (state.selectedOffer) {
 				if (state.selectedOffer.pk === offer_pk) {
 					state.selectedOffer.picture_4 = offer_picture;
@@ -293,10 +185,6 @@ const OfferSlice = createSlice({
 		},
 		setWSOfferThumbnail4: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
 			const { offer_pk, offer_picture } = action.payload;
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === offer_pk);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].picture_4_thumb = offer_picture;
-			}
 			if (state.selectedOffer) {
 				if (state.selectedOffer.pk === offer_pk) {
 					state.selectedOffer.picture_4_thumb = offer_picture;
@@ -450,20 +338,6 @@ const OfferSlice = createSlice({
 		emptyUserLocalOffer: (state) => {
 			state.userLocalProduct = userLocalProductInitial;
 		},
-		setPinOffer: (state, action: PayloadAction<OfferPinType>) => {
-			// update userOffers
-			const userOffersindex = state.userOffers.findIndex((item) => item.pk === action.payload.offer_pk);
-			if (userOffersindex >= 0) {
-				state.userOffers[userOffersindex].pinned = action.payload.pinned;
-				state.userOffers.sort((a, b) => Number(b.pinned) - Number(a.pinned));
-			}
-			// update userOffersList results
-			const userOffersListIndex = state.userOffersList.results.findIndex((item) => item.pk === action.payload.offer_pk);
-			if (userOffersListIndex >= 0) {
-				state.userOffersList.results[userOffersListIndex].pinned = action.payload.pinned;
-				state.userOffersList.results.sort((a, b) => Number(b.pinned) - Number(a.pinned));
-			}
-		},
 		setSelectedOffer: (state, action: PayloadAction<{data: OfferGetRootProductInterface | OfferGetRootServiceInterface}>) => {
 			state.selectedOffer = action.payload.data;
 		},
@@ -477,7 +351,7 @@ const OfferSlice = createSlice({
 				state.offerApi.error = action.payload.error;
 				state.offerApi.fetchPromiseStatus = 'REJECTED';
 				state.offerApi.isFetchInProgress = false;
-				state.userOffersList = paginationInitial;
+				// state.userOffersList = paginationInitial;
 				// return state;
 			})
 			.addCase(offersPUTApiErrorAction, (state, action) => {
@@ -499,17 +373,11 @@ const OfferSlice = createSlice({
 });
 
 export const {
-	appendPostOfferState,
 	setSelectedOfferTags,
 	setMyOffersFirstPageListIsLoading,
 	setPutOfferIsLoading,
 	setOfferLastUsedLocalisation,
-	setMyOffersFirstPageList,
-	setPutOffer,
 	setDeleteOfferIsLoading,
-	deleteUserOffer,
-	setSolderOffer,
-	deleteSolderOffer,
 	initOffer,
 	setWSOfferPicture1,
 	setWSOfferThumbnail1,
@@ -535,7 +403,6 @@ export const {
 	emptyLocalOfferDeliveryClickAndCollect,
 	emptyLocalOfferDeliveries,
 	emptyUserLocalOffer,
-	setPinOffer,
 	setSelectedOffer,
 } = OfferSlice.actions;
 

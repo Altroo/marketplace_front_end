@@ -384,8 +384,6 @@ export interface UserLocalServiceType {
 
 //!- Offer State
 export interface OfferStateInterface {
-	userOffers: Array<OfferProductInterface | OfferServiceInterface>;
-	userOffersList: PaginationResponseType<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
 	selectedOffer: OfferGetRootProductInterface | OfferGetRootServiceInterface | null;
 	selectedTags: OfferTagsType;
 	lastUsedLocalisation: OfferProductLocalisation | OfferServiceLocalisation | Record<string, unknown>;
@@ -435,7 +433,6 @@ export type OfferGetMyOffersResponseType = ResponseDataInterface<
 export interface OfferPostSolderType extends Omit<OfferSolderInterface, 'offer'> {
 	type: string;
 	offer_pk: number;
-	router: NextRouter;
 }
 
 export type OfferGetVuesResponseType = ResponseDataInterface<OfferGetVuesType>;

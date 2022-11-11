@@ -10,7 +10,6 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
-import BlackStarSVG from '../../../../../public/assets/svgs/globalIcons/black-star.svg';
 import { useRouter } from 'next/router';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
 import { useAppDispatch } from '../../../../../utils/hooks';
@@ -18,7 +17,7 @@ import {
 	offerGetAvailableFiltersByShopID,
 	offerGetLastThreeUsedDeliveriesAction,
 	offerGetOffersByShopIDWithQueryParamsAction,
-	offerPostPinWithCallBackAction,
+	offerPostPinAction,
 	setEmptyUserLocalOffer,
 } from '../../../../../store/actions/offer/offerActions';
 import { getDefaultTheme } from '../../../../../utils/themes';
@@ -242,7 +241,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 
 	const togglePinHandler = (e: React.MouseEvent<HTMLImageElement, MouseEvent>, pk: number) => {
 		e.preventDefault();
-		const action = offerPostPinWithCallBackAction(pk);
+		const action = offerPostPinAction(pk);
 		dispatch({
 			...action,
 			onComplete: ({ error, cancelled, data }: OfferPinSagaCallBackType) => {

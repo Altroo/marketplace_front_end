@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Image from 'next/image';
 import Styles from '../../../../../styles/offers/create/overview.module.sass';
 import { Stack, ThemeProvider, ImageListItem, Box, Grid, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';
-// import { useRouter } from 'next/compat/router';
 import {
 	OfferGetRootProductInterface,
 	OfferGetRootProductResponseType,
 	OfferGetRootServiceInterface,
 	OfferGetRootServiceResponseType,
 	OfferProductPriceByType,
-	OfferSolderByType
-} from "../../../../../types/offer/offerTypes";
+	OfferSolderByType,
+	OfferSolderInterface,
+} from '../../../../../types/offer/offerTypes';
 import CreatorIlluSVG from '../../../../../public/assets/images/creator-illu.svg';
 import CreatorBgIlluSVG from '../../../../../public/assets/images/creator-bg-illu.svg';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
@@ -69,8 +69,9 @@ import {
 	offerPostPinAction,
 	offerPostSolderAction,
 	setOfferProductToEdit,
-	setOfferServiceToEdit, setSelectedOfferAction
-} from "../../../../../store/actions/offer/offerActions";
+	setOfferServiceToEdit,
+	setSelectedOfferAction,
+} from '../../../../../store/actions/offer/offerActions';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import CustomSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import TopBarSaveClose from '../../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
@@ -83,11 +84,14 @@ import ActionModals from '../../../../../components/htmlElements/modals/actionMo
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
 import {
 	ApiErrorResponseType,
-	SagaCallBackType
-} from "../../../../../types/_init/_initTypes";
+	OfferPinSagaCallBackType,
+	SagaCallBackType,
+} from '../../../../../types/_init/_initTypes';
 import ReadAdresse from '../../../../../components/groupedComponents/shop/get/shopInfoTabContent/readAdresse/readAdresse';
-import { getSelectedOffer } from "../../../../../store/selectors";
-import ApiProgress from "../../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
+import { getSelectedOffer } from '../../../../../store/selectors';
+import ApiProgress from '../../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
+import DropDownMenu from '../../../../../components/htmlElements/buttons/dropDownMenu/dropDownMenu';
+import EditIconSVG from '../../../../../public/assets/svgs/globalIcons/blue-pencil.svg';
 
 // const NoCommentsAvailableContent = () => {
 // 	return (
@@ -209,7 +213,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const [newSolderPourcentageValue, setNewSolderPourcentageValue] = useState<string>('0.00');
 	const [openSolderModal, setOpenSolderModal] = useState<boolean>(false);
 	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-	const [pinnedIconState, setPinnedIconState] = useState(EpinglerInactiveSVG);
+	const [pinnedIconState, setPinnedIconState] = useState(!pinned ? EpinglerInactiveSVG : EpinglerActiveSVG);
 
 	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
@@ -348,7 +352,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		setSelectedImage(src);
 	};
 
-	const getDate = (days: number) => {
+	const getDate = useCallback((days: number) => {
 		const startDate = new Date(Date.now());
 		const endDate = new Date(Date.now());
 		endDate.setDate(endDate.getDate() + days + 1);
@@ -357,65 +361,68 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		const endMonth = monthItemsList[endDate.getMonth()];
 		const endDay = dayItemsList[endDate.getDay()];
 		return `${startDay} ${startDate.getDate()} ${startMonth} - ${endDay} ${endDate.getDate()} ${endMonth}`;
-	};
+	}, []);
 
-	const setSolderPourcentageInput = (value: string) => {
-		if (typeof price === 'number') {
-			const newValue = price - (price * parseFloat(value)) / 100;
-			setNewSolderPourcentageValue(newValue.toString());
-		}
-		setSolderPourcentageForApi(value);
-		switch (value) {
-			case '5':
-				setFivePourcentSolder((prevState) => !prevState);
-				setTenPourcentSolder(false);
-				setTwentyPourcentSolder(false);
-				setThirtyPourcentSolder(false);
-				setFiftyPourcentSolder(false);
-				setSeventyPourcentSolder(false);
-				break;
-			case '10':
-				setTenPourcentSolder((prevState) => !prevState);
-				setFivePourcentSolder(false);
-				setTwentyPourcentSolder(false);
-				setThirtyPourcentSolder(false);
-				setFiftyPourcentSolder(false);
-				setSeventyPourcentSolder(false);
-				break;
-			case '20':
-				setTwentyPourcentSolder((prevState) => !prevState);
-				setFivePourcentSolder(false);
-				setTenPourcentSolder(false);
-				setThirtyPourcentSolder(false);
-				setFiftyPourcentSolder(false);
-				setSeventyPourcentSolder(false);
-				break;
-			case '30':
-				setThirtyPourcentSolder((prevState) => !prevState);
-				setFivePourcentSolder(false);
-				setTenPourcentSolder(false);
-				setTwentyPourcentSolder(false);
-				setFiftyPourcentSolder(false);
-				setSeventyPourcentSolder(false);
-				break;
-			case '50':
-				setFiftyPourcentSolder((prevState) => !prevState);
-				setFivePourcentSolder(false);
-				setTenPourcentSolder(false);
-				setTwentyPourcentSolder(false);
-				setThirtyPourcentSolder(false);
-				setSeventyPourcentSolder(false);
-				break;
-			case '70':
-				setSeventyPourcentSolder((prevState) => !prevState);
-				setFivePourcentSolder(false);
-				setTenPourcentSolder(false);
-				setTwentyPourcentSolder(false);
-				setThirtyPourcentSolder(false);
-				setFiftyPourcentSolder(false);
-				break;
-		}
-	};
+	const setSolderPourcentageInput = useCallback(
+		(value: string) => {
+			if (typeof price === 'number') {
+				const newValue = price - (price * parseFloat(value)) / 100;
+				setNewSolderPourcentageValue(newValue.toString());
+			}
+			setSolderPourcentageForApi(value);
+			switch (value) {
+				case '5':
+					setFivePourcentSolder((prevState) => !prevState);
+					setTenPourcentSolder(false);
+					setTwentyPourcentSolder(false);
+					setThirtyPourcentSolder(false);
+					setFiftyPourcentSolder(false);
+					setSeventyPourcentSolder(false);
+					break;
+				case '10':
+					setTenPourcentSolder((prevState) => !prevState);
+					setFivePourcentSolder(false);
+					setTwentyPourcentSolder(false);
+					setThirtyPourcentSolder(false);
+					setFiftyPourcentSolder(false);
+					setSeventyPourcentSolder(false);
+					break;
+				case '20':
+					setTwentyPourcentSolder((prevState) => !prevState);
+					setFivePourcentSolder(false);
+					setTenPourcentSolder(false);
+					setThirtyPourcentSolder(false);
+					setFiftyPourcentSolder(false);
+					setSeventyPourcentSolder(false);
+					break;
+				case '30':
+					setThirtyPourcentSolder((prevState) => !prevState);
+					setFivePourcentSolder(false);
+					setTenPourcentSolder(false);
+					setTwentyPourcentSolder(false);
+					setFiftyPourcentSolder(false);
+					setSeventyPourcentSolder(false);
+					break;
+				case '50':
+					setFiftyPourcentSolder((prevState) => !prevState);
+					setFivePourcentSolder(false);
+					setTenPourcentSolder(false);
+					setTwentyPourcentSolder(false);
+					setThirtyPourcentSolder(false);
+					setSeventyPourcentSolder(false);
+					break;
+				case '70':
+					setSeventyPourcentSolder((prevState) => !prevState);
+					setFivePourcentSolder(false);
+					setTenPourcentSolder(false);
+					setTwentyPourcentSolder(false);
+					setThirtyPourcentSolder(false);
+					setFiftyPourcentSolder(false);
+					break;
+			}
+		},
+		[price],
+	);
 
 	const editOfferHandler = useCallback(() => {
 		const pictures: ImageUploadingType = [];
@@ -563,16 +570,27 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		title,
 	]);
 
-	const togglePinOfferHandler = () => {
-		dispatch(offerPostPinAction(pk));
-		router.replace(router.asPath).then();
-	};
+	const togglePinOfferHandler = useCallback(() => {
+		const action = offerPostPinAction(pk);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: OfferPinSagaCallBackType) => {
+				if (!error && !cancelled && data) {
+					router
+						.replace(router.asPath, undefined, {
+							scroll: false,
+						})
+						.then();
+				}
+			},
+		});
+	}, [dispatch, pk, router]);
 
 	const showSolderOfferNav = () => {
 		setOpenSolderModal(true);
 	};
 
-	const deleteOfferHandler = () => {
+	const deleteOfferHandler = useCallback(() => {
 		const action = offerDeleteRootAction(pk);
 		dispatch({
 			...action,
@@ -584,26 +602,28 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		});
 		// dispatch(offerDeleteRootAction(pk, router));
 		setShowDeleteModal(false);
-	};
+	}, [dispatch, pk, router]);
 
-	const deleteModalActions = [
-		{
-			active: true,
-			text: 'Oui',
-			onClick: deleteOfferHandler,
-		},
-		{
-			active: false,
-			text: 'Non',
-			onClick: () => setShowDeleteModal(false),
-		},
-	];
+	const deleteModalActions = useMemo(() => {
+		return [
+			{
+				active: true,
+				text: 'Oui',
+				onClick: deleteOfferHandler,
+			},
+			{
+				active: false,
+				text: 'Non',
+				onClick: () => setShowDeleteModal(false),
+			},
+		];
+	}, [deleteOfferHandler]);
 
 	const showDeleteOfferModal = () => {
 		setShowDeleteModal(true);
 	};
 
-	const handleSaveSolder = () => {
+	const handleSaveSolder = useCallback(() => {
 		let valueToSend;
 		if (solderPourcentageForApi && solderByState === 'P') {
 			valueToSend = solderPourcentageForApi;
@@ -612,68 +632,96 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		}
 		if (!solder_value) {
 			// dispatch post
-			dispatch(offerPostSolderAction(pk, solderByState, parseFloat(valueToSend), router));
+			const action = offerPostSolderAction(pk, solderByState, parseFloat(valueToSend));
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackType<OfferSolderInterface>) => {
+					if (!error && !cancelled && data) {
+						router.replace(router.asPath).then(() => {
+							setOpenSolderModal(false);
+						});
+					}
+				},
+			});
 		} else {
 			// dispatch patch
-			dispatch(offerPatchSolderAction(pk, solderByState, parseFloat(valueToSend), router));
+			const action = offerPatchSolderAction(pk, solderByState, parseFloat(valueToSend));
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackType<OfferSolderInterface>) => {
+					if (!error && !cancelled && data) {
+						router.replace(router.asPath).then(() => {
+							setOpenSolderModal(false);
+						});
+					}
+				},
+			});
 		}
-		setOpenSolderModal(false);
-	};
+	}, [dispatch, newSolderValue, pk, router, solderByState, solderPourcentageForApi, solder_value]);
 
-	const deleteSolderHandler = () => {
+	const deleteSolderHandler = useCallback(() => {
 		// dispatch delete
-		dispatch(offerDeleteSolderAction(pk, router));
-		setOpenSolderModal(false);
-		setNewSolderValue('0.00');
-	};
+		const action = offerDeleteSolderAction(pk);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackType<boolean>) => {
+				if (!error && !cancelled && data) {
+					router.replace(router.asPath).then(() => {
+						setOpenSolderModal(false);
+						setNewSolderValue('0.00');
+					});
+				}
+			},
+		});
+	}, [dispatch, pk, router]);
 
 	const solderTabHandleChange = (event: React.SyntheticEvent, solderBy: OfferSolderByType) => {
 		setSolderByState(solderBy);
 	};
 
-	const dropDownActions: DropDownActionType = [
-		{
-			icon: EditBlackSVG,
-			text: 'Modifier',
-			onClick: editOfferHandler,
-		},
-		{
-			icon: pinnedIconState,
-			text: 'Épingler',
-			onClick: togglePinOfferHandler,
-		},
-		{
-			icon: solder_value !== null ? SolderEditActiveSVG : SolderEditInactiveSVG,
-			text: 'Solder',
-			onClick: showSolderOfferNav,
-		},
-		{
-			icon: SupprimerSVG,
-			text: 'Supprimer',
-			onClick: showDeleteOfferModal,
-		},
-	];
+	const dropDownActions: DropDownActionType = useMemo(() => {
+		return [
+			{
+				icon: EditBlackSVG,
+				text: 'Modifier',
+				onClick: editOfferHandler,
+			},
+			// {
+			// 	icon: pinned ? EpinglerActiveSVG : EpinglerInactiveSVG,
+			// 	text: 'Épingler',
+			// 	onClick: togglePinOfferHandler,
+			// },
+			// {
+			// 	icon: solder_value !== null ? SolderEditActiveSVG : SolderEditInactiveSVG,
+			// 	text: 'Solder',
+			// 	onClick: showSolderOfferNav,
+			// },
+			{
+				icon: SupprimerSVG,
+				text: 'Supprimer',
+				onClick: showDeleteOfferModal,
+			},
+		];
+	}, [editOfferHandler]);
 
 	const customTheme = OfferReadOnlyTheme();
 	const navigationTheme = doubleTabNavigationTheme();
+
 	return (
 		<ThemeProvider theme={customTheme}>
 			<Stack direction="column">
 				<UserMainNavigationBar />
 				<main className={Styles.main}>
 					{permission === 'OWNER' && (
-						<DesktopPublishEditNavbar
-							hideLeftButton
-							dropDownText="Modifier"
-							actions={dropDownActions}
-							onClick={() => {
-								// back to my shop page.
-								router.back();
-							}}
-							menuID="desktop-validate-menu"
-							buttonID="desktop-validate-menu-btn"
-							buttonTitle="Valider"
-						/>
+						<Stack direction="row" justifyContent="flex-end">
+							<DropDownMenu
+								dropDownText="Modifier"
+								dropDownIcon={EditIconSVG}
+								actions={dropDownActions}
+								menuID="desktop-validate-menu"
+								buttonID="desktop-validate-menu-btn"
+							/>
+						</Stack>
 					)}
 					<Box className={Styles.pageWrapper}>
 						<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
@@ -1227,7 +1275,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
-	
+
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
 	const [forWhomListString, setForWhomListString] = useState<Array<string>>([]);
 	const [newPrice, setNewPrice] = useState<number | null>(null);
@@ -1251,7 +1299,8 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	const [newSolderPourcentageValue, setNewSolderPourcentageValue] = useState<string>('0.00');
 	const [openSolderModal, setOpenSolderModal] = useState<boolean>(false);
 	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-	const [pinnedIconState, setPinnedIconState] = useState(EpinglerInactiveSVG);
+	// TODO - missing callbacks & memos (as in products)
+	const [pinnedIconState, setPinnedIconState] = useState(!pinned ? EpinglerInactiveSVG : EpinglerActiveSVG);
 
 	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
@@ -1276,8 +1325,6 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			availableImages.push(picture_4);
 		}
 		setAvailableImages(availableImages);
-
-
 		if (pinned) {
 			setPinnedIconState(EpinglerActiveSVG);
 		} else {
@@ -1497,8 +1544,19 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	};
 
 	const togglePinOfferHandler = () => {
-		dispatch(offerPostPinAction(pk));
-		router.replace(router.asPath).then();
+		const action = offerPostPinAction(pk);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: OfferPinSagaCallBackType) => {
+				if (!error && !cancelled && data) {
+					router
+						.replace(router.asPath, undefined, {
+							scroll: false,
+						})
+						.then();
+				}
+			},
+		});
 	};
 
 	const showSolderOfferNav = () => {
@@ -1544,19 +1602,47 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		}
 		if (!solder_value) {
 			// dispatch post
-			dispatch(offerPostSolderAction(pk, solderByState, parseFloat(valueToSend), router));
+			const action = offerPostSolderAction(pk, solderByState, parseFloat(valueToSend));
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackType<OfferSolderInterface>) => {
+					if (!error && !cancelled && data) {
+						router.replace(router.asPath).then(() => {
+							setOpenSolderModal(false);
+						});
+					}
+				},
+			});
 		} else {
 			// dispatch patch
-			dispatch(offerPatchSolderAction(pk, solderByState, parseFloat(valueToSend), router));
+			const action = offerPatchSolderAction(pk, solderByState, parseFloat(valueToSend));
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackType<OfferSolderInterface>) => {
+					if (!error && !cancelled && data) {
+						router.replace(router.asPath).then(() => {
+							setOpenSolderModal(false);
+						});
+					}
+				},
+			});
 		}
-		setOpenSolderModal(false);
 	};
 
 	const deleteSolderHandler = () => {
 		// dispatch delete
-		dispatch(offerDeleteSolderAction(pk, router));
-		setOpenSolderModal(false);
-		setNewSolderValue('0.00');
+		const action = offerDeleteSolderAction(pk);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackType<boolean>) => {
+				if (!error && !cancelled && data) {
+					router.replace(router.asPath).then(() => {
+						setOpenSolderModal(false);
+						setNewSolderValue('0.00');
+					});
+				}
+			},
+		});
 	};
 
 	const solderTabHandleChange = (event: React.SyntheticEvent, solderBy: OfferSolderByType) => {
@@ -1569,16 +1655,16 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			text: 'Modifier',
 			onClick: editOfferHandler,
 		},
-		{
-			icon: pinnedIconState,
-			text: 'Épingler',
-			onClick: togglePinOfferHandler,
-		},
-		{
-			icon: solder_value !== null ? SolderEditActiveSVG : SolderEditInactiveSVG,
-			text: 'Solder',
-			onClick: showSolderOfferNav,
-		},
+		// {
+		// 	icon: pinnedIconState,
+		// 	text: 'Épingler',
+		// 	onClick: togglePinOfferHandler,
+		// },
+		// {
+		// 	icon: solder_value !== null ? SolderEditActiveSVG : SolderEditInactiveSVG,
+		// 	text: 'Solder',
+		// 	onClick: showSolderOfferNav,
+		// },
 		{
 			icon: SupprimerSVG,
 			text: 'Supprimer',
@@ -1594,18 +1680,15 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 				<UserMainNavigationBar />
 				<main className={Styles.main}>
 					{permission === 'OWNER' && (
-						<DesktopPublishEditNavbar
-							hideLeftButton
-							dropDownText="Modifier"
-							actions={dropDownActions}
-							onClick={() => {
-								// back to my shop page.
-								router.back();
-							}}
-							menuID="desktop-validate-menu"
-							buttonID="desktop-validate-menu-btn"
-							buttonTitle="Valider"
-						/>
+						<Stack direction="row" justifyContent="flex-end">
+							<DropDownMenu
+								dropDownText="Modifier"
+								dropDownIcon={EditIconSVG}
+								actions={dropDownActions}
+								menuID="desktop-validate-menu"
+								buttonID="desktop-validate-menu-btn"
+							/>
+						</Stack>
 					)}
 					<Box className={Styles.pageWrapper}>
 						<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
@@ -2076,7 +2159,6 @@ const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 			/>
 		);
 	}
-
 };
 
 // export async function getStaticPaths() {
