@@ -1,7 +1,7 @@
 import * as Types from '../index';
 
 import {
-	OfferCategoriesType,
+	OfferCategoriesType, OfferGetRootProductInterface, OfferGetRootServiceInterface,
 	OfferOfferTypeType,
 	OfferProductPriceByType,
 	OfferServicePriceByType,
@@ -25,6 +25,13 @@ export const setOfferServiceCategories = (categories: OfferCategoriesType) => {
 		categories,
 	};
 };
+
+export const setSelectedOfferAction = (data: OfferGetRootProductInterface | OfferGetRootServiceInterface) => {
+	return {
+		type: Types.SET_SELECTED_OFFER,
+		data,
+	};
+}
 
 export const setOfferProductDescriptionPage = (
 	title: string,

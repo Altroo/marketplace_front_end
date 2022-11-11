@@ -4,7 +4,7 @@ import {
 	LocalOfferServiceDescriptionPageType,
 	OfferCategoriesType,
 	OfferGetMyOffersProductInterface,
-	OfferGetMyOffersServiceInterface,
+	OfferGetMyOffersServiceInterface, OfferGetRootProductInterface, OfferGetRootServiceInterface,
 	OfferPinType,
 	OfferProductInterface,
 	OfferProductLocalisation,
@@ -12,8 +12,8 @@ import {
 	OfferServiceLocalisation,
 	OfferSolderInterface,
 	OfferStateInterface,
-	OfferTagsType,
-} from '../../../types/offer/offerTypes';
+	OfferTagsType
+} from "../../../types/offer/offerTypes";
 import { ApiErrorResponseType, PaginationResponseType } from '../../../types/_init/_initTypes';
 import { apiErrorInitialState, paginationInitial } from '../_init/_initSlice';
 import { ShopZoneByType } from '../../../types/shop/shopTypes';
@@ -464,6 +464,9 @@ const OfferSlice = createSlice({
 				state.userOffersList.results.sort((a, b) => Number(b.pinned) - Number(a.pinned));
 			}
 		},
+		setSelectedOffer: (state, action: PayloadAction<{data: OfferGetRootProductInterface | OfferGetRootServiceInterface}>) => {
+			state.selectedOffer = action.payload.data;
+		},
 		initOffer: () => {
 			return initialState;
 		},
@@ -533,6 +536,7 @@ export const {
 	emptyLocalOfferDeliveries,
 	emptyUserLocalOffer,
 	setPinOffer,
+	setSelectedOffer,
 } = OfferSlice.actions;
 
 export default OfferSlice.reducer;

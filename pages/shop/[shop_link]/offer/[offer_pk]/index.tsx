@@ -4,14 +4,15 @@ import Image from 'next/image';
 import Styles from '../../../../../styles/offers/create/overview.module.sass';
 import { Stack, ThemeProvider, ImageListItem, Box, Grid, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';
+// import { useRouter } from 'next/compat/router';
 import {
 	OfferGetRootProductInterface,
 	OfferGetRootProductResponseType,
 	OfferGetRootServiceInterface,
 	OfferGetRootServiceResponseType,
 	OfferProductPriceByType,
-	OfferSolderByType,
-} from '../../../../../types/offer/offerTypes';
+	OfferSolderByType
+} from "../../../../../types/offer/offerTypes";
 import CreatorIlluSVG from '../../../../../public/assets/images/creator-illu.svg';
 import CreatorBgIlluSVG from '../../../../../public/assets/images/creator-bg-illu.svg';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
@@ -68,9 +69,9 @@ import {
 	offerPostPinAction,
 	offerPostSolderAction,
 	setOfferProductToEdit,
-	setOfferServiceToEdit,
-} from '../../../../../store/actions/offer/offerActions';
-import { useAppDispatch } from '../../../../../utils/hooks';
+	setOfferServiceToEdit, setSelectedOfferAction
+} from "../../../../../store/actions/offer/offerActions";
+import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import CustomSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import TopBarSaveClose from '../../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
 import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
@@ -80,8 +81,13 @@ import CurrencyInput from 'react-currency-input-field';
 import Button from '@mui/material/Button';
 import ActionModals from '../../../../../components/htmlElements/modals/actionModal/actionModals';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
-import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
+import {
+	ApiErrorResponseType,
+	SagaCallBackType
+} from "../../../../../types/_init/_initTypes";
 import ReadAdresse from '../../../../../components/groupedComponents/shop/get/shopInfoTabContent/readAdresse/readAdresse';
+import { getSelectedOffer } from "../../../../../store/selectors";
+import ApiProgress from "../../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 // const NoCommentsAvailableContent = () => {
 // 	return (
@@ -179,13 +185,13 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
 	const [colorsListString, setColorsListString] = useState<Array<string>>([]);
 	const [forWhomListString, setForWhomListString] = useState<Array<string>>([]);
 	const [sizesListString, setSizesListString] = useState<Array<string>>([]);
 	const [deliveriesListString, setDeliveriesListString] = useState<Array<deliveriesObj>>([]);
 	const [newPrice, setNewPrice] = useState<number | null>(null);
-
 	const customPourcentageInput = useRef<HTMLInputElement>(null);
 	const [customPourcentageState, setCustomPourcentageState] = useState<string>('');
 	const [solderByState, setSolderByState] = useState<OfferSolderByType>(solder_type ? solder_type : 'F');
@@ -207,16 +213,34 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 
 	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
+		// set images
 		if (picture_1) {
 			setSelectedImage(picture_1);
 		} else {
 			setSelectedImage(null);
 		}
+		const availableImages: Array<string> = [];
+		if (picture_1) {
+			availableImages.push(picture_1);
+			setSelectedImage(picture_1);
+		}
+		if (picture_2) {
+			availableImages.push(picture_2);
+		}
+		if (picture_3) {
+			availableImages.push(picture_3);
+		}
+		if (picture_4) {
+			availableImages.push(picture_4);
+		}
+		setAvailableImages(availableImages);
+
 		if (pinned) {
 			setPinnedIconState(EpinglerActiveSVG);
 		} else {
 			setPinnedIconState(EpinglerInactiveSVG);
 		}
+
 		// check solder values
 		if (
 			fivePourcentSolder ||
@@ -249,23 +273,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 			setNewSolderValue('0.00');
 			setIsSolderValid(false);
 		}
-		// empty selected offer to reduce state size
-		const availableImages: Array<string> = [];
-		if (picture_1) {
-			availableImages.push(picture_1);
-			setSelectedImage(picture_1);
-		}
-		if (picture_2) {
-			availableImages.push(picture_2);
-		}
-		if (picture_3) {
-			availableImages.push(picture_3);
-		}
-		if (picture_4) {
-			availableImages.push(picture_4);
-		}
-		// set images
-		setAvailableImages(availableImages);
 
 		let categoriesListString: Array<string> = [];
 		if (offer_categories) {
@@ -1220,6 +1227,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
+	
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
 	const [forWhomListString, setForWhomListString] = useState<Array<string>>([]);
 	const [newPrice, setNewPrice] = useState<number | null>(null);
@@ -1247,11 +1255,29 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 
 	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
+		// set images
 		if (picture_1) {
 			setSelectedImage(picture_1);
 		} else {
 			setSelectedImage(null);
 		}
+		const availableImages: Array<string> = [];
+		if (picture_1) {
+			availableImages.push(picture_1);
+			setSelectedImage(picture_1);
+		}
+		if (picture_2) {
+			availableImages.push(picture_2);
+		}
+		if (picture_3) {
+			availableImages.push(picture_3);
+		}
+		if (picture_4) {
+			availableImages.push(picture_4);
+		}
+		setAvailableImages(availableImages);
+
+
 		if (pinned) {
 			setPinnedIconState(EpinglerActiveSVG);
 		} else {
@@ -1289,23 +1315,6 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			setNewSolderValue('0.00');
 			setIsSolderValid(false);
 		}
-		// empty selected offer to reduce state size
-		const availableImages: Array<string> = [];
-		if (picture_1) {
-			availableImages.push(picture_1);
-			setSelectedImage(picture_1);
-		}
-		if (picture_2) {
-			availableImages.push(picture_2);
-		}
-		if (picture_3) {
-			availableImages.push(picture_3);
-		}
-		if (picture_4) {
-			availableImages.push(picture_4);
-		}
-		// set images
-		setAvailableImages(availableImages);
 
 		let categoriesListString: Array<string> = [];
 		if (offer_categories) {
@@ -2030,14 +2039,44 @@ type IndexPropsType = {
 };
 const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 	const { permission, data } = props.pageProps;
+	const dispatch = useAppDispatch();
+	const [actionDispatched, setActionDispatched] = useState<boolean>(false);
+	const selectedOffer = useAppSelector(getSelectedOffer);
 
-	if (data.offer_type === 'V') {
-		return <Product data={data as OfferGetRootProductInterface} permission={permission} />;
-	} else if (data.offer_type === 'S') {
-		return <Service data={data as OfferGetRootServiceInterface} permission={permission} />;
+	useEffect(() => {
+		if (!actionDispatched && data) {
+			const action = setSelectedOfferAction(data);
+			dispatch({
+				...action,
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: SagaCallBackType<OfferGetRootProductInterface | OfferGetRootServiceInterface>) => {
+					if (!error && !cancelled && data) {
+						setActionDispatched(true);
+					}
+				},
+			});
+		}
+	}, [actionDispatched, data, dispatch]);
+
+	if (selectedOffer !== null) {
+		if (selectedOffer.offer_type === 'V') {
+			return <Product data={selectedOffer as OfferGetRootProductInterface} permission={permission} />;
+		} else {
+			return <Service data={selectedOffer as OfferGetRootServiceInterface} permission={permission} />;
+		}
 	} else {
-		return <></>;
+		return (
+			<ApiProgress
+				cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+				backdropColor="#FFFFFF"
+				circularColor="#0D070B"
+			/>
+		);
 	}
+
 };
 
 // export async function getStaticPaths() {

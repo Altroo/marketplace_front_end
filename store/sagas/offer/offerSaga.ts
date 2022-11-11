@@ -27,7 +27,7 @@ import {
 	OfferGetShopAvailableFiltersResponseType,
 	OfferGetServicesDaysResponseType,
 	setOfferProductToEditPayloadType,
-	setOfferServiceToEditPayloadType
+	setOfferServiceToEditPayloadType, OfferGetRootProductInterface, OfferGetRootServiceInterface
 } from "../../../types/offer/offerTypes";
 import {
 	appendPostOfferState,
@@ -66,7 +66,10 @@ import {
 	setWSOfferThumbnail3,
 	setWSOfferThumbnail2,
 	setWSOfferThumbnail1,
-	setWSOfferPicture2, setWSOfferPicture3, setWSOfferPicture1
+	setSelectedOffer,
+	setWSOfferPicture2,
+	setWSOfferPicture3,
+	setWSOfferPicture1
 } from "../../slices/offer/offerSlice";
 import { NextRouter } from 'next/router';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
@@ -672,6 +675,11 @@ function* emptyOfferDeliveriesSaga(payload: { type: string; option: '1' | '2' | 
 	yield put(emptyLocalOfferDeliveries(payload.option));
 }
 
+function* setSelectedOfferSaga(payload: {type: string; data: OfferGetRootProductInterface | OfferGetRootServiceInterface}) {
+	yield put(setSelectedOffer({data: payload.data}));
+	return payload.data;
+}
+
 function* setOfferProductToEditSaga(payload: setOfferProductToEditPayloadType) {
 	// Set categories page
 	yield put(setLocalOfferProductToEditPk(payload.pk as number));
@@ -839,4 +847,5 @@ export function* watchOffer() {
 	yield takeLatest(Types.WS_OFFER_PICTURE_3_THUMB, wsOfferPicture3ThumbSaga);
 	yield takeLatest(Types.WS_OFFER_PICTURE_4, wsOfferPicture4Saga);
 	yield takeLatest(Types.WS_OFFER_PICTURE_4_THUMB, wsOfferPicture4ThumbSaga);
+	yield takeLatest(Types.SET_SELECTED_OFFER, withCallback(setSelectedOfferSaga as Saga));
 }

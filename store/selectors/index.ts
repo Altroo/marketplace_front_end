@@ -1,7 +1,11 @@
 import { RootState } from '../store';
 import { ShopFontNameType, ShopGetRootUniqueIDType } from "../../types/shop/shopTypes";
 import { IconColorType, InitStateUniqueID, TokenChoices } from "../../types/_init/_initTypes";
-import { OfferGetMyOffersProductServiceType, OfferTagsType } from "../../types/offer/offerTypes";
+import {
+	OfferGetMyOffersProductServiceType,
+	OfferGetRootProductInterface, OfferGetRootServiceInterface,
+	OfferTagsType
+} from "../../types/offer/offerTypes";
 import { CountriesType } from "../../types/places/placesTypes";
 
 // _Init
@@ -85,6 +89,7 @@ export const getCheckUserIsCreator = (state: RootState) => state.account.check_a
 // Offers
 export const getMyOffersList = (state: RootState) => state.offer.userOffersList.results as Array<OfferGetMyOffersProductServiceType>;
 export const getOfferTags = (state: RootState) => state.offer.selectedTags as OfferTagsType;
+export const getSelectedOffer = (state: RootState) => state.offer.selectedOffer as OfferGetRootProductInterface | OfferGetRootServiceInterface | null;
 // Local offers
 // Product
 export const getUserLocalOfferProductEditPK = (state: RootState) => state.offer.userLocalProduct?.pk;
