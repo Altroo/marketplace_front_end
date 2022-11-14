@@ -315,7 +315,6 @@ const Description: NextPage = () => {
 								handleChange,
 								values,
 								handleSubmit,
-								setFieldValue,
 								touched,
 								errors,
 								isSubmitting,
@@ -360,7 +359,6 @@ const Description: NextPage = () => {
 													images={images}
 													onChange={(e) => {
 														imagesOnChangeHandler(e);
-														setFieldValue('images', e);
 													}}
 													maxNumber={4}
 												/>

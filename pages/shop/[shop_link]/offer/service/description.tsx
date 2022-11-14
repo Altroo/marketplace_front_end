@@ -357,7 +357,6 @@ const Description: NextPage = () => {
 								handleChange,
 								values,
 								handleSubmit,
-								setFieldValue,
 								touched,
 								errors,
 								isSubmitting,
@@ -368,9 +367,6 @@ const Description: NextPage = () => {
 									justifyContent="space-between"
 									component={Form}
 									className={Styles.stackWrapper}
-									onKeyDown={(e) => {
-										if (e.code === 'enter') e.preventDefault();
-									}}
 								>
 									<Stack direction="column" spacing={{ xs: '40px', sm: '40px', md: '48px', lg: '48px', xl: '48px' }}>
 										<Stack direction="column" spacing="18px">
@@ -386,7 +382,7 @@ const Description: NextPage = () => {
 															<CustomTextInput
 																id="title"
 																label="Titre"
-																value={values.title ? values.title : ''}
+																value={values.title}
 																onChange={handleChange('title')}
 																onBlur={handleBlur('title')}
 																helperText={touched.title ? errors.title : ''}
@@ -405,7 +401,6 @@ const Description: NextPage = () => {
 													images={images}
 													onChange={(e) => {
 														imagesOnChangeHandler(e);
-														setFieldValue('images', e);
 													}}
 													maxNumber={4}
 												/>
@@ -415,7 +410,7 @@ const Description: NextPage = () => {
 														type="text"
 														id="description"
 														label="Description"
-														value={values.description ? values.description : ''}
+														value={values.description}
 														onChange={handleChange('description')}
 														onBlur={handleBlur('description')}
 														helperText={touched.description ? errors.description : ''}
