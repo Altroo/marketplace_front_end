@@ -38,7 +38,8 @@ export const fullMonthItemsList = [
 	'Décembre',
 ];
 export const dayItemsList = ['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'];
-export const forWhomItemsList = ['Tout le monde', 'Enfant', 'Femme', 'Homme'];
+// export const forWhomItemsList = ['Tout le monde', 'Enfant', 'Femme', 'Homme'];
+export const forWhomItemsList = ['Enfant', 'Femme', 'Homme'];
 export const genderItemsList: Array<AccountGenderCodeValueType> = [
 	{
 		code: 'M',
@@ -168,11 +169,11 @@ export const getForWhomDataArray = (forWhom: Array<OfferForWhomType>, excludeAll
 	const forWhomArray: Array<string> = [];
 	forWhom.map((forWho) => {
 		switch (forWho) {
-			case 'T':
-				if (!excludeAll) {
-					forWhomArray.push('Tout le monde');
-				}
-				break;
+			// case 'T':
+			// 	if (!excludeAll) {
+			// 		forWhomArray.push('Tout le monde');
+			// 	}
+			// 	break;
 			case 'E':
 				forWhomArray.push('Enfant');
 				break;
