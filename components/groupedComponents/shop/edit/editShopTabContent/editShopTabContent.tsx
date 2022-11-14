@@ -145,6 +145,9 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 							nextPage: getBackendNextPageNumber(data.next),
 							count: data.count,
 						};
+						if (!map.isEmpty()) {
+							setShowMobileFilterButton(true);
+						}
 						setOffersLinkedHashMap(result);
 						setIsLoadingNextPageInProgress(false);
 						if (isReset) {
@@ -337,7 +340,6 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 										.toArray()
 										.map((data) => {
 											if (data.value) {
-												setShowMobileFilterButton(true);
 												const { price, solder_type, solder_value } = data.value;
 												let newPrice = 0;
 												if (solder_type !== null && solder_value !== null) {
