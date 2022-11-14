@@ -158,6 +158,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 								}}
 								type="text"
 								placeholder="Rechercher"
+								disabled
 								className={Styles.searchInput}
 							/>
 						</Stack>
@@ -577,6 +578,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 							}}
 							type="text"
 							placeholder="Rechercher"
+							disabled
 							className={Styles.searchInput}
 						/>
 					</Stack>
