@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './description.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
@@ -32,7 +32,6 @@ import SizesRadioCheckContent from '../../../../../components/groupedComponents/
 import QuantityRadioCheckContent from '../../../../../components/groupedComponents/temp-offer/radioCheckElement/quantityRadioCheckContent/quantityRadioCheckContent';
 import { addOfferProductSchema } from '../../../../../utils/formValidationSchemas';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
-// import TagChips from '../../../../../components/groupedComponents/temp-offer/tagChips/tagChips';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import { setOfferProductDescriptionPage } from '../../../../../store/actions/offer/offerActions';
 import { useRouter } from 'next/router';
@@ -46,7 +45,6 @@ import {
 	getLocalOfferProductPictures,
 	getLocalOfferProductQuantity,
 	getLocalOfferProductSizes,
-	// getLocalOfferProductTags,
 	getLocalOfferProductTitle,
 } from '../../../../../store/selectors';
 import { forWhomItemsList, getForWhomDataArray } from '../../../../../utils/rawData';
@@ -58,6 +56,12 @@ import { AccountGetCheckAccountResponseType } from '../../../../../types/account
 import { getApi } from '../../../../../store/services/_init/_initAPI';
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 
+// themes
+const titleFieldTheme = coordonneeTextInputTheme();
+const titleTooltipTheme = offerTitleTooltipTheme();
+const descriptionFieldTheme = coordonneeTextInputTheme();
+const forWhomFieldTheme = offerForWhomDropdownTheme();
+
 const Description: NextPage = () => {
 	const activeStep = '2';
 	const dispatch = useAppDispatch();
@@ -66,11 +70,7 @@ const Description: NextPage = () => {
 	const [selectedColorsList, setselectedColorsList] = useState<Array<string>>([]);
 	const [offerTitle, setOfferTitle] = useState<string>('');
 	const [offerDescription, setOfferDescription] = useState<string>('');
-	const [typingTitle, setTypingTitle] = useState<boolean>(false);
-	const [typingDescription, setTypingDescription] = useState<boolean>(false);
 	const [pickingImages, setPickingImages] = useState<boolean>(false);
-	// const [pickingTags, setPickingTags] = useState<boolean>(false);
-	// const [offerTags, setOfferTags] = useState<Array<string>>([]);
 	const [images, setImages] = useState<ImageUploadingType>([]);
 	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	const [xsState, setXsState] = useState<boolean>(false);
@@ -79,14 +79,16 @@ const Description: NextPage = () => {
 	const [lState, setLState] = useState<boolean>(false);
 	const [xState, setXState] = useState<boolean>(false);
 	const [xlState, setXlState] = useState<boolean>(false);
-	const sizesStates = {
-		xsState,
-		sState,
-		mState,
-		lState,
-		xState,
-		xlState,
-	};
+	const sizesStates = useMemo(() => {
+		return {
+			xsState,
+			sState,
+			mState,
+			lState,
+			xState,
+			xlState,
+		};
+	}, [lState, mState, sState, xState, xlState, xsState]);
 	const setSizesStates = {
 		setXsState,
 		setSState,
@@ -105,17 +107,16 @@ const Description: NextPage = () => {
 	const pickedQuantity = useAppSelector(getLocalOfferProductQuantity);
 	const pickedMadeIn = useAppSelector(getLocalOfferProductMadeIn);
 	const pickedCreator = useAppSelector(getLocalOfferProductCreator);
-	// const pickedTags = useAppSelector(getLocalOfferProductTags);
 	const availableCountries = useAppSelector(getAvailableCountries);
 	// on change images
-	const imagesOnChangeHandler = (imageList: ImageUploadingType) => {
+
+	const imagesOnChangeHandler = useCallback((imageList: ImageUploadingType) => {
 		setImages(imageList);
-	};
+	}, []);
 
 	type submitDataType = {
 		title: string;
 		description: string;
-		// tags: Array<string>;
 	};
 	const [colorSwitchOpen, setColorSwitchOpen] = useState<boolean>(false);
 	const [labelsSwitchOpen, setLabelsSwitchOpen] = useState<boolean>(false);
@@ -140,18 +141,15 @@ const Description: NextPage = () => {
 			setMadeIn(pickedMadeIn);
 			setLabelsSwitchOpen(true);
 		}
-		if (pickedTitle && !typingTitle) {
+		if (pickedTitle) {
 			setOfferTitle(pickedTitle);
 		}
 		if (pickedPictures.length > 0 && !pickingImages) {
 			setImages(pickedPictures);
 		}
-		if (pickedDescription && !typingDescription) {
+		if (pickedDescription) {
 			setOfferDescription(pickedDescription);
 		}
-		// if (typeof pickedTags === 'string' && !pickingTags) {
-		// 	setOfferTags(pickedTags.split(','));
-		// }
 		if (typeof pickedForWhom === 'string') {
 			setForWhomChoice(getForWhomDataArray(pickedForWhom.split(',') as Array<OfferForWhomType>));
 		}
@@ -193,89 +191,89 @@ const Description: NextPage = () => {
 		}
 	}, [
 		availableCountries.length,
-		pickedQuantity,
+		dispatch,
 		pickedColorsList,
-		offerTitle,
+		pickedCreator,
 		pickedDescription,
 		pickedForWhom,
-		pickedPictures,
-		// pickedTags,
-		pickedTitle,
-		pickedSizesList,
-		typingTitle,
-		pickingImages,
-		typingDescription,
-		dispatch,
-		pickedCreator,
 		pickedMadeIn,
+		pickedPictures,
+		pickedQuantity,
+		pickedSizesList,
+		pickedTitle,
+		pickingImages,
 	]);
 
 	// submit handler
-	const addDescriptionSubmitHandler = (values: submitDataType) => {
-		const forWhomCodeArray: Array<string> = [];
-		if (forWhomChoice.length >= 1) {
-			forWhomChoice.map((forWhom) => {
-				forWhomCodeArray.push(forWhom[0]);
+	const addDescriptionSubmitHandler = useCallback(
+		(values: submitDataType) => {
+			const forWhomCodeArray: Array<string> = [];
+			if (forWhomChoice.length >= 1) {
+				forWhomChoice.map((forWhom) => {
+					forWhomCodeArray.push(forWhom[0]);
+				});
+			}
+			const forWhomStr = forWhomCodeArray.join(',');
+			const productColorsStr: string = selectedColorsList.join(',');
+			const productSizesArray: Array<string> = [];
+			const { xsState, sState, mState, lState, xState, xlState } = sizesStates;
+			if (xsState) {
+				productSizesArray.push('XS');
+			}
+			if (sState) {
+				productSizesArray.push('S');
+			}
+			if (mState) {
+				productSizesArray.push('M');
+			}
+			if (lState) {
+				productSizesArray.push('L');
+			}
+			if (xState) {
+				productSizesArray.push('X');
+			}
+			if (xlState) {
+				productSizesArray.push('XL');
+			}
+			const productSizesStr = productSizesArray.join(',');
+			const action = setOfferProductDescriptionPage(
+				values.title,
+				images,
+				values.description,
+				forWhomStr,
+				productColorsStr,
+				productSizesStr,
+				quantity,
+				madeIn,
+				togglePickedCreator,
+			);
+			dispatch({
+				...action,
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: {
+					error: ApiErrorResponseType;
+					cancelled: boolean;
+					data: boolean;
+				}) => {
+					if (!error && !cancelled && data) {
+						router.push(REAL_OFFER_ADD_PRODUCT_PRICE(router.query.shop_link as string)).then();
+					}
+				},
 			});
-		}
-		const forWhomStr = forWhomCodeArray.join(',');
-		const productColorsStr: string = selectedColorsList.join(',');
-		const productSizesArray: Array<string> = [];
-		const { xsState, sState, mState, lState, xState, xlState } = sizesStates;
-		if (xsState) {
-			productSizesArray.push('XS');
-		}
-		if (sState) {
-			productSizesArray.push('S');
-		}
-		if (mState) {
-			productSizesArray.push('M');
-		}
-		if (lState) {
-			productSizesArray.push('L');
-		}
-		if (xState) {
-			productSizesArray.push('X');
-		}
-		if (xlState) {
-			productSizesArray.push('XL');
-		}
-		const productSizesStr = productSizesArray.join(',');
-		const action = setOfferProductDescriptionPage(
-			values.title,
-			images,
-			values.description,
-			forWhomStr,
-			productColorsStr,
-			productSizesStr,
-			quantity,
-			madeIn,
-			togglePickedCreator,
-			// values.tags.join(','),
-		);
-		dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
-				if (!error && !cancelled && data) {
-					router.push(REAL_OFFER_ADD_PRODUCT_PRICE(router.query.shop_link as string)).then();
-				}
-			},
-		});
-	};
+		},
+		[dispatch, forWhomChoice, images, madeIn, quantity, router, selectedColorsList, sizesStates, togglePickedCreator],
+	);
 
 	// on change for whom
-	const forWhomHandleChange = (event: SelectChangeEvent<Array<string>>) => {
+	const forWhomHandleChange = useCallback((event: SelectChangeEvent<Array<string>>) => {
 		const {
 			target: { value },
 		} = event;
 		setForWhomChoice(typeof value === 'string' ? value.split(',') : value);
-	};
-
-	// themes
-	const titleFieldTheme = coordonneeTextInputTheme();
-	const titleTooltipTheme = offerTitleTooltipTheme();
-	const descriptionFieldTheme = coordonneeTextInputTheme();
-	const forWhomFieldTheme = offerForWhomDropdownTheme();
+	}, []);
 
 	return (
 		<>
@@ -307,7 +305,6 @@ const Description: NextPage = () => {
 								images: images,
 								description: offerDescription,
 								made_in: madeIn,
-								// tags: offerTags,
 							}}
 							validateOnMount={true}
 							onSubmit={(values) => {
@@ -331,9 +328,6 @@ const Description: NextPage = () => {
 									justifyContent="space-between"
 									component={Form}
 									className={Styles.stackWrapper}
-									onKeyDown={(e) => {
-										if (e.code === 'enter') e.preventDefault();
-									}}
 								>
 									<Stack direction="column" spacing="48px">
 										<Stack direction="column" spacing="18px">
@@ -349,12 +343,8 @@ const Description: NextPage = () => {
 															<CustomTextInput
 																id="title"
 																label="Titre"
-																value={values.title ? values.title : ''}
-																onChange={(e) => {
-																	setTypingTitle(true);
-																	handleChange('title')(e);
-																	setOfferTitle(e.target.value);
-																}}
+																value={values.title}
+																onChange={handleChange('title')}
 																onBlur={handleBlur('title')}
 																helperText={touched.title ? errors.title : ''}
 																error={touched.title && Boolean(errors.title)}
@@ -383,12 +373,8 @@ const Description: NextPage = () => {
 														type="text"
 														id="description"
 														label="Description"
-														value={values.description ? values.description : ''}
-														onChange={(e) => {
-															setTypingDescription(true);
-															handleChange('description')(e);
-															setOfferDescription(e.target.value);
-														}}
+														value={values.description}
+														onChange={handleChange('description')}
 														onBlur={handleBlur('description')}
 														helperText={touched.description ? errors.description : ''}
 														error={touched.description && Boolean(errors.description)}
@@ -462,10 +448,7 @@ const Description: NextPage = () => {
 									<div className={Styles.primaryButtonWrapper}>
 										<PrimaryButton
 											buttonText="Continuer"
-											active={
-												isValid && !isSubmitting
-												// && offerTags.length > 0
-											}
+											active={isValid && !isSubmitting}
 											onClick={handleSubmit}
 											type="submit"
 										/>

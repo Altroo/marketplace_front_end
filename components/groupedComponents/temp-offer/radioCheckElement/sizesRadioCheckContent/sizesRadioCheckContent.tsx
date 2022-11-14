@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback, useMemo } from 'react';
 import Styles from './sizesRadioCheckContent.module.sass';
-import { OfferChipTheme, SizesChipTheme } from "../../../../../utils/themes";
+import { SizesChipTheme } from "../../../../../utils/themes";
 import { ThemeProvider, Stack, Grid } from '@mui/material';
 import RadioCheckElement from '../radioCheckElement';
 import { OfferBulkStatesListType } from '../../../../../types/ui/uiTypes';
 import Chip from '@mui/material/Chip';
+
+const chipTheme = SizesChipTheme();
 
 type Props = {
 	switchOpen: boolean;
@@ -23,12 +25,10 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 		useRef<HTMLInputElement>(null),
 	];
 
-	const sizeOnClickHandler = (
-		setState: React.Dispatch<React.SetStateAction<boolean>>,
+	const sizeOnClickHandler = useCallback((setState: React.Dispatch<React.SetStateAction<boolean>>,
 		state: boolean,
 		ref: React.RefObject<HTMLInputElement>,
-		code: string,
-	) => {
+		code: string) => {
 		setState(state);
 		if (ref.current !== null) {
 			if (state) {
@@ -39,10 +39,11 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 				// dispatch state remove here
 			}
 		}
-	};
+	}, []);
 
-	const availableSizesList: Array<OfferBulkStatesListType> = [
-		{
+	const availableSizesList: Array<OfferBulkStatesListType> = useMemo(() => {
+		return [
+			{
 			code: 'XS',
 			value: 'XSmall',
 			state: props.sizesStates.xsState,
@@ -78,9 +79,9 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 			state: props.sizesStates.xlState,
 			setState: props.setSizesStates.setXlState,
 		},
-	];
+		]
+	}, [props.setSizesStates.setLState, props.setSizesStates.setMState, props.setSizesStates.setSState, props.setSizesStates.setXState, props.setSizesStates.setXlState, props.setSizesStates.setXsState, props.sizesStates.lState, props.sizesStates.mState, props.sizesStates.sState, props.sizesStates.xState, props.sizesStates.xlState, props.sizesStates.xsState]);
 
-	const chipTheme = SizesChipTheme();
 	return (
 		<RadioCheckElement title="Tailles" defaultValue={props.switchOpen}>
 			<Stack

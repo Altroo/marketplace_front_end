@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import Styles from './leftSideBar.module.sass';
 import LogoSVG from '../../../../public/assets/svgs/globalIcons/logo.svg';
 import RightArrowSVG from '../../../../public/assets/svgs/navigationIcons/right-arrow-long.svg';
@@ -20,6 +20,7 @@ type SideBarProps = {
 };
 const SideBarElem: React.FC<SideBarProps> = (props: SideBarProps) => {
 	const element = props.element;
+
 	return (
 		<>
 			<div className={Styles.sideBarItemWrapper}>
@@ -60,27 +61,29 @@ type Props = {
 };
 
 const LeftSideBar: React.FC<Props> = (props: Props) => {
-	let elements: Array<string>;
+	const elements = useMemo(() => {
+		if (props.which === 'SHOP') {
+			return ['Nom de boutique', 'Image', 'Couleur', 'Police'];
+		}else if (props.which === 'PRODUCT') {
+			return ['Catégories', 'Description', 'Prix', 'Livraison'];
+		} else {
+			return ['Catégories', 'Description', 'Prix'];
+		}
+	}, [props.which]);
 
-	if (props.which === 'SHOP') {
-		elements = ['Nom de boutique', 'Image', 'Couleur', 'Police'];
-	}else if (props.which === 'PRODUCT') {
-		elements = ['Catégories', 'Description', 'Prix', 'Livraison'];
-	} else {
-		elements = ['Catégories', 'Description', 'Prix'];
-	}
-
-	let newIconArray: Array<string> = [];
-
-	if (props.step === '1') {
-		newIconArray = [StepOneSVG, StepTwoSVG, StepThreeSVG, StepFourSVG];
-	} else if (props.step === '2') {
-		newIconArray = [StepActiveSVG, StepTwoBlackSVG, StepThreeSVG, StepFourSVG];
-	} else if (props.step === '3') {
-		newIconArray = [StepActiveSVG, StepActiveSVG, StepThreeBlackSVG, StepFourSVG];
-	} else if (props.step === '4') {
-		newIconArray = [StepActiveSVG, StepActiveSVG, StepActiveSVG, StepFourBlackSVG];
-	}
+	const newIconArray = useMemo(() => {
+			if (props.step === '1') {
+			return [StepOneSVG, StepTwoSVG, StepThreeSVG, StepFourSVG];
+		} else if (props.step === '2') {
+			return [StepActiveSVG, StepTwoBlackSVG, StepThreeSVG, StepFourSVG];
+		} else if (props.step === '3') {
+			return [StepActiveSVG, StepActiveSVG, StepThreeBlackSVG, StepFourSVG];
+		} else if (props.step === '4') {
+			return [StepActiveSVG, StepActiveSVG, StepActiveSVG, StepFourBlackSVG];
+		} else {
+				return []
+			}
+	}, [props.step]);
 
 	return (
 		<aside className={Styles.sideBar}>

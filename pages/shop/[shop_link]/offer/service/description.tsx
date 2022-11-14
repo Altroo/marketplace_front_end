@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './description.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
@@ -46,7 +46,7 @@ import {
 	getLocalOfferServiceTitle,
 	getLocalOfferServiceZoneBy,
 } from '../../../../../store/selectors';
-import { constructDate, forWhomItemsList, getForWhomDataArray } from "../../../../../utils/rawData";
+import { constructDate, forWhomItemsList, getForWhomDataArray } from '../../../../../utils/rawData';
 import { OfferForWhomType } from '../../../../../types/offer/offerTypes';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
@@ -62,6 +62,12 @@ import ServiceMiniMap from '../../../../../components/groupedComponents/temp-off
 import CustomTimeInput from '../../../../../components/formikElements/customTimeInput/customTimeInput';
 import dayjs, { Dayjs } from 'dayjs';
 
+// themes
+const titleFieldTheme = coordonneeTextInputTheme();
+const titleTooltipTheme = offerTitleTooltipTheme();
+const descriptionFieldTheme = coordonneeTextInputTheme();
+const forWhomFieldTheme = offerForWhomDropdownTheme();
+
 const Description: NextPage = () => {
 	const activeStep = '2';
 	const dispatch = useAppDispatch();
@@ -69,8 +75,6 @@ const Description: NextPage = () => {
 	const [titleTooltip, setTitleTooltip] = useState<boolean>(false);
 	const [offerTitle, setOfferTitle] = useState<string>('');
 	const [offerDescription, setOfferDescription] = useState<string>('');
-	const [typingTitle, setTypingTitle] = useState<boolean>(false);
-	const [typingDescription, setTypingDescription] = useState<boolean>(false);
 	const [pickingImages, setPickingImages] = useState<boolean>(false);
 	// const [pickingTags, setPickingTags] = useState<boolean>(false);
 	// const [offerTags, setOfferTags] = useState<Array<string>>([]);
@@ -94,9 +98,9 @@ const Description: NextPage = () => {
 	const zone_by = useAppSelector(getLocalOfferServiceZoneBy);
 	const km_radius = useAppSelector(getLocalOfferServiceKmRadius);
 
-	const imagesOnChangeHandler = (imageList: ImageUploadingType) => {
+	const imagesOnChangeHandler = useCallback((imageList: ImageUploadingType) => {
 		setImages(imageList);
-	};
+	}, []);
 
 	type submitDataType = {
 		title: string;
@@ -122,30 +126,31 @@ const Description: NextPage = () => {
 	const [frState, setFrState] = useState<boolean>(false);
 	const [saState, setSaState] = useState<boolean>(false);
 	const [suState, setSuState] = useState<boolean>(false);
-	const selectedDisponibilities = {
-		alState,
-		moState,
-		tuState,
-		weState,
-		thState,
-		frState,
-		saState,
-		suState,
-	};
-	const setSelectedDisponibilities = {
-		setAlState,
-		setMoState,
-		setTuState,
-		setWeState,
-		setThState,
-		setFrState,
-		setSaState,
-		setSuState,
-	};
-	/*
-	selectedDisponibilitiesList={selectedDisponibilitiesList}
-	setselectedDisponibilitiesList={setSelectedDisponibilitiesList}
-	 */
+	const selectedDisponibilities = useMemo(() => {
+		return {
+			alState,
+			moState,
+			tuState,
+			weState,
+			thState,
+			frState,
+			saState,
+			suState,
+		};
+	}, [alState, frState, moState, saState, suState, thState, tuState, weState]);
+
+	const setSelectedDisponibilities = useMemo(() => {
+		return {
+			setAlState,
+			setMoState,
+			setTuState,
+			setWeState,
+			setThState,
+			setFrState,
+			setSaState,
+			setSuState,
+		};
+	}, []);
 
 	useEffect(() => {
 		if (morningHourFrom) {
@@ -161,18 +166,15 @@ const Description: NextPage = () => {
 			setAfternoonHourToState(dayjs(new Date(constructDate(afternoonHourTo))));
 		}
 
-		if (pickedTitle && !typingTitle) {
+		if (pickedTitle) {
 			setOfferTitle(pickedTitle);
 		}
 		if (pickedPictures.length > 0 && !pickingImages) {
 			setImages(pickedPictures);
 		}
-		if (pickedDescription && !typingDescription) {
+		if (pickedDescription) {
 			setOfferDescription(pickedDescription);
 		}
-		// if (typeof pickedTags === 'string' && !pickingTags) {
-		// 	setOfferTags(pickedTags.split(','));
-		// }
 		if (typeof pickedForWhom === 'string') {
 			setForWhomChoice(getForWhomDataArray(pickedForWhom.split(',') as Array<OfferForWhomType>));
 		}
@@ -184,70 +186,71 @@ const Description: NextPage = () => {
 		pickedDescription,
 		pickedForWhom,
 		pickedPictures,
-		// pickedTags,
 		pickedTitle,
 		pickingImages,
-		// pickingTags,
-		typingDescription,
-		typingTitle,
 	]);
 
 	// submit handler
-	const addDescriptionSubmitHandler = (values: submitDataType) => {
-		const forWhomCodeArray: Array<string> = [];
-		if (forWhomChoice.length >= 1) {
-			forWhomChoice.map((forWhom) => {
-				forWhomCodeArray.push(forWhom[0]);
+	const addDescriptionSubmitHandler = useCallback(
+		(values: submitDataType) => {
+			const forWhomCodeArray: Array<string> = [];
+			if (forWhomChoice.length >= 1) {
+				forWhomChoice.map((forWhom) => {
+					forWhomCodeArray.push(forWhom[0]);
+				});
+			}
+			const forWhomStr = forWhomCodeArray.join(',');
+			const service_morning_hour_from = values.service_morning_hour_from
+				? values.service_morning_hour_from.format('HH:mm')
+				: null;
+			const service_morning_hour_to = values.service_morning_hour_to
+				? values.service_morning_hour_to.format('HH:mm')
+				: null;
+			const service_afternoon_hour_from = values.service_afternoon_hour_from
+				? values.service_afternoon_hour_from.format('HH:mm')
+				: null;
+			const service_afternoon_hour_to = values.service_afternoon_hour_to
+				? values.service_afternoon_hour_to.format('HH:mm')
+				: null;
+			const action = setOfferServiceDescriptionPage(
+				values.title,
+				images,
+				values.description,
+				forWhomStr,
+				values.service_availability_days,
+				service_morning_hour_from,
+				service_morning_hour_to,
+				service_afternoon_hour_from,
+				service_afternoon_hour_to,
+				// values.tags.join(','),
+			);
+			dispatch({
+				...action,
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: {
+					error: ApiErrorResponseType;
+					cancelled: boolean;
+					data: boolean;
+				}) => {
+					if (!error && !cancelled && data) {
+						router.push(REAL_OFFER_ADD_SERVICE_PRICE(router.query.shop_link as string)).then();
+					}
+				},
 			});
-		}
-		const forWhomStr = forWhomCodeArray.join(',');
-		const service_morning_hour_from = values.service_morning_hour_from
-			? values.service_morning_hour_from.format('HH:mm')
-			: null;
-		const service_morning_hour_to = values.service_morning_hour_to
-			? values.service_morning_hour_to.format('HH:mm')
-			: null;
-		const service_afternoon_hour_from = values.service_afternoon_hour_from
-			? values.service_afternoon_hour_from.format('HH:mm')
-			: null;
-		const service_afternoon_hour_to = values.service_afternoon_hour_to
-			? values.service_afternoon_hour_to.format('HH:mm')
-			: null;
-		const action = setOfferServiceDescriptionPage(
-			values.title,
-			images,
-			values.description,
-			forWhomStr,
-			values.service_availability_days,
-			service_morning_hour_from,
-			service_morning_hour_to,
-			service_afternoon_hour_from,
-			service_afternoon_hour_to,
-			// values.tags.join(','),
-		);
-		dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: { error: ApiErrorResponseType; cancelled: boolean; data: boolean }) => {
-				if (!error && !cancelled && data) {
-					router.push(REAL_OFFER_ADD_SERVICE_PRICE(router.query.shop_link as string)).then();
-				}
-			},
-		});
-	};
+		},
+		[dispatch, forWhomChoice, images, router],
+	);
 
 	// on change for whom
-	const forWhomHandleChange = (event: SelectChangeEvent<Array<string>>) => {
+	const forWhomHandleChange = useCallback((event: SelectChangeEvent<Array<string>>) => {
 		const {
 			target: { value },
 		} = event;
 		setForWhomChoice(typeof value === 'string' ? value.split(',') : value);
-	};
-
-	// themes
-	const titleFieldTheme = coordonneeTextInputTheme();
-	const titleTooltipTheme = offerTitleTooltipTheme();
-	const descriptionFieldTheme = coordonneeTextInputTheme();
-	const forWhomFieldTheme = offerForWhomDropdownTheme();
+	}, []);
 
 	return (
 		<>
@@ -332,7 +335,7 @@ const Description: NextPage = () => {
 									addDescriptionSubmitHandler({
 										title: values.title,
 										description: values.description,
-										service_availability_days: availabilityDaysString, // 2022-11-11T16:30:00.452Z
+										service_availability_days: availabilityDaysString,
 										service_morning_hour_from: values.service_morning_hour_from
 											? dayjs(new Date(values.service_morning_hour_from.toString()))
 											: null,
@@ -386,11 +389,7 @@ const Description: NextPage = () => {
 																id="title"
 																label="Titre"
 																value={values.title ? values.title : ''}
-																onChange={(e) => {
-																	setTypingTitle(true);
-																	handleChange('title')(e);
-																	setOfferTitle(e.target.value);
-																}}
+																onChange={handleChange('title')}
 																onBlur={handleBlur('title')}
 																helperText={touched.title ? errors.title : ''}
 																error={touched.title && Boolean(errors.title)}
@@ -420,11 +419,7 @@ const Description: NextPage = () => {
 														id="description"
 														label="Description"
 														value={values.description ? values.description : ''}
-														onChange={(e) => {
-															setTypingDescription(true);
-															handleChange('description')(e);
-															setOfferDescription(e.target.value);
-														}}
+														onChange={handleChange('description')}
 														onBlur={handleBlur('description')}
 														helperText={touched.description ? errors.description : ''}
 														error={touched.description && Boolean(errors.description)}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import Styles from './colorsRadioCheckContent.module.sass';
 import { Stack, Button, ThemeProvider, Grid, Box } from '@mui/material';
 import { OfferColorsListType } from '../../../../../types/ui/uiTypes';
@@ -75,25 +75,25 @@ export const availableColorsList: Array<OfferColorsListType> = [
 			hex: '#E12D3D',
 		},
 	];
+const defaultTheme = getDefaultTheme();
 
 const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
-
-	const colorOnClickHandler = (color: string) => {
-		if (!props.selectedColorsList.includes(color)) {
-			props.setselectedColorsList((prevState) => {
+	const {selectedColorsList, setselectedColorsList} = props;
+	const colorOnClickHandler = useCallback((color: string) => {
+		if (!selectedColorsList.includes(color)) {
+			setselectedColorsList((prevState) => {
 				return [...prevState, color];
 			});
 		} else {
-			const colorsList = [...props.selectedColorsList];
-			const index = props.selectedColorsList.indexOf(color);
+			const colorsList = [...selectedColorsList];
+			const index = selectedColorsList.indexOf(color);
 			if (index > -1) {
 				colorsList.splice(index, 1);
-				props.setselectedColorsList(colorsList);
+				setselectedColorsList(colorsList);
 			}
 		}
-	};
+	}, [selectedColorsList, setselectedColorsList]);
 
-	const defaultTheme = getDefaultTheme();
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
@@ -106,7 +106,7 @@ const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
 								<Stack direction="column" key={index} alignItems="center">
 									<Box
 										className={`${Styles.colorWrapper} ${
-											props.selectedColorsList.includes(color.code) ? Styles.colorActive : ''
+											selectedColorsList.includes(color.code) ? Styles.colorActive : ''
 										}`}>
 										<Button
 											className={Styles.colorButton}
