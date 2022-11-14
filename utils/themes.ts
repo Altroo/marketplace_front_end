@@ -890,7 +890,8 @@ export const customMobileImageModalTheme = (primaryColor: string | undefined = u
 						},
 					},
 					container: {
-						width: '100%',
+						width: 'calc(100% - 30px)',
+						height: 'fit-content !important',
 					},
 				},
 			},
