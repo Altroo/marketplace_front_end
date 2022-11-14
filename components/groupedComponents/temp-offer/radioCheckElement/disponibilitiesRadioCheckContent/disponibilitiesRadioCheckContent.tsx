@@ -1,20 +1,21 @@
-import React, { useRef, useEffect, useCallback } from "react";
-import Styles from "./disponibilitiesRadioCheckContent.module.sass";
-import { OfferBulkStatesListType } from "../../../../../types/ui/uiTypes";
-import { SizesChipTheme } from "../../../../../utils/themes";
-import RadioCheckElement from "../radioCheckElement";
-import { Grid, Stack, ThemeProvider } from "@mui/material";
-import Chip from "@mui/material/Chip";
-import { useAppSelector } from "../../../../../utils/hooks";
-import { getLocalOfferServiceAvailabilityDays } from "../../../../../store/selectors";
+import React, { useRef, useEffect, useCallback, useMemo } from 'react';
+import Styles from './disponibilitiesRadioCheckContent.module.sass';
+import { OfferBulkStatesListType } from '../../../../../types/ui/uiTypes';
+import { SizesChipTheme } from '../../../../../utils/themes';
+import RadioCheckElement from '../radioCheckElement';
+import { Grid, Stack, ThemeProvider } from '@mui/material';
+import Chip from '@mui/material/Chip';
+import { useAppSelector } from '../../../../../utils/hooks';
+import { getLocalOfferServiceAvailabilityDays } from '../../../../../store/selectors';
 
 type Props = {
 	selectedDisponibilities: Record<string, boolean>;
 	setSelectedDisponibilities: Record<string, React.Dispatch<React.SetStateAction<boolean>>>;
 	switchOpen: boolean;
 	children?: React.ReactNode;
-}
+};
 
+const chipTheme = SizesChipTheme();
 const DisponibilitiesRadioCheckContent: React.FC<Props> = (props: Props) => {
 	const availabilityDays = useAppSelector(getLocalOfferServiceAvailabilityDays);
 	const alRef = useRef<HTMLInputElement>(null);
@@ -26,43 +27,41 @@ const DisponibilitiesRadioCheckContent: React.FC<Props> = (props: Props) => {
 	const saRef = useRef<HTMLInputElement>(null);
 	const suRef = useRef<HTMLInputElement>(null);
 
-	const disponibilitiesRef = [
-		alRef,
-		moRef,
-		tuRef,
-		weRef,
-		thRef,
-		frRef,
-		saRef,
-		suRef
-	]
+	const disponibilitiesRef = useMemo(() => {
+		return [alRef, moRef, tuRef, weRef, thRef, frRef, saRef, suRef];
+	}, []);
 
-	const disponibilitiesOnClickHandler = useCallback((setState: React.Dispatch<React.SetStateAction<boolean>>,
-		state: boolean,
-		ref: React.RefObject<HTMLInputElement>,
-		code: string) => {
-		if (code === 'AL') {
-			setState(state);
-			props.setSelectedDisponibilities.setMoState(state);
-			props.setSelectedDisponibilities.setTuState(state);
-			props.setSelectedDisponibilities.setWeState(state);
-			props.setSelectedDisponibilities.setThState(state);
-			props.setSelectedDisponibilities.setFrState(state);
-			props.setSelectedDisponibilities.setSaState(state);
-			props.setSelectedDisponibilities.setSuState(state);
-		} else {
-			setState(state);
-		}
-		if (ref.current !== null) {
-			if (state) {
-				ref.current.value = code;
-				// dispatch state add here
+	const disponibilitiesOnClickHandler = useCallback(
+		(
+			setState: React.Dispatch<React.SetStateAction<boolean>>,
+			state: boolean,
+			ref: React.RefObject<HTMLInputElement>,
+			code: string,
+		) => {
+			if (code === 'AL') {
+				setState(state);
+				props.setSelectedDisponibilities.setMoState(state);
+				props.setSelectedDisponibilities.setTuState(state);
+				props.setSelectedDisponibilities.setWeState(state);
+				props.setSelectedDisponibilities.setThState(state);
+				props.setSelectedDisponibilities.setFrState(state);
+				props.setSelectedDisponibilities.setSaState(state);
+				props.setSelectedDisponibilities.setSuState(state);
 			} else {
-				ref.current.value = '';
-				// dispatch state remove here
+				setState(state);
 			}
-		}
-	}, [props.setSelectedDisponibilities]);
+			if (ref.current !== null) {
+				if (state) {
+					ref.current.value = code;
+					// dispatch state add here
+				} else {
+					ref.current.value = '';
+					// dispatch state remove here
+				}
+			}
+		},
+		[props.setSelectedDisponibilities],
+	);
 
 	useEffect(() => {
 		if (availabilityDays) {
@@ -104,57 +103,75 @@ const DisponibilitiesRadioCheckContent: React.FC<Props> = (props: Props) => {
 		}
 	}, [availabilityDays, disponibilitiesOnClickHandler, props.setSelectedDisponibilities]);
 
-	const availableDisponibilitiesList: Array<OfferBulkStatesListType> = [
-		{
-			code: 'AL',
-			value: 'Tous les jours',
-			state: props.selectedDisponibilities.alState,
-			setState: props.setSelectedDisponibilities.setAlState,
-		},
-		{
-			code: 'MO',
-			value: 'Lundi',
-			state: props.selectedDisponibilities.moState,
-			setState: props.setSelectedDisponibilities.setMoState,
-		},
-		{
-			code: 'TU',
-			value: 'Mardi',
-			state: props.selectedDisponibilities.tuState,
-			setState: props.setSelectedDisponibilities.setTuState,
-		},
-		{
-			code: 'WE',
-			value: 'Mercredi',
-			state: props.selectedDisponibilities.weState,
-			setState: props.setSelectedDisponibilities.setWeState,
-		},
-		{
-			code: 'TH',
-			value: 'Jeudi',
-			state: props.selectedDisponibilities.thState,
-			setState: props.setSelectedDisponibilities.setThState,
-		},
-		{
-			code: 'FR',
-			value: 'Vendredi',
-			state: props.selectedDisponibilities.frState,
-			setState: props.setSelectedDisponibilities.setFrState,
-		},
-		{
-			code: 'SA',
-			value: 'Samedi',
-			state: props.selectedDisponibilities.saState,
-			setState: props.setSelectedDisponibilities.setSaState,
-		},
-		{
-			code: 'SU',
-			value: 'Dimanche',
-			state: props.selectedDisponibilities.suState,
-			setState: props.setSelectedDisponibilities.setSuState,
-		},
-	];
-	const chipTheme = SizesChipTheme();
+	const availableDisponibilitiesList: Array<OfferBulkStatesListType> = useMemo(() => {
+		return [
+			{
+				code: 'AL',
+				value: 'Tous les jours',
+				state: props.selectedDisponibilities.alState,
+				setState: props.setSelectedDisponibilities.setAlState,
+			},
+			{
+				code: 'MO',
+				value: 'Lundi',
+				state: props.selectedDisponibilities.moState,
+				setState: props.setSelectedDisponibilities.setMoState,
+			},
+			{
+				code: 'TU',
+				value: 'Mardi',
+				state: props.selectedDisponibilities.tuState,
+				setState: props.setSelectedDisponibilities.setTuState,
+			},
+			{
+				code: 'WE',
+				value: 'Mercredi',
+				state: props.selectedDisponibilities.weState,
+				setState: props.setSelectedDisponibilities.setWeState,
+			},
+			{
+				code: 'TH',
+				value: 'Jeudi',
+				state: props.selectedDisponibilities.thState,
+				setState: props.setSelectedDisponibilities.setThState,
+			},
+			{
+				code: 'FR',
+				value: 'Vendredi',
+				state: props.selectedDisponibilities.frState,
+				setState: props.setSelectedDisponibilities.setFrState,
+			},
+			{
+				code: 'SA',
+				value: 'Samedi',
+				state: props.selectedDisponibilities.saState,
+				setState: props.setSelectedDisponibilities.setSaState,
+			},
+			{
+				code: 'SU',
+				value: 'Dimanche',
+				state: props.selectedDisponibilities.suState,
+				setState: props.setSelectedDisponibilities.setSuState,
+			},
+		];
+	}, [
+		props.selectedDisponibilities.alState,
+		props.selectedDisponibilities.frState,
+		props.selectedDisponibilities.moState,
+		props.selectedDisponibilities.saState,
+		props.selectedDisponibilities.suState,
+		props.selectedDisponibilities.thState,
+		props.selectedDisponibilities.tuState,
+		props.selectedDisponibilities.weState,
+		props.setSelectedDisponibilities.setAlState,
+		props.setSelectedDisponibilities.setFrState,
+		props.setSelectedDisponibilities.setMoState,
+		props.setSelectedDisponibilities.setSaState,
+		props.setSelectedDisponibilities.setSuState,
+		props.setSelectedDisponibilities.setThState,
+		props.setSelectedDisponibilities.setTuState,
+		props.setSelectedDisponibilities.setWeState,
+	]);
 
 	return (
 		<RadioCheckElement title="Disponibilités" defaultValue={props.switchOpen}>
@@ -177,8 +194,7 @@ const DisponibilitiesRadioCheckContent: React.FC<Props> = (props: Props) => {
 										onClick={(e) => {
 											e.preventDefault();
 											disponibilitiesOnClickHandler(day.setState, !day.state, disponibilitiesRef[index], day.code);
-											}
-										}
+										}}
 									/>
 									<input
 										type="hidden"

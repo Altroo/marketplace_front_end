@@ -70,7 +70,6 @@ const Description: NextPage = () => {
 	const [selectedColorsList, setselectedColorsList] = useState<Array<string>>([]);
 	const [offerTitle, setOfferTitle] = useState<string>('');
 	const [offerDescription, setOfferDescription] = useState<string>('');
-	const [pickingImages, setPickingImages] = useState<boolean>(false);
 	const [images, setImages] = useState<ImageUploadingType>([]);
 	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	const [xsState, setXsState] = useState<boolean>(false);
@@ -144,7 +143,7 @@ const Description: NextPage = () => {
 		if (pickedTitle) {
 			setOfferTitle(pickedTitle);
 		}
-		if (pickedPictures.length > 0 && !pickingImages) {
+		if (pickedPictures.length > 0) {
 			setImages(pickedPictures);
 		}
 		if (pickedDescription) {
@@ -201,7 +200,6 @@ const Description: NextPage = () => {
 		pickedQuantity,
 		pickedSizesList,
 		pickedTitle,
-		pickingImages,
 	]);
 
 	// submit handler
@@ -361,7 +359,6 @@ const Description: NextPage = () => {
 												<CustomSquareImageUploading
 													images={images}
 													onChange={(e) => {
-														setPickingImages(true);
 														imagesOnChangeHandler(e);
 														setFieldValue('images', e);
 													}}

@@ -75,7 +75,6 @@ const Description: NextPage = () => {
 	const [titleTooltip, setTitleTooltip] = useState<boolean>(false);
 	const [offerTitle, setOfferTitle] = useState<string>('');
 	const [offerDescription, setOfferDescription] = useState<string>('');
-	const [pickingImages, setPickingImages] = useState<boolean>(false);
 	// const [pickingTags, setPickingTags] = useState<boolean>(false);
 	// const [offerTags, setOfferTags] = useState<Array<string>>([]);
 	const [images, setImages] = useState<ImageUploadingType>([]);
@@ -169,7 +168,7 @@ const Description: NextPage = () => {
 		if (pickedTitle) {
 			setOfferTitle(pickedTitle);
 		}
-		if (pickedPictures.length > 0 && !pickingImages) {
+		if (pickedPictures.length > 0) {
 			setImages(pickedPictures);
 		}
 		if (pickedDescription) {
@@ -187,7 +186,6 @@ const Description: NextPage = () => {
 		pickedForWhom,
 		pickedPictures,
 		pickedTitle,
-		pickingImages,
 	]);
 
 	// submit handler
@@ -406,7 +404,6 @@ const Description: NextPage = () => {
 												<CustomSquareImageUploading
 													images={images}
 													onChange={(e) => {
-														setPickingImages(true);
 														imagesOnChangeHandler(e);
 														setFieldValue('images', e);
 													}}
@@ -576,13 +573,6 @@ const Description: NextPage = () => {
 												</span>
 											)}
 										</Stack>
-										{/*<TagChips*/}
-										{/*	pickedTags={offerTags}*/}
-										{/*	onChange={(e, values) => {*/}
-										{/*		setPickingTags(true);*/}
-										{/*		setOfferTags(values);*/}
-										{/*	}}*/}
-										{/*/>*/}
 									</Stack>
 									<div className={Styles.primaryButtonWrapper}>
 										<PrimaryButton
@@ -590,7 +580,6 @@ const Description: NextPage = () => {
 											active={
 												isValid &&
 												!isSubmitting &&
-												// offerTags.length > 0 &&
 												!!address_name &&
 												!!longitude &&
 												!!latitude &&
