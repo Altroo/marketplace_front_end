@@ -1,6 +1,6 @@
 import React from "react";
 import { Theme } from "@mui/material/styles/createTheme";
-import { Stack, TextField, ThemeProvider } from "@mui/material";
+import { InputBaseComponentProps, Stack, TextField, ThemeProvider } from "@mui/material";
 import Image from 'next/image';
 
 type Props = {
@@ -18,6 +18,7 @@ type Props = {
 	label?: string;
 	fullWidth?: boolean;
 	size?: "small" | "medium";
+	inputProps?: InputBaseComponentProps;
 };
 
 const CustomStackIconTextInput: React.FC<Props> = (props: Props) => {
@@ -45,6 +46,7 @@ const CustomStackIconTextInput: React.FC<Props> = (props: Props) => {
 					fullWidth={props.fullWidth}
 					className={props.cssClass}
 					size={props.size}
+					inputProps={props.inputProps}
 					color="primary"
 				/>
 			</Stack>

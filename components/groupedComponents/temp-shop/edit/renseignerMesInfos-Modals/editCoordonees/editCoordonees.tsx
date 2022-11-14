@@ -30,6 +30,7 @@ import InstagramCircularSVG from '../../../../../../public/assets/svgs/globalIco
 import WhatsappCircularSVG from '../../../../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
 import CustomStackIconTextInput from '../../../../../formikElements/customStackIconTextInput/customStackIconTextInput';
 import { coordonneeTextInputTheme } from '../../../../../../utils/themes';
+import CustomTextMaskInput from "../../../../../formikElements/customTextMaskInput/customTextMaskInput";
 
 type Props = {
 	handleClose: () => void;
@@ -170,7 +171,26 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 										theme={coordoneeTextInputCustomTheme}
 										cssClass={Styles.textField}
 										size="medium"
+										// inputProps={{
+										// 	pattern: "https?://.*",
+										// }}
 									/>
+									{/*<CustomTextMaskInput*/}
+									{/*	id="website_link"*/}
+									{/*	type="url"*/}
+									{/*	value={values.website_link ? values.website_link : ''}*/}
+									{/*	onChange={handleChange('website_link')}*/}
+									{/*	onBlur={handleBlur('website_link')}*/}
+									{/*	helperText={touched.website_link ? errors.website_link : ''}*/}
+									{/*	error={touched.website_link && Boolean(errors.website_link)}*/}
+									{/*	fullWidth={false}*/}
+									{/*	size="medium"*/}
+									{/*	label="Site internet"*/}
+									{/*	theme={coordoneeTextInputCustomTheme}*/}
+									{/*	mask="www.[a-Z]"*/}
+									{/*	alwaysShowMask={true}*/}
+									{/*	maskPlaceholder=" "*/}
+									{/*/>*/}
 								</Stack>
 								<Stack direction="column" spacing={3}>
 									<span className={Styles.spanTitle}>Réseaux sociaux</span>

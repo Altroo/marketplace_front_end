@@ -14,8 +14,10 @@ import {
 	SHORT_INPUT_REQUIRED,
 	INPUT_POSTAL_CODE,
 	INPUT_ICE,
-	INPUT_NUMBER_MIN, INPUT_NUMBER_MAX, MINI_INPUT_EMAIL
-} from "./formValidationErrorMessages";
+	INPUT_NUMBER_MIN,
+	INPUT_NUMBER_MAX,
+	MINI_INPUT_EMAIL,
+} from './formValidationErrorMessages';
 
 export const shopNameSchema = Yup.object().shape({
 	shop_name: Yup.string().min(2, INPUT_MIN(2)).max(50, INPUT_MAX(50)).required(INPUT_REQUIRED),
@@ -44,13 +46,14 @@ export const shopAvailabilityDaysSchema = Yup.object().shape({
 });
 
 const rePhoneNumber = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
+const reUrl = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/;
 export const shopCoordonneeSchema = Yup.object().shape({
 	phone: Yup.string().matches(rePhoneNumber, { message: INPUT_PONE }).nullable().notRequired(),
 	contact_email: Yup.string().email(INPUT_EMAIL).nullable().notRequired(),
-	website_link: Yup.string().url(INPUT_URL).nullable().notRequired(),
-	facebook_link: Yup.string().url(INPUT_FACEBOOK_URL).nullable().notRequired(),
-	twitter_link: Yup.string().url(INPUT_TWITTER_URL).nullable().notRequired(),
-	instagram_link: Yup.string().url(INPUT_INSTAGRAM_URL).nullable().notRequired(),
+	website_link: Yup.string().matches(reUrl, INPUT_URL).nullable().notRequired(),
+	facebook_link: Yup.string().matches(reUrl,INPUT_FACEBOOK_URL).nullable().notRequired(),
+	twitter_link: Yup.string().matches(reUrl,INPUT_TWITTER_URL).nullable().notRequired(),
+	instagram_link: Yup.string().matches(reUrl,INPUT_INSTAGRAM_URL).nullable().notRequired(),
 	whatsapp: Yup.string().matches(rePhoneNumber, { message: INPUT_PONE }).nullable().notRequired(),
 });
 
@@ -73,33 +76,39 @@ export const serviceAddressSchema = Yup.object().shape({
 export const addOfferProductSchema = Yup.object().shape({
 	title: Yup.string().min(2, INPUT_MIN(2)).max(150, INPUT_MAX(150)).required(INPUT_REQUIRED),
 	description: Yup.string().required(INPUT_REQUIRED),
-	images: Yup.array().of(
-		Yup.object().shape({
-			dataURL: Yup.string(),
-			file: Yup.object().nullable().shape({
-				lastModified: Yup.number(),
-				name: Yup.string(),
-				size: Yup.number(),
-				type: Yup.string(),
-				webkitRelativePath: Yup.string(),
+	images: Yup.array()
+		.of(
+			Yup.object().shape({
+				dataURL: Yup.string(),
+				file: Yup.object().nullable().shape({
+					lastModified: Yup.number(),
+					name: Yup.string(),
+					size: Yup.number(),
+					type: Yup.string(),
+					webkitRelativePath: Yup.string(),
+				}),
 			}),
-	})).min(1, INPUT_IMG_MIN(1)),
+		)
+		.min(1, INPUT_IMG_MIN(1)),
 	made_in: Yup.string().required(INPUT_REQUIRED),
 });
 
 export const addOfferServiceSchema = Yup.object().shape({
 	title: Yup.string().min(2, INPUT_MIN(2)).max(150, INPUT_MAX(150)).required(INPUT_REQUIRED),
-	images: Yup.array().of(
-		Yup.object().shape({
-			dataURL: Yup.string(),
-			file: Yup.object().nullable().shape({
-				lastModified: Yup.number(),
-				name: Yup.string(),
-				size: Yup.number(),
-				type: Yup.string(),
-				webkitRelativePath: Yup.string(),
+	images: Yup.array()
+		.of(
+			Yup.object().shape({
+				dataURL: Yup.string(),
+				file: Yup.object().nullable().shape({
+					lastModified: Yup.number(),
+					name: Yup.string(),
+					size: Yup.number(),
+					type: Yup.string(),
+					webkitRelativePath: Yup.string(),
+				}),
 			}),
-	})).min(1, INPUT_IMG_MIN(1)),
+		)
+		.min(1, INPUT_IMG_MIN(1)),
 	description: Yup.string().required(INPUT_REQUIRED),
 	al_day: Yup.string().nullable().notRequired(),
 	mo_day: Yup.string().nullable().notRequired(),
@@ -165,7 +174,6 @@ export const changeEmailWithPasswordSchema = Yup.object().shape({
 	new_password2: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
 });
 
-
 export const changePasswordSchema = Yup.object().shape({
 	old_password: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
 	new_password1: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
@@ -183,7 +191,7 @@ export const subscriptionSchema = Yup.object().shape({
 		.min(15, INPUT_NUMBER_MIN(15))
 		.typeError(INPUT_ICE)
 		.max(15, INPUT_NUMBER_MAX(15))
-		.transform(value => value.replace(/\D/g, ''))
+		.transform((value) => value.replace(/\D/g, ''))
 		.notRequired(),
 	first_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
 	last_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
