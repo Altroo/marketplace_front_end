@@ -72,7 +72,6 @@ import {
 	REAL_OFFER_ROUTE,
 	REAL_SHOP_ADD_SHOP_NAME,
 	AUTH_LOGIN,
-	REAL_OFFER_ADD_PRODUCT_DESCRIPTION,
 } from '../../../../../utils/routes';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
@@ -252,7 +251,7 @@ const Livraison: NextPage = () => {
 	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
 	useEffect(() => {
-		if (!pickedPrice) {
+		if (!isApiCallInProgress && !pickedPrice) {
 			router.replace(REAL_OFFER_ADD_PRODUCT_PRICE(router.query.shop_link as string)).then();
 		}
 		if (localisationName && addressNameRef.current !== null) {
@@ -282,6 +281,7 @@ const Livraison: NextPage = () => {
 	}, [
 		deliveryAllCity1,
 		deliveryCity1,
+		isApiCallInProgress,
 		localisationName,
 		pickedLatitude,
 		pickedLocalisationName,

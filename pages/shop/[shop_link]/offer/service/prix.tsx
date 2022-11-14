@@ -186,7 +186,7 @@ const Prix: NextPage = () => {
 	};
 
 	useEffect(() => {
-		if(!title){
+		if(!isApiCallInProgress && !title){
 			router.replace(REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)).then();
 		}
 		if (price === '' && (!heur || !jour || !semaine || !mois || !prestation)) {
@@ -206,7 +206,7 @@ const Prix: NextPage = () => {
 				}
 			}
 		}
-	}, [heur, jour, mois, prestation, price, semaine]);
+	}, [heur, isApiCallInProgress, jour, mois, prestation, price, router, semaine, title]);
 
 	const chipTheme = SizesChipTheme();
 	return (
