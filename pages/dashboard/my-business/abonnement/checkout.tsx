@@ -273,10 +273,10 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 		<Stack direction="column">
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${SharedStyles.fixMobile}`}>
-				<form>
+				<form style={{ width: "100%"}}>
 					<Stack direction="row" justifyContent="space-between" className={Styles.mobileStack}>
-						<Stack direction="column" spacing="48px" className={Styles.desktopStack}>
-							<Stack direction="column" spacing="30px">
+						<Stack direction="column" spacing="48px" className={Styles.desktopStack} sx={{width: '100%'}}>
+							<Stack direction="column" spacing="30px" sx={{maxWidth: '540px'}}>
 								{!is_subscribed ? (
 									<h1 className={Styles.hOneHeader}>Let&apos;s finish powering you up</h1>
 								) : (
