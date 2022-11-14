@@ -41,7 +41,12 @@ import {
 } from '../../../../../utils/routes';
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
-import { doubleTabNavigationTheme, OfferReadOnlyTheme, SolderPourcentageChipTheme } from '../../../../../utils/themes';
+import {
+	customImageModalTheme, customMobileImageModalTheme,
+	doubleTabNavigationTheme,
+	OfferReadOnlyTheme,
+	SolderPourcentageChipTheme
+} from "../../../../../utils/themes";
 import { Lazy, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -92,6 +97,7 @@ import { getSelectedOffer } from '../../../../../store/selectors';
 import ApiProgress from '../../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import DropDownMenu from '../../../../../components/htmlElements/buttons/dropDownMenu/dropDownMenu';
 import EditIconSVG from '../../../../../public/assets/svgs/globalIcons/blue-pencil.svg';
+import ImageModal from '../../../../../components/desktop/modals/imageModal/imageModal';
 
 // const NoCommentsAvailableContent = () => {
 // 	return (
@@ -189,6 +195,8 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
+	const [clickedImage, setClickedImage] = useState<string | null>(null);
+	const [clickedMobileImage, setClickedMobileImage] = useState<string | null>(null);
 
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
 	const [colorsListString, setColorsListString] = useState<Array<string>>([]);
@@ -350,6 +358,14 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 
 	const showThumbnail = (src: string) => {
 		setSelectedImage(src);
+	};
+
+	const showImage = (src: string) => {
+		setClickedImage(src);
+	};
+
+	const showMobileImage = (src: string) => {
+		setClickedMobileImage(src);
 	};
 
 	const getDate = useCallback((days: number) => {
@@ -740,6 +756,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 															src={image}
 															width={80}
 															height={80}
+															sizes="100vw"
 															onClick={() => showThumbnail(image)}
 															alt=""
 															// loading="eager"
@@ -778,6 +795,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 												width={590}
 												height={388}
 												sizes="100vw"
+												onClick={() => showImage(selectedImage)}
 												alt=""
 												// loading="eager"
 												// priority={true}
@@ -796,6 +814,28 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 										</Box>
 									)}
 								</Stack>
+								{clickedImage && (
+									<ImageModal
+										open={!!clickedImage}
+										handleClose={() => setClickedImage(null)}
+										direction="up"
+										onBackdrop={() => setClickedImage(null)}
+										fullScreen={true}
+										theme={customImageModalTheme()}
+										cssClasse={Styles.clickedImageModal}
+									>
+										<Box className={Styles.clickedImageBox}>
+											<Image
+												className={Styles.clickedImage}
+												src={clickedImage}
+												width={590}
+												height={388}
+												sizes="100vw"
+												alt=""
+											/>
+										</Box>
+									</ImageModal>
+								)}
 								{/* Desktop creator banner goes here */}
 								{creator_label && <OfferCreatorBanner />}
 								{/*<NoCommentsAvailableContent />*/}
@@ -824,6 +864,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 																src={image}
 																width={365}
 																height={240}
+																onClick={() => showMobileImage(image)}
 																sizes="100vw"
 																alt=""
 															/>
@@ -849,6 +890,28 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											</SwiperSlide>
 										)}
 									</Swiper>
+									{clickedMobileImage && (
+										<ImageModal
+											open={!!clickedMobileImage}
+											handleClose={() => setClickedMobileImage(null)}
+											direction="up"
+											onBackdrop={() => setClickedMobileImage(null)}
+											fullScreen={true}
+											theme={customMobileImageModalTheme()}
+											cssClasse={Styles.clickedImageModal}
+										>
+											<Box className={Styles.clickedImageBox}>
+												<Image
+													className={Styles.clickedImage}
+													src={clickedMobileImage}
+													width={365}
+													height={240}
+													sizes="100vw"
+													alt=""
+												/>
+											</Box>
+										</ImageModal>
+									)}
 								</>
 							</div>
 							<Stack direction="column" spacing={1} className={Styles.offerWrapper}>
@@ -1275,6 +1338,9 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
+	const [clickedImage, setClickedImage] = useState<string | null>(null);
+	const [clickedMobileImage, setClickedMobileImage] = useState<string | null>(null);
+
 
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
 	const [forWhomListString, setForWhomListString] = useState<Array<string>>([]);
@@ -1430,6 +1496,14 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 
 	const showThumbnail = (src: string) => {
 		setSelectedImage(src);
+	};
+
+	const showImage = (src: string) => {
+		setClickedImage(src);
+	};
+
+	const showMobileImage = (src: string) => {
+		setClickedMobileImage(src);
 	};
 
 	const setSolderPourcentageInput = (value: string) => {
@@ -1707,6 +1781,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 															src={image}
 															width={80}
 															height={80}
+															sizes="100vw"
 															onClick={() => showThumbnail(image)}
 															alt=""
 															// loading="eager"
@@ -1745,6 +1820,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 												width={590}
 												height={388}
 												sizes="100vw"
+												onClick={() => showImage(selectedImage)}
 												alt=""
 												// loading="eager"
 												// priority={true}
@@ -1753,6 +1829,28 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										</Box>
 									)}
 								</Stack>
+								{clickedImage && (
+									<ImageModal
+										open={!!clickedImage}
+										handleClose={() => setClickedImage(null)}
+										direction="up"
+										onBackdrop={() => setClickedImage(null)}
+										fullScreen={true}
+										theme={customImageModalTheme()}
+										cssClasse={Styles.clickedImageModal}
+									>
+										<Box className={Styles.clickedImageBox}>
+											<Image
+												className={Styles.clickedImage}
+												src={clickedImage}
+												width={590}
+												height={388}
+												sizes="100vw"
+												alt=""
+											/>
+										</Box>
+									</ImageModal>
+								)}
 								{/*<NoCommentsAvailableContent />*/}
 							</Stack>
 							{/* Mobile Only */}
@@ -1779,6 +1877,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 																src={image}
 																width={365}
 																height={240}
+																onClick={() => showMobileImage(image)}
 																sizes="100vw"
 																// loading="eager"
 																// priority={true}
@@ -1797,6 +1896,28 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 											</SwiperSlide>
 										)}
 									</Swiper>
+									{clickedMobileImage && (
+										<ImageModal
+											open={!!clickedMobileImage}
+											handleClose={() => setClickedMobileImage(null)}
+											direction="up"
+											onBackdrop={() => setClickedMobileImage(null)}
+											fullScreen={true}
+											theme={customMobileImageModalTheme()}
+											cssClasse={Styles.clickedImageModal}
+										>
+											<Box className={Styles.clickedImageBox}>
+												<Image
+													className={Styles.clickedImage}
+													src={clickedMobileImage}
+													width={365}
+													height={240}
+													sizes="100vw"
+													alt=""
+												/>
+											</Box>
+										</ImageModal>
+									)}
 								</>
 							</div>
 							<Stack direction="column" spacing={1} className={Styles.offerWrapper}>

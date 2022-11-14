@@ -331,6 +331,7 @@
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/offer/offer_pk" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/offer/product" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customTimeInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/desktop/modals/imageModal" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/offer/service" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />

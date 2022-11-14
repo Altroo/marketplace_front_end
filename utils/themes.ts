@@ -858,6 +858,46 @@ export const customModalTheme = (primaryColor: string | undefined = undefined) =
 	});
 };
 
+export const customImageModalTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		components: {
+			...defaultTheme,
+			MuiDialog: {
+				styleOverrides: {
+					root: {
+						'& .MuiPaper-root': {
+							overflowX: 'hidden',
+							height: 'auto'
+						},
+					},
+				},
+			},
+		},
+	});
+};
+
+export const customMobileImageModalTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		components: {
+			...defaultTheme,
+			MuiDialog: {
+				styleOverrides: {
+					root: {
+						'& .MuiPaper-root': {
+							overflowX: 'hidden',
+						},
+					},
+					container: {
+						width: '100%',
+					},
+				},
+			},
+		},
+	});
+};
+
 export const customSliderTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
