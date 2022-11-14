@@ -220,15 +220,10 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 			...router.query,
 		};
 		const options = { shallow: true, scroll: false };
-		if (available_services) {
-			pickedCategories.push('SE'); // service
-		}
 		if (pickedCategories.length > 0) {
 			queryParams = { ...queryParams, categories: pickedCategories.join(',') };
 		} else {
-			if(!available_services) {
-				delete queryParams['categories'];
-			}
+			delete queryParams['categories'];
 		}
 		if (pickedColors.length > 0) {
 			queryParams = { ...queryParams, colors: pickedColors.join(',') };

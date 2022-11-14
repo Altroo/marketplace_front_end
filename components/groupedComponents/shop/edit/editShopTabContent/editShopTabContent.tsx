@@ -15,7 +15,7 @@ import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creato
 import { useAppDispatch } from '../../../../../utils/hooks';
 import {
 	offerGetAvailableFiltersByShopID,
-	offerGetLastThreeUsedDeliveriesAction,
+	// offerGetLastThreeUsedDeliveriesAction,
 	offerGetOffersByShopIDWithQueryParamsAction,
 	offerPostPinAction,
 	setEmptyUserLocalOffer,
@@ -35,7 +35,7 @@ import ActivatedAddIconSVG from '../../../../../public/assets/svgs/globalIcons/b
 import { REAL_OFFER_ADD_INDEX, REAL_OFFER_ROUTE } from '../../../../../utils/routes';
 import LargeBorderIconAnchorButton from '../../../../htmlElements/buttons/largeBorderIconAnchorButton/largeBorderIconAnchorButton';
 import PinInactiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-inactive.svg';
-import { ParsedUrlQueryInput } from "querystring";
+import { ParsedUrlQueryInput } from 'querystring';
 
 type offerLinkedHashMapType = {
 	offersMap: Iterables.LinkedHashMap<number, OfferGetMyOffersProductServiceType> | null;
@@ -195,6 +195,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 		loadMoreState,
 		offersLinkedHashMap,
 		router.query,
+		setShowMobileFilterButton,
 		shop_pk,
 	]);
 
@@ -264,9 +265,11 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 									.toArray()
 									.sort((a, b) => Number(b.value?.pinned) - Number(a.value?.pinned));
 								setOffersLinkedHashMap(offersLinkedHashMap);
-								router.replace(router.asPath, undefined, {
-									scroll: false,
-								}).then();
+								router
+									.replace(router.asPath, undefined, {
+										scroll: false,
+									})
+									.then();
 							}
 						}
 					}
@@ -356,81 +359,81 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 														className={Styles.gridCardOfferWrapper}
 													>
 														<Grid item xs="auto">
-																<Stack direction="column" spacing={2}>
-																	<Box className={Styles.thumbnailWrapper}>
-																		{data.value.pinned ? (
-																			<Image
-																				src={PinActiveIconSVG}
-																				alt=""
-																				width={32}
-																				height={32}
-																				className={Styles.thumbnailActionIcon}
-																				loading="eager"
-																				priority={true}
-																				onClick={(e) => togglePinHandler(e, data.key)}
-																			/>
-																		) : (
-																			<Image
-																				src={PinInactiveIconSVG}
-																				alt=""
-																				width={32}
-																				height={32}
-																				className={Styles.thumbnailActionIcon}
-																				loading="eager"
-																				priority={true}
-																				onClick={(e) => togglePinHandler(e, data.key)}
-																			/>
-																		)}
-																		{!data.value.thumbnail ? (
-																			<Skeleton variant="rectangular" width={250} height={165} />
-																		) : (
-																			<Image
-																				src={data.value.thumbnail}
-																				alt=""
-																				width="0"
-																				height="0"
-																				sizes="100vw"
-																				className={Styles.offerThumb}
-																				loading="eager"
-																				priority={true}
-																			/>
-																		)}
-																		{data.value.creator_label && (
-																			<Image
-																				className={Styles.creatorImageTag}
-																				src={CreatorIconSVG}
-																				alt="creator"
-																				width="0"
-																				height="0"
-																				sizes="100vw"
-																			/>
-																		)}
-																	</Box>
-																	<Stack direction="column" spacing={1}>
-																		<span className={Styles.offerTitle}>
-																			{data.value.title.length >= 25
-																				? data.value.title.substring(0, 25) + '...'
-																				: data.value.title}
+															<Stack direction="column" spacing={2}>
+																<Box className={Styles.thumbnailWrapper}>
+																	{data.value.pinned ? (
+																		<Image
+																			src={PinActiveIconSVG}
+																			alt=""
+																			width={32}
+																			height={32}
+																			className={Styles.thumbnailActionIcon}
+																			loading="eager"
+																			priority={true}
+																			onClick={(e) => togglePinHandler(e, data.key)}
+																		/>
+																	) : (
+																		<Image
+																			src={PinInactiveIconSVG}
+																			alt=""
+																			width={32}
+																			height={32}
+																			className={Styles.thumbnailActionIcon}
+																			loading="eager"
+																			priority={true}
+																			onClick={(e) => togglePinHandler(e, data.key)}
+																		/>
+																	)}
+																	{!data.value.thumbnail ? (
+																		<Skeleton variant="rectangular" width={250} height={165} />
+																	) : (
+																		<Image
+																			src={data.value.thumbnail}
+																			alt=""
+																			width="0"
+																			height="0"
+																			sizes="100vw"
+																			className={Styles.offerThumb}
+																			loading="eager"
+																			priority={true}
+																		/>
+																	)}
+																	{data.value.creator_label && (
+																		<Image
+																			className={Styles.creatorImageTag}
+																			src={CreatorIconSVG}
+																			alt="creator"
+																			width="0"
+																			height="0"
+																			sizes="100vw"
+																		/>
+																	)}
+																</Box>
+																<Stack direction="column" spacing={1}>
+																	<span className={Styles.offerTitle}>
+																		{data.value.title.length >= 25
+																			? data.value.title.substring(0, 25) + '...'
+																			: data.value.title}
+																	</span>
+																	{/*<Stack direction="row">*/}
+																	{/*	<Image src={BlackStarSVG} width={20} height={20} alt="" />*/}
+																	{/*	<span className={Styles.offerRating}>0 (0 notes)</span>*/}
+																	{/*</Stack>*/}
+																	<Stack direction="row" spacing={1}>
+																		<span
+																			className={`${Styles.offerPrice} ${
+																				data.value.solder_value !== null && Styles.oldPrice
+																			}`}
+																		>
+																			{data.value.price + ' DH'}
 																		</span>
-																		{/*<Stack direction="row">*/}
-																		{/*	<Image src={BlackStarSVG} width={20} height={20} alt="" />*/}
-																		{/*	<span className={Styles.offerRating}>0 (0 notes)</span>*/}
-																		{/*</Stack>*/}
-																		<Stack direction="row" spacing={1}>
-																			<span
-																				className={`${Styles.offerPrice} ${
-																					data.value.solder_value !== null && Styles.oldPrice
-																				}`}
-																			>
-																				{data.value.price + ' DH'}
-																			</span>
-																			<span className={Styles.solderPrice}>
-																				{data.value.solder_value !== null ? newPrice + ' DH' : null}
-																			</span>
-																		</Stack>
+																		<span className={Styles.solderPrice}>
+																			{data.value.solder_value !== null ? newPrice + ' DH' : null}
+																		</span>
 																	</Stack>
 																</Stack>
-															</Grid>
+															</Stack>
+														</Grid>
 													</Link>
 												);
 											} else {
@@ -512,12 +515,14 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 							rowGap={0}
 						>
 							<Box className={Styles.closeButtonWrapper}>
-								<Image src={CloseSVG}
+								<Image
+									src={CloseSVG}
 									width={40}
 									height={40}
 									alt=""
 									onClick={() => props.setOpenFilterModal(false)}
-									style={{ cursor: 'pointer' }} />
+									style={{ cursor: 'pointer' }}
+								/>
 							</Box>
 							<h5 className={Styles.mobileFilterHeader}>Filtrer</h5>
 							<ShopFilterSelect
