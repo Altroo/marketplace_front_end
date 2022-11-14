@@ -18,6 +18,7 @@ import { coordonneeTextInputTheme, horairesInputTheme } from '../../../../../../
 import CustomTimeInput from '../../../../../formikElements/customTimeInput/customTimeInput';
 import dayjs, { Dayjs } from 'dayjs';
 import { useRouter } from "next/router";
+import { constructDate } from "../../../../../../utils/rawData";
 
 type Props = {
 	handleClose: () => void;
@@ -104,36 +105,17 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 	};
 
 	useEffect(() => {
-		if (morningHourFrom || morningHourTo || afternoonHourFrom || afternoonHourTo) {
-			const today = new Date();
-			if (morningHourFrom) {
-				const hours = morningHourFrom.split(':')[0]
-				const minutes = morningHourFrom.split(':')[1]
-				today.setHours(parseInt(hours))
-				today.setMinutes(parseInt(minutes))
-				setMorningHourFromState(dayjs(new Date(today)));
-			}
-			if (morningHourTo) {
-				const hours = morningHourTo.split(':')[0]
-				const minutes = morningHourTo.split(':')[1]
-				today.setHours(parseInt(hours))
-				today.setMinutes(parseInt(minutes))
-				setMorningHourToState(dayjs(new Date(today)));
-			}
-			if (afternoonHourFrom) {
-				const hours = afternoonHourFrom.split(':')[0]
-				const minutes = afternoonHourFrom.split(':')[1]
-				today.setHours(parseInt(hours))
-				today.setMinutes(parseInt(minutes))
-				setAfternoonHourFromState(dayjs(new Date(today)));
-			}
-			if (afternoonHourTo) {
-				const hours = afternoonHourTo.split(':')[0]
-				const minutes = afternoonHourTo.split(':')[1]
-				today.setHours(parseInt(hours))
-				today.setMinutes(parseInt(minutes))
-				setAfternoonHourToState(dayjs(new Date(today)));
-			}
+		if (morningHourFrom) {
+			setMorningHourFromState(dayjs(new Date(constructDate(morningHourFrom))));
+		}
+		if (morningHourTo) {
+			setMorningHourToState(dayjs(new Date(constructDate(morningHourTo))));
+		}
+		if (afternoonHourFrom) {
+			setAfternoonHourFromState(dayjs(new Date(constructDate(afternoonHourFrom))));
+		}
+		if (afternoonHourTo) {
+			setAfternoonHourToState(dayjs(new Date(constructDate(afternoonHourTo))));
 		}
 
 		if (opening_days) {

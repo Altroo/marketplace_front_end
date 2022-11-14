@@ -337,3 +337,12 @@ export const getSliderData = (newValue: number) => {
 			return 110;
 	}
 };
+
+export const constructDate = (hour: string) => {
+	const today = new Date();
+	const hours = hour.split(':')[0];
+	const minutes = hour.split(':')[1];
+	today.setHours(parseInt(hours));
+	today.setMinutes(parseInt(minutes));
+	return today;
+};
