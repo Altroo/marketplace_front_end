@@ -135,7 +135,7 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 				</div>
 				<span className={Styles.addPictureSpan}>Modifier ma photo</span>
 			</Stack>
-			<form>
+			<form className={Styles.form}>
 				<Stack direction="column" spacing={2}>
 					<CustomTextInput
 						id="first_name"
