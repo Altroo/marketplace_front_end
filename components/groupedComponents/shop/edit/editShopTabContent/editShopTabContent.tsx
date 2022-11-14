@@ -337,6 +337,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 										.toArray()
 										.map((data) => {
 											if (data.value) {
+												setShowMobileFilterButton(true);
 												const { price, solder_type, solder_value } = data.value;
 												let newPrice = 0;
 												if (solder_type !== null && solder_value !== null) {
