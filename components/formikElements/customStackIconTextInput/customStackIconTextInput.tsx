@@ -25,7 +25,7 @@ const CustomStackIconTextInput: React.FC<Props> = (props: Props) => {
 
 	return (
 		<ThemeProvider theme={props.theme}>
-			<Stack direction="row" spacing={1}>
+			<Stack direction="row" spacing={1} alignItems="center">
 				<Image
 					src={props.icon}
 					alt=""
