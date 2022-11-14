@@ -43,7 +43,7 @@ const CustomFooter: React.FC = () => {
 							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Les vendeurs Instagram
 							</Link>
-							<Link href={DASHBOARD_ADD_INDEX_OFFERS} className={Styles.anchor}>
+							<Link href={DASHBOARD_INDEXED_OFFERS} className={Styles.anchor}>
 								Référencez vos articles
 							</Link>
 							<Link href={NOT_FOUND_404} className={Styles.anchor}>
@@ -121,7 +121,7 @@ const CustomFooter: React.FC = () => {
 							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Les vendeurs Instagram
 							</Link>
-							<Link href={DASHBOARD_ADD_INDEX_OFFERS} className={Styles.anchor}>
+							<Link href={DASHBOARD_INDEXED_OFFERS} className={Styles.anchor}>
 								Référencez vos articles
 							</Link>
 							<Link href={NOT_FOUND_404} className={Styles.anchor}>
