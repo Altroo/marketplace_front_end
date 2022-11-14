@@ -3,19 +3,14 @@ import {
 	LocalOfferProductDescriptionPageType,
 	LocalOfferServiceDescriptionPageType,
 	OfferCategoriesType,
-	OfferGetMyOffersProductInterface,
-	OfferGetMyOffersServiceInterface, OfferGetRootProductInterface, OfferGetRootServiceInterface,
-	OfferPinType,
-	OfferProductInterface,
+	OfferGetRootProductInterface, OfferGetRootServiceInterface,
 	OfferProductLocalisation,
-	OfferServiceInterface,
 	OfferServiceLocalisation,
-	OfferSolderInterface,
 	OfferStateInterface,
 	OfferTagsType
 } from "../../../types/offer/offerTypes";
-import { ApiErrorResponseType, PaginationResponseType } from '../../../types/_init/_initTypes';
-import { apiErrorInitialState, paginationInitial } from '../_init/_initSlice';
+import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
+import { apiErrorInitialState } from '../_init/_initSlice';
 import { ShopZoneByType } from '../../../types/shop/shopTypes';
 
 export const myOffersListGETApiErrorAction = createAction<ApiErrorResponseType>('myOffersListGETApiErrorAction');
@@ -238,16 +233,7 @@ const OfferSlice = createSlice({
 			state.userLocalProduct.categoriesList = action.payload;
 		},
 		setLocalOfferServiceMultiCategories: (state, action: PayloadAction<Array<OfferCategoriesType>>) => {
-			action.payload.map((category) => {
-				if (!state.userLocalService.categoriesList.includes(category)) {
-					state.userLocalService.categoriesList.push(category);
-				} else {
-					const index = state.userLocalService.categoriesList.indexOf(category);
-					if (index !== -1) {
-						state.userLocalService.categoriesList.splice(index, 1);
-					}
-				}
-			});
+			state.userLocalService.categoriesList = action.payload;
 		},
 		setLocalOfferProductDescription: (
 			state,
