@@ -41,7 +41,18 @@ const DisponibilitiesRadioCheckContent: React.FC<Props> = (props: Props) => {
 		state: boolean,
 		ref: React.RefObject<HTMLInputElement>,
 		code: string) => {
-		setState(state);
+		if (code === 'AL') {
+			setState(state);
+			props.setSelectedDisponibilities.setMoState(state);
+			props.setSelectedDisponibilities.setTuState(state);
+			props.setSelectedDisponibilities.setWeState(state);
+			props.setSelectedDisponibilities.setThState(state);
+			props.setSelectedDisponibilities.setFrState(state);
+			props.setSelectedDisponibilities.setSaState(state);
+			props.setSelectedDisponibilities.setSuState(state);
+		} else {
+			setState(state);
+		}
 		if (ref.current !== null) {
 			if (state) {
 				ref.current.value = code;
@@ -51,7 +62,7 @@ const DisponibilitiesRadioCheckContent: React.FC<Props> = (props: Props) => {
 				// dispatch state remove here
 			}
 		}
-	}, []);
+	}, [props.setSelectedDisponibilities]);
 
 	useEffect(() => {
 		if (availabilityDays) {
@@ -59,9 +70,16 @@ const DisponibilitiesRadioCheckContent: React.FC<Props> = (props: Props) => {
 				switch (day.code_day) {
 					case 'AL':
 						disponibilitiesOnClickHandler(props.setSelectedDisponibilities.setAlState, true, alRef, 'AL');
+						disponibilitiesOnClickHandler(props.setSelectedDisponibilities.setMoState, true, moRef, 'MO');
+						disponibilitiesOnClickHandler(props.setSelectedDisponibilities.setTuState, true, tuRef, 'TU');
+						disponibilitiesOnClickHandler(props.setSelectedDisponibilities.setWeState, true, weRef, 'WE');
+						disponibilitiesOnClickHandler(props.setSelectedDisponibilities.setThState, true, thRef, 'TH');
+						disponibilitiesOnClickHandler(props.setSelectedDisponibilities.setFrState, true, frRef, 'FR');
+						disponibilitiesOnClickHandler(props.setSelectedDisponibilities.setSaState, true, saRef, 'SA');
+						disponibilitiesOnClickHandler(props.setSelectedDisponibilities.setSuState, true, suRef, 'SU');
 						break;
 					case 'MO':
-						disponibilitiesOnClickHandler(props.setSelectedDisponibilities.setAlState, true, moRef, 'MO');
+						disponibilitiesOnClickHandler(props.setSelectedDisponibilities.setMoState, true, moRef, 'MO');
 						break;
 					case 'TU':
 						disponibilitiesOnClickHandler(props.setSelectedDisponibilities.setTuState, true, tuRef, 'TU');

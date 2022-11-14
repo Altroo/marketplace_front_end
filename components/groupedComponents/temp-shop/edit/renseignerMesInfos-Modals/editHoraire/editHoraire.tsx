@@ -123,6 +123,14 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 				switch (day.code_day) {
 					case 'AL':
 						availabilityDaysSwitchHandler(setAlState, true, alRef, 'AL');
+						availabilityDaysSwitchHandler(setMoState, true, moRef, 'MO');
+						availabilityDaysSwitchHandler(setTuState, true, tuRef, 'TU');
+						availabilityDaysSwitchHandler(setWeState, true, weRef, 'WE');
+						availabilityDaysSwitchHandler(setWeState, true, weRef, 'WE');
+						availabilityDaysSwitchHandler(setThState, true, thRef, 'TH');
+						availabilityDaysSwitchHandler(setFrState, true, frRef, 'FR');
+						availabilityDaysSwitchHandler(setSaState, true, saRef, 'SA');
+						availabilityDaysSwitchHandler(setSuState, true, suRef, 'SU');
 						break;
 					case 'MO':
 						availabilityDaysSwitchHandler(setMoState, true, moRef, 'MO');
@@ -245,7 +253,16 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 									<Chip
 										label="Tous les jours"
 										variant={alState ? 'filled' : 'outlined'}
-										onClick={() => availabilityDaysSwitchHandler(setAlState, !alState, alRef, 'AL')}
+										onClick={() => {
+											availabilityDaysSwitchHandler(setAlState, !alState, alRef, 'AL');
+											availabilityDaysSwitchHandler(setMoState, !alState, moRef, 'MO');
+											availabilityDaysSwitchHandler(setTuState, !alState, tuRef, 'TU');
+											availabilityDaysSwitchHandler(setWeState, !alState, weRef, 'WE');
+											availabilityDaysSwitchHandler(setThState, !alState, thRef, 'TH');
+											availabilityDaysSwitchHandler(setFrState, !alState, frRef, 'FR');
+											availabilityDaysSwitchHandler(setSaState, !alState, saRef, 'SA');
+											availabilityDaysSwitchHandler(setSuState, !alState, suRef, 'SU');
+										}}
 									/>
 									<input
 										type="hidden"
