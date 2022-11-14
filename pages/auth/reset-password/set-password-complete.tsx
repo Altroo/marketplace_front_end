@@ -18,7 +18,7 @@ const SetPasswordComplete: React.FC = () => {
 	return (
 		<>
 			<div className={Styles.desktopOnly}>
-				<AuthPageLayout href="/" topBarText="CONNECT">
+				<AuthPageLayout href={AUTH_LOGIN} topBarText="CONNECT">
 					<Stack
 						direction="column"
 						spacing={4}

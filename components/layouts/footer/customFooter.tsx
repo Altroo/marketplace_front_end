@@ -6,7 +6,13 @@ import Divider from '@mui/material/Divider';
 import InstagramMiniSVG from '../../../public/assets/svgs/globalIcons/instagram-mini-.svg';
 import TikTokMiniSVG from '../../../public/assets/svgs/globalIcons/tiktok-mini.svg';
 import Image from 'next/image';
-import { CGU_PAGE } from "../../../utils/routes";
+import {
+	CGU_PAGE,
+	DASHBOARD_ADD_INDEX_OFFERS,
+	DASHBOARD_INDEXED_OFFERS,
+	NOT_FOUND_404,
+	REAL_SHOP_ADD_SHOP_NAME
+} from "../../../utils/routes";
 
 const CustomFooter: React.FC = () => {
 	return (
@@ -16,37 +22,37 @@ const CustomFooter: React.FC = () => {
 					<Stack direction="row" justifyContent="space-between" alignItems="flex-start">
 						<Stack direction="column" spacing={1}>
 							<span className={Styles.header}>Qaryb</span>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Notre histoire
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Partenariat
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Carrière
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Nouveautés (bientôt)
 							</Link>
 						</Stack>
 						<Stack direction="column" spacing={1}>
 							<span className={Styles.header}>Pour les vendeurs</span>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={REAL_SHOP_ADD_SHOP_NAME} className={Styles.anchor}>
 								Créez votre boutique
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Les vendeurs Instagram
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={DASHBOARD_ADD_INDEX_OFFERS} className={Styles.anchor}>
 								Référencez vos articles
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Carte cadeaux
 							</Link>
 						</Stack>
 						<Stack direction="column" spacing={1}>
 							<Stack direction="row" spacing={1}>
-								<Link href="/">
+								<Link href={NOT_FOUND_404}>
 									<Image
 										src={InstagramMiniSVG}
 										alt=""
@@ -56,7 +62,7 @@ const CustomFooter: React.FC = () => {
 										className={Styles.miniIcon}
 									/>
 								</Link>
-								<Link href="/">
+								<Link href={NOT_FOUND_404}>
 									<Image
 										src={TikTokMiniSVG}
 										alt=""
@@ -67,13 +73,13 @@ const CustomFooter: React.FC = () => {
 									/>
 								</Link>
 							</Stack>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Des questions ? Contactez nous
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Faites votre shopping
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Blog
 							</Link>
 						</Stack>
@@ -94,38 +100,38 @@ const CustomFooter: React.FC = () => {
 					<Stack direction="row" justifyContent="space-between" alignItems="flex-start">
 						<Stack direction="column" spacing={1}>
 							<span className={Styles.header}>Qaryb</span>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Notre histoire
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Partenariat
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Carrière
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Nouveautés (bientôt)
 							</Link>
 						</Stack>
 						<Stack direction="column" spacing={1}>
 							<span className={Styles.header}>Pour les vendeurs</span>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={REAL_SHOP_ADD_SHOP_NAME} className={Styles.anchor}>
 								Créez votre boutique
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Les vendeurs Instagram
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={DASHBOARD_ADD_INDEX_OFFERS} className={Styles.anchor}>
 								Référencez vos articles
 							</Link>
-							<Link href="/" className={Styles.anchor}>
+							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Carte cadeaux
 							</Link>
 						</Stack>
 					</Stack>
 					<Stack direction="column" spacing={1}>
 						<Stack direction="row" spacing={1}>
-							<Link href="/">
+							<Link href={NOT_FOUND_404}>
 								<Image
 									src={InstagramMiniSVG}
 									alt=""
@@ -135,7 +141,7 @@ const CustomFooter: React.FC = () => {
 									className={Styles.miniIcon}
 								/>
 							</Link>
-							<Link href="/">
+							<Link href={NOT_FOUND_404}>
 								<Image
 									src={TikTokMiniSVG}
 									alt=""
@@ -146,13 +152,13 @@ const CustomFooter: React.FC = () => {
 								/>
 							</Link>
 						</Stack>
-						<Link href="/" className={Styles.anchor}>
+						<Link href={NOT_FOUND_404} className={Styles.anchor}>
 							Des questions ? Contactez nous
 						</Link>
-						<Link href="/" className={Styles.anchor}>
+						<Link href={NOT_FOUND_404} className={Styles.anchor}>
 							Faites votre shopping
 						</Link>
-						<Link href="/" className={Styles.anchor}>
+						<Link href={NOT_FOUND_404} className={Styles.anchor}>
 							Blog
 						</Link>
 					</Stack>

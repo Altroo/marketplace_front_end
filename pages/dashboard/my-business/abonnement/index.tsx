@@ -178,9 +178,9 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 								</p>
 								<Stack direction="column" alignItems="center" className={Styles.dashboardNotSubscribedHeadline}>
 									<span>Combien d’articles désirez-vous référencer ?</span>
-									<Link href="/">
-										En savoir plus sur les articles référencés
-									</Link>
+									{/*<Link href="/">*/}
+									{/*	En savoir plus sur les articles référencés*/}
+									{/*</Link>*/}
 								</Stack>
 								<Stack direction="column" pt="48px" className={Styles.dashboardNotSubscribedPopulaireBannerWrapper}>
 									{articlesValue === 70 && (

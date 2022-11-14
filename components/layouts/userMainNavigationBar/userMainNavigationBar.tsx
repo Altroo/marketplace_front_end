@@ -34,8 +34,8 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	DASHBOARD,
 	REAL_SHOP_ADD_SHOP_NAME,
-	SITE_ROOT,
-} from '../../../utils/routes';
+	SITE_ROOT, NOT_FOUND_404
+} from "../../../utils/routes";
 import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 import { bulkCookiesDeleter } from '../../../store/services/_init/_initAPI';
@@ -277,24 +277,24 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 					</Toolbar>
 				</AppBar>
 				<Stack direction="row" spacing="32px" className={Styles.bottomStackAnchor} alignItems="center">
-					<Link href="/" className={Styles.anchorText}>
+					<Link href={NOT_FOUND_404} className={Styles.anchorText}>
 						Collections lifestyle
 					</Link>
-					<Link href="/">
+					<Link href={NOT_FOUND_404}>
 						{/*<a className={Styles.anchorText}>Boutique coup de </a>*/}
 						<Stack direction="row" alignItems="center">
 							<span className={Styles.heartShapeAnchorText}>Boutique coup de</span>
 							<Image alt="" width="0" height="0" sizes="100vw" src={HeartShapeSVG} />
 						</Stack>
 					</Link>
-					<Link href="/" className={Styles.anchorText}>
+					<Link href={NOT_FOUND_404} className={Styles.anchorText}>
 						Nos produits
 					</Link>
 					<Stack direction="row" alignItems="center">
 						<span className={Styles.disabledAnchorText}>Nos services</span>
 						<span className={Styles.comingSoon}>Coming soon</span>
 					</Stack>
-					<Link href="/" className={Styles.anchorText}>
+					<Link href={NOT_FOUND_404} className={Styles.anchorText}>
 						Blog
 					</Link>
 					<ShopDesktopItem />
@@ -335,16 +335,16 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									/>
 								</Stack>
 								<Stack direction="column" paddingX="40px" paddingY="18px" paddingTop={0} paddingBottom={0} spacing={1}>
-									<Link href="/" className={Styles.anchorText}>
+									<Link href={NOT_FOUND_404} className={Styles.anchorText}>
 										Collections lifestyle
 									</Link>
-									<Link href="/">
+									<Link href={NOT_FOUND_404}>
 										<Stack direction="row" alignItems="center">
 											<span className={Styles.heartShapeAnchorText}>Boutique coup de</span>
 											<Image src={HeartShapeSVG} alt="" width={32} height={32} />
 										</Stack>
 									</Link>
-									<Link href="/" className={Styles.anchorText}>
+									<Link href={NOT_FOUND_404} className={Styles.anchorText}>
 										Nos produits
 									</Link>
 									<Stack direction="row" alignItems="center">
@@ -352,7 +352,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										<span className={Styles.comingSoon}>Coming soon</span>
 									</Stack>
 									<span className={Styles.miniDivider}>—</span>
-									<Link href="/" className={Styles.anchorText}>
+									<Link href={NOT_FOUND_404} className={Styles.anchorText}>
 										Blog
 									</Link>
 								</Stack>

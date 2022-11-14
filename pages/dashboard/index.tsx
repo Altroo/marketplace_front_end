@@ -574,7 +574,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 							) : (
 								<UserMyBusinessCardContent rootSX={{ width: '100%' }} />
 							)}
-							<MobileDashboardCards icon={DesktopOrdersSVG} link="/" title="Mes commandes" />
+							<MobileDashboardCards icon={DesktopOrdersSVG} link={NOT_FOUND_404} title="Mes commandes" />
 							<MobileDashboardCards icon={DesktopMonCompteSVG} link={DASHBOARD_EDIT_PROFILE} title="Mon compte" />
 						</Stack>
 					</Stack>
