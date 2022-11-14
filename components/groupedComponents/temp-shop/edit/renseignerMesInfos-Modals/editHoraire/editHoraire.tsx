@@ -2,16 +2,22 @@ import React, { useEffect, useRef, useState } from 'react';
 import Styles from './editHoraire.module.sass';
 import { useAppDispatch, useAppSelector } from '../../../../../../utils/hooks';
 import {
-	getShopAfternoonHourFrom, getShopMorningHourFrom, getShopMorningHourTo,
-	getShopAfternoonHourTo, getShopOpeningDays
-} from "../../../../../../store/selectors";
-import { Chip, Stack, ThemeProvider, TextField } from '@mui/material';
+	getShopAfternoonHourFrom,
+	getShopMorningHourFrom,
+	getShopMorningHourTo,
+	getShopAfternoonHourTo,
+	getShopOpeningDays,
+} from '../../../../../../store/selectors';
+import { Chip, Stack, ThemeProvider } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { shopAvailabilityDaysSchema } from '../../../../../../utils/formValidationSchemas';
 import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
 import HelperDescriptionHeader from '../../../../../headers/helperDescriptionHeader/helperDescriptionHeader';
 import { shopPatchAvailabilityAction } from '../../../../../../store/actions/shop/shopActions';
-import { horairesInputTheme } from "../../../../../../utils/themes";
+import { coordonneeTextInputTheme, horairesInputTheme } from '../../../../../../utils/themes';
+import CustomTimeInput from '../../../../../formikElements/customTimeInput/customTimeInput';
+import dayjs, { Dayjs } from 'dayjs';
+import { useRouter } from "next/router";
 
 type Props = {
 	handleClose: () => void;
@@ -20,11 +26,18 @@ type Props = {
 
 const EditHoraire: React.FC<Props> = (props: Props) => {
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 	const opening_days = useAppSelector(getShopOpeningDays);
-	const morning_hour_from = useAppSelector(getShopMorningHourFrom);
-	const morning_hour_to = useAppSelector(getShopMorningHourTo);
-	const afternoon_hour_from = useAppSelector(getShopAfternoonHourFrom);
-	const afternoon_hour_to = useAppSelector(getShopAfternoonHourTo);
+	const morningHourFrom = useAppSelector(getShopMorningHourFrom);
+	const morningHourTo = useAppSelector(getShopMorningHourTo);
+	const afternoonHourFrom = useAppSelector(getShopAfternoonHourFrom);
+	const afternoonHourTo = useAppSelector(getShopAfternoonHourTo);
+
+	const [morningHourFromState, setMorningHourFromState] = useState<Dayjs | null>(null);
+	const [morningHourToState, setMorningHourToState] = useState<Dayjs | null>(null);
+	const [afternoonHourFromState, setAfternoonHourFromState] = useState<Dayjs | null>(null);
+	const [afternoonHourToState, setAfternoonHourToState] = useState<Dayjs | null>(null);
+
 	// Availability day states
 	const [alState, setAlState] = useState<boolean>(false);
 	const [moState, setMoState] = useState<boolean>(false);
@@ -66,25 +79,63 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 
 	type valuesType = {
 		opening_days: string;
-		morning_hour_from: string | null;
-		morning_hour_to: string | null;
-		afternoon_hour_from: string | null;
-		afternoon_hour_to: string | null;
+		morning_hour_from: Dayjs | null;
+		morning_hour_to: Dayjs | null;
+		afternoon_hour_from: Dayjs | null;
+		afternoon_hour_to: Dayjs | null;
 	};
 	const editHoraireHandler = (values: valuesType) => {
+		const morning_hour_from = values.morning_hour_from ? values.morning_hour_from.format('HH:mm') : null;
+		const morning_hour_to = values.morning_hour_to ? values.morning_hour_to.format('HH:mm') : null;
+		const afternoon_hour_from = values.afternoon_hour_from ? values.afternoon_hour_from.format('HH:mm') : null;
+		const afternoon_hour_to = values.afternoon_hour_to ? values.afternoon_hour_to.format('HH:mm') : null;
+
 		dispatch(
 			shopPatchAvailabilityAction(
 				values.opening_days,
-				values.morning_hour_from,
-				values.morning_hour_to,
-				values.afternoon_hour_from,
-				values.afternoon_hour_to,
+				morning_hour_from,
+				morning_hour_to,
+				afternoon_hour_from,
+				afternoon_hour_to,
 			),
 		);
 		props.handleClose();
+		router.replace(router.asPath).then();
 	};
 
 	useEffect(() => {
+		if (morningHourFrom || morningHourTo || afternoonHourFrom || afternoonHourTo) {
+			const today = new Date();
+			if (morningHourFrom) {
+				const hours = morningHourFrom.split(':')[0]
+				const minutes = morningHourFrom.split(':')[1]
+				today.setHours(parseInt(hours))
+				today.setMinutes(parseInt(minutes))
+				setMorningHourFromState(dayjs(new Date(today)));
+			}
+			if (morningHourTo) {
+				const hours = morningHourTo.split(':')[0]
+				const minutes = morningHourTo.split(':')[1]
+				today.setHours(parseInt(hours))
+				today.setMinutes(parseInt(minutes))
+				setMorningHourToState(dayjs(new Date(today)));
+			}
+			if (afternoonHourFrom) {
+				const hours = afternoonHourFrom.split(':')[0]
+				const minutes = afternoonHourFrom.split(':')[1]
+				today.setHours(parseInt(hours))
+				today.setMinutes(parseInt(minutes))
+				setAfternoonHourFromState(dayjs(new Date(today)));
+			}
+			if (afternoonHourTo) {
+				const hours = afternoonHourTo.split(':')[0]
+				const minutes = afternoonHourTo.split(':')[1]
+				today.setHours(parseInt(hours))
+				today.setMinutes(parseInt(minutes))
+				setAfternoonHourToState(dayjs(new Date(today)));
+			}
+		}
+
 		if (opening_days) {
 			opening_days.map((day) => {
 				switch (day.code_day) {
@@ -115,9 +166,10 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 				}
 			});
 		}
-	}, [opening_days]);
+	}, [afternoonHourFrom, afternoonHourTo, morningHourFrom, morningHourTo, opening_days]);
 
-	const horaireTheme = horairesInputTheme('#0274d7')
+	const horaireTheme = horairesInputTheme('#0274d7');
+	const titleFieldTheme = coordonneeTextInputTheme();
 
 	return (
 		<ThemeProvider theme={horaireTheme}>
@@ -133,10 +185,10 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 						fr_day: frState ? 'FR' : '',
 						sa_day: saState ? 'SA' : '',
 						su_day: suState ? 'SU' : '',
-						morning_hour_from: morning_hour_from,
-						morning_hour_to: morning_hour_to,
-						afternoon_hour_from: afternoon_hour_from,
-						afternoon_hour_to: afternoon_hour_to,
+						morning_hour_from: morningHourFromState,
+						morning_hour_to: morningHourToState,
+						afternoon_hour_from: afternoonHourFromState,
+						afternoon_hour_to: afternoonHourToState,
 					}}
 					validateOnMount={true}
 					validationSchema={shopAvailabilityDaysSchema}
@@ -168,23 +220,14 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 						}
 						editHoraireHandler({
 							opening_days: availabilityDaysString,
-							morning_hour_from: values.morning_hour_from ? values.morning_hour_from.slice(0, 5) : null,
-							morning_hour_to: values.morning_hour_to ? values.morning_hour_to.slice(0, 5) : null,
-							afternoon_hour_from: values.afternoon_hour_from ? values.afternoon_hour_from.slice(0, 5) : null,
-							afternoon_hour_to: values.afternoon_hour_to ? values.afternoon_hour_to.slice(0, 5) : null,
+							morning_hour_from: values.morning_hour_from ? dayjs(new Date(values.morning_hour_from.toString())) : null,
+							morning_hour_to: values.morning_hour_to ? dayjs(new Date(values.morning_hour_to.toString())) : null,
+							afternoon_hour_from: values.afternoon_hour_from ? dayjs(new Date(values.afternoon_hour_from.toString())) : null,
+							afternoon_hour_to: values.afternoon_hour_to ? dayjs(new Date(values.afternoon_hour_to.toString())) : null,
 						});
 					}}
 				>
-					{({
-						handleChange,
-						handleBlur,
-						handleSubmit,
-						values,
-						touched,
-						errors,
-						isValid,
-						isSubmitting,
-					}) => (
+					{({ handleChange, handleSubmit, values, isValid, isSubmitting }) => (
 						<Form>
 							<Stack
 								direction="column"
@@ -331,55 +374,66 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 										<p>Horaire du matin</p>
 									</div>
 									<Stack direction="row" columnGap={1} justifyContent="space-between">
-										<TextField
-											fullWidth={true}
-											type="time"
+										<CustomTimeInput
 											id="morning_hour_from"
 											label="De"
-											value={values.morning_hour_from ? values.morning_hour_from.slice(0, 5) : ''}
-											onBlur={handleBlur('morning_hour_from')}
-											onChange={handleChange('morning_hour_from')}
-											helperText={touched.morning_hour_from ? errors.morning_hour_from : ''}
-											error={touched.morning_hour_from && Boolean(errors.morning_hour_from)}
+											placeholder="De"
+											onChange={(e) => {
+												if (e) {
+													handleChange('morning_hour_from')(new Date(e.toString()).toString());
+												} else {
+													handleChange('morning_hour_from')('');
+												}
+											}}
+											value={values.morning_hour_from}
+											theme={titleFieldTheme}
 										/>
-										<TextField
-											fullWidth={true}
-											type="time"
+										<CustomTimeInput
 											id="morning_hour_to"
 											label="A"
-											value={values.morning_hour_to ? values.morning_hour_to.slice(0, 5) : ''}
-											onBlur={handleBlur('morning_hour_to')}
-											onChange={handleChange('morning_hour_to')}
-											helperText={touched.morning_hour_to ? errors.morning_hour_to : ''}
-											error={touched.morning_hour_to && Boolean(errors.morning_hour_to)}
+											placeholder="A"
+											onChange={(e) => {
+												if (e) {
+													handleChange('morning_hour_to')(new Date(e.toString()).toString());
+												} else {
+													handleChange('morning_hour_to')('');
+												}
+											}}
+											value={values.morning_hour_to}
+											theme={titleFieldTheme}
 										/>
 									</Stack>
 									<div className={Styles.grayTitle}>
 										<p>Horaire de l&apos;après-midi</p>
 									</div>
 									<Stack direction="row" columnGap={1} justifyContent="space-between">
-										<TextField
-											fullWidth={true}
-											size="medium"
-											label="De"
-											type="time"
+										<CustomTimeInput
 											id="afternoon_hour_from"
-											value={values.afternoon_hour_from ? values.afternoon_hour_from.slice(0, 5) : ''}
-											onBlur={handleBlur('afternoon_hour_from')}
-											onChange={handleChange('afternoon_hour_from')}
-											helperText={touched.afternoon_hour_from ? errors.afternoon_hour_from : ''}
-											error={touched.afternoon_hour_from && Boolean(errors.afternoon_hour_from)}
+											label="De"
+											placeholder="De"
+											onChange={(e) => {
+												if (e) {
+													handleChange('afternoon_hour_from')(new Date(e.toString()).toString());
+												} else {
+													handleChange('afternoon_hour_from')('');
+												}
+											}}
+											value={values.afternoon_hour_from}
+											theme={titleFieldTheme}
 										/>
-										<TextField
-											fullWidth={true}
-											label="A"
-											type="time"
+										<CustomTimeInput
 											id="afternoon_hour_to"
-											value={values.afternoon_hour_to ? values.afternoon_hour_to.slice(0, 5) : ''}
-											onBlur={handleBlur('afternoon_hour_to')}
-											onChange={handleChange('afternoon_hour_to')}
-											helperText={touched.afternoon_hour_to ? errors.afternoon_hour_to : ''}
-											error={touched.afternoon_hour_to && Boolean(errors.afternoon_hour_to)}
+											label="A"
+											placeholder="A"
+											onChange={(e) => {
+												if (e) {
+													handleChange('afternoon_hour_to')(new Date(e.toString()).toString());
+												} else {
+													handleChange('afternoon_hour_to')('');
+												}
+											}}
+											value={values.afternoon_hour_to}
+											theme={titleFieldTheme}
 										/>
 									</Stack>
 								</Stack>

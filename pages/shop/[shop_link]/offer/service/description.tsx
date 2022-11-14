@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './description.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import { Box, ClickAwayListener, Grid, Stack } from "@mui/material";
+import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	AUTH_LOGIN,
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ADD_SERVICE_CATEGORIES,
 	REAL_OFFER_ADD_SERVICE_PRICE,
-	REAL_SHOP_ADD_SHOP_NAME
-} from "../../../../../utils/routes";
+	REAL_SHOP_ADD_SHOP_NAME,
+} from '../../../../../utils/routes';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
@@ -59,8 +59,8 @@ import ServiceLocalisation from '../../../../../components/groupedComponents/tem
 import { setOfferServiceDescriptionPage } from '../../../../../store/actions/offer/offerActions';
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 import ServiceMiniMap from '../../../../../components/groupedComponents/temp-offer/services/serviceMiniMap/serviceMiniMap';
-import CustomTimeInput from "../../../../../components/formikElements/customTimeInput/customTimeInput";
-import dayjs, { Dayjs } from "dayjs";
+import CustomTimeInput from '../../../../../components/formikElements/customTimeInput/customTimeInput';
+import dayjs, { Dayjs } from 'dayjs';
 
 const Description: NextPage = () => {
 	const activeStep = '2';
@@ -102,10 +102,10 @@ const Description: NextPage = () => {
 		title: string;
 		description: string;
 		service_availability_days: string;
-		service_morning_hour_from: string | null;
-		service_morning_hour_to: string | null;
-		service_afternoon_hour_from: string | null;
-		service_afternoon_hour_to: string | null;
+		service_morning_hour_from: Dayjs | null;
+		service_morning_hour_to: Dayjs | null;
+		service_afternoon_hour_from: Dayjs | null;
+		service_afternoon_hour_to: Dayjs | null;
 		// tags: Array<string>;
 	};
 	const [morningHourFromState, setMorningHourFromState] = useState<Dayjs | null>(null);
@@ -148,18 +148,38 @@ const Description: NextPage = () => {
 	 */
 
 	useEffect(() => {
-		if (morningHourFrom) {
-			setMorningHourFromState(dayjs(morningHourFrom, 'HH:MM'));
+		if (morningHourFrom || morningHourTo || afternoonHourFrom || afternoonHourTo) {
+			const today = new Date();
+			if (morningHourFrom) {
+				const hours = morningHourFrom.split(':')[0];
+				const minutes = morningHourFrom.split(':')[1];
+				today.setHours(parseInt(hours));
+				today.setMinutes(parseInt(minutes));
+				setMorningHourFromState(dayjs(new Date(today)));
+			}
+			if (morningHourTo) {
+				const hours = morningHourTo.split(':')[0];
+				const minutes = morningHourTo.split(':')[1];
+				today.setHours(parseInt(hours));
+				today.setMinutes(parseInt(minutes));
+				setMorningHourToState(dayjs(new Date(today)));
+			}
+			if (afternoonHourFrom) {
+				const hours = afternoonHourFrom.split(':')[0];
+				const minutes = afternoonHourFrom.split(':')[1];
+				today.setHours(parseInt(hours));
+				today.setMinutes(parseInt(minutes));
+				setAfternoonHourFromState(dayjs(new Date(today)));
+			}
+			if (afternoonHourTo) {
+				const hours = afternoonHourTo.split(':')[0];
+				const minutes = afternoonHourTo.split(':')[1];
+				today.setHours(parseInt(hours));
+				today.setMinutes(parseInt(minutes));
+				setAfternoonHourToState(dayjs(new Date(today)));
+			}
 		}
-		if (morningHourTo) {
-			setMorningHourToState(dayjs(morningHourTo, 'HH:MM'));
-		}
-		if (afternoonHourFrom) {
-			setAfternoonHourFromState(dayjs(afternoonHourFrom, 'HH:MM'));
-		}
-		if (afternoonHourTo) {
-			setAfternoonHourToState(dayjs(afternoonHourTo, 'HH:MM'));
-		}
+
 		if (pickedTitle && !typingTitle) {
 			setOfferTitle(pickedTitle);
 		}
@@ -200,16 +220,28 @@ const Description: NextPage = () => {
 			});
 		}
 		const forWhomStr = forWhomCodeArray.join(',');
+		const service_morning_hour_from = values.service_morning_hour_from
+			? values.service_morning_hour_from.format('HH:mm')
+			: null;
+		const service_morning_hour_to = values.service_morning_hour_to
+			? values.service_morning_hour_to.format('HH:mm')
+			: null;
+		const service_afternoon_hour_from = values.service_afternoon_hour_from
+			? values.service_afternoon_hour_from.format('HH:mm')
+			: null;
+		const service_afternoon_hour_to = values.service_afternoon_hour_to
+			? values.service_afternoon_hour_to.format('HH:mm')
+			: null;
 		const action = setOfferServiceDescriptionPage(
 			values.title,
 			images,
 			values.description,
 			forWhomStr,
 			values.service_availability_days,
-			values.service_morning_hour_from,
-			values.service_morning_hour_to,
-			values.service_afternoon_hour_from,
-			values.service_afternoon_hour_to,
+			service_morning_hour_from,
+			service_morning_hour_to,
+			service_afternoon_hour_from,
+			service_afternoon_hour_to,
 			// values.tags.join(','),
 		);
 		dispatch({
@@ -252,7 +284,7 @@ const Description: NextPage = () => {
 						closeButtonHref={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
 					/>
 					<MobileStepsBar activeStep={activeStep} />
-					<Stack direction="column"  spacing={{ xs: "36px", sm: "36px", md: "60px", lg: "60px", xl: "60px" }}>
+					<Stack direction="column" spacing={{ xs: '36px', sm: '36px', md: '60px', lg: '60px', xl: '60px' }}>
 						<Box className={Styles.marginLeft}>
 							<HelperDescriptionHeader
 								header="Décrivez votre offre"
@@ -320,10 +352,18 @@ const Description: NextPage = () => {
 										title: values.title,
 										description: values.description,
 										service_availability_days: availabilityDaysString, // 2022-11-11T16:30:00.452Z
-										service_morning_hour_from: values.service_morning_hour_from.toISOString().split('T')[1],
-										service_morning_hour_to: values.service_morning_hour_to.toISOString().split('T')[1],
-										service_afternoon_hour_from: values.service_afternoon_hour_from ? values.service_afternoon_hour_from.toISOString().split('T')[1] : null,
-										service_afternoon_hour_to: values.service_afternoon_hour_to ? values.service_afternoon_hour_to.toISOString().split('T')[1] : null,
+										service_morning_hour_from: values.service_morning_hour_from
+											? dayjs(new Date(values.service_morning_hour_from.toString()))
+											: null,
+										service_morning_hour_to: values.service_morning_hour_to
+											? dayjs(new Date(values.service_morning_hour_to.toString()))
+											: null,
+										service_afternoon_hour_from: values.service_afternoon_hour_from
+											? dayjs(new Date(values.service_afternoon_hour_from.toString()))
+											: null,
+										service_afternoon_hour_to: values.service_afternoon_hour_to
+											? dayjs(new Date(values.service_afternoon_hour_to.toString()))
+											: null,
 										// tags: values.tags,
 									});
 								}
@@ -350,7 +390,7 @@ const Description: NextPage = () => {
 										if (e.code === 'enter') e.preventDefault();
 									}}
 								>
-									<Stack direction="column" spacing={{xs: "40px", sm: "40px", md: "48px", lg: "48px", xl: "48px"}}>
+									<Stack direction="column" spacing={{ xs: '40px', sm: '40px', md: '48px', lg: '48px', xl: '48px' }}>
 										<Stack direction="column" spacing="18px">
 											<Stack direction="column" spacing="48px">
 												<ClickAwayListener onClickAway={() => setTitleTooltip(false)}>
@@ -425,8 +465,16 @@ const Description: NextPage = () => {
 												multiple={true}
 											/>
 										</Stack>
-										<Stack direction="column" spacing={{xs: 0, sm: 0, md: "20px", lg: "20px", xl: "20px"}} alignItems="flex-end">
-											<Grid container columnSpacing={{ md: "120px", lg: "120px", xl: "120px" }} rowSpacing={{ xs: "40px", sm: "40px"}}>
+										<Stack
+											direction="column"
+											spacing={{ xs: 0, sm: 0, md: '20px', lg: '20px', xl: '20px' }}
+											alignItems="flex-end"
+										>
+											<Grid
+												container
+												columnSpacing={{ md: '120px', lg: '120px', xl: '120px' }}
+												rowSpacing={{ xs: '40px', sm: '40px' }}
+											>
 												<Grid item md={6} sm={12} xs={12}>
 													<DisponibilitiesRadioCheckContent
 														selectedDisponibilities={selectedDisponibilities}
@@ -455,9 +503,13 @@ const Description: NextPage = () => {
 																	label="De"
 																	placeholder="De"
 																	onChange={(e) => {
-																		setMorningHourFromState(e);
+																		if (e) {
+																			handleChange('service_morning_hour_from')(new Date(e.toString()).toString());
+																		} else {
+																			handleChange('service_morning_hour_from')('');
+																		}
 																	}}
-																	value={morningHourFromState}
+																	value={values.service_morning_hour_from}
 																	theme={titleFieldTheme}
 																/>
 																<CustomTimeInput
@@ -465,9 +517,13 @@ const Description: NextPage = () => {
 																	label="A"
 																	placeholder="A"
 																	onChange={(e) => {
-																		setMorningHourToState(e);
+																		if (e) {
+																			handleChange('service_morning_hour_to')(new Date(e.toString()).toString());
+																		} else {
+																			handleChange('service_morning_hour_to')('');
+																		}
 																	}}
-																	value={morningHourToState}
+																	value={values.service_morning_hour_to}
 																	theme={titleFieldTheme}
 																/>
 															</Stack>
@@ -485,9 +541,13 @@ const Description: NextPage = () => {
 																	label="De"
 																	placeholder="De"
 																	onChange={(e) => {
-																		setAfternoonHourFromState(e);
+																		if (e) {
+																			handleChange('service_afternoon_hour_from')(new Date(e.toString()).toString());
+																		} else {
+																			handleChange('service_afternoon_hour_from')('');
+																		}
 																	}}
-																	value={afternoonHourFromState}
+																	value={values.service_afternoon_hour_from}
 																	theme={titleFieldTheme}
 																/>
 																<CustomTimeInput
@@ -495,9 +555,13 @@ const Description: NextPage = () => {
 																	label="A"
 																	placeholder="A"
 																	onChange={(e) => {
-																		setAfternoonHourToState(e);
+																		if (e) {
+																			handleChange('service_afternoon_hour_to')(new Date(e.toString()).toString());
+																		} else {
+																			handleChange('service_afternoon_hour_to')('');
+																		}
 																	}}
-																	value={afternoonHourToState}
+																	value={values.service_afternoon_hour_to}
 																	theme={titleFieldTheme}
 																/>
 															</Stack>
