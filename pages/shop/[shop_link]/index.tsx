@@ -17,7 +17,7 @@ import {
 	ShopGetRootTokenType,
 	ShopZoneByType,
 } from '../../../types/shop/shopTypes';
-import BlackStarSVG from '../../../public/assets/svgs/globalIcons/black-star.svg';
+// import BlackStarSVG from '../../../public/assets/svgs/globalIcons/black-star.svg';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 import PhoneSVG from '../../../public/assets/svgs/globalIcons/contact-phone.svg';
 import WtspSVG from '../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
@@ -51,7 +51,7 @@ import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../../../utils/routes';
+import { NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../../../utils/routes';
 import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
@@ -367,10 +367,10 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 		}
 		// set icon colors
 		if (icon_color === 'white') {
-			setMessageIcon(MessageIconWhiteSVG);
+			// setMessageIcon(MessageIconWhiteSVG);
 			setContactIcon(ContactIconWhiteSVG);
 		} else if (icon_color === 'black') {
-			setMessageIcon(MessageIconBlackSVG);
+			// setMessageIcon(MessageIconBlackSVG);
 			setContactIcon(ContactIconBlackSVG);
 		}
 		// construct contacter link
@@ -968,17 +968,17 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 
 	// states
 	// Gray Message Icon
-	const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
+	// const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconBlackSVG);
 	const [contacterLink, setContacterLink] = useState<string | undefined>(undefined);
 
 	useEffect(() => {
 		// set icon colors
 		if (icon_color === 'white') {
-			setMessageIcon(MessageIconWhiteSVG);
+			// setMessageIcon(MessageIconWhiteSVG);
 			setContactIcon(ContactIconWhiteSVG);
 		} else if (icon_color === 'black') {
-			setMessageIcon(MessageIconBlackSVG);
+			// setMessageIcon(MessageIconBlackSVG);
 			setContactIcon(ContactIconBlackSVG);
 		}
 		// construct contacter link
@@ -1056,16 +1056,16 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 						</Stack>
 					</Stack>
 					<Stack direction="row" justifyContent="space-evenly" flexWrap="wrap">
-						<IconAnchorButton
-							buttonText="Message"
-							svgIcon={messageIcon}
-							backgroundColor={bg_color_code}
-							textColor={color_code}
-							border={border}
-							nextPage={AUTH_LOGIN}
-							active={true}
-							cssClass={Styles.iconButton}
-						/>
+						{/*<IconAnchorButton*/}
+						{/*	buttonText="Message"*/}
+						{/*	svgIcon={messageIcon}*/}
+						{/*	backgroundColor={bg_color_code}*/}
+						{/*	textColor={color_code}*/}
+						{/*	border={border}*/}
+						{/*	nextPage={AUTH_LOGIN}*/}
+						{/*	active={true}*/}
+						{/*	cssClass={Styles.iconButton}*/}
+						{/*/>*/}
 						{contact_mode === ('P' || 'W') ? (
 							<IconAnchorButton
 								buttonText="Contacter"
