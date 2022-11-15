@@ -1,17 +1,19 @@
 import React, { useRef, useEffect, useCallback, useMemo } from 'react';
 import Styles from './disponibilitiesRadioCheckContent.module.sass';
-import { OfferBulkStatesListType } from '../../../../../types/ui/uiTypes';
-import { SizesChipTheme } from '../../../../../utils/themes';
-import RadioCheckElement from '../radioCheckElement';
+import { OfferBulkStatesListType } from '../../types/ui/uiTypes';
+import { SizesChipTheme } from '../../utils/themes';
+import RadioCheckElement from '../../components/groupedComponents/temp-offer/radioCheckElement/radioCheckElement';
 import { Grid, Stack, ThemeProvider } from '@mui/material';
 import Chip from '@mui/material/Chip';
-import { useAppSelector } from '../../../../../utils/hooks';
-import { getLocalOfferServiceAvailabilityDays } from '../../../../../store/selectors';
+import { useAppSelector } from '../../utils/hooks';
+import { getLocalOfferServiceAvailabilityDays } from '../../store/selectors';
 
 type Props = {
 	selectedDisponibilities: Record<string, boolean>;
 	setSelectedDisponibilities: Record<string, React.Dispatch<React.SetStateAction<boolean>>>;
 	switchOpen: boolean;
+	// eslint-disable-next-line
+	formik: any;
 	children?: React.ReactNode;
 };
 

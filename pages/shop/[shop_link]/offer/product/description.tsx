@@ -325,6 +325,9 @@ const Description: NextPage = () => {
 									justifyContent="space-between"
 									component={Form}
 									className={Styles.stackWrapper}
+									onKeyDown={(e) => {
+										if (e.code === 'enter') e.preventDefault();
+									}}
 								>
 									<Stack direction="column" spacing="48px">
 										<Stack direction="column" spacing="18px">

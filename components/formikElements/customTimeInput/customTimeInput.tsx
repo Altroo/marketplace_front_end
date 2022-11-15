@@ -13,7 +13,7 @@ import fr from 'date-fns/locale/fr';
 
 type Props = {
 	id: string;
-	value: Dayjs | null;
+	value: Dayjs | string | null;
 	onChange: (e: Dayjs | null, keyboardInputValue?: string) => void;
 	theme: Theme;
 	cssClass?: string;

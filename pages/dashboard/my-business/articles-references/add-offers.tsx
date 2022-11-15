@@ -21,7 +21,6 @@ import {
 } from '../../../../types/subscription/subscriptionTypes';
 import {
 	AUTH_LOGIN,
-	DASHBOARD_ADD_INDEX_OFFERS,
 	DASHBOARD_INDEXED_OFFERS,
 	NOT_FOUND_404,
 } from '../../../../utils/routes';
@@ -38,7 +37,6 @@ import { CheckBoxSVG } from '../../../../components/htmlElements/checkBoxes/chec
 import ApiProgress from '../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import {
 	subscriptionGetAvailableArticlesAction,
-	subscriptionGetIndexedArticlesAction,
 	subscriptionPostIndexArticlesAction,
 } from '../../../../store/actions/subscription/subscriptionActions';
 import { SagaCallBackOnCompleteBoolType, SagaCallBackType } from '../../../../types/_init/_initTypes';
@@ -51,8 +49,6 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import SeoAnchorWrapper from '../../../../components/htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
 import { useRouter } from 'next/router';
 import AddWhiteSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/add-white.svg';
-import EmptyIndexedArticlesSVG from '../../../../public/assets/images/dashboard_illu/empty-indexed-articles.svg';
-import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CustomToast from '../../../../components/portals/customToast/customToast';
 import Portal from '../../../../contexts/Portal';
 
