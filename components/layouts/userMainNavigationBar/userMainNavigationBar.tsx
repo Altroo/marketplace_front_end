@@ -34,11 +34,13 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	DASHBOARD,
 	REAL_SHOP_ADD_SHOP_NAME,
-	SITE_ROOT, NOT_FOUND_404
-} from "../../../utils/routes";
+	SITE_ROOT,
+	NOT_FOUND_404,
+} from '../../../utils/routes';
 import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 import { bulkCookiesDeleter } from '../../../store/services/_init/_initAPI';
+import { useRouter } from 'next/router';
 
 type Props = {
 	hideMobileSearch?: boolean;
@@ -47,6 +49,7 @@ type Props = {
 const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const { hideMobileSearch } = props;
 	const { data: session, status } = useSession();
+	const router = useRouter();
 	const stateAvatar = useAppSelector(getUserProfilAvatar);
 	const stateShopAvatar = useAppSelector(getShopAvatar);
 	const [navBarPicture, setNavBarPicture] = useState<string | null>(null);
@@ -148,7 +151,18 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 			<Box className={Styles.desktopOnly}>
 				<AppBar position="static" className={Styles.appBar}>
 					<Toolbar>
-						<Image src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+						<Image
+							src={QarybSVG}
+							alt=""
+							width="0"
+							height="0"
+							sizes="100vw"
+							className={Styles.logo}
+							onClick={() => {
+								router.push(SITE_ROOT).then();
+							}}
+							style={{cursor: 'pointer'}}
+						/>
 						<Stack alignItems="center" className={Styles.searchWrapper} direction="row">
 							<Image src={SearchIconSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.searchIcon} />
 							<input
@@ -465,7 +479,17 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 						</SideNavDrawer>
 						{/* FIN MOBILE SIDE NAV DRAWER */}
 						<Stack direction="row" justifySelf="center" className={Styles.mobileRootLogoStack}>
-							<Image src={QarybSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+							<Image
+								src={QarybSVG}
+								alt=""
+								width="0"
+								height="0"
+								sizes="100vw"
+								className={Styles.logo}
+								onClick={() => {
+									router.push(SITE_ROOT).then();
+								}}
+							/>
 						</Stack>
 						<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
 							{!loading && session ? (
