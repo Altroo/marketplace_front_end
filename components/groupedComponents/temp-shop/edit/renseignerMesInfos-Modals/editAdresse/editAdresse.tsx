@@ -185,7 +185,7 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 							<HelperDescriptionHeader
 								header="Définir une zone"
 								description="Pour que vos clients vous trouve"
-								HelpText="Pourquoi définir une adresse"
+								// HelpText="Pourquoi définir une adresse"
 								headerClasses={Styles.header}
 								descriptionClasses={Styles.description}
 								cssClasses={Styles.topContainer}

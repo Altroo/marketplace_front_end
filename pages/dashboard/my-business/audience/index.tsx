@@ -175,10 +175,10 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 			<Stack direction="column" spacing={3} className={Styles.dashboardRightContentMarginLeft}>
 				<Stack direction="column">
 					<h2 className={Styles.userShopTitle}>Audience</h2>
-					<Stack direction="row" gap="3px" alignItems="center">
-						<Image src={QuestionMarkSVG} width={18} height={18} alt="" sizes="100vw" />
-						<span className={Styles.myBusinessQuestion}>Comment booster ses ventes</span>
-					</Stack>
+					{/*<Stack direction="row" gap="3px" alignItems="center">*/}
+					{/*	<Image src={QuestionMarkSVG} width={18} height={18} alt="" sizes="100vw" />*/}
+					{/*	/!*<span className={Styles.myBusinessQuestion}>Comment booster ses ventes</span>*!/*/}
+					{/*</Stack>*/}
 				</Stack>
 				<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardVuesDesktopCard}>
 					<Image src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />

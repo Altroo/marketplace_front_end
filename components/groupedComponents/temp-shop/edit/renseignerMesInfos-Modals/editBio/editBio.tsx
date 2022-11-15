@@ -63,7 +63,7 @@ const EditBio: React.FC<Props> = (props: Props) => {
 							<HelperDescriptionHeader
 								header="Rédiger une bio"
 								description="Parler de vous, donnez envie à vos clients de vous contacter"
-								HelpText="Comment rédiger une belle bio ?"
+								// HelpText="Comment rédiger une belle bio ?"
 								headerClasses={Styles.header}
 								descriptionClasses={Styles.description}
 							/>

@@ -506,7 +506,7 @@ const Livraison: NextPage = () => {
 						<Box className={Styles.marginLeft}>
 							<HelperH1Header
 								header="Choisir des modes de livraison"
-								HelpText="Quelle différence entre livraison et Click & Collect"
+								// HelpText="Quelle différence entre livraison et Click & Collect"
 								headerClasses={Styles.topHeader}
 							/>
 						</Box>
@@ -684,7 +684,7 @@ const Livraison: NextPage = () => {
 												/>
 												<HelperDescriptionHeader
 													header="Définir un prix de livraison"
-													HelpText="Pourquoi définir une adresse"
+													// HelpText="Pourquoi définir une adresse"
 													headerClasses={Styles.header}
 													descriptionClasses={Styles.description}
 													cssClasses={Styles.topContainer}
