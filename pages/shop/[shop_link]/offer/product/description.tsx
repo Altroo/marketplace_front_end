@@ -68,9 +68,9 @@ const Description: NextPage = () => {
 	const router = useRouter();
 	const [titleTooltip, setTitleTooltip] = useState<boolean>(false);
 	const [selectedColorsList, setselectedColorsList] = useState<Array<string>>([]);
-	const [offerTitle, setOfferTitle] = useState<string>('');
-	const [offerDescription, setOfferDescription] = useState<string>('');
-	const [images, setImages] = useState<ImageUploadingType>([]);
+	// const [offerTitle, setOfferTitle] = useState<string>('');
+	// const [offerDescription, setOfferDescription] = useState<string>('');
+	// const [images, setImages] = useState<ImageUploadingType>([]);
 	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	const [xsState, setXsState] = useState<boolean>(false);
 	const [sState, setSState] = useState<boolean>(false);
@@ -109,12 +109,13 @@ const Description: NextPage = () => {
 	const availableCountries = useAppSelector(getAvailableCountries);
 	// on change images
 
-	const imagesOnChangeHandler = useCallback((imageList: ImageUploadingType) => {
-		setImages(imageList);
-	}, []);
+	// const imagesOnChangeHandler = useCallback((imageList: ImageUploadingType) => {
+	// 	setImages(imageList);
+	// }, []);
 
 	type submitDataType = {
 		title: string;
+		images: ImageUploadingType | [];
 		description: string;
 	};
 	const [colorSwitchOpen, setColorSwitchOpen] = useState<boolean>(false);
@@ -137,17 +138,7 @@ const Description: NextPage = () => {
 			}
 		}
 		if (pickedMadeIn) {
-			setMadeIn(pickedMadeIn);
 			setLabelsSwitchOpen(true);
-		}
-		if (pickedTitle) {
-			setOfferTitle(pickedTitle);
-		}
-		if (pickedPictures.length > 0) {
-			setImages(pickedPictures);
-		}
-		if (pickedDescription) {
-			setOfferDescription(pickedDescription);
 		}
 		if (typeof pickedForWhom === 'string') {
 			setForWhomChoice(getForWhomDataArray(pickedForWhom.split(',') as Array<OfferForWhomType>));
@@ -193,13 +184,10 @@ const Description: NextPage = () => {
 		dispatch,
 		pickedColorsList,
 		pickedCreator,
-		pickedDescription,
 		pickedForWhom,
 		pickedMadeIn,
-		pickedPictures,
 		pickedQuantity,
 		pickedSizesList,
-		pickedTitle,
 	]);
 
 	// submit handler
@@ -236,7 +224,7 @@ const Description: NextPage = () => {
 			const productSizesStr = productSizesArray.join(',');
 			const action = setOfferProductDescriptionPage(
 				values.title,
-				images,
+				values.images,
 				values.description,
 				forWhomStr,
 				productColorsStr,
@@ -262,7 +250,7 @@ const Description: NextPage = () => {
 				},
 			});
 		},
-		[dispatch, forWhomChoice, images, madeIn, quantity, router, selectedColorsList, sizesStates, togglePickedCreator],
+		[dispatch, forWhomChoice, madeIn, quantity, router, selectedColorsList, sizesStates, togglePickedCreator],
 	);
 
 	// on change for whom
@@ -297,16 +285,18 @@ const Description: NextPage = () => {
 							/>
 						</Box>
 						<Formik
-							enableReinitialize={true}
+							// enableReinitialize={true}
+							// validateOnMount={true}
 							initialValues={{
-								title: offerTitle,
-								images: images,
-								description: offerDescription,
-								made_in: madeIn,
+								title: pickedTitle ? pickedTitle : '',
+								images: pickedPictures.length > 0 ? pickedPictures : [],
+								description: pickedDescription ? pickedDescription : '',
+								made_in: pickedMadeIn ? pickedMadeIn : '',
 							}}
-							validateOnMount={true}
-							onSubmit={(values) => {
+							onSubmit={(values, { setSubmitting }) => {
+								setSubmitting(true);
 								addDescriptionSubmitHandler(values);
+								setSubmitting(false);
 							}}
 							validationSchema={addOfferProductSchema}
 						>
@@ -319,15 +309,13 @@ const Description: NextPage = () => {
 								errors,
 								isSubmitting,
 								isValid,
+								setFieldValue,
 							}) => (
 								<Stack
 									direction="column"
 									justifyContent="space-between"
 									component={Form}
 									className={Styles.stackWrapper}
-									onKeyDown={(e) => {
-										if (e.code === 'enter') e.preventDefault();
-									}}
 								>
 									<Stack direction="column" spacing="48px">
 										<Stack direction="column" spacing="18px">
@@ -359,9 +347,9 @@ const Description: NextPage = () => {
 													</div>
 												</ClickAwayListener>
 												<CustomSquareImageUploading
-													images={images}
+													images={values.images}
 													onChange={(e) => {
-														imagesOnChangeHandler(e);
+														setFieldValue('images', e);
 													}}
 													maxNumber={4}
 												/>
