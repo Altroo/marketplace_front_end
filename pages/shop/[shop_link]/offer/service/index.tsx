@@ -5,7 +5,6 @@ import LeftSideBar from '../../../../../components/groupedComponents/shared/left
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
-import HelperH1Header from '../../../../../components/headers/helperH1Header/helperH1Header';
 import CategoriesList from '../../../../../components/groupedComponents/temp-offer/categoriesList/categoriesList';
 import { Stack, Box } from '@mui/material';
 import { useAppSelector } from '../../../../../utils/hooks';
@@ -31,7 +30,6 @@ const Index: NextPage = () => {
 	const [isValid, setIsValid] = useState<boolean>(false);
 
 	useEffect(() => {
-		console.log(pickedCategories);
 		if (pickedCategories.length > 0) {
 			setIsValid(true);
 		} else {

@@ -38,10 +38,6 @@ const CustomTimeInput: React.FC<Props> = (props: Props) => {
 					className={cssClass}
 					disabled={props.disabled}
 					toolbarTitle={props.placeholder}
-					onError={(reason, value)=>{
-						console.log('Error reason : ', reason);
-						console.log('value : ', value);
-					}}
 					inputFormat="HH:mm"
 				/>
 			</LocalizationProvider>
