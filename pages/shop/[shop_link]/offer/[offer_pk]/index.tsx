@@ -2261,7 +2261,7 @@ const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 		}
 	}, [actionDispatched, data, dispatch]);
 
-	if (selectedOffer !== null) {
+	if (selectedOffer) {
 		if (selectedOffer.offer_type === 'V') {
 			return <Product data={selectedOffer as OfferGetRootProductInterface} permission={permission} />;
 		} else {

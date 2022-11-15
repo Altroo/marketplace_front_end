@@ -179,7 +179,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
 										{/*	<Badge badgeContent={4} color="primary">*/}
 										{!navBarPicture ? (
-											<Skeleton variant="circular" width={24} height={24} />
+											<Skeleton variant="circular" width={30} height={30} />
 										) : (
 											<Image
 												src={navBarPicture as string}
@@ -481,7 +481,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										{/*<ThemeProvider theme={badgeTheme()}>*/}
 										{/*	<Badge badgeContent={4} color="primary">*/}
 										{!navBarPicture ? (
-											<Skeleton variant="circular" width={24} height={24} />
+											<Skeleton variant="circular" width={30} height={30} />
 										) : (
 											<Image
 												src={navBarPicture as string}
