@@ -925,9 +925,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											{/*</Stack>*/}
 											<Link
 												href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
-												prefetch={false}
-												target="_blank"
-												rel="noreferrer"
+												prefetch={true}
 											>
 												<span className={Styles.shopName}>{shop_name}</span>
 											</Link>
@@ -1931,9 +1929,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 											{/*</Stack>*/}
 											<Link
 												href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
-												prefetch={false}
-												target="_blank"
-												rel="noreferrer"
+												prefetch={true}
 											>
 												<span className={Styles.shopName}>{shop_name}</span>
 											</Link>
