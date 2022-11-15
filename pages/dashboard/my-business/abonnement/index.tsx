@@ -24,7 +24,6 @@ import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideN
 import MobileMyBusinessNav from '../../../../components/layouts/mobile/mobileMyBusinessNav/mobileMyBusinessNav';
 import CustomFooter from '../../../../components/layouts/footer/customFooter';
 import JumelleIlluSVG from '../../../../public/assets/images/jumelle-illu.svg';
-import Link from 'next/link';
 import IosSwitch from '../../../../components/htmlElements/switches/iosSwitch';
 import TextButton from '../../../../components/htmlElements/buttons/textButton/textButton';
 import CustomSlider from '../../../../components/htmlElements/customSlider/customSlider';
@@ -44,7 +43,7 @@ import {
 } from '../../../../types/subscription/subscriptionTypes';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
-import TextAnchorButton from '../../../../components/htmlElements/buttons/textAnchorButton/textAnchorButton';
+import TextAnchorButton, {MobileTextAnchorButton} from '../../../../components/htmlElements/buttons/textAnchorButton/textAnchorButton';
 
 type AbonnementAvantageItemProps = {
 	text: string;
@@ -379,7 +378,20 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 								<span>/{nbr_article} articles</span>
 							</Stack>
 							<Stack direction="row" alignItems="flex-end" justifyContent="flex-end">
-								<TextAnchorButton buttonText="Articles référencés" nextPage={DASHBOARD_INDEXED_OFFERS} />
+
+								<Box className={Styles.desktopOnly}>
+									<TextAnchorButton buttonText="Articles référencés" nextPage={DASHBOARD_INDEXED_OFFERS} />
+								</Box>
+								<Box className={Styles.mobileOnly}>
+									<MobileTextAnchorButton buttonText="Articles référencés" onClick={() => {
+										router.replace({
+											query: {
+												direct: true,
+											},
+											pathname: DASHBOARD_INDEXED_OFFERS,
+										}, DASHBOARD_INDEXED_OFFERS).then();
+									}}/>
+								</Box>
 							</Stack>
 						</Stack>
 					</Box>

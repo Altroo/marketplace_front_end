@@ -65,6 +65,8 @@ type AvailableOffersToIndexContentType = {
 };
 
 const BackButton = () => {
+	// const router = useRouter();
+
 	return (
 		<>
 			<Box className={SharedStyles.desktopOnly}>
@@ -77,13 +79,18 @@ const BackButton = () => {
 					</Button>
 				</Link>
 			</Box>
-			<Box className={SharedStyles.mobileOnly}>
-				<Link href={DASHBOARD_INDEXED_OFFERS}>
-					<Stack direction="row" alignItems="center">
-						<Image src={CloseSVG} width="32" height="32" sizes="100vw" alt="" />
-					</Stack>
-				</Link>
-			</Box>
+			{/*<Box className={SharedStyles.mobileOnly}>*/}
+			{/*	<Stack direction="row" alignItems="center" sx={{cursor: 'pointer'}} onClick={() => {*/}
+			{/*		router.replace({*/}
+			{/*			query: {*/}
+			{/*				direct: true,*/}
+			{/*			},*/}
+			{/*			pathname: DASHBOARD_INDEXED_OFFERS,*/}
+			{/*		}, DASHBOARD_INDEXED_OFFERS).then();*/}
+			{/*	}}>*/}
+			{/*		<Image src={CloseSVG} width="32" height="32" sizes="100vw" alt="" />*/}
+			{/*	</Stack>*/}
+			{/*</Box>*/}
 		</>
 	);
 };
@@ -490,7 +497,14 @@ const ReferencerDesArticles: NextPage<ReferencerDesArticlesProps> = (props: Refe
 										className={SharedStyles.topBackNavigationStack}
 										direction="row"
 										spacing={1}
-										onClick={() => setMobileElementClicked(false)}
+										onClick={() => {
+											router.replace({
+												query: {
+													direct: true,
+												},
+												pathname: DASHBOARD_INDEXED_OFFERS,
+											}, DASHBOARD_INDEXED_OFFERS).then();
+										}}
 										alignItems="center"
 									>
 										<Image
@@ -505,7 +519,11 @@ const ReferencerDesArticles: NextPage<ReferencerDesArticlesProps> = (props: Refe
 									</Stack>
 								</Stack>
 							</Stack>
-							<AvailableOffersToIndexContent offersData={offersData} availableSlots={data.remaining_slots_count} setShowToast={setShowToast} />
+							<AvailableOffersToIndexContent
+								offersData={offersData}
+								availableSlots={data.remaining_slots_count}
+								setShowToast={setShowToast}
+							/>
 						</Box>
 					)}
 				</Stack>

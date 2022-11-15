@@ -31,4 +31,23 @@ const TextAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref
 
 TextAnchorButton.displayName = 'TextAnchorButton';
 
+type MobileProps = {
+	buttonText: string;
+	onClick: () => void;
+	cssClass?: string;
+	disabled?: boolean;
+	children?: React.ReactNode;
+}
+export const MobileTextAnchorButton: React.FC<MobileProps> = (props: MobileProps) => {
+	return (
+		<Button className={`${Styles.textAnchorButton} ${props.cssClass && `${props.cssClass}`}`}
+			disabled={props.disabled} onClick={props.onClick} variant="text">
+			{props.buttonText}
+		</Button>
+	);
+};
+
+MobileTextAnchorButton.displayName = 'MobileTextAnchorButton';
+
+
 export default TextAnchorButton;

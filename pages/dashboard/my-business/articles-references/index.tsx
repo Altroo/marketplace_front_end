@@ -20,7 +20,7 @@ import {
 	DASHBOARD_SUBSCRIPTION,
 	NOT_FOUND_404,
 } from '../../../../utils/routes';
-import { Stack, Box, Button, IconButton, Divider, Checkbox, ThemeProvider, Skeleton, AlertColor } from "@mui/material";
+import { Stack, Box, Button, IconButton, Divider, Checkbox, ThemeProvider, Skeleton } from "@mui/material";
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import DesktopMyBusinessSideNav from '../../../../components/layouts/desktop/desktopMyBusinessSideNav/desktopMyBusinessSideNav';
 import Image from 'next/image';
@@ -37,7 +37,6 @@ import CustomFooter from '../../../../components/layouts/footer/customFooter';
 import PrimaryAnchorButton from '../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import OutlineButton from '../../../../components/htmlElements/buttons/outlineButton/outlineButton';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import {
 	subscriptionGetIndexedOffersPaginatedType,
 	subscriptionGetIndexedOffersResponseType,
@@ -141,15 +140,21 @@ const EmptyIndexedContent: React.FC<EmptyIndexedContentType> = (props: EmptyInde
 };
 
 const BlueAddButton = () => {
+	const router = useRouter();
 	return (
-		<Link href={DASHBOARD_ADD_INDEX_OFFERS}>
-			<Button color="primary" className={Styles.indexedArticlesAddActionButton}>
-				<Stack direction="row" spacing="9px" alignItems="center">
-					<Image src={AddWhiteSVG} width="14" height="14" sizes="100vw" alt="" />
-					<span>Ajouter</span>
-				</Stack>
-			</Button>
-		</Link>
+		<Button color="primary" className={Styles.indexedArticlesAddActionButton} onClick={() => {
+			router.replace({
+				query: {
+					direct: true,
+				},
+				pathname: DASHBOARD_ADD_INDEX_OFFERS,
+			}, DASHBOARD_ADD_INDEX_OFFERS).then();
+		}}>
+			<Stack direction="row" spacing="9px" alignItems="center">
+				<Image src={AddWhiteSVG} width="14" height="14" sizes="100vw" alt="" />
+				<span>Ajouter</span>
+			</Stack>
+		</Button>
 	);
 };
 
@@ -211,6 +216,7 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 					pathname: DASHBOARD_SUBSCRIPTION,
 					query: {
 						renderBack: true,
+						direct: true,
 					},
 				},
 				DASHBOARD_SUBSCRIPTION,
