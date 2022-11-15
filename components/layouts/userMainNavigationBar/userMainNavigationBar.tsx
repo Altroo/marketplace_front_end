@@ -10,7 +10,7 @@ import Image from 'next/image';
 import QarybSVG from '../../../public/assets/images/logo.svg';
 import ProfileSVG from '../../../public/assets/svgs/mainNavBarIcons/profile.svg';
 import CreerVotreBoutiqueSVG from '../../../public/assets/svgs/mainNavBarIcons/boutique-purple.svg';
-import EmptyCartSVG from '../../../public/assets/svgs/mainNavBarIcons/empty-cart.svg';
+// import EmptyCartSVG from '../../../public/assets/svgs/mainNavBarIcons/empty-cart.svg';
 import DashboardSVG from '../../../public/assets/svgs/mainNavBarIcons/dashboard.svg';
 import BoutiqueSVG from '../../../public/assets/svgs/mainNavBarIcons/boutique.svg';
 import NotificationsSVG from '../../../public/assets/svgs/mainNavBarIcons/notification.svg';
@@ -275,19 +275,19 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 								</IconButton>
 							)}
 							{/* Cart button */}
-							<IconButton
-								size="large"
-								aria-label="cart of current user"
-								aria-controls="menu-appbar"
-								aria-haspopup="true"
-								color="inherit"
-							>
-								{/*<ThemeProvider theme={badgeTheme()}>*/}
-								{/*	<Badge badgeContent={4} color="primary">*/}
-								<Image src={EmptyCartSVG} alt="" width={24} height={24} sizes="100vw" className={Styles.navBarIcons} />
-								{/*</Badge>*/}
-								{/*</ThemeProvider>*/}
-							</IconButton>
+							{/*<IconButton*/}
+							{/*	size="large"*/}
+							{/*	aria-label="cart of current user"*/}
+							{/*	aria-controls="menu-appbar"*/}
+							{/*	aria-haspopup="true"*/}
+							{/*	color="inherit"*/}
+							{/*>*/}
+							{/*	/!*<ThemeProvider theme={badgeTheme()}>*!/*/}
+							{/*	/!*	<Badge badgeContent={4} color="primary">*!/*/}
+							{/*	<Image src={EmptyCartSVG} alt="" width={24} height={24} sizes="100vw" className={Styles.navBarIcons} />*/}
+							{/*	/!*</Badge>*!/*/}
+							{/*	/!*</ThemeProvider>*!/*/}
+							{/*</IconButton>*/}
 						</Stack>
 					</Toolbar>
 				</AppBar>
@@ -579,16 +579,16 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									</Link>
 								</IconButton>
 							)}
-							<IconButton
-								size="large"
-								aria-label="cart of current user"
-								aria-controls="menu-appbar"
-								aria-haspopup="true"
-								color="inherit"
-								className={Styles.iconButton}
-							>
-								<Image src={EmptyCartSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.mobileIcons} />
-							</IconButton>
+							{/*<IconButton*/}
+							{/*	size="large"*/}
+							{/*	aria-label="cart of current user"*/}
+							{/*	aria-controls="menu-appbar"*/}
+							{/*	aria-haspopup="true"*/}
+							{/*	color="inherit"*/}
+							{/*	className={Styles.iconButton}*/}
+							{/*>*/}
+							{/*	<Image src={EmptyCartSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.mobileIcons} />*/}
+							{/*</IconButton>*/}
 						</Stack>
 					</Toolbar>
 				</AppBar>
