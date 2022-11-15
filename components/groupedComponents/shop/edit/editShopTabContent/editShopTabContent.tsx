@@ -332,8 +332,6 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 											active={true}
 											onClick={() => {
 												dispatch(setEmptyUserLocalOffer());
-												// TODO - to fix - bug
-												// dispatch(offerGetLastThreeUsedDeliveriesAction());
 											}}
 											nextPage={REAL_OFFER_ADD_INDEX(router.query.shop_link as string)}
 										/>

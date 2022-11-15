@@ -323,6 +323,7 @@ const OfferSlice = createSlice({
 		},
 		emptyUserLocalOffer: (state) => {
 			state.userLocalProduct = userLocalProductInitial;
+			state.userLocalService = userLocalServiceInitial;
 		},
 		setSelectedOffer: (state, action: PayloadAction<{data: OfferGetRootProductInterface | OfferGetRootServiceInterface}>) => {
 			state.selectedOffer = action.payload.data;
