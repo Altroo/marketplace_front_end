@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './description.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
@@ -19,8 +19,9 @@ import CustomTextInput from '../../../../../components/formikElements/customText
 import {
 	coordonneeTextInputTheme,
 	offerForWhomDropdownTheme,
-	offerTitleTooltipTheme, SizesChipTheme
-} from "../../../../../utils/themes";
+	offerTitleTooltipTheme,
+	SizesChipTheme,
+} from '../../../../../utils/themes';
 import CustomToolTip from '../../../../../components/htmlElements/toolTip/customToolTip';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
 import CustomSquareImageUploading from '../../../../../components/formikElements/customSquareImageUploading/customSquareImageUploading';
@@ -34,7 +35,8 @@ import { useRouter } from 'next/router';
 import {
 	getLocalOfferServiceAddress,
 	getLocalOfferServiceAfternoonHourFrom,
-	getLocalOfferServiceAfternoonHourto, getLocalOfferServiceAvailabilityDays,
+	getLocalOfferServiceAfternoonHourto,
+	getLocalOfferServiceAvailabilityDays,
 	getLocalOfferServiceDescription,
 	getLocalOfferServiceForwhom,
 	getLocalOfferServiceKmRadius,
@@ -44,8 +46,8 @@ import {
 	getLocalOfferServiceMorningHourTo,
 	getLocalOfferServicePictures,
 	getLocalOfferServiceTitle,
-	getLocalOfferServiceZoneBy
-} from "../../../../../store/selectors";
+	getLocalOfferServiceZoneBy,
+} from '../../../../../store/selectors';
 import { constructDate, forWhomItemsList, getForWhomDataArray } from '../../../../../utils/rawData';
 import { OfferForWhomType } from '../../../../../types/offer/offerTypes';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
@@ -59,7 +61,7 @@ import { setOfferServiceDescriptionPage } from '../../../../../store/actions/off
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 import ServiceMiniMap from '../../../../../components/groupedComponents/temp-offer/services/serviceMiniMap/serviceMiniMap';
 import CustomTimeInput from '../../../../../components/formikElements/customTimeInput/customTimeInput';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import Chip from '@mui/material/Chip';
 import RadioCheckElement from '../../../../../components/groupedComponents/temp-offer/radioCheckElement/radioCheckElement';
 
@@ -103,66 +105,63 @@ const Description: NextPage = () => {
 		title: string;
 		description: string;
 		service_availability_days: string;
-		service_morning_hour_from: Dayjs | null;
-		service_morning_hour_to: Dayjs | null;
-		service_afternoon_hour_from: Dayjs | null;
-		service_afternoon_hour_to: Dayjs | null;
+		service_morning_hour_from: string | null;
+		service_morning_hour_to: string | null;
+		service_afternoon_hour_from: string | null;
+		service_afternoon_hour_to: string | null;
 		// tags: Array<string>;
 	};
 	const [localisationModalOpen, setLocalisationModalOpen] = useState<boolean>(false);
 
-		// submit handler
-	const addDescriptionSubmitHandler = useCallback(
-		(values: submitDataType) => {
-			const forWhomCodeArray: Array<string> = [];
-			if (forWhomChoice.length >= 1) {
-				forWhomChoice.map((forWhom) => {
-					forWhomCodeArray.push(forWhom[0]);
+	// // submit handler
+	const addDescriptionSubmitHandler = (values: submitDataType) => {
+		const forWhomCodeArray: Array<string> = [];
+				if (forWhomChoice.length >= 1) {
+					forWhomChoice.map((forWhom) => {
+						forWhomCodeArray.push(forWhom[0]);
+					});
+				}
+				const forWhomStr = forWhomCodeArray.join(',');
+				const service_morning_hour_from = values.service_morning_hour_from
+					? dayjs(new Date(values.service_morning_hour_from)).format('HH:mm')
+					: null;
+				const service_morning_hour_to = values.service_morning_hour_to
+					? dayjs(new Date(values.service_morning_hour_to)).format('HH:mm')
+					: null;
+				const service_afternoon_hour_from = values.service_afternoon_hour_from
+					? dayjs(new Date(values.service_afternoon_hour_from)).format('HH:mm')
+					: null;
+				const service_afternoon_hour_to = values.service_afternoon_hour_to
+					? dayjs(new Date(values.service_afternoon_hour_to)).format('HH:mm')
+					: null;
+				const action = setOfferServiceDescriptionPage(
+					values.title,
+					images,
+					values.description,
+					forWhomStr,
+					values.service_availability_days,
+					service_morning_hour_from,
+					service_morning_hour_to,
+					service_afternoon_hour_from,
+					service_afternoon_hour_to,
+				);
+				dispatch({
+					...action,
+					onComplete: ({
+						error,
+						cancelled,
+						data,
+					}: {
+						error: ApiErrorResponseType;
+						cancelled: boolean;
+						data: boolean;
+					}) => {
+						if (!error && !cancelled && data) {
+							router.push(REAL_OFFER_ADD_SERVICE_PRICE(router.query.shop_link as string)).then();
+						}
+					},
 				});
-			}
-			const forWhomStr = forWhomCodeArray.join(',');
-			const service_morning_hour_from = values.service_morning_hour_from
-				? values.service_morning_hour_from.format('HH:mm')
-				: null;
-			const service_morning_hour_to = values.service_morning_hour_to
-				? values.service_morning_hour_to.format('HH:mm')
-				: null;
-			const service_afternoon_hour_from = values.service_afternoon_hour_from
-				? values.service_afternoon_hour_from.format('HH:mm')
-				: null;
-			const service_afternoon_hour_to = values.service_afternoon_hour_to
-				? values.service_afternoon_hour_to.format('HH:mm')
-				: null;
-			const action = setOfferServiceDescriptionPage(
-				values.title,
-				images,
-				values.description,
-				forWhomStr,
-				values.service_availability_days,
-				service_morning_hour_from,
-				service_morning_hour_to,
-				service_afternoon_hour_from,
-				service_afternoon_hour_to,
-			);
-			dispatch({
-				...action,
-				onComplete: ({
-					error,
-					cancelled,
-					data,
-				}: {
-					error: ApiErrorResponseType;
-					cancelled: boolean;
-					data: boolean;
-				}) => {
-					if (!error && !cancelled && data) {
-						router.push(REAL_OFFER_ADD_SERVICE_PRICE(router.query.shop_link as string)).then();
-					}
-				},
-			});
-		},
-		[dispatch, forWhomChoice, images, router],
-	);
+	};
 
 	// on change for whom
 	const forWhomHandleChange = useCallback((event: SelectChangeEvent<Array<string>>) => {
@@ -172,11 +171,11 @@ const Description: NextPage = () => {
 		setForWhomChoice(typeof value === 'string' ? value.split(',') : value);
 	}, []);
 
-	const formik = useFormik({
+	const {setFieldValue, values, handleChange, handleBlur, touched, errors, handleSubmit, isValid, isSubmitting} = useFormik({
 		initialValues: {
-			title: '',
-			images: '',
-			description: '',
+			title: pickedTitle ? pickedTitle : '',
+			images: pickedPictures.length > 0 ? pickedPictures : '',
+			description: pickedDescription ? pickedDescription : '',
 			al_day: false,
 			mo_day: false,
 			tu_day: false,
@@ -185,16 +184,14 @@ const Description: NextPage = () => {
 			fr_day: false,
 			sa_day: false,
 			su_day: false,
-			service_morning_hour_from: null,
-			service_morning_hour_to: null,
-			service_afternoon_hour_from: null,
-			service_afternoon_hour_to: null,
+			service_morning_hour_from: morningHourFrom ? dayjs(new Date(constructDate(morningHourFrom))) : null,
+			service_morning_hour_to: morningHourTo ? dayjs(new Date(constructDate(morningHourTo))) : null,
+			service_afternoon_hour_from: afternoonHourFrom ? dayjs(new Date(constructDate(afternoonHourFrom))) : null,
+			service_afternoon_hour_to: afternoonHourTo ? dayjs(new Date(constructDate(afternoonHourTo))) : null,
 		},
-		validateOnMount: true,
-		// enableReinitialize: true,
 		validationSchema: addOfferServiceSchema,
 		onSubmit: async (values, { setSubmitting }) => {
-			setSubmitting(false);
+			setSubmitting(true);
 			let availabilityDaysString = '';
 			if (values.al_day) {
 				availabilityDaysString = availabilityDaysString + 'AL,';
@@ -231,71 +228,61 @@ const Description: NextPage = () => {
 					title: values.title,
 					description: values.description,
 					service_availability_days: availabilityDaysString,
-					service_morning_hour_from: values.service_morning_hour_from ? dayjs(new Date(values.service_morning_hour_from)) : null,
-					service_morning_hour_to: values.service_morning_hour_to ? dayjs(new Date(values.service_morning_hour_to)) : null,
-					service_afternoon_hour_from: values.service_afternoon_hour_from ? dayjs(new Date(values.service_afternoon_hour_from)) : null,
-					service_afternoon_hour_to: values.service_afternoon_hour_to ? dayjs(new Date(values.service_afternoon_hour_to)) : null,
+					service_morning_hour_from: values.service_morning_hour_from
+						? dayjs(new Date(values.service_morning_hour_from.toString())).toString()
+						: null,
+					service_morning_hour_to: values.service_morning_hour_to
+						? dayjs(new Date(values.service_morning_hour_to.toString())).toString()
+						: null,
+					service_afternoon_hour_from: values.service_afternoon_hour_from
+						? dayjs(new Date(values.service_afternoon_hour_from.toString())).toString()
+						: null,
+					service_afternoon_hour_to: values.service_afternoon_hour_to
+						? dayjs(new Date(values.service_afternoon_hour_to.toString())).toString()
+						: null,
 				});
 			}
-			setSubmitting(true);
+			setSubmitting(false);
 		},
 	});
 
 	useEffect(() => {
-		if (morningHourFrom) {
-			formik.setFieldValue('service_morning_hour_from', dayjs(new Date(constructDate(morningHourFrom))));
-		}
-		if (morningHourTo) {
-			formik.setFieldValue('service_morning_hour_to', dayjs(new Date(constructDate(morningHourTo))));
-		}
-		if (afternoonHourFrom) {
-			formik.setFieldValue('service_afternoon_hour_from', dayjs(new Date(constructDate(afternoonHourFrom))));
-		}
-		if (afternoonHourTo) {
-			formik.setFieldValue('service_afternoon_hour_to', dayjs(new Date(constructDate(afternoonHourTo))));
-		}
-		if (pickedTitle) {
-			formik.setFieldValue('title', pickedTitle);
-		}
 		if (pickedPictures.length > 0) {
-			formik.setFieldValue('images', pickedPictures);
-		}
-		if (pickedDescription) {
-			formik.setFieldValue('description', pickedDescription);
+			setImages(pickedPictures);
 		}
 		if (availabilityDays) {
 			availabilityDays.map((day) => {
 				switch (day.code_day) {
 					case 'AL':
-						formik.setFieldValue('al_day', true);
-						formik.setFieldValue('mo_day', true);
-						formik.setFieldValue('tu_day', true);
-						formik.setFieldValue('we_day', true);
-						formik.setFieldValue('th_day', true);
-						formik.setFieldValue('fr_day', true);
-						formik.setFieldValue('sa_day', true);
-						formik.setFieldValue('su_day', true);
+						setFieldValue('al_day', true);
+						setFieldValue('mo_day', true);
+						setFieldValue('tu_day', true);
+						setFieldValue('we_day', true);
+						setFieldValue('th_day', true);
+						setFieldValue('fr_day', true);
+						setFieldValue('sa_day', true);
+						setFieldValue('su_day', true);
 						break;
 					case 'MO':
-						formik.setFieldValue('mo_day', true);
+						setFieldValue('mo_day', true);
 						break;
 					case 'TU':
-						formik.setFieldValue('tu_day', true);
+						setFieldValue('tu_day', true);
 						break;
 					case 'WE':
-						formik.setFieldValue('we_day', true);
+						setFieldValue('we_day', true);
 						break;
 					case 'TH':
-						formik.setFieldValue('th_day', true);
+						setFieldValue('th_day', true);
 						break;
 					case 'FR':
-						formik.setFieldValue('fr_day', true);
+						setFieldValue('fr_day', true);
 						break;
 					case 'SA':
-						formik.setFieldValue('sa_day', true);
+						setFieldValue('sa_day', true);
 						break;
 					case 'SU':
-						formik.setFieldValue('su_day', true);
+						setFieldValue('su_day', true);
 						break;
 				}
 			});
@@ -304,7 +291,7 @@ const Description: NextPage = () => {
 		if (typeof pickedForWhom === 'string') {
 			setForWhomChoice(getForWhomDataArray(pickedForWhom.split(',') as Array<OfferForWhomType>));
 		}
-	}, [afternoonHourFrom, afternoonHourTo, availabilityDays, formik, morningHourFrom, morningHourTo, pickedDescription, pickedForWhom, pickedPictures, pickedTitle]);
+	}, [availabilityDays, pickedForWhom, setFieldValue, pickedPictures]);
 
 	return (
 		<>
@@ -330,7 +317,7 @@ const Description: NextPage = () => {
 							/>
 						</Box>
 						<form
-							style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}
+							style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
 							className={Styles.stackWrapper}
 						>
 							<Stack direction="column" spacing={{ xs: '40px', sm: '40px', md: '48px', lg: '48px', xl: '48px' }}>
@@ -347,11 +334,11 @@ const Description: NextPage = () => {
 													<CustomTextInput
 														id="title"
 														label="Titre"
-														value={formik.values.title}
-														onChange={formik.handleChange('title')}
-														onBlur={formik.handleBlur('title')}
-														helperText={formik.touched.title ? formik.errors.title : ''}
-														error={formik.touched.title && Boolean(formik.errors.title)}
+														value={values.title}
+														onChange={handleChange('title')}
+														onBlur={handleBlur('title')}
+														helperText={touched.title ? errors.title : ''}
+														error={touched.title && Boolean(errors.title)}
 														theme={titleFieldTheme}
 														fullWidth={false}
 														size="medium"
@@ -375,11 +362,11 @@ const Description: NextPage = () => {
 												type="text"
 												id="description"
 												label="Description"
-												value={formik.values.description}
-												onChange={formik.handleChange('description')}
-												onBlur={formik.handleBlur('description')}
-												helperText={formik.touched.description ? formik.errors.description : ''}
-												error={formik.touched.description && Boolean(formik.errors.description)}
+												value={values.description}
+												onChange={handleChange('description')}
+												onBlur={handleBlur('description')}
+												helperText={touched.description ? errors.description : ''}
+												error={touched.description && Boolean(errors.description)}
 												minRows={4}
 												multiline={true}
 												theme={descriptionFieldTheme}
@@ -422,73 +409,99 @@ const Description: NextPage = () => {
 														<Grid container spacing={2}>
 															<Grid item xs="auto">
 																<Chip
+																	id="al_day"
 																	label="Tout les jours"
-																	variant={formik.values.al_day ? 'filled' : 'outlined'}
-																	onClick={(e) => {
-																		formik.setFieldValue('al_day', !formik.values.al_day);
+																	variant={values.al_day ? 'filled' : 'outlined'}
+																	onClick={() => {
+																		if (values.al_day) {
+																			setFieldValue('al_day', false);
+																			setFieldValue('mo_day', false);
+																			setFieldValue('tu_day', false);
+																			setFieldValue('we_day', false);
+																			setFieldValue('th_day', false);
+																			setFieldValue('fr_day', false);
+																			setFieldValue('sa_day', false);
+																			setFieldValue('su_day', false);
+																		} else {
+																			setFieldValue('al_day', true);
+																			setFieldValue('mo_day', true);
+																			setFieldValue('tu_day', true);
+																			setFieldValue('we_day', true);
+																			setFieldValue('th_day', true);
+																			setFieldValue('fr_day', true);
+																			setFieldValue('sa_day', true);
+																			setFieldValue('su_day', true);
+																		}
 																	}}
 																/>
 															</Grid>
 															<Grid item xs="auto">
 																<Chip
+																	id="mo_day"
 																	label="Lundi"
-																	variant={formik.values.mo_day ? 'filled' : 'outlined'}
-																	onClick={(e) => {
-																		formik.setFieldValue('mo_day', !formik.values.mo_day);
+																	variant={values.mo_day ? 'filled' : 'outlined'}
+																	onClick={() => {
+																		setFieldValue('mo_day', !values.mo_day);
 																	}}
 																/>
 															</Grid>
 															<Grid item xs="auto">
 																<Chip
+																	id="tu_day"
 																	label="Mardi"
-																	variant={formik.values.tu_day ? 'filled' : 'outlined'}
-																	onClick={(e) => {
-																		formik.setFieldValue('tu_day', !formik.values.tu_day);
+																	variant={values.tu_day ? 'filled' : 'outlined'}
+																	onClick={() => {
+																		setFieldValue('tu_day', !values.tu_day);
 																	}}
 																/>
 															</Grid>
 															<Grid item xs="auto">
 																<Chip
+																	id="we_day"
 																	label="Mercredi"
-																	variant={formik.values.we_day ? 'filled' : 'outlined'}
-																	onClick={(e) => {
-																		formik.setFieldValue('we_day', !formik.values.we_day);
+																	variant={values.we_day ? 'filled' : 'outlined'}
+																	onClick={() => {
+																		setFieldValue('we_day', !values.we_day);
 																	}}
 																/>
 															</Grid>
 															<Grid item xs="auto">
 																<Chip
+																	id="th_day"
 																	label="Jeudi"
-																	variant={formik.values.th_day ? 'filled' : 'outlined'}
-																	onClick={(e) => {
-																		formik.setFieldValue('th_day', !formik.values.th_day);
+																	variant={values.th_day ? 'filled' : 'outlined'}
+																	onClick={() => {
+																		setFieldValue('th_day', !values.th_day);
 																	}}
 																/>
 															</Grid>
 															<Grid item xs="auto">
 																<Chip
+																	id="fr_day"
 																	label="Vendredi"
-																	variant={formik.values.fr_day ? 'filled' : 'outlined'}
-																	onClick={(e) => {
-																		formik.setFieldValue('fr_day', !formik.values.fr_day);
+																	variant={values.fr_day ? 'filled' : 'outlined'}
+																	onClick={() => {
+																		setFieldValue('fr_day', !values.fr_day);
 																	}}
 																/>
 															</Grid>
 															<Grid item xs="auto">
 																<Chip
+																	id="sa_day"
 																	label="Samedi"
-																	variant={formik.values.sa_day ? 'filled' : 'outlined'}
-																	onClick={(e) => {
-																		formik.setFieldValue('sa_day', !formik.values.sa_day);
+																	variant={values.sa_day ? 'filled' : 'outlined'}
+																	onClick={() => {
+																		setFieldValue('sa_day', !values.sa_day);
 																	}}
 																/>
 															</Grid>
 															<Grid item xs="auto">
 																<Chip
+																	id="su_day"
 																	label="Dimanche"
-																	variant={formik.values.su_day ? 'filled' : 'outlined'}
-																	onClick={(e) => {
-																		formik.setFieldValue('su_day', !formik.values.su_day);
+																	variant={values.su_day ? 'filled' : 'outlined'}
+																	onClick={() => {
+																		setFieldValue('su_day', !values.su_day);
 																	}}
 																/>
 															</Grid>
@@ -514,12 +527,12 @@ const Description: NextPage = () => {
 															placeholder="De"
 															onChange={(e) => {
 																if (e) {
-																	formik.handleChange('service_morning_hour_from')(new Date(e.toString()).toString());
+																	handleChange('service_morning_hour_from')(new Date(e.toString()).toString());
 																} else {
-																	formik.handleChange('service_morning_hour_from')('');
+																	handleChange('service_morning_hour_from')('');
 																}
 															}}
-															value={formik.values.service_morning_hour_from}
+															value={values.service_morning_hour_from}
 															theme={titleFieldTheme}
 														/>
 														<CustomTimeInput
@@ -528,12 +541,12 @@ const Description: NextPage = () => {
 															placeholder="A"
 															onChange={(e) => {
 																if (e) {
-																	formik.handleChange('service_morning_hour_to')(new Date(e.toString()).toString());
+																	handleChange('service_morning_hour_to')(new Date(e.toString()).toString());
 																} else {
-																	formik.handleChange('service_morning_hour_to')('');
+																	handleChange('service_morning_hour_to')('');
 																}
 															}}
-															value={formik.values.service_morning_hour_to}
+															value={values.service_morning_hour_to}
 															theme={titleFieldTheme}
 														/>
 													</Stack>
@@ -547,12 +560,12 @@ const Description: NextPage = () => {
 															placeholder="De"
 															onChange={(e) => {
 																if (e) {
-																	formik.handleChange('service_afternoon_hour_from')(new Date(e.toString()).toString());
+																	handleChange('service_afternoon_hour_from')(new Date(e.toString()).toString());
 																} else {
-																	formik.handleChange('service_afternoon_hour_from')('');
+																	handleChange('service_afternoon_hour_from')('');
 																}
 															}}
-															value={formik.values.service_afternoon_hour_from}
+															value={values.service_afternoon_hour_from}
 															theme={titleFieldTheme}
 														/>
 														<CustomTimeInput
@@ -561,12 +574,12 @@ const Description: NextPage = () => {
 															placeholder="A"
 															onChange={(e) => {
 																if (e) {
-																	formik.handleChange('service_afternoon_hour_to')(new Date(e.toString()).toString());
+																	handleChange('service_afternoon_hour_to')(new Date(e.toString()).toString());
 																} else {
-																	formik.handleChange('service_afternoon_hour_to')('');
+																	handleChange('service_afternoon_hour_to')('');
 																}
 															}}
-															value={formik.values.service_afternoon_hour_to}
+															value={values.service_afternoon_hour_to}
 															theme={titleFieldTheme}
 														/>
 													</Stack>
@@ -608,15 +621,15 @@ const Description: NextPage = () => {
 								<PrimaryButton
 									buttonText="Continuer"
 									active={
-										formik.isValid &&
-										!formik.isSubmitting &&
+										isValid &&
+										!isSubmitting &&
 										!!address_name &&
 										!!longitude &&
 										!!latitude &&
 										!!zone_by &&
 										!!km_radius
 									}
-									onClick={formik.handleSubmit}
+									onClick={handleSubmit}
 									type="submit"
 								/>
 							</div>
