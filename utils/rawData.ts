@@ -8,6 +8,8 @@ import {
 	OfferServicePriceByType,
 } from '../types/offer/offerTypes';
 import { AccountGenderCodeValueType } from '../types/account/accountTypes';
+import { NotificationsType } from "../types/notification/notificationTypes";
+import { DASHBOARD_SUBSCRIPTION } from "./routes";
 
 export const monthItemsList = [
 	'janv',
@@ -347,3 +349,13 @@ export const constructDate = (hour: string) => {
 	today.setMinutes(parseInt(minutes));
 	return today;
 };
+
+export const getNotificationLink = (type: NotificationsType) => {
+	switch (type) {
+		case 'SA':
+			return {
+				link: DASHBOARD_SUBSCRIPTION,
+				message: 'Votre abonnement est activé',
+			};
+	}
+}

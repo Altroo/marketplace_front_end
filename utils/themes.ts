@@ -868,7 +868,7 @@ export const customImageModalTheme = (primaryColor: string | undefined = undefin
 					root: {
 						'& .MuiPaper-root': {
 							overflowX: 'hidden',
-							height: 'auto'
+							height: 'auto',
 						},
 					},
 				},
@@ -1016,7 +1016,7 @@ export const checkBoxTheme = (primaryColor: string | undefined = undefined) => {
 			},
 		},
 	});
-}
+};
 
 export const newsLetterEmailInputTheme = () => {
 	const whiteColor = '#FFFFFF';
@@ -1055,7 +1055,7 @@ export const newsLetterEmailInputTheme = () => {
 						'&:hover': {
 							borderRadius: '16px',
 							border: '1px solid #A3A3AD',
-						}
+						},
 					},
 					input: {
 						fontFamily: 'Poppins',
@@ -1080,7 +1080,6 @@ export const newsLetterEmailInputTheme = () => {
 						'& .MuiInputBase-root': {
 							color: whiteColor,
 						},
-
 					},
 				},
 			},
@@ -1115,6 +1114,37 @@ export const SizesChipTheme = (primaryColor: string | undefined = undefined) => 
 						'&:hover': {
 							backgroundColor: 'rgba(0, 0, 0, 0.7)',
 						},
+					},
+				},
+			},
+		},
+	});
+};
+
+export const NotificationsDropDownMenuTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiMenu: {
+				styleOverrides: {
+					paper: {
+						boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25) !important',
+						borderRadius: '40px !important',
+						padding: '20px',
+						minWidth: '348px !important',
+						[defaultTheme.breakpoints.down('sm')]: {
+							minWidth: '320px !important',
+						},
+					},
+				},
+			},
+			MuiMenuItem: {
+				styleOverrides: {
+					root: {
+						width: '100%',
+						margin: '0',
+						padding: '0 10px 0 0',
 					},
 				},
 			},

@@ -39,6 +39,8 @@ import CustomContainer from "../components/layouts/customContainer/customContain
 // import { AppTokensCookieType, NewShopCookieType } from "../types/_init/_initTypes";
 // import { placesGetCitiesAction } from "../store/actions/places/placesActions";
 // import { loadNewAddedShopAction } from "../store/actions/shop/shopActions";
+import TimeAgo from 'javascript-time-ago';
+import fr from 'javascript-time-ago/locale/fr.json';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -50,6 +52,8 @@ interface EntryPointProps extends AppProps {
 
 // Emotion cache Alone
 const EntryPoint: React.FC<EntryPointProps> = (props: EntryPointProps) => {
+	TimeAgo.addLocale(fr);
+	// TimeAgo.addDefaultLocale(fr);
 	const { store } = wrapper.useWrappedStore(props);
 	const { Component, emotionCache = clientSideEmotionCache } = props;
 	const { session, ...pageProps } = props;

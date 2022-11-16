@@ -10,6 +10,7 @@ import placesReducer from './slices/places/placesSlice';
 import accountReducer from './slices/account/accountSlice';
 import versionReducer from './slices/version/versionSlice';
 import subscriptionReducer from './slices/subscription/subscriptionSlice';
+import notificationReducer from './slices/notification/notificationSlice';
 
 const SagaMiddleware = createSagaMiddleware({});
 
@@ -20,6 +21,7 @@ const combinedReducers = combineReducers({
 	places: placesReducer,
 	account: accountReducer,
 	subscription: subscriptionReducer,
+	notification: notificationReducer,
 	version: versionReducer,
 });
 

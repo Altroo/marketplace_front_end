@@ -23,6 +23,7 @@ import {
 	getUserShopUrl
 } from "../store/selectors";
 import { placesGetCitiesAction } from "../store/actions/places/placesActions";
+import { notificationGetRootAction } from "../store/actions/notification/notificationActions";
 
 const InitContext = createContext<InitStateInterface<InitStateToken, InitStateUniqueID>>({
 	tokenType: null,
@@ -74,6 +75,7 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 			if (userHasShop && typeof userShopUrl === 'string') {
 				dispatch(shopGetRootAction(userShopUrl));
 			}
+			dispatch(notificationGetRootAction());
 		}
 		/*
 		else if (tokenType === 'UNIQUE_ID' && uniqueID !== null) {

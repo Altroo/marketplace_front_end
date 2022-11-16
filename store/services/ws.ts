@@ -2,7 +2,7 @@ import { eventChannel } from 'redux-saga';
 import {
 	WSEvent,
 	WSEventType,
-	WSMaintenance,
+	WSMaintenance, WSNotification,
 	WSOfferPictureType,
 	WSShopAvatar,
 	WSUserAvatar
@@ -20,6 +20,7 @@ import {
 	WSOfferPicture4Action,
 	WSOfferPicture4ThumbAction,
 } from '../actions/ws/wsActions';
+import { WSNotificationAction } from "../actions/notification/notificationActions";
 
 let ws: WebSocket;
 
@@ -85,6 +86,10 @@ export function initWebsocket(token: string) {
 							const { message } = msg as WSEvent<WSMaintenance>;
 							const {maintenance} = message;
 							return emitter(WSMaintenanceAction(maintenance));
+						} else if (signalType === 'NOTIFICATION') {
+							const { message } = msg as WSEvent<WSNotification>;
+							const {pk, viewed, type_, created_date, body} = message;
+							return emitter(WSNotificationAction(pk, body, type_, viewed, created_date));
 						}
 						// switch (SignalType) {
 						// 	case 'NEW_MESSAGE':

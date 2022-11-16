@@ -8,7 +8,6 @@ import {
 	OfferSolderByType,
 	OfferZoneByType, setOfferProductToEditPayloadType, setOfferServiceToEditPayloadType
 } from "../../../types/offer/offerTypes";
-import { NextRouter } from "next/router";
 import { ImageListType as ImageUploadingType } from "react-images-uploading/dist/typings";
 import { ShopZoneByType } from "../../../types/shop/shopTypes";
 

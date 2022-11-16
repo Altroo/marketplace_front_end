@@ -149,3 +149,7 @@ export const getOfferOfferApi = (state: RootState) => state.offer.offerApi;
 
 // Subscription
 export const getAvailableSubscriptions = (state: RootState) => state.subscription.available_subscription_plan;
+
+// Notifications
+export const getUserNotifications = (state: RootState) => state.notification.notifications;
+export const getUserNewNotification = (state: RootState) => state.notification.new_notification;

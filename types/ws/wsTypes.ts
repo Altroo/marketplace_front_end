@@ -1,3 +1,5 @@
+import { NotificationsType } from "../notification/notificationTypes";
+
 export type WSEventType =
 	| 'NEW_MESSAGE'
 	| 'MSG_SEEN'
@@ -12,7 +14,8 @@ export type WSEventType =
 	| 'OFFER_PICTURE_3'
 	| 'OFFER_PICTURE_3_THUMB'
 	| 'OFFER_PICTURE_4'
-	| 'OFFER_PICTURE_4_THUMB';
+	| 'OFFER_PICTURE_4_THUMB'
+	| 'NOTIFICATION';
 
 export type WSEvent<T> = {
 	message: T;
@@ -26,11 +29,14 @@ export type WSEvent<T> = {
 /* OFFER_PICTURE_1 'OFFER_PICTURE_1' | 'OFFER_PICTURE_1_THUMB' | 'OFFER_PICTURE_2' | 'OFFER_PICTURE_2_THUMB' |
 'OFFER_PICTURE_3' | 'OFFER_PICTURE_3_THUMB' |
 'OFFER_PICTURE_4' | 'OFFER_PICTURE_4_THUMB' */
-export type WSOfferPictureType = {
+interface WSRootType {
 	type: WSEventType;
+}
+
+export interface WSOfferPictureType extends WSRootType {
 	pk: number;
 	offer_picture: string;
-};
+}
 
 /*
 "message": {
@@ -38,30 +44,41 @@ export type WSOfferPictureType = {
 	"avatar": object_.get_absolute_avatar_thumbnail,
 }
  */
-export type WSShopAvatar = {
-	type: WSEventType; // SHOP_AVATAR
+// SHOP_AVATAR
+export interface WSShopAvatar extends WSRootType {
 	pk: number;
 	avatar: string;
-};
+}
 /*
 "message": {
 	"pk": object_.pk,
 	"avatar": object_.get_absolute_avatar_thumbnail,
 }
  */
-export type WSUserAvatar = {
-	type: WSEventType; // USER_AVATAR
+// USER_AVATAR
+export interface WSUserAvatar extends WSRootType {
 	pk: number;
 	avatar: string;
-};
+}
 /*
 "message": {
 	"recipient": user.user.pk,
 	"maintenance": True / False
 }
  */
-export type WSMaintenance = {
-	type: WSEventType; // MAINTENANCE
+// MAINTENANCE
+export interface WSMaintenance extends WSRootType {
 	recipient: number;
 	maintenance: boolean;
-};
+}
+
+/*
+
+ */
+export interface WSNotification extends WSRootType {
+	pk: number,
+	body: string | null,
+	type_: NotificationsType,
+	viewed: boolean,
+	created_date: string,
+}
