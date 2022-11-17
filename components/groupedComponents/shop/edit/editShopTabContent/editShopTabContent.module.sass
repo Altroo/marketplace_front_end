@@ -40,6 +40,7 @@
   position: relative
 .thumbnailActionIcon
   position: absolute
+  z-index: 5
   top: 5px
   right: 5px
   box-shadow: 0 2.80058px 11.2023px rgba(13, 7, 11, 0.2)
@@ -140,12 +141,17 @@
 @media #{$mobile}
   .gridCardOfferWrapper
     width: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+  .mobileGridRoot
+    width: 98%
   .thumbnailWrapper
     width: 100%
     height: 250px
   .offerThumb
-    width: 100%
-    height: 250px
+    width: 100% !important
+    height: 250px !important
   .gridButtonAddAnOfferWrapper
     width: 100%
     height: 56px

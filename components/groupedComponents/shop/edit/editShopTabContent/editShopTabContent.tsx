@@ -82,8 +82,8 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 	const [availableFiltersFetched, setAvailableFiltersFetched] = useState<boolean>(false);
 	const [availableFilters, setAvailableFilters] = useState<OfferGetAvailableShopFiltersType>(availableFiltersInit);
 	const [applyFiltersClicked, setApplyFiltersClicked] = useState<boolean>(false);
-
 	const [availableFiltersHasData, setAvailableFiltersHasData] = useState<boolean>(false);
+	const [imagesLoading, setImagesLoading] = useState<Array<boolean>>([]);
 
 	useEffect(() => {
 		if (!availableFiltersFetched) {
@@ -139,6 +139,9 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 						}
 						data.results.map((offer) => {
 							map.put(offer.pk, offer);
+							setImagesLoading((prevState) => {
+								return [...prevState, false];
+							});
 						});
 						const result = {
 							offersMap: map,
@@ -339,7 +342,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 									{offersLinkedHashMap.offersMap
 										?.entrySet()
 										.toArray()
-										.map((data) => {
+										.map((data, index) => {
 											if (data.value) {
 												const { price, solder_type, solder_value } = data.value;
 												let newPrice = 0;
@@ -350,13 +353,21 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 														newPrice = price - (price * solder_value) / 100;
 													}
 												}
+												// setImagesLoading((prevState) => {
+												// 	prevState.concat(false);
+												// 	return prevState;
+												// 	// prevState.push(false);
+												// 	// return [...prevState];
+												// 	// prevState[index] = false;
+												// 	// return prevState;
+												// });
 												return (
 													<Link
 														href={REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))}
 														key={data.key}
 														className={Styles.gridCardOfferWrapper}
 													>
-														<Grid item xs="auto">
+														<Grid item xs="auto" className={Styles.mobileGridRoot}>
 															<Stack direction="column" spacing={2}>
 																<Box className={Styles.thumbnailWrapper}>
 																	{data.value.pinned ? (
@@ -382,20 +393,36 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 																			onClick={(e) => togglePinHandler(e, data.key)}
 																		/>
 																	)}
-																	{!data.value.thumbnail ? (
-																		<Skeleton variant="rectangular" width={250} height={165} />
-																	) : (
-																		<Image
-																			src={data.value.thumbnail}
-																			alt=""
-																			width="0"
-																			height="0"
-																			sizes="100vw"
-																			className={Styles.offerThumb}
-																			loading="eager"
-																			priority={true}
-																		/>
-																	)}
+																	<Box sx={{position: 'relative', height: '100%', borderRadius: '20px'}}>
+																		{(!imagesLoading[index] || !data.value.thumbnail) && (
+																			<Skeleton
+																				animation="wave"
+																				variant="rectangular"
+																				width={250}
+																				height={165}
+																				sx={{position: 'absolute'}}
+																				className={Styles.offerThumb}
+																			/>
+																		)}
+																		{data.value.thumbnail && (
+																			<Image
+																				onLoadingComplete={() => {
+																					setImagesLoading((prevState) => {
+																						prevState[index] = true;
+																						return [...prevState];
+																					});
+																				}}
+																				src={data.value.thumbnail}
+																				alt=""
+																				width="0"
+																				height="0"
+																				sizes="100vw"
+																				className={Styles.offerThumb}
+																				loading="eager"
+																				priority={true}
+																			/>
+																		)}
+																	</Box>
 																	{data.value.creator_label && (
 																		<Image
 																			className={Styles.creatorImageTag}
