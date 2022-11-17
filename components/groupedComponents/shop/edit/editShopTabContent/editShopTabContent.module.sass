@@ -33,8 +33,10 @@
 .gridButtonAddAnOfferWrapper
   width: auto
 .thumbnailWrapper
-  width: 100%
-  height: 100%
+  width: 250px
+  height: 165px
+  box-shadow: 0 2.80058px 11.2023px rgba(13, 7, 11, 0.2)
+  border-radius: 18px
   position: relative
 .thumbnailActionIcon
   position: absolute
@@ -107,6 +109,8 @@
     justify-content: space-around
 
 @media #{$tablette}
+  .gridRoot
+    gap: 6px
   .shopAddOfferWrapper
     margin: 1rem auto 0
     justify-content: flex-start
@@ -136,6 +140,9 @@
 @media #{$mobile}
   .gridCardOfferWrapper
     width: 100%
+  .thumbnailWrapper
+    width: 100%
+    height: 250px
   .offerThumb
     width: 100%
     height: 250px

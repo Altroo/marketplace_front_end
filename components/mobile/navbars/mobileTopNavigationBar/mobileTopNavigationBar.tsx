@@ -17,7 +17,7 @@ const MobileTopNavigationBar = forwardRef<HTMLAnchorElement, Props>(
 		return props.backHref ? (
 			<nav className={Styles.topBar}>
 				{props.returnButton ? (
-					<Link href={props.backHref} prefetch={false} ref={ref} className={Styles.backLink}>
+					<Link href={props.backHref} ref={ref} className={Styles.backLink}>
 						<Image
 							src={ArrowLeftSVG}
 							alt=""

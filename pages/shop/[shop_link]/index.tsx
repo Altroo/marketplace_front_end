@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useAppDispatch } from '../../../utils/hooks';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import ShopInfoTabs from '../../../components/htmlElements/tabs/tab';
-import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
+// import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
 import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
 import ContactIconBlueSVG from '../../../public/assets/svgs/globalIcons/call-blue.svg';
 import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
@@ -453,7 +453,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 		if (whiteTextColors.includes(color)) {
 			setColorCode(whiteText);
 			setContactIcon(ContactIconWhiteSVG);
-			setMessageIcon(MessageIconWhiteSVG);
+			// setMessageIcon(MessageIconWhiteSVG);
 			setIconColor('white');
 			if (color === blackText) {
 				setColorCode(whiteText);
@@ -461,7 +461,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 			// else apply black text color
 		} else {
 			setContactIcon(ContactIconBlackSVG);
-			setMessageIcon(MessageIconBlackSVG);
+			// setMessageIcon(MessageIconBlackSVG);
 			setIconColor('black');
 			setColorCode(blackText);
 		}

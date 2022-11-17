@@ -522,7 +522,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 					</Stack>
 				</main>
 			) : (
-				<main className={`${Styles.noPaddingMain} ${Styles.noPaddingFixMobile}`}>
+				<main className={`${Styles.main} ${Styles.noPaddingFixMobile}`}>
 					<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
 						<DesktopMyBusinessSideNav backText="My business" data={data} />
 						<Box sx={{ width: '100%' }}>

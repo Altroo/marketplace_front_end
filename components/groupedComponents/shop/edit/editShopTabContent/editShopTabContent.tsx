@@ -324,7 +324,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 								</Stack>
 							)}
 							<div className={`${offersLinkedHashMap.nextPage ? Styles.gridInStack : Styles.gridInBlock}`}>
-								<Grid container gap="15px" wrap="wrap">
+								<Grid container gap="15px" wrap="wrap" className={Styles.gridRoot}>
 									<Grid item xs="auto" className={Styles.gridButtonAddAnOfferWrapper}>
 										<LargeBorderIconAnchorButton
 											buttonText="Ajouter un article"

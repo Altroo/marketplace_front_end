@@ -15,7 +15,7 @@ const DesktopTopNavigationBar = forwardRef<HTMLAnchorElement, Props>((props: Pro
 	return props.backHref ? (
 		<nav className={Styles.topBar}>
 			{props.returnButton ? (
-				<Link href={props.backHref} prefetch={false} className={Styles.backLink} ref={ref}>
+				<Link href={props.backHref} className={Styles.backLink} ref={ref}>
 					Retour
 				</Link>
 			) : (

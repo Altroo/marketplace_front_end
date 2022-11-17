@@ -351,7 +351,7 @@ type IndexProps = {
 };
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	const { data } = props.pageProps;
-	const dispatch = useAppDispatch();
+	// const dispatch = useAppDispatch();
 	const [mobileMessagesIconState, setMobileMessagesIconState] = useState<string>(MobileMessageSVG);
 	const [mobileNotificationsIconState, setMobileNotificationsIconState] = useState<string>(MobileNotificationSVG);
 	const [showActivateNowModal, setShowActivateNowModal] = useState<boolean>(false);
