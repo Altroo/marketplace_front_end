@@ -246,7 +246,6 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 							className={Styles.filterWrapper}
 							flexDirection="row"
 							justifyContent="space-between"
-							gap={0}
 							alignItems="center"
 						>
 							<span className={Styles.filterText}>Filtrer</span>
@@ -259,7 +258,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 								activeHoverColor={props.activeColor}
 							/>
 						</Stack>
-						<Stack direction="row" justifyContent="space-between" gap="28px" className={Styles.rootShopFilterWrapper}>
+						<Stack direction="row" justifyContent="space-between" className={Styles.rootShopFilterWrapper}>
 							{availableFiltersHasData && (
 								<Stack direction="column" className={Styles.shopFilterWrapperDesktopOnly}>
 									<AccordionFilter
@@ -269,7 +268,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 								</Stack>
 							)}
 							<div className={`${offersLinkedHashMap.nextPage ? Styles.gridInStack : Styles.gridInBlock}`}>
-								<Grid container gap="15px" wrap="wrap">
+								<Grid container wrap="wrap" className={Styles.rootGrid}>
 									{offersLinkedHashMap.offersMap
 										?.entrySet()
 										.toArray()
@@ -402,8 +401,6 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 							direction="column"
 							justifyContent="space-between"
 							alignContent="space-between"
-							columnGap={0}
-							rowGap={0}
 						>
 							<Box className={Styles.closeButtonWrapper}>
 								<Image src={CloseSVG}

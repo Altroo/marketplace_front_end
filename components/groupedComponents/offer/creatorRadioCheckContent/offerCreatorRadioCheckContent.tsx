@@ -42,7 +42,7 @@ const OfferCreatorRadioCheckContent: React.FC<Props> = (props: Props) => {
 						<>
 							<span className={Styles.creatorLabel}>Produit original &quot;Creator&quot;</span>
 							<ThemeProvider theme={chipTheme}>
-								<Stack direction="row" flexWrap="wrap" gap={2} alignItems="center" sx={{ marginTop: '6px' }}>
+								<Stack direction="row" flexWrap="wrap" alignItems="center" className={Styles.rootStack}>
 									<Chip
 										label="Oui"
 										variant={props.pickedCreator ? 'filled' : 'outlined'}

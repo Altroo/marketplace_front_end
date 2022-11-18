@@ -87,13 +87,12 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 			<Stack
 				direction="row"
 				flexWrap="wrap"
-				gap="24px"
 				justifyContent="space-between"
 				alignItems="center"
 				className={Styles.rootStack}
 			>
 				<ThemeProvider theme={chipTheme}>
-					<Grid container gap="24px">
+					<Grid container className={Styles.rootGrid}>
 						{availableSizesList.map((size, index) => {
 							return (
 								<Grid item key={index}>

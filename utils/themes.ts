@@ -1151,3 +1151,65 @@ export const NotificationsDropDownMenuTheme = (primaryColor: string | undefined 
 		},
 	});
 };
+
+export const badgeTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiBadge: {
+				styleOverrides: {
+					dot: {
+						width: '12px',
+						height: '12px',
+						minWidth: '12px',
+						borderRadius: '50px',
+						backgroundColor: '#FF5D6B',
+					},
+				},
+			},
+		},
+	});
+};
+
+export const miniBadgeTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiBadge: {
+				styleOverrides: {
+					dot: {
+						width: '12px',
+						height: '12px',
+						minWidth: '12px',
+						borderRadius: '50px',
+						backgroundColor: '#FF5D6B',
+						right: '40% !important',
+					},
+				},
+			},
+		},
+	});
+};
+
+export const subMenuBadgeTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiBadge: {
+				styleOverrides: {
+					dot: {
+						width: '12px',
+						height: '12px',
+						minWidth: '12px',
+						borderRadius: '50px',
+						backgroundColor: '#FF5D6B',
+						right: '30% !important',
+					},
+				},
+			},
+		},
+	});
+};

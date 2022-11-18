@@ -62,7 +62,7 @@ const ReadCoordonees: React.FC<Props> = (props: Props) => {
 				</>
 			) : null}
 
-			<Stack direction="row" columnGap={2}>
+			<Stack direction="row" className={Styles.rootStackLinks}>
 				{facebook_link ? (
 					<Link href={facebook_link} target="_blank" rel="noreferrer" className={Styles.link}>
 						<Image src={FacebookCircularSVG} width={40} height={40} alt="" />

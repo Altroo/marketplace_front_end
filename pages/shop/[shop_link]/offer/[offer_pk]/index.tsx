@@ -930,7 +930,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											</Link>
 										</Stack>
 										<Stack direction="column" spacing={1}>
-											<Stack direction="row" flexWrap="wrap" gap={1}>
+											<Stack direction="row" flexWrap="wrap" className={Styles.rootChipStack}>
 												{categoriesListString.map((category, index) => {
 													return <Chip key={index} label={category} variant="filled" className={Styles.chip} />;
 												})}
@@ -1094,9 +1094,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 								direction="column"
 								justifyContent="space-between"
 								alignContent="space-between"
-								columnGap={0.5}
-								rowGap={0}
-								sx={{ height: '100%' }}
+								className={Styles.rootTopActionsStack}
 							>
 								<TopBarSaveClose
 									buttonText="Terminer"
@@ -1184,13 +1182,14 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 													</>
 												) : null}
 												<ThemeProvider theme={SolderPourcentageChipTheme()}>
+													{/* TODO check rowSpacing */}
 													<Grid
 														container
-														columnGap={2}
 														rowSpacing={2}
 														wrap="wrap"
 														justifyContent="center"
 														alignItems="center"
+														className={Styles.rootGridChip}
 													>
 														<Grid item xs="auto">
 															<Chip
@@ -1933,7 +1932,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 											</Link>
 										</Stack>
 										<Stack direction="column" spacing={1}>
-											<Stack direction="row" flexWrap="wrap" gap={1}>
+											<Stack direction="row" flexWrap="wrap" className={Styles.rootChipStack}>
 												{categoriesListString.map((category, index) => {
 													return <Chip key={index} label={category} variant="filled" className={Styles.chip} />;
 												})}
@@ -2018,9 +2017,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 								direction="column"
 								justifyContent="space-between"
 								alignContent="space-between"
-								columnGap={0.5}
-								rowGap={0}
-								sx={{ height: '100%' }}
+								className={Styles.rootTopActionsStack}
 							>
 								<TopBarSaveClose
 									buttonText="Terminer"
@@ -2108,13 +2105,14 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 													</>
 												) : null}
 												<ThemeProvider theme={SolderPourcentageChipTheme()}>
+													{/* TODO check rowSpacing */}
 													<Grid
 														container
-														columnGap={2}
 														rowSpacing={2}
 														wrap="wrap"
 														justifyContent="center"
 														alignItems="center"
+														className={Styles.rootGridChip}
 													>
 														<Grid item xs="auto">
 															<Chip

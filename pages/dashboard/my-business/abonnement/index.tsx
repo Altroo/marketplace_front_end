@@ -378,7 +378,6 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 								<span>/{nbr_article} articles</span>
 							</Stack>
 							<Stack direction="row" alignItems="flex-end" justifyContent="flex-end">
-
 								<Box className={Styles.desktopOnly}>
 									<TextAnchorButton buttonText="Articles référencés" nextPage={DASHBOARD_INDEXED_OFFERS} />
 								</Box>

@@ -400,7 +400,6 @@ const Description: NextPage = () => {
 												<Stack
 													direction="row"
 													flexWrap="wrap"
-													gap="24px"
 													justifyContent="space-between"
 													alignItems="center"
 													className={Styles.rootStack}
@@ -516,11 +515,10 @@ const Description: NextPage = () => {
 													direction="column"
 													flexWrap="wrap"
 													justifyContent="flex-start"
-													rowGap={0}
 													justifyItems="flex-start"
-													sx={{ width: '100%', marginTop: '24px' }}
+													className={Styles.rootStackHoraireContent}
 												>
-													<Stack direction="row" columnGap={4} justifyContent="space-between" sx={{ width: '100%' }}>
+													<Stack direction="row" justifyContent="space-between" className={Styles.rootTimeInput}>
 														<CustomTimeInput
 															id="service_morning_hour_from"
 															label="De"
@@ -553,7 +551,7 @@ const Description: NextPage = () => {
 													<div className={Styles.grayTitle}>
 														<p>Horaire de l&apos;après-midi</p>
 													</div>
-													<Stack direction="row" columnGap={4} justifyContent="space-between" sx={{ width: '100%' }}>
+													<Stack direction="row" justifyContent="space-between" className={Styles.rootTimeInput}>
 														<CustomTimeInput
 															id="service_afternoon_hour_from"
 															label="De"

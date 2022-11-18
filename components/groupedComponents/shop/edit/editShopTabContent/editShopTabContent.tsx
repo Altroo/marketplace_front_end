@@ -297,7 +297,6 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 							className={Styles.filterWrapper}
 							flexDirection="row"
 							justifyContent="space-between"
-							gap={0}
 							alignItems="center"
 						>
 							<span className={Styles.filterText}>Filtrer</span>
@@ -310,7 +309,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 								activeHoverColor={props.activeColor}
 							/>
 						</Stack>
-						<Stack direction="row" justifyContent="space-between" gap="28px" className={Styles.rootShopFilterWrapper}>
+						<Stack direction="row" justifyContent="space-between" className={Styles.rootShopFilterWrapper}>
 							{/* filter search removed */}
 							{/*<IconTextInput*/}
 							{/*	active={true}*/}
@@ -327,7 +326,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 								</Stack>
 							)}
 							<div className={`${offersLinkedHashMap.nextPage ? Styles.gridInStack : Styles.gridInBlock}`}>
-								<Grid container gap="15px" wrap="wrap" className={Styles.gridRoot}>
+								<Grid container wrap="wrap" className={Styles.gridRoot}>
 									<Grid item xs="auto" className={Styles.gridButtonAddAnOfferWrapper}>
 										<LargeBorderIconAnchorButton
 											buttonText="Ajouter un article"
@@ -536,8 +535,6 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 							direction="column"
 							justifyContent="space-between"
 							alignContent="space-between"
-							columnGap={0}
-							rowGap={0}
 						>
 							<Box className={Styles.closeButtonWrapper}>
 								<Image

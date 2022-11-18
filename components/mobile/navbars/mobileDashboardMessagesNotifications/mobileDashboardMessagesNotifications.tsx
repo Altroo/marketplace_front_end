@@ -16,7 +16,6 @@ const MobileDashboardMessagesNotifications: React.FC<Props> = (props: Props) => 
 		<Stack
 			direction="row"
 			justifyContent="flex-end"
-			rowGap="12px"
 			className={`${Styles.mobileOnly} ${Styles.mobileMsgNotifRootStack}`}
 		>
 			{/*<IconButton onClick={() => {}} size="large" color="inherit" className={Styles.mobileMessageIconButton}>*/}

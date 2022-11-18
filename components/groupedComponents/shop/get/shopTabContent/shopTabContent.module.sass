@@ -3,9 +3,17 @@
 @import 'styles/sass/mixins'
 
 // Global styles
+.rootShopFilterWrapper
+  gap: 28px
+  grid-gap: 28px
+.rootGrid
+  gap: 15px
+  grid-gap: 15px
 .filterWrapper
   width: 100%
   margin: 0
+  gap: 0
+  grid-gap: 0
 .filterText
   +SemiBold
   font-size: 19px
@@ -92,6 +100,7 @@
 .shopFilterWrapperDesktopOnly
   width: 245px
   row-gap: 1rem
+  grid-row-gap: 1rem
 .gridInStack
   width: 100%
   flex-direction: column
@@ -119,6 +128,10 @@
     margin-top: 24px
     margin-left: 24px
     margin-right: 24px
+    column-gap: 0
+    grid-column-gap: 0
+    row-gap: 0
+    grid-row-gap: 0
   .mobileFilterHeader
     +Bold
     font-size: 30px

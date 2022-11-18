@@ -35,7 +35,7 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 				{({ imageList, onImageUpload, onImageRemove, errors }) =>
 					(
 						<>
-							<Stack className={Styles.rootStackWrapper} direction="row" alignItems="center" gap={5}>
+							<Stack className={Styles.rootStackWrapper} direction="row" alignItems="center">
 								{imageList.map((image, index) => {
 									return (
 										<Stack

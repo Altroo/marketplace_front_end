@@ -260,10 +260,8 @@ const Prix: NextPage = () => {
 									<Stack
 										direction="row"
 										flexWrap="wrap"
-										gap={2}
 										alignItems="center"
 										justifyContent="center"
-										sx={{ marginTop: '6px' }}
 										className={Styles.stackRow}
 									>
 										<span className={Styles.priceLabel}>DH par</span>

@@ -72,7 +72,7 @@ const ShowCoordonees: React.FC = () => {
 				</>
 			) : null}
 
-			<Stack direction="row" columnGap={2}>
+			<Stack direction="row" className={Styles.rootStackLink}>
 				{facebook_link ? (
 					<Link href={facebook_link} target="_blank" rel="noreferrer" className={Styles.link}>
 						<Image

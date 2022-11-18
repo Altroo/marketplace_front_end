@@ -55,7 +55,7 @@ const FlterColorsGridParent: React.FC<FilterColorsGridParentType> = (props: Filt
 	});
 
 	return (
-		<Grid container rowGap={1}>
+		<Grid container className={Styles.rootGrid}>
 			{constructColorsList.map((color, index) => {
 				const rippleColor = hexToRGB(color.hex, 0.5);
 				const colorExistInPage = props.availableColors.includes(color.code as OfferProductColors);
@@ -128,10 +128,9 @@ const AccordionChipContent: React.FC<AccordionChipContentType> = (props: Accordi
 			<Stack
 				direction="row"
 				flexWrap="wrap"
-				rowGap={1}
-				columnGap={1}
 				justifyContent="flex-start"
 				alignItems="flex-start"
+				className={Styles.rootStackChip}
 			>
 				<ThemeProvider theme={chipTheme}>
 					{objectToMap.map((item, index) => {

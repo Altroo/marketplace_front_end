@@ -180,7 +180,6 @@ const DisponibilitiesRadioCheckContent: React.FC<Props> = (props: Props) => {
 			<Stack
 				direction="row"
 				flexWrap="wrap"
-				gap="24px"
 				justifyContent="space-between"
 				alignItems="center"
 				className={Styles.rootStack}

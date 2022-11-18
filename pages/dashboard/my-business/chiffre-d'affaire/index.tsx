@@ -62,7 +62,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 				<Stack direction="row" justifyContent="space-between">
 					<span className={Styles.dashboardShopName}>Mes commandes</span>
 				</Stack>
-				<Stack className={Styles.dashboardSellsDesktopBox} direction="column" alignItems="center" gap="20px">
+				<Stack className={Styles.dashboardSellsDesktopBox} direction="column" alignItems="center">
 					<Image src={ColoredOrdersIlluSVG} alt="" width="140" height="108" sizes="100vw" />
 					<Stack direction="column" alignItems="center">
 						<span className={Styles.dashboardShopName}>C&apos;est bien vide ici...</span>

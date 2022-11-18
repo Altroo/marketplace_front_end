@@ -223,8 +223,7 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 								direction="column"
 								justifyContent="space-between"
 								alignContent="space-between"
-								columnGap={0.5}
-								rowGap={0}
+								className={Styles.rootStack}
 							>
 								<TopBarSaveClose
 									buttonText="Enregistrer"
@@ -245,9 +244,8 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 									flexWrap="wrap"
 									alignItems="center"
 									justifyContent="flex-start"
-									rowGap={1}
-									columnGap={1.5}
 									justifyItems="flex-start"
+									className={Styles.rootStackDays}
 								>
 									{/* "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU" | "AL" */}
 									<Chip
@@ -366,13 +364,13 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 									direction="column"
 									flexWrap="wrap"
 									justifyContent="flex-start"
-									rowGap={1}
 									justifyItems="flex-start"
+									className={Styles.rootGrid}
 								>
 									<div className={Styles.grayTitle}>
 										<p>Horaire du matin</p>
 									</div>
-									<Stack direction="row" columnGap={1} justifyContent="space-between">
+									<Stack direction="row" justifyContent="space-between" className={Styles.timeInputRoot}>
 										<CustomTimeInput
 											id="morning_hour_from"
 											label="De"
@@ -405,7 +403,7 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 									<div className={Styles.grayTitle}>
 										<p>Horaire de l&apos;après-midi</p>
 									</div>
-									<Stack direction="row" columnGap={1} justifyContent="space-between">
+									<Stack direction="row" justifyContent="space-between" className={Styles.timeInputRoot}>
 										<CustomTimeInput
 											id="afternoon_hour_from"
 											label="De"

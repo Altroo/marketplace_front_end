@@ -4,22 +4,20 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import { Badge, Divider, Menu, MenuItem, Skeleton, Stack, ThemeProvider } from '@mui/material';
+import { Divider, Menu, MenuItem, Skeleton, Stack, ThemeProvider, Badge } from '@mui/material';
 import {
+	subMenuBadgeTheme,
+	badgeTheme,
 	getDropDownMenuTheme,
-	NotificationsDropDownMenuTheme,
 	userMainNavigationBarTheme,
-} from '../../../utils/themes';
+	miniBadgeTheme
+} from "../../../utils/themes";
 import Image from 'next/image';
 import QarybSVG from '../../../public/assets/images/logo.svg';
 import ProfileSVG from '../../../public/assets/svgs/mainNavBarIcons/profile.svg';
 import CreerVotreBoutiqueSVG from '../../../public/assets/svgs/mainNavBarIcons/boutique-purple.svg';
-// import EmptyCartSVG from '../../../public/assets/svgs/mainNavBarIcons/empty-cart.svg';
 import DashboardSVG from '../../../public/assets/svgs/mainNavBarIcons/dashboard.svg';
 import BoutiqueSVG from '../../../public/assets/svgs/mainNavBarIcons/boutique.svg';
-import NotificationsSVG from '../../../public/assets/svgs/mainNavBarIcons/notification.svg';
-import NewNotificationPinkSVG from '../../../public/assets/svgs/mainNavBarIcons/new-notification-pink.svg';
-import NewNotificationBlueSVG from '../../../public/assets/svgs/mainNavBarIcons/new-notification-blue.svg';
 import HambourgerMenuSVG from '../../../public/assets/svgs/mainNavBarIcons/hambourger-menu.svg';
 import LogoutSVG from '../../../public/assets/svgs/mainNavBarIcons/logout.svg';
 import HeartShapeSVG from '../../../public/assets/svgs/mainNavBarIcons/heart-shape.svg';
@@ -30,6 +28,7 @@ import {
 	getShopAvatar,
 	getUserFirstName,
 	getUserLastName,
+	getUserNewNotification,
 	getUserProfilAvatar,
 	getUserShopUrl,
 } from '../../../store/selectors';
@@ -47,9 +46,7 @@ import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
 import { bulkCookiesDeleter } from '../../../store/services/_init/_initAPI';
 import { useRouter } from 'next/router';
-import NotificationsMenu from "../notificationsMenu/notificationsMenu";
-
-const notificationsMenuTheme = NotificationsDropDownMenuTheme();
+import NotificationsMenu from '../notificationsMenu/notificationsMenu';
 
 type Props = {
 	hideMobileSearch?: boolean;
@@ -66,8 +63,10 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const lastName = useAppSelector(getUserLastName);
 	const userHasShop = useAppSelector(getCheckUserHasShop);
 	const userShopUrl: string | boolean | undefined = useAppSelector(getUserShopUrl);
+	const newNotification = useAppSelector(getUserNewNotification);
 	const loading = status === 'loading';
 	const [searchValue, setSearchValue] = useState<string>('');
+	const [avatarImageLoading, setAvatarImageLoading] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (stateAvatar || stateShopAvatar) {
@@ -79,8 +78,6 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const openProfileSubMenu = Boolean(profileSubMenuEl);
 	const [profileSubMenuMobileEl, setProfileSubMenuMobileEl] = useState<null | HTMLElement>(null);
 	const openProfileSubMenuMobile = Boolean(profileSubMenuMobileEl);
-	const [notificationsSubMenuEl, setNotificationsSubMenuEl] = useState<null | HTMLElement>(null);
-	const openNotificationsSubMenu = Boolean(notificationsSubMenuEl);
 
 	const handleProfileSubMenuClick = (event: MouseEvent<HTMLButtonElement>) => {
 		setProfileSubMenuEl(event.currentTarget);
@@ -95,13 +92,6 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 
 	const handleProfileSubMenuMobileClose = () => {
 		setProfileSubMenuMobileEl(null);
-	};
-
-	const handleNotificationsSubMenuClick = (event: MouseEvent<HTMLButtonElement>) => {
-		setNotificationsSubMenuEl(event.currentTarget);
-	};
-	const handleNotificationsSubMenuClose = () => {
-		setNotificationsSubMenuEl(null);
 	};
 
 	const logOutHandler = async () => {
@@ -209,8 +199,24 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										size="large"
 										color="inherit"
 									>
-										{/*<ThemeProvider theme={badgeTheme()}>*/}
-										{/*	<Badge badgeContent={4} color="primary">*/}
+										{/*<Box sx={{ position: 'relative', borderRadius: '50%' }}>*/}
+										{/*	{(!avatarImageLoading || !navBarPicture) && (*/}
+										{/*		<Skeleton variant="circular" sx={{position: 'absolute'}} width={30} height={30} />*/}
+										{/*	)}*/}
+										{/*	{navBarPicture && (*/}
+										{/*		<Image*/}
+										{/*			src={navBarPicture as string}*/}
+										{/*			onLoadingComplete={() => {*/}
+										{/*				setAvatarImageLoading(true);*/}
+										{/*			}}*/}
+										{/*			alt=""*/}
+										{/*			width="30"*/}
+										{/*			height="30"*/}
+										{/*			sizes="100vw"*/}
+										{/*			className={Styles.avatarButton}*/}
+										{/*		/>*/}
+										{/*	)}*/}
+										{/*</Box>*/}
 										{!navBarPicture ? (
 											<Skeleton variant="circular" width={30} height={30} />
 										) : (
@@ -267,7 +273,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										</Menu>
 									</ThemeProvider>
 									{/* Notification button */}
-									<NotificationsMenu/>
+									<NotificationsMenu />
 								</>
 							) : (
 								// Avatar button (user not connected)
@@ -279,7 +285,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									color="inherit"
 								>
 									<Link href={AUTH_LOGIN} className={Styles.anchorWrapper}>
-										<Image src={ProfileSVG} alt="" width={24} height={24} sizes="100vw" />
+										<Image src={ProfileSVG} alt="" width={30} height={30} sizes="100vw" />
 									</Link>
 								</IconButton>
 							)}
@@ -324,6 +330,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 					<ShopDesktopItem />
 				</Stack>
 			</Box>
+			{/* Mobile version */}
 			<Box className={Styles.mobileOnly}>
 				<AppBar position="static" className={Styles.appBar}>
 					<Toolbar className={Styles.toolbar}>
@@ -335,14 +342,37 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 							className={Styles.hambourgerIconWrapper}
 							onClick={() => setOpenMobileDrawer(true)}
 						>
-							<Image
-								src={HambourgerMenuSVG}
-								alt=""
-								width={24}
-								height={24}
-								sizes="100vw"
-								className={Styles.mobileIcons}
-							/>
+							{newNotification ? (
+								<ThemeProvider theme={badgeTheme()}>
+									<Badge
+										color="primary"
+										variant="dot"
+										overlap="circular"
+										anchorOrigin={{
+											vertical: 'top',
+											horizontal: 'right',
+										}}
+									>
+										<Image
+											src={HambourgerMenuSVG}
+											alt=""
+											width={24}
+											height={24}
+											sizes="100vw"
+											className={Styles.mobileIcons}
+										/>
+									</Badge>
+								</ThemeProvider>
+							) : (
+								<Image
+									src={HambourgerMenuSVG}
+									alt=""
+									width={24}
+									height={24}
+									sizes="100vw"
+									className={Styles.mobileIcons}
+								/>
+							)}
 						</IconButton>
 						{/* MOBILE SIDE NAV DRAWER */}
 						<SideNavDrawer open={openMobileDrawer} handleClose={() => setOpenMobileDrawer(false)} keepMounted={true}>
@@ -404,14 +434,37 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 												</span>
 											</Stack>
 											<Link href={DASHBOARD} className={Styles.anchorWrapper}>
-												<Image
-													src={DashboardSVG}
-													alt=""
-													width={24}
-													height={24}
-													sizes="100vw"
-													className={Styles.subMenuDrawerIcons}
-												/>
+												{newNotification ? (
+													<ThemeProvider theme={miniBadgeTheme()}>
+														<Badge
+															color="primary"
+															variant="dot"
+															overlap="circular"
+															anchorOrigin={{
+																vertical: 'top',
+																horizontal: 'right',
+															}}
+														>
+															<Image
+																src={DashboardSVG}
+																alt=""
+																width={24}
+																height={24}
+																sizes="100vw"
+																className={Styles.subMenuDrawerIcons}
+															/>
+														</Badge>
+													</ThemeProvider>
+												) : (
+													<Image
+														src={DashboardSVG}
+														alt=""
+														width={24}
+														height={24}
+														sizes="100vw"
+														className={Styles.subMenuDrawerIcons}
+													/>
+												)}
 												<span className={Styles.mobileAnchorSpan}>Mon dashboard</span>
 											</Link>
 											{userHasShop && userShopUrl ? (
@@ -487,6 +540,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 							</Stack>
 						</SideNavDrawer>
 						{/* FIN MOBILE SIDE NAV DRAWER */}
+						{/* Mobile top nav bar */}
 						<Stack direction="row" justifySelf="center" className={Styles.mobileRootLogoStack}>
 							<Image
 								src={QarybSVG}
@@ -516,14 +570,26 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										{!navBarPicture ? (
 											<Skeleton variant="circular" width={30} height={30} />
 										) : (
-											<Image
-												src={navBarPicture as string}
-												alt=""
-												width="30"
-												height="30"
-												sizes="100vw"
-												className={Styles.avatarButton}
-											/>
+											<ThemeProvider theme={badgeTheme()}>
+												<Badge
+													color="primary"
+													variant="dot"
+													overlap="circular"
+													anchorOrigin={{
+														vertical: 'top',
+														horizontal: 'right',
+													}}
+												>
+													<Image
+														src={navBarPicture as string}
+														alt=""
+														width="30"
+														height="30"
+														sizes="100vw"
+														className={Styles.avatarButton}
+													/>
+												</Badge>
+											</ThemeProvider>
 										)}
 									</IconButton>
 									<ThemeProvider theme={getDropDownMenuTheme()}>
@@ -538,14 +604,37 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										>
 											<MenuItem onClick={handleProfileSubMenuMobileClose} className={Styles.menuItem}>
 												<Link href={DASHBOARD} className={Styles.anchorWrapper}>
-													<Image
-														src={DashboardSVG}
-														alt=""
-														width="0"
-														height="0"
-														sizes="100vw"
-														className={Styles.subMenuIcons}
-													/>
+													{newNotification ? (
+														<ThemeProvider theme={subMenuBadgeTheme()}>
+															<Badge
+																color="primary"
+																variant="dot"
+																overlap="circular"
+																anchorOrigin={{
+																	vertical: 'top',
+																	horizontal: 'right',
+																}}
+															>
+																<Image
+																	src={DashboardSVG}
+																	alt=""
+																	width="0"
+																	height="0"
+																	sizes="100vw"
+																	className={Styles.subMenuIcons}
+																/>
+															</Badge>
+														</ThemeProvider>
+													) : (
+														<Image
+															src={DashboardSVG}
+															alt=""
+															width="0"
+															height="0"
+															sizes="100vw"
+															className={Styles.subMenuIcons}
+														/>
+													)}
 													<span>Mon dashboard</span>
 												</Link>
 											</MenuItem>
