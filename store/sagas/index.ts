@@ -1,4 +1,4 @@
-import { all, spawn } from 'redux-saga/effects';
+import { all, spawn, call } from 'redux-saga/effects';
 import { watchInit } from './_init/_initSaga';
 import { watchShop } from './shop/shopSaga';
 import { watchOffer } from './offer/offerSaga';
@@ -12,22 +12,22 @@ import { watchNotifications } from './notification/notificationSaga';
 // spawn : whenever a watcher get's crashed somehow,
 // we use spawn to respawn it back. (except it's unblocking)
 // fork : for blocking calls.
-export function* rootSaga() {
-	yield all([
-		// watchAccount(),
-		spawn(watchInit),
-		spawn(watchShop),
-		spawn(watchOffer),
-		spawn(watchPlaces),
-		spawn(watchVersion),
-		spawn(watchAccount),
-		spawn(watchSubscription),
-		spawn(watchNotifications),
-		// spawn(watchOrder),
-		// spawn(watchRating),
-		spawn(watchWS),
-	]);
-}
+// export function* rootSaga() {
+// 	yield all([
+// 		// watchAccount(),
+// 		spawn(watchInit),
+// 		spawn(watchShop),
+// 		spawn(watchOffer),
+// 		spawn(watchPlaces),
+// 		spawn(watchVersion),
+// 		spawn(watchAccount),
+// 		spawn(watchSubscription),
+// 		spawn(watchNotifications),
+// 		// spawn(watchOrder),
+// 		// spawn(watchRating),
+// 		spawn(watchWS),
+// 	]);
+// }
 
 // export function* rootSaga() {
 // 	const sagas = [
@@ -72,3 +72,30 @@ export function* rootSaga() {
 // 			}),
 // 	);
 // }
+
+	const sagas = [
+		watchInit,
+		watchShop,
+		watchOffer,
+		watchPlaces,
+		watchVersion,
+		watchAccount,
+		watchSubscription,
+		watchNotifications,
+		watchWS,
+	];
+export function* rootSaga() {
+	yield all(
+    sagas.map(saga =>
+      spawn(function*() {
+        while (true) {
+          try {
+            yield call(saga);
+          } catch (e) {
+            console.log(e, 'saga error in ./src/rootSaga');
+          }
+        }
+      })
+    )
+  );
+}
