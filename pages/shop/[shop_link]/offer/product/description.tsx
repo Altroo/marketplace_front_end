@@ -286,12 +286,12 @@ const Description: NextPage = () => {
 						</Box>
 						<Formik
 							// enableReinitialize={true}
-							// validateOnMount={true}
+							validateOnMount={true}
 							initialValues={{
 								title: pickedTitle ? pickedTitle : '',
 								images: pickedPictures.length > 0 ? pickedPictures : [],
 								description: pickedDescription ? pickedDescription : '',
-								made_in: pickedMadeIn ? pickedMadeIn : '',
+								made_in: pickedMadeIn ? pickedMadeIn : 'Maroc',
 							}}
 							onSubmit={(values, { setSubmitting }) => {
 								setSubmitting(true);
