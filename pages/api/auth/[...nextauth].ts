@@ -15,23 +15,6 @@ import { emptyInitStateUniqueID } from '../../../store/slices/_init/_initSlice';
 import { setAuthTokenCookie } from '../../../utils/cookies';
 import axios from 'axios';
 
-// For more information on each option (and a full list of options) go to
-// https://next-auth.js.org/configuration/options
-// export default NextAuth();
-
-/*
-	// wellKnown: "https://www.facebook.com/.well-known/openid-configuration",
-	// authorization: {
-	// 	url: "https://www.facebook.com/v13.0/dialog/oauth",
-	// 	params: {
-	// 		client_id: `${process.env.FACEBOOK_ID}`,
-	// 		scope: "openid email public_profile",
-  //     response_type: "code",
-	// 		display: "popup"
-	// 	},
-	// },
- */
-
 const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 	return {
 		// https://next-auth.js.org/configuration/providers
@@ -62,6 +45,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 			}),
 			GoogleProvider({
 				idToken: true,
+				checks: ['pkce', 'state'],
 				clientId: `${process.env.GOOGLE_ID}`,
 				clientSecret: `${process.env.GOOGLE_SECRET}`,
 				authorization: {
@@ -105,14 +89,6 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 						return null;
 					}
 					return null;
-					// if (user) {
-					// 	// Any object returned will be saved in `user` property of the JWT
-					// 	return user;
-					// } else {
-					// 	// If you return null then an error will be displayed advising the user to check their details.
-					// 	return null;
-					// 	// You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-					// }
 				},
 			}),
 		],
@@ -167,20 +143,6 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		// when an action is performed.
 		// https://next-auth.js.org/configuration/callbacks
 		callbacks: {
-			/*
-				{
-					"access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MzU1NjE5LCJpYXQiOjE2NjMxNzE2MTksImp0aSI6ImZlNjcxYWI3ZjRlNzRhODFhYmViYjg1YTk4N2VhZjVlIiwidXNlcl9pZCI6MTV9.YE8Xl2DGFISWik1Tb7TBLM3DA0XF_6YfKHHAQ4dR3Bk",
-					"refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5NDcwNzYxOSwiaWF0IjoxNjYzMTcxNjE5LCJqdGkiOiJlYjcwZGU1ZDRlNjE0MjQ0OTM2ZWE0MmNjNjllM2Y0YiIsInVzZXJfaWQiOjE1fQ.9S16z1pxCUKP24TzFUrhbKCrrNxciCslqaENaDCPP_M",
-					"user": {
-							"pk": 15,
-							"email": "youness.elalami02@gmail.com",
-							"first_name": "Youness",
-							"last_name": "El Alami"
-					},
-					"access_token_expiration": "2022-11-13T16:06:59.698694Z",
-					"refresh_token_expiration": "2023-09-14T16:06:59.698700Z"
-					}
-				 */
 			async signIn({ user, account, profile, email, credentials }) {
 				if (account) {
 					if (account && account.provider === 'google') {
