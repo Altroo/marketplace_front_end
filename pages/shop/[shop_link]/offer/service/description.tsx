@@ -409,7 +409,7 @@ const Description: NextPage = () => {
 															<Grid item xs="auto">
 																<Chip
 																	id="al_day"
-																	label="Tout les jours"
+																	label="Tous les jours"
 																	variant={values.al_day ? 'filled' : 'outlined'}
 																	onClick={() => {
 																		if (values.al_day) {

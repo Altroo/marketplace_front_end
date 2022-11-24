@@ -311,8 +311,8 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 										value={formik.values.ice}
 										onChange={formik.handleChange('ice')}
 										onBlur={formik.handleBlur('ice')}
-										helperText={formik.touched.ice ? formik.errors.ice : ''}
-										error={formik.touched.ice && Boolean(formik.errors.ice)}
+										helperText={formik.touched.ice && formik.values.company ? formik.errors.ice : ''}
+										error={(formik.touched.ice && !!formik.values.company) && Boolean(formik.errors.ice)}
 										fullWidth={false}
 										size="medium"
 										label="ICE"

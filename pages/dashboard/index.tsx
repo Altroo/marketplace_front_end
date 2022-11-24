@@ -262,9 +262,9 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 				<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardVuesMiniCard}>
 					<Image src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />
 					<Stack direction="column" sx={{ width: '100%' }}>
-						<span className={Styles.dashboardMiniCardCounter}>{`${total_offers_vue_count} vues`}</span>
+						<span className={Styles.dashboardMiniCardCounter}>{total_offers_vue_count} {total_offers_vue_count > 1 ? 'vues' : 'vue'}</span>
 						<Stack direction="row" justifyContent="space-between">
-							<span className={Styles.dashboardMiniCardSubHeader}>{fullMonthItemsList[total_vue_month]}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_vue_month]}</span>
 							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalVuePourcentageCSS}`}>
 								{total_vue_pourcentage}
 							</span>
@@ -276,9 +276,9 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 				<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardSellsMiniCard}>
 					<Image src={DesktopUSDSVG} alt="" width="40" height="40" sizes="100vw" />
 					<Stack direction="column" sx={{ width: '100%' }}>
-						<span className={Styles.dashboardMiniCardCounter}>{total_sells_count} DH</span>
+						<span className={Styles.dashboardMiniCardCounter}>{total_sells_count} {total_sells_count > 1 ? 'DHS' : 'DH'}</span>
 						<Stack direction="row" justifyContent="space-between">
-							<span className={Styles.dashboardMiniCardSubHeader}>{fullMonthItemsList[total_sells_month]}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_sells_month]}</span>
 							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalSellsPourcentageCSS}`}>
 								{total_sells_pourcentage}
 							</span>

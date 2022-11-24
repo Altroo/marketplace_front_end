@@ -49,13 +49,13 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 			<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardSellsDesktopCard}>
 				<Image src={DesktopUSDSVG} alt="" width="40" height="40" sizes="100vw" />
 				<Stack direction="column" sx={{ width: '100%' }}>
-					<span className={Styles.dashboardMiniCardCounter}>{total_sells_count} DH</span>
-					<Stack direction="row" justifyContent="space-between">
-						<span className={Styles.dashboardMiniCardSubHeader}>{fullMonthItemsList[total_sells_month]}</span>
-						<span className={`${Styles.dashboardMiniCardPourcentage} ${totalSellsPourcentageCSS}`}>
-							{total_sells_pourcentage}
-						</span>
-					</Stack>
+					<span className={Styles.dashboardMiniCardCounter}>{total_sells_count} {total_sells_count > 1 ? 'DHS' : 'DH'}</span>
+						<Stack direction="row" justifyContent="space-between">
+							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_sells_month]}</span>
+							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalSellsPourcentageCSS}`}>
+								{total_sells_pourcentage}
+							</span>
+						</Stack>
 				</Stack>
 			</Stack>
 			<Stack direction="column" spacing={2}>

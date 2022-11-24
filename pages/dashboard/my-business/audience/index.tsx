@@ -183,9 +183,9 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 				<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardVuesDesktopCard}>
 					<Image src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />
 					<Stack direction="column" sx={{ width: '100%' }}>
-						<span className={Styles.dashboardMiniCardCounter}>{total_offers_vue_count}</span>
+						<span className={Styles.dashboardMiniCardCounter}>{total_offers_vue_count} {total_offers_vue_count > 1 ? 'vues' : 'vue'}</span>
 						<Stack direction="row" justifyContent="space-between">
-							<span className={Styles.dashboardMiniCardSubHeader}>{fullMonthItemsList[total_vue_month]}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_vue_month]}</span>
 							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalVuePourcentageCSS}`}>
 								{total_vue_pourcentage}
 							</span>

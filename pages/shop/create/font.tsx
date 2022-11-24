@@ -210,7 +210,7 @@ const Font: NextPage = () => {
 					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_COLOR} returnButton closeButtonHref={DASHBOARD} />
 					<MobileStepsBar activeStep={activeStep} />
 					<Box className={Styles.marginLeft}>
-						<HelperH1Header header="Choisir une police" HelpText="Le style s'applique à la typographie du nom de votre boutique" />
+						<HelperH1Header header="Choisissez une police" HelpText="Le style s'applique à la typographie du nom de votre boutique" />
 					</Box>
 					<DefaultCardSection cssClass={Styles.cardSection}>
 						<div className={Styles.avatarActionsWrapper}>

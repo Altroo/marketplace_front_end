@@ -53,6 +53,7 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 												height={160}
 												loading="eager"
 												priority={true}
+												onClick={() => console.log('img clicked')}
 											/>
 											<Box className={Styles.closeButtonWrapper} onClick={() => onImageRemove(index)}>
 												<Image

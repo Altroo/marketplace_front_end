@@ -43,7 +43,9 @@ import {
 } from '../../../../types/subscription/subscriptionTypes';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
-import TextAnchorButton, {MobileTextAnchorButton} from '../../../../components/htmlElements/buttons/textAnchorButton/textAnchorButton';
+import TextAnchorButton, {
+	MobileTextAnchorButton,
+} from '../../../../components/htmlElements/buttons/textAnchorButton/textAnchorButton';
 
 type AbonnementAvantageItemProps = {
 	text: string;
@@ -234,14 +236,10 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 											</Stack>
 										) : (
 											<Stack direction="column" alignItems="center" spacing={2} mt="4px">
-												<span className={Styles.dashboardNotSubscribedPriceBy}>
-													{togglePriceType ? (
-														<span>{selectedSlideValues.prix_unitaire_ttc}</span>
-													) : (
-														<span>{selectedSlideValues.prix_unitaire_ht}</span>
-													)}{' '}
-													/ article
-												</span>
+												<Box className={Styles.dashboardNotSubscribedArticlesBox}>
+													<span>{articlesState}</span>
+												</Box>
+
 												<Stack direction="row" spacing={2} alignItems="center">
 													{togglePriceType ? (
 														<span className={Styles.dashboardNotSubscribedPriceByDescription}>
@@ -274,15 +272,17 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 											<CustomSlider
 												value={articlesValue}
 												defaultValue={70} // populaire - 7 articles
-												// marks={marks}
-												// max={1}
-												// min={120}
 												onChange={onSliderValueChangeHandler}
 											/>
 										</Box>
-										<Box className={Styles.dashboardNotSubscribedArticlesBox}>
-											<span>{articlesState}</span>
-										</Box>
+										<span className={Styles.dashboardNotSubscribedPriceBy}>
+											{togglePriceType ? (
+												<span>{selectedSlideValues.prix_unitaire_ttc}</span>
+											) : (
+												<span>{selectedSlideValues.prix_unitaire_ht}</span>
+											)}{' DH '}
+											/ article
+										</span>
 									</Stack>
 									<Stack direction="row" justifyContent="center" alignItems="center">
 										<PrimaryButton
@@ -382,14 +382,22 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 									<TextAnchorButton buttonText="Articles référencés" nextPage={DASHBOARD_INDEXED_OFFERS} />
 								</Box>
 								<Box className={Styles.mobileOnly}>
-									<MobileTextAnchorButton buttonText="Articles référencés" onClick={() => {
-										router.replace({
-											query: {
-												direct: true,
-											},
-											pathname: DASHBOARD_INDEXED_OFFERS,
-										}, DASHBOARD_INDEXED_OFFERS).then();
-									}}/>
+									<MobileTextAnchorButton
+										buttonText="Articles référencés"
+										onClick={() => {
+											router
+												.replace(
+													{
+														query: {
+															direct: true,
+														},
+														pathname: DASHBOARD_INDEXED_OFFERS,
+													},
+													DASHBOARD_INDEXED_OFFERS,
+												)
+												.then();
+										}}
+									/>
 								</Box>
 							</Stack>
 						</Stack>
@@ -503,14 +511,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 											onClick={() => setMobileElementClicked(false)}
 											alignItems="center"
 										>
-											<Image
-												src={MiniBackSVG}
-												alt=""
-												width="0"
-												height="0"
-												sizes="100vw"
-												className={Styles.backIcon}
-											/>
+											<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
 											<span className={Styles.backText}>Retour</span>
 										</Stack>
 									</Stack>
@@ -547,14 +548,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 											onClick={() => setMobileElementClicked(false)}
 											alignItems="center"
 										>
-											<Image
-												src={MiniBackSVG}
-												alt=""
-												width="0"
-												height="0"
-												sizes="100vw"
-												className={Styles.backIcon}
-											/>
+											<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
 											<span className={Styles.backText}>Retour</span>
 										</Stack>
 									</Stack>

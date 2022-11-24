@@ -268,7 +268,7 @@ export const getServiceAvailabilityDaysArray = (availabilityDays: OfferServiceAv
 	availabilityDays.map((day) => {
 		switch (day.code_day) {
 			case 'AL':
-				daysArray.push('Tout les jours');
+				daysArray.push('Tous les jours');
 				break;
 			case 'MO':
 				daysArray.push('Lundi');

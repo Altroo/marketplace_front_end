@@ -198,6 +198,7 @@ export const subscriptionSchema = Yup.object().shape({
 		.typeError(INPUT_ICE)
 		.max(15, INPUT_NUMBER_MAX(15))
 		.transform((value) => value.replace(/\D/g, ''))
+		.nullable()
 		.notRequired(),
 	first_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
 	last_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),

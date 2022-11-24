@@ -121,7 +121,7 @@ const Avatar: NextPage = () => {
 					<MobileStepsBar activeStep={activeStep} />
 					<Box className={Styles.marginLeft}>
 						<HelperH1Header
-							header="Ajouter un avatar"
+							header="Ajoutez un avatar"
 							HelpText="Ajoutez le logo de votre marque ou une photo de vous"
 						/>
 					</Box>

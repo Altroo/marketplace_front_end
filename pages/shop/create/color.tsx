@@ -191,7 +191,7 @@ const Color: NextPage = () => {
 					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_AVATAR} returnButton closeButtonHref={DASHBOARD} />
 					<MobileStepsBar activeStep={activeStep} />
 					<Box className={Styles.marginLeft}>
-						<HelperH1Header header="Choisir une couleur" HelpText="Choisissez une couleur selon l'univers de votre marque" />
+						<HelperH1Header header="Choisissez une couleur" HelpText="Choisissez une couleur selon l'univers de votre marque" />
 					</Box>
 					<DefaultCardSection cssClass={Styles.cardSection}>
 						<div className={Styles.avatarActionsWrapper}>
