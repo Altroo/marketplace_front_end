@@ -216,7 +216,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 			adresse: adresse ? adresse : '',
 			city: city ? city : '',
 			code_postal: code_postal ? code_postal : '',
-			country: (country && availableCountries.length > 0) ? country : '',
+			country: country ? country : '',
 			globalError: '',
 		},
 		validateOnMount: true,
@@ -260,7 +260,8 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 								DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT,
 							) // using "as" to hide the query params
 							.then();
-					} else {
+					}
+					if (error) {
 						setFormikAutoErrors({
 							e: error,
 							setFieldError,

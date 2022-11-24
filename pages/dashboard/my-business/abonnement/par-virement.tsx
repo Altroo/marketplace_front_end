@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import SharedStyles from '../../../../styles/dashboard/dashboard.module.sass';
 import Styles from '../../../../styles/dashboard/subscription.module.sass';
-import { useRouter } from 'next/router';
 import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../utils/helpers';
 import {
 	AccountGetCheckAccountResponseType,

@@ -199,7 +199,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 			adresse: '',
 			city: city ? city : '',
 			code_postal: '',
-			country: (country && availableCountries.length > 0) ? country : '',
+			country: country ? country : '',
 			globalError: '',
 		},
 		validateOnMount: true,
@@ -247,14 +247,12 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 								) // using "as" to hide the query params
 								.then();
 						}
-					} else {
+					}
+					if (error) {
 						setFormikAutoErrors({
 							e: error,
 							setFieldError,
 						});
-						// if (error.error.details) {
-						// 	setGlobalApiError(error.error.details.error[0]);
-						// }
 					}
 				},
 			});
