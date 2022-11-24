@@ -92,7 +92,7 @@ export function* rootSaga() {
           try {
             yield call(saga);
           } catch (e) {
-            console.log(e, 'saga error in ./src/rootSaga');
+						throw new Error('Saga error : ' + e);
           }
         }
       })
