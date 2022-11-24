@@ -102,6 +102,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 	const availableCountries = useAppSelector(getAvailableCountries);
 	const [reductionState, setReductionState] = useState<number | undefined>(undefined);
 
+	// const [pickedCountry, setPickedCountry] = useState<string>((country && availableCountries.length > 0) ? country : '');
 	const [pickedCountry, setPickedCountry] = useState<string>(country ? country : '');
 	const [paymentParCarte, setPaymentParCarte] = useState<boolean>(false);
 	const [paymentParVirement, setPaymentParVirement] = useState<boolean>(true); // default checked

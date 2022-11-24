@@ -68,38 +68,39 @@ export const isAuthenticatedInstance = (
 				}
 				if (error.response.status === 401 && !originalConfig._retry) {
 					originalConfig._retry = true;
-					try {
+					// try {
 						// trying to refresh access token using refresh token
-						const newAccessToken: ResponseDataTokenRefreshType = await refreshToken(
-							// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-							initStateToken.refresh_token!,
-						);
-						if (newAccessToken.data) {
-							instance.defaults.headers.common['Authorization'] = 'Bearer ' + newAccessToken.data.access;
-							const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
-								tokenType: 'TOKEN', // TOKEN
-								initStateToken: {
-									access_token: newAccessToken.data.access,
-									refresh_token: newAccessToken.data.refresh,
-									user: {
-										pk: initStateToken.user.pk,
-										email: initStateToken.user.email,
-										first_name: initStateToken.user.first_name,
-										last_name: initStateToken.user.last_name,
-									},
-									access_token_expiration: newAccessToken.data.access_token_expiration,
-									refresh_token_expiration: initStateToken.refresh_token_expiration,
+					const newAccessToken: ResponseDataTokenRefreshType = await refreshToken(
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						initStateToken.refresh_token!,
+					);
+					if (newAccessToken.data) {
+						instance.defaults.headers.common['Authorization'] = 'Bearer ' + newAccessToken.data.access;
+						const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
+							tokenType: 'TOKEN', // TOKEN
+							initStateToken: {
+								access_token: newAccessToken.data.access,
+								refresh_token: newAccessToken.data.refresh,
+								user: {
+									pk: initStateToken.user.pk,
+									email: initStateToken.user.email,
+									first_name: initStateToken.user.first_name,
+									last_name: initStateToken.user.last_name,
 								},
-								initStateUniqueID: emptyInitStateUniqueID,
-							};
-							await setRemoteCookiesAppToken(newInitStateToken);
-							store.dispatch(setInitState(newInitStateToken));
-							return instance(originalConfig);
-						}
-					} catch (_error) {
-						// error trying to refresh access token
-						return Promise.reject(_error);
+								access_token_expiration: newAccessToken.data.access_token_expiration,
+								refresh_token_expiration: initStateToken.refresh_token_expiration,
+							},
+							initStateUniqueID: emptyInitStateUniqueID,
+						};
+						await setRemoteCookiesAppToken(newInitStateToken);
+						store.dispatch(setInitState(newInitStateToken));
+						return instance(originalConfig);
 					}
+					// } catch (_error) {
+					// 	// error trying to refresh access token
+					// 	originalConfig._retry = false;
+					// 	return Promise.reject(_error);
+					// }
 				} else {
 					// api error not related to access token
 					const errorObj = {
@@ -125,18 +126,6 @@ export const allowAnyInstance = (
 	});
 	instance.interceptors.response.use(
 		(response: AxiosResponse) => {
-			// if (expectUniqueID) {
-			// 	const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
-			// 		tokenType: 'UNIQUE_ID',
-			// 		initStateToken: emptyInitStateToken,
-			// 		initStateUniqueID: {
-			// 			unique_id: response.data.unique_id,
-			// 			unique_id_expiration: response.data.unique_id_expiration,
-			// 		},
-			// 	};
-			// 	setRemoteCookiesAppToken(newInitStateToken).then();
-			// 	store.dispatch(setInitState(newInitStateToken));
-			// }
 			return response;
 		},
 		(error) => {
@@ -220,85 +209,6 @@ export const constructApiFormData = (apiData: object) => {
 	}
 	return formData;
 };
-
-// New shop set LocalStorage
-// export const setLocalStorageNewShopName = async (shop_name: string) => {
-// 	if (typeof window !== 'undefined') {
-// 		await localStorage.setItem('@shop_name', shop_name);
-// 	} else {
-// 		console.log("can't set to local currently in server");
-// 	}
-// };
-
-// export const setLocalStorageNewShopAvatar = (avatar: string) => {
-// 	if (typeof window !== 'undefined') {
-// 		localStorage.setItem('@avatar', avatar);
-// 	}
-// };
-
-// export const setLocalStorageNewShopColor = (
-// 	color_code: string,
-// 	bg_color_code: string,
-// 	border: string,
-// 	icon_color: IconColorType,
-// ) => {
-// 	if (typeof window !== 'undefined') {
-// 		localStorage.setItem('@color_code', color_code);
-// 		localStorage.setItem('@bg_color_code', bg_color_code);
-// 		localStorage.setItem('@border', border);
-// 		localStorage.setItem('@icon_color', icon_color);
-// 	}
-// };
-
-// export const setLocalStorageNewShopFont = (font_name: ShopFontNameType) => {
-// 	if (typeof window !== 'undefined') {
-// 		localStorage.setItem('@font_name', font_name);
-// 	}
-// };
-// // New shop load LocalStorage
-// export const loadLocalStorageNewShopData = () => {
-// 	if (typeof window !== 'undefined') {
-// 		const shop_name = localStorage.getItem('@shop_name') as string;
-// 		const avatar = localStorage.getItem('@avatar') as string;
-// 		const color_code = localStorage.getItem('@color_code') as string;
-// 		const bg_color_code = localStorage.getItem('@bg_color_code') as string;
-// 		const border = localStorage.getItem('@border') as string;
-// 		const icon_color = localStorage.getItem('@icon_color') as IconColorType;
-// 		const font_name = localStorage.getItem('@font_name') as ShopFontNameType;
-// 		return {
-// 			shop_name,
-// 			avatar,
-// 			color_code,
-// 			bg_color_code,
-// 			border,
-// 			icon_color,
-// 			font_name,
-// 		};
-// 	}
-// 	return null;
-// };
-// // New shop empty localStorage
-// export const emptyLocalStorageNewShopData = () => {
-// 	if (typeof window !== 'undefined') {
-// 		localStorage.removeItem('@shop_name');
-// 		localStorage.removeItem('@avatar');
-// 		localStorage.removeItem('@color_code');
-// 		localStorage.removeItem('@bg_color_code');
-// 		localStorage.removeItem('@border');
-// 		localStorage.removeItem('@icon_color');
-// 		localStorage.removeItem('@font_name');
-// 	}
-// };
-
-// export const deleteCookieStorageNewShopData = () => {
-// 	cookiesDeleter('/cookies', { shop_name: 0 }).then(() => {
-// 		cookiesDeleter('/cookies', { avatar: 0 }).then(() => {
-// 			cookiesDeleter('/cookies', { color_code: 0 }).then(() => {
-// 				cookiesDeleter('/cookies', { font_name: 0 }).then();
-// 			});
-// 		});
-// 	});
-// };
 
 // Set Server token cookies
 export const setRemoteCookiesAppToken = async (

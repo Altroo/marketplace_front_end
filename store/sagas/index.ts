@@ -1,4 +1,4 @@
-import { all, spawn, call } from 'redux-saga/effects';
+import { all, spawn, call, fork } from 'redux-saga/effects';
 import { watchInit } from './_init/_initSaga';
 import { watchShop } from './shop/shopSaga';
 import { watchOffer } from './offer/offerSaga';
@@ -25,7 +25,23 @@ import { watchNotifications } from './notification/notificationSaga';
 // 		spawn(watchNotifications),
 // 		// spawn(watchOrder),
 // 		// spawn(watchRating),
-// 		spawn(watchWS),
+// 		fork(watchWS),
+// 	]);
+// }
+
+// export function* rootSaga() {
+// 	yield all([
+// 		// watchAccount(),
+// 		fork(watchInit),
+// 		fork(watchShop),
+// 		fork(watchOffer),
+// 		fork(watchPlaces),
+// 		fork(watchVersion),
+// 		fork(watchAccount),
+// 		fork(watchSubscription),
+// 		// yield spawn(watchOrder),
+// 		// yield spawn(watchRating),
+// 		fork(watchWS),
 // 	]);
 // }
 
@@ -73,20 +89,18 @@ import { watchNotifications } from './notification/notificationSaga';
 // 	);
 // }
 
-	const sagas = [
-		watchInit,
-		watchShop,
-		watchOffer,
-		watchPlaces,
-		watchVersion,
-		watchAccount,
-		watchSubscription,
-		watchNotifications,
-		watchWS,
-	];
+const sagas = [
+	watchInit,
+	watchShop,
+	watchOffer,
+	watchPlaces,
+	watchVersion,
+	watchAccount,
+	watchSubscription,
+	watchNotifications,
+];
 export function* rootSaga() {
-	yield all(
-    sagas.map(saga =>
+	yield all([...sagas.map(saga =>
       spawn(function*() {
         while (true) {
           try {
@@ -96,6 +110,8 @@ export function* rootSaga() {
           }
         }
       })
-    )
+    ),
+		fork(watchWS),
+		]
   );
 }

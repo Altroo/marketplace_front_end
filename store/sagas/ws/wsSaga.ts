@@ -24,7 +24,6 @@ export function* watchWS() {
 			const action: Record<string, unknown> | null = yield take(channel);
 			// type & payload passed from the switch case
 			// with yield put it calles the action & passes the payload
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			yield put(action);
 		}

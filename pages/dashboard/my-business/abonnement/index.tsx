@@ -79,7 +79,7 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 	const { renderBack } = router.query;
 	const availableSubscriptions = useAppSelector(getAvailableSubscriptions);
 	// true = TTC - false = HT
-	const [togglePriceType, setTogglePriceType] = useState<boolean>(false);
+	const [togglePriceType, setTogglePriceType] = useState<boolean>(true);
 	const [illimiteState, setIllimiteState] = useState<boolean>(false);
 	const [articlesValue, setArticlesValue] = useState<number>(70);
 	const [pickedArticle, setPickedArticle] = useState<number>(7);
@@ -413,7 +413,6 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 									direction="row"
 									className={SubscribedStyles.subscribedPrixParArticle}
 									alignItems="center"
-									spacing="10px"
 								>
 									<span>{prix_unitaire_ttc} DH</span>
 									<span>/ article</span>

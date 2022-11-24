@@ -3,7 +3,6 @@ import { combineReducers, configureStore, Store } from "@reduxjs/toolkit";
 // import logger from 'redux-logger';
 import { createWrapper } from 'next-redux-wrapper';
 import { rootSaga } from './sagas';
-import { all } from 'redux-saga/effects';
 import _initReducer from './slices/_init/_initSlice';
 import shopReducer from './slices/shop/shopSlice';
 import offerReducer from './slices/offer/offerSlice';

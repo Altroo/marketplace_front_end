@@ -115,7 +115,8 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 	const availableCountries = useAppSelector(getAvailableCountries);
 	const [reductionState, setReductionState] = useState<number | undefined>(undefined);
 
-	const [pickedCountry, setPickedCountry] = useState<string>(country ? country : '');
+	const [pickedCountry, setPickedCountry] = useState<string>((country && availableCountries.length > 0) ? country : '');
+	// const [pickedCountry, setPickedCountry] = useState<string>(country ? country : '');
 	const [paymentParCarte, setPaymentParCarte] = useState<boolean>(false);
 	const [paymentParVirement, setPaymentParVirement] = useState<boolean>(true);  // default checked
 	const [showPromoCodeApplied, setShowPromoCodeApplied] = useState<boolean>(false);
@@ -484,7 +485,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 										{formik.errors.globalError && <span className={Styles.errorMessage}>{formik.errors.globalError}</span>}
 										<PrimaryButton
 											buttonText="Payer"
-											active={!formik.isSubmitting}
+											active={formik.isValid && !formik.isSubmitting}
 											onClick={formik.handleSubmit}
 											type="submit"
 										/>
