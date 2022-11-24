@@ -102,8 +102,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 	const availableCountries = useAppSelector(getAvailableCountries);
 	const [reductionState, setReductionState] = useState<number | undefined>(undefined);
 
-	// const [pickedCountry, setPickedCountry] = useState<string>((country && availableCountries.length > 0) ? country : '');
-	const [pickedCountry, setPickedCountry] = useState<string>(country ? country : '');
 	const [paymentParCarte, setPaymentParCarte] = useState<boolean>(false);
 	const [paymentParVirement, setPaymentParVirement] = useState<boolean>(true); // default checked
 	const [showPromoCodeApplied, setShowPromoCodeApplied] = useState<boolean>(false);
@@ -201,7 +199,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 			adresse: '',
 			city: city ? city : '',
 			code_postal: '',
-			country: country ? country : '',
+			country: (country && availableCountries.length > 0) ? country : '',
 			globalError: '',
 		},
 		validateOnMount: true,
@@ -402,9 +400,11 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 									</Stack>
 									<CustomSingleCountrySelect
 										onChange={(e: SelectChangeEvent) => {
-											setPickedCountry(e.target.value);
+											// setPickedCountry(e.target.value);
+											formik.handleChange('country')(e.target.value);
 										}}
-										value={pickedCountry}
+										// value={pickedCountry}
+										value={formik.values.country}
 										id="country"
 										label="Pays"
 										items={availableCountries}
