@@ -484,7 +484,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 									<Stack direction="column" justifyContent="center" alignItems="center">
 										<PrimaryButton
 											buttonText="Payer"
-											active={formik.isValid && !formik.isSubmitting}
+											active={!formik.isSubmitting}
 											onClick={formik.handleSubmit}
 											type="submit"
 										/>
