@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../utils/helpers';
+import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from "../../../../utils/helpers";
 import {
 	AUTH_LOGIN,
 	DASHBOARD_INDEXED_OFFERS,
@@ -107,7 +107,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 	const [paymentParVirement, setPaymentParVirement] = useState<boolean>(true); // default checked
 	const [showPromoCodeApplied, setShowPromoCodeApplied] = useState<boolean>(false);
 	const [showPromoCodeMessage, setShowPromoCodeMessage] = useState<AlertColor | null>(null);
-	const [globalApiError, setGlobalApiError] = useState<string | null>(null);
 
 	/* formik promo code */
 	const formikPromoCode = useFormik({
@@ -178,7 +177,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 			setPrixUnitaireTTCState(prix_unitaire_ttc);
 			setPourcentageState(pourcentage);
 			setReductionState(undefined);
-			setGlobalApiError(null);
 		}
 	};
 
@@ -203,10 +201,11 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 			city: city ? city : '',
 			code_postal: '',
 			country: country ? country : '',
+			globalError: '',
 		},
 		validateOnMount: true,
 		validationSchema: subscriptionSchema,
-		onSubmit: async (values, { setSubmitting }) => {
+		onSubmit: async (values, { setSubmitting, setFieldError }) => {
 			setSubmitting(false);
 			let paymentPar: string | boolean = '';
 			if (paymentParVirement) {
@@ -250,9 +249,13 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 								.then();
 						}
 					} else {
-						if (error.error.details) {
-							setGlobalApiError(error.error.details.error[0]);
-						}
+						setFormikAutoErrors({
+							e: error,
+							setFieldError,
+						});
+						// if (error.error.details) {
+						// 	setGlobalApiError(error.error.details.error[0]);
+						// }
 					}
 				},
 			});
@@ -428,7 +431,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 										size="medium"
 										theme={promoCodeTheme}
 									/>
-									{globalApiError && <span className={Styles.errorMessage}>{globalApiError}</span>}
 								</Stack>
 								<Stack direction="column" spacing="12px" className={Styles.mobilePromoStack}>
 									<span className={Styles.rightFieldLabel}>Paiement par</span>
@@ -468,10 +470,11 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 											<span>{reductionState ? prixTTCState - reductionState : prixTTCState} DH</span>
 										</Stack>
 									</Stack>
-									<Stack direction="column" justifyContent="center" alignItems="center">
+									<Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
+										{formik.errors.globalError && <span className={Styles.errorMessage}>{formik.errors.globalError}</span>}
 										<PrimaryButton
 											buttonText="Payer"
-											active={!formik.isSubmitting}
+											active={formik.isValid && !formik.isSubmitting}
 											onClick={formik.handleSubmit}
 											type="submit"
 										/>
