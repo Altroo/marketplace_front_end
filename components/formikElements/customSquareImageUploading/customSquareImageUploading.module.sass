@@ -26,7 +26,32 @@
   cursor: pointer
 .errorMessage
   color: rgb(211, 47, 47)
+.clickedImageModal
+  display: flex
+  text-align: center
+  flex-direction: column
+  justify-content: center
+  align-items: center
+.clickedImageBox
+  display: flex
+  text-align: center
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  padding: 4rem
+  width: auto
+  height: auto
+.clickedImage
+  width: auto
+  height: auto
+  max-width: 1440px
+  max-height: calc(100vh - 140px)
 @media #{$tablette}
+  .clickedImage
+    object-fit: cover
+    width: 100% !important
+    height: 100% !important
+    max-height: 400px !important
   .rootStackWrapper
     flex-direction: row
     gap: 20px
