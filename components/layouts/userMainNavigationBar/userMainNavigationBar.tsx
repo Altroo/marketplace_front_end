@@ -1,4 +1,4 @@
-import React, { useState, useEffect, MouseEvent } from 'react';
+import React, { useState, useEffect, MouseEvent, useCallback } from 'react';
 import Styles from './userMainNavigationBar.module.sass';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -10,8 +10,8 @@ import {
 	badgeTheme,
 	getDropDownMenuTheme,
 	userMainNavigationBarTheme,
-	miniBadgeTheme
-} from "../../../utils/themes";
+	miniBadgeTheme,
+} from '../../../utils/themes';
 import Image from 'next/image';
 import QarybSVG from '../../../public/assets/images/logo.svg';
 import ProfileSVG from '../../../public/assets/svgs/mainNavBarIcons/profile.svg';
@@ -66,7 +66,6 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const newNotification = useAppSelector(getUserNewNotification);
 	const loading = status === 'loading';
 	const [searchValue, setSearchValue] = useState<string>('');
-	const [avatarImageLoading, setAvatarImageLoading] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (stateAvatar || stateShopAvatar) {
@@ -79,58 +78,62 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const [profileSubMenuMobileEl, setProfileSubMenuMobileEl] = useState<null | HTMLElement>(null);
 	const openProfileSubMenuMobile = Boolean(profileSubMenuMobileEl);
 
-	const handleProfileSubMenuClick = (event: MouseEvent<HTMLButtonElement>) => {
+	const handleProfileSubMenuClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
 		setProfileSubMenuEl(event.currentTarget);
-	};
-	const handleProfileSubMenuClose = () => {
+	}, []);
+
+	const handleProfileSubMenuClose = useCallback(() => {
 		setProfileSubMenuEl(null);
-	};
+	}, []);
 
-	const handleProfileSubMenuMobileClick = (event: MouseEvent<HTMLButtonElement>) => {
+	const handleProfileSubMenuMobileClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
 		setProfileSubMenuMobileEl(event.currentTarget);
-	};
+	}, []);
 
-	const handleProfileSubMenuMobileClose = () => {
+	const handleProfileSubMenuMobileClose = useCallback(() => {
 		setProfileSubMenuMobileEl(null);
-	};
+	}, []);
 
-	const logOutHandler = async () => {
+	const logOutHandler = useCallback(async () => {
 		await bulkCookiesDeleter('/cookie/delete');
 		await signOut({ redirect: true, callbackUrl: SITE_ROOT });
-	};
+	}, []);
 
 	const [openMobileDrawer, setOpenMobileDrawer] = useState<boolean>(false);
 
-	const ShopMenuItem = (props: { handleClose: () => void }) => {
-		if (userHasShop && userShopUrl) {
-			return (
-				<MenuItem onClick={props.handleClose} className={Styles.menuItem}>
-					<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} className={Styles.anchorWrapper}>
-						<Image src={BoutiqueSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.subMenuIcons} />
-						<span>Ma boutique</span>
-					</Link>
-				</MenuItem>
-			);
-		} else {
-			return (
-				<MenuItem onClick={props.handleClose} className={`${Styles.menuItem}`}>
-					<Link href={REAL_SHOP_ADD_SHOP_NAME} className={`${Styles.purpleAnchorWrapperNoWidth}`}>
-						<Image
-							src={CreerVotreBoutiqueSVG}
-							alt=""
-							width="0"
-							height="0"
-							sizes="100vw"
-							className={Styles.subMenuIcons}
-						/>
-						<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
-					</Link>
-				</MenuItem>
-			);
-		}
-	};
+	const ShopMenuItem = useCallback(
+		(props: { handleClose: () => void }) => {
+			if (userHasShop && userShopUrl) {
+				return (
+					<MenuItem onClick={props.handleClose} className={Styles.menuItem}>
+						<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} className={Styles.anchorWrapper}>
+							<Image src={BoutiqueSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.subMenuIcons} />
+							<span>Ma boutique</span>
+						</Link>
+					</MenuItem>
+				);
+			} else {
+				return (
+					<MenuItem onClick={props.handleClose} className={`${Styles.menuItem}`}>
+						<Link href={REAL_SHOP_ADD_SHOP_NAME} className={`${Styles.purpleAnchorWrapperNoWidth}`}>
+							<Image
+								src={CreerVotreBoutiqueSVG}
+								alt=""
+								width="0"
+								height="0"
+								sizes="100vw"
+								className={Styles.subMenuIcons}
+							/>
+							<span className={`${Styles.mobileAnchorSpan}`}>Créez votre boutique</span>
+						</Link>
+					</MenuItem>
+				);
+			}
+		},
+		[userHasShop, userShopUrl],
+	);
 
-	const ShopDesktopItem = () => {
+	const ShopDesktopItem = useCallback(() => {
 		if (userHasShop && userShopUrl) {
 			return (
 				<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(userShopUrl as string)} className={Styles.anchorWrapper}>
@@ -153,7 +156,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 				</Link>
 			);
 		}
-	};
+	}, [userHasShop, userShopUrl]);
 
 	return (
 		<ThemeProvider theme={userMainNavigationBarTheme()}>
@@ -199,24 +202,6 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										size="large"
 										color="inherit"
 									>
-										{/*<Box sx={{ position: 'relative', borderRadius: '50%' }}>*/}
-										{/*	{(!avatarImageLoading || !navBarPicture) && (*/}
-										{/*		<Skeleton variant="circular" sx={{position: 'absolute'}} width={30} height={30} />*/}
-										{/*	)}*/}
-										{/*	{navBarPicture && (*/}
-										{/*		<Image*/}
-										{/*			src={navBarPicture as string}*/}
-										{/*			onLoadingComplete={() => {*/}
-										{/*				setAvatarImageLoading(true);*/}
-										{/*			}}*/}
-										{/*			alt=""*/}
-										{/*			width="30"*/}
-										{/*			height="30"*/}
-										{/*			sizes="100vw"*/}
-										{/*			className={Styles.avatarButton}*/}
-										{/*		/>*/}
-										{/*	)}*/}
-										{/*</Box>*/}
 										{!navBarPicture ? (
 											<Skeleton variant="circular" width={30} height={30} />
 										) : (
@@ -570,16 +555,29 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										{!navBarPicture ? (
 											<Skeleton variant="circular" width={30} height={30} />
 										) : (
-											<ThemeProvider theme={badgeTheme()}>
-												<Badge
-													color="primary"
-													variant="dot"
-													overlap="circular"
-													anchorOrigin={{
-														vertical: 'top',
-														horizontal: 'right',
-													}}
-												>
+											<>
+												{newNotification ? (
+													<ThemeProvider theme={badgeTheme()}>
+														<Badge
+															color="primary"
+															variant="dot"
+															overlap="circular"
+															anchorOrigin={{
+																vertical: 'top',
+																horizontal: 'right',
+															}}
+														>
+															<Image
+																src={navBarPicture as string}
+																alt=""
+																width="30"
+																height="30"
+																sizes="100vw"
+																className={Styles.avatarButton}
+															/>
+														</Badge>
+													</ThemeProvider>
+												) : (
 													<Image
 														src={navBarPicture as string}
 														alt=""
@@ -588,8 +586,8 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 														sizes="100vw"
 														className={Styles.avatarButton}
 													/>
-												</Badge>
-											</ThemeProvider>
+												)}
+											</>
 										)}
 									</IconButton>
 									<ThemeProvider theme={getDropDownMenuTheme()}>

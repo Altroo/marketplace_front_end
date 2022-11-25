@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import Styles from './editShopTabContent.module.sass';
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
 import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from '@mui/material';
@@ -202,51 +202,128 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 		shop_pk,
 	]);
 
-	const filterOnChange = (
-		e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
-		value: string,
-	) => {
-		setFilter(value as 'D' | 'C');
-		// default prix decroissant.
-		// -price = D
-		// price = T
-		const queryParams: ParsedUrlQueryInput = {
-			// shop_link: router.query.shop_link,
-			// sort_by: '-price',
-			...router.query,
-		};
-		const options = { shallow: true, scroll: false };
+	// const filterOnChange = (
+	// 	e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
+	// 	value: string,
+	// ) => {
+	// 	setFilter(value as 'D' | 'C');
+	// 	// default prix decroissant.
+	// 	// -price = D
+	// 	// price = T
+	// 	const queryParams: ParsedUrlQueryInput = {
+	// 		// shop_link: router.query.shop_link,
+	// 		// sort_by: '-price',
+	// 		...router.query,
+	// 	};
+	// 	const options = { shallow: true, scroll: false };
+	//
+	// 	if (router.query.page) {
+	// 		if (value === 'D') {
+	// 			router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
+	// 				setFilterChanged(true);
+	// 			});
+	// 		} else {
+	// 			router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
+	// 				setFilterChanged(true);
+	// 			});
+	// 		}
+	// 	} else {
+	// 		if (value === 'D') {
+	// 			router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
+	// 				setFilterChanged(true);
+	// 			});
+	// 		} else {
+	// 			router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
+	// 				setFilterChanged(true);
+	// 			});
+	// 		}
+	// 	}
+	// };
 
-		if (router.query.page) {
-			if (value === 'D') {
-				router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
+	const filterOnChange = useCallback(
+		(e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null, value: string) => {
+			setFilter(value as 'D' | 'C');
+			// default prix decroissant.
+			// -price = D
+			// price = T
+			const queryParams: ParsedUrlQueryInput = {
+				// shop_link: router.query.shop_link,
+				// sort_by: '-price',
+				...router.query,
+			};
+			const options = { shallow: true, scroll: false };
+
+			if (router.query.page) {
+				if (value === 'D') {
+					router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				} else {
+					router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				}
 			} else {
-				router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
+				if (value === 'D') {
+					router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				} else {
+					router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				}
 			}
-		} else {
-			if (value === 'D') {
-				router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
-			} else {
-				router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
-			}
-		}
-	};
+		},
+		[router],
+	);
 
 	// const [searchValue, setSearchValue] = useState<string>('');
 
-	const closeMobileFilterModal = () => {
-		props.setOpenFilterModal(false);
-	};
+	// const closeMobileFilterModal = () => {
+	// 	props.setOpenFilterModal(false);
+	// };
 
-	const togglePinHandler = (e: React.MouseEvent<HTMLImageElement, MouseEvent>, pk: number) => {
+	const closeMobileFilterModal = useCallback(() => {
+		props.setOpenFilterModal(false);
+	}, [props]);
+
+	// const togglePinHandler = (e: React.MouseEvent<HTMLImageElement, MouseEvent>, pk: number) => {
+	// 	e.preventDefault();
+	// 	const action = offerPostPinAction(pk);
+	// 	dispatch({
+	// 		...action,
+	// 		onComplete: ({ error, cancelled, data }: OfferPinSagaCallBackType) => {
+	// 			if (!error && !cancelled && data) {
+	// 				if (offersLinkedHashMap.offersMap) {
+	// 					const userOfferIndex = offersLinkedHashMap.offersMap
+	// 						.entrySet()
+	// 						.toArray()
+	// 						.findIndex((item) => item.value?.pk === pk);
+	// 					if (userOfferIndex >= 0) {
+	// 						const map = offersLinkedHashMap.offersMap.entrySet().toArray()[userOfferIndex];
+	// 						if (map.value) {
+	// 							map.value.pinned = data.pinned;
+	// 							offersLinkedHashMap.offersMap.put(pk, map.value);
+	// 							offersLinkedHashMap.offersMap
+	// 								.entrySet()
+	// 								.toArray()
+	// 								.sort((a, b) => Number(b.value?.pinned) - Number(a.value?.pinned));
+	// 							setOffersLinkedHashMap(offersLinkedHashMap);
+	// 							router
+	// 								.replace(router.asPath, undefined, {
+	// 									scroll: false,
+	// 								})
+	// 								.then();
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	// 		},
+	// 	});
+	// };
+
+	const togglePinHandler = useCallback((e: React.MouseEvent<HTMLImageElement, MouseEvent>, pk: number) => {
 		e.preventDefault();
 		const action = offerPostPinAction(pk);
 		dispatch({
@@ -279,7 +356,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 				}
 			},
 		});
-	};
+	}, [dispatch, offersLinkedHashMap, router]);
 
 	return (
 		<>
@@ -388,14 +465,14 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 																			onClick={(e) => togglePinHandler(e, data.key)}
 																		/>
 																	)}
-																	<Box sx={{position: 'relative', height: '100%', borderRadius: '20px'}}>
+																	<Box sx={{ position: 'relative', height: '100%', borderRadius: '20px' }}>
 																		{(!imagesLoading[index] || !data.value.thumbnail) && (
 																			<Skeleton
 																				animation="wave"
 																				variant="rectangular"
 																				width={250}
 																				height={165}
-																				sx={{position: 'absolute'}}
+																				sx={{ position: 'absolute' }}
 																				className={Styles.offerThumb}
 																			/>
 																		)}
@@ -429,16 +506,12 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 																		/>
 																	)}
 																</Box>
-																<Stack direction="column" spacing={1}>
+																<Stack direction="column" spacing={0}>
 																	<span className={Styles.offerTitle}>
 																		{data.value.title.length >= 25
 																			? data.value.title.substring(0, 25) + '...'
 																			: data.value.title}
 																	</span>
-																	{/*<Stack direction="row">*/}
-																	{/*	<Image src={BlackStarSVG} width={20} height={20} alt="" />*/}
-																	{/*	<span className={Styles.offerRating}>0 (0 notes)</span>*/}
-																	{/*</Stack>*/}
 																	<Stack direction="row" spacing={1}>
 																		<span
 																			className={`${Styles.offerPrice} ${

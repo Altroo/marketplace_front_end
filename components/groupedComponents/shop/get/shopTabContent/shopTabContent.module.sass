@@ -45,11 +45,14 @@
 .gridButtonAddAnOfferWrapper
   width: auto
 .thumbnailWrapper
-  width: 100%
-  height: 100%
+  width: 250px
+  height: 165px
+  box-shadow: 0 2.80058px 11.2023px rgba(13, 7, 11, 0.2)
+  border-radius: 18px
   position: relative
 .thumbnailActionIcon
   position: absolute
+  z-index: 5
   top: 5px
   right: 5px
   box-shadow: 0 2.80058px 11.2023px rgba(13, 7, 11, 0.2)
@@ -81,7 +84,7 @@
   font-size: 14px
   color: #525256
 .offerPrice
-  +Medium
+  +Regular
   font-size: 17px
   color: $primary
 .oldPrice
@@ -110,13 +113,11 @@
   width: 100%
 .desktopOnly
   display: flex
-@media #{$desktop}
-  .shopAddOfferWrapper
-    flex: 1
-    min-height: 100%
-    justify-content: space-around
 
 @media #{$tablette}
+  .rootGrid
+    gap: 6px
+    grid-gap: 6px
   .filterWrapper
     +Hidden
   .rootShopFilterWrapper
@@ -145,7 +146,20 @@
     border-radius: 50%
     background-color: #f2f2f3
 @media #{$mobile}
+  .rootGrid
+    gap: 20px
+    grid-gap: 20px
   .gridCardOfferWrapper
     width: 100%
-  .offerThumb
+    display: flex
+    align-items: center
+    justify-content: center
+    margin-top: 1rem
+  .mobileGridRoot
+    width: 98%
+  .thumbnailWrapper
     width: 100%
+    height: 250px
+  .offerThumb
+    width: 100% !important
+    height: 250px !important

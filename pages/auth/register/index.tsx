@@ -119,6 +119,7 @@ const Register: NextPage = () => {
 	const { data: session, status } = useSession();
 	const router = useRouter();
 	const { error } = router.query;
+	const [errorState, setErrorState] = useState<string | Array<string> | undefined>(undefined);
 	const dispatch = useAppDispatch();
 	const loading = status === 'loading';
 	// const authenticated = status === 'authenticated';
@@ -131,7 +132,12 @@ const Register: NextPage = () => {
 			dispatch(refreshAppTokenStatesAction(session));
 			setSessionUpdated(true);
 		}
-	}, [dispatch, session, sessionUpdated]);
+		if (error === 'AccessDenied') {
+			setErrorState('Service non disponible.');
+		} else {
+			setErrorState(error);
+		}
+	}, [dispatch, error, session, sessionUpdated]);
 
 	const googleSignIn = () => {
 		// redirect to the same page that will then check if user is new or old
@@ -194,7 +200,7 @@ const Register: NextPage = () => {
 								onBlur={formik.handleBlur('email')}
 								onChange={formik.handleChange('email')}
 								value={formik.values.email}
-								error={error}
+								error={errorState}
 								helperText={formik.touched.email ? formik.errors.email : ''}
 								validationError={formik.touched.email && Boolean(formik.errors.email)}
 								cguCheckbox={cguCheckBox}

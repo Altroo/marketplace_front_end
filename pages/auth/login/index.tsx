@@ -17,7 +17,6 @@ import { AccountGetCheckAccountResponseType, AccountPostLoginResponseType } from
 import { getApi, postApi } from "../../../store/services/_init/_initAPI";
 import {
 	AUTH_REGISTER, AUTH_RESET_PASSWORD,
-	AUTH_WELCOME,
 	DASHBOARD
 } from "../../../utils/routes";
 import { signIn, useSession } from "next-auth/react";
@@ -39,6 +38,7 @@ const LoginPageContent = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const { error } = router.query;
+	const [errorState, setErrorState] = useState<string | Array<string> | undefined>(undefined);
 
 	const googleSignIn = () => {
 		// redirect to the same page that will then check if user is new or old
@@ -49,6 +49,14 @@ const LoginPageContent = () => {
 		// redirect to the same page that will then check if user is new or old
 		signIn("facebook").then();
 	};
+
+	useEffect(() => {
+		if (error === 'AccessDenied') {
+			setErrorState('Service non disponible.');
+		} else {
+			setErrorState(error);
+		}
+	}, [error]);
 
 	const formik = useFormik({
 		initialValues: {
@@ -89,7 +97,7 @@ const LoginPageContent = () => {
 			<Stack direction="column" spacing={2} className={Styles.mobileWidth}>
 				<GoogleSignInButton onClick={googleSignIn} />
 				<FacebookSignInButton onClick={facebookSignIn} />
-				{error && <span className={Styles.errorMessage}>{error}</span>}
+				{errorState && <span className={Styles.errorMessage}>{errorState}</span>}
 			</Stack>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />
 			<form style={{ width: "100%"}}>
@@ -152,7 +160,7 @@ const Login: React.FC = () => {
 		if (session && !sessionUpdated) {
 			dispatch(refreshAppTokenStatesAction(session));
 			setSessionUpdated(true);
-			router.push(AUTH_WELCOME).then();
+			router.replace(DASHBOARD).then();
 		}
 	}, [dispatch, router, session, sessionUpdated]);
 

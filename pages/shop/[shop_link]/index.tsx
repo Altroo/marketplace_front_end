@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './index.module.sass';
 import { useRouter } from 'next/router';
@@ -6,10 +6,12 @@ import { useAppDispatch } from '../../../utils/hooks';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import ShopInfoTabs from '../../../components/htmlElements/tabs/tab';
 // import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
-import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
+// import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
 import ContactIconBlueSVG from '../../../public/assets/svgs/globalIcons/call-blue.svg';
 import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
 import ContactIconBlackSVG from '../../../public/assets/svgs/globalIcons/call-black.svg';
+import WhatsaappIconBlackSVG from '../../../public/assets/svgs/globalIcons/whatsapp-icon-black.svg';
+import WhatsaappIconWhiteSVG from '../../../public/assets/svgs/globalIcons/whatsapp-icon-white.svg';
 import {
 	OpeningDaysArray,
 	ShopFontNameType,
@@ -40,8 +42,8 @@ import FontIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-font.
 import ContactIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-contact.svg';
 import { Backdrop, Box, Skeleton, Stack } from '@mui/material';
 import AjouterMesInfosStack, {
-	addMyInfosStackType
-} from "../../../components/groupedComponents/temp-shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack";
+	addMyInfosStackType,
+} from '../../../components/groupedComponents/temp-shop/edit/ajouterMesInfos-Stack/ajouterMesInfosStack';
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../create/color';
 import { getApi } from '../../../store/services/_init/_initAPI';
@@ -153,17 +155,11 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	// font
 	const [fontName, setFontName] = useState<ShopFontNameType>(font_name);
 	// Gray Message Icon
-	const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
-	const [contactIcon, setContactIcon] = useState<string>(ContactIconBlackSVG);
-
-	let phoneContactMode = true;
-	let whatsappContactMode = false;
-	if (contact_mode === 'W') {
-		phoneContactMode = false;
-		whatsappContactMode = true;
-	}
-	const [phoneSwitch, setPhoneSwitch] = useState(phoneContactMode);
-	const [wtspSwitch, setWtspSwitch] = useState(whatsappContactMode);
+	// const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
+	const [contactIcon, setContactIcon] = useState<string | null>(null);
+	const [contactModeState, setContactModeState] = useState(contact_mode);
+	const [phoneSwitch, setPhoneSwitch] = useState<boolean>(false);
+	const [wtspSwitch, setWtspSwitch] = useState<boolean>(false);
 
 	let phoneContactCodeInitial = '+212';
 	if (contact_phone_code) {
@@ -187,47 +183,60 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const [whatsappValue, setwhatsappValue] = useState<string>(whatsappContactInitial);
 	const [phoneValue, setPhoneValue] = useState<string>(phoneContactInitial);
 
-	const handleContactModalOpen = () => {
+	const handleContactModalOpen = useCallback(() => {
 		setContacterModalOpen(true);
-	};
-	const handleContactModalClose = () => {
+	}, []);
+
+	const handleContactModalClose = useCallback(() => {
 		setContacterModalOpen(false);
-	};
-	const setWhatsappSwitchHandler = (value: boolean) => {
+	}, []);
+
+	const setWhatsappSwitchHandler = useCallback((value: boolean) => {
 		setWtspSwitch(value);
 		setPhoneSwitch(!value);
-	};
+	}, []);
 
-	const setPhoneSwitchHandler = (value: boolean) => {
+	const setPhoneSwitchHandler = useCallback((value: boolean) => {
 		setPhoneSwitch(value);
 		setWtspSwitch(!value);
-	};
+	}, []);
 
-	// contacter action
-	const contacterAction: Array<contacterPhoneInputType> = [
-		{
-			checked: phoneSwitch,
-			setStateHandler: setPhoneSwitchHandler,
-			label: 'Par téléphone',
-			backgroundColor: bgColorCode,
-			icon: PhoneSVG,
-			code: phoneCode,
-			setCode: setPhoneCode,
-			value: phoneValue,
-			setValue: setPhoneValue,
-		},
-		{
-			checked: wtspSwitch,
-			setStateHandler: setWhatsappSwitchHandler,
-			label: 'Par WhatsApp',
-			backgroundColor: bgColorCode,
-			icon: WtspSVG,
-			code: whatsappCode,
-			setCode: setwhatsappCode,
-			value: whatsappValue,
-			setValue: setwhatsappValue,
-		},
-	];
+	const contacterAction: Array<contacterPhoneInputType> = useMemo(() => {
+		return [
+			{
+				checked: phoneSwitch,
+				setStateHandler: setPhoneSwitchHandler,
+				label: 'Par téléphone',
+				backgroundColor: bgColorCode,
+				icon: PhoneSVG,
+				code: phoneCode,
+				setCode: setPhoneCode,
+				value: phoneValue,
+				setValue: setPhoneValue,
+			},
+			{
+				checked: wtspSwitch,
+				setStateHandler: setWhatsappSwitchHandler,
+				label: 'Par WhatsApp',
+				backgroundColor: bgColorCode,
+				icon: WtspSVG,
+				code: whatsappCode,
+				setCode: setwhatsappCode,
+				value: whatsappValue,
+				setValue: setwhatsappValue,
+			},
+		];
+	}, [
+		bgColorCode,
+		phoneCode,
+		phoneSwitch,
+		phoneValue,
+		setPhoneSwitchHandler,
+		setWhatsappSwitchHandler,
+		whatsappCode,
+		whatsappValue,
+		wtspSwitch,
+	]);
 
 	// check horaire added
 	const {
@@ -260,48 +269,58 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const [openEditAdressModal, setOpenEditAdressModal] = useState<boolean>(false);
 	const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
 
-	// Infos stack actions
-	// TODO : set states here -
-	// shop name - bio - horaireAdded - coordoneesAdded - address_name
-	const infosStackActions: Array<addMyInfosStackType> = [
-		{
-			title: 'Nom',
-			content: shop_name,
-			added: !!shop_name,
-			openEditModal: openEditShopNameModal,
-			setOpenEditModal: setOpenEditShopNameModal,
-			setOpenParentModal: setOpenInfoModal,
-		},
-		{
-			title: 'Bio',
-			content: bio,
-			added: !!bio,
-			openEditModal: openEditBioModal,
-			setOpenEditModal: setOpenEditBioModal,
-			setOpenParentModal: setOpenInfoModal,
-		},
-		{
-			title: 'Horaire',
-			added: horaireAdded,
-			openEditModal: openEditHoraireModal,
-			setOpenEditModal: setOpenEditHoraireModal,
-			setOpenParentModal: setOpenInfoModal,
-		},
-		{
-			title: 'Coordonées',
-			added: coordoneesAdded,
-			openEditModal: openEditCoordoneeModal,
-			setOpenEditModal: setOpenEditCoordoneeModal,
-			setOpenParentModal: setOpenInfoModal,
-		},
-		{
-			title: 'Adresse',
-			added: !!address_name,
-			openEditModal: openEditAdressModal,
-			setOpenEditModal: setOpenEditAdressModal,
-			setOpenParentModal: setOpenInfoModal,
-		},
-	];
+	const infosStackActions: Array<addMyInfosStackType> = useMemo(() => {
+		return [
+			{
+				title: 'Nom',
+				content: shop_name,
+				added: !!shop_name,
+				openEditModal: openEditShopNameModal,
+				setOpenEditModal: setOpenEditShopNameModal,
+				setOpenParentModal: setOpenInfoModal,
+			},
+			{
+				title: 'Bio',
+				content: bio,
+				added: !!bio,
+				openEditModal: openEditBioModal,
+				setOpenEditModal: setOpenEditBioModal,
+				setOpenParentModal: setOpenInfoModal,
+			},
+			{
+				title: 'Horaire',
+				added: horaireAdded,
+				openEditModal: openEditHoraireModal,
+				setOpenEditModal: setOpenEditHoraireModal,
+				setOpenParentModal: setOpenInfoModal,
+			},
+			{
+				title: 'Coordonées',
+				added: coordoneesAdded,
+				openEditModal: openEditCoordoneeModal,
+				setOpenEditModal: setOpenEditCoordoneeModal,
+				setOpenParentModal: setOpenInfoModal,
+			},
+			{
+				title: 'Adresse',
+				added: !!address_name,
+				openEditModal: openEditAdressModal,
+				setOpenEditModal: setOpenEditAdressModal,
+				setOpenParentModal: setOpenInfoModal,
+			},
+		];
+	}, [
+		address_name,
+		bio,
+		coordoneesAdded,
+		horaireAdded,
+		openEditAdressModal,
+		openEditBioModal,
+		openEditCoordoneeModal,
+		openEditHoraireModal,
+		openEditShopNameModal,
+		shop_name,
+	]);
 
 	const [openFilterModal, setOpenFilterModal] = useState<boolean>(false);
 	const [showMobileFilterButton, setShowMobileFilterButton] = useState<boolean>(false);
@@ -310,43 +329,38 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const [openColorModal, setOpenColorModal] = useState<boolean>(false);
 	const [openFontModal, setOpenFontModal] = useState<boolean>(false);
 
-	// opens hidden avatar input
-	const avatarInputOnClickHandler = () => {
+	const avatarInputOnClickHandler = useCallback(() => {
 		// e.preventDefault();
 		if (!avatarInputRef.current) {
 			return;
 		}
 		avatarInputRef.current.click();
-	};
+	}, []);
 
-	// drop down menu actions
-	const dropDownActions: DropDownActionType = [
-		// {
-		// 	icon: InfoIconSVG,
-		// 	text: "Mes infos",
-		// 	onClick: setOpenInfoModal
-		// },
-		{
-			icon: ContactIconSVG,
-			text: 'Coordonnées',
-			onClick: setContacterModalOpen,
-		},
-		{
-			icon: AvatarIconSVG,
-			text: 'Image de la boutique',
-			onClick: avatarInputOnClickHandler,
-		},
-		{
-			icon: ColorIconSVG,
-			text: 'Couleur de la boutique',
-			onClick: setOpenColorModal,
-		},
-		{
-			icon: FontIconSVG,
-			text: 'Style du titre',
-			onClick: setOpenFontModal,
-		},
-	];
+	const dropDownActions: DropDownActionType = useMemo(() => {
+		return [
+			{
+				icon: ContactIconSVG,
+				text: 'Coordonnées',
+				onClick: setContacterModalOpen,
+			},
+			{
+				icon: AvatarIconSVG,
+				text: 'Image de la boutique',
+				onClick: avatarInputOnClickHandler,
+			},
+			{
+				icon: ColorIconSVG,
+				text: 'Couleur de la boutique',
+				onClick: setOpenColorModal,
+			},
+			{
+				icon: FontIconSVG,
+				text: 'Style du titre',
+				onClick: setOpenFontModal,
+			},
+		];
+	}, [avatarInputOnClickHandler]);
 
 	useEffect(() => {
 		// avatar
@@ -365,14 +379,28 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 		if (border) {
 			setborderState(border);
 		}
-		// set icon colors
-		if (icon_color === 'white') {
-			// setMessageIcon(MessageIconWhiteSVG);
-			setContactIcon(ContactIconWhiteSVG);
-		} else if (icon_color === 'black') {
-			// setMessageIcon(MessageIconBlackSVG);
-			setContactIcon(ContactIconBlackSVG);
+
+		if (contactModeState === 'P' || contactModeState === 'W') {
+			if (contactModeState === 'W') {
+				setWhatsappSwitchHandler(true);
+				if (icon_color === 'white') {
+					// WhatsaappIconBlackSVG WhatsaappIconWhiteSVG
+					setContactIcon(WhatsaappIconWhiteSVG);
+				} else if (icon_color === 'black') {
+					setContactIcon(WhatsaappIconBlackSVG);
+				}
+			} else if (contactModeState === 'P') {
+				setPhoneSwitchHandler(true);
+				if (icon_color === 'white') {
+					// setMessageIcon(MessageIconWhiteSVG);
+					setContactIcon(ContactIconWhiteSVG);
+				} else if (icon_color === 'black') {
+					setContactIcon(ContactIconBlackSVG);
+					// setMessageIcon(MessageIconBlackSVG);
+				}
+			}
 		}
+
 		// construct contacter link
 		if (font_name) {
 			setFontName(font_name);
@@ -390,35 +418,29 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 		if (contact_phone_code) {
 			setPhoneCode(contact_phone_code);
 		}
-		if (contact_mode) {
-			if (contact_mode === 'W') {
-				setWhatsappSwitchHandler(true);
-			} else if (contact_mode === 'P') {
-				setPhoneSwitchHandler(true);
-			}
-		}
-		// setIsLoadingInitInProgress(false);
 	}, [
 		avatar,
 		bg_color_code,
 		border,
 		color_code,
-		contact_mode,
+		contactModeState,
 		contact_phone,
 		contact_phone_code,
 		contact_whatsapp,
 		contact_whatsapp_code,
 		font_name,
 		icon_color,
+		setPhoneSwitchHandler,
+		setWhatsappSwitchHandler,
 	]);
 
-	// save phone contact modal button
-	const contacterSaveHandler = () => {
+	const contacterSaveHandler = useCallback(() => {
 		if (phoneSwitch) {
 			if (phoneCode) {
 				if (!phoneValue.match(/[^0-9]/)) {
 					dispatch(shopPatchPhoneContactAction(phoneCode, phoneValue, whatsappCode, whatsappValue, 'P'));
 					setContacterModalOpen(false);
+					setContactModeState('P');
 				}
 			}
 			// wtsp switch active => validate inputs & save
@@ -427,63 +449,77 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 				if (!whatsappValue.match(/[^0-9]/)) {
 					dispatch(shopPatchPhoneContactAction(phoneCode, phoneValue, whatsappCode, whatsappValue, 'W'));
 					setContacterModalOpen(false);
+					setContactModeState('W');
 				}
 			}
 		}
-	};
+	}, [dispatch, phoneCode, phoneSwitch, phoneValue, whatsappCode, whatsappValue, wtspSwitch]);
 
 	// duplicated
-	const whiteTextColors = ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
+	// const whiteTextColors = ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
+	const whiteTextColors = useMemo(() => {
+		return ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
+	}, []);
 	const whiteText = '#FFFFFF';
 	const blackText = '#0D070B';
 	const [iconColor, setIconColor] = useState<IconColorType>('black');
 
-	const colorClickHandler = (color: string) => {
-		// If picked color is white => apply border + white text + black bg
-		if (color === whiteText) {
-			setBgColorCode(color);
-			setColorCode(whiteText);
-			setborderState('1px solid #0D070B');
-			// Else other colors than white.
-		} else {
-			setBgColorCode(color);
-			setborderState('0px solid transparent');
-		}
-		// if picked color fall into those white text colors => apply white text color
-		if (whiteTextColors.includes(color)) {
-			setColorCode(whiteText);
-			setContactIcon(ContactIconWhiteSVG);
-			// setMessageIcon(MessageIconWhiteSVG);
-			setIconColor('white');
-			if (color === blackText) {
+	const colorClickHandler = useCallback(
+		(color: string) => {
+			// If picked color is white => apply border + white text + black bg
+			if (color === whiteText) {
+				setBgColorCode(color);
 				setColorCode(whiteText);
+				setborderState('1px solid #0D070B');
+				// Else other colors than white.
+			} else {
+				setBgColorCode(color);
+				setborderState('0px solid transparent');
 			}
-			// else apply black text color
-		} else {
-			setContactIcon(ContactIconBlackSVG);
-			// setMessageIcon(MessageIconBlackSVG);
-			setIconColor('black');
-			setColorCode(blackText);
-		}
-	};
-	const editColorHandler = (_bgColorCode: string | null, _colorCode: string | null) => {
-		if (_colorCode && _bgColorCode) {
-			// _bgColorCode & _colorCode are reversed for this action.
-			dispatch(shopPatchColorAction(_colorCode, _bgColorCode, border, iconColor));
-		}
-	};
+			// if picked color fall into those white text colors => apply white text color
+			if (whiteTextColors.includes(color)) {
+				setColorCode(whiteText);
+				setContactIcon(ContactIconWhiteSVG);
+				// setMessageIcon(MessageIconWhiteSVG);
+				setIconColor('white');
+				if (color === blackText) {
+					setColorCode(whiteText);
+				}
+				// else apply black text color
+			} else {
+				setContactIcon(ContactIconBlackSVG);
+				// setMessageIcon(MessageIconBlackSVG);
+				setIconColor('black');
+				setColorCode(blackText);
+			}
+		},
+		[whiteTextColors],
+	);
 
-	const editFontHandler = (font: ShopFontNameType) => {
-		if (font) {
-			dispatch(shopPatchFontAction(font));
-		}
-	};
+	const editColorHandler = useCallback(
+		(_bgColorCode: string | null, _colorCode: string | null) => {
+			if (_colorCode && _bgColorCode) {
+				// _bgColorCode & _colorCode are reversed for this action.
+				dispatch(shopPatchColorAction(_colorCode, _bgColorCode, border, iconColor));
+			}
+		},
+		[border, dispatch, iconColor],
+	);
 
-	const fontPicker = (font: ShopFontNameType) => {
+	const editFontHandler = useCallback(
+		(font: ShopFontNameType) => {
+			if (font) {
+				dispatch(shopPatchFontAction(font));
+			}
+		},
+		[dispatch],
+	);
+
+	const fontPicker = useCallback((font: ShopFontNameType) => {
 		if (font) {
 			setFontName(font);
 		}
-	};
+	}, []);
 
 	const avatarInputOnChangeUploadHandler = useMemo(
 		() => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -513,13 +549,6 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 
 	return (
 		<>
-			{/*{isApiCallInProgress && (*/}
-			{/*	<ApiProgress*/}
-			{/*		cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}*/}
-			{/*		backdropColor="#FFFFFF"*/}
-			{/*		circularColor="#0D070B"*/}
-			{/*	/>*/}
-			{/*)}*/}
 			{/* Show shop created modal */}
 			{created && !modalDismissed && (
 				<DismissMessageModal
@@ -557,20 +586,22 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								{is_subscribed ? (
 									<ShopVerified shop_name={shop_name} avatar={preview as string} />
 								) : (
-									<div className={Styles.avatarSubWrapper}>
+									<div>
 										{!preview ? (
 											<Skeleton variant="circular" width={120} height={120} />
 										) : (
-											<Image
-												src={preview as string}
-												alt={shop_name}
-												width="120"
-												height="120"
-												sizes="100vw"
-												className={Styles.avatar}
-												loading="eager"
-												priority={true}
-											/>
+											<div className={Styles.avatarSubWrapper}>
+												<Image
+													src={preview as string}
+													alt={shop_name}
+													width="120"
+													height="120"
+													sizes="100vw"
+													className={Styles.avatar}
+													loading="eager"
+													priority={true}
+												/>
+											</div>
 										)}
 									</div>
 								)}
@@ -637,7 +668,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 						{/*		active={true}*/}
 						{/*		cssClass={Styles.iconButton}*/}
 						{/*	/>*/}
-						{(phoneValue || whatsappValue) !== '' ? (
+						{(phoneValue || whatsappValue) !== '' && contactIcon ? (
 							<CustomIconButton
 								buttonText="Contacter"
 								svgIcon={contactIcon}
@@ -780,7 +811,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 										);
 									})}
 								</div>
-								<Box sx={{position: 'absolute', bottom: '50px'}}>
+								<Box sx={{ position: 'absolute', bottom: '10%' }}>
 									<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 										<PrimaryButton
 											buttonText="Enregistrer"
@@ -873,7 +904,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 										);
 									})}
 								</div>
-								<Box sx={{position: 'absolute', bottom: '50px'}}>
+								<Box sx={{ position: 'absolute', bottom: '10%' }}>
 									<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
 										<PrimaryButton
 											buttonText="Continuer"
@@ -969,23 +1000,32 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	// states
 	// Gray Message Icon
 	// const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
-	const [contactIcon, setContactIcon] = useState<string>(ContactIconBlackSVG);
+	const [contactModeState, setContactModeState] = useState(contact_mode);
+	const [contactIcon, setContactIcon] = useState<string | null>(null);
 	const [contacterLink, setContacterLink] = useState<string | undefined>(undefined);
 
 	useEffect(() => {
 		// set icon colors
-		if (icon_color === 'white') {
-			// setMessageIcon(MessageIconWhiteSVG);
-			setContactIcon(ContactIconWhiteSVG);
-		} else if (icon_color === 'black') {
-			// setMessageIcon(MessageIconBlackSVG);
-			setContactIcon(ContactIconBlackSVG);
-		}
-		// construct contacter link
-		if (contact_mode === 'P') {
-			setContacterLink('tel:' + contact_phone_code + contact_phone);
-		} else if (contact_mode === 'W') {
+		if (contact_mode === 'W') {
+			setContactModeState('W');
 			setContacterLink('https://web.whatsapp.com/send?phone=' + contact_whatsapp_code + contact_whatsapp);
+			if (icon_color === 'white') {
+				// setMessageIcon(MessageIconWhiteSVG);
+				setContactIcon(WhatsaappIconWhiteSVG);
+			} else if (icon_color === 'black') {
+				// setMessageIcon(MessageIconBlackSVG);
+				setContactIcon(WhatsaappIconBlackSVG);
+			}
+		} else if (contact_mode === 'P') {
+			setContactModeState('P');
+			setContacterLink('tel:' + contact_phone_code + contact_phone);
+			if (icon_color === 'white') {
+				// setMessageIcon(MessageIconWhiteSVG);
+				setContactIcon(ContactIconWhiteSVG);
+			} else if (icon_color === 'black') {
+				// setMessageIcon(MessageIconBlackSVG);
+				setContactIcon(ContactIconBlackSVG);
+			}
 		}
 	}, [contact_mode, contact_phone, contact_phone_code, contact_whatsapp, contact_whatsapp_code, icon_color]);
 
@@ -1066,7 +1106,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 						{/*	active={true}*/}
 						{/*	cssClass={Styles.iconButton}*/}
 						{/*/>*/}
-						{contact_mode === ('P' || 'W') ? (
+						{(contactModeState === "P" || contactModeState === "W") && contactIcon ? (
 							<IconAnchorButton
 								buttonText="Contacter"
 								svgIcon={contactIcon}

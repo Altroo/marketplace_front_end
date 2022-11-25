@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Styles from './shopTabContent.module.sass';
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
-import { Box, Button, Grid, Stack, ThemeProvider } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from "@mui/material";
 import {
 	GetOffersSagaCallBackOnCompleteDataType,
 	OfferGetAvailableShopFiltersType,
@@ -10,7 +10,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
-import BlackStarSVG from '../../../../../public/assets/svgs/globalIcons/black-star.svg';
+// import BlackStarSVG from '../../../../../public/assets/svgs/globalIcons/black-star.svg';
 import { useRouter } from 'next/router';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
 import { useAppDispatch } from '../../../../../utils/hooks';
@@ -74,8 +74,8 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 	const [availableFiltersFetched, setAvailableFiltersFetched] = useState<boolean>(false);
 	const [availableFilters, setAvailableFilters] = useState<OfferGetAvailableShopFiltersType>(availableFiltersInit);
 	const [applyFiltersClicked, setApplyFiltersClicked] = useState<boolean>(false);
-
 	const [availableFiltersHasData, setAvailableFiltersHasData] = useState<boolean>(false);
+	const [imagesLoading, setImagesLoading] = useState<Array<boolean>>([]);
 
 	useEffect(() => {
 		if (!availableFiltersFetched) {
@@ -186,10 +186,46 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		shop_pk,
 	]);
 
-	const filterOnChange = (
-		e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
-		value: string,
-	) => {
+	// const filterOnChange = (
+	// 	e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
+	// 	value: string,
+	// ) => {
+	// 	setFilter(value as 'D' | 'C');
+	// 	// default prix decroissant.
+	// 	// -price = D
+	// 	// price = T
+	// 	const queryParams: ParsedUrlQueryInput = {
+	// 		// shop_link: router.query.shop_link,
+	// 		// sort_by: '-price',
+	// 		...router.query,
+	// 	};
+	// 	const options = { shallow: true, scroll: false };
+	//
+	// 	if (router.query.page) {
+	// 		if (value === 'D') {
+	// 			router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
+	// 				setFilterChanged(true);
+	// 			});
+	// 		} else {
+	// 			router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
+	// 				setFilterChanged(true);
+	// 			});
+	// 		}
+	// 	} else {
+	// 		if (value === 'D') {
+	// 			router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
+	// 				setFilterChanged(true);
+	// 			});
+	// 		} else {
+	// 			router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
+	// 				setFilterChanged(true);
+	// 			});
+	// 		}
+	// 	}
+	// };
+
+	const filterOnChange = useCallback((e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
+		value: string) => {
 		setFilter(value as 'D' | 'C');
 		// default prix decroissant.
 		// -price = D
@@ -222,13 +258,17 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 				});
 			}
 		}
-	};
+	}, [router]);
 
 	// const [searchValue, setSearchValue] = useState<string>('');
 
-	const closeMobileFilterModal = () => {
+	// const closeMobileFilterModal = () => {
+	// 	props.setOpenFilterModal(false);
+	// };
+
+	const closeMobileFilterModal = useCallback(() => {
 		props.setOpenFilterModal(false);
-	};
+	}, [props]);
 
 	return (
 		<>
@@ -272,7 +312,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 									{offersLinkedHashMap.offersMap
 										?.entrySet()
 										.toArray()
-										.map((data) => {
+										.map((data, index) => {
 											if (data.value) {
 												const { price, solder_type, solder_value } = data.value;
 												let newPrice = 0;
@@ -289,7 +329,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 														key={data.key}
 														className={Styles.gridCardOfferWrapper}
 													>
-														<Grid item xs="auto">
+														<Grid item xs="auto" className={Styles.mobileGridRoot}>
 																<Stack direction="column" spacing={2}>
 																	<Box className={Styles.thumbnailWrapper}>
 																		{data.value.pinned && (
@@ -301,16 +341,36 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																				className={Styles.thumbnailActionIcon}
 																			/>
 																		)}
-																		<Image
-																			src={data.value.thumbnail}
-																			alt=""
-																			width="0"
-																			height="0"
-																			sizes="100vw"
-																			className={Styles.offerThumb}
-																			loading="eager"
-																			priority={true}
-																		/>
+																		<Box sx={{ position: 'relative', height: '100%', borderRadius: '20px' }}>
+																		{(!imagesLoading[index] || !data.value.thumbnail) && (
+																			<Skeleton
+																				animation="wave"
+																				variant="rectangular"
+																				width={250}
+																				height={165}
+																				sx={{ position: 'absolute' }}
+																				className={Styles.offerThumb}
+																			/>
+																		)}
+																		{data.value.thumbnail && (
+																			<Image
+																				onLoadingComplete={() => {
+																					setImagesLoading((prevState) => {
+																						prevState[index] = true;
+																						return [...prevState];
+																					});
+																				}}
+																				src={data.value.thumbnail}
+																				alt=""
+																				width="0"
+																				height="0"
+																				sizes="100vw"
+																				className={Styles.offerThumb}
+																				loading="eager"
+																				priority={true}
+																			/>
+																		)}
+																	</Box>
 																		{data.value.creator_label && (
 																			<Image
 																				className={Styles.creatorImageTag}
@@ -322,16 +382,12 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																			/>
 																		)}
 																	</Box>
-																	<Stack direction="column" spacing={1}>
+																	<Stack direction="column" spacing={0}>
 																		<span className={Styles.offerTitle}>
 																			{data.value.title.length >= 25
 																				? data.value.title.substring(0, 25) + '...'
 																				: data.value.title}
 																		</span>
-																		{/*<Stack direction="row">*/}
-																		{/*	<Image src={BlackStarSVG} width={20} height={20} alt="" />*/}
-																		{/*	<span className={Styles.offerRating}>0 (0 notes)</span>*/}
-																		{/*</Stack>*/}
 																		<Stack direction="row" spacing={1}>
 																			<span
 																				className={`${Styles.offerPrice} ${

@@ -10,7 +10,13 @@ import {
 } from '../../../types/account/accountTypes';
 import { postApi } from '../../../store/services/_init/_initAPI';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { InitStateInterface, InitStateToken, InitStateUniqueID, tokenUser } from '../../../types/_init/_initTypes';
+import {
+	ApiErrorResponseType,
+	InitStateInterface,
+	InitStateToken,
+	InitStateUniqueID,
+	tokenUser
+} from "../../../types/_init/_initTypes";
 import { emptyInitStateUniqueID } from '../../../store/slices/_init/_initSlice';
 import { setAuthTokenCookie } from '../../../utils/cookies';
 import axios from 'axios';
@@ -134,7 +140,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		pages: {
 			signIn: '/auth/register', // Displays signin buttons
 			// signOut: '/auth/signout', // Displays form with sign out button
-			error: '/auth/register', // Error code passed in query string as ?error=
+			error: '/auth/login', // Error code passed in query string as ?error=
 			// verifyRequest: '/auth/verify-request', // Used for check email page
 			// newUser: null // If set, new users will be directed here on first sign in
 		},
@@ -163,6 +169,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 							account.refresh_token_expiration = response.data.refresh_token_expiration as string;
 							return true;
 						} catch (e) {
+							// return e as ApiErrorResponseType;
 							return false;
 						}
 					} else if (account.provider === 'facebook') {

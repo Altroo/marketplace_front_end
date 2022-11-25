@@ -114,7 +114,7 @@ const Description: NextPage = () => {
 	const [localisationModalOpen, setLocalisationModalOpen] = useState<boolean>(false);
 
 	// // submit handler
-	const addDescriptionSubmitHandler = (values: submitDataType) => {
+	const addDescriptionSubmitHandler = useCallback((values: submitDataType) => {
 		const forWhomCodeArray: Array<string> = [];
 				if (forWhomChoice.length >= 1) {
 					forWhomChoice.map((forWhom) => {
@@ -161,7 +161,7 @@ const Description: NextPage = () => {
 						}
 					},
 				});
-	};
+	}, [dispatch, forWhomChoice, images, router]);
 
 	// on change for whom
 	const forWhomHandleChange = useCallback((event: SelectChangeEvent<Array<string>>) => {

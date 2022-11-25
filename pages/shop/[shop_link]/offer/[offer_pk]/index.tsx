@@ -58,13 +58,13 @@ import { getApi } from '../../../../../store/services/_init/_initAPI';
 import UserMainNavigationBar from '../../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../../../components/layouts/footer/customFooter';
 import ReactCountryFlag from 'react-country-flag';
-import DesktopPublishEditNavbar from '../../../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
+// import DesktopPublishEditNavbar from '../../../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
 import { DropDownActionType } from '../../../../../types/ui/uiTypes';
 import EditBlackSVG from '../../../../../public/assets/svgs/globalIcons/edit-black.svg';
 import EpinglerActiveSVG from '../../../../../public/assets/svgs/globalIcons/epingler-active.svg';
 import EpinglerInactiveSVG from '../../../../../public/assets/svgs/globalIcons/epingler-inactive.svg';
-import SolderEditActiveSVG from '../../../../../public/assets/svgs/globalIcons/solder-edit-active.svg';
-import SolderEditInactiveSVG from '../../../../../public/assets/svgs/globalIcons/solder-edit-inactive.svg';
+// import SolderEditActiveSVG from '../../../../../public/assets/svgs/globalIcons/solder-edit-active.svg';
+// import SolderEditInactiveSVG from '../../../../../public/assets/svgs/globalIcons/solder-edit-inactive.svg';
 import SupprimerSVG from '../../../../../public/assets/svgs/globalIcons/close-black.svg';
 import { ImageListType as ImageUploadingType } from 'react-images-uploading/dist/typings';
 import {
@@ -1977,7 +1977,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 									<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 										<PrimaryButton buttonText="Ajouter au panier" active={permission !== 'OWNER'} type="submit" />
 									</div>
-									<Box className={Styles.clickAnddeliveriesWrapper}>
+									<Box className={Styles.servicesMapWrapper}>
 										<Stack
 											direction="column"
 											divider={<Divider orientation="horizontal" flexItem className={Styles.divider} />}

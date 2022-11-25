@@ -13,7 +13,7 @@ import {
 	AccountPostRegisterResponseType
 } from "../../../types/account/accountTypes";
 import { cookiesDeleter, getApi, postApi } from "../../../store/services/_init/_initAPI";
-import { AUTH_LOGIN, AUTH_REGISTER, AUTH_WELCOME } from "../../../utils/routes";
+import { AUTH_LOGIN, AUTH_REGISTER, DASHBOARD, AUTH_WELCOME } from "../../../utils/routes";
 import { getCookie } from "cookies-next";
 import Styles from "../../../styles/auth/register/about.module.sass";
 import { Stack } from "@mui/material";
@@ -80,7 +80,7 @@ const AboutPageContent = (props: AboutPageContent) => {
 						setSubmitting(true);
 						// delete new email cookie so it'll be used else where.
 						await cookiesDeleter('/cookies', { new_email: 0 });
-						await router.replace(router.asPath);
+						await router.replace(AUTH_WELCOME).then();
 					});
 				}
 			} catch (e) {
@@ -233,11 +233,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
 			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
 			if (response.status === 200) {
-				// user is already loged IN. redirect to welcome page.
+				// user is already loged IN. redirect to dashboard page.
 				return {
 					redirect: {
 						permanent: false,
-						destination: AUTH_WELCOME
+						destination: DASHBOARD
 					}
 				};
 			}
