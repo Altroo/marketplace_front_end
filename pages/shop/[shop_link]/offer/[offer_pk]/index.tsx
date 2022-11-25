@@ -759,9 +759,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 															sizes="100vw"
 															onClick={() => showThumbnail(image)}
 															alt=""
-															// loading="eager"
-															// priority={true}
-															// decoding="async"
 														/>
 													) : null}
 												</ImageListItem>
@@ -797,9 +794,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 												sizes="100vw"
 												onClick={() => showImage(selectedImage)}
 												alt=""
-												// loading="eager"
-												// priority={true}
-												// decoding="async"
 											/>
 											{creator_label && (
 												<Image
@@ -1780,9 +1774,6 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 															sizes="100vw"
 															onClick={() => showThumbnail(image)}
 															alt=""
-															// loading="eager"
-															// priority={true}
-															// decoding="async"
 														/>
 													) : null}
 												</ImageListItem>
@@ -1818,9 +1809,6 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 												sizes="100vw"
 												onClick={() => showImage(selectedImage)}
 												alt=""
-												// loading="eager"
-												// priority={true}
-												// decoding="async"
 											/>
 										</Box>
 									)}

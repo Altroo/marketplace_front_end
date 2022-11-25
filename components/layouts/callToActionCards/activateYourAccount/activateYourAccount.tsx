@@ -20,7 +20,6 @@ const ActivateYourAccount: React.FC<Props> = (props: Props) => {
 				height="0"
 				sizes="100vw"
 				className={Styles.image}
-				loading="eager"
 			/>
 			<Stack direction="column" className={Styles.columnStackWrapper}>
 				<span>Activer votre compte!</span>

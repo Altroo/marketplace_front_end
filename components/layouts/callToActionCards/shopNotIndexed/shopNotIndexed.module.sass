@@ -8,6 +8,8 @@
   padding: 18px 32px
   border-radius: 20px
   margin-bottom: 18px
+  width: 100%
+  position: relative
 .columnStackWrapper
   span
     +SemiBold
@@ -23,7 +25,13 @@
   min-width: 120px !important
   width: 120px !important
   height: fit-content !important
-
+.avatar
+  margin-right: 20px
+.closeButton
+  cursor: pointer
+  position: absolute
+  top: 5px
+  right: 5px
 @media #{$tablette}
   .columnStackWrapper
     span
@@ -36,5 +44,6 @@
     width: 97px
     height: 61px
     align-self: center
+    margin-right: 0 !important
 // @media #{}
 // @media #{}

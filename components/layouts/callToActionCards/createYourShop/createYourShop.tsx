@@ -30,7 +30,6 @@ const CreateYourShop: React.FC = () => {
 				height="0"
 				sizes="100vw"
 				className={Styles.avatar}
-				loading="eager"
 			/>
 		</Stack>
 	);

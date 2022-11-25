@@ -157,26 +157,26 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 			{!data.is_subscribed || renderBack ? (
 				<Stack direction="column" className={Styles.dashboardNotSubscribedRootStack}>
 					<Stack direction="column" spacing="24px">
-						<Stack
-							direction="row"
-							justifyContent="space-between"
-							alignItems="center"
-							className={Styles.dashboardNotSubscribedSubRootStack}
-						>
-							<Stack direction="column" className={Styles.dashboardNotSubscribedHeaderWrapper}>
-								<span className={Styles.dashboardNotSubscribedSpanHeaderOne}>
-									Vos clients sont sur les moteurs de recherche.
-								</span>
-								<span className={Styles.dashboardNotSubscribedSpanHeaderTwo}>Et vous ?</span>
-							</Stack>
-							<Image src={JumelleIlluSVG} alt="" width="281" height="178" sizes="100vw" />
-						</Stack>
+						{/*<Stack*/}
+						{/*	direction="row"*/}
+						{/*	justifyContent="space-between"*/}
+						{/*	alignItems="center"*/}
+						{/*	className={Styles.dashboardNotSubscribedSubRootStack}*/}
+						{/*>*/}
+						{/*	<Stack direction="column" className={Styles.dashboardNotSubscribedHeaderWrapper}>*/}
+						{/*		<span className={Styles.dashboardNotSubscribedSpanHeaderOne}>*/}
+						{/*			Vos clients sont sur les moteurs de recherche.*/}
+						{/*		</span>*/}
+						{/*		<span className={Styles.dashboardNotSubscribedSpanHeaderTwo}>Et vous ?</span>*/}
+						{/*	</Stack>*/}
+						{/*	<Image src={JumelleIlluSVG} alt="" width="281" height="178" sizes="100vw" />*/}
+						{/*</Stack>*/}
 						<Box className={Styles.dashboardNotSubscribedMobileMain}>
 							<Stack direction="column" spacing="24px">
-								<p className={Styles.dashboardNotSubscribedParagraphe}>
-									L’acte d’achat a plus souvent lieu sur Google que sur Instagram. Si vous n’avez pas de site web bien
-									référencé, abonnez vous pour toucher plus de gens.
-								</p>
+								{/*<p className={Styles.dashboardNotSubscribedParagraphe}>*/}
+								{/*	L’acte d’achat a plus souvent lieu sur Google que sur Instagram. Si vous n’avez pas de site web bien*/}
+								{/*	référencé, abonnez vous pour toucher plus de gens.*/}
+								{/*</p>*/}
 								<Stack direction="column" alignItems="center" className={Styles.dashboardNotSubscribedHeadline}>
 									<span>Combien d’articles désirez-vous référencer ?</span>
 									{/*<Link href="/">*/}

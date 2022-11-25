@@ -299,8 +299,6 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																				width={32}
 																				height={32}
 																				className={Styles.thumbnailActionIcon}
-																				loading="eager"
-																				priority={true}
 																			/>
 																		)}
 																		<Image
