@@ -4,7 +4,7 @@
 
 import * as Sentry from '@sentry/nextjs';
 import { BrowserTracing } from '@sentry/tracing';
-import { ProfilingIntegration } from '@sentry/profiling-node';
+// import { ProfilingIntegration } from '@sentry/profiling-node';
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 
@@ -16,9 +16,9 @@ Sentry.init({
     new BrowserTracing({
       tracePropagationTargets: [`${process.env.API_ROOT_URL}`],
     }),
-    new ProfilingIntegration(),
+    // new ProfilingIntegration(),
   ],
-  profilesSampleRate: 1.0,
+  // profilesSampleRate: 1.0,
   // Note: if you want to override the automatic release value, do not set a
   // `release` value here - use the environment variable `SENTRY_RELEASE`, so
   // that it will also get attached to your source maps
