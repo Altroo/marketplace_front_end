@@ -42,7 +42,6 @@ const AddMissingEmail = () => {
 		validateOnMount: true,
 		validationSchema: emailSchema,
 		onSubmit: async (values, { setFieldError, setSubmitting }) => {
-			setSubmitting(false);
 			const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_EMAIL}`;
 			try {
 				const instance = allowAnyInstance();
@@ -54,7 +53,6 @@ const AddMissingEmail = () => {
 						const response: ResponseOnlyInterface = await putApi(fb_email_url, authInstance, {email: values.email});
 						if (response.status === 204) {
 							dispatch(accountSetFacebookEmailAction(values.email));
-							setSubmitting(true);
 							// update state token
 							if (session) {
 								dispatch(refreshAppTokenStatesAction(session));
@@ -68,6 +66,7 @@ const AddMissingEmail = () => {
 			} catch (e) {
 				setFormikAutoErrors({e, setFieldError});
 			}
+			setSubmitting(false);
 		}
 	});
 

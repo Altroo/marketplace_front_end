@@ -62,7 +62,6 @@ const Home: NextPage<RootState> = () => {
 		validateOnMount: true,
 		validationSchema: newsLetterEmailSchema,
 		onSubmit: async (values, { setSubmitting }) => {
-			setSubmitting(true);
 			const action = versionPostNewsLetterAction(values.email);
 			dispatch({
 				...action,

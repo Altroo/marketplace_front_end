@@ -61,8 +61,8 @@ const RegisterPageContent = (props: registerPageContentProps) => {
 				<p className={Styles.subHeader}>Inscrivez vous pour créer votre boutique. ça ne prend que quelques secondes.</p>
 			</Stack>
 			<Stack direction="column" spacing={2} className={Styles.mobileWidth}>
-				<GoogleSignInButton onClick={props.googleSignIn} />
-				<FacebookSignInButton onClick={props.facebookSignIn} />
+				<GoogleSignInButton onClick={props.googleSignIn} disabled={!props.cguCheckbox} />
+				<FacebookSignInButton onClick={props.facebookSignIn} disabled={!props.cguCheckbox} />
 				{props.error && <span className={Styles.errorMessage}>{props.error}</span>}
 			</Stack>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />
@@ -156,13 +156,11 @@ const Register: NextPage = () => {
 		validateOnMount: true,
 		validationSchema: emailSchema,
 		onSubmit: async (values, { setFieldError, setSubmitting }) => {
-			setSubmitting(false);
 			const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_EMAIL}`;
 			try {
 				const instance = allowAnyInstance();
 				const response: ResponseOnlyInterface = await postApi(url, instance, { email: values.email });
 				if (response.status === 204) {
-					setSubmitting(true);
 					cookiesPoster('/cookies', { new_email: values.email }).then(() => {
 						router.push(AUTH_REGISTER_ABOUT_PAGE).then();
 					});
@@ -170,6 +168,7 @@ const Register: NextPage = () => {
 			} catch (e) {
 				setFormikAutoErrors({ e, setFieldError });
 			}
+			setSubmitting(false);
 		},
 	});
 

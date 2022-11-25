@@ -294,7 +294,6 @@ const Description: NextPage = () => {
 								made_in: pickedMadeIn ? pickedMadeIn : 'Maroc',
 							}}
 							onSubmit={(values, { setSubmitting }) => {
-								setSubmitting(true);
 								addDescriptionSubmitHandler(values);
 								setSubmitting(false);
 							}}

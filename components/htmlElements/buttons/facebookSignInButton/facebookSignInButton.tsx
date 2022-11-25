@@ -7,6 +7,7 @@ import { getDefaultTheme } from "../../../../utils/themes";
 
 type Props = {
 	onClick: () => void;
+	disabled?: boolean;
 	children?: React.ReactNode;
 }
 
@@ -18,7 +19,12 @@ const FacebookSignInButton: React.FC<Props> = (props: Props) => {
 			<Button
 				color="primary"
 				onClick={props.onClick}
-				className={Styles.button}>
+				className={Styles.button}
+				disabled={props.disabled}
+				sx={{
+					opacity: `${props.disabled ? '0.5 !important' : '1 !important'}`,
+				}}
+			>
 				<Stack direction="row" alignItems="center">
 					<Image
 						src={FacebookSVG}

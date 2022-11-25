@@ -48,7 +48,6 @@ const FormikContentWithOldPassword: React.FC<formikContentType> = (props: formik
 		validateOnMount: true,
 		validationSchema: changeEmailSchema,
 		onSubmit: async (values, { setSubmitting, setFieldError, resetForm }) => {
-			setSubmitting(true);
 			const action = accountPutChangeEmailHasPasswordAction(values.email, values.password);
 			dispatch({
 				...action,
@@ -64,9 +63,9 @@ const FormikContentWithOldPassword: React.FC<formikContentType> = (props: formik
 							setFieldError,
 						});
 					}
-					setSubmitting(false);
 				},
 			});
+			setSubmitting(false);
 		},
 	});
 
@@ -135,7 +134,6 @@ const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formik
 		validateOnMount: true,
 		validationSchema: changeEmailWithPasswordSchema,
 		onSubmit: async (values, { setSubmitting, setFieldError, resetForm }) => {
-			setSubmitting(true);
 			const action = accountPostChangeEmailNotHasPasswordAction(values.email, values.new_password1, values.new_password2);
 			dispatch({
 				...action,
@@ -153,9 +151,9 @@ const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formik
 							setFieldError,
 						});
 					}
-					setSubmitting(false);
 				},
 			});
+			setSubmitting(false);
 		},
 	});
 	const inputTheme = coordonneeTextInputTheme();

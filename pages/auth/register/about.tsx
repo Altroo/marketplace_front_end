@@ -46,7 +46,6 @@ const AboutPageContent = (props: AboutPageContent) => {
 		validateOnMount: true,
 		validationSchema: tellUsMoreSchema,
 		onSubmit: async (values, { setFieldError, setSubmitting }) => {
-			setSubmitting(false);
 			const url = `${process.env.NEXT_PUBLIC_ACCOUNT_REGISTER}`;
 			try {
 				const instance = allowAnyInstance();
@@ -77,7 +76,6 @@ const AboutPageContent = (props: AboutPageContent) => {
 						password: values.password,
 						redirect: false,
 					}).then(async () => {
-						setSubmitting(true);
 						// delete new email cookie so it'll be used else where.
 						await cookiesDeleter('/cookies', { new_email: 0 });
 						await router.replace(AUTH_WELCOME).then();
@@ -86,6 +84,7 @@ const AboutPageContent = (props: AboutPageContent) => {
 			} catch (e) {
 				setFormikAutoErrors({e, setFieldError});
 			}
+			setSubmitting(false);
 		}
 	});
 

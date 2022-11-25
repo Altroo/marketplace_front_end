@@ -64,7 +64,6 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 		validateOnMount: true,
 		validationSchema: profilSchema,
 		onSubmit: async (values, { setSubmitting }) => {
-			setSubmitting(true);
 			let birth_date = null;
 			if (pickedBirthDate) {
 				birth_date = pickedBirthDate.toJSON().split('T')[0];
@@ -87,10 +86,10 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
 					if (!error && !cancelled && data) {
 						props.setShowDataUpdated(true);
-						setSubmitting(false);
 					}
 				},
 			});
+			setSubmitting(false);
 		},
 	});
 

@@ -41,7 +41,6 @@ const SetPasswordPageContent = (props: setPasswordPageContentProps) => {
 		validateOnMount: true,
 		validationSchema: passwordResetConfirmationSchema,
 		onSubmit: async (values, { setFieldError, setSubmitting }) => {
-			setSubmitting(false);
 			const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PASSWORD_RESET}`;
 			try {
 				const instance = allowAnyInstance();
@@ -52,7 +51,6 @@ const SetPasswordPageContent = (props: setPasswordPageContentProps) => {
 					new_password2: values.new_password2,
 				});
 				if (response.status === 204) {
-					setSubmitting(true);
 					cookiesPoster('/cookies', { pass_updated: 1 }).then(() => {
 						router.push(AUTH_RESET_PASSWORD_COMPLETE).then();
 					});
@@ -60,6 +58,7 @@ const SetPasswordPageContent = (props: setPasswordPageContentProps) => {
 			} catch (e) {
 				setFormikAutoErrors({ e, setFieldError });
 			}
+			setSubmitting(false);
 		},
 	});
 

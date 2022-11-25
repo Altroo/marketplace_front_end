@@ -191,7 +191,6 @@ const Description: NextPage = () => {
 		},
 		validationSchema: addOfferServiceSchema,
 		onSubmit: async (values, { setSubmitting }) => {
-			setSubmitting(true);
 			let availabilityDaysString = '';
 			if (values.al_day) {
 				availabilityDaysString = availabilityDaysString + 'AL,';

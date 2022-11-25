@@ -31,7 +31,6 @@ const ResetPasswordPageContent = () => {
 		validateOnMount: true,
 		validationSchema: emailSchema,
 		onSubmit: async (values, { setFieldError, setSubmitting }) => {
-			setSubmitting(false);
 			const url = `${process.env.NEXT_PUBLIC_ACCOUNT_SEND_PASSWORD_RESET}`;
 			try {
 				const instance = allowAnyInstance();
@@ -39,7 +38,6 @@ const ResetPasswordPageContent = () => {
 					email: values.email,
 				});
 				if (response.status === 204) {
-					setSubmitting(true);
 					cookiesPoster('/cookies', { new_email: values.email }).then(() => {
 						router.push(AUTH_RESET_PASSWORD_ENTER_CODE).then();
 					});
@@ -47,6 +45,7 @@ const ResetPasswordPageContent = () => {
 			} catch (e) {
 				setFormikAutoErrors({ e, setFieldError });
 			}
+			setSubmitting(false);
 		},
 	});
 

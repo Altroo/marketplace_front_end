@@ -67,7 +67,6 @@ const LoginPageContent = () => {
 		validateOnMount: true,
 		validationSchema: loginSchema,
 		onSubmit: async (values, { setFieldError, setSubmitting }) => {
-			setSubmitting(false);
 			const url = `${process.env.NEXT_PUBLIC_ACCOUNT_LOGIN}`;
 			try {
 				const instance = allowAnyInstance();
@@ -78,13 +77,12 @@ const LoginPageContent = () => {
 						email: values.email,
 						password: values.password,
 						redirect: false,
-					}).then(() => {
-						setSubmitting(true);
 					});
 				}
 			} catch (e) {
 				setFormikAutoErrors({e, setFieldError});
 			}
+			setSubmitting(false);
 		}
 	});
 

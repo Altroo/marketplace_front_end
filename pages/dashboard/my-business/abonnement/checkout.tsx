@@ -115,7 +115,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 		validateOnMount: true,
 		validationSchema: promoCodeSchema,
 		onSubmit: async (values, { setSubmitting, resetForm, setFieldError }) => {
-			setSubmitting(false);
 			const action = subscriptionPostCheckPromoCode(values.promo_code);
 			dispatch({
 				...action,
@@ -162,7 +161,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 					}
 				},
 			});
-			setSubmitting(true);
+			setSubmitting(false);
 		},
 	});
 
@@ -205,7 +204,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 		validateOnMount: true,
 		validationSchema: subscriptionSchema,
 		onSubmit: async (values, { setSubmitting, setFieldError }) => {
-			setSubmitting(false);
 			let paymentPar: string | boolean = '';
 			if (paymentParVirement) {
 				paymentPar = 'V';
@@ -256,7 +254,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 					}
 				},
 			});
-			setSubmitting(true);
+			setSubmitting(false);
 		},
 	});
 

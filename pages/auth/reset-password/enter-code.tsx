@@ -81,7 +81,6 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 		validateOnMount: true,
 		validationSchema: passwordResetCodeSchema,
 		onSubmit: async (values, { setFieldError, setSubmitting }) => {
-			setSubmitting(false);
 			const code = values.one + values.two + values.three + values.four;
 			const instance = allowAnyInstance();
 			if (whichCode === 'PASSWORD_RESET') {
@@ -89,7 +88,6 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 				try {
 					const response: ResponseOnlyInterface = await getApi(url, instance);
 					if (response.status === 204) {
-						setSubmitting(true);
 						cookiesPoster('/cookies', { code: code }).then(() => {
 							router.push(AUTH_RESET_PASSWORD_SET_PASSWORD).then();
 						});
@@ -107,7 +105,6 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 					if (response.status === 204) {
 						setToastMessage('Votre compte est activé.');
 						setShowDataUpdated(true);
-						setSubmitting(true);
 						router.replace(router.asPath).then(() => {
 							if (handleClose) {
 								handleClose();
@@ -118,6 +115,7 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 					setFormikAutoErrors({ e, setFieldError });
 				}
 			}
+			setSubmitting(false);
 		},
 	});
 
