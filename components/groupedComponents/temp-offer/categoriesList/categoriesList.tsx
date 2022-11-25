@@ -265,7 +265,7 @@ const CategoriesList: React.FC<Props> = (props: Props) => {
 
 	return (
 		<Stack direction="row" justifyContent="space-between" spacing={4} className={Styles.categoriesListWrapper}>
-			<Box sx={{ width: '100%' }}>
+			<Box sx={{ width: '100%' }} className={Styles.categoriesFirstList}>
 				{categoriesLeftObj.map((category, index) => {
 					return (
 						<CategoryItemObj
