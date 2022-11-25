@@ -36,6 +36,7 @@ module.exports = withSentryConfig(nextConfig, {
   //   urlPrefix, include, ignore
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options.
+	silent: false
 });
 
 // module.exports = {
