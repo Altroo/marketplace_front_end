@@ -16,9 +16,7 @@ Sentry.init({
     new BrowserTracing({
       tracePropagationTargets: [`${process.env.API_ROOT_URL}`],
     }),
-    new ProfilingIntegration({
-
-    }),
+    new ProfilingIntegration(),
   ],
   profilesSampleRate: 1.0,
   // Note: if you want to override the automatic release value, do not set a
