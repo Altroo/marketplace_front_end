@@ -154,7 +154,7 @@ const ServiceLocalisation: React.FC<Props> = (props: Props) => {
 					isValid,
 					isSubmitting,
 				}) => (
-					<Form style={{ height: '100%' }}>
+					<Form style={{ height: '100%' }} onSubmit={(e) => e.preventDefault()}>
 						<Stack
 							direction="column"
 							justifyContent="space-between"

@@ -316,7 +316,6 @@ const Color: NextPage = () => {
 										buttonText="Continuer"
 										active={colorCode !== undefined && bgColorCode !== undefined}
 										onClick={() => colorHandler(bgColorCode, colorCode)}
-										type="submit"
 									/>
 								</div>
 							</div>
@@ -329,7 +328,6 @@ const Color: NextPage = () => {
 							buttonText="Continuer"
 							active={colorCode !== undefined && bgColorCode !== undefined}
 							onClick={() => colorHandler(bgColorCode, colorCode)}
-							type="submit"
 						/>
 					</div>
 				</Box>

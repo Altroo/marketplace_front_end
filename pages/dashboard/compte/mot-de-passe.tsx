@@ -67,7 +67,7 @@ const FormikContenChangePassword: React.FC<formikContentType> = (props: formikCo
 	return (
 		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.flexRootStack}`} mt="32px">
 			<h2 className={Styles.pageTitle}>Modifier le mot de passe</h2>
-			<form className={Styles.form}>
+			<form className={Styles.form} onSubmit={(e) => e.preventDefault()}>
 				<Stack direction="column" spacing={2}>
 					<CustomPasswordInput
 						id="old_password"
@@ -159,7 +159,7 @@ const FormikContentCreatePassword: React.FC<formikContentType> = (props: formikC
 	return (
 		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.flexRootStack}`} mt="32px">
 			<h2 className={Styles.pageTitle}>Créer un mot de passe</h2>
-			<form>
+			<form onSubmit={(e) => e.preventDefault()}>
 				<Stack direction="column" spacing={2}>
 					<CustomPasswordInput
 						id="new_password1"

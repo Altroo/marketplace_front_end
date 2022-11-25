@@ -29,8 +29,8 @@ import {
 	AUTH_FB_EMAIL_MISSING,
 	AUTH_LOGIN,
 	AUTH_WELCOME,
-	CGU_PAGE
-} from "../../../utils/routes";
+	CGU_PAGE,
+} from '../../../utils/routes';
 import { ResponseOnlyInterface } from '../../../types/_init/_initTypes';
 import Link from 'next/link';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
@@ -66,7 +66,7 @@ const RegisterPageContent = (props: registerPageContentProps) => {
 				{props.error && <span className={Styles.errorMessage}>{props.error}</span>}
 			</Stack>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />
-			<form style={{ width: '100%' }}>
+			<form style={{ width: '100%' }} onSubmit={(e) => e.preventDefault()}>
 				<Stack direction="column" spacing="24px">
 					<CustomTextInput
 						id="email"
@@ -89,16 +89,22 @@ const RegisterPageContent = (props: registerPageContentProps) => {
 						le numéro D-GC-158/2016.
 					</p>
 					<Stack direction="row" justifyContent="space-between">
-						<CGUCheckBox checked={props.cguCheckbox} active={true} text="" labelcssStyles={{
-							alignItems: 'flex-start',
-							height: "100%",
-						}} onChange={props.setCguCheckBox}>
+						<CGUCheckBox
+							checked={props.cguCheckbox}
+							active={true}
+							text=""
+							labelcssStyles={{
+								alignItems: 'flex-start',
+								height: '100%',
+							}}
+							onChange={props.setCguCheckBox}
+						>
 							<span className={Styles.cguCheckBoxText}>
 								J&apos;ai lu et j&apos;accepte les{' '}
-									<Link href={CGU_PAGE} className={Styles.cguUnderlineBlue} target="_blank" rel="noreferrer">
-										Conditions générales d&apos;utilisation
-									</Link>, notament la
-								mention relative à la protection des données.
+								<Link href={CGU_PAGE} className={Styles.cguUnderlineBlue} target="_blank" rel="noreferrer">
+									Conditions générales d&apos;utilisation
+								</Link>
+								, notament la mention relative à la protection des données.
 							</span>
 						</CGUCheckBox>
 					</Stack>
@@ -243,7 +249,6 @@ const Register: NextPage = () => {
 		</>
 	);
 };
-
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	// checking if new added user
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;

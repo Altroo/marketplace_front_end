@@ -186,7 +186,6 @@ const Avatar: NextPage = () => {
 							buttonText="Continuer"
 							active={preview !== null}
 							onClick={() => avatarHandler(preview)}
-							type="submit"
 						/>
 					</div>
 				</Box>

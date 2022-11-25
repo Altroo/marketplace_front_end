@@ -114,54 +114,57 @@ const Description: NextPage = () => {
 	const [localisationModalOpen, setLocalisationModalOpen] = useState<boolean>(false);
 
 	// // submit handler
-	const addDescriptionSubmitHandler = useCallback((values: submitDataType) => {
-		const forWhomCodeArray: Array<string> = [];
-				if (forWhomChoice.length >= 1) {
-					forWhomChoice.map((forWhom) => {
-						forWhomCodeArray.push(forWhom[0]);
-					});
-				}
-				const forWhomStr = forWhomCodeArray.join(',');
-				const service_morning_hour_from = values.service_morning_hour_from
-					? dayjs(new Date(values.service_morning_hour_from)).format('HH:mm')
-					: null;
-				const service_morning_hour_to = values.service_morning_hour_to
-					? dayjs(new Date(values.service_morning_hour_to)).format('HH:mm')
-					: null;
-				const service_afternoon_hour_from = values.service_afternoon_hour_from
-					? dayjs(new Date(values.service_afternoon_hour_from)).format('HH:mm')
-					: null;
-				const service_afternoon_hour_to = values.service_afternoon_hour_to
-					? dayjs(new Date(values.service_afternoon_hour_to)).format('HH:mm')
-					: null;
-				const action = setOfferServiceDescriptionPage(
-					values.title,
-					images,
-					values.description,
-					forWhomStr,
-					values.service_availability_days,
-					service_morning_hour_from,
-					service_morning_hour_to,
-					service_afternoon_hour_from,
-					service_afternoon_hour_to,
-				);
-				dispatch({
-					...action,
-					onComplete: ({
-						error,
-						cancelled,
-						data,
-					}: {
-						error: ApiErrorResponseType;
-						cancelled: boolean;
-						data: boolean;
-					}) => {
-						if (!error && !cancelled && data) {
-							router.push(REAL_OFFER_ADD_SERVICE_PRICE(router.query.shop_link as string)).then();
-						}
-					},
+	const addDescriptionSubmitHandler = useCallback(
+		(values: submitDataType) => {
+			const forWhomCodeArray: Array<string> = [];
+			if (forWhomChoice.length >= 1) {
+				forWhomChoice.map((forWhom) => {
+					forWhomCodeArray.push(forWhom[0]);
 				});
-	}, [dispatch, forWhomChoice, images, router]);
+			}
+			const forWhomStr = forWhomCodeArray.join(',');
+			const service_morning_hour_from = values.service_morning_hour_from
+				? dayjs(new Date(values.service_morning_hour_from)).format('HH:mm')
+				: null;
+			const service_morning_hour_to = values.service_morning_hour_to
+				? dayjs(new Date(values.service_morning_hour_to)).format('HH:mm')
+				: null;
+			const service_afternoon_hour_from = values.service_afternoon_hour_from
+				? dayjs(new Date(values.service_afternoon_hour_from)).format('HH:mm')
+				: null;
+			const service_afternoon_hour_to = values.service_afternoon_hour_to
+				? dayjs(new Date(values.service_afternoon_hour_to)).format('HH:mm')
+				: null;
+			const action = setOfferServiceDescriptionPage(
+				values.title,
+				images,
+				values.description,
+				forWhomStr,
+				values.service_availability_days,
+				service_morning_hour_from,
+				service_morning_hour_to,
+				service_afternoon_hour_from,
+				service_afternoon_hour_to,
+			);
+			dispatch({
+				...action,
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: {
+					error: ApiErrorResponseType;
+					cancelled: boolean;
+					data: boolean;
+				}) => {
+					if (!error && !cancelled && data) {
+						router.push(REAL_OFFER_ADD_SERVICE_PRICE(router.query.shop_link as string)).then();
+					}
+				},
+			});
+		},
+		[dispatch, forWhomChoice, images, router],
+	);
 
 	// on change for whom
 	const forWhomHandleChange = useCallback((event: SelectChangeEvent<Array<string>>) => {
@@ -171,79 +174,80 @@ const Description: NextPage = () => {
 		setForWhomChoice(typeof value === 'string' ? value.split(',') : value);
 	}, []);
 
-	const {setFieldValue, values, handleChange, handleBlur, touched, errors, handleSubmit, isValid, isSubmitting} = useFormik({
-		initialValues: {
-			title: pickedTitle ? pickedTitle : '',
-			images: pickedPictures.length > 0 ? pickedPictures : '',
-			description: pickedDescription ? pickedDescription : '',
-			al_day: false,
-			mo_day: false,
-			tu_day: false,
-			we_day: false,
-			th_day: false,
-			fr_day: false,
-			sa_day: false,
-			su_day: false,
-			service_morning_hour_from: morningHourFrom ? dayjs(new Date(constructDate(morningHourFrom))) : null,
-			service_morning_hour_to: morningHourTo ? dayjs(new Date(constructDate(morningHourTo))) : null,
-			service_afternoon_hour_from: afternoonHourFrom ? dayjs(new Date(constructDate(afternoonHourFrom))) : null,
-			service_afternoon_hour_to: afternoonHourTo ? dayjs(new Date(constructDate(afternoonHourTo))) : null,
-		},
-		validationSchema: addOfferServiceSchema,
-		onSubmit: async (values, { setSubmitting }) => {
-			let availabilityDaysString = '';
-			if (values.al_day) {
-				availabilityDaysString = availabilityDaysString + 'AL,';
-			}
-			if (values.mo_day) {
-				availabilityDaysString = availabilityDaysString + 'MO,';
-			}
-			if (values.tu_day) {
-				availabilityDaysString = availabilityDaysString + 'TU,';
-			}
-			if (values.we_day) {
-				availabilityDaysString = availabilityDaysString + 'WE,';
-			}
-			if (values.th_day) {
-				availabilityDaysString = availabilityDaysString + 'TH,';
-			}
-			if (values.fr_day) {
-				availabilityDaysString = availabilityDaysString + 'FR,';
-			}
-			if (values.sa_day) {
-				availabilityDaysString = availabilityDaysString + 'SA,';
-			}
-			if (values.su_day) {
-				availabilityDaysString = availabilityDaysString + 'SU,';
-			}
-			if (
-				values.title &&
-				values.service_morning_hour_from &&
-				values.service_morning_hour_to &&
-				images.length > 0 &&
-				address_name
-			) {
-				addDescriptionSubmitHandler({
-					title: values.title,
-					description: values.description,
-					service_availability_days: availabilityDaysString,
-					service_morning_hour_from: values.service_morning_hour_from
-						? dayjs(new Date(values.service_morning_hour_from.toString())).toString()
-						: null,
-					service_morning_hour_to: values.service_morning_hour_to
-						? dayjs(new Date(values.service_morning_hour_to.toString())).toString()
-						: null,
-					service_afternoon_hour_from: values.service_afternoon_hour_from
-						? dayjs(new Date(values.service_afternoon_hour_from.toString())).toString()
-						: null,
-					service_afternoon_hour_to: values.service_afternoon_hour_to
-						? dayjs(new Date(values.service_afternoon_hour_to.toString())).toString()
-						: null,
-				});
-			}
-			setSubmitting(false);
-		},
-	});
+	const { setFieldValue, values, handleChange, handleBlur, touched, errors, handleSubmit, isValid, isSubmitting } =
+		useFormik({
+			initialValues: {
+				title: pickedTitle ? pickedTitle : '',
+				images: pickedPictures.length > 0 ? pickedPictures : '',
+				description: pickedDescription ? pickedDescription : '',
+				al_day: false,
+				mo_day: false,
+				tu_day: false,
+				we_day: false,
+				th_day: false,
+				fr_day: false,
+				sa_day: false,
+				su_day: false,
+				service_morning_hour_from: morningHourFrom ? dayjs(new Date(constructDate(morningHourFrom))) : null,
+				service_morning_hour_to: morningHourTo ? dayjs(new Date(constructDate(morningHourTo))) : null,
+				service_afternoon_hour_from: afternoonHourFrom ? dayjs(new Date(constructDate(afternoonHourFrom))) : null,
+				service_afternoon_hour_to: afternoonHourTo ? dayjs(new Date(constructDate(afternoonHourTo))) : null,
+			},
+			validationSchema: addOfferServiceSchema,
+			onSubmit: async (values, { setSubmitting }) => {
+				let availabilityDaysString = '';
+				if (values.al_day) {
+					availabilityDaysString = availabilityDaysString + 'AL,';
+				}
+				if (values.mo_day) {
+					availabilityDaysString = availabilityDaysString + 'MO,';
+				}
+				if (values.tu_day) {
+					availabilityDaysString = availabilityDaysString + 'TU,';
+				}
+				if (values.we_day) {
+					availabilityDaysString = availabilityDaysString + 'WE,';
+				}
+				if (values.th_day) {
+					availabilityDaysString = availabilityDaysString + 'TH,';
+				}
+				if (values.fr_day) {
+					availabilityDaysString = availabilityDaysString + 'FR,';
+				}
+				if (values.sa_day) {
+					availabilityDaysString = availabilityDaysString + 'SA,';
+				}
+				if (values.su_day) {
+					availabilityDaysString = availabilityDaysString + 'SU,';
+				}
+				if (
+					values.title &&
+					values.service_morning_hour_from &&
+					values.service_morning_hour_to &&
+					images.length > 0 &&
+					address_name
+				) {
+					addDescriptionSubmitHandler({
+						title: values.title,
+						description: values.description,
+						service_availability_days: availabilityDaysString,
+						service_morning_hour_from: values.service_morning_hour_from
+							? dayjs(new Date(values.service_morning_hour_from.toString())).toString()
+							: null,
+						service_morning_hour_to: values.service_morning_hour_to
+							? dayjs(new Date(values.service_morning_hour_to.toString())).toString()
+							: null,
+						service_afternoon_hour_from: values.service_afternoon_hour_from
+							? dayjs(new Date(values.service_afternoon_hour_from.toString())).toString()
+							: null,
+						service_afternoon_hour_to: values.service_afternoon_hour_to
+							? dayjs(new Date(values.service_afternoon_hour_to.toString())).toString()
+							: null,
+					});
+				}
+				setSubmitting(false);
+			},
+		});
 
 	useEffect(() => {
 		if (pickedPictures.length > 0) {
@@ -318,6 +322,7 @@ const Description: NextPage = () => {
 						<form
 							style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
 							className={Styles.stackWrapper}
+							onSubmit={(e) => e.preventDefault()}
 						>
 							<Stack direction="column" spacing={{ xs: '40px', sm: '40px', md: '48px', lg: '48px', xl: '48px' }}>
 								<Stack direction="column" spacing="18px">
@@ -618,13 +623,7 @@ const Description: NextPage = () => {
 								<PrimaryButton
 									buttonText="Continuer"
 									active={
-										isValid &&
-										!isSubmitting &&
-										!!address_name &&
-										!!longitude &&
-										!!latitude &&
-										!!zone_by &&
-										!!km_radius
+										isValid && !isSubmitting && !!address_name && !!longitude && !!latitude && !!zone_by && !!km_radius
 									}
 									onClick={handleSubmit}
 									type="submit"

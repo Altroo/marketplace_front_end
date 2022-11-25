@@ -78,7 +78,7 @@ const FormikContentWithOldPassword: React.FC<formikContentType> = (props: formik
 				Votre email actuelle est <span>{newEmail}</span>.<br />
 				Pour modifier cette adresse, veuillez insérer votre mot de passe et votre nouvel email.
 			</span>
-			<form className={Styles.form}>
+			<form className={Styles.form} onSubmit={(e) => e.preventDefault()}>
 				<Stack direction="column" spacing={2}>
 					<CustomTextInput
 						id="email"
@@ -166,7 +166,7 @@ const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formik
 				Votre compte n&apos;a pas encore un mot de passe.<br />
 				Pour modifier cette adresse, veuillez insérer votre nouveau mot de passe et votre nouvel email.
 			</span>
-			<form>
+			<form onSubmit={(e) => e.preventDefault()}>
 				<Stack direction="column" spacing={2}>
 					<CustomTextInput
 						id="email"

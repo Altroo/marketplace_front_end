@@ -169,7 +169,7 @@ const Prix: NextPage = () => {
 							</Stack>
 						</Stack>
 						<div className={Styles.primaryButtonWrapper}>
-							<PrimaryButton buttonText="Continuer" active={submitActive} onClick={handleSubmit} type="submit" />
+							<PrimaryButton buttonText="Continuer" active={submitActive} onClick={handleSubmit} />
 						</div>
 					</Stack>
 				</Box>

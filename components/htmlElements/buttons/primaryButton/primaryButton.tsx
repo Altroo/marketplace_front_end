@@ -1,5 +1,7 @@
 import React from 'react';
 import Styles from './primaryButton.module.sass';
+import { ThemeProvider, Button } from "@mui/material";
+import { getDefaultTheme } from "../../../../utils/themes";
 
 type Props = {
 	buttonText: string
@@ -11,17 +13,32 @@ type Props = {
 };
 
 const PrimaryButton: React.FC<Props> = (props: Props) => {
+	// return (
+	// 	<button
+	// 		className={`${Styles.primaryButtonDisabled}
+	// 		${props.active ? `${Styles.primaryButtonActive}` : ''}
+	// 		${props.cssClass && `${props.cssClass}`}`}
+	// 		onClick={props.onClick}
+	// 		disabled={!props.active}
+	// 		type={props.type}
+	// 	>
+	// 		{props.buttonText}
+	// 	</button>
+	// );
 	return (
-		<button
-			className={`${Styles.primaryButtonDisabled} 
+		<ThemeProvider theme={getDefaultTheme()}>
+			<Button
+				onClick={props.onClick}
+				className={`${Styles.primaryButtonDisabled} 
 			${props.active ? `${Styles.primaryButtonActive}` : ''}
 			${props.cssClass && `${props.cssClass}`}`}
-			onClick={props.onClick}
-			disabled={!props.active}
-			type={props.type}
-		>
-			{props.buttonText}
-		</button>
+				disabled={!props.active}
+				type={props.type}
+				color="primary"
+			>
+				{props.buttonText}
+			</Button>
+		</ThemeProvider>
 	);
 };
 

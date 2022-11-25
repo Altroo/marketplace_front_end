@@ -90,7 +90,7 @@ const DeliveryOptionElements: React.FC<Props> = (props: Props) => {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<form style={{ height: '100%' }}>
+			<form style={{ height: '100%' }} onSubmit={(e) => e.preventDefault()}>
 				<Stack direction="column" spacing={2} sx={{ margin: '12px 32px 12px !important' }}>
 					<Stack direction="row" justifyContent="space-between">
 						<p className={Styles.label}>Option {props.option}</p>

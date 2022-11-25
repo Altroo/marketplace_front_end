@@ -84,7 +84,7 @@ const ShopName: NextPage = () => {
 						onSubmit={(values) => shopNameSubmitHandler(values.shop_name)}
 					>
 						{({ handleChange, handleBlur, handleSubmit, values, touched, errors, isValid, isSubmitting }) => (
-							<Form className={Styles.shopNameForm}>
+							<Form className={Styles.shopNameForm} onSubmit={(e) => e.preventDefault()}>
 								<CustomTextInput
 									id="shop_name"
 									placeholder="Ma boutique"

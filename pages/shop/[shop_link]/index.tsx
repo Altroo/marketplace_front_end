@@ -871,7 +871,6 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 													editColorHandler(bgColorCode, colorCode);
 													setOpenColorModal(false);
 												}}
-												type="submit"
 											/>
 										</div>
 									</div>

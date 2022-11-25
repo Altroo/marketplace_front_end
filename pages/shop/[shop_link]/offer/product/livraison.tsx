@@ -553,7 +553,7 @@ const Livraison: NextPage = () => {
 												validationSchema={clickAndCollectSchema}
 											>
 												{({ handleChange, handleSubmit, values, isValid, isSubmitting }) => (
-													<Form style={{ height: '100%' }}>
+													<Form style={{ height: '100%' }} onSubmit={(e) => e.preventDefault()}>
 														<Stack
 															direction="column"
 															justifyContent="space-between"
@@ -754,7 +754,6 @@ const Livraison: NextPage = () => {
 									buttonText={offer_pk ? 'Modifier' : 'Publier'}
 									active={submitActive}
 									onClick={handleSubmit}
-									type="submit"
 								/>
 							</div>
 						</Stack>

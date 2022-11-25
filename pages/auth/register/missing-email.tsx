@@ -78,7 +78,7 @@ const AddMissingEmail = () => {
 				<span className={Styles.header}>Ajoutez votre email</span>
 				<p className={Styles.subHeader}>Pour vous inscrire, nous avons besoin de votre email.</p>
 			</Stack>
-			<form style={{ width: "100%"}}>
+			<form style={{ width: "100%"}} onSubmit={(e) => e.preventDefault()}>
 				<Stack direction="column" justifyContent="center" alignItems="center" spacing={4} width="100%">
 					<Stack direction="column" justifyContent="center" alignItems="center" spacing={2} width="100%">
 						<CustomTextInput

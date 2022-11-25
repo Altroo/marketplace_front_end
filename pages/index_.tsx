@@ -121,7 +121,7 @@ const Home: NextPage<RootState> = () => {
 						<h3>Vous ne voulez pas manquer le lancement?</h3>
 						<h4>Inscrivez-vous à notre newsletter.</h4>
 					</Stack>
-					<form className={Styles.form}>
+					<form className={Styles.form} onSubmit={(e) => e.preventDefault()}>
 						<Stack direction="row" spacing="24px" alignItems="center" className={Styles.mobileStack}>
 							<ThemeProvider theme={inputTheme}>
 								<TextField

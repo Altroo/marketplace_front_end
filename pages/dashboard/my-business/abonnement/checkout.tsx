@@ -271,7 +271,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 		<Stack direction="column">
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${SharedStyles.fixMobile}`}>
-				<form style={{ width: "100%"}}>
+				<form style={{ width: "100%"}} onSubmit={(e) => e.preventDefault()}>
 					<Stack direction="row" justifyContent="space-between" className={Styles.mobileStack}>
 						<Stack direction="column" spacing="48px" className={Styles.desktopStack} sx={{width: '100%'}}>
 							<Stack direction="column" spacing="30px" sx={{maxWidth: '540px'}}>

@@ -329,7 +329,6 @@ const Prix: NextPage = () => {
 								buttonText={offer_pk ? 'Modifier' : 'Publier'}
 								active={submitActive}
 								onClick={handleSubmit}
-								type="submit"
 							/>
 						</div>
 					</Stack>

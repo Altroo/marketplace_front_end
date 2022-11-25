@@ -98,7 +98,7 @@ const LoginPageContent = () => {
 				{errorState && <span className={Styles.errorMessage}>{errorState}</span>}
 			</Stack>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />
-			<form style={{ width: "100%"}}>
+			<form style={{ width: "100%"}} onSubmit={(e) => e.preventDefault()}>
 				<Stack direction="column" spacing={2}>
 					<CustomTextInput
 						id="email"

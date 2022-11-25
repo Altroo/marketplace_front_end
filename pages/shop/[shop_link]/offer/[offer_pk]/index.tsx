@@ -985,7 +985,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 								</Stack>
 								<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
 									<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-										<PrimaryButton buttonText="Ajouter au panier" active={permission !== 'OWNER'} type="submit" />
+										<PrimaryButton buttonText="Ajouter au panier" active={permission !== 'OWNER'} />
 									</div>
 									<Box className={Styles.clickAnddeliveriesWrapper}>
 										<Stack
@@ -1975,7 +1975,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 								</Stack>
 								<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
 									<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-										<PrimaryButton buttonText="Ajouter au panier" active={permission !== 'OWNER'} type="submit" />
+										<PrimaryButton buttonText="Ajouter au panier" active={permission !== 'OWNER'} />
 									</div>
 									<Box className={Styles.servicesMapWrapper}>
 										<Stack

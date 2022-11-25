@@ -284,7 +284,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 		<Stack direction="column">
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${SharedStyles.fixMobile}`}>
-				<form>
+				<form onSubmit={(e) => e.preventDefault()}>
 					<Stack direction="row" justifyContent="space-between" className={Styles.mobileStack}>
 						<Stack direction="column" spacing="48px" className={Styles.desktopStack}>
 							<Stack direction="column" spacing="30px">
