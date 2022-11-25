@@ -539,7 +539,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 						) : (
 							<Box sx={{ width: '100%', height: '100%' }}>
 								<Stack direction="column">
-									<Stack direction="row" justifyContent="space-between">
+									<Stack direction="row" justifyContent="space-between" className={Styles.marginLeft}>
 										<Stack
 											className={Styles.topBackNavigationStack}
 											direction="row"
