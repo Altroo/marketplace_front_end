@@ -7,6 +7,7 @@ import { getShopObj } from '../../../../store/selectors';
 import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
 import Image from 'next/image';
 
+
 // left
 const DefaultTransition = React.forwardRef(function Transition(
 	props: TransitionProps & {
