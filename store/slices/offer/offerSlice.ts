@@ -305,20 +305,20 @@ const OfferSlice = createSlice({
 		},
 		emptyLocalOfferDeliveries: (state, action: PayloadAction<'1' | '2' | '3'>) => {
 			if (action.payload === '1') {
-				state.userLocalProduct.deliveries.delivery_city_1 = null;
-				state.userLocalProduct.deliveries.all_cities_1 = null;
-				state.userLocalProduct.deliveries.delivery_price_1 = null;
-				state.userLocalProduct.deliveries.delivery_days_1 = null;
+				state.userLocalProduct.deliveries.delivery_city_1 = '';
+				state.userLocalProduct.deliveries.all_cities_1 = false;
+				state.userLocalProduct.deliveries.delivery_price_1 = '';
+				state.userLocalProduct.deliveries.delivery_days_1 = '';
 			} else if (action.payload === '2') {
-				state.userLocalProduct.deliveries.delivery_city_2 = null;
-				state.userLocalProduct.deliveries.all_cities_2 = null;
-				state.userLocalProduct.deliveries.delivery_price_2 = null;
-				state.userLocalProduct.deliveries.delivery_days_2 = null;
+				state.userLocalProduct.deliveries.delivery_city_2 = '';
+				state.userLocalProduct.deliveries.all_cities_2 = false;
+				state.userLocalProduct.deliveries.delivery_price_2 = '';
+				state.userLocalProduct.deliveries.delivery_days_2 = '';
 			} else {
-				state.userLocalProduct.deliveries.delivery_city_3 = null;
-				state.userLocalProduct.deliveries.all_cities_3 = null;
-				state.userLocalProduct.deliveries.delivery_price_3 = null;
-				state.userLocalProduct.deliveries.delivery_days_3 = null;
+				state.userLocalProduct.deliveries.delivery_city_3 = '';
+				state.userLocalProduct.deliveries.all_cities_3 = false;
+				state.userLocalProduct.deliveries.delivery_price_3 = '';
+				state.userLocalProduct.deliveries.delivery_days_3 = '';
 			}
 		},
 		emptyUserLocalOffer: (state) => {

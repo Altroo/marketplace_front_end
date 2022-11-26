@@ -13,6 +13,7 @@ type Props = {
 };
 const defaultTheme = getDefaultTheme();
 const switchTheme = offerSwitchTheme();
+
 const RadioCheckElement: React.FC<Props> = (props: Props) => {
 	const [open, setOpen] = useState<boolean>(props.defaultValue ? props.defaultValue : false);
 	const [showOptional, setShowOptional] = useState<boolean>(true);
@@ -32,6 +33,9 @@ const RadioCheckElement: React.FC<Props> = (props: Props) => {
 		if (defaultValue && !switchOpenHasRun) {
 			setOpen(defaultValue);
 			setSwitchOpenHasRun(true);
+		}
+		if (!open && emptyStates) {
+			emptyStates();
 		}
 	}, [defaultValue, emptyStates, open, switchOpenHasRun, title]);
 

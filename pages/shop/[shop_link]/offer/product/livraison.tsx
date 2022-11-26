@@ -137,11 +137,7 @@ const Livraison: NextPage = () => {
 	const pickedCreator = useAppSelector(getLocalOfferProductCreator);
 	const pickedPrice = useAppSelector(getLocalOfferProductPrice);
 	const pickedPriceBy = useAppSelector(getLocalOfferProductPriceBy);
-	// const pickedTags = useAppSelector(getLocalOfferProductTags);
 	const pickedAddressName = useAppSelector(getLocalOfferProductAddressName);
-
-	// Api selectors
-	// const offerApi = useAppSelector(getOfferOfferApi);
 
 	if (latitude && longitude) {
 		CENTER = {
@@ -180,7 +176,7 @@ const Livraison: NextPage = () => {
 	};
 
 	// Override for edit
-	let defaultClickAndCollectValues = null;
+	let defaultClickAndCollectValues: ClickAndCollectValues | null = null;
 	if (offer_pk && pickedLongitude && pickedLatitude && pickedAddressName) {
 		defaultClickAndCollectValues = {
 			longitude: pickedLongitude,
@@ -204,10 +200,10 @@ const Livraison: NextPage = () => {
 	const [isFormOptionThreeValid, setIsFormOptionThreeValid] = useState<boolean>(false);
 
 	const [secondDeliveryState, setSecondDeliveryState] = useState<boolean>(
-		deliveryCity2 !== null && deliveryCity2 !== undefined && typeof deliveryAllCity2 === 'boolean',
+		deliveryCity2 !== null && deliveryCity2 !== '' && typeof deliveryAllCity2 === 'boolean',
 	);
 	const [thirdDeliveryState, setThirdDeliveryState] = useState<boolean>(
-		deliveryCity3 !== null && deliveryCity3 !== undefined && typeof deliveryAllCity3 === 'boolean',
+		deliveryCity3 !== null && deliveryCity3 !== '' && typeof deliveryAllCity3 === 'boolean',
 	);
 	const [optionTwoNumber, setOptionTwoNumber] = useState<'2' | '3'>('2');
 	const [optionThreeNumber, setOptionThreeNumber] = useState<'2' | '3'>('3');
@@ -218,7 +214,7 @@ const Livraison: NextPage = () => {
 			setSecondDeliveryState(true);
 			setThirdDeliveryState(false);
 			setIsFormOptionTwoValid(false);
-			setIsFormOptionThreeValid(true);
+			setIsFormOptionThreeValid(false);
 		} else if (secondDeliveryState && !thirdDeliveryState) {
 			setSecondDeliveryState(true);
 			setThirdDeliveryState(true);
@@ -246,8 +242,12 @@ const Livraison: NextPage = () => {
 	const [deliveryPrice3State, setDeliveryPrice3State] = useState<string>(deliveryPrice3 ? deliveryPrice3 : '');
 	const [deliveryDays3State, setDeliveryDays3State] = useState<string>(deliveryDays3 ? deliveryDays3 : '');
 
-	const [localisationSwitchOpen, setLocalisationSwitchOpen] = useState<boolean>(false);
-	const [deliveriesSwitchOpen, setDeliveriesSwitchOpen] = useState<boolean>(false);
+	const [localisationSwitchOpen, setLocalisationSwitchOpen] = useState<boolean>(
+		Boolean(pickedLocalisationName && pickedLongitude && pickedLatitude),
+	);
+	const [deliveriesSwitchOpen, setDeliveriesSwitchOpen] = useState<boolean>(
+		Boolean((deliveryCity1 && deliveryCity1.length > 0) || deliveryAllCity1),
+	);
 	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -278,11 +278,66 @@ const Livraison: NextPage = () => {
 		if (pickedLocalisationName && pickedLongitude && pickedLatitude) {
 			setLocalisationSwitchOpen(true);
 		}
+		if (
+			(cities1State.length > 0 || allCities1State) &&
+			deliveryPrice1State.length > 0 &&
+			!isNaN(parseFloat(deliveryPrice1State)) &&
+			deliveryDays1State.length > 0 &&
+			!isNaN(parseFloat(deliveryDays1State))
+		) {
+			setIsFormOptionOneValid(true);
+		} else {
+			setIsFormOptionOneValid(false);
+			if (!localisationSwitchOpen && selectedClickAndCollect && !selectedClickAndCollect.address_name) {
+				setSubmitActive(false);
+			}
+		}
+		if (
+			(cities2State.length > 0 || allCities2State) &&
+			deliveryPrice2State.length > 0 &&
+			!isNaN(parseFloat(deliveryPrice2State)) &&
+			deliveryDays2State.length > 0 &&
+			!isNaN(parseFloat(deliveryDays2State))
+		) {
+			setIsFormOptionTwoValid(true);
+		} else {
+			setIsFormOptionTwoValid(false);
+			if (!localisationSwitchOpen && selectedClickAndCollect && !selectedClickAndCollect.address_name) {
+				setSubmitActive(false);
+			}
+		}
+		if (
+			(cities3State.length > 0 || allCities3State) &&
+			deliveryPrice3State.length > 0 &&
+			!isNaN(parseFloat(deliveryPrice3State)) &&
+			deliveryDays3State.length > 0 &&
+			!isNaN(parseFloat(deliveryDays3State))
+		) {
+			setIsFormOptionThreeValid(true);
+		} else {
+			setIsFormOptionThreeValid(false);
+			if (!localisationSwitchOpen && selectedClickAndCollect && !selectedClickAndCollect.address_name) {
+				setSubmitActive(false);
+			}
+		}
 	}, [
+		allCities1State,
+		allCities2State,
+		allCities3State,
+		cities1State.length,
+		cities2State.length,
+		cities3State.length,
 		deliveryAllCity1,
 		deliveryCity1,
+		deliveryDays1State,
+		deliveryDays2State,
+		deliveryDays3State,
+		deliveryPrice1State,
+		deliveryPrice2State,
+		deliveryPrice3State,
 		isApiCallInProgress,
 		localisationName,
+		localisationSwitchOpen,
 		pickedLatitude,
 		pickedLocalisationName,
 		pickedLongitude,
@@ -291,6 +346,7 @@ const Livraison: NextPage = () => {
 		position.lng,
 		router,
 		secondDeliveryState,
+		selectedClickAndCollect,
 		thirdDeliveryState,
 	]);
 
@@ -454,6 +510,14 @@ const Livraison: NextPage = () => {
 
 	const emptyClickAndCollect = () => {
 		setSelectedClickAndCollect(null);
+		if (
+			!deliveriesSwitchOpen &&
+			cities1State.length === 0 &&
+			deliveryPrice1State.length === 0 &&
+			deliveryDays1State.length === 0
+		) {
+			setSubmitActive(false);
+		}
 	};
 
 	const emptyDeliveries = () => {
@@ -504,11 +568,7 @@ const Livraison: NextPage = () => {
 					<MobileStepsBar activeStep={activeStep} />
 					<Stack direction="column" spacing={{ xs: '30px', sm: '30px', md: '66px', lg: '66px', xl: '66px' }}>
 						<Box className={Styles.marginLeft}>
-							<HelperH1Header
-								header="Choisir des modes de livraison"
-								// HelpText="Quelle différence entre livraison et Click & Collect"
-								headerClasses={Styles.topHeader}
-							/>
+							<HelperH1Header header="Choisir des modes de livraison" headerClasses={Styles.topHeader} />
 						</Box>
 						<Stack direction="column" justifyContent="space-between" className={Styles.stackWrapper}>
 							<Stack direction="column" spacing="18px" className={Styles.buttonCardWrapper}>
@@ -667,12 +727,11 @@ const Livraison: NextPage = () => {
 														<span>{deliveryPrice3 !== '0' ? deliveryPrice3 + 'DH' : 'Gratuite'}</span>
 													</Stack>
 												)}
-												{/* eslint-disable-next-line react/no-unescaped-entities */}
 												{showEmptyDeliveriesMessage ? "Définissez jusqu'à 3 types de livraison différentes" : null}
 											</div>
 										</Stack>
 									</Button>
-									<CustomSwipeModal open={openDelivery} handleClose={() => setOpenDelivery(false)}>
+									<CustomSwipeModal open={openDelivery} handleClose={() => setOpenDelivery(false)} keepMounted={true}>
 										<Stack direction="column" spacing={2} justifyContent="flex-start">
 											<Stack direction="column" sx={{ height: '100%' }}>
 												<TopBarSaveClose
@@ -691,7 +750,6 @@ const Livraison: NextPage = () => {
 												/>
 											</Stack>
 											<DeliveryOptionElements
-												setIsFormValidState={setIsFormOptionOneValid}
 												option="1"
 												citiesState={cities1State}
 												setCitiesState={setCities1State}
@@ -702,9 +760,8 @@ const Livraison: NextPage = () => {
 												deliveryDaysState={deliveryDays1State}
 												setDeliveryDaysState={setDeliveryDays1State}
 											/>
-											{secondDeliveryState ? (
+											{secondDeliveryState && (
 												<DeliveryOptionElements
-													setIsFormValidState={setIsFormOptionTwoValid}
 													option={optionTwoNumber}
 													setNextDeliveryState={setSecondDeliveryState}
 													citiesState={cities2State}
@@ -716,10 +773,9 @@ const Livraison: NextPage = () => {
 													deliveryDaysState={deliveryDays2State}
 													setDeliveryDaysState={setDeliveryDays2State}
 												/>
-											) : null}
-											{thirdDeliveryState ? (
+											)}
+											{thirdDeliveryState && (
 												<DeliveryOptionElements
-													setIsFormValidState={setIsFormOptionThreeValid}
 													option={optionThreeNumber}
 													setNextDeliveryState={setThirdDeliveryState}
 													citiesState={cities3State}
@@ -731,9 +787,9 @@ const Livraison: NextPage = () => {
 													deliveryDaysState={deliveryDays3State}
 													setDeliveryDaysState={setDeliveryDays3State}
 												/>
-											) : null}
+											)}
 											{/* Add new delivery */}
-											{!secondDeliveryState || !thirdDeliveryState ? (
+											{(!secondDeliveryState || !thirdDeliveryState) && (
 												<Button
 													onClick={() => {
 														addNewDelivery();
@@ -744,7 +800,7 @@ const Livraison: NextPage = () => {
 													<Image src={BlueAddSVG} width={20} height={20} alt="" />
 													<span>Ajouter une livraison</span>
 												</Button>
-											) : null}
+											)}
 										</Stack>
 									</CustomSwipeModal>
 								</RadioCheckElement>
@@ -752,18 +808,18 @@ const Livraison: NextPage = () => {
 							<div className={Styles.primaryButtonWrapper}>
 								<PrimaryButton
 									buttonText={offer_pk ? 'Modifier' : 'Publier'}
-									active={submitActive}
+									active={
+										(cities1State.length > 0 && deliveryPrice1State.length > 0 && deliveryDays1State.length > 0) ||
+										(cities2State.length > 0 && deliveryPrice2State.length > 0 && deliveryDays2State.length > 0) ||
+										(cities3State.length > 0 && deliveryPrice3State.length > 0 && deliveryDays3State.length > 0) ||
+										submitActive
+									}
 									onClick={handleSubmit}
 								/>
 							</div>
 						</Stack>
 					</Stack>
 				</Box>
-				{/*<ApiLoadingResponseOrError*/}
-				{/*	inProgress={offer_pk ? offerApi.isEditInProgress : offerApi.isAddInProgress}*/}
-				{/*	promiseStatus={offer_pk ? offerApi.editPromiseStatus : offerApi.addPromiseStatus}*/}
-				{/*	error={offerApi.error}*/}
-				{/*/>*/}
 			</main>
 		</ThemeProvider>
 	);

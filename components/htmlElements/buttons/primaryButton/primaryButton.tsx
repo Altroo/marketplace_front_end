@@ -13,18 +13,6 @@ type Props = {
 };
 
 const PrimaryButton: React.FC<Props> = (props: Props) => {
-	// return (
-	// 	<button
-	// 		className={`${Styles.primaryButtonDisabled}
-	// 		${props.active ? `${Styles.primaryButtonActive}` : ''}
-	// 		${props.cssClass && `${props.cssClass}`}`}
-	// 		onClick={props.onClick}
-	// 		disabled={!props.active}
-	// 		type={props.type}
-	// 	>
-	// 		{props.buttonText}
-	// 	</button>
-	// );
 	return (
 		<ThemeProvider theme={getDefaultTheme()}>
 			<Button
