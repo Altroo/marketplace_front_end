@@ -4,7 +4,6 @@ import IosSwitch from '../../../../htmlElements/switches/iosSwitch';
 import PhoneInputFields from '../../../../htmlElements/inputs/phoneInputFields/phoneInputFields';
 import Image from 'next/image';
 
-
 type Props = {
 	checked: boolean;
 	setStateHandler: (value: boolean) => void;
@@ -23,13 +22,7 @@ const ContacterPhoneInput: React.FC<Props> = (props: Props) => {
 		<>
 			<div className={Styles.switchBoxWrapper}>
 				<div className={Styles.iconTextWrapper}>
-					<Image
-								src={props.icon}
-								alt=""
-								width="40"
-								height="40"
-								sizes="100vw"
-							/>
+					<Image src={props.icon} alt="" width="40" height="40" sizes="100vw" />
 					<span>{props.label}</span>
 				</div>
 				<IosSwitch

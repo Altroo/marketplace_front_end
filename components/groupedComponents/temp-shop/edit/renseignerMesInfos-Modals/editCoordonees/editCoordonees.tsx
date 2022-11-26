@@ -30,7 +30,6 @@ import InstagramCircularSVG from '../../../../../../public/assets/svgs/globalIco
 import WhatsappCircularSVG from '../../../../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
 import CustomStackIconTextInput from '../../../../../formikElements/customStackIconTextInput/customStackIconTextInput';
 import { coordonneeTextInputTheme } from '../../../../../../utils/themes';
-import CustomTextMaskInput from "../../../../../formikElements/customTextMaskInput/customTextMaskInput";
 
 type Props = {
 	handleClose: () => void;
@@ -99,7 +98,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 				}}
 			>
 				{({ handleChange, handleBlur, handleSubmit, values, touched, errors, isValid, isSubmitting }) => (
-					<Form>
+					<Form onSubmit={(e) => e.preventDefault()}>
 						<Stack direction="column" justifyContent="space-between" alignContent="space-between">
 							<TopBarSaveClose
 								buttonText="Enregistrer"

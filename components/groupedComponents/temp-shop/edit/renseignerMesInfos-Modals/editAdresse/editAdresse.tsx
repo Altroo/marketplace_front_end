@@ -25,10 +25,7 @@ import Styles from './editAdresse.module.sass';
 import ZoneByNav from '../../../../../map/zoneByNav/zoneByNav';
 import { PositionType } from '../../../../../map/customMap';
 import { shopAddressSchema } from '../../../../../../utils/formValidationSchemas';
-import { offerGetAvailableFiltersByShopID } from '../../../../../../store/actions/offer/offerActions';
-import { ApiErrorResponseType, SagaCallBackOnCompleteBoolType } from '../../../../../../types/_init/_initTypes';
-import { OfferGetAvailableShopFiltersType } from '../../../../../../types/offer/offerTypes';
-import { useRouter } from 'next/router';
+import { SagaCallBackOnCompleteBoolType } from '../../../../../../types/_init/_initTypes';
 
 const CustomMap = dynamic(() => import('../../../../../map/customMap'), {
 	ssr: false,
@@ -167,7 +164,7 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 				validationSchema={shopAddressSchema}
 			>
 				{({ handleChange, handleSubmit, values, isValid, isSubmitting }) => (
-					<Form style={{ height: '100%' }}>
+					<Form style={{ height: '100%' }} onSubmit={(e) => e.preventDefault()}>
 						<Stack
 							direction="column"
 							justifyContent="space-between"

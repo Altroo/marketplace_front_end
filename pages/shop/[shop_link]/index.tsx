@@ -40,6 +40,7 @@ import AvatarIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-ava
 import ColorIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-color.svg';
 import FontIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-font.svg';
 import ContactIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-contact.svg';
+import InfoIconSVG from '../../../public/assets/svgs/globalIcons/drop-down-info.svg';
 import { Backdrop, Box, Skeleton, Stack } from '@mui/material';
 import AjouterMesInfosStack, {
 	addMyInfosStackType,
@@ -339,6 +340,11 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 
 	const dropDownActions: DropDownActionType = useMemo(() => {
 		return [
+			{
+				icon: InfoIconSVG,
+				text: 'Nom de la boutique',
+				onClick: setOpenEditShopNameModal,
+			},
 			{
 				icon: ContactIconSVG,
 				text: 'Coordonnées',
@@ -650,24 +656,8 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 										/>
 									</div>
 								</Stack>
-								{/*<Stack direction="row" alignItems="center">*/}
-								{/*	<Image src={BlackStarSVG} width={20} height={20} alt="" />*/}
-								{/*	/!* TODO - phase 2 : link rating when backend is done *!/*/}
-								{/*	<span>0 (0 notes)</span>*/}
-								{/*</Stack>*/}
 							</Stack>
 						</Stack>
-						{/*<Stack direction="row" justifyContent="space-evenly" flexWrap="wrap">*/}
-						{/*	<IconAnchorButton*/}
-						{/*		buttonText="Message"*/}
-						{/*		svgIcon={messageIcon}*/}
-						{/*		backgroundColor={bgColorCode}*/}
-						{/*		textColor={colorCode}*/}
-						{/*		border={borderState}*/}
-						{/*		// nextPage={AUTH_LOGIN}*/}
-						{/*		active={true}*/}
-						{/*		cssClass={Styles.iconButton}*/}
-						{/*	/>*/}
 						{(phoneValue || whatsappValue) !== '' && contactIcon ? (
 							<CustomIconButton
 								buttonText="Contacter"
@@ -686,7 +676,6 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								cssClass={Styles.iconButton}
 							/>
 						)}
-						{/*</Stack>*/}
 					</Stack>
 					<Box>
 						<Stack className={Styles.shopDetailsWrapper} direction="column">
@@ -757,7 +746,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 						<div className={Styles.actionButtonWrapper}>
 							<PrimaryButton
 								buttonText="Enregistrer"
-								active={true}
+								active={Boolean(phoneValue || whatsappValue)}
 								onClick={contacterSaveHandler}
 								cssClass={Styles.actionButtonWidth}
 							/>
@@ -1105,7 +1094,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 						{/*	active={true}*/}
 						{/*	cssClass={Styles.iconButton}*/}
 						{/*/>*/}
-						{(contactModeState === "P" || contactModeState === "W") && contactIcon ? (
+						{(contactModeState === 'P' || contactModeState === 'W') && contactIcon ? (
 							<IconAnchorButton
 								buttonText="Contacter"
 								svgIcon={contactIcon}

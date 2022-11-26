@@ -157,7 +157,7 @@ export const getColorsDataArray = (colorCodes: Array<OfferProductColors>) => {
 				colorsArray.push('Gris');
 				break;
 			case 'MC':
-				colorsArray.push('Multicolore');
+				colorsArray.push('Multi');
 				break;
 			case 'RD':
 				colorsArray.push('Rouge');

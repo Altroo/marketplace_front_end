@@ -66,7 +66,7 @@ export const availableColorsList: Array<OfferColorsListType> = [
 	},
 	{
 		code: 'MC',
-		value: 'Multicolore',
+		value: 'Multi',
 		hex: 'conic-gradient(from 70.34deg at 51.34% 50%, #9557FF -67.34deg, #FF5364 21.53deg, #FFFB45 108.58deg, #70FA67 180deg, #48C3FF 228.18deg, #9557FF 292.66deg, #FF5364 381.53deg)',
 	},
 	{

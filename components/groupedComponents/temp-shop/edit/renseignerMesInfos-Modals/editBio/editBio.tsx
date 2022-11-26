@@ -2,21 +2,20 @@ import React from 'react';
 import Styles from './editBio.module.sass';
 import { useAppDispatch, useAppSelector } from '../../../../../../utils/hooks';
 import {
-	getNewShopApiError,
-	getNewShopEditPromiseStatus,
-	getNewShopIsEditInProgress,
 	getShopBio,
 } from '../../../../../../store/selectors';
 import { shopPatchBioAction } from '../../../../../../store/actions/shop/shopActions';
 import { Stack } from '@mui/material';
-import { Form, Formik } from 'formik';
+import { useFormik } from 'formik';
 import HelperDescriptionHeader from '../../../../../headers/helperDescriptionHeader/helperDescriptionHeader';
-import ApiProgress from '../../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
-import ApiAlert from '../../../../../formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
 import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
 import { shopBioSchema } from '../../../../../../utils/formValidationSchemas';
 import { bioTextAreaTheme } from '../../../../../../utils/themes';
-import CustomTextArea from "../../../../../formikElements/customTextArea/customTextArea";
+import CustomTextArea from '../../../../../formikElements/customTextArea/customTextArea';
+import { SagaCallBackType } from '../../../../../../types/_init/_initTypes';
+import { setFormikAutoErrors } from '../../../../../../utils/helpers';
+import { useRouter } from 'next/router';
+import { ShopBioType } from '../../../../../../types/shop/shopTypes';
 
 type Props = {
 	handleClose: () => void;
@@ -26,76 +25,74 @@ type Props = {
 const EditBio: React.FC<Props> = (props: Props) => {
 	const dispatch = useAppDispatch();
 	const shopBio = useAppSelector(getShopBio);
-	const isEditInProgress = useAppSelector(getNewShopIsEditInProgress);
-	const editPromiseStatus = useAppSelector(getNewShopEditPromiseStatus);
-	const apiError = useAppSelector(getNewShopApiError);
+	const router = useRouter();
 
-	const editBioSubmitHandler = (value: string) => {
-		dispatch(shopPatchBioAction(value));
-		if (!isEditInProgress && editPromiseStatus === 'REJECTED' && apiError) {
-			return;
-		} else {
-			props.handleClose();
-		}
-	};
+	const formik = useFormik({
+		initialValues: {
+			bio: shopBio,
+		},
+		enableReinitialize: true,
+		validateOnMount: true,
+		validationSchema: shopBioSchema,
+		onSubmit: async (values, { setSubmitting, setFieldError }) => {
+			const action = shopPatchBioAction(values.bio);
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackType<ShopBioType>) => {
+					if (!error && !cancelled && data) {
+						console.log('closed');
+						props.handleClose();
+						router.replace(router.asPath).then();
+					}
+					if (error) {
+						setFormikAutoErrors({
+							e: error,
+							setFieldError,
+						});
+					}
+				},
+			});
+			setSubmitting(false);
+		},
+	});
+
 	const bioTextAreaCustomTheme = bioTextAreaTheme();
 	return (
 		<Stack direction="column" spacing={4}>
-			<Formik
-				enableReinitialize={true}
-				initialValues={{
-					bio: shopBio,
-				}}
-				validateOnMount={true}
-				validationSchema={shopBioSchema}
-				onSubmit={(values) => editBioSubmitHandler(values.bio as string)}
-			>
-				{({ handleChange, handleBlur, handleSubmit, values, touched, errors, isValid, isSubmitting }) => (
-					<Form>
-						<Stack direction="column" justifyContent="space-between" alignContent="space-between">
-							<TopBarSaveClose
-								buttonText="Enregistrer"
-								handleClose={props.handleClose}
-								handleSubmit={handleSubmit}
-								isSubmitting={isSubmitting}
-								isValid={isValid}
-							/>
-							<HelperDescriptionHeader
-								header="Rédiger une bio"
-								description="Parler de vous, donnez envie à vos clients de vous contacter"
-								// HelpText="Comment rédiger une belle bio ?"
-								headerClasses={Styles.header}
-								descriptionClasses={Styles.description}
-							/>
-							<CustomTextArea
-								id="bio"
-								label="Bio"
-								value={values.bio ? values.bio : ''}
-								onChange={handleChange('bio')}
-								onBlur={handleBlur('bio')}
-								helperText={touched.bio ? errors.bio : ''}
-								error={touched.bio && Boolean(errors.bio)}
-								type="text"
-								fullWidth={true}
-								minRows={4}
-								multiline={true}
-								theme={bioTextAreaCustomTheme}
-								size="medium"
-								cssClass={Styles.textArea}
-							/>
-						</Stack>
-					</Form>
-				)}
-			</Formik>
-			{isEditInProgress && editPromiseStatus === 'PENDING' && (
-				<ApiProgress cssStyle={{ position: 'absolute', top: '45%', left: '45%' }} backdropColor="#FFFFFF" circularColor="#FFFFFF"/>
-			)}
-			{!isEditInProgress && editPromiseStatus === 'REJECTED' && apiError && (
-				<ApiAlert
-					errorDetails={apiError.details}
-					cssStyle={{ position: 'absolute', left: '0', top: '50%', margin: '0 -60px -60px -60px' }}
-				/>
-			)}
+			<form onSubmit={(e) => e.preventDefault()}>
+				<Stack direction="column" justifyContent="space-between" alignContent="space-between">
+					<TopBarSaveClose
+						buttonText="Enregistrer"
+						handleClose={props.handleClose}
+						handleSubmit={formik.handleSubmit}
+						isSubmitting={formik.isSubmitting}
+						isValid={formik.isValid}
+					/>
+					<HelperDescriptionHeader
+						header="Rédiger une bio"
+						description="Parler de vous, donnez envie à vos clients de vous contacter"
+						// HelpText="Comment rédiger une belle bio ?"
+						headerClasses={Styles.header}
+						descriptionClasses={Styles.description}
+					/>
+					<CustomTextArea
+						id="bio"
+						label="Bio"
+						value={formik.values.bio ? formik.values.bio : ''}
+						onChange={formik.handleChange('bio')}
+						onBlur={formik.handleBlur('bio')}
+						helperText={formik.touched.bio ? formik.errors.bio : ''}
+						error={formik.touched.bio && Boolean(formik.errors.bio)}
+						type="text"
+						fullWidth={true}
+						minRows={4}
+						multiline={true}
+						theme={bioTextAreaCustomTheme}
+						size="medium"
+						cssClass={Styles.textArea}
+					/>
+				</Stack>
+			</form>
 		</Stack>
 	);
 };

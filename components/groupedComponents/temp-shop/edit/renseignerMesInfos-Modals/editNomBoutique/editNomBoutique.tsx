@@ -2,21 +2,20 @@ import React from 'react';
 import Styles from './editNomBoutique.module.sass';
 import HelperDescriptionHeader from '../../../../../headers/helperDescriptionHeader/helperDescriptionHeader';
 import { Stack } from '@mui/material';
-import { Form, Formik } from 'formik';
+import { useFormik } from 'formik';
 import { useAppDispatch, useAppSelector } from '../../../../../../utils/hooks';
 import {
 	getShopName,
-	getNewShopIsEditInProgress,
-	getNewShopEditPromiseStatus,
-	getNewShopApiError,
 } from '../../../../../../store/selectors';
 import { shopPatchShopNameAction } from '../../../../../../store/actions/shop/shopActions';
-import ApiAlert from '../../../../../formikElements/apiLoadingResponseOrError/apiAlert/apiAlert';
-import ApiProgress from '../../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
 import { shopNameSchema } from '../../../../../../utils/formValidationSchemas';
 import CustomTextInput from '../../../../../formikElements/customTextInput/customTextInput';
-import { editShopNameTextInputTheme } from "../../../../../../utils/themes";
+import { editShopNameTextInputTheme } from '../../../../../../utils/themes';
+import { SagaCallBackType } from '../../../../../../types/_init/_initTypes';
+import { ShopNameType } from '../../../../../../types/shop/shopTypes';
+import { useRouter } from 'next/router';
+import { setFormikAutoErrors } from '../../../../../../utils/helpers';
 
 type Props = {
 	handleClose: () => void;
@@ -26,78 +25,73 @@ type Props = {
 const EditNomBoutique: React.FC<Props> = (props: Props) => {
 	const dispatch = useAppDispatch();
 	const shopName = useAppSelector(getShopName);
-	const isEditInProgress = useAppSelector(getNewShopIsEditInProgress);
-	const editPromiseStatus = useAppSelector(getNewShopEditPromiseStatus);
-	const apiError = useAppSelector(getNewShopApiError);
+	const router = useRouter();
 
-	const editShopNameSubmitHandler = (value: string) => {
-		dispatch(shopPatchShopNameAction(value));
-		if (!isEditInProgress && editPromiseStatus === 'REJECTED' && apiError) {
-			return;
-		} else {
-			props.handleClose();
-		}
-	};
+	const formik = useFormik({
+		enableReinitialize: true,
+		initialValues: {
+			shop_name: shopName,
+		},
+		validateOnMount: true,
+		validationSchema: shopNameSchema,
+		onSubmit: async (values, { setSubmitting, setFieldError }) => {
+			const action = shopPatchShopNameAction(values.shop_name);
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackType<ShopNameType>) => {
+					if (!error && !cancelled && data) {
+						props.handleClose();
+						router.replace(router.asPath).then();
+					}
+					if (error) {
+						setFormikAutoErrors({
+							e: error,
+							setFieldError,
+						});
+					}
+				},
+			});
+			setSubmitting(false);
+		},
+	});
+
 	const shopNameFieldTheme = editShopNameTextInputTheme();
 	return (
-		<>
-			<Stack direction="column" spacing={4}>
-				<Formik
-					enableReinitialize={true}
-					initialValues={{
-						shop_name: shopName,
-					}}
-					validateOnMount={true}
-					validationSchema={shopNameSchema}
-					onSubmit={(values) => editShopNameSubmitHandler(values.shop_name)}
-				>
-					{({ handleChange, handleBlur, handleSubmit, values, touched, errors, isValid, isSubmitting }) => (
-						<Form>
-							<Stack direction="column" justifyContent="space-between" alignContent="space-between">
-								<TopBarSaveClose
-									buttonText="Enregistrer"
-									handleClose={props.handleClose}
-									handleSubmit={handleSubmit}
-									isSubmitting={isSubmitting}
-									isValid={isValid}
-								/>
-								<HelperDescriptionHeader
-									header="Changer le nom de ma boutique"
-									description="Soyez sûr quand vous changez le nom de votre boutique, certains utilisateurs
-									pourraient ne pas vous reconnaître…"
-									HelpText="Ce peut être le nom de votre marque ou votre propre nom"
-									headerClasses={Styles.header}
-									descriptionClasses={Styles.description}
-								/>
-								<CustomTextInput
-									id="shop_name"
-									label="Nom de votre boutique"
-									value={values.shop_name}
-									onChange={handleChange('shop_name')}
-									onBlur={handleBlur('shop_name')}
-									helperText={touched.shop_name ? errors.shop_name : ''}
-									error={touched.shop_name && Boolean(errors.shop_name)}
-									theme={shopNameFieldTheme}
-									fullWidth={true}
-									size="medium"
-									type="text"
-									cssClass={Styles.shopNameTextField}
-								/>
-							</Stack>
-						</Form>
-					)}
-				</Formik>
-				{isEditInProgress && editPromiseStatus === 'PENDING' && (
-					<ApiProgress cssStyle={{ position: 'absolute', top: '45%', left: '45%' }} backdropColor="#FFFFFF" circularColor="#FFFFFF"/>
-				)}
-				{!isEditInProgress && editPromiseStatus === 'REJECTED' && apiError && (
-					<ApiAlert
-						errorDetails={apiError.details}
-						cssStyle={{ position: 'absolute', left: '0', top: '50%', margin: '0 -60px -60px -60px' }}
+		<Stack direction="column" spacing={4}>
+			<form onSubmit={(e) => e.preventDefault()}>
+				<Stack direction="column" justifyContent="space-between" alignContent="space-between">
+					<TopBarSaveClose
+						buttonText="Enregistrer"
+						handleClose={props.handleClose}
+						handleSubmit={formik.handleSubmit}
+						isSubmitting={formik.isSubmitting}
+						isValid={formik.isValid}
 					/>
-				)}
-			</Stack>
-		</>
+					<HelperDescriptionHeader
+						header="Changer le nom de ma boutique"
+						description="Soyez sûr quand vous changez le nom de votre boutique, certains utilisateurs
+									pourraient ne pas vous reconnaître…"
+						HelpText="Ce peut être le nom de votre marque ou votre propre nom"
+						headerClasses={Styles.header}
+						descriptionClasses={Styles.description}
+					/>
+					<CustomTextInput
+						id="shop_name"
+						label="Nom de votre boutique"
+						value={formik.values.shop_name}
+						onChange={formik.handleChange('shop_name')}
+						onBlur={formik.handleBlur('shop_name')}
+						helperText={formik.touched.shop_name ? formik.errors.shop_name : ''}
+						error={formik.touched.shop_name && Boolean(formik.errors.shop_name)}
+						theme={shopNameFieldTheme}
+						fullWidth={true}
+						size="medium"
+						type="text"
+						cssClass={Styles.shopNameTextField}
+					/>
+				</Stack>
+			</form>
+		</Stack>
 	);
 };
 

@@ -218,7 +218,7 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 					}}
 				>
 					{({ handleChange, handleSubmit, values, isValid, isSubmitting }) => (
-						<Form>
+						<Form onSubmit={(e) => e.preventDefault()}>
 							<Stack
 								direction="column"
 								justifyContent="space-between"

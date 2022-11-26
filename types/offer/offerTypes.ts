@@ -76,7 +76,7 @@ OR,Orange
 PI,Pink
 YE,Yellow
 GR,Gray
-MC,MultiColor
+MC,Multi
 RD,Red
  */
 export type OfferProductColors = 'BK' | 'WT' | 'BR' | 'BL' | 'GN' | 'PR' | 'OR' | 'PI' | 'YE' | 'GR' | 'MC' | 'RD';
