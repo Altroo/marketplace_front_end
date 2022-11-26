@@ -47,7 +47,6 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	AUTH_LOGIN, REAL_SHOP_ADD_AVATAR, REAL_SHOP_ADD_SHOP_NAME
 } from "../../../utils/routes";
-import { getCookie } from 'cookies-next';
 import { Box } from '@mui/material';
 import { SagaCallBackOnCompleteStrType } from '../../../types/_init/_initTypes';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
@@ -94,7 +93,7 @@ const Font: NextPage = () => {
 	const [border, setborder] = useState<string | undefined>(undefined);
 	const [fontName, setFontName] = useState<ShopFontNameType>('R');
 	// Gray Message Icon
-	const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
+	// const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
 	// Gray contact Icon
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconSVG);
 	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
@@ -148,10 +147,10 @@ const Font: NextPage = () => {
 		// icon color
 		if (shopIconColor === 'white') {
 			setContactIcon(ContactIconWhiteSVG);
-			setMessageIcon(MessageIconWhiteSVG);
+			// setMessageIcon(MessageIconWhiteSVG);
 		} else if (shopIconColor === 'black') {
 			setContactIcon(ContactIconBlackSVG);
-			setMessageIcon(MessageIconBlackSVG);
+			// setMessageIcon(MessageIconBlackSVG);
 		}
 		// font
 		if (shopFontName) {
@@ -216,13 +215,6 @@ const Font: NextPage = () => {
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} preview={preview} font={fontName} active={false} />
 							<div className={Styles.actionsWrapper}>
-								{/*<IconAnchorButton*/}
-								{/*	buttonText="Message"*/}
-								{/*	svgIcon={messageIcon}*/}
-								{/*	backgroundColor={bgColorCode}*/}
-								{/*	textColor={colorCode}*/}
-								{/*	border={border}*/}
-								{/*/>*/}
 								<IconAnchorButton
 									buttonText="Contacter"
 									svgIcon={contactIcon}
@@ -269,7 +261,12 @@ const Font: NextPage = () => {
 							<div className={Styles.shopAddOfferWrapper}>
 								<div className={Styles.addOfferContainer}>
 									<div className={Styles.centeredInfoActionWrapper}>
-										<CenteredInfoAction header="Démarrer votre boutique" subHeader="Ajoutez votre premier article !" />
+										<CenteredInfoAction
+											header="Démarrer votre boutique"
+											subHeader="Ajoutez votre premier article !"
+											cssHeaderClass={Styles.disabled}
+											cssSubHeaderClass={Styles.disabled}
+										/>
 										<BorderIconAnchorButton
 											buttonText="Ajouter un article"
 											svgIcon={DisactivatedAddIconSVG}

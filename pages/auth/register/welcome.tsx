@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import Styles from '../../../styles/auth/register/welcome.module.sass';
 import AuthPageLayout from '../../../components/layouts/auth/authPageLayout';
 import { GetServerSidePropsContext } from 'next';
@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { Stack } from '@mui/material';
 import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
+import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 type Props = {
 	pageProps: {
@@ -21,9 +22,17 @@ type Props = {
 
 const Welcome: React.FC<Props> = (props: Props) => {
 	const { has_shop } = props.pageProps;
+	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
 	return (
 		<>
+			{isApiCallInProgress && (
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+					backdropColor="#FFFFFF"
+					circularColor="#0D070B"
+				/>
+			)}
 			<div className={Styles.desktopOnly}>
 				<AuthPageLayout>
 					<Stack
@@ -40,6 +49,7 @@ const Welcome: React.FC<Props> = (props: Props) => {
 							buttonText={has_shop ? 'Aller au dashboard' : 'Créer ma boutique'}
 							active={true}
 							nextPage={has_shop ? DASHBOARD : REAL_SHOP_ADD_SHOP_NAME}
+							onClick={() => setIsApiCallInProgress(true)}
 						/>
 					</Stack>
 				</AuthPageLayout>
@@ -61,6 +71,7 @@ const Welcome: React.FC<Props> = (props: Props) => {
 									buttonText={has_shop ? 'Aller au dashboard' : 'Créer ma boutique'}
 									active={true}
 									nextPage={has_shop ? DASHBOARD : REAL_SHOP_ADD_SHOP_NAME}
+									onClick={() => setIsApiCallInProgress(true)}
 								/>
 							</div>
 						</Stack>

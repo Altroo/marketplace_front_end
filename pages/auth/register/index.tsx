@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { useAppDispatch } from '../../../utils/hooks';
 import { refreshAppTokenStatesAction } from '../../../store/actions/_init/_initActions';
-import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import { Stack, Theme } from '@mui/material';
 import GoogleSignInButton from '../../../components/htmlElements/buttons/googleSignInButton/googleSignInButton';
 import FacebookSignInButton from '../../../components/htmlElements/buttons/facebookSignInButton/facebookSignInButton';
@@ -35,6 +34,7 @@ import { ResponseOnlyInterface } from '../../../types/_init/_initTypes';
 import Link from 'next/link';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import { CGUCheckBox } from '../../../components/htmlElements/checkBoxes/checkBox';
+import PrimaryLoadingButton from "../../../components/htmlElements/buttons/primaryLoadingButton/primaryLoadingButton";
 
 type registerPageContentProps = {
 	googleSignIn: () => void;
@@ -51,6 +51,7 @@ type registerPageContentProps = {
 	handleSubmit: (e?: React.FormEvent<HTMLFormElement>) => void;
 	cguCheckbox: boolean;
 	setCguCheckBox: React.Dispatch<React.SetStateAction<boolean>>;
+	isSubmitLoading: boolean;
 };
 
 const RegisterPageContent = (props: registerPageContentProps) => {
@@ -108,12 +109,12 @@ const RegisterPageContent = (props: registerPageContentProps) => {
 							</span>
 						</CGUCheckBox>
 					</Stack>
-					<PrimaryButton
-						buttonText="S'inscrire"
+					<PrimaryLoadingButton buttonText="S'inscrire"
 						active={props.isValid && !props.isSubmitting && props.cguCheckbox}
 						onClick={props.handleSubmit}
 						cssClass={Styles.emailRegisterButton}
 						type="submit"
+						loading={props.isSubmitLoading}
 					/>
 				</Stack>
 			</form>
@@ -128,6 +129,7 @@ const Register: NextPage = () => {
 	const [errorState, setErrorState] = useState<string | Array<string> | undefined>(undefined);
 	const dispatch = useAppDispatch();
 	const loading = status === 'loading';
+	const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
 	// const authenticated = status === 'authenticated';
 	// const unauthenticated = status === 'unauthenticated';
 	const [sessionUpdated, setSessionUpdated] = useState<boolean>(false);
@@ -162,32 +164,29 @@ const Register: NextPage = () => {
 		validateOnMount: true,
 		validationSchema: emailSchema,
 		onSubmit: async (values, { setFieldError, setSubmitting }) => {
+			setIsSubmitLoading(true);
 			const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_EMAIL}`;
 			try {
 				const instance = allowAnyInstance();
 				const response: ResponseOnlyInterface = await postApi(url, instance, { email: values.email });
 				if (response.status === 204) {
 					cookiesPoster('/cookies', { new_email: values.email }).then(() => {
-						router.push(AUTH_REGISTER_ABOUT_PAGE).then();
+						router.push(AUTH_REGISTER_ABOUT_PAGE).then(() => {
+							setIsSubmitLoading(false);
+						});
 					});
 				}
 			} catch (e) {
 				setFormikAutoErrors({ e, setFieldError });
 			}
 			setSubmitting(false);
+			setIsSubmitLoading(false);
 		},
 	});
 
 	const emailTheme = coordonneeTextInputTheme();
 	return (
 		<>
-			{loading && (
-				<ApiProgress
-					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
-					backdropColor="#FFFFFF"
-					circularColor="#FFFFFF"
-				/>
-			)}
 			{!loading && !session && (
 				<>
 					<div className={Styles.desktopOnly}>
@@ -210,6 +209,7 @@ const Register: NextPage = () => {
 								validationError={formik.touched.email && Boolean(formik.errors.email)}
 								cguCheckbox={cguCheckBox}
 								setCguCheckBox={setCguCheckBox}
+								isSubmitLoading={isSubmitLoading}
 							/>
 						</AuthPageLayout>
 					</div>
@@ -235,6 +235,7 @@ const Register: NextPage = () => {
 									validationError={formik.touched.email && Boolean(formik.errors.email)}
 									cguCheckbox={cguCheckBox}
 									setCguCheckBox={setCguCheckBox}
+									isSubmitLoading={isSubmitLoading}
 								/>
 								<Stack direction="column" justifyContent="center" alignItems="center" sx={{ marginTop: '60px' }}>
 									<p className={Styles.bottomLinks}>

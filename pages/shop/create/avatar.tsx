@@ -129,7 +129,6 @@ const Avatar: NextPage = () => {
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} setAvatar={setAvatar} preview={preview} active />
 							<div className={Styles.actionsWrapper}>
-								{/*<IconAnchorButton buttonText="Message" svgIcon={MessageIconSVG} />*/}
 								<IconAnchorButton buttonText="Contacter" svgIcon={CallIconSVG} cssClass={Styles.contacterButton} />
 							</div>
 						</div>
@@ -170,7 +169,12 @@ const Avatar: NextPage = () => {
 							<div className={Styles.shopAddOfferWrapper}>
 								<div className={Styles.addOfferContainer}>
 									<div className={Styles.centeredInfoActionWrapper}>
-										<CenteredInfoAction header="Démarrer votre boutique" subHeader="Ajoutez votre premier article !" />
+										<CenteredInfoAction
+											header="Démarrer votre boutique"
+											subHeader="Ajoutez votre premier article !"
+											cssHeaderClass={Styles.disabled}
+											cssSubHeaderClass={Styles.disabled}
+										/>
 										<BorderIconAnchorButton
 											buttonText="Ajouter un article"
 											svgIcon={DisactivatedAddIconSVG}

@@ -12,6 +12,9 @@
 .contacterButton
   +Medium
   font-size: 15px
+  opacity: .6
+.disabled
+  opacity: .4
 .main
   position: relative
   display: flex
@@ -51,7 +54,7 @@
 .filterText
   +SemiBold
   font-size: 19px
-  color: $buttonTextDisabled
+  color: $shopContentDisabled
   overflow-wrap: break-word
   margin: 0
 .shopDetailsAside
@@ -75,7 +78,7 @@
   +Regular
   font-size: 14px
   font-style: normal
-  color: $buttonTextDisabled
+  color: $shopContentDisabled
   margin-top: 10px
   letter-spacing: -0.03em
 .categoriesWrapper
@@ -126,10 +129,10 @@
   outline: none
   &:focus
     border: 2px solid $blue !important
-  & ::placeholder
+  &::placeholder
     font-family: $poppins !important
     font-weight: 400
-    color: $grayInput
+    color: $shopContentDisabled
     font-size: 1.1rem
 @media #{$desktop}
   .shopAddOfferWrapper

@@ -106,7 +106,7 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 				paper: '#FFFFFF', // background color default
 			},
 			text: {
-				primary: '#84848A',
+				primary: 'rgba(0, 0, 0, .2)',
 			},
 		},
 		components: {
@@ -121,7 +121,7 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 					},
 					fullWidth: {
 						fontFamily: 'poppins',
-						color: '#84848A', // inactive tab text color
+						color: 'rgba(0, 0, 0, .2)', // inactive tab text color
 					},
 				},
 			},

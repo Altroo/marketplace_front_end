@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Styles from "../../../styles/auth/register/missing-email.module.sass";
 import { GetServerSidePropsContext } from "next";
 import {
@@ -28,12 +28,14 @@ import { accountSetFacebookEmailAction } from "../../../store/actions/account/ac
 import { useSession } from "next-auth/react";
 import { refreshAppTokenStatesAction } from "../../../store/actions/_init/_initActions";
 import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
+import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
 const AddMissingEmail = () => {
 	const { data: session } = useSession();
 	const token = useAppSelector(getInitStateToken);
 	const dispatch = useAppDispatch();
 	const router = useRouter();
+	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
 	const formik = useFormik({
 		initialValues: {
@@ -42,6 +44,7 @@ const AddMissingEmail = () => {
 		validateOnMount: true,
 		validationSchema: emailSchema,
 		onSubmit: async (values, { setFieldError, setSubmitting }) => {
+			setIsApiCallInProgress(true);
 			const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_EMAIL}`;
 			try {
 				const instance = allowAnyInstance();
@@ -57,7 +60,9 @@ const AddMissingEmail = () => {
 							if (session) {
 								dispatch(refreshAppTokenStatesAction(session));
 							}
-							router.push(AUTH_WELCOME).then();
+							router.push(AUTH_WELCOME).then(() => {
+								setIsApiCallInProgress(false);
+							});
 						}
 					} catch (e) {
 						setFormikAutoErrors({e, setFieldError});
@@ -67,13 +72,22 @@ const AddMissingEmail = () => {
 				setFormikAutoErrors({e, setFieldError});
 			}
 			setSubmitting(false);
+			setIsApiCallInProgress(false);
 		}
 	});
 
 	const inputTheme = coordonneeTextInputTheme();
 
 	return (
-		<Stack direction="column" className={Styles.contentWrapper} spacing={4}>
+		<>
+			{isApiCallInProgress && (
+				<ApiProgress
+					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
+					backdropColor="#FFFFFF"
+					circularColor="#0D070B"
+				/>
+			)}
+			<Stack direction="column" className={Styles.contentWrapper} spacing={4}>
 			<Stack direction="column" spacing={2} alignItems="flex-start" width="100%">
 				<span className={Styles.header}>Ajoutez votre email</span>
 				<p className={Styles.subHeader}>Pour vous inscrire, nous avons besoin de votre email.</p>
@@ -107,6 +121,7 @@ const AddMissingEmail = () => {
 				</Stack>
 			</form>
 		</Stack>
+		</>
 	);
 };
 

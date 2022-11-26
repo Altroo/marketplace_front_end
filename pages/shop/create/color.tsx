@@ -7,7 +7,7 @@ import HelperH1Header from '../../../components/headers/helperH1Header/helperH1H
 import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import DefaultCardSection from '../../../components/htmlElements/cards/defaultCardSection/defaultCardSection';
-import { setShopColorAction } from "../../../store/actions/shop/shopActions";
+import { setShopColorAction } from '../../../store/actions/shop/shopActions';
 import AvatarShopNameRating from '../../../components/groupedComponents/temp-shop/create/avatarShopNameRating/avatarShopNameRating';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg';
@@ -17,7 +17,7 @@ import ContactIconSVG from '../../../public/assets/svgs/globalIcons/call.svg';
 import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
 import ContactIconBlackSVG from '../../../public/assets/svgs/globalIcons/call-black.svg';
 import DisactivatedAddIconSVG from '../../../public/assets/svgs/globalIcons/gray-add.svg';
-import { IconColorType, SagaCallBackOnCompleteBoolType } from "../../../types/_init/_initTypes";
+import { IconColorType, SagaCallBackOnCompleteBoolType } from '../../../types/_init/_initTypes';
 import { DisactivatedTab } from '../../../components/htmlElements/tabs/tab';
 import DisabledFilterDropDown from '../../../components/groupedComponents/temp-shop/create/disabledFilterDropDown/disabledFilterDropDown';
 import IconTextInput from '../../../components/htmlElements/inputs/iconTextInput/iconTextInput';
@@ -42,14 +42,15 @@ import {
 	DASHBOARD,
 	REAL_SHOP_ADD_AVATAR,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	AUTH_LOGIN, REAL_SHOP_ADD_FONT,
-} from "../../../utils/routes";
+	AUTH_LOGIN,
+	REAL_SHOP_ADD_FONT,
+} from '../../../utils/routes';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
-import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
+import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 
 export const colors = [
 	'#FF5D6B',
@@ -131,15 +132,15 @@ const Color: NextPage = () => {
 			// _bgColorCode & _colorCode are reversed for this action.
 			const action = setShopColorAction(_bgColorCode, _colorCode, border, iconColor);
 			dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
-				if (!error && !cancelled && data) {
-					router.push(REAL_SHOP_ADD_FONT).then(() => {
-						setIsApiCallInProgress(false);
-					})
-				}
-			},
-		});
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
+					if (!error && !cancelled && data) {
+						router.push(REAL_SHOP_ADD_FONT).then(() => {
+							setIsApiCallInProgress(false);
+						});
+					}
+				},
+			});
 		}
 	};
 	const whiteTextColors = ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
@@ -191,26 +192,23 @@ const Color: NextPage = () => {
 					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_AVATAR} returnButton closeButtonHref={DASHBOARD} />
 					<MobileStepsBar activeStep={activeStep} />
 					<Box className={Styles.marginLeft}>
-						<HelperH1Header header="Choisissez une couleur" HelpText="Choisissez une couleur selon l'univers de votre marque" />
+						<HelperH1Header
+							header="Choisissez une couleur"
+							HelpText="Choisissez une couleur selon l'univers de votre marque"
+						/>
 					</Box>
 					<DefaultCardSection cssClass={Styles.cardSection}>
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} preview={preview} active={false} />
 							<div className={Styles.actionsWrapper}>
-								{/*<IconAnchorButton*/}
-								{/*	buttonText="Message"*/}
-								{/*	svgIcon={messageIcon}*/}
-								{/*	backgroundColor={bgColorCode}*/}
-								{/*	textColor={colorCode}*/}
-								{/*	border={border}*/}
-								{/*/>*/}
 								<IconAnchorButton
 									buttonText="Contacter"
 									svgIcon={contactIcon}
 									backgroundColor={bgColorCode}
 									textColor={colorCode}
 									border={border}
-									cssClass={Styles.contacterButton} />
+									cssClass={Styles.contacterButton}
+								/>
 							</div>
 						</div>
 						<div className={Styles.shopDetailsWrapper}>
@@ -250,7 +248,12 @@ const Color: NextPage = () => {
 							<div className={Styles.shopAddOfferWrapper}>
 								<div className={Styles.addOfferContainer}>
 									<div className={Styles.centeredInfoActionWrapper}>
-										<CenteredInfoAction header="Démarrer votre boutique" subHeader="Ajoutez votre premier article !" />
+										<CenteredInfoAction
+											header="Démarrer votre boutique"
+											subHeader="Ajoutez votre premier article !"
+											cssHeaderClass={Styles.disabled}
+											cssSubHeaderClass={Styles.disabled}
+										/>
 										<BorderIconAnchorButton
 											buttonText="Ajouter un article"
 											svgIcon={DisactivatedAddIconSVG}
@@ -335,21 +338,6 @@ const Color: NextPage = () => {
 		</>
 	);
 };
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-// 	const avatar = getCookie('@avatar', { req: context.req, res: context.res });
-// 	if (!avatar) {
-// 		return {
-// 			redirect: {
-// 				permanent: false,
-// 				destination: TEMP_SHOP_ADD_AVATAR,
-// 			},
-// 		};
-// 	}
-// 	return {
-// 		props: {},
-// 	};
-// }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;

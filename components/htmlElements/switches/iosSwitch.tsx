@@ -53,8 +53,8 @@ const IOSSwitchStyle = styled((props: IOSSwitchProps) => {
 			color: theme.palette.grey[100],
 		},
 		'&.Mui-disabled + .MuiSwitch-track': {
-			opacity: 0.9,
-			backgroundColor: '#D9D9DD',
+			// opacity: 0.9,
+			backgroundColor: 'rgba(0, 0, 0, .4)',
 		},
 	},
 	'& .MuiSwitch-thumb': {
