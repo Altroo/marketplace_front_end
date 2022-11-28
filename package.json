@@ -40,7 +40,7 @@
     "react-images-uploading": "^3.1.7",
     "react-infinite-scroll-component": "^6.1.0",
     "react-input-mask": "^3.0.0-alpha.2",
-    "react-leaflet": "^4.1.0",
+    "react-leaflet": "^4.2.0",
     "react-redux": "^8.0.5",
     "react-swipeable-views": "^0.14.0",
     "react-time-ago": "^7.2.1",

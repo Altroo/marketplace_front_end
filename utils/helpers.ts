@@ -99,6 +99,9 @@ export const isAuthenticatedInstance = (
 							};
 							await setRemoteCookiesAppToken(newInitStateToken);
 							store.dispatch(setInitState(newInitStateToken));
+							if (typeof window !== 'undefined') {
+								await localStorage.setItem('@retry', '0');
+							}
 							return instance(error.config);
 						}
 					} catch (_error) {
