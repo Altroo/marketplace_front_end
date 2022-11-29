@@ -50,7 +50,7 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 								Horaires
 							</Box>
 						</Stack>
-						{opening_days.length > 0 ? (
+						{opening_days && opening_days.length > 0 ? (
 							<ReadShopHoraire
 								afternoon_hour_from={afternoon_hour_from}
 								afternoon_hour_to={afternoon_hour_to}
@@ -110,7 +110,7 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 								Bio
 							</Box>
 						</Stack>
-						{bio.length > 0 ? (
+						{bio && bio.length > 0 ? (
 							<Stack direction="column" spacing={2} sx={{ wordWrap: 'break-word' }}>
 								<span className={Styles.spanParagraphe}>{bio}</span>
 							</Stack>
