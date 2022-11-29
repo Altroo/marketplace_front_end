@@ -18,7 +18,8 @@ import {
 	setPasswordResetSent,
 	setProfil,
 	setResendVerification,
-	setWSUserAvatar
+	setWSUserAvatar,
+	setWSUserFacture
 } from "../../slices/account/accountSlice";
 import {
 	ApiErrorResponseType, AuthSagaContextType,
@@ -181,6 +182,10 @@ function* wsUserAvatarSaga(payload: { type: string; pk: number; avatar: string }
 	yield put(setWSUserAvatar({avatar: payload.avatar}));
 }
 
+function* wsUserFactureSaga(payload: { type: string; path: string }) {
+	yield put(setWSUserFacture({path: payload.path}));
+}
+
 function* accountPostRegisterSaga(payload: {type: string, tokens: InitStateNonNullableToken}) {
 	// Set new token state
 	yield put(setTokenState(payload.tokens));
@@ -202,4 +207,5 @@ export function* watchAccount() {
 	yield takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_NOT_HAS_PASSWORD, withCallback(accountPutChangeEmailNotHasPasswordSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_SET_FACEBOOK_EMAIL, accountSetFacebookEmailSaga);
 	yield takeLatest(Types.WS_USER_AVATAR, wsUserAvatarSaga);
+	yield takeLatest(Types.WS_FACTURE, wsUserFactureSaga);
 }

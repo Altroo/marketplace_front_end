@@ -96,3 +96,4 @@ export const WS_SHOP_AVATAR = 'WS_SHOP_AVATAR';
 export const WS_USER_AVATAR = 'WS_USER_AVATAR';
 export const WS_MAINTENANCE = 'WS_MAINTENANCE';
 export const WS_NOTIFICATION = 'WS_NOTIFICATION';
+export const WS_FACTURE = 'WS_FACTURE';

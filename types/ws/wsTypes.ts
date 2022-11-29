@@ -15,7 +15,8 @@ export type WSEventType =
 	| 'OFFER_PICTURE_3_THUMB'
 	| 'OFFER_PICTURE_4'
 	| 'OFFER_PICTURE_4_THUMB'
-	| 'NOTIFICATION';
+	| 'NOTIFICATION'
+	| 'FACTURE_PDF';
 
 export type WSEvent<T> = {
 	message: T;
@@ -81,4 +82,8 @@ export interface WSNotification extends WSRootType {
 	type_: NotificationsType,
 	viewed: boolean,
 	created_date: string,
+}
+
+export interface WSFacture extends WSRootType {
+	path: string,
 }

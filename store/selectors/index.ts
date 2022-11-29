@@ -85,6 +85,7 @@ export const getUserLastName = (state: RootState) => state.account.check_account
 export const getUserShopUrl = (state: RootState) => state.account.check_account?.shop_url as string | undefined | boolean;
 export const getCheckUserHasShop = (state: RootState) => state.account.check_account?.has_shop as boolean;
 export const getCheckUserIsCreator = (state: RootState) => state.account.check_account?.is_creator as boolean;
+export const getWSFacture = (state: RootState) => state.account.facture;
 
 // Offers
 export const getOfferTags = (state: RootState) => state.offer.selectedTags as OfferTagsType;

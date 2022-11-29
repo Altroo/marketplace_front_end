@@ -1,5 +1,6 @@
 import * as types from '../index';
 import { NotificationsType } from '../../../types/notification/notificationTypes';
+import { WS_FACTURE } from "../index";
 
 export const notificationGetRootAction = () => {
 	return {
@@ -28,5 +29,12 @@ export const WSNotificationAction = (
 		type_,
 		viewed,
 		created_date,
+	};
+};
+
+export const WSFactureAction = (path: string) => {
+	return {
+		type: types.WS_FACTURE,
+		path
 	};
 };

@@ -24,6 +24,7 @@ const initialState: AccountStateInterface = {
 	passwordChanged: false,
 	passwordResetCodeSent: false,
 	emailChanged: false,
+	facture: null,
 };
 
 const accountSlice = createSlice({
@@ -72,6 +73,10 @@ const accountSlice = createSlice({
 			state.profil.avatar = action.payload.avatar;
 			state.check_account.picture = action.payload.avatar;
 		},
+		setWSUserFacture: (state, action: PayloadAction<{path: string}>) => {
+			// payload has user_avatar
+			state.facture = action.payload.path;
+		},
 		initAccount: () => {
 			return initialState;
 		},
@@ -102,6 +107,7 @@ export const {
 	setEmailChanged,
 	setFbEmailSet,
 	setWSUserAvatar,
+	setWSUserFacture,
 	initAccount,
 } = accountSlice.actions;
 

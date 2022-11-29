@@ -1,7 +1,7 @@
 import { eventChannel } from 'redux-saga';
 import {
 	WSEvent,
-	WSEventType,
+	WSEventType, WSFacture,
 	WSMaintenance, WSNotification,
 	WSOfferPictureType,
 	WSShopAvatar,
@@ -20,7 +20,7 @@ import {
 	WSOfferPicture4Action,
 	WSOfferPicture4ThumbAction,
 } from '../actions/ws/wsActions';
-import { WSNotificationAction } from "../actions/notification/notificationActions";
+import { WSFactureAction, WSNotificationAction } from "../actions/notification/notificationActions";
 
 let ws: WebSocket;
 
@@ -90,6 +90,10 @@ export function initWebsocket(token: string) {
 							const { message } = msg as WSEvent<WSNotification>;
 							const {pk, viewed, type_, created_date, body} = message;
 							return emitter(WSNotificationAction(pk, body, type_, viewed, created_date));
+						} else if (signalType === 'FACTURE_PDF') {
+							const { message } = msg as WSEvent<WSFacture>;
+							const {path} = message;
+							return emitter(WSFactureAction(path));
 						}
 						// switch (SignalType) {
 						// 	case 'NEW_MESSAGE':

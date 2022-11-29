@@ -43,6 +43,7 @@ export interface AccountStateInterface {
 	passwordChanged: boolean;
 	passwordResetCodeSent: boolean;
 	emailChanged: boolean;
+	facture: string | null;
 }
 
 export type AccountPostRegisterResponseType = ResponseDataInterface<InitStateNonNullableToken>;

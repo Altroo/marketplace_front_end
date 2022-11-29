@@ -33,7 +33,7 @@ import ArticlesIndexedSVG from '../../../../public/assets/svgs/dashboardIcons/ma
 import USDBlackSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/usd-black.svg';
 import { getSliderData } from '../../../../utils/rawData';
 import { useAppSelector } from '../../../../utils/hooks';
-import { getAvailableSubscriptions } from '../../../../store/selectors';
+import { getAvailableSubscriptions, getWSFacture } from "../../../../store/selectors";
 import { useDispatch } from 'react-redux';
 import { subscriptionGetAvailableSubscriptionAction } from '../../../../store/actions/subscription/subscriptionActions';
 import {
@@ -329,6 +329,7 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 	const { expiration_date, facture, pourcentage, prix_unitaire_ttc, prix_ttc, used_slots, nbr_article } =
 		props.subscriptionData;
 	const router = useRouter();
+	const wsFacture = useAppSelector(getWSFacture);
 
 	const UpdateClickHandler = () => {
 		router
@@ -432,7 +433,7 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 							<Stack direction="row" alignItems="flex-end" justifyContent="flex-end">
 								<TextAnchorButton
 									buttonText="Voir ma dernière facture"
-									nextPage={facture}
+									nextPage={wsFacture ? wsFacture : facture}
 									target="_blank"
 									rel="noreferrer"
 								/>

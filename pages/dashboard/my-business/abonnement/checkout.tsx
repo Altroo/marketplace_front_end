@@ -467,7 +467,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 											<span>{reductionState ? prixTTCState - reductionState : prixTTCState} DH</span>
 										</Stack>
 									</Stack>
-									<Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
+									<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
 										{formik.errors.globalError && <span className={Styles.errorMessage}>{formik.errors.globalError}</span>}
 										<PrimaryButton
 											buttonText="Payer"
