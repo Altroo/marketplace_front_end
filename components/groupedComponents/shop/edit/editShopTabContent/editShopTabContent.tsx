@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Styles from './editShopTabContent.module.sass';
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
 import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from '@mui/material';
@@ -12,7 +12,7 @@ import Image from 'next/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
 import { useRouter } from 'next/router';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
-import { useAppDispatch } from '../../../../../utils/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import {
 	offerGetAvailableFiltersByShopID,
 	// offerGetLastThreeUsedDeliveriesAction,
@@ -36,6 +36,7 @@ import { REAL_OFFER_ADD_INDEX, REAL_OFFER_ROUTE } from '../../../../../utils/rou
 import LargeBorderIconAnchorButton from '../../../../htmlElements/buttons/largeBorderIconAnchorButton/largeBorderIconAnchorButton';
 import PinInactiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-inactive.svg';
 import { ParsedUrlQueryInput } from 'querystring';
+import { getWsOfferThumbnail } from '../../../../../store/selectors';
 
 type offerLinkedHashMapType = {
 	offersMap: Iterables.LinkedHashMap<number, OfferGetMyOffersProductServiceType> | null;
@@ -84,8 +85,14 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 	const [applyFiltersClicked, setApplyFiltersClicked] = useState<boolean>(false);
 	const [availableFiltersHasData, setAvailableFiltersHasData] = useState<boolean>(false);
 	const [imagesLoading, setImagesLoading] = useState<Array<boolean>>([]);
-
+	const wsThumbnail = useAppSelector(getWsOfferThumbnail);
+	const [lastWSID, setLastWSID] = useState<number | null>(null);
 	useEffect(() => {
+		if (wsThumbnail && (!lastWSID || (lastWSID !== wsThumbnail.pk))) {
+			router.replace(router.asPath).then(() => {
+				setLastWSID(wsThumbnail.pk);
+			});
+		}
 		if (!availableFiltersFetched) {
 			const action = offerGetAvailableFiltersByShopID(shop_pk as number);
 			dispatch({
@@ -139,6 +146,12 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 						}
 						data.results.map((offer) => {
 							map.put(offer.pk, offer);
+							// if (!wsThumbnail) {
+							// } else {
+							// 	if (wsThumbnail.pk === offer.pk) {
+							// 		map.put(offer.pk, { ...offer, thumbnail: wsThumbnail.picture });
+							// 	}
+							// }
 							setImagesLoading((prevState) => {
 								return [...prevState, false];
 							});
@@ -195,11 +208,13 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 		dispatch,
 		filterChanged,
 		firstPageLoaded,
+		lastWSID,
 		loadMoreState,
 		offersLinkedHashMap,
-		router.query,
+		router,
 		setShowMobileFilterButton,
 		shop_pk,
+		wsThumbnail,
 	]);
 
 	// const filterOnChange = (
@@ -323,40 +338,43 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 	// 	});
 	// };
 
-	const togglePinHandler = useCallback((e: React.MouseEvent<HTMLImageElement, MouseEvent>, pk: number) => {
-		e.preventDefault();
-		const action = offerPostPinAction(pk);
-		dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: OfferPinSagaCallBackType) => {
-				if (!error && !cancelled && data) {
-					if (offersLinkedHashMap.offersMap) {
-						const userOfferIndex = offersLinkedHashMap.offersMap
-							.entrySet()
-							.toArray()
-							.findIndex((item) => item.value?.pk === pk);
-						if (userOfferIndex >= 0) {
-							const map = offersLinkedHashMap.offersMap.entrySet().toArray()[userOfferIndex];
-							if (map.value) {
-								map.value.pinned = data.pinned;
-								offersLinkedHashMap.offersMap.put(pk, map.value);
-								offersLinkedHashMap.offersMap
-									.entrySet()
-									.toArray()
-									.sort((a, b) => Number(b.value?.pinned) - Number(a.value?.pinned));
-								setOffersLinkedHashMap(offersLinkedHashMap);
-								router
-									.replace(router.asPath, undefined, {
-										scroll: false,
-									})
-									.then();
+	const togglePinHandler = useCallback(
+		(e: React.MouseEvent<HTMLImageElement, MouseEvent>, pk: number) => {
+			e.preventDefault();
+			const action = offerPostPinAction(pk);
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: OfferPinSagaCallBackType) => {
+					if (!error && !cancelled && data) {
+						if (offersLinkedHashMap.offersMap) {
+							const userOfferIndex = offersLinkedHashMap.offersMap
+								.entrySet()
+								.toArray()
+								.findIndex((item) => item.value?.pk === pk);
+							if (userOfferIndex >= 0) {
+								const map = offersLinkedHashMap.offersMap.entrySet().toArray()[userOfferIndex];
+								if (map.value) {
+									map.value.pinned = data.pinned;
+									offersLinkedHashMap.offersMap.put(pk, map.value);
+									offersLinkedHashMap.offersMap
+										.entrySet()
+										.toArray()
+										.sort((a, b) => Number(b.value?.pinned) - Number(a.value?.pinned));
+									setOffersLinkedHashMap(offersLinkedHashMap);
+									router
+										.replace(router.asPath, undefined, {
+											scroll: false,
+										})
+										.then();
+								}
 							}
 						}
 					}
-				}
-			},
-		});
-	}, [dispatch, offersLinkedHashMap, router]);
+				},
+			});
+		},
+		[dispatch, offersLinkedHashMap, router],
+	);
 
 	return (
 		<>

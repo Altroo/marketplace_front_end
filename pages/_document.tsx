@@ -3,6 +3,8 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 // import {getDefaultTheme} from '../utils/themes';
 import createEmotionCache from '../utils/createEmotionCache';
+import Styles from "../components/layouts/customContainer/customContainer.module.sass";
+import { Container, Box } from "@mui/material";
 
 export default class MyDocument extends Document {
   render() {
@@ -21,7 +23,8 @@ export default class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-          <div id='snackbar_portal' />
+          {/*<div id='snackbar_portal' />*/}
+          <Container fixed id='snackbar_portal' />
           <NextScript />
         </body>
       </Html>

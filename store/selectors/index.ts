@@ -4,7 +4,7 @@ import { IconColorType, InitStateUniqueID, TokenChoices } from "../../types/_ini
 import {
 	OfferGetMyOffersProductServiceType,
 	OfferGetRootProductInterface, OfferGetRootServiceInterface,
-	OfferTagsType
+	OfferTagsType, offerThumbnailWS
 } from "../../types/offer/offerTypes";
 import { CountriesType } from "../../types/places/placesTypes";
 
@@ -90,6 +90,7 @@ export const getWSFacture = (state: RootState) => state.account.facture;
 // Offers
 export const getOfferTags = (state: RootState) => state.offer.selectedTags as OfferTagsType;
 export const getSelectedOffer = (state: RootState) => state.offer.selectedOffer as OfferGetRootProductInterface | OfferGetRootServiceInterface | null;
+export const getWsOfferThumbnail = (state: RootState) => state.offer.offer_thumbnail as offerThumbnailWS | null;
 // Local offers
 // Product
 export const getUserLocalOfferProductEditPK = (state: RootState) => state.offer.userLocalProduct?.pk;

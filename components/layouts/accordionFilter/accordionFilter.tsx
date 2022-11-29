@@ -363,19 +363,19 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 			</AccordionFilterContent>
 		);
 	}
-	let citiesFilter = null;
-	if (available_cities.length > 0) {
-		citiesFilter = (
-			<AccordionFilterContent title="Villes">
-				<AccordionChipContent
-					pickedList={pickedCities}
-					setPickedList={setPickedCities}
-					objectToMap={available_cities}
-					voirTout
-				/>
-			</AccordionFilterContent>
-		);
-	}
+	// let citiesFilter = null;
+	// if (available_cities.length > 0) {
+	// 	citiesFilter = (
+	// 		<AccordionFilterContent title="Villes">
+	// 			<AccordionChipContent
+	// 				pickedList={pickedCities}
+	// 				setPickedList={setPickedCities}
+	// 				objectToMap={available_cities}
+	// 				voirTout
+	// 			/>
+	// 		</AccordionFilterContent>
+	// 	);
+	// }
 
 	return (
 		<ThemeProvider theme={FilterAccordionTheme()}>
@@ -395,7 +395,7 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 						<AccordionSwitchCheck title="Made in Maroc" selected={pickedMaroc} setSelected={setPickedMaroc} />
 					)}
 				</Stack>
-				{citiesFilter}
+				{/*{citiesFilter}*/}
 			</Stack>
 			<Stack direction="column" mt="1rem">
 				<PrimaryButton

@@ -382,6 +382,11 @@ export interface UserLocalServiceType {
 	service_price_by: OfferServicePriceByType | null;
 }
 
+export type offerThumbnailWS = {
+	pk: number,
+	picture: string,
+}
+
 //!- Offer State
 export interface OfferStateInterface {
 	selectedOffer: OfferGetRootProductInterface | OfferGetRootServiceInterface | null;
@@ -390,6 +395,7 @@ export interface OfferStateInterface {
 	userLocalProduct: UserLocalProductType; // kept for product
 	userLocalService: UserLocalServiceType;
 	offerApi: GlobalApiPromiseError;
+	offer_thumbnail: null | offerThumbnailWS;
 }
 
 export type OfferPostRootProductResponseType = ResponseDataInterface<OfferProductInterface>;

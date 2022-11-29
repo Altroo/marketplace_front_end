@@ -299,8 +299,8 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 										error={formik.touched.company && Boolean(formik.errors.company)}
 										fullWidth={false}
 										size="medium"
-										label="Société"
-										placeholder="Société"
+										label="Société (optionnel)"
+										placeholder="Société (optionnel)"
 										theme={inputTheme}
 									/>
 									<CustomTextMaskInput
@@ -313,12 +313,12 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 										error={(formik.touched.ice && !!formik.values.company) && Boolean(formik.errors.ice)}
 										fullWidth={false}
 										size="medium"
-										label="ICE"
-										placeholder="ICE"
+										label="ICE (optionnel)"
+										placeholder="ICE (optionnel)"
 										theme={inputTheme}
 										mask="99999 99999 99999"
 										alwaysShowMask={false}
-										maskPlaceholder=" "
+										maskPlaceholder="_"
 									/>
 								</Stack>
 								<Stack direction="column" spacing="18px" className={Styles.inputsMaxWidth}>

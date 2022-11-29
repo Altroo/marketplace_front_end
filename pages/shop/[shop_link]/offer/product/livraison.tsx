@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './livraison.module.sass';
 import { useRouter } from 'next/router';
@@ -59,6 +59,7 @@ import { Formik, Form } from 'formik';
 import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
 import {
 	emptyOfferDeliveries,
+	emptyOfferDeliveryClickAndCollect,
 	offerPostRootProductAction,
 	offerPutRootProductAction,
 	setOfferDeliveries,
@@ -153,21 +154,24 @@ const Livraison: NextPage = () => {
 	const latitudeRef = useRef<HTMLInputElement>(null);
 	const addressNameRef = useRef<HTMLInputElement>(null);
 
-	const positionHandler = (position: PositionType) => {
-		setPosition((prevState) => {
-			return { ...prevState, lat: position.lat, lng: position.lng };
-		});
-		if (
-			longitudeRef.current !== null &&
-			latitudeRef.current !== null &&
-			addressNameRef.current !== null &&
-			localisationName !== null
-		) {
-			longitudeRef.current.value = position.lng.toString();
-			latitudeRef.current.value = position.lat.toString();
-			addressNameRef.current.value = localisationName;
-		}
-	};
+	const positionHandler = useCallback(
+		(position: PositionType) => {
+			setPosition((prevState) => {
+				return { ...prevState, lat: position.lat, lng: position.lng };
+			});
+			if (
+				longitudeRef.current !== null &&
+				latitudeRef.current !== null &&
+				addressNameRef.current !== null &&
+				localisationName !== null
+			) {
+				longitudeRef.current.value = position.lng.toString();
+				latitudeRef.current.value = position.lat.toString();
+				addressNameRef.current.value = localisationName;
+			}
+		},
+		[localisationName],
+	);
 
 	type ClickAndCollectValues = {
 		longitude: number;
@@ -188,12 +192,15 @@ const Livraison: NextPage = () => {
 		defaultClickAndCollectValues,
 	);
 
-	const editClickCollectHandler = (values: ClickAndCollectValues) => {
-		dispatch(setOfferDeliveryClickAndCollect(values.longitude, values.latitude, values.address_name));
-		setSelectedClickAndCollect(values);
-		setOpenClick(false);
-		setSubmitActive(true);
-	};
+	const editClickCollectHandler = useCallback(
+		(values: ClickAndCollectValues) => {
+			dispatch(setOfferDeliveryClickAndCollect(values.longitude, values.latitude, values.address_name));
+			setSelectedClickAndCollect(values);
+			setOpenClick(false);
+			setSubmitActive(true);
+		},
+		[dispatch],
+	);
 
 	const [isFormOptionOneValid, setIsFormOptionOneValid] = useState<boolean>(false);
 	const [isFormOptionTwoValid, setIsFormOptionTwoValid] = useState<boolean>(false);
@@ -209,7 +216,7 @@ const Livraison: NextPage = () => {
 	const [optionThreeNumber, setOptionThreeNumber] = useState<'2' | '3'>('3');
 	const [showEmptyDeliveriesMessage, setShowEmptyDeliveriesMessage] = useState<boolean>(true);
 
-	const addNewDelivery = () => {
+	const addNewDelivery = useCallback(() => {
 		if (!secondDeliveryState && !thirdDeliveryState) {
 			setSecondDeliveryState(true);
 			setThirdDeliveryState(false);
@@ -224,7 +231,7 @@ const Livraison: NextPage = () => {
 			setSecondDeliveryState(true);
 			setIsFormOptionTwoValid(false);
 		}
-	};
+	}, [secondDeliveryState, thirdDeliveryState]);
 
 	// Option 1
 	const [cities1State, setCities1State] = useState<Array<string>>(deliveryCity1 ? deliveryCity1.split(',') : []);
@@ -271,13 +278,23 @@ const Livraison: NextPage = () => {
 		}
 		if (deliveryCity1 !== null && deliveryCity1 !== undefined && typeof deliveryAllCity1 === 'boolean') {
 			if (deliveryCity1.length > 0 || deliveryAllCity1) {
-				setDeliveriesSwitchOpen(true);
 				setShowEmptyDeliveriesMessage(false);
+				setDeliveriesSwitchOpen(true);
 			}
 		}
 		if (pickedLocalisationName && pickedLongitude && pickedLatitude) {
 			setLocalisationSwitchOpen(true);
 		}
+
+		if (
+			(deliveryCity1 !== null && deliveryCity1.length > 0 && typeof deliveryAllCity1 === 'boolean') ||
+			(selectedClickAndCollect && selectedClickAndCollect.address_name)
+		) {
+			setSubmitActive(true);
+		} else {
+			setSubmitActive(false);
+		}
+
 		if (
 			(cities1State.length > 0 || allCities1State) &&
 			deliveryPrice1State.length > 0 &&
@@ -288,9 +305,9 @@ const Livraison: NextPage = () => {
 			setIsFormOptionOneValid(true);
 		} else {
 			setIsFormOptionOneValid(false);
-			if (!localisationSwitchOpen && selectedClickAndCollect && !selectedClickAndCollect.address_name) {
-				setSubmitActive(false);
-			}
+			// if (!localisationSwitchOpen && selectedClickAndCollect && !selectedClickAndCollect.address_name) {
+			// 	setSubmitActive(false);
+			// }
 		}
 		if (
 			(cities2State.length > 0 || allCities2State) &&
@@ -302,9 +319,9 @@ const Livraison: NextPage = () => {
 			setIsFormOptionTwoValid(true);
 		} else {
 			setIsFormOptionTwoValid(false);
-			if (!localisationSwitchOpen && selectedClickAndCollect && !selectedClickAndCollect.address_name) {
-				setSubmitActive(false);
-			}
+			// if (!localisationSwitchOpen && selectedClickAndCollect && !selectedClickAndCollect.address_name) {
+			// 	setSubmitActive(false);
+			// }
 		}
 		if (
 			(cities3State.length > 0 || allCities3State) &&
@@ -316,9 +333,9 @@ const Livraison: NextPage = () => {
 			setIsFormOptionThreeValid(true);
 		} else {
 			setIsFormOptionThreeValid(false);
-			if (!localisationSwitchOpen && selectedClickAndCollect && !selectedClickAndCollect.address_name) {
-				setSubmitActive(false);
-			}
+			// if (!localisationSwitchOpen && selectedClickAndCollect && !selectedClickAndCollect.address_name) {
+			// 	setSubmitActive(false);
+			// }
 		}
 	}, [
 		allCities1State,
@@ -337,7 +354,6 @@ const Livraison: NextPage = () => {
 		deliveryPrice3State,
 		isApiCallInProgress,
 		localisationName,
-		localisationSwitchOpen,
 		pickedLatitude,
 		pickedLocalisationName,
 		pickedLongitude,
@@ -350,7 +366,7 @@ const Livraison: NextPage = () => {
 		thirdDeliveryState,
 	]);
 
-	const addDeliveriesHandler = () => {
+	const addDeliveriesHandler = useCallback(() => {
 		// Option 1 by default
 		const data = {
 			delivery_city_1: cities1State.join(','),
@@ -399,9 +415,25 @@ const Livraison: NextPage = () => {
 		setShowEmptyDeliveriesMessage(false);
 		setOpenDelivery(false);
 		setSubmitActive(true);
-	};
+	}, [
+		allCities1State,
+		allCities2State,
+		allCities3State,
+		cities1State,
+		cities2State,
+		cities3State,
+		deliveryDays1State,
+		deliveryDays2State,
+		deliveryDays3State,
+		deliveryPrice1State,
+		deliveryPrice2State,
+		deliveryPrice3State,
+		dispatch,
+		secondDeliveryState,
+		thirdDeliveryState,
+	]);
 
-	const handleSubmit = () => {
+	const handleSubmit = useCallback(() => {
 		setIsApiCallInProgress(true);
 		// dispatch create
 		if (!offer_pk) {
@@ -506,21 +538,53 @@ const Livraison: NextPage = () => {
 				},
 			});
 		}
-	};
+	}, [
+		deliveryAllCity1,
+		deliveryAllCity2,
+		deliveryAllCity3,
+		deliveryCity1,
+		deliveryCity2,
+		deliveryCity3,
+		deliveryDays1,
+		deliveryDays2,
+		deliveryDays3,
+		deliveryPrice1,
+		deliveryPrice2,
+		deliveryPrice3,
+		dispatch,
+		offer_pk,
+		pickedAddressName,
+		pickedCategories,
+		pickedColors,
+		pickedCreator,
+		pickedDescription,
+		pickedForWhom,
+		pickedLatitude,
+		pickedLongitude,
+		pickedMadeIn,
+		pickedPictures,
+		pickedPrice,
+		pickedPriceBy,
+		pickedQuantity,
+		pickedSizes,
+		pickedTitle,
+		router,
+	]);
 
-	const emptyClickAndCollect = () => {
+	const emptyClickAndCollect = useCallback(() => {
 		setSelectedClickAndCollect(null);
-		if (
-			!deliveriesSwitchOpen &&
-			cities1State.length === 0 &&
-			deliveryPrice1State.length === 0 &&
-			deliveryDays1State.length === 0
-		) {
-			setSubmitActive(false);
-		}
-	};
+		dispatch(emptyOfferDeliveryClickAndCollect());
+		// if (
+		// 	!deliveriesSwitchOpen &&
+		// 	cities1State.length === 0 &&
+		// 	deliveryPrice1State.length === 0 &&
+		// 	deliveryDays1State.length === 0
+		// ) {
+		// 	setSubmitActive(false);
+		// }
+	}, [dispatch]);
 
-	const emptyDeliveries = () => {
+	const emptyDeliveries = useCallback(() => {
 		setCities1State([]);
 		setAllCities1State(false);
 		setDeliveryPrice1State('');
@@ -539,7 +603,10 @@ const Livraison: NextPage = () => {
 		dispatch(emptyOfferDeliveries('2'));
 		dispatch(emptyOfferDeliveries('3'));
 		setShowEmptyDeliveriesMessage(true);
-	};
+		// if (selectedClickAndCollect && !selectedClickAndCollect.address_name) {
+		// 	setSubmitActive(false);
+		// }
+	}, [dispatch]);
 
 	const defaultTheme = getDefaultTheme();
 
@@ -597,6 +664,19 @@ const Livraison: NextPage = () => {
 											</p>
 										</Stack>
 									</Button>
+									{/*{(selectedClickAndCollect && selectedClickAndCollect.address_name) && !openClick && (*/}
+									{/*	<Box className={Styles.closeButtonWrapper}>*/}
+									{/*		<Image*/}
+									{/*			src={CloseSVG}*/}
+									{/*			alt=""*/}
+									{/*			width="40"*/}
+									{/*			height="40"*/}
+									{/*			sizes="100vw"*/}
+									{/*			onClick={emptyClickAndCollect}*/}
+									{/*			style={{ cursor: 'pointer' }}*/}
+									{/*		/>*/}
+									{/*	</Box>*/}
+									{/*)}*/}
 									<CustomSwipeModal open={openClick} handleClose={() => setOpenClick(false)}>
 										<Stack direction="column" spacing={4} sx={{ height: '100%' }}>
 											<Formik
@@ -731,6 +811,19 @@ const Livraison: NextPage = () => {
 											</div>
 										</Stack>
 									</Button>
+									{/*{(isFormOptionOneValid || isFormOptionTwoValid || isFormOptionThreeValid) && !openDelivery && (*/}
+									{/*	<Box className={Styles.closeButtonWrapper}>*/}
+									{/*		<Image*/}
+									{/*			src={CloseSVG}*/}
+									{/*			alt=""*/}
+									{/*			width="40"*/}
+									{/*			height="40"*/}
+									{/*			sizes="100vw"*/}
+									{/*			onClick={emptyDeliveries}*/}
+									{/*			style={{ cursor: 'pointer' }}*/}
+									{/*		/>*/}
+									{/*	</Box>*/}
+									{/*)}*/}
 									<CustomSwipeModal open={openDelivery} handleClose={() => setOpenDelivery(false)} keepMounted={true}>
 										<Stack direction="column" spacing={2} justifyContent="flex-start">
 											<Stack direction="column" sx={{ height: '100%' }}>
@@ -808,12 +901,7 @@ const Livraison: NextPage = () => {
 							<div className={Styles.primaryButtonWrapper}>
 								<PrimaryButton
 									buttonText={offer_pk ? 'Modifier' : 'Publier'}
-									active={
-										(cities1State.length > 0 && deliveryPrice1State.length > 0 && deliveryDays1State.length > 0) ||
-										(cities2State.length > 0 && deliveryPrice2State.length > 0 && deliveryDays2State.length > 0) ||
-										(cities3State.length > 0 && deliveryPrice3State.length > 0 && deliveryDays3State.length > 0) ||
-										submitActive
-									}
+									active={submitActive}
 									onClick={handleSubmit}
 								/>
 							</div>

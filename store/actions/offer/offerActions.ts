@@ -150,11 +150,11 @@ export const setOfferServiceToEdit = (
 	}
 }
 
-// export const emptyOfferDeliveryClickAndCollect = () => {
-// 	return {
-// 		type: Types.EMPTY_OFFER_DELIVERY_CLICK_AND_COLLECT,
-// 	};
-// };
+export const emptyOfferDeliveryClickAndCollect = () => {
+	return {
+		type: Types.EMPTY_OFFER_DELIVERY_CLICK_AND_COLLECT,
+	};
+};
 
 export const emptyOfferDeliveries = (option: "1" | "2" | "3") => {
 	return {
@@ -225,34 +225,63 @@ export const offerPostRootProductAction = (
 	creator_label?: boolean,
 	made_in_label?: string,
 ) => {
+	let verified_price_2: number | null = null;
+	let verified_days_2: number | null = null;
+	if (delivery_city_2 && delivery_city_2.length > 0) {
+		if (delivery_price_2 && delivery_price_2.length > 0) {
+			verified_price_2 = parseInt(delivery_price_2);
+		} else {
+			verified_price_2 = 0.0;
+		}
+		if (delivery_days_2 && delivery_days_2.length > 0) {
+			verified_days_2 = parseInt(delivery_days_2);
+		} else {
+			verified_days_2 = 1;
+		}
+	}
+	let verified_price_3: number | null = null;
+	let verified_days_3: number | null = null;
+	if (delivery_city_3 && delivery_city_3.length > 0) {
+		if (delivery_price_3 && delivery_price_3.length > 0) {
+			verified_price_3 = parseInt(delivery_price_3);
+		} else {
+			verified_price_3 = 0;
+		}
+		if (delivery_days_3 && delivery_days_3.length > 0) {
+			verified_days_3 = parseInt(delivery_days_3);
+		} else {
+			verified_days_3 = 1;
+		}
+	}
+
 	return {
 		type: Types.OFFER_POST_ROOT,
-		offer_type,
-		offer_categories,
-		title,
-		pictures,
-		description,
-		for_whom,
-		product_colors,
-		product_sizes,
-		product_quantity,
-		price,
-		product_price_by,
-		product_longitude,
-		product_latitude,
-		product_address,
-		delivery_city_1,
-		all_cities_1,
-		delivery_price_1,
-		delivery_days_1,
-		delivery_city_2,
-		all_cities_2,
-		delivery_price_2,
-		delivery_days_2,
-		delivery_city_3,
-		all_cities_3,
-		delivery_price_3,
-		delivery_days_3,
+		offer_type: offer_type,
+		offer_categories: offer_categories,
+		title: title,
+		pictures: pictures,
+		description: description,
+		for_whom: for_whom,
+		product_colors: product_colors,
+		product_sizes: product_sizes,
+		product_quantity: product_quantity,
+		price: price,
+		product_price_by: product_price_by,
+		product_longitude: product_longitude,
+		product_latitude: product_latitude,
+		product_address: product_address,
+		delivery_city_1: delivery_city_1,
+		all_cities_1: all_cities_1,
+		delivery_price_1: delivery_price_1,
+		delivery_days_1: delivery_days_1,
+		delivery_city_2: delivery_city_2,
+		all_cities_2: all_cities_2,
+		delivery_price_2: verified_price_2,
+		delivery_days_2: verified_days_2,
+		delivery_city_3: delivery_city_3,
+		all_cities_3: all_cities_3,
+		delivery_price_3: verified_price_3,
+		delivery_days_3: verified_days_3,
 		// tags,
 		creator_label,
 		made_in_label,
@@ -335,34 +364,63 @@ export const offerPutRootProductAction = (
 	creator_label?: boolean,
 	made_in_label?: string,
 ) => {
+	let verified_price_2: number | null = null;
+	let verified_days_2: number | null = null;
+	if (delivery_city_2 && delivery_city_2.length > 0) {
+		if (delivery_price_2 && delivery_price_2.length > 0) {
+			verified_price_2 = parseInt(delivery_price_2);
+		} else {
+			verified_price_2 = 0.0;
+		}
+		if (delivery_days_2 && delivery_days_2.length > 0) {
+			verified_days_2 = parseInt(delivery_days_2);
+		} else {
+			verified_days_2 = 1;
+		}
+	}
+	let verified_price_3: number | null = null;
+	let verified_days_3: number | null = null;
+	if (delivery_city_3 && delivery_city_3.length > 0) {
+		if (delivery_price_3 && delivery_price_3.length > 0) {
+			verified_price_3 = parseInt(delivery_price_3);
+		} else {
+			verified_price_3 = 0;
+		}
+		if (delivery_days_3 && delivery_days_3.length > 0) {
+			verified_days_3 = parseInt(delivery_days_3);
+		} else {
+			verified_days_3 = 1;
+		}
+	}
+
 	return {
 		type: Types.OFFER_PUT_ROOT,
-		offer_pk,
-		offer_categories,
-		title,
-		pictures,
-		description,
-		for_whom,
-		product_colors,
-		product_sizes,
-		product_quantity,
-		price,
-		product_price_by,
-		product_longitude,
-		product_latitude,
-		product_address,
-		delivery_city_1,
-		all_cities_1,
-		delivery_price_1,
-		delivery_days_1,
-		delivery_city_2,
-		all_cities_2,
-		delivery_price_2,
-		delivery_days_2,
-		delivery_city_3,
-		all_cities_3,
-		delivery_price_3,
-		delivery_days_3,
+		offer_pk: offer_pk,
+		offer_categories: offer_categories,
+		title: title,
+		pictures: pictures,
+		description: description,
+		for_whom: for_whom,
+		product_colors: product_colors,
+		product_sizes: product_sizes,
+		product_quantity: product_quantity,
+		price: price,
+		product_price_by: product_price_by,
+		product_longitude: product_longitude,
+		product_latitude: product_latitude,
+		product_address: product_address,
+		delivery_city_1: delivery_city_1,
+		all_cities_1: all_cities_1,
+		delivery_price_1: delivery_price_1,
+		delivery_days_1: delivery_days_1,
+		delivery_city_2: delivery_city_2,
+		all_cities_2: all_cities_2,
+		delivery_price_2: verified_price_2,
+		delivery_days_2: verified_days_2,
+		delivery_city_3: delivery_city_3,
+		all_cities_3: all_cities_3,
+		delivery_price_3: verified_price_3,
+		delivery_days_3: verified_days_3,
 		// tags,
 		creator_label,
 		made_in_label,

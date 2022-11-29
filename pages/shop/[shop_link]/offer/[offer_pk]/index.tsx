@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Image from 'next/image';
 import Styles from '../../../../../styles/offers/create/overview.module.sass';
-import { Stack, ThemeProvider, ImageListItem, Box, Grid, Skeleton } from '@mui/material';
+import { Stack, ThemeProvider, ImageListItem, Box, Grid, Skeleton, createTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
 	OfferGetRootProductInterface,
@@ -42,11 +42,13 @@ import {
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
 import {
-	customImageModalTheme, customMobileImageModalTheme,
+	customImageModalTheme,
+	customMobileImageModalTheme,
+	CustomTheme,
 	doubleTabNavigationTheme,
 	OfferReadOnlyTheme,
-	SolderPourcentageChipTheme
-} from "../../../../../utils/themes";
+	SolderPourcentageChipTheme,
+} from '../../../../../utils/themes';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -222,6 +224,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const [openSolderModal, setOpenSolderModal] = useState<boolean>(false);
 	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 	const [pinnedIconState, setPinnedIconState] = useState(!pinned ? EpinglerInactiveSVG : EpinglerActiveSVG);
+	const [voirPlus, setVoirPlus] = useState<boolean>(true);
 
 	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
@@ -334,6 +337,11 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 				}
 			}
 		}
+		if (description) {
+			if (description.length > 300) {
+				setVoirPlus(false);
+			}
+		}
 	}, [
 		pinned,
 		deliveries,
@@ -354,6 +362,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		tenPourcentSolder,
 		thirtyPourcentSolder,
 		twentyPourcentSolder,
+		description,
 	]);
 
 	const showThumbnail = (src: string) => {
@@ -723,6 +732,48 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const customTheme = OfferReadOnlyTheme();
 	const navigationTheme = doubleTabNavigationTheme();
 
+	const customThemeButton = CustomTheme('#0274d7');
+	const buttonTheme = createTheme({
+		...customThemeButton,
+		components: {
+			MuiButton: {
+				styleOverrides: {
+					root: {
+						padding: '0px',
+					},
+				},
+			},
+		},
+	});
+
+	const voirPlusHandler = (value: boolean) => {
+		setVoirPlus(value);
+	};
+
+	const VoirPlusMoinButtons = () => {
+		if (description && description.length > 300) {
+			if (voirPlus) {
+				return (
+					<ThemeProvider theme={buttonTheme}>
+						<Button color="primary" className={Styles.seeMoreButton} onClick={() => voirPlusHandler(false)}>
+							voir moin
+						</Button>
+					</ThemeProvider>
+				);
+			} else {
+				return (
+					<ThemeProvider theme={buttonTheme}>
+						<Button color="primary" className={Styles.seeMoreButton} onClick={() => voirPlusHandler(true)}>
+							voir plus
+						</Button>
+					</ThemeProvider>
+				);
+			}
+		} else {
+			return null;
+		}
+	};
+
 	return (
 		<ThemeProvider theme={customTheme}>
 			<Stack direction="column">
@@ -917,9 +968,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											{/*	<Image src={BlackStarSVG} width={20} height={20} alt="" />*/}
 											{/*	<span className={Styles.rating}>0 (0 notes)</span>*/}
 											{/*</Stack>*/}
-											<Link
-												href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
-											>
+											<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}>
 												<span className={Styles.shopName}>{shop_name}</span>
 											</Link>
 										</Stack>
@@ -945,7 +994,16 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 									<Stack direction="column" spacing={2} className={Styles.descriptionWrapper}>
 										<Stack direction="column" spacing={1}>
 											<span className={Styles.descriptionTitle}>Description</span>
-											<p className={Styles.descriptionBody}>{description}</p>
+											<p className={Styles.descriptionBody}>
+												{!voirPlus
+													? description && description.length > 300
+														? description.substring(0, 300).concat('...')
+														: description
+													: description}
+											</p>
+											<Box sx={{ width: 'auto' }}>
+												<VoirPlusMoinButtons />
+											</Box>
 										</Stack>
 										<Stack direction="column" spacing={1}>
 											{colorsListString.length > 0 ? (
@@ -985,7 +1043,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 								</Stack>
 								<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
 									<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-										<PrimaryButton buttonText="Ajouter au panier" active={permission !== 'OWNER'} />
+										<PrimaryButton buttonText="Ajouter au panier" active={false} /> {/* permission !== 'OWNER' */}
 									</div>
 									<Box className={Styles.clickAnddeliveriesWrapper}>
 										<Stack
@@ -1331,7 +1389,6 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	const [clickedImage, setClickedImage] = useState<string | null>(null);
 	const [clickedMobileImage, setClickedMobileImage] = useState<string | null>(null);
 
-
 	const [categoriesListString, setCategoriesListString] = useState<Array<string>>([]);
 	const [forWhomListString, setForWhomListString] = useState<Array<string>>([]);
 	const [newPrice, setNewPrice] = useState<number | null>(null);
@@ -1357,6 +1414,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 	// TODO - missing callbacks & memos (as in products)
 	const [pinnedIconState, setPinnedIconState] = useState(!pinned ? EpinglerInactiveSVG : EpinglerActiveSVG);
+	const [voirPlus, setVoirPlus] = useState<boolean>(true);
 
 	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
@@ -1463,6 +1521,11 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 				}
 			}
 		}
+		if (description) {
+			if (description.length > 300) {
+				setVoirPlus(false);
+			}
+		}
 	}, [
 		pinned,
 		details_offer,
@@ -1482,6 +1545,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		tenPourcentSolder,
 		thirtyPourcentSolder,
 		twentyPourcentSolder,
+		description,
 	]);
 
 	const showThumbnail = (src: string) => {
@@ -1738,6 +1802,49 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 
 	const customTheme = OfferReadOnlyTheme();
 	const navigationTheme = doubleTabNavigationTheme();
+
+	const customThemeButton = CustomTheme('#0274d7');
+	const buttonTheme = createTheme({
+		...customThemeButton,
+		components: {
+			MuiButton: {
+				styleOverrides: {
+					root: {
+						padding: '0px',
+					},
+				},
+			},
+		},
+	});
+
+	const voirPlusHandler = (value: boolean) => {
+		setVoirPlus(value);
+	};
+
+	const VoirPlusMoinButtons = () => {
+		if (description && description.length > 300) {
+			if (voirPlus) {
+				return (
+					<ThemeProvider theme={buttonTheme}>
+						<Button color="primary" className={Styles.seeMoreButton} onClick={() => voirPlusHandler(false)}>
+							voir moin
+						</Button>
+					</ThemeProvider>
+				);
+			} else {
+				return (
+					<ThemeProvider theme={buttonTheme}>
+						<Button color="primary" className={Styles.seeMoreButton} onClick={() => voirPlusHandler(true)}>
+							voir plus
+						</Button>
+					</ThemeProvider>
+				);
+			}
+		} else {
+			return null;
+		}
+	};
+
 	return (
 		<ThemeProvider theme={customTheme}>
 			<Stack direction="column">
@@ -1913,9 +2020,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 											{/*	<Image src={BlackStarSVG} width={20} height={20} alt="" />*/}
 											{/*	<span className={Styles.rating}>0 (0 notes)</span>*/}
 											{/*</Stack>*/}
-											<Link
-												href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}
-											>
+											<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(router.query.shop_link as string)}>
 												<span className={Styles.shopName}>{shop_name}</span>
 											</Link>
 										</Stack>
@@ -1930,7 +2035,16 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 									<Stack direction="column" spacing={2} className={Styles.descriptionWrapper}>
 										<Stack direction="column" spacing={1}>
 											<span className={Styles.descriptionTitle}>Description</span>
-											<p className={Styles.descriptionBody}>{description}</p>
+											<p className={Styles.descriptionBody}>
+												{!voirPlus
+													? description && description.length > 300
+														? description.substring(0, 300).concat('...')
+														: description
+													: description}
+											</p>
+											<Box sx={{ width: 'auto' }}>
+												<VoirPlusMoinButtons />
+											</Box>
 										</Stack>
 										<Stack direction="column" spacing={1}>
 											{availabilityDays.length > 0 ? (
@@ -1975,7 +2089,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 								</Stack>
 								<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
 									<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-										<PrimaryButton buttonText="Ajouter au panier" active={permission !== 'OWNER'} />
+										<PrimaryButton buttonText="Ajouter au panier" active={false} /> {/* permission !== 'OWNER' */}
 									</div>
 									<Box className={Styles.servicesMapWrapper}>
 										<Stack

@@ -1,18 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Styles from './deliveryOptionElements.module.sass';
 import { Box, Stack, ThemeProvider, Button } from '@mui/material';
 import CustomTextInput from '../../../formikElements/customTextInput/customTextInput';
-import {
-	coordonneeTextInputTheme,
-	getDefaultTheme,
-	offerForWhomDropdownTheme,
-	offerTitleTextInputTheme
-} from "../../../../utils/themes";
+import { coordonneeTextInputTheme, getDefaultTheme, offerForWhomDropdownTheme } from '../../../../utils/themes';
 import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
 import { getAvailableCities } from '../../../../store/selectors';
 import { emptyOfferDeliveries } from '../../../../store/actions/offer/offerActions';
-import CustomAutoCompleteMultiSelect
-	from "../../../htmlElements/inputs/customAutoCompleteMultiSelect/customAutoCompleteMultiSelect";
+import CustomAutoCompleteMultiSelect from '../../../htmlElements/inputs/customAutoCompleteMultiSelect/customAutoCompleteMultiSelect';
 
 type Props = {
 	citiesState: Array<string>;
@@ -28,6 +22,10 @@ type Props = {
 	children?: React.ReactNode;
 };
 
+const citiesDropDownTheme = offerForWhomDropdownTheme();
+const priceFieldTheme = coordonneeTextInputTheme();
+const defaultTheme = getDefaultTheme();
+
 const DeliveryOptionElements: React.FC<Props> = (props: Props) => {
 	const dispatch = useAppDispatch();
 	const availableCities: Array<string> = useAppSelector(getAvailableCities);
@@ -41,11 +39,14 @@ const DeliveryOptionElements: React.FC<Props> = (props: Props) => {
 		setDeliveryDaysState,
 	} = props;
 
-	const citiesHandleAutoCompleteChange = (value: Array<string>) => {
-		setCitiesState(value);
-	};
+	const citiesHandleAutoCompleteChange = useCallback(
+		(value: Array<string>) => {
+			setCitiesState(value);
+		},
+		[setCitiesState],
+	);
 
-	const DeleteDeliveryOptionElementHandler = () => {
+	const DeleteDeliveryOptionElementHandler = useCallback(() => {
 		if (props.setNextDeliveryState) {
 			props.setNextDeliveryState(false);
 		}
@@ -54,11 +55,7 @@ const DeliveryOptionElements: React.FC<Props> = (props: Props) => {
 		setDeliveryPriceState('');
 		setDeliveryDaysState('');
 		dispatch(emptyOfferDeliveries(props.option));
-	};
-
-	const citiesDropDownTheme = offerForWhomDropdownTheme();
-	const priceFieldTheme = coordonneeTextInputTheme();
-	const defaultTheme = getDefaultTheme();
+	}, [dispatch, props, setAllCitiesState, setCitiesState, setDeliveryDaysState, setDeliveryPriceState]);
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
@@ -90,31 +87,33 @@ const DeliveryOptionElements: React.FC<Props> = (props: Props) => {
 					{/* PRICE */}
 					<CustomTextInput
 						id={`delivery_price_${props.option}`}
-						label="Prix"
+						label="Prix (en MAD)"
 						value={deliveryPriceState}
 						onChange={(e) => {
-							setDeliveryPriceState(e.target.value);
+							setDeliveryPriceState(parseInt(e.target.value.replace(/\D/g, '') || '0').toString());
 						}}
 						theme={priceFieldTheme}
 						fullWidth={false}
 						size="medium"
-						type="tel"
+						type="text"
 						cssClass={Styles.inputFields}
+						inputProps={{ pattern: '^(?:[1-9][0-9]*|0)$' }}
 					/>
 					<Box sx={{ marginTop: '1rem !important' }}></Box>
 					{/* Days */}
 					<CustomTextInput
 						id={`delivery_days_${props.option}`}
-						label="Délais"
+						label="Délais de livraison (en jours)"
 						onChange={(e) => {
-							setDeliveryDaysState(e.target.value);
+							setDeliveryDaysState(e.target.value.replace(/^0+/, '').replace(/\D/g, ''));
 						}}
 						theme={priceFieldTheme}
 						fullWidth={false}
 						size="medium"
-						type="tel"
+						type="text"
 						cssClass={Styles.inputFields}
 						value={deliveryDaysState}
+						inputProps={{ pattern: '^(?:[1-9][0-9]*|0)$' }}
 					/>
 				</Stack>
 			</form>

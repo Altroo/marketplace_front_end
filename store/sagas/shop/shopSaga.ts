@@ -319,7 +319,6 @@ function* shopPatchBioSaga(payload: {type: string, bio: string | null}) {
 		if (response.status === 200) {
 			// update state
 			yield put(setShopBio({ ...response.data }));
-			console.log('called');
 			return response.data;
 		}
 	}

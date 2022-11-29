@@ -67,7 +67,7 @@ const RadioCheckElement: React.FC<Props> = (props: Props) => {
 						</Grid>
 					</Grid>
 				</Box>
-				<Collapse in={open} mountOnEnter={false}>
+				<Collapse in={open} mountOnEnter={false} sx={{position: 'relative'}}>
 					{props.children}
 				</Collapse>
 			</Stack>

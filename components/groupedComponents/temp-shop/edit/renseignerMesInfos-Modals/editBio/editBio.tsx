@@ -40,7 +40,6 @@ const EditBio: React.FC<Props> = (props: Props) => {
 				...action,
 				onComplete: ({ error, cancelled, data }: SagaCallBackType<ShopBioType>) => {
 					if (!error && !cancelled && data) {
-						console.log('closed');
 						props.handleClose();
 						router.replace(router.asPath).then();
 					}
