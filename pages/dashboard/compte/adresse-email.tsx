@@ -284,7 +284,7 @@ const AdresseEmail: NextPage<IndexProps> = (props: IndexProps) => {
 					)}
 				</Stack>
 				<Portal id="snackbar_portal">
-					<CustomToast type="success" message="Profil mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
+					<CustomToast type="success" message="Email mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
 				</Portal>
 			</main>
 			<CustomFooter />

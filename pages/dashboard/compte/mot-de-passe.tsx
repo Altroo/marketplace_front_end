@@ -262,7 +262,7 @@ const MotDePasse: NextPage<IndexProps> = (props: IndexProps) => {
 					)}
 				</Stack>
 				<Portal id="snackbar_portal">
-					<CustomToast type="success" message="Profil mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
+					<CustomToast type="success" message="Mot de passe mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
 				</Portal>
 			</main>
 			<CustomFooter />
