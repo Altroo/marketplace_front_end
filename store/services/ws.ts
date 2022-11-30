@@ -116,10 +116,10 @@ export function initWebsocket(token: string) {
 					}
 				}; // unsubscribe function
 				ws.onclose = (e: CloseEvent) => {
-					console.log('Socket is closed Unexpectedly. Reconnect will be attempted in 4 second.', e.reason);
+					console.log('Socket is closed Unexpectedly. Reconnect will be attempted in 1 second.', e.reason);
 					setTimeout(() => {
 						createWs();
-					}, 4000);
+					}, 1000);
 				};
 			}
 		}
