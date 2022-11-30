@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from "../../../../utils/helpers";
+import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from '../../../../utils/helpers';
 import {
 	AUTH_LOGIN,
 	DASHBOARD_INDEXED_OFFERS,
@@ -16,7 +16,7 @@ import {
 	SagaCallBackOnCompletePostSubscriptionType,
 	SagaCallBackOnCompleteSubscriptionByNbrArticleType,
 } from '../../../../types/subscription/subscriptionTypes';
-import { Stack, Box, AlertColor } from '@mui/material';
+import { Stack, Box, AlertColor, ButtonGroup, Button, ThemeProvider, InputAdornment, IconButton } from '@mui/material';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import SharedStyles from '../../../../styles/dashboard/dashboard.module.sass';
 import Styles from '../../../../styles/dashboard/subscription.module.sass';
@@ -24,7 +24,12 @@ import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
 import { useFormik } from 'formik';
 import { promoCodeSchema, subscriptionSchema } from '../../../../utils/formValidationSchemas';
 import { getAvailableCountries } from '../../../../store/selectors';
-import { coordonneeTextInputTheme, offerForWhomDropdownTheme, promoCodeTextInputTheme } from '../../../../utils/themes';
+import {
+	coordonneeTextInputTheme,
+	getDefaultTheme,
+	offerForWhomDropdownTheme,
+	promoCodeTextInputTheme,
+} from '../../../../utils/themes';
 import { placesGetCountriesAction } from '../../../../store/actions/places/placesActions';
 import CustomTextInput from '../../../../components/formikElements/customTextInput/customTextInput';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -42,6 +47,11 @@ import {
 	subscriptionPostRootAction,
 } from '../../../../store/actions/subscription/subscriptionActions';
 import { useRouter } from 'next/router';
+import TextField from '@mui/material/TextField';
+import ActiveCheckBlue from '../../../../public/assets/svgs/globalIcons/active-check-blue.svg';
+import Image from 'next/image';
+import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
+import { Check, Close } from '@mui/icons-material';
 
 type PackArticlesCardContentType = {
 	is_subscribed: boolean;
@@ -156,7 +166,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 						} else {
 							setShowPromoCodeMessage('error');
 							setFieldError('promo_code', 'Promo code expirer.');
-							resetForm();
+							// resetForm();
 						}
 					}
 				},
@@ -165,17 +175,30 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 		},
 	});
 
-	const codePromoOnchangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		formikPromoCode.handleChange('promo_code')(e);
-		if (e.target.value.length >= 6) {
-			formikPromoCode.submitForm().then();
-		} else {
-			setNbrArticleState(nbr_article);
-			setPrixTTCState(prix_ttc);
-			setPrixUnitaireTTCState(prix_unitaire_ttc);
-			setPourcentageState(pourcentage);
-			setReductionState(undefined);
-		}
+	// const codePromoOnchangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	formikPromoCode.handleChange('promo_code')(e);
+	// 	if (e.target.value.length >= 6) {
+	// 		formikPromoCode.submitForm().then();
+	// 	} else {
+	// 		setNbrArticleState(nbr_article);
+	// 		setPrixTTCState(prix_ttc);
+	// 		setPrixUnitaireTTCState(prix_unitaire_ttc);
+	// 		setPourcentageState(pourcentage);
+	// 		setReductionState(undefined);
+	// 	}
+	// };
+
+	const codePromoOnClickValidHandler = () => {
+		formikPromoCode.submitForm().then();
+	};
+
+	const codePromoOnClickDeleteHandler = () => {
+		setNbrArticleState(nbr_article);
+		setPrixTTCState(prix_ttc);
+		setPrixUnitaireTTCState(prix_unitaire_ttc);
+		setPourcentageState(pourcentage);
+		setReductionState(undefined);
+		setShowPromoCodeMessage(null);
 	};
 
 	// C = carte | V = virement
@@ -271,10 +294,10 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 		<Stack direction="column">
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${SharedStyles.fixMobile}`}>
-				<form style={{ width: "100%"}} onSubmit={(e) => e.preventDefault()}>
+				<form style={{ width: '100%' }} onSubmit={(e) => e.preventDefault()}>
 					<Stack direction="row" justifyContent="space-between" className={Styles.mobileStack}>
-						<Stack direction="column" spacing="48px" className={Styles.desktopStack} sx={{width: '100%'}}>
-							<Stack direction="column" spacing="30px" sx={{maxWidth: '540px'}}>
+						<Stack direction="column" spacing="48px" className={Styles.desktopStack} sx={{ width: '100%' }}>
+							<Stack direction="column" spacing="30px" sx={{ maxWidth: '540px' }}>
 								{!is_subscribed ? (
 									<h1 className={Styles.hOneHeader}>Let&apos;s finish powering you up</h1>
 								) : (
@@ -310,7 +333,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 										onChange={formik.handleChange('ice')}
 										onBlur={formik.handleBlur('ice')}
 										helperText={formik.touched.ice && formik.values.company ? formik.errors.ice : ''}
-										error={(formik.touched.ice && !!formik.values.company) && Boolean(formik.errors.ice)}
+										error={formik.touched.ice && !!formik.values.company && Boolean(formik.errors.ice)}
 										fullWidth={false}
 										size="medium"
 										label="ICE (optionnel)"
@@ -416,18 +439,66 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 							<Stack direction="column" spacing="55px">
 								<Stack direction="column" spacing="12px">
 									<span className={Styles.rightFieldLabel}>Code promo</span>
-									<CustomTextInput
-										id="promo_code"
-										type="text"
-										value={formikPromoCode.values.promo_code}
-										onChange={(e) => codePromoOnchangeHandler(e)}
-										onBlur={formikPromoCode.handleBlur('promo_code')}
-										helperText={formikPromoCode.touched.promo_code ? formikPromoCode.errors.promo_code : ''}
-										error={formikPromoCode.touched.promo_code && Boolean(formikPromoCode.errors.promo_code)}
-										fullWidth={false}
-										size="medium"
-										theme={promoCodeTheme}
-									/>
+									{/*<CustomTextInput*/}
+									{/*	id="promo_code"*/}
+									{/*	type="text"*/}
+									{/*	value={formikPromoCode.values.promo_code}*/}
+									{/*	onChange={(e) => codePromoOnchangeHandler(e)}*/}
+									{/*	onBlur={formikPromoCode.handleBlur('promo_code')}*/}
+									{/*	helperText={formikPromoCode.touched.promo_code ? formikPromoCode.errors.promo_code : ''}*/}
+									{/*	error={formikPromoCode.touched.promo_code && Boolean(formikPromoCode.errors.promo_code)}*/}
+									{/*	fullWidth={false}*/}
+									{/*	size="medium"*/}
+									{/*	theme={promoCodeTheme}*/}
+									{/*/>*/}
+									<ThemeProvider theme={promoCodeTheme}>
+										<TextField
+											type="text"
+											id="promo_code"
+											value={formikPromoCode.values.promo_code}
+											onChange={formikPromoCode.handleChange('promo_code')}
+											onBlur={formikPromoCode.handleBlur('promo_code')}
+											helperText={(formikPromoCode.touched.promo_code ? formikPromoCode.errors.promo_code : '') || (showPromoCodeMessage && showPromoCodeMessage === 'success' ? 'Promo code appliquer.' : '')}
+											error={formikPromoCode.touched.promo_code && Boolean(formikPromoCode.errors.promo_code)}
+											fullWidth={false}
+											size="medium"
+											color={showPromoCodeMessage && showPromoCodeMessage === 'success' ? 'success' : 'primary'}
+											sx={{
+												'& .MuiFormHelperText-root': {
+													color: `${showPromoCodeMessage && showPromoCodeMessage === 'success' ? 'rgb(129, 199, 132)' : 'rgb(229, 115, 115)'}`
+												}
+											}}
+											InputProps={{
+												endAdornment: (
+													<InputAdornment position="end">
+														<IconButton
+															onClick={() => {
+																codePromoOnClickDeleteHandler();
+																formikPromoCode.handleChange('promo_code')('');
+															}}
+															onMouseDown={(e) => e.preventDefault()}
+															edge="end"
+														>
+															{<Close />}
+														</IconButton>
+														<IconButton
+															onClick={() => {
+																if (!formikPromoCode.values.promo_code){
+																	return;
+																}
+																codePromoOnClickValidHandler();
+															}}
+															onMouseDown={(e) => e.preventDefault()}
+															edge="end"
+														>
+															{<Check />}
+														</IconButton>
+													</InputAdornment>
+												),
+											}}
+										>
+										</TextField>
+									</ThemeProvider>
 								</Stack>
 								<Stack direction="column" spacing="12px" className={Styles.mobilePromoStack}>
 									<span className={Styles.rightFieldLabel}>Paiement par</span>
@@ -468,7 +539,9 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 										</Stack>
 									</Stack>
 									<Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
-										{formik.errors.globalError && <span className={Styles.errorMessage}>{formik.errors.globalError}</span>}
+										{formik.errors.globalError && (
+											<span className={Styles.errorMessage}>{formik.errors.globalError}</span>
+										)}
 										<PrimaryButton
 											buttonText="Payer"
 											active={formik.isValid && !formik.isSubmitting}
@@ -481,16 +554,16 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 						</Box>
 					</Stack>
 				</form>
-				<Portal id="snackbar_portal">
-					{showPromoCodeMessage && (
-						<CustomToast
-							type={showPromoCodeMessage}
-							message={showPromoCodeMessage === 'success' ? 'Promo code appliquer.' : 'Promo code expirer.'}
-							setShow={setShowPromoCodeApplied}
-							show={showPromoCodeApplied}
-						/>
-					)}
-				</Portal>
+				{/*<Portal id="snackbar_portal">*/}
+				{/*	{showPromoCodeMessage && (*/}
+				{/*		<CustomToast*/}
+				{/*			type={showPromoCodeMessage}*/}
+				{/*			message={showPromoCodeMessage === 'success' ? 'Promo code appliquer.' : 'Promo code expirer.'}*/}
+				{/*			setShow={setShowPromoCodeApplied}*/}
+				{/*			show={showPromoCodeApplied}*/}
+				{/*		/>*/}
+				{/*	)}*/}
+				{/*</Portal>*/}
 			</main>
 			<CustomFooter />
 		</Stack>
