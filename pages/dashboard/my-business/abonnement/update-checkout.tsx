@@ -331,7 +331,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 										theme={inputTheme}
 										mask="99999 99999 99999"
 										alwaysShowMask={false}
-										maskPlaceholder=" "
+										maskPlaceholder="_"
 									/>
 								</Stack>
 								<Stack direction="column" spacing="18px" className={Styles.inputsMaxWidth}>
