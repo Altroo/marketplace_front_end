@@ -46,7 +46,7 @@ export const shopAvailabilityDaysSchema = Yup.object().shape({
 });
 
 const rePhoneNumber = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
-const reUrl = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/;
+export const reUrl = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/;
 export const shopCoordonneeSchema = Yup.object().shape({
 	phone: Yup.string().matches(rePhoneNumber, { message: INPUT_PONE }).nullable().notRequired(),
 	contact_email: Yup.string().email(INPUT_EMAIL).nullable().notRequired(),

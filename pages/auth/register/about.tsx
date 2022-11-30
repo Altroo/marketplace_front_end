@@ -15,7 +15,7 @@ import {
 	AccountPostRegisterResponseType,
 } from '../../../types/account/accountTypes';
 import { cookiesDeleter, getApi, postApi } from '../../../store/services/_init/_initAPI';
-import { AUTH_LOGIN, AUTH_REGISTER, DASHBOARD, AUTH_WELCOME } from '../../../utils/routes';
+import { AUTH_LOGIN, AUTH_REGISTER, DASHBOARD, AUTH_WELCOME, SITE_ROOT } from "../../../utils/routes";
 import { getCookie } from 'cookies-next';
 import Styles from '../../../styles/auth/register/about.module.sass';
 import { Stack } from '@mui/material';
@@ -78,13 +78,16 @@ const About: React.FC<Props> = (props: Props) => {
 					await signIn('credentials', {
 						email: newEmail,
 						password: values.password,
-						redirect: false,
+						redirect: true,
+						callbackUrl: AUTH_WELCOME,
 					}).then(async () => {
 						// delete new email cookie so it'll be used else where.
-						await cookiesDeleter('/cookies', { new_email: 0 });
-						await router.replace(AUTH_WELCOME).then(() => {
+						cookiesDeleter('/cookies', { new_email: 0 }).then(() => {
 							setIsApiCallInProgress(false);
 						});
+						// await router.replace(AUTH_WELCOME).then(() => {
+						//
+						// });
 					});
 				}
 			} catch (e) {
