@@ -63,7 +63,7 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
 				if (!error && !cancelled && data) {
 					setLoading(false);
-					setToastMessage('code envoyer.');
+					setToastMessage('code envoyé.');
 					setShowDataUpdated(true);
 				}
 			},

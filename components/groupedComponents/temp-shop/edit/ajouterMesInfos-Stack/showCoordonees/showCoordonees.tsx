@@ -19,7 +19,7 @@ const ShowCoordonees: React.FC = () => {
 
 	return (
 		<Stack direction="column" justifyContent="space-between" alignContent="space-between" spacing={2}>
-			{phone ? (
+			{phone && (
 				<Stack direction="row" spacing={2}>
 					<Image
 								src={PhoneOutlinedSVG}
@@ -32,8 +32,8 @@ const ShowCoordonees: React.FC = () => {
 						{phone}
 					</Link>
 				</Stack>
-			) : null}
-			{contact_email ? (
+			)}
+			{contact_email && (
 				<>
 					<Stack direction="row" spacing={2}>
 						<Image
@@ -51,8 +51,8 @@ const ShowCoordonees: React.FC = () => {
 					</Stack>
 					<Divider orientation="horizontal" flexItem />
 				</>
-			) : null}
-			{website_link ? (
+			)}
+			{website_link && (
 				<>
 					<Stack direction="row" spacing={2}>
 						<Image
@@ -70,10 +70,10 @@ const ShowCoordonees: React.FC = () => {
 					</Stack>
 					<Divider orientation="horizontal" flexItem />
 				</>
-			) : null}
+			)}
 
 			<Stack direction="row" className={Styles.rootStackLink}>
-				{facebook_link ? (
+				{facebook_link && (
 					<Link href={facebook_link} target="_blank" rel="noreferrer" className={Styles.link}>
 						<Image
 							src={FacebookCircularSVG}
@@ -83,8 +83,8 @@ const ShowCoordonees: React.FC = () => {
 							sizes="100vw"
 						/>
 					</Link>
-				) : null}
-				{twitter_link ? (
+				)}
+				{twitter_link && (
 					<Link href={twitter_link} target="_blank" rel="noreferrer" className={Styles.link}>
 						<Image
 							src={TwitterCircularSVG}
@@ -94,8 +94,8 @@ const ShowCoordonees: React.FC = () => {
 							sizes="100vw"
 						/>
 					</Link>
-				) : null}
-				{instagram_link ? (
+				)}
+				{instagram_link && (
 					<Link href={instagram_link} target="_blank" rel="noreferrer" className={Styles.link}>
 						<Image
 							src={InstagramCircularSVG}
@@ -105,10 +105,10 @@ const ShowCoordonees: React.FC = () => {
 							sizes="100vw"
 						/>
 					</Link>
-				) : null}
-				{whatsapp ? (
+				)}
+				{whatsapp && (
 					<Link
-						href={`https://web.whatsapp.com/send?phone=${whatsapp}`}
+						href={`https://api.whatsapp.com/send?phone=${whatsapp.replaceAll('+', '').replaceAll(' ', '')}`}
 						target="_blank"
 						rel="noreferrer" className={Styles.link}>
 						<Image
@@ -119,7 +119,7 @@ const ShowCoordonees: React.FC = () => {
 							sizes="100vw"
 						/>
 					</Link>
-				) : null}
+				)}
 			</Stack>
 		</Stack>
 	);

@@ -994,9 +994,9 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 
 	useEffect(() => {
 		// set icon colors
-		if (contact_mode === 'W') {
+		if (contact_mode === 'W' && contact_whatsapp_code && contact_whatsapp) {
 			setContactModeState('W');
-			setContacterLink('https://web.whatsapp.com/send?phone=' + contact_whatsapp_code + contact_whatsapp);
+			setContacterLink('https://api.whatsapp.com/send?phone=' + contact_whatsapp_code.replaceAll('+', '') + contact_whatsapp.replaceAll(' ', ''));
 			if (icon_color === 'white') {
 				// setMessageIcon(MessageIconWhiteSVG);
 				setContactIcon(WhatsaappIconWhiteSVG);
@@ -1094,6 +1094,9 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 						{/*	active={true}*/}
 						{/*	cssClass={Styles.iconButton}*/}
 						{/*/>*/}
+						{/*
+								 target="_blank" rel="noreferrer"
+								 */}
 						{(contactModeState === 'P' || contactModeState === 'W') && contactIcon ? (
 							<IconAnchorButton
 								buttonText="Contacter"

@@ -79,7 +79,7 @@ const ReadCoordonees: React.FC<Props> = (props: Props) => {
 					</Link>
 				) : null}
 				{whatsapp ? (
-					<Link href={`https://web.whatsapp.com/send?phone=${whatsapp}`} target="_blank" rel="noreferrer" className={Styles.link}>
+					<Link href={`https://api.whatsapp.com/send?phone=${whatsapp.replaceAll('+', '').replaceAll(' ', '')}`} target="_blank" rel="noreferrer" className={Styles.link}>
 						<Image src={WhatsappCircularSVG} width={40} height={40} alt="" />
 					</Link>
 				) : null}

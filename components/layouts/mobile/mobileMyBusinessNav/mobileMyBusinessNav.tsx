@@ -80,8 +80,8 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 			className={Styles.sideBar}
 			spacing={4}
 			sx={{
-				paddingLeft: `${addMobilePadding ? '24px !important' : '0px !important'}`,
-				paddingRight: `${addMobilePadding ? '24px !important' : '0px !important'}`,
+				paddingLeft: `${addMobilePadding ? '24px !important' : '0px'}`,
+				paddingRight: `${addMobilePadding ? '24px !important' : '0px'}`,
 			}}
 		>
 			{props.backText && (

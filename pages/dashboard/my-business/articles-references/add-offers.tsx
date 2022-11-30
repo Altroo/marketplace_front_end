@@ -528,7 +528,7 @@ const ReferencerDesArticles: NextPage<ReferencerDesArticlesProps> = (props: Refe
 					)}
 				</Stack>
 				<Portal id="snackbar_portal">
-					<CustomToast type="success" message="Article(s) référencer." setShow={setShowToast} show={showToast} />
+					<CustomToast type="success" message="Article(s) référencés." setShow={setShowToast} show={showToast} />
 				</Portal>
 			</main>
 			<CustomFooter />

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import Styles from './shopInfoTabContent.module.sass';
-import { Box, Stack } from '@mui/material';
+import { Box, Button, createTheme, Stack, ThemeProvider } from "@mui/material";
 import { ShopInfoDataType } from '../../../../../pages/shop/[shop_link]';
 import ReadShopHoraire from './readShopHoraire/readShopHoraire';
 import ReadCoordonees from './readCoordonees/readCoordonees';
 import ReadAdresse from './readAdresse/readAdresse';
+import { CustomTheme } from "../../../../../utils/themes";
 
 type Props = {
 	shopInfoData: ShopInfoDataType;
@@ -33,6 +34,63 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 		whatsapp,
 		opening_days,
 	} = props.shopInfoData;
+
+	const [shopBio, setShopBio] = useState<string | null>(null);
+	const shopBioMaxLength = 90;
+	const [voirPlus, setVoirPlus] = useState<boolean>(true);
+
+	useEffect(() => {
+		if (bio) {
+			setShopBio(bio);
+			if (bio.length > shopBioMaxLength) {
+				setVoirPlus(false);
+			}
+		}
+	}, [bio]);
+
+	const blueColor = '#0274d7';
+	const customTheme = CustomTheme(blueColor);
+
+	const buttonTheme = createTheme({
+		...customTheme,
+		components: {
+			MuiButton: {
+				styleOverrides: {
+					root: {
+						padding: '0px',
+					},
+				},
+			},
+		},
+	});
+
+	const voirPlusHandler = (value: boolean) => {
+		setVoirPlus(value);
+	};
+
+	const VoirPlusMoinButtons = () => {
+		if (bio && bio.length > shopBioMaxLength) {
+			if (voirPlus) {
+				return (
+					<ThemeProvider theme={buttonTheme}>
+						<Button color="primary" className={Styles.button} onClick={() => voirPlusHandler(false)}>
+							voir moin
+						</Button>
+					</ThemeProvider>
+				);
+			} else {
+				return (
+					<ThemeProvider theme={buttonTheme}>
+						<Button color="primary" className={Styles.button} onClick={() => voirPlusHandler(true)}>
+							voir plus
+						</Button>
+					</ThemeProvider>
+				);
+			}
+		} else {
+			return null;
+		}
+	};
 
 	return (
 		<>
@@ -110,10 +168,19 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 								Bio
 							</Box>
 						</Stack>
-						{bio && bio.length > 0 ? (
+						{shopBio && shopBio.length > 0 ? (
 							<Stack direction="column" spacing={2} sx={{ wordWrap: 'break-word' }}>
-								<span className={Styles.spanParagraphe}>{bio}</span>
-							</Stack>
+								<span className={Styles.spanParagraphe}>
+									{!voirPlus
+										? shopBio && shopBio.length > shopBioMaxLength
+											? shopBio.substring(0, shopBioMaxLength).concat('...')
+											: shopBio
+										: shopBio}
+								</span>
+							<Box sx={{ width: 'auto' }}>
+								<VoirPlusMoinButtons />
+							</Box>
+						</Stack>
 						) : (
 							<span className={Styles.infoNotFound}>{shop_name} n&apos;a pas encore renseigné sa bio</span>
 						)}

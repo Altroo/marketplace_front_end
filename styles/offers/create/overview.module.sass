@@ -10,6 +10,8 @@
   height: 100%
   padding: 2rem 60px 60px 60px
   width: 100%
+.removeTopMargin
+  margin-top: 0 !important
 .seeMoreButton
   +Regular
   font-size: 15px
@@ -28,7 +30,7 @@
   gap: 8px
   grid-gap: 8px
 .pageWrapper
-  margin-top: 4rem
+  margin-top: 2rem
   //min-height: 70vh
 .thumbnails
   object-fit: cover
@@ -104,10 +106,10 @@
 .title
   +SemiBold
   font-size: 32px
-  margin-top: 0
   margin-bottom: 0
   color: $primary
   word-wrap: anywhere
+  margin-top: -10px
 .rating
   +Regular
   font-size: 15px
@@ -268,6 +270,8 @@
 .primaryButton
   margin-top: 2rem
 @media #{$tablette}
+  .title
+    margin-top: 10px !important
   .creatorBannerWrapper
     padding: 2rem
   .priceInputField
@@ -313,6 +317,7 @@
     flex-direction: column !important
   .primaryButtonWrapper
     width: 356px
+    max-width: 100%
 @media #{$mobile}
   .mainImageWrapper
     height: 200px !important

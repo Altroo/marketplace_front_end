@@ -38,7 +38,7 @@ const IconAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref
 
 	return props.nextPage ? (
 		<ThemeProvider theme={customTheme}>
-		<Link href={props.nextPage} ref={ref}>
+		<Link href={props.nextPage} ref={ref} target="_blank" rel="noreferrer">
 			<Button
 				color="primary"
 				disabled={!props.active}
@@ -53,14 +53,15 @@ const IconAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref
 		</Link>
 		</ThemeProvider>
 	) : (
-		<button
+		<Button
+			color="primary"
 			className={`${Styles.iconButton} ${props.active ? Styles.active : ''} 
 			${props.cssClass && props.cssClass}`}
 			disabled={!props.active}
 			style={{...cssStyle}}>
 			<Image src={props.svgIcon} width={20} height={20} alt="" className={Styles.icon} />
 			{props.buttonText}
-		</button>
+		</Button>
 	);
 });
 IconAnchorButton.displayName = 'IconButton';

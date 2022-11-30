@@ -790,7 +790,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 							/>
 						</Stack>
 					)}
-					<Box className={Styles.pageWrapper}>
+					<Box className={`${Styles.pageWrapper} ${permission === 'NOT_OWNER' && Styles.removeTopMargin}`}>
 						<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
 							{/* DESKTOP Only */}
 							<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }} className={Styles.desktopOnly}>
@@ -1861,7 +1861,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 							/>
 						</Stack>
 					)}
-					<Box className={Styles.pageWrapper}>
+					<Box className={`${Styles.pageWrapper} ${permission === 'NOT_OWNER' && Styles.removeTopMargin}`}>
 						<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
 							{/* DESKTOP Only */}
 							<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }} className={Styles.desktopOnly}>

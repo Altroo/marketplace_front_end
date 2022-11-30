@@ -20,7 +20,7 @@ import {
 	DASHBOARD_SUBSCRIPTION,
 	NOT_FOUND_404,
 } from '../../../../utils/routes';
-import { Stack, Box, Button, IconButton, Divider, Checkbox, ThemeProvider, Skeleton } from "@mui/material";
+import { Stack, Box, Button, IconButton, Divider, Checkbox, ThemeProvider, Skeleton } from '@mui/material';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import DesktopMyBusinessSideNav from '../../../../components/layouts/desktop/desktopMyBusinessSideNav/desktopMyBusinessSideNav';
 import Image from 'next/image';
@@ -54,8 +54,9 @@ import {
 } from '../../../../store/actions/subscription/subscriptionActions';
 import ApiProgress from '../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import SeoAnchorWrapper from '../../../../components/htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
-import CustomToast from "../../../../components/portals/customToast/customToast";
-import Portal from "../../../../contexts/Portal";
+import CustomToast from '../../../../components/portals/customToast/customToast';
+import Portal from '../../../../contexts/Portal';
+import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 
 type EmptyIndexedContentType = {
 	all_slots_count: number;
@@ -80,6 +81,8 @@ const IndexedArticlesCountBox: React.FC<EmptyIndexedContentType> = (props: Empty
 
 const EmptyIndexedContent: React.FC<EmptyIndexedContentType> = (props: EmptyIndexedContentType) => {
 	const { all_slots_count, indexed_articles_count } = props;
+	const router = useRouter();
+
 	return (
 		<Stack direction="column" spacing="32px" className={SharedStyles.dashboardRightContentMarginLeft}>
 			<Stack direction="column">
@@ -127,11 +130,23 @@ const EmptyIndexedContent: React.FC<EmptyIndexedContentType> = (props: EmptyInde
 					</Stack>
 				</Box>
 				<Box className={Styles.emptyIndexedPrimaryButtonBox}>
-					<PrimaryAnchorButton
+					<PrimaryButton
 						buttonText="S'abonner"
 						active={true}
-						nextPage={DASHBOARD_SUBSCRIPTION}
 						cssClass={Styles.emptyIndexedPrimaryButton}
+						onClick={() => {
+							router
+								.push(
+									{
+										query: {
+											direct: true,
+										},
+										pathname: DASHBOARD_SUBSCRIPTION,
+									},
+									DASHBOARD_SUBSCRIPTION,
+								)
+								.then();
+						}}
 					/>
 				</Box>
 			</Stack>
@@ -142,14 +157,23 @@ const EmptyIndexedContent: React.FC<EmptyIndexedContentType> = (props: EmptyInde
 const BlueAddButton = () => {
 	const router = useRouter();
 	return (
-		<Button color="primary" className={Styles.indexedArticlesAddActionButton} onClick={() => {
-			router.replace({
-				query: {
-					direct: true,
-				},
-				pathname: DASHBOARD_ADD_INDEX_OFFERS,
-			}, DASHBOARD_ADD_INDEX_OFFERS).then();
-		}}>
+		<Button
+			color="primary"
+			className={Styles.indexedArticlesAddActionButton}
+			onClick={() => {
+				router
+					.replace(
+						{
+							query: {
+								direct: true,
+							},
+							pathname: DASHBOARD_ADD_INDEX_OFFERS,
+						},
+						DASHBOARD_ADD_INDEX_OFFERS,
+					)
+					.then();
+			}}
+		>
 			<Stack direction="row" spacing="9px" alignItems="center">
 				<Image src={AddWhiteSVG} width="14" height="14" sizes="100vw" alt="" />
 				<span>Ajouter</span>
@@ -703,8 +727,8 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 					</>
 				)}
 				<Portal id="snackbar_portal">
-          <CustomToast type="success" message="Article(s) retirer." setShow={setShowToast} show={showToast}/>
-        </Portal>
+					<CustomToast type="success" message="Article(s) retirés." setShow={setShowToast} show={showToast} />
+				</Portal>
 			</main>
 			<CustomFooter />
 		</Stack>

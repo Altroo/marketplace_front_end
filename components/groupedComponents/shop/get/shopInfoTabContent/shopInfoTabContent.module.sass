@@ -23,14 +23,18 @@
 .leftSideWrapper
   height: 100%
   width: 30%
+.button
+  +Regular
+  font-size: 15px
+  color: $blue
+  text-transform: none
 // @media #{}
 @media #{$tablette}
   .BothSidesWrapper
-    flex-direction: column
+    flex-direction: column-reverse
   .rightSideWrapper
     width: 100%
-    margin: 0 !important
-    margin-top: 8px !important
+    margin: 0 0 32px 0 !important
   .leftSideWrapper
     width: 100%
 // @media #{}
