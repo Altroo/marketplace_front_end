@@ -24,11 +24,11 @@ export const accountPostResendActivationAction = (email: string) => {
 	};
 };
 
-export const accountPostPasswordChangeAction = (old_password: string, new_password1: string, new_password2: string) => {
+export const accountPostPasswordChangeAction = (old_password: string, new_password: string, new_password2: string) => {
 	return {
 		type: types.ACCOUNT_POST_PASSWORD_CHANGE,
 		old_password,
-		new_password1,
+		new_password,
 		new_password2,
 	};
 };

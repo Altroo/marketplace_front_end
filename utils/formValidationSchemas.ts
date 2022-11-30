@@ -182,7 +182,7 @@ export const changeEmailWithPasswordSchema = Yup.object().shape({
 
 export const changePasswordSchema = Yup.object().shape({
 	old_password: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
-	new_password1: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
+	new_password: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
 	new_password2: Yup.string().min(8, INPUT_PASSWORD_MIN(8)).required(INPUT_REQUIRED),
 });
 

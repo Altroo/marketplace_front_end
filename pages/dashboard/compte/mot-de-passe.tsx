@@ -37,13 +37,17 @@ const FormikContenChangePassword: React.FC<formikContentType> = (props: formikCo
 	const formik = useFormik({
 		initialValues: {
 			old_password: '',
-			new_password1: '',
+			new_password: '',
 			new_password2: '',
 		},
 		validateOnMount: true,
 		validationSchema: changePasswordSchema,
 		onSubmit: async (values, { setSubmitting, setFieldError, resetForm }) => {
-			const action = accountPostPasswordChangeAction(values.old_password, values.new_password1, values.new_password2);
+			const action = accountPostPasswordChangeAction(
+				values.old_password,
+				values.new_password,
+				values.new_password2
+			);
 			dispatch({
 				...action,
 				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
@@ -83,12 +87,12 @@ const FormikContenChangePassword: React.FC<formikContentType> = (props: formikCo
 						theme={inputTheme}
 					/>
 					<CustomPasswordInput
-						id="new_password1"
-						value={formik.values.new_password1}
-						onChange={formik.handleChange('new_password1')}
-						onBlur={formik.handleBlur('new_password1')}
-						helperText={formik.touched.new_password1 ? formik.errors.new_password1 : ''}
-						error={formik.touched.new_password1 && Boolean(formik.errors.new_password1)}
+						id="new_password"
+						value={formik.values.new_password}
+						onChange={formik.handleChange('new_password')}
+						onBlur={formik.handleBlur('new_password')}
+						helperText={formik.touched.new_password ? formik.errors.new_password : ''}
+						error={formik.touched.new_password && Boolean(formik.errors.new_password)}
 						fullWidth={false}
 						size="medium"
 						label="Nouveau mot de passe"

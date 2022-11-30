@@ -12,7 +12,7 @@ import {
 	initialState,
 	setInitState,
 } from '../store/slices/_init/_initSlice';
-import { cookiesPoster, tokenRefreshApi } from "../store/services/_init/_initAPI";
+import { cookiesPoster, tokenRefreshApi } from '../store/services/_init/_initAPI';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store/store';
 import { GetServerSidePropsContext } from 'next';
@@ -71,7 +71,7 @@ export const isAuthenticatedInstance = (
 				}
 				if (error.response.status === 401 && !retry) {
 					if (typeof window !== 'undefined') {
-							await localStorage.setItem('@retry', '1');
+						await localStorage.setItem('@retry', '1');
 					}
 					try {
 						// trying to refresh access token using refresh token
@@ -103,20 +103,27 @@ export const isAuthenticatedInstance = (
 								await localStorage.setItem('@retry', '0');
 							}
 							return instance(error.config);
+						} else {
+							return Promise.reject(error);
 						}
 					} catch (_error) {
 						return Promise.reject(_error);
 					}
+				} else {
+					// api error not related to access token
+					const errorObj = {
+						error: error.response.data.error as ApiErrorResponseType, // for custom api errors
+					};
+					return Promise.reject(errorObj);
 				}
 			}
+			return Promise.reject(error);
 		},
 	);
 	return instance;
 };
 
-export const allowAnyInstance = (
-	contentType: APIContentTypeInterface = 'application/json',
-) => {
+export const allowAnyInstance = (contentType: APIContentTypeInterface = 'application/json') => {
 	const instance: AxiosInstance = axios.create({
 		baseURL: `${process.env.NEXT_PUBLIC_ROOT_API_URL}`,
 		headers: {
@@ -142,7 +149,7 @@ export const allowAnyInstance = (
 					};
 				} else {
 					errorObj = {
-						error: error.response.data.error as ApiErrorResponseType,
+						error: error.response.data.error as ApiErrorResponseType, // for custom api errors
 					};
 				}
 				return Promise.reject(errorObj);
@@ -191,7 +198,7 @@ export const defaultInstance = (BaseUrl: string, contentType: APIContentTypeInte
 					};
 				} else {
 					errorObj = {
-						error: error.response.data.error as ApiErrorResponseType,
+						error: error.response.data.error as ApiErrorResponseType, // for custom api errors
 					};
 				}
 				return Promise.reject(errorObj);
@@ -357,4 +364,4 @@ export const generatePageQueryParams = (nextPage?: string) => {
 		pageNumber = nextPage;
 	}
 	return `?page=${pageNumber}`;
-}
+};

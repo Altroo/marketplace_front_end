@@ -27,6 +27,7 @@ import {
 	ResponseOnlyInterface,
 } from "../../../types/_init/_initTypes";
 import {
+	AccountChangePasswordResponseType,
 	AccountGetCheckAccountResponseType,
 	AccountPatchProfilResponseType,
 	AccountPatchProfilType,
@@ -97,9 +98,8 @@ function* accountPostPasswordChangeSaga(payload: { type: string; old_password: s
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PASSWORD_CHANGE}`;
 	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { type, ...payloadData } = payload;
-		const response: ResponseOnlyInterface = yield call(() => postApi(url, authInstance, payloadData));
+		const response: ResponseOnlyInterface = yield call(() => putApi(url, authInstance, payloadData));
 		if (response.status === 204) {
 			yield put(setPasswordChanged(true));
 			return true;
