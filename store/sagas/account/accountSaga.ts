@@ -27,7 +27,6 @@ import {
 	ResponseOnlyInterface,
 } from "../../../types/_init/_initTypes";
 import {
-	AccountChangePasswordResponseType,
 	AccountGetCheckAccountResponseType,
 	AccountPatchProfilResponseType,
 	AccountPatchProfilType,
