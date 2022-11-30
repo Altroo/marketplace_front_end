@@ -7,7 +7,7 @@ import {
 	OfferProductLocalisation,
 	OfferServiceLocalisation,
 	OfferStateInterface,
-	OfferTagsType, offerThumbnailWS
+	OfferTagsType, WSThumbnailType
 } from "../../../types/offer/offerTypes";
 import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
 import { apiErrorInitialState } from '../_init/_initSlice';
@@ -133,7 +133,7 @@ const OfferSlice = createSlice({
 			state.offer_thumbnail = {
 				pk: offer_pk,
 				picture: offer_picture,
-			} as offerThumbnailWS;
+			} as WSThumbnailType;
 		},
 		setWSOfferThumbnail1: (state, action: PayloadAction<{ offer_pk: number; offer_picture: string }>) => {
 			const { offer_pk, offer_picture } = action.payload;

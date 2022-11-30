@@ -382,7 +382,7 @@ export interface UserLocalServiceType {
 	service_price_by: OfferServicePriceByType | null;
 }
 
-export type offerThumbnailWS = {
+export type WSThumbnailType = {
 	pk: number,
 	picture: string,
 }
@@ -395,7 +395,7 @@ export interface OfferStateInterface {
 	userLocalProduct: UserLocalProductType; // kept for product
 	userLocalService: UserLocalServiceType;
 	offerApi: GlobalApiPromiseError;
-	offer_thumbnail: null | offerThumbnailWS;
+	offer_thumbnail: null | WSThumbnailType;
 }
 
 export type OfferPostRootProductResponseType = ResponseDataInterface<OfferProductInterface>;

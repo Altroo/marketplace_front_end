@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './index.module.sass';
 import { useRouter } from 'next/router';
-import { useAppDispatch } from '../../../utils/hooks';
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import ShopInfoTabs from '../../../components/htmlElements/tabs/tab';
 // import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
@@ -71,6 +71,7 @@ import EditShopInfoTabContent from '../../../components/groupedComponents/shop/e
 import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
 import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
+import { getShopWSAvatar } from "../../../store/selectors";
 
 export type ShopInfoDataType = {
 	shop_name: string;
@@ -105,6 +106,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const { created, shop_link } = router.query;
 	const [modalDismissed, setModalDismissed] = useState(false);
 	const dispatch = useAppDispatch();
+	const shopWSAvatar = useAppSelector(getShopWSAvatar);
 	const { data } = props;
 	const pk = data.pk;
 	const is_subscribed = data.is_subscribed;
@@ -424,21 +426,10 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 		if (contact_phone_code) {
 			setPhoneCode(contact_phone_code);
 		}
-	}, [
-		avatar,
-		bg_color_code,
-		border,
-		color_code,
-		contactModeState,
-		contact_phone,
-		contact_phone_code,
-		contact_whatsapp,
-		contact_whatsapp_code,
-		font_name,
-		icon_color,
-		setPhoneSwitchHandler,
-		setWhatsappSwitchHandler,
-	]);
+		if (shopWSAvatar) {
+			setPreview(shopWSAvatar);
+		}
+	}, [avatar, bg_color_code, border, color_code, contactModeState, contact_phone, contact_phone_code, contact_whatsapp, contact_whatsapp_code, font_name, icon_color, setPhoneSwitchHandler, setWhatsappSwitchHandler, shopWSAvatar]);
 
 	const contacterSaveHandler = useCallback(() => {
 		if (phoneSwitch) {

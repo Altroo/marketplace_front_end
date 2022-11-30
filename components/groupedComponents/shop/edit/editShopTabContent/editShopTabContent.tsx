@@ -84,14 +84,12 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 	const [availableFilters, setAvailableFilters] = useState<OfferGetAvailableShopFiltersType>(availableFiltersInit);
 	const [applyFiltersClicked, setApplyFiltersClicked] = useState<boolean>(false);
 	const [availableFiltersHasData, setAvailableFiltersHasData] = useState<boolean>(false);
-	const [imagesLoading, setImagesLoading] = useState<Array<boolean>>([]);
 	const wsThumbnail = useAppSelector(getWsOfferThumbnail);
 	const [lastWSID, setLastWSID] = useState<number | null>(null);
+
 	useEffect(() => {
-		if (wsThumbnail && (!lastWSID || (lastWSID !== wsThumbnail.pk))) {
-			router.replace(router.asPath).then(() => {
-				setLastWSID(wsThumbnail.pk);
-			});
+		if (wsThumbnail && (!lastWSID || lastWSID !== wsThumbnail.pk)) {
+			setLastWSID(wsThumbnail.pk);
 		}
 		if (!availableFiltersFetched) {
 			const action = offerGetAvailableFiltersByShopID(shop_pk as number);
@@ -146,15 +144,6 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 						}
 						data.results.map((offer) => {
 							map.put(offer.pk, offer);
-							// if (!wsThumbnail) {
-							// } else {
-							// 	if (wsThumbnail.pk === offer.pk) {
-							// 		map.put(offer.pk, { ...offer, thumbnail: wsThumbnail.picture });
-							// 	}
-							// }
-							setImagesLoading((prevState) => {
-								return [...prevState, false];
-							});
 						});
 						const result = {
 							offersMap: map,
@@ -211,49 +200,11 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 		lastWSID,
 		loadMoreState,
 		offersLinkedHashMap,
-		router,
+		router.query,
 		setShowMobileFilterButton,
 		shop_pk,
 		wsThumbnail,
 	]);
-
-	// const filterOnChange = (
-	// 	e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
-	// 	value: string,
-	// ) => {
-	// 	setFilter(value as 'D' | 'C');
-	// 	// default prix decroissant.
-	// 	// -price = D
-	// 	// price = T
-	// 	const queryParams: ParsedUrlQueryInput = {
-	// 		// shop_link: router.query.shop_link,
-	// 		// sort_by: '-price',
-	// 		...router.query,
-	// 	};
-	// 	const options = { shallow: true, scroll: false };
-	//
-	// 	if (router.query.page) {
-	// 		if (value === 'D') {
-	// 			router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
-	// 				setFilterChanged(true);
-	// 			});
-	// 		} else {
-	// 			router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
-	// 				setFilterChanged(true);
-	// 			});
-	// 		}
-	// 	} else {
-	// 		if (value === 'D') {
-	// 			router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
-	// 				setFilterChanged(true);
-	// 			});
-	// 		} else {
-	// 			router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
-	// 				setFilterChanged(true);
-	// 			});
-	// 		}
-	// 	}
-	// };
 
 	const filterOnChange = useCallback(
 		(e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null, value: string) => {
@@ -436,7 +387,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 									{offersLinkedHashMap.offersMap
 										?.entrySet()
 										.toArray()
-										.map((data, index) => {
+										.map((data) => {
 											if (data.value) {
 												const { price, solder_type, solder_value } = data.value;
 												let newPrice = 0;
@@ -447,14 +398,6 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 														newPrice = price - (price * solder_value) / 100;
 													}
 												}
-												// setImagesLoading((prevState) => {
-												// 	prevState.concat(false);
-												// 	return prevState;
-												// 	// prevState.push(false);
-												// 	// return [...prevState];
-												// 	// prevState[index] = false;
-												// 	// return prevState;
-												// });
 												return (
 													<Link
 														href={REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))}
@@ -484,25 +427,11 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 																		/>
 																	)}
 																	<Box sx={{ position: 'relative', height: '100%', borderRadius: '20px' }}>
-																		{(!imagesLoading[index] || !data.value.thumbnail) && (
-																			<Skeleton
-																				animation="wave"
-																				variant="rectangular"
-																				width={250}
-																				height={165}
-																				sx={{ position: 'absolute' }}
-																				className={Styles.offerThumb}
-																			/>
-																		)}
-																		{data.value.thumbnail && (
+																		{data.value.thumbnail || data.key === wsThumbnail?.pk ? (
 																			<Image
-																				onLoadingComplete={() => {
-																					setImagesLoading((prevState) => {
-																						prevState[index] = true;
-																						return [...prevState];
-																					});
-																				}}
-																				src={data.value.thumbnail}
+																				src={
+																					data.value.thumbnail ? data.value.thumbnail : (wsThumbnail?.picture as string)
+																				}
 																				alt=""
 																				width="0"
 																				height="0"
@@ -510,6 +439,14 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 																				className={Styles.offerThumb}
 																				loading="eager"
 																				priority={true}
+																			/>
+																		) : (
+																			<Skeleton
+																				animation="wave"
+																				variant="rectangular"
+																				width={250}
+																				height={165}
+																				className={Styles.offerThumb}
 																			/>
 																		)}
 																	</Box>

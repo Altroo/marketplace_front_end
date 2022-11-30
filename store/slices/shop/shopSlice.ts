@@ -20,6 +20,7 @@ import {
 } from '../../../types/shop/shopTypes';
 import { ApiErrorResponseType, IconColorType } from "../../../types/_init/_initTypes";
 import { apiErrorInitialState } from "../_init/_initSlice";
+import { WSThumbnailType } from "../../../types/offer/offerTypes";
 
 // Extra reducers actions
 export const userShopGETApiErrorAction = createAction<ApiErrorResponseType>('userShopGETApiErrorAction');
@@ -43,6 +44,7 @@ const initialState:
 		bg_color_code: null,
 		color_code: null,
 	},
+	shop_thumbnail: null,
 };
 
 const shopSlice = createSlice({
@@ -165,6 +167,7 @@ const shopSlice = createSlice({
 			if (state.userShop) {
 				state.userShop.avatar = action.payload.avatar;
 			}
+			state.shop_thumbnail = action.payload.avatar;
 		},
 		// Step by step shop creation
 		setNewShopName: (state, action: PayloadAction<string>) => {

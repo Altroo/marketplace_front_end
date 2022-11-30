@@ -4,7 +4,7 @@ import { IconColorType, InitStateUniqueID, TokenChoices } from "../../types/_ini
 import {
 	OfferGetMyOffersProductServiceType,
 	OfferGetRootProductInterface, OfferGetRootServiceInterface,
-	OfferTagsType, offerThumbnailWS
+	OfferTagsType, WSThumbnailType
 } from "../../types/offer/offerTypes";
 import { CountriesType } from "../../types/places/placesTypes";
 
@@ -38,6 +38,7 @@ export const getNewShopEditPromiseStatus = (state: RootState) => state.shop.user
 // Shop
 export const getShopName = (state: RootState) => state.shop.userShop?.shop_name as string;
 export const getShopAvatar = (state: RootState) => state.shop.userShop?.avatar as string;
+export const getShopWSAvatar = (state: RootState) => state.shop.shop_thumbnail;
 export const getShopColorCode = (state: RootState) => state.shop.userShop?.color_code as string;
 export const getShopBgColorCode = (state: RootState) => state.shop.userShop?.bg_color_code as string;
 export const getShopFontName = (state: RootState) => state.shop.userShop?.font_name as ShopFontNameType;
@@ -90,7 +91,7 @@ export const getWSFacture = (state: RootState) => state.account.facture;
 // Offers
 export const getOfferTags = (state: RootState) => state.offer.selectedTags as OfferTagsType;
 export const getSelectedOffer = (state: RootState) => state.offer.selectedOffer as OfferGetRootProductInterface | OfferGetRootServiceInterface | null;
-export const getWsOfferThumbnail = (state: RootState) => state.offer.offer_thumbnail as offerThumbnailWS | null;
+export const getWsOfferThumbnail = (state: RootState) => state.offer.offer_thumbnail as WSThumbnailType | null;
 // Local offers
 // Product
 export const getUserLocalOfferProductEditPK = (state: RootState) => state.offer.userLocalProduct?.pk;
