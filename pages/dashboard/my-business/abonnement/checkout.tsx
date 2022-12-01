@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from '../../../../utils/helpers';
 import {
@@ -132,6 +132,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 								 */
 								if (nbrArticleState === data.value) {
 									setReductionState(prixTTCState);
+									setShowPromoCodeMessage('success');
 									return;
 								} else {
 									const action = subscriptionGetSubscriptionByNbrArticle(data.value);
