@@ -51,17 +51,17 @@ export const isAuthenticatedInstance = (
 			return response;
 		},
 		async (error) => {
-			let retry: string | undefined = undefined;
-			if (typeof window !== 'undefined') {
-				retry = localStorage.getItem('@retry') as string;
-			}
+			// let retry: string | undefined = undefined;
+			// if (typeof window !== 'undefined') {
+			// 	retry = localStorage.getItem('@retry') as string;
+			// }
 			if (error.response) {
 				// access token expired
-				if ('code' in error && error.code !== 'ERR_BAD_REQUEST') {
+				if (error.response.status >= 500) {
 					const errorObj = {
 						error: {
 							status_code: 502,
-							message: 'Network error.',
+							message: 'Server error.',
 							details: {
 								error: ['It looks like we are unable to connect. Please check your network connection and try again.'],
 							},
@@ -69,53 +69,57 @@ export const isAuthenticatedInstance = (
 					};
 					return Promise.reject(errorObj);
 				}
-				if (error.response.status === 401 && !retry) {
-					if (typeof window !== 'undefined') {
-						await localStorage.setItem('@retry', '1');
-					}
-					try {
-						// trying to refresh access token using refresh token
-						const newAccessToken: ResponseDataTokenRefreshType = await refreshToken(
-							// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-							initStateToken.refresh_token!,
-						);
-						if (newAccessToken.data) {
-							instance.defaults.headers.common['Authorization'] = 'Bearer ' + newAccessToken.data.access;
-							const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
-								tokenType: 'TOKEN', // TOKEN
-								initStateToken: {
-									access_token: newAccessToken.data.access,
-									refresh_token: newAccessToken.data.refresh,
-									user: {
-										pk: initStateToken.user.pk,
-										email: initStateToken.user.email,
-										first_name: initStateToken.user.first_name,
-										last_name: initStateToken.user.last_name,
-									},
-									access_token_expiration: newAccessToken.data.access_token_expiration,
-									refresh_token_expiration: initStateToken.refresh_token_expiration,
-								},
-								initStateUniqueID: emptyInitStateUniqueID,
-							};
-							await setRemoteCookiesAppToken(newInitStateToken);
-							store.dispatch(setInitState(newInitStateToken));
-							if (typeof window !== 'undefined') {
-								await localStorage.setItem('@retry', '0');
-							}
-							return instance(error.config);
-						} else {
-							return Promise.reject(error);
-						}
-					} catch (_error) {
-						return Promise.reject(_error);
-					}
-				} else {
-					// api error not related to access token
-					const errorObj = {
+				const errorObj = {
 						error: error.response.data.error as ApiErrorResponseType, // for custom api errors
 					};
-					return Promise.reject(errorObj);
-				}
+				return Promise.reject(errorObj);
+				// if (error.response.status === 401 && !retry) {
+				// 	if (typeof window !== 'undefined') {
+				// 		await localStorage.setItem('@retry', '1');
+				// 	}
+				// 	try {
+				// 		// trying to refresh access token using refresh token
+				// 		const newAccessToken: ResponseDataTokenRefreshType = await refreshToken(
+				// 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				// 			initStateToken.refresh_token!,
+				// 		);
+				// 		if (newAccessToken.data) {
+				// 			instance.defaults.headers.common['Authorization'] = 'Bearer ' + newAccessToken.data.access;
+				// 			const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
+				// 				tokenType: 'TOKEN', // TOKEN
+				// 				initStateToken: {
+				// 					access_token: newAccessToken.data.access,
+				// 					refresh_token: newAccessToken.data.refresh,
+				// 					user: {
+				// 						pk: initStateToken.user.pk,
+				// 						email: initStateToken.user.email,
+				// 						first_name: initStateToken.user.first_name,
+				// 						last_name: initStateToken.user.last_name,
+				// 					},
+				// 					access_token_expiration: newAccessToken.data.access_token_expiration,
+				// 					refresh_token_expiration: initStateToken.refresh_token_expiration,
+				// 				},
+				// 				initStateUniqueID: emptyInitStateUniqueID,
+				// 			};
+				// 			await setRemoteCookiesAppToken(newInitStateToken);
+				// 			store.dispatch(setInitState(newInitStateToken));
+				// 			if (typeof window !== 'undefined') {
+				// 				await localStorage.setItem('@retry', '0');
+				// 			}
+				// 			return instance(error.config);
+				// 		} else {
+				// 			return Promise.reject(error);
+				// 		}
+				// 	} catch (_error) {
+				// 		return Promise.reject(_error);
+				// 	}
+				// } else {
+				// 	// api error not related to access token
+				// 	const errorObj = {
+				// 		error: error.response.data.error as ApiErrorResponseType, // for custom api errors
+				// 	};
+				// 	return Promise.reject(errorObj);
+				// }
 			}
 			return Promise.reject(error);
 		},
