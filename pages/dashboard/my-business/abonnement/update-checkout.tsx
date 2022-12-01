@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from "../../../../utils/helpers";
 import {
@@ -15,7 +15,7 @@ import {
 	SagaCallBackOnCompletePostSubscriptionType,
 	subscriptionGetUserSubscriptionResponseType,
 } from '../../../../types/subscription/subscriptionTypes';
-import { Stack, Box, AlertColor } from '@mui/material';
+import { Stack, Box, AlertColor, InputAdornment, IconButton, ThemeProvider } from "@mui/material";
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import SharedStyles from '../../../../styles/dashboard/dashboard.module.sass';
 import Styles from '../../../../styles/dashboard/subscription.module.sass';
@@ -32,14 +32,14 @@ import CustomTextMaskInput from '../../../../components/formikElements/customTex
 import RadioCheckButton from '../../../../components/htmlElements/buttons/radioCheckButton/radioCheckButton';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CustomFooter from '../../../../components/layouts/footer/customFooter';
-import CustomToast from '../../../../components/portals/customToast/customToast';
-import Portal from '../../../../contexts/Portal';
 import Divider from '@mui/material/Divider';
 import {
 	subscriptionPatchRootAction,
 	subscriptionPostCheckPromoCode,
 } from '../../../../store/actions/subscription/subscriptionActions';
 import { useRouter } from 'next/router';
+import TextField from "@mui/material/TextField";
+import { Check, Close } from "@mui/icons-material";
 
 type PackArticlesCardContentType = {
 	is_subscribed: boolean;
@@ -117,7 +117,6 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 
 	const [paymentParCarte, setPaymentParCarte] = useState<boolean>(false);
 	const [paymentParVirement, setPaymentParVirement] = useState<boolean>(true);  // default checked
-	const [showPromoCodeApplied, setShowPromoCodeApplied] = useState<boolean>(false);
 	const [showPromoCodeMessage, setShowPromoCodeMessage] = useState<AlertColor | null>(null);
 	/* formik promo code */
 	const formikPromoCode = useFormik({
@@ -131,7 +130,6 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 			dispatch({
 				...action,
 				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteCheckPromoCodeType) => {
-					setShowPromoCodeApplied(true);
 					if (!error && !cancelled && data) {
 						if (data.validity && data.type && data.value) {
 							// if (data.type === 'S') {
@@ -173,7 +171,6 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 						} else {
 							setShowPromoCodeMessage('error');
 							setFieldError('promo_code', 'Promo code expirer.');
-							resetForm();
 						}
 					}
 				},
@@ -182,21 +179,20 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 		},
 	});
 
-	const codePromoOnchangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		formikPromoCode.handleChange('promo_code')(e);
-		if (e.target.value.length >= 6) {
-			formikPromoCode.submitForm().then();
-		} else {
-			setNbrArticleState(nbr_article);
-			setPrixTTCState(prix_ttc);
-			setPrixUnitaireTTCState(prix_unitaire_ttc);
-			setPourcentageState(pourcentage);
-			setReductionState(undefined);
-		}
-	};
+	const codePromoOnClickValidHandler = useCallback(() => {
+		formikPromoCode.submitForm().then();
+	}, [formikPromoCode]);
 
-	// C = carte | V = virement
-	const paymentParCheckHandler = (type: 'C' | 'V') => {
+	const codePromoOnClickDeleteHandler = useCallback(() => {
+		setNbrArticleState(nbr_article);
+		setPrixTTCState(prix_ttc);
+		setPrixUnitaireTTCState(prix_unitaire_ttc);
+		setPourcentageState(pourcentage);
+		setReductionState(undefined);
+		setShowPromoCodeMessage(null);
+	}, [nbr_article, pourcentage, prix_ttc, prix_unitaire_ttc]);
+
+	const paymentParCheckHandler = useCallback((type: 'C' | 'V') => {
 		if (type === 'C') {
 			setPaymentParCarte(true);
 			setPaymentParVirement(false);
@@ -204,7 +200,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 			setPaymentParCarte(false);
 			setPaymentParVirement(true);
 		}
-	};
+	}, []);
 
 	const formik = useFormik({
 		initialValues: {
@@ -426,21 +422,61 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 						</Stack>
 						<Divider orientation="horizontal" flexItem className={Styles.mobileDivider} />
 						<Box className={Styles.promoBox}>
-							<Stack direction="column" spacing="55px">
+							<Stack direction="column" spacing="20px">
 								<Stack direction="column" spacing="12px">
 									<span className={Styles.rightFieldLabel}>Code promo</span>
-									<CustomTextInput
-										id="promo_code"
-										type="text"
-										value={formikPromoCode.values.promo_code}
-										onChange={(e) => codePromoOnchangeHandler(e)}
-										onBlur={formikPromoCode.handleBlur('promo_code')}
-										helperText={formikPromoCode.touched.promo_code ? formikPromoCode.errors.promo_code : ''}
-										error={formikPromoCode.touched.promo_code && Boolean(formikPromoCode.errors.promo_code)}
-										fullWidth={false}
-										size="medium"
-										theme={promoCodeTheme}
-									/>
+									<ThemeProvider theme={promoCodeTheme}>
+										<TextField
+											type="text"
+											id="promo_code"
+											value={formikPromoCode.values.promo_code}
+											onChange={formikPromoCode.handleChange('promo_code')}
+											onBlur={formikPromoCode.handleBlur('promo_code')}
+											helperText={(formikPromoCode.touched.promo_code ? formikPromoCode.errors.promo_code : '') || (showPromoCodeMessage && showPromoCodeMessage === 'success' ? 'Promo code appliquer.' : '')}
+											error={formikPromoCode.touched.promo_code && Boolean(formikPromoCode.errors.promo_code)}
+											fullWidth={false}
+											size="medium"
+											color={showPromoCodeMessage && showPromoCodeMessage === 'success' ? 'success' : 'primary'}
+											sx={{
+												'& .MuiFormHelperText-root': {
+													color: `${showPromoCodeMessage && showPromoCodeMessage === 'success' ? 'rgb(129, 199, 132)' : 'rgb(229, 115, 115)'}`
+												}
+											}}
+											InputProps={{
+												endAdornment: (
+													<InputAdornment position="end">
+														<IconButton
+															onClick={() => {
+																codePromoOnClickDeleteHandler();
+																formikPromoCode.handleChange('promo_code')('');
+															}}
+															onMouseDown={(e) => e.preventDefault()}
+															edge="end"
+															disabled={formikPromoCode.values.promo_code === ''}
+															color="error"
+														>
+															{<Close />}
+														</IconButton>
+														<IconButton
+															onClick={() => {
+																if (!formikPromoCode.values.promo_code){
+																	return;
+																}
+																codePromoOnClickValidHandler();
+															}}
+															onMouseDown={(e) => e.preventDefault()}
+															edge="end"
+															disabled={formikPromoCode.values.promo_code === ''}
+															color="success"
+														>
+															{<Check />}
+														</IconButton>
+													</InputAdornment>
+												),
+											}}
+										>
+										</TextField>
+									</ThemeProvider>
 								</Stack>
 								<Stack direction="column" spacing="12px" className={Styles.mobilePromoStack}>
 									<span className={Styles.rightFieldLabel}>Paiement par</span>
@@ -494,16 +530,6 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 						</Box>
 					</Stack>
 				</form>
-				<Portal id="snackbar_portal">
-					{showPromoCodeMessage && (
-						<CustomToast
-							type={showPromoCodeMessage}
-							message={showPromoCodeMessage === 'success' ? 'Promo code appliquer.' : 'Promo code expirer.'}
-							setShow={setShowPromoCodeApplied}
-							show={showPromoCodeApplied}
-						/>
-					)}
-				</Portal>
 			</main>
 			<CustomFooter />
 		</Stack>

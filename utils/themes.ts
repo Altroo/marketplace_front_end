@@ -23,6 +23,12 @@ export const CustomTheme = (primaryColor: string | undefined = undefined) => {
 			primary: {
 				main: rippleColor,
 			},
+			success: {
+				main: 'rgb(129, 199, 132)',
+			},
+			error: {
+				main: 'rgb(229, 115, 115)'
+			},
 			// secondary: {
 			// 	main: '#E12D3D'
 			// }

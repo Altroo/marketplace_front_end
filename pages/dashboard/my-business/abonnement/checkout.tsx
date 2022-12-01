@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from '../../../../utils/helpers';
 import {
@@ -16,7 +16,7 @@ import {
 	SagaCallBackOnCompletePostSubscriptionType,
 	SagaCallBackOnCompleteSubscriptionByNbrArticleType,
 } from '../../../../types/subscription/subscriptionTypes';
-import { Stack, Box, AlertColor, ButtonGroup, Button, ThemeProvider, InputAdornment, IconButton } from '@mui/material';
+import { Stack, Box, AlertColor, ThemeProvider, InputAdornment, IconButton } from '@mui/material';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import SharedStyles from '../../../../styles/dashboard/dashboard.module.sass';
 import Styles from '../../../../styles/dashboard/subscription.module.sass';
@@ -26,7 +26,6 @@ import { promoCodeSchema, subscriptionSchema } from '../../../../utils/formValid
 import { getAvailableCountries } from '../../../../store/selectors';
 import {
 	coordonneeTextInputTheme,
-	getDefaultTheme,
 	offerForWhomDropdownTheme,
 	promoCodeTextInputTheme,
 } from '../../../../utils/themes';
@@ -38,8 +37,6 @@ import CustomTextMaskInput from '../../../../components/formikElements/customTex
 import RadioCheckButton from '../../../../components/htmlElements/buttons/radioCheckButton/radioCheckButton';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import CustomFooter from '../../../../components/layouts/footer/customFooter';
-import CustomToast from '../../../../components/portals/customToast/customToast';
-import Portal from '../../../../contexts/Portal';
 import Divider from '@mui/material/Divider';
 import {
 	subscriptionGetSubscriptionByNbrArticle,
@@ -48,9 +45,6 @@ import {
 } from '../../../../store/actions/subscription/subscriptionActions';
 import { useRouter } from 'next/router';
 import TextField from '@mui/material/TextField';
-import ActiveCheckBlue from '../../../../public/assets/svgs/globalIcons/active-check-blue.svg';
-import Image from 'next/image';
-import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
 import { Check, Close } from '@mui/icons-material';
 
 type PackArticlesCardContentType = {
@@ -114,7 +108,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 
 	const [paymentParCarte, setPaymentParCarte] = useState<boolean>(false);
 	const [paymentParVirement, setPaymentParVirement] = useState<boolean>(true); // default checked
-	const [showPromoCodeApplied, setShowPromoCodeApplied] = useState<boolean>(false);
 	const [showPromoCodeMessage, setShowPromoCodeMessage] = useState<AlertColor | null>(null);
 
 	/* formik promo code */
@@ -124,12 +117,11 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 		},
 		validateOnMount: true,
 		validationSchema: promoCodeSchema,
-		onSubmit: async (values, { setSubmitting, resetForm, setFieldError }) => {
+		onSubmit: async (values, { setSubmitting, setFieldError }) => {
 			const action = subscriptionPostCheckPromoCode(values.promo_code);
 			dispatch({
 				...action,
 				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteCheckPromoCodeType) => {
-					setShowPromoCodeApplied(true);
 					if (!error && !cancelled && data) {
 						if (data.validity && data.type && data.value) {
 							if (data.type === 'S') {
@@ -166,7 +158,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 						} else {
 							setShowPromoCodeMessage('error');
 							setFieldError('promo_code', 'Promo code expirer.');
-							// resetForm();
 						}
 					}
 				},
@@ -175,34 +166,20 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 		},
 	});
 
-	// const codePromoOnchangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	formikPromoCode.handleChange('promo_code')(e);
-	// 	if (e.target.value.length >= 6) {
-	// 		formikPromoCode.submitForm().then();
-	// 	} else {
-	// 		setNbrArticleState(nbr_article);
-	// 		setPrixTTCState(prix_ttc);
-	// 		setPrixUnitaireTTCState(prix_unitaire_ttc);
-	// 		setPourcentageState(pourcentage);
-	// 		setReductionState(undefined);
-	// 	}
-	// };
-
-	const codePromoOnClickValidHandler = () => {
+	const codePromoOnClickValidHandler = useCallback(() => {
 		formikPromoCode.submitForm().then();
-	};
+	}, [formikPromoCode]);
 
-	const codePromoOnClickDeleteHandler = () => {
+	const codePromoOnClickDeleteHandler = useCallback(() => {
 		setNbrArticleState(nbr_article);
 		setPrixTTCState(prix_ttc);
 		setPrixUnitaireTTCState(prix_unitaire_ttc);
 		setPourcentageState(pourcentage);
 		setReductionState(undefined);
 		setShowPromoCodeMessage(null);
-	};
+	}, [nbr_article, pourcentage, prix_ttc, prix_unitaire_ttc]);
 
-	// C = carte | V = virement
-	const paymentParCheckHandler = (type: 'C' | 'V') => {
+	const paymentParCheckHandler = useCallback((type: 'C' | 'V') => {
 		if (type === 'C') {
 			setPaymentParCarte(true);
 			setPaymentParVirement(false);
@@ -210,7 +187,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 			setPaymentParCarte(false);
 			setPaymentParVirement(true);
 		}
-	};
+	}, []);
 
 	const formik = useFormik({
 		initialValues: {
@@ -436,21 +413,9 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 						</Stack>
 						<Divider orientation="horizontal" flexItem className={Styles.mobileDivider} />
 						<Box className={Styles.promoBox}>
-							<Stack direction="column" spacing="55px">
+							<Stack direction="column" spacing="20px">
 								<Stack direction="column" spacing="12px">
 									<span className={Styles.rightFieldLabel}>Code promo</span>
-									{/*<CustomTextInput*/}
-									{/*	id="promo_code"*/}
-									{/*	type="text"*/}
-									{/*	value={formikPromoCode.values.promo_code}*/}
-									{/*	onChange={(e) => codePromoOnchangeHandler(e)}*/}
-									{/*	onBlur={formikPromoCode.handleBlur('promo_code')}*/}
-									{/*	helperText={formikPromoCode.touched.promo_code ? formikPromoCode.errors.promo_code : ''}*/}
-									{/*	error={formikPromoCode.touched.promo_code && Boolean(formikPromoCode.errors.promo_code)}*/}
-									{/*	fullWidth={false}*/}
-									{/*	size="medium"*/}
-									{/*	theme={promoCodeTheme}*/}
-									{/*/>*/}
 									<ThemeProvider theme={promoCodeTheme}>
 										<TextField
 											type="text"
@@ -478,6 +443,8 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 															}}
 															onMouseDown={(e) => e.preventDefault()}
 															edge="end"
+															disabled={formikPromoCode.values.promo_code === ''}
+															color="error"
 														>
 															{<Close />}
 														</IconButton>
@@ -490,6 +457,8 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 															}}
 															onMouseDown={(e) => e.preventDefault()}
 															edge="end"
+															disabled={formikPromoCode.values.promo_code === ''}
+															color="success"
 														>
 															{<Check />}
 														</IconButton>
@@ -554,16 +523,6 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 						</Box>
 					</Stack>
 				</form>
-				{/*<Portal id="snackbar_portal">*/}
-				{/*	{showPromoCodeMessage && (*/}
-				{/*		<CustomToast*/}
-				{/*			type={showPromoCodeMessage}*/}
-				{/*			message={showPromoCodeMessage === 'success' ? 'Promo code appliquer.' : 'Promo code expirer.'}*/}
-				{/*			setShow={setShowPromoCodeApplied}*/}
-				{/*			show={showPromoCodeApplied}*/}
-				{/*		/>*/}
-				{/*	)}*/}
-				{/*</Portal>*/}
 			</main>
 			<CustomFooter />
 		</Stack>
