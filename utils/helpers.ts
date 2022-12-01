@@ -9,15 +9,16 @@ import {
 import {
 	emptyInitStateToken,
 	emptyInitStateUniqueID,
-	initialState,
-	setInitState,
-} from '../store/slices/_init/_initSlice';
-import { cookiesPoster, tokenRefreshApi } from '../store/services/_init/_initAPI';
+	initialState, initToken,
+} from "../store/slices/_init/_initSlice";
+import { bulkCookiesDeleter, cookiesPoster, tokenRefreshApi } from "../store/services/_init/_initAPI";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store/store';
 import { GetServerSidePropsContext } from 'next';
 import { getCookie } from 'cookies-next';
 import { ParsedUrlQuery } from 'querystring';
+import { signOut } from "next-auth/react";
+import { DASHBOARD, SITE_ROOT } from "./routes";
 
 const refreshToken = async (refresh_token: string): Promise<ResponseDataTokenRefreshType> => {
 	return await tokenRefreshApi(refresh_token);
@@ -68,6 +69,11 @@ export const isAuthenticatedInstance = (
 						},
 					};
 					return Promise.reject(errorObj);
+				}
+				if (error.response.status === 401) {
+					await bulkCookiesDeleter('/cookie/delete');
+					await signOut({ redirect: false, callbackUrl: SITE_ROOT});
+					store.dispatch(initToken());
 				}
 				const errorObj = {
 						error: error.response.data.error as ApiErrorResponseType, // for custom api errors

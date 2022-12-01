@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { withAuth } from 'next-auth/middleware';
-import { DASHBOARD_ACCOUNT, DASHBOARD_EDIT_PROFILE } from "./utils/routes";
+import { DASHBOARD_ACCOUNT, DASHBOARD_EDIT_PROFILE } from './utils/routes';
 
 export default withAuth(
 	// `withAuth` augments your `Request` with the user's token.
@@ -22,8 +22,5 @@ export default withAuth(
 );
 
 export const config = {
-	matcher: [
-		'/dashboard/:path*',
-		'/shop/create/:path*',
-	]
+	matcher: ['/dashboard/:path*', '/shop/create/:path*'],
 };

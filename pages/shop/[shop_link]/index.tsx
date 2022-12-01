@@ -48,13 +48,13 @@ import AjouterMesInfosStack, {
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../create/color';
 import { getApi } from '../../../store/services/_init/_initAPI';
-import { IconColorType, SagaCallBackOnCompleteBoolType } from '../../../types/_init/_initTypes';
+import { ApiErrorResponseType, IconColorType, SagaCallBackOnCompleteBoolType } from "../../../types/_init/_initTypes";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../../../utils/routes';
+import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE } from "../../../utils/routes";
 import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
@@ -1201,11 +1201,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 							}
 						} else {
 							// shop link not found
-							return not_found_redirect;
+							return {
+								...not_found_redirect
+							};
 						}
 					} catch (e) {
-						return not_found_redirect;
+						return {
+							...not_found_redirect
+						};
 					}
+				} else {
+					console.log('Response status : ', response.status);
 				}
 			} else {
 				// user not online.
@@ -1224,20 +1230,33 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 							},
 						};
 					} else {
-						return not_found_redirect;
+						return {
+							...not_found_redirect
+						};
 					}
 				} catch (e) {
-					return not_found_redirect;
+					return {
+						...not_found_redirect
+					};
 				}
 			}
 		} catch (e) {
+			const error = e as ApiErrorResponseType;
+			if (error.error.status_code === 401) {
+				return {
+					redirect: {
+						permanent: false,
+						destination: AUTH_LOGIN,
+					},
+				}
+			}
 			return {
-				redirect: not_found_redirect,
+				...not_found_redirect,
 			};
 		}
 		// shop link not found
 		return {
-			redirect: not_found_redirect,
+			...not_found_redirect,
 		};
 	}
 }

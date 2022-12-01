@@ -28,7 +28,7 @@ function* initAppSaga() {
 function* initAppCookieTokensSaga(payload: { type: string; cookies: AppTokensCookieType }) {
 	const tokenType: string | undefined = payload.cookies['@tokenType'];
 	const stateToken: string | undefined = payload.cookies['@initStateToken'];
-	const stateUniqueID: string | undefined = payload.cookies['@initStateUniqueID'];
+	// const stateUniqueID: string | undefined = payload.cookies['@initStateUniqueID'];
 	let appToken = initialState;
 	if (tokenType === 'TOKEN' && stateToken !== undefined) {
 		appToken = {
@@ -36,13 +36,14 @@ function* initAppCookieTokensSaga(payload: { type: string; cookies: AppTokensCoo
 			initStateToken: JSON.parse(stateToken) as InitStateToken,
 			initStateUniqueID: emptyInitStateUniqueID,
 		};
-	} else if (tokenType === 'UNIQUE_ID' && stateUniqueID !== undefined) {
-		appToken = {
-			tokenType: 'UNIQUE_ID',
-			initStateToken: emptyInitStateToken,
-			initStateUniqueID: JSON.parse(stateUniqueID) as InitStateUniqueID,
-		};
 	}
+	// else if (tokenType === 'UNIQUE_ID' && stateUniqueID !== undefined) {
+	// 	appToken = {
+	// 		tokenType: 'UNIQUE_ID',
+	// 		initStateToken: emptyInitStateToken,
+	// 		initStateUniqueID: JSON.parse(stateUniqueID) as InitStateUniqueID,
+	// 	};
+	// }
 	yield put(setInitState(appToken));
 	if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
 		// set is logged in to true

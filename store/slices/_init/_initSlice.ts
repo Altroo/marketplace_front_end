@@ -76,6 +76,6 @@ const _initSlice = createSlice({
 	// },
 });
 
-export const { setInitState, setTokenState, setFbEmailInInit } = _initSlice.actions;
+export const { setInitState, setTokenState, setFbEmailInInit, initToken } = _initSlice.actions;
 
 export default _initSlice.reducer;
