@@ -30,7 +30,6 @@ import InstagramCircularSVG from '../../../../../../public/assets/svgs/globalIco
 import WhatsappCircularSVG from '../../../../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
 import CustomStackIconTextInput from '../../../../../formikElements/customStackIconTextInput/customStackIconTextInput';
 import { coordonneeTextInputTheme } from '../../../../../../utils/themes';
-import CustomTextMaskInput from "../../../../../formikElements/customTextMaskInput/customTextMaskInput";
 
 type Props = {
 	handleClose: () => void;
@@ -161,7 +160,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 										id="website_link"
 										label="Site internet"
 										// placeholder="e.g : https:// ou http://"
-										value={values.website_link ? values.website_link : ''}
+										value={values.website_link ? values.website_link : 'http://www.'}
 										onChange={handleChange('website_link')}
 										onBlur={handleBlur('website_link')}
 										helperText={touched.website_link ? errors.website_link : ''}
@@ -183,7 +182,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 										id="facebook_link"
 										label="Facebook"
 										// placeholder="e.g : https:// ou http://"
-										value={values.facebook_link ? values.facebook_link : ''}
+										value={values.facebook_link ? values.facebook_link : 'https://facebook.com/'}
 										onChange={handleChange('facebook_link')}
 										onBlur={handleBlur('facebook_link')}
 										helperText={touched.facebook_link ? errors.facebook_link : ''}
@@ -198,7 +197,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 										icon={TwitterCircularSVG}
 										id="twitter_link"
 										label="Twitter"
-										value={values.twitter_link ? values.twitter_link : ''}
+										value={values.twitter_link ? values.twitter_link : 'https://twitter.com/'}
 										onChange={handleChange('twitter_link')}
 										onBlur={handleBlur('twitter_link')}
 										helperText={touched.twitter_link ? errors.twitter_link : ''}
@@ -213,7 +212,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 										icon={InstagramCircularSVG}
 										id="instagram_link"
 										label="Instagram"
-										value={values.instagram_link ? values.instagram_link : ''}
+										value={values.instagram_link ? values.instagram_link : 'https://instagram.com/'}
 										onChange={handleChange('instagram_link')}
 										onBlur={handleBlur('instagram_link')}
 										helperText={touched.instagram_link ? errors.instagram_link : ''}
