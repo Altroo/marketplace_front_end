@@ -52,8 +52,6 @@ type PageContentType = {
 const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 	const { data, vuesData } = props;
 	const { total_vue_month, total_vue_pourcentage, total_offers_vue_count } = data;
-	console.log(data);
-	console.log(vuesData);
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const [totalVuePourcentageCSS, setTotalVuePourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
