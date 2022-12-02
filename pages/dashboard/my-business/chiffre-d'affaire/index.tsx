@@ -51,7 +51,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 				<Stack direction="column" sx={{ width: '100%' }}>
 					<span className={Styles.dashboardMiniCardCounter}>{total_sells_count} {total_sells_count > 1 ? 'DHS' : 'DH'}</span>
 						<Stack direction="row" justifyContent="space-between">
-							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_sells_month]}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_sells_month - 1]}</span>
 							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalSellsPourcentageCSS}`}>
 								{total_sells_pourcentage}
 							</span>

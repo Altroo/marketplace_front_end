@@ -15,7 +15,7 @@ import {
 	AccountPostRegisterResponseType,
 } from '../../../types/account/accountTypes';
 import { cookiesDeleter, getApi, postApi } from '../../../store/services/_init/_initAPI';
-import { AUTH_LOGIN, AUTH_REGISTER, DASHBOARD, AUTH_WELCOME, SITE_ROOT } from "../../../utils/routes";
+import { AUTH_LOGIN, AUTH_REGISTER, DASHBOARD, AUTH_WELCOME } from "../../../utils/routes";
 import { getCookie } from 'cookies-next';
 import Styles from '../../../styles/auth/register/about.module.sass';
 import { Stack } from '@mui/material';

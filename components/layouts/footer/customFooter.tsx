@@ -4,15 +4,15 @@ import Styles from './customFooter.module.sass';
 import Link from 'next/link';
 import Divider from '@mui/material/Divider';
 import InstagramMiniSVG from '../../../public/assets/svgs/globalIcons/instagram-mini-.svg';
-import TikTokMiniSVG from '../../../public/assets/svgs/globalIcons/tiktok-mini.svg';
+// import TikTokMiniSVG from '../../../public/assets/svgs/globalIcons/tiktok-mini.svg';
 import Image from 'next/image';
 import {
 	CGU_PAGE,
-	DASHBOARD_ADD_INDEX_OFFERS,
+	// DASHBOARD_ADD_INDEX_OFFERS,
 	DASHBOARD_INDEXED_OFFERS,
 	NOT_FOUND_404,
-	REAL_SHOP_ADD_SHOP_NAME
-} from "../../../utils/routes";
+	REAL_SHOP_ADD_SHOP_NAME,
+} from '../../../utils/routes';
 
 const CustomFooter: React.FC = () => {
 	return (
@@ -52,7 +52,8 @@ const CustomFooter: React.FC = () => {
 						</Stack>
 						<Stack direction="column" spacing={1}>
 							<Stack direction="row" spacing={1}>
-								<Link href={NOT_FOUND_404}>
+							<Link href="https://instagram.com/qaryb.ma" target="_blank" rel="noreferrer">
+								<Stack direction="row" spacing={1} alignItems="center">
 									<Image
 										src={InstagramMiniSVG}
 										alt=""
@@ -61,18 +62,23 @@ const CustomFooter: React.FC = () => {
 										sizes="100vw"
 										className={Styles.miniIcon}
 									/>
-								</Link>
-								<Link href={NOT_FOUND_404}>
+									<span>qaryb.ma</span>
+								</Stack>
+							</Link>
+							<Link href="https://instagram.com/imly.ma" target="_blank" rel="noreferrer">
+								<Stack direction="row" spacing={1} alignItems="center">
 									<Image
-										src={TikTokMiniSVG}
+										src={InstagramMiniSVG}
 										alt=""
 										width="0"
 										height="0"
 										sizes="100vw"
 										className={Styles.miniIcon}
 									/>
-								</Link>
-							</Stack>
+									<span>imly.ma</span>
+								</Stack>
+							</Link>
+						</Stack>
 							<Link href={NOT_FOUND_404} className={Styles.anchor}>
 								Des questions ? Contactez nous
 							</Link>
@@ -131,25 +137,17 @@ const CustomFooter: React.FC = () => {
 					</Stack>
 					<Stack direction="column" spacing={1}>
 						<Stack direction="row" spacing={1}>
-							<Link href={NOT_FOUND_404}>
-								<Image
-									src={InstagramMiniSVG}
-									alt=""
-									width="0"
-									height="0"
-									sizes="100vw"
-									className={Styles.miniIcon}
-								/>
+							<Link href="https://instagram.com/qaryb.ma" target="_blank" rel="noreferrer">
+								<Stack direction="row" spacing={1} alignItems="center">
+									<Image src={InstagramMiniSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.miniIcon} />
+									<span>qaryb.ma</span>
+								</Stack>
 							</Link>
-							<Link href={NOT_FOUND_404}>
-								<Image
-									src={TikTokMiniSVG}
-									alt=""
-									width="0"
-									height="0"
-									sizes="100vw"
-									className={Styles.miniIcon}
-								/>
+							<Link href="https://instagram.com/imly.ma" target="_blank" rel="noreferrer">
+								<Stack direction="row" spacing={1} alignItems="center">
+									<Image src={InstagramMiniSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.miniIcon} />
+									<span>imly.ma</span>
+								</Stack>
 							</Link>
 						</Stack>
 						<Link href={NOT_FOUND_404} className={Styles.anchor}>

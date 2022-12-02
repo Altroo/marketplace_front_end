@@ -7,9 +7,9 @@ import JumelleIlluSVG from '../../../../public/assets/images/jumelle-illu.svg';
 import { useRouter } from 'next/router';
 import { DASHBOARD_SUBSCRIPTION } from '../../../../utils/routes';
 import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
-import NewNotificationSVG from "../../../../public/assets/svgs/mainNavBarIcons/new-notification-mixed.svg";
-import NotificationsSVG from "../../../../public/assets/svgs/mainNavBarIcons/notification.svg";
-import IconButton from "@mui/material/IconButton";
+// import NewNotificationSVG from "../../../../public/assets/svgs/mainNavBarIcons/new-notification-mixed.svg";
+// import NotificationsSVG from "../../../../public/assets/svgs/mainNavBarIcons/notification.svg";
+// import IconButton from "@mui/material/IconButton";
 
 const ShopNotIndexed: React.FC = () => {
 	const router = useRouter();

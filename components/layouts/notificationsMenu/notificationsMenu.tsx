@@ -11,7 +11,6 @@ import NewNotificationSVG from '../../../public/assets/svgs/mainNavBarIcons/new-
 import IconButton from '@mui/material/IconButton';
 import { getUserNewNotification, getUserNotifications } from "../../../store/selectors";
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
-// import { useRouter } from "next/router";
 import { getNotificationLink } from '../../../utils/rawData';
 import { notificationPatchRootAction } from '../../../store/actions/notification/notificationActions';
 
@@ -45,7 +44,6 @@ const NotificationsMenu: React.FC<Props> = (props: Props) => {
 		}
 	}, [dispatch]);
 
-
 	return (
 		<>
 			<IconButton
@@ -57,10 +55,8 @@ const NotificationsMenu: React.FC<Props> = (props: Props) => {
 				onClick={handleNotificationsSubMenuClick}
 				size="large"
 				color="inherit"
+				className={Styles.noPaddingMobile}
 			>
-				{/*<ThemeProvider theme={badgeTheme()}>*/}
-				{/*<Badge badgeContent={4} color="primary"/>*/}
-				{/*</ThemeProvider>*/}
 				{newNotification ? (
 					<Image src={NewNotificationSVG} alt="" width={32} height={32} sizes="100vw" />
 				) : (

@@ -32,7 +32,7 @@ import {
 	getUserProfilAvatar,
 	getUserShopUrl,
 } from '../../../store/selectors';
-import SearchIconSVG from '../../../public/assets/svgs/globalIcons/search.svg';
+// import SearchIconSVG from '../../../public/assets/svgs/globalIcons/search.svg';
 import Link from 'next/link';
 import {
 	AUTH_LOGIN,
@@ -40,7 +40,6 @@ import {
 	DASHBOARD,
 	REAL_SHOP_ADD_SHOP_NAME,
 	SITE_ROOT,
-	NOT_FOUND_404,
 } from '../../../utils/routes';
 import SideNavDrawer from '../../mobile/sideNavDrawer/sideNavDrawer';
 import CloseSVG from '../../../public/assets/svgs/navigationIcons/close.svg';
@@ -65,7 +64,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const userShopUrl: string | boolean | undefined = useAppSelector(getUserShopUrl);
 	const newNotification = useAppSelector(getUserNewNotification);
 	const loading = status === 'loading';
-	const [searchValue, setSearchValue] = useState<string>('');
+	// const [searchValue, setSearchValue] = useState<string>('');
 
 	useEffect(() => {
 		if (stateAvatar || stateShopAvatar) {
@@ -163,155 +162,131 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 			<Box className={Styles.desktopOnly}>
 				<AppBar position="static" className={Styles.appBar}>
 					<Toolbar>
-						<Image
-							src={QarybSVG}
-							alt=""
-							width="0"
-							height="0"
-							sizes="100vw"
-							className={Styles.logo}
-							onClick={() => {
-								router.push(SITE_ROOT).then();
-							}}
-							style={{ cursor: 'pointer' }}
-						/>
-						<Stack alignItems="center" className={Styles.searchWrapper} direction="row">
-							<Image src={SearchIconSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.searchIcon} />
-							<input
-								value={searchValue}
-								onChange={(e) => {
-									setSearchValue(e.target.value);
+						<Stack direction="row" justifyContent="space-between" width="100%">
+							<Image
+								src={QarybSVG}
+								alt=""
+								width="0"
+								height="0"
+								sizes="100vw"
+								className={Styles.logo}
+								onClick={() => {
+									router.push(SITE_ROOT).then();
 								}}
-								type="text"
-								placeholder="Rechercher"
-								disabled
-								className={Styles.searchInput}
+								style={{ cursor: 'pointer' }}
 							/>
-						</Stack>
-						<Stack direction="row" spacing={1}>
-							{!loading && session ? (
-								<>
-									{/* Avatar button (loggedIn) */}
+							<Stack direction="row" spacing={1}>
+								{!loading && session ? (
+									<>
+										{/* Avatar button (loggedIn) */}
+										<IconButton
+											aria-label="profile of current user"
+											id="my-profile-button"
+											aria-controls={openProfileSubMenu ? 'profile-menu' : undefined}
+											aria-haspopup="true"
+											aria-expanded={openProfileSubMenu ? 'true' : undefined}
+											onClick={handleProfileSubMenuClick}
+											size="large"
+											color="inherit"
+										>
+											{!navBarPicture ? (
+												<Skeleton variant="circular" width={30} height={30} />
+											) : (
+												<Image
+													src={navBarPicture as string}
+													alt=""
+													width="30"
+													height="30"
+													sizes="100vw"
+													className={Styles.avatarButton}
+												/>
+											)}
+										</IconButton>
+										{/* profil sub Menu */}
+										<ThemeProvider theme={getDropDownMenuTheme()}>
+											<Menu
+												id="profile-menu"
+												anchorEl={profileSubMenuEl}
+												open={openProfileSubMenu}
+												onClose={handleProfileSubMenuClose}
+												MenuListProps={{
+													'aria-labelledby': 'my-profile-button',
+												}}
+												keepMounted
+											>
+												<MenuItem onClick={handleProfileSubMenuClose} className={Styles.menuItem}>
+													<Link href={DASHBOARD} className={Styles.anchorWrapper}>
+														<Image
+															src={DashboardSVG}
+															alt=""
+															width="0"
+															height="0"
+															sizes="100vw"
+															className={Styles.subMenuIcons}
+														/>
+														<span>Mon dashboard</span>
+													</Link>
+												</MenuItem>
+												<ShopMenuItem handleClose={handleProfileSubMenuClose} />
+												<Divider orientation="horizontal" flexItem />
+												<MenuItem onClick={handleProfileSubMenuClose} className={Styles.fadedMenuItem}>
+													<Box onClick={logOutHandler} className={Styles.anchorWrapper}>
+														<Image
+															src={LogoutSVG}
+															alt=""
+															width="0"
+															height="0"
+															sizes="100vw"
+															className={Styles.subMenuIcons}
+														/>
+														<span>Se déconnecter</span>
+													</Box>
+												</MenuItem>
+											</Menu>
+										</ThemeProvider>
+										{/* Notification button */}
+										<NotificationsMenu />
+									</>
+								) : (
+									// Avatar button (user not connected)
 									<IconButton
-										aria-label="profile of current user"
-										id="my-profile-button"
-										aria-controls={openProfileSubMenu ? 'profile-menu' : undefined}
-										aria-haspopup="true"
-										aria-expanded={openProfileSubMenu ? 'true' : undefined}
-										onClick={handleProfileSubMenuClick}
 										size="large"
+										aria-label="user not connected"
+										aria-controls="menu-appbar"
+										aria-haspopup="true"
 										color="inherit"
 									>
-										{!navBarPicture ? (
-											<Skeleton variant="circular" width={30} height={30} />
-										) : (
-											<Image
-												src={navBarPicture as string}
-												alt=""
-												width="30"
-												height="30"
-												sizes="100vw"
-												className={Styles.avatarButton}
-											/>
-										)}
+										<Link href={AUTH_LOGIN} className={Styles.anchorWrapper}>
+											<Image src={ProfileSVG} alt="" width={30} height={30} sizes="100vw" />
+										</Link>
 									</IconButton>
-									{/* profil sub Menu */}
-									<ThemeProvider theme={getDropDownMenuTheme()}>
-										<Menu
-											id="profile-menu"
-											anchorEl={profileSubMenuEl}
-											open={openProfileSubMenu}
-											onClose={handleProfileSubMenuClose}
-											MenuListProps={{
-												'aria-labelledby': 'my-profile-button',
-											}}
-											keepMounted
-										>
-											<MenuItem onClick={handleProfileSubMenuClose} className={Styles.menuItem}>
-												<Link href={DASHBOARD} className={Styles.anchorWrapper}>
-													<Image
-														src={DashboardSVG}
-														alt=""
-														width="0"
-														height="0"
-														sizes="100vw"
-														className={Styles.subMenuIcons}
-													/>
-													<span>Mon dashboard</span>
-												</Link>
-											</MenuItem>
-											<ShopMenuItem handleClose={handleProfileSubMenuClose} />
-											<Divider orientation="horizontal" flexItem />
-											<MenuItem onClick={handleProfileSubMenuClose} className={Styles.fadedMenuItem}>
-												<Box onClick={logOutHandler} className={Styles.anchorWrapper}>
-													<Image
-														src={LogoutSVG}
-														alt=""
-														width="0"
-														height="0"
-														sizes="100vw"
-														className={Styles.subMenuIcons}
-													/>
-													<span>Se déconnecter</span>
-												</Box>
-											</MenuItem>
-										</Menu>
-									</ThemeProvider>
-									{/* Notification button */}
-									<NotificationsMenu />
-								</>
-							) : (
-								// Avatar button (user not connected)
-								<IconButton
-									size="large"
-									aria-label="user not connected"
-									aria-controls="menu-appbar"
-									aria-haspopup="true"
-									color="inherit"
-								>
-									<Link href={AUTH_LOGIN} className={Styles.anchorWrapper}>
-										<Image src={ProfileSVG} alt="" width={30} height={30} sizes="100vw" />
-									</Link>
-								</IconButton>
-							)}
-							{/* Cart button */}
-							{/*<IconButton*/}
-							{/*	size="large"*/}
-							{/*	aria-label="cart of current user"*/}
-							{/*	aria-controls="menu-appbar"*/}
-							{/*	aria-haspopup="true"*/}
-							{/*	color="inherit"*/}
-							{/*>*/}
-							{/*	/!*<ThemeProvider theme={badgeTheme()}>*!/*/}
-							{/*	/!*	<Badge badgeContent={4} color="primary">*!/*/}
-							{/*	<Image src={EmptyCartSVG} alt="" width={24} height={24} sizes="100vw" className={Styles.navBarIcons} />*/}
-							{/*	/!*</Badge>*!/*/}
-							{/*	/!*</ThemeProvider>*!/*/}
-							{/*</IconButton>*/}
-						</Stack>
+								)}
+							</Stack>
+							</Stack>
 					</Toolbar>
 				</AppBar>
-				<Stack direction="row" spacing="32px" className={Styles.bottomStackAnchor} alignItems="center">
-					<Link href={NOT_FOUND_404} className={Styles.anchorText}>
-						Collections lifestyle
-					</Link>
-					<Link href={NOT_FOUND_404}>
-						{/*<a className={Styles.anchorText}>Boutique coup de </a>*/}
-						<Stack direction="row" alignItems="center">
-							<span className={Styles.heartShapeAnchorText}>Boutique coup de</span>
-							<Image alt="" width="0" height="0" sizes="100vw" src={HeartShapeSVG} />
-						</Stack>
-					</Link>
-					<Link href={NOT_FOUND_404} className={Styles.anchorText}>
-						Nos produits
-					</Link>
-					<Stack direction="row" alignItems="center">
+				<Stack direction="row" spacing="22px" className={Styles.bottomStackAnchor} alignItems="center">
+					<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
+						<span className={Styles.disabledAnchorText}>Collections lifestyle</span>
+						<span className={Styles.comingSoon}>Coming soon</span>
+					</Stack>
+					<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
+						<span className={Styles.disabledAnchorText}>Boutique coup de</span>
+						<Image alt="" width="0" height="0" sizes="100vw" src={HeartShapeSVG} />
+						<span className={Styles.comingSoon}>Coming soon</span>
+					</Stack>
+					<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
+						<span className={Styles.disabledAnchorText}>Nos produits</span>
+						<span className={Styles.comingSoon}>Coming soon</span>
+					</Stack>
+					<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
 						<span className={Styles.disabledAnchorText}>Nos services</span>
 						<span className={Styles.comingSoon}>Coming soon</span>
 					</Stack>
-					<Link href={NOT_FOUND_404} className={Styles.anchorText}>
-						Blog
-					</Link>
+					<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
+						<span className={Styles.disabledAnchorText}>Blog</span>
+						<span className={Styles.comingSoon}>Coming soon</span>
+					</Stack>
 					<ShopDesktopItem />
 				</Stack>
 			</Box>
@@ -374,26 +349,28 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									/>
 								</Stack>
 								<Stack direction="column" paddingX="40px" paddingY="18px" paddingTop={0} paddingBottom={0} spacing={1}>
-									<Link href={NOT_FOUND_404} className={Styles.anchorText}>
-										Collections lifestyle
-									</Link>
-									<Link href={NOT_FOUND_404}>
-										<Stack direction="row" alignItems="center">
-											<span className={Styles.heartShapeAnchorText}>Boutique coup de</span>
-											<Image src={HeartShapeSVG} alt="" width={32} height={32} />
-										</Stack>
-									</Link>
-									<Link href={NOT_FOUND_404} className={Styles.anchorText}>
-										Nos produits
-									</Link>
-									<Stack direction="row" alignItems="center">
+									<Stack direction="row" alignItems="center" flexWrap="wrap">
+										<span className={Styles.disabledAnchorText}>Collections lifestyle</span>
+										<span className={Styles.comingSoon}>Coming soon</span>
+									</Stack>
+									<Stack direction="row" alignItems="center" flexWrap="wrap">
+										<span className={Styles.disabledAnchorText}>Boutique coup de</span>
+										<Image alt="" width={32} height={32} sizes="100vw" src={HeartShapeSVG} />
+										<span className={Styles.comingSoon}>Coming soon</span>
+									</Stack>
+									<Stack direction="row" alignItems="center" flexWrap="wrap">
+										<span className={Styles.disabledAnchorText}>Nos produits</span>
+										<span className={Styles.comingSoon}>Coming soon</span>
+									</Stack>
+									<Stack direction="row" alignItems="center" flexWrap="wrap">
 										<span className={Styles.disabledAnchorText}>Nos services</span>
 										<span className={Styles.comingSoon}>Coming soon</span>
 									</Stack>
 									<span className={Styles.miniDivider}>—</span>
-									<Link href={NOT_FOUND_404} className={Styles.anchorText}>
-										Blog
-									</Link>
+									<Stack direction="row" alignItems="center" flexWrap="wrap">
+										<span className={Styles.disabledAnchorText}>Blog</span>
+										<span className={Styles.comingSoon}>Coming soon</span>
+									</Stack>
 								</Stack>
 								<Box paddingTop="16px" paddingBottom="16px" paddingX="40px">
 									<Divider orientation="horizontal" flexItem className={Styles.divider} />
@@ -550,8 +527,6 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										aria-expanded={openProfileSubMenuMobile ? 'true' : undefined}
 										onClick={handleProfileSubMenuMobileClick}
 									>
-										{/*<ThemeProvider theme={badgeTheme()}>*/}
-										{/*	<Badge badgeContent={4} color="primary">*/}
 										{!navBarPicture ? (
 											<Skeleton variant="circular" width={30} height={30} />
 										) : (
@@ -675,34 +650,9 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									</Link>
 								</IconButton>
 							)}
-							{/*<IconButton*/}
-							{/*	size="large"*/}
-							{/*	aria-label="cart of current user"*/}
-							{/*	aria-controls="menu-appbar"*/}
-							{/*	aria-haspopup="true"*/}
-							{/*	color="inherit"*/}
-							{/*	className={Styles.iconButton}*/}
-							{/*>*/}
-							{/*	<Image src={EmptyCartSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.mobileIcons} />*/}
-							{/*</IconButton>*/}
 						</Stack>
 					</Toolbar>
 				</AppBar>
-				{!hideMobileSearch && (
-					<Stack alignItems="center" className={Styles.searchWrapper} direction="row">
-						<Image src={SearchIconSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.searchIcon} />
-						<input
-							value={searchValue}
-							onChange={(e) => {
-								setSearchValue(e.target.value);
-							}}
-							type="text"
-							placeholder="Rechercher"
-							disabled
-							className={Styles.searchInput}
-						/>
-					</Stack>
-				)}
 			</Box>
 		</ThemeProvider>
 	);

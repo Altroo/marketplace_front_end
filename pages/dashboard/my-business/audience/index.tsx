@@ -21,7 +21,6 @@ import Image from 'next/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import MobileMyBusinessNav from '../../../../components/layouts/mobile/mobileMyBusinessNav/mobileMyBusinessNav';
 import CustomFooter from '../../../../components/layouts/footer/customFooter';
-import QuestionMarkSVG from '../../../../public/assets/svgs/globalIcons/question-mark.svg';
 import DesktopArticlesTotalCountSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/desktop-articles-total-count.svg';
 import MiniVuesSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/mini-articles-vue-count.svg';
 import { fullMonthItemsList } from '../../../../utils/rawData';
@@ -53,6 +52,8 @@ type PageContentType = {
 const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 	const { data, vuesData } = props;
 	const { total_vue_month, total_vue_pourcentage, total_offers_vue_count } = data;
+	console.log(data);
+	console.log(vuesData);
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const [totalVuePourcentageCSS, setTotalVuePourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
@@ -175,17 +176,13 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 			<Stack direction="column" spacing={3} className={Styles.dashboardRightContentMarginLeft}>
 				<Stack direction="column">
 					<h2 className={Styles.userShopTitle}>Audience</h2>
-					{/*<Stack direction="row" gap="3px" alignItems="center">*/}
-					{/*	<Image src={QuestionMarkSVG} width={18} height={18} alt="" sizes="100vw" />*/}
-					{/*	/!*<span className={Styles.myBusinessQuestion}>Comment booster ses ventes</span>*!/*/}
-					{/*</Stack>*/}
 				</Stack>
 				<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardVuesDesktopCard}>
 					<Image src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />
 					<Stack direction="column" sx={{ width: '100%' }}>
 						<span className={Styles.dashboardMiniCardCounter}>{total_offers_vue_count} {total_offers_vue_count > 1 ? 'vues' : 'vue'}</span>
 						<Stack direction="row" justifyContent="space-between">
-							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_vue_month]}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_vue_month - 1]}</span>
 							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalVuePourcentageCSS}`}>
 								{total_vue_pourcentage}
 							</span>

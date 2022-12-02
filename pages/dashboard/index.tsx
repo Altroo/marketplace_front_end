@@ -18,11 +18,11 @@ import { Stack, Box, Skeleton } from '@mui/material';
 import UserMainNavigationBar from '../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import Styles from '../../styles/dashboard/dashboard.module.sass';
 import Image from 'next/image';
-import MobileNewMessageSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-new-message.svg';
+// import MobileNewMessageSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-new-message.svg';
 import MobileMessageSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-message.svg';
 import MobileNotificationSVG from '../../public/assets/svgs/mainNavBarIcons/notification.svg';
-import MobileNewNotificationSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-new-notification.svg';
-import RatingBlackStarSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/rating-black-star.svg';
+// import MobileNewNotificationSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-new-notification.svg';
+// import RatingBlackStarSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/rating-black-star.svg';
 import MiniArticlesTotalCountSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mini-articles-total-count.svg';
 import MiniArticlesVueCountSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mini-articles-vue-count.svg';
 import MiniUSDSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mini-usd.svg';
@@ -52,8 +52,8 @@ import { SxProps, ThemeProvider } from '@mui/system';
 import { getDefaultTheme } from '../../utils/themes';
 import OutlineButton from '../../components/htmlElements/buttons/outlineButton/outlineButton';
 import { Theme } from '@mui/material/styles/createTheme';
-import { accountPostResendActivationAction } from '../../store/actions/account/accountActions';
-import { useAppDispatch } from '../../utils/hooks';
+// import { accountPostResendActivationAction } from '../../store/actions/account/accountActions';
+// import { useAppDispatch } from '../../utils/hooks';
 
 type ShopInfoContentType = {
 	shop_name: string;
@@ -75,7 +75,7 @@ export const ShopInfoContent: React.FC<ShopInfoContentType> = (props: ShopInfoCo
 		total_offers_vue_count,
 		total_sells_count,
 		total_offers_count,
-		global_rating,
+		// global_rating,
 	} = props;
 
 	return (
@@ -146,7 +146,11 @@ type UserInfoContentType = {
 };
 
 const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentType) => {
-	const { first_name, last_name, global_rating, avatar, user_id } = props;
+	const { first_name, last_name,
+		// global_rating,
+		avatar,
+		// user_id
+	} = props;
 
 	return (
 		<Stack direction="column" className={Styles.dashboardShopCardStack} spacing={1}>
@@ -264,7 +268,7 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 					<Stack direction="column" sx={{ width: '100%' }}>
 						<span className={Styles.dashboardMiniCardCounter}>{total_offers_vue_count} {total_offers_vue_count > 1 ? 'vues' : 'vue'}</span>
 						<Stack direction="row" justifyContent="space-between">
-							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_vue_month]}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_vue_month - 1]}</span>
 							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalVuePourcentageCSS}`}>
 								{total_vue_pourcentage}
 							</span>
@@ -278,7 +282,7 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 					<Stack direction="column" sx={{ width: '100%' }}>
 						<span className={Styles.dashboardMiniCardCounter}>{total_sells_count} {total_sells_count > 1 ? 'DHS' : 'DH'}</span>
 						<Stack direction="row" justifyContent="space-between">
-							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_sells_month]}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_sells_month - 1]}</span>
 							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalSellsPourcentageCSS}`}>
 								{total_sells_pourcentage}
 							</span>
@@ -325,21 +329,36 @@ type MobileDashboardCardsType = {
 	icon: string;
 	title: string;
 	link: string;
+	disabled?: boolean;
 };
 
 const MobileDashboardCards: React.FC<MobileDashboardCardsType> = (props: MobileDashboardCardsType) => {
 	const { icon, title, link } = props;
 	return (
-		<Stack className={Styles.dashboardCardBox} justifyContent="center" sx={{ height: '110px !important' }}>
-			<Link href={link}>
+		<Stack className={Styles.dashboardCardBox} justifyContent="center" sx={{ height: '110px !important', opacity: `${props.disabled ? '0.6' : '1'}` }}>
+			{!props.disabled ? (
+				<Link href={link}>
+					<Stack direction="row" justifyContent="space-between" alignItems="center">
+						<Stack direction="row" spacing="18px" alignItems="center">
+							<Image src={icon} alt="" width="54" height="54" sizes="100vw" />
+							<span className={Styles.dashboardCardIconText}>{title}</span>
+						</Stack>
+						<Image src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
+					</Stack>
+				</Link>
+			) : (
 				<Stack direction="row" justifyContent="space-between" alignItems="center">
 					<Stack direction="row" spacing="18px" alignItems="center">
 						<Image src={icon} alt="" width="54" height="54" sizes="100vw" />
-						<span className={Styles.dashboardCardIconText}>{title}</span>
+						<Stack direction="row" alignItems="center" flexWrap="wrap">
+							<span className={Styles.dashboardCardIconText}>{title}</span>
+							<span className={Styles.comingSoon}>Coming soon</span>
+						</Stack>
 					</Stack>
 					<Image src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
 				</Stack>
-			</Link>
+			)}
+
 		</Stack>
 	);
 };
@@ -352,13 +371,13 @@ type IndexProps = {
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	const { data } = props.pageProps;
 	// const dispatch = useAppDispatch();
-	const [mobileMessagesIconState, setMobileMessagesIconState] = useState<string>(MobileMessageSVG);
-	const [mobileNotificationsIconState, setMobileNotificationsIconState] = useState<string>(MobileNotificationSVG);
+	// const [mobileMessagesIconState, setMobileMessagesIconState] = useState<string>(MobileMessageSVG);
+	// const [mobileNotificationsIconState, setMobileNotificationsIconState] = useState<string>(MobileNotificationSVG);
 	const [showActivateNowModal, setShowActivateNowModal] = useState<boolean>(false);
 
 	const {
-		has_messages,
-		has_notifications,
+		// has_messages,
+		// has_notifications,
 		is_subscribed,
 		shop_name,
 		shop_avatar,
@@ -366,8 +385,8 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		email,
 		has_shop,
 		indexed_articles_count,
-		has_orders,
-		is_creator,
+		// has_orders,
+		// is_creator,
 		is_verified,
 		shop_url,
 		all_slots_count,
@@ -390,12 +409,12 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 
 
 	useEffect(() => {
-		if (has_messages) {
-			setMobileMessagesIconState(MobileNewMessageSVG);
-		}
-		if (has_notifications) {
-			setMobileNotificationsIconState(MobileNewNotificationSVG);
-		}
+		// if (has_messages) {
+		// 	setMobileMessagesIconState(MobileNewMessageSVG);
+		// }
+		// if (has_notifications) {
+		// 	setMobileNotificationsIconState(MobileNewNotificationSVG);
+		// }
 		if (total_vue_pourcentage.startsWith('+')) {
 			setTotalVuePourcentageCSS(Styles.dashboardPositivePourcentage);
 		} else if (total_vue_pourcentage.startsWith('-')) {
@@ -407,7 +426,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		} else if (total_sells_pourcentage.startsWith('-')) {
 			setTotalSellsPourcentageCSS(Styles.dashboardNegativePourcentage);
 		}
-	}, [has_messages, has_notifications, total_sells_pourcentage, total_vue_pourcentage]);
+	}, [total_sells_pourcentage, total_vue_pourcentage]);
 
 	return (
 		<ThemeProvider theme={getDefaultTheme()}>
@@ -574,7 +593,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 							) : (
 								<UserMyBusinessCardContent rootSX={{ width: '100%' }} />
 							)}
-							<MobileDashboardCards icon={DesktopOrdersSVG} link={NOT_FOUND_404} title="Mes commandes" />
+							<MobileDashboardCards icon={DesktopOrdersSVG} link={NOT_FOUND_404} title="Mes commandes" disabled />
 							<MobileDashboardCards icon={DesktopMonCompteSVG} link={DASHBOARD_EDIT_PROFILE} title="Mon compte" />
 						</Stack>
 					</Stack>

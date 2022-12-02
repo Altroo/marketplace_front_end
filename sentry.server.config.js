@@ -11,7 +11,7 @@ const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 Sentry.init({
   // environment: "production",
   dsn: SENTRY_DSN,
-  tracesSampleRate: 1.0,
+  tracesSampleRate: 0.2,
   // integrations: [
   //   new BrowserTracing({
   //     tracePropagationTargets: [`${process.env.API_ROOT_URL}`],
