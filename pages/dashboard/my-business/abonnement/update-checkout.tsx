@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from "../../../../utils/helpers";
+import {
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	setFormikAutoErrors
+} from "../../../../utils/helpers";
 import {
 	AUTH_LOGIN,
 	DASHBOARD_SUBSCRIPTION,
@@ -87,6 +91,7 @@ type UpdateCheckoutProps = {
 		ice: string;
 		adresse: string;
 		code_postal: string;
+		remaining_days: number;
 	};
 };
 
@@ -102,11 +107,13 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 		ice,
 		adresse,
 		code_postal,
+		remaining_days
 	} = props.pageProps;
+
 	const { nbr_article, prix_ttc, prix_unitaire_ttc, pourcentage } = pickedSubscription;
 
 	const [nbrArticleState, setNbrArticleState] = useState<number>(nbr_article);
-	const [prixTTCState, setPrixTTCState] = useState<number>(prix_ttc);
+	const [prixTTCState, setPrixTTCState] = useState<number>(remaining_days > 0 ? Math.round(remaining_days * (prix_ttc / 365)) : prix_ttc);
 	const [prixUnitaireTTCState, setPrixUnitaireTTCState] = useState<number>(prix_unitaire_ttc);
 	const [pourcentageState, setPourcentageState] = useState<number>(pourcentage);
 
@@ -132,34 +139,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteCheckPromoCodeType) => {
 					if (!error && !cancelled && data) {
 						if (data.validity && data.type && data.value) {
-							// if (data.type === 'S') {
-							// 	/* Removed
-							// 	} else if (nbrArticleState > data.value) {
-							// 		setNbrArticleState(nbrArticleState - data.value);
-							// 		setReductionState(prix_ttc);
-							// 	 */
-							// 	if (nbrArticleState === data.value) {
-							// 		setReductionState(prixTTCState);
-							// 		return;
-							// 	} else {
-							// 		const action = subscriptionGetSubscriptionByNbrArticle(data.value);
-							// 		dispatch({
-							// 			...action,
-							// 			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteSubscriptionByNbrArticleType) => {
-							// 				if (!error && !cancelled && data) {
-							// 					setNbrArticleState(data.nbr_article);
-							// 					setPrixTTCState(data.prix_ttc);
-							// 					setPrixUnitaireTTCState(data.prix_unitaire_ttc);
-							// 					setPourcentageState(data.pourcentage);
-							// 					setReductionState(data.prix_ttc);
-							// 				}
-							// 			},
-							// 		});
-							// 	}
-							// 	// setNbrArticleState(prevState => prevState - data.value);
-							// } else
 							if (data.type === 'P' && data.value) {
-								// setPrixTTCState(prevState => prevState - data.value);
 								const pourcentagePrice = Math.round((prixTTCState * data.value) / 100);
 								setReductionState(pourcentagePrice);
 								setShowPromoCodeMessage('success');
@@ -571,6 +551,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 									city: response.data.city,
 									code_postal: response.data.code_postal,
 									country: response.data.country,
+									remaining_days: response.data.remaining_days,
 								},
 							};
 						} else {

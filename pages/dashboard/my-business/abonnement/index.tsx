@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../../styles/dashboard/dashboard.module.sass';
 import SubscribedStyles from '../../../../styles/dashboard/subscribed.module.sass';
@@ -23,7 +23,6 @@ import Image from 'next/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import MobileMyBusinessNav from '../../../../components/layouts/mobile/mobileMyBusinessNav/mobileMyBusinessNav';
 import CustomFooter from '../../../../components/layouts/footer/customFooter';
-import JumelleIlluSVG from '../../../../public/assets/images/jumelle-illu.svg';
 import IosSwitch from '../../../../components/htmlElements/switches/iosSwitch';
 import TextButton from '../../../../components/htmlElements/buttons/textButton/textButton';
 import CustomSlider from '../../../../components/htmlElements/customSlider/customSlider';
@@ -33,7 +32,7 @@ import ArticlesIndexedSVG from '../../../../public/assets/svgs/dashboardIcons/ma
 import USDBlackSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/usd-black.svg';
 import { getSliderData } from '../../../../utils/rawData';
 import { useAppSelector } from '../../../../utils/hooks';
-import { getAvailableSubscriptions, getWSFacture } from "../../../../store/selectors";
+import { getAvailableSubscriptions, getWSFacture } from '../../../../store/selectors';
 import { useDispatch } from 'react-redux';
 import { subscriptionGetAvailableSubscriptionAction } from '../../../../store/actions/subscription/subscriptionActions';
 import {
@@ -87,7 +86,7 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 	const [selectedSlideValues, setSelectedSlideValues] =
 		useState<Omit<availableSubscriptionPlanType, 'pk'>>(initialSubscriptionPlan);
 
-	const onSliderValueChangeHandler = (e: Event, newValue: number | Array<number>) => {
+	const onSliderValueChangeHandler = useCallback((e: Event, newValue: number | Array<number>) => {
 		const value = getSliderData(newValue as number);
 		setArticlesValue(newValue as number);
 		if (value === 110) {
@@ -102,9 +101,9 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 			setIllimiteState(false);
 		}
 		setPickedArticle(value as number);
-	};
+	}, []);
 
-	const subscribingClickHandler = () => {
+	const subscribingClickHandler = useCallback(async () => {
 		// safety check for illimité
 		const query = {
 			nbr_article: selectedSlideValues.nbr_article,
@@ -116,28 +115,35 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 		};
 		if (pickedArticle < 110) {
 			if (!renderBack) {
-				router
-					.push(
-						{
-							pathname: DASHBOARD_NEW_SUBSCRIPTION,
-							query: { ...query },
-						},
-						DASHBOARD_NEW_SUBSCRIPTION,
-					) // using "as" to hide the query params
-					.then();
+				// using "as" to hide the query params
+				await router.push(
+					{
+						pathname: DASHBOARD_NEW_SUBSCRIPTION,
+						query: { ...query },
+					},
+					DASHBOARD_NEW_SUBSCRIPTION,
+				);
 			} else {
-				router
-					.push(
-						{
-							pathname: DASHBOARD_UPGRADE_SUBSCRIPTION,
-							query: { ...query },
-						},
-						DASHBOARD_UPGRADE_SUBSCRIPTION,
-					)
-					.then();
+				await router.push(
+					{
+						pathname: DASHBOARD_UPGRADE_SUBSCRIPTION,
+						query: { ...query },
+					},
+					DASHBOARD_UPGRADE_SUBSCRIPTION,
+				);
 			}
 		}
-	};
+	}, [
+		pickedArticle,
+		renderBack,
+		router,
+		selectedSlideValues.nbr_article,
+		selectedSlideValues.pourcentage,
+		selectedSlideValues.prix_ht,
+		selectedSlideValues.prix_ttc,
+		selectedSlideValues.prix_unitaire_ht,
+		selectedSlideValues.prix_unitaire_ttc,
+	]);
 
 	useEffect(() => {
 		// dispatch get available subscriptions
@@ -280,8 +286,8 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 												<span>{selectedSlideValues.prix_unitaire_ttc}</span>
 											) : (
 												<span>{selectedSlideValues.prix_unitaire_ht}</span>
-											)}{' DH '}
-											/ article
+											)}
+											{' DH '}/ article
 										</span>
 									</Stack>
 									<Stack direction="row" justifyContent="center" alignItems="center">
@@ -331,18 +337,28 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 	const router = useRouter();
 	const wsFacture = useAppSelector(getWSFacture);
 
-	const UpdateClickHandler = () => {
-		router
-			.replace(
-				{
-					query: {
-						renderBack: true,
-					},
+	const UpdateClickHandler = useCallback(async () => {
+		await router.replace(
+			{
+				query: {
+					renderBack: true,
 				},
-				router.asPath,
-			)
-			.then();
-	};
+			},
+			router.asPath,
+		);
+	}, [router]);
+
+	const articleReferenceHandler = useCallback(async () => {
+		await router.replace(
+			{
+				query: {
+					direct: true,
+				},
+				pathname: DASHBOARD_INDEXED_OFFERS,
+			},
+			DASHBOARD_INDEXED_OFFERS,
+		);
+	}, [router]);
 
 	return (
 		<Stack direction="column" spacing={3} className={Styles.dashboardRightContentMarginLeft}>
@@ -385,19 +401,7 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 								<Box className={Styles.mobileOnly}>
 									<MobileTextAnchorButton
 										buttonText="Articles référencés"
-										onClick={() => {
-											router
-												.replace(
-													{
-														query: {
-															direct: true,
-														},
-														pathname: DASHBOARD_INDEXED_OFFERS,
-													},
-													DASHBOARD_INDEXED_OFFERS,
-												)
-												.then();
-										}}
+										onClick={articleReferenceHandler}
 									/>
 								</Box>
 							</Stack>
@@ -410,11 +414,7 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 								<span>Tarif</span>
 							</Stack>
 							<Stack direction="column" spacing="15px">
-								<Stack
-									direction="row"
-									className={SubscribedStyles.subscribedPrixParArticle}
-									alignItems="center"
-								>
+								<Stack direction="row" className={SubscribedStyles.subscribedPrixParArticle} alignItems="center">
 									<span>{prix_unitaire_ttc} DH</span>
 									<span>/ article</span>
 								</Stack>
