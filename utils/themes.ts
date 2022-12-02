@@ -1142,6 +1142,7 @@ export const NotificationsDropDownMenuTheme = (primaryColor: string | undefined 
 						borderRadius: '40px !important',
 						padding: '20px',
 						minWidth: '348px !important',
+
 						[defaultTheme.breakpoints.down('sm')]: {
 							minWidth: '320px !important',
 						},

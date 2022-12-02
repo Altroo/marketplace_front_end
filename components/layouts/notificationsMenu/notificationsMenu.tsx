@@ -87,7 +87,7 @@ const NotificationsMenu: React.FC<Props> = (props: Props) => {
 					}}
 				>
 					<span className={Styles.notificationsMenuHeader}>Notifications</span>
-					<Stack direction="column" divider={<Divider orientation="horizontal" flexItem className={Styles.divider} />}>
+					<Stack direction="column" maxHeight="300px" divider={<Divider orientation="horizontal" flexItem className={Styles.divider} />}>
 						{userNotifications.map((notification) => {
 							const notif_data = getNotificationLink(notification.type_);
 							const created_date = new Date(notification.created_date);
