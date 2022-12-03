@@ -28,17 +28,15 @@ const nextConfig = {
 	},
 	async rewrites() {
 		return [
-			{
-				source: ':path*',
-				has: [
-					{
-						type: 'host',
-						value: 'qaryb.com',
-					},
-				],
-				destination: `https://:www.qaryb.com:path*`,
-			},
-		];
+      {
+        source: '/',
+        destination: 'https://www.qaryb.com/',
+      },
+      {
+        source: '/:path*/',
+        destination: 'https://www.qaryb.com/:path*/',
+      },
+    ]
 	},
 };
 
