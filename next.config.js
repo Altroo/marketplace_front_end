@@ -26,18 +26,6 @@ const nextConfig = {
 		// for more information.
 		hideSourceMaps: true,
 	},
-	async rewrites() {
-		return [
-      {
-        source: '/',
-        destination: 'https://www.qaryb.com/',
-      },
-      {
-        source: '/:path*/',
-        destination: 'https://www.qaryb.com/:path*/',
-      },
-    ]
-	},
 };
 
 module.exports = withSentryConfig(nextConfig, {

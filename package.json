@@ -33,6 +33,7 @@
     "next-auth": "^4.17.0",
     "next-redux-wrapper": "^8.0.0",
     "next-seo": "^5.14.1",
+    "nextjs-cors": "^2.1.2",
     "react": "18.2.0",
     "react-country-flag": "^3.0.2",
     "react-currency-input-field": "^3.6.9",
