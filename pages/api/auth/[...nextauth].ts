@@ -266,7 +266,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "lax",
 					path: "/",
 					secure: true,
-					domain: '.qaryb.com'
+					domain: 'qaryb.com'
 				}
 			},
 			callbackUrl: {
@@ -275,7 +275,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "lax",
 					path: "/",
 					secure: true,
-					domain: '.qaryb.com'
+					domain: 'qaryb.com'
 				}
 			},
 			csrfToken: {
@@ -285,7 +285,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "lax",
 					path: "/",
 					secure: true,
-					domain: '.qaryb.com'
+					domain: 'qaryb.com'
 				}
 			},
 			pkceCodeVerifier: {
@@ -296,7 +296,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					path: "/",
 					secure: true,
 					maxAge: 900,
-					domain: '.qaryb.com'
+					domain: 'qaryb.com'
 				}
 			},
 			state: {
@@ -307,7 +307,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					path: "/",
 					secure: true,
 					maxAge: 900,
-					domain: '.qaryb.com'
+					domain: 'qaryb.com'
 				}
 			},
 			nonce: {
@@ -317,7 +317,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "lax",
 					path: "/",
 					secure: true,
-					domain: '.qaryb.com'
+					domain: 'qaryb.com'
 				}
 			}
 		},

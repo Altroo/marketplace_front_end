@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			httpOnly: true,
 			secure: true,
 			path: '/',
-			domain: '.qaryb.com',
+			domain: 'qaryb.com',
 			// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 		};
 		const query = req.body;
@@ -121,7 +121,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			path: '/',
 			httpOnly: true,
 			secure: true,
-			domain: '.qaryb.com',
+			domain: 'qaryb.com',
 			// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 		};
 		const query = req.body;
