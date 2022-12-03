@@ -29,14 +29,14 @@ const nextConfig = {
 	async rewrites() {
 		return [
 			{
-				source: '/api/:path*',
+				source: '/:path*',
 				has: [
 					{
 						type: 'host',
 						value: 'qaryb.com',
 					},
 				],
-				destination: `https://:www.qaryb.com/api/:path*`,
+				destination: `https://:www.qaryb.com/:path*`,
 			},
 		];
 	},
