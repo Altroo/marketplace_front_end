@@ -29,7 +29,13 @@ const nextConfig = {
 	async rewrites() {
 		return [
 			{
-				source: 'https://:qaryb.com/api/:path*',
+				source: '/api/:path*',
+				has: [
+					{
+						type: 'domain',
+						value: '(?<qaryb>)\\..*',
+					},
+				],
 				destination: `https://:www.qaryb.com/api/:path*`,
 			},
 		];
