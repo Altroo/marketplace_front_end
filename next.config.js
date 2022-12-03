@@ -32,8 +32,8 @@ const nextConfig = {
 				source: '/api/:path*',
 				has: [
 					{
-						type: 'domain',
-						value: '(?<qaryb>)\\..*',
+						type: 'host',
+						value: 'qaryb.com',
 					},
 				],
 				destination: `https://:www.qaryb.com/api/:path*`,
