@@ -1,15 +1,15 @@
-import NextAuth, { NextAuthOptions } from 'next-auth';
-import FacebookProvider from 'next-auth/providers/facebook';
-import GoogleProvider from 'next-auth/providers/google';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { allowAnyInstance, emptyRemoteCookiesUniqueIDOnly } from '../../../utils/helpers';
+import NextAuth, { NextAuthOptions } from "next-auth";
+import FacebookProvider from "next-auth/providers/facebook";
+import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { allowAnyInstance, emptyRemoteCookiesUniqueIDOnly } from "../../../utils/helpers";
 import {
 	AccountPostFacebookResponseType,
 	AccountPostGoogleResponseType,
-	AccountPostLoginFixNextAuthResponseType,
-} from '../../../types/account/accountTypes';
-import { postApi } from '../../../store/services/_init/_initAPI';
-import { NextApiRequest, NextApiResponse } from 'next';
+	AccountPostLoginFixNextAuthResponseType
+} from "../../../types/account/accountTypes";
+import { postApi } from "../../../store/services/_init/_initAPI";
+import { NextApiRequest, NextApiResponse } from "next";
 import {
 	ApiErrorResponseType,
 	InitStateInterface,
@@ -17,9 +17,9 @@ import {
 	InitStateUniqueID,
 	tokenUser
 } from "../../../types/_init/_initTypes";
-import { emptyInitStateUniqueID } from '../../../store/slices/_init/_initSlice';
-import { setAuthTokenCookie } from '../../../utils/cookies';
-import axios from 'axios';
+import { emptyInitStateUniqueID } from "../../../store/slices/_init/_initSlice";
+import { setAuthTokenCookie } from "../../../utils/cookies";
+import axios from "axios";
 
 const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 	return {
@@ -29,50 +29,50 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				idToken: true,
 				clientId: `${process.env.FACEBOOK_ID}`,
 				clientSecret: `${process.env.FACEBOOK_SECRET}`,
-				checks: ['pkce', 'state'],
+				checks: ["pkce", "state"],
 				token: {
-					url: 'https://graph.facebook.com/oauth/access_token',
+					url: "https://graph.facebook.com/oauth/access_token",
 					async request(context) {
 						// request to https://graph.facebook.com/oauth/access_token?code_verifier=""&code=""&client_id=""&redirect_uri=""&client_secret=""
-						const response = await axios.get('https://graph.facebook.com/oauth/access_token', {
+						const response = await axios.get("https://graph.facebook.com/oauth/access_token", {
 							params: {
 								code_verifier: context.checks.code_verifier,
 								code: context.params.code,
 								client_id: context.provider.clientId,
 								redirect_uri: context.provider.callbackUrl,
-								client_secret: context.provider.clientSecret,
-							},
+								client_secret: context.provider.clientSecret
+							}
 						});
 
 						const tokens = response.data;
 						return { tokens };
-					},
-				},
+					}
+				}
 			}),
 			GoogleProvider({
 				idToken: true,
-				checks: ['pkce', 'state'],
+				checks: ["pkce", "state"],
 				clientId: `${process.env.GOOGLE_ID}`,
 				clientSecret: `${process.env.GOOGLE_SECRET}`,
 				authorization: {
 					params: {
-						prompt: 'consent',
-						access_type: 'offline',
-						response_type: 'code',
-					},
-				},
+						prompt: "consent",
+						access_type: "offline",
+						response_type: "code"
+					}
+				}
 			}),
 			CredentialsProvider({
 				// The name to display on the sign in form (e.g. "Sign in with...")
-				name: 'credentials',
-				type: 'credentials',
+				name: "credentials",
+				type: "credentials",
 				// The credentials is used to generate a suitable form on the sign in page.
 				// You can specify whatever fields you are expecting to be submitted.
 				// e.g. domain, username, password, 2FA token, etc.
 				// You can pass any HTML attribute to the <input> tag through the object.
 				credentials: {
-					email: { label: 'Email', type: 'email', placeholder: 'email' },
-					password: { label: 'Password', type: 'password', placeholder: 'password' },
+					email: { label: "Email", type: "email", placeholder: "email" },
+					password: { label: "Password", type: "password", placeholder: "password" }
 				},
 				async authorize(credentials) {
 					const email = credentials?.email;
@@ -82,7 +82,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 						const instance = allowAnyInstance();
 						const response: AccountPostLoginFixNextAuthResponseType = await postApi(url, instance, {
 							email: email,
-							password: password,
+							password: password
 						});
 						if (response.status === 200) {
 							// set localStorage token only
@@ -95,8 +95,8 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 						return null;
 					}
 					return null;
-				},
-			}),
+				}
+			})
 		],
 		// The secret should be set to a reasonably long random string.
 		// It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
@@ -107,10 +107,10 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 			// Use JSON Web Tokens for session instead of database sessions.
 			// This option can be used with or without a database for users/accounts.
 			// Note: `strategy` should be set to 'jwt' if no database is used.
-			strategy: 'jwt',
+			strategy: "jwt",
 
 			// Seconds - How long until an idle session expires and is no longer valid.
-			maxAge: 30 * 24 * 60 * 60, // 30 days
+			maxAge: 30 * 24 * 60 * 60 // 30 days
 
 			// Seconds - Throttle how frequently to write to database to extend a session.
 			// Use it to limit write operations. Set to 0 to always update the database.
@@ -123,7 +123,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		// https://next-auth.js.org/configuration/options#jwt
 		jwt: {
 			// A secret to use for key generation (you should set this explicitly)
-			secret: process.env.NEXTAUTH_SECRET,
+			secret: process.env.NEXTAUTH_SECRET
 			// Set to true to use encryption (default: false)
 			// encryption: true,
 			// You can define your own encode/decode functions for signing and encryption
@@ -138,9 +138,9 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		// pages is not specified for that route.
 		// https://next-auth.js.org/configuration/pages
 		pages: {
-			signIn: '/auth/register', // Displays signin buttons
+			signIn: "/auth/register", // Displays signin buttons
 			// signOut: '/auth/signout', // Displays form with sign out button
-			error: '/auth/login', // Error code passed in query string as ?error=
+			error: "/auth/login" // Error code passed in query string as ?error=
 			// verifyRequest: '/auth/verify-request', // Used for check email page
 			// newUser: null // If set, new users will be directed here on first sign in
 		},
@@ -151,7 +151,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		callbacks: {
 			async signIn({ user, account, profile, email, credentials }) {
 				if (account) {
-					if (account && account.provider === 'google') {
+					if (account && account.provider === "google") {
 						// extract needed tokens
 						const { access_token, id_token } = account;
 						// send a POST request
@@ -160,7 +160,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 							const instance = allowAnyInstance();
 							const response: AccountPostGoogleResponseType = await postApi(url, instance, {
 								access_token: access_token,
-								id_token: id_token,
+								id_token: id_token
 							});
 							account.user = response.data.user;
 							account.access_token = response.data.access_token as string;
@@ -172,7 +172,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 							// return e as ApiErrorResponseType;
 							return false;
 						}
-					} else if (account.provider === 'facebook') {
+					} else if (account.provider === "facebook") {
 						// extract needed tokens
 						const { access_token, id_token } = account;
 						// send a POST request
@@ -181,7 +181,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 							const instance = allowAnyInstance();
 							const response: AccountPostFacebookResponseType = await postApi(url, instance, {
 								access_token: access_token,
-								id_token: id_token,
+								id_token: id_token
 							});
 							account.user = response.data.user;
 							account.access_token = response.data.access_token;
@@ -192,7 +192,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 						} catch (e) {
 							return false;
 						}
-					} else if (account.provider === 'credentials') {
+					} else if (account.provider === "credentials") {
 						// login handled in authorize
 						account.user = user.user;
 						account.access_token = user.access_token;
@@ -216,7 +216,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				const options = {
 					httpOnly: true,
 					secure: true,
-					path: '/',
+					path: "/"
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				};
 				if (account) {
@@ -226,20 +226,20 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					token.refreshToken = account.refresh_token;
 					token.user = account.user as tokenUser;
 					const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
-						tokenType: 'TOKEN',
+						tokenType: "TOKEN",
 						initStateToken: {
 							user: account.user,
 							access_token: account.access_token as string,
 							refresh_token: account.refresh_token as string,
 							access_token_expiration: account.access_token_expiration as string,
-							refresh_token_expiration: account.refresh_token_expiration as string,
+							refresh_token_expiration: account.refresh_token_expiration as string
 						},
-						initStateUniqueID: emptyInitStateUniqueID,
+						initStateUniqueID: emptyInitStateUniqueID
 					};
 					setAuthTokenCookie(res, newInitStateToken, {
 						maxAge: 30 * 24 * 60 * 60, // 30 days
-						sameSite: 'lax',
-						...options,
+						sameSite: "lax",
+						...options
 					});
 				}
 				return token;
@@ -251,15 +251,71 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				session.refreshTokenExpiration = token.refreshTokenExpiration;
 				session.user = token.user;
 				return session;
-			},
+			}
 		},
 
 		// Events are useful for logging
 		// https://next-auth.js.org/configuration/events
 		events: {},
-
+		cookies: {
+			sessionToken: {
+				name: `__Secure-next-auth.session-token`,
+				options: {
+					httpOnly: true,
+					sameSite: "lax",
+					path: "/",
+					secure: true
+				}
+			},
+			callbackUrl: {
+				name: `__Secure-next-auth.callback-url`,
+				options: {
+					sameSite: "lax",
+					path: "/",
+					secure: true
+				}
+			},
+			csrfToken: {
+				name: `__Host-next-auth.csrf-token`,
+				options: {
+					httpOnly: true,
+					sameSite: "lax",
+					path: "/",
+					secure: true
+				}
+			},
+			pkceCodeVerifier: {
+				name: "next-auth.pkce.code_verifier",
+				options: {
+					httpOnly: true,
+					sameSite: "lax",
+					path: "/",
+					secure: true,
+					maxAge: 900
+				}
+			},
+			state: {
+				name: "next-auth.state",
+				options: {
+					httpOnly: true,
+					sameSite: "lax",
+					path: "/",
+					secure: true,
+					maxAge: 900
+				}
+			},
+			nonce: {
+				name: "next-auth.nonce",
+				options: {
+					httpOnly: true,
+					sameSite: "lax",
+					path: "/",
+					secure: true
+				}
+			}
+		},
 		// Enable debug messages in the console if you are having problems
-		debug: process.env.NODE_ENV !== 'production',
+		debug: process.env.NODE_ENV !== "production"
 	} as NextAuthOptions;
 };
 const handler = (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, getOptions(req, res));
