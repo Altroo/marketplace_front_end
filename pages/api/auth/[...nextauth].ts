@@ -11,7 +11,6 @@ import {
 import { postApi } from "../../../store/services/_init/_initAPI";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
-	ApiErrorResponseType,
 	InitStateInterface,
 	InitStateToken,
 	InitStateUniqueID,
@@ -123,8 +122,9 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		// option is set - or by default if no database is specified.
 		// https://next-auth.js.org/configuration/options#jwt
 		jwt: {
+			maxAge: 30 * 24 * 60 * 60 // 30 days
 			// A secret to use for key generation (you should set this explicitly)
-			secret: process.env.NEXTAUTH_SECRET
+			// secret: process.env.NEXTAUTH_SECRET
 			// Set to true to use encryption (default: false)
 			// encryption: true,
 			// You can define your own encode/decode functions for signing and encryption
@@ -266,7 +266,6 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "lax",
 					path: "/",
 					secure: true,
-					domain: 'qaryb.com'
 				}
 			},
 			callbackUrl: {
@@ -275,7 +274,6 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "lax",
 					path: "/",
 					secure: true,
-					domain: 'qaryb.com'
 				}
 			},
 			csrfToken: {
@@ -284,8 +282,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					sameSite: "lax",
 					path: "/",
-					secure: true,
-					domain: 'qaryb.com'
+					secure: true
 				}
 			},
 			pkceCodeVerifier: {
@@ -295,8 +292,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "lax",
 					path: "/",
 					secure: true,
-					maxAge: 900,
-					domain: 'qaryb.com'
+					maxAge: 900
 				}
 			},
 			state: {
@@ -306,8 +302,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "lax",
 					path: "/",
 					secure: true,
-					maxAge: 900,
-					domain: 'qaryb.com'
+					maxAge: 900
 				}
 			},
 			nonce: {
@@ -316,8 +311,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					sameSite: "lax",
 					path: "/",
-					secure: true,
-					domain: 'qaryb.com'
+					secure: true
 				}
 			}
 		},

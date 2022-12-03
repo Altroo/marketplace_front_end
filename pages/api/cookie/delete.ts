@@ -17,7 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		expires: new Date(Date.now()),
 		maxAge: 0,
 		sameSite: "lax",
-		domain: 'qaryb.com',
 	};
 
 	if (req.method === 'POST' && req.body.tokens) {
