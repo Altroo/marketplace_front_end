@@ -266,6 +266,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "none",
 					path: "/",
 					secure: true,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			callbackUrl: {
@@ -274,6 +275,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "none",
 					path: "/",
 					secure: true,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			csrfToken: {
@@ -282,7 +284,8 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					sameSite: "none",
 					path: "/",
-					secure: true
+					secure: true,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			pkceCodeVerifier: {
@@ -292,7 +295,8 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "none",
 					path: "/",
 					secure: true,
-					maxAge: 900
+					maxAge: 900,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			state: {
@@ -302,7 +306,8 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: "none",
 					path: "/",
 					secure: true,
-					maxAge: 900
+					maxAge: 900,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			nonce: {
@@ -311,7 +316,8 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					sameSite: "none",
 					path: "/",
-					secure: true
+					secure: true,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			}
 		},
