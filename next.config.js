@@ -33,14 +33,23 @@ const nextConfig = {
 		hideSourceMaps: true,
 	},
 	async headers() {
-    return [
+    const headersList = [];
+		if (process.env.NODE_ENV !== "production") {
+			headersList.push({ key: "Access-Control-Allow-Origin", value: "*"});
+		} else {
+			headersList.push(
+				{ key: "Access-Control-Allow-Origin", value: "https://www.qaryb.com"},
+			);
+			headersList.push({
+				key: "Access-Control-Allow-Origin", value: "https://qaryb.com"
+			})
+		}
+		return [
       {
 	      source: "/api/(.*)",
         headers: [
 	        { key: "Access-Control-Allow-Credentials", value: "true" },
-          process.env.NODE_ENV !== "production" && { key: "Access-Control-Allow-Origin", value: '*'},
-	        process.env.NODE_ENV === "production" && { key: "Access-Control-Allow-Origin", value: 'https://www.qaryb.com'},
-	        process.env.NODE_ENV === "production" && { key: "Access-Control-Allow-Origin", value: 'https://qaryb.com'},
+	        ...headersList,
           { key: "Access-Control-Allow-Methods", value: "GET,HEAD,PUT,PATCH,POST,DELETE" },
           { key: "Access-Control-Allow-Headers", value: headers.join(", ") }
 	      ]
