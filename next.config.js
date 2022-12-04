@@ -38,7 +38,9 @@ const nextConfig = {
 	      source: "/api/(.*)",
         headers: [
 	        { key: "Access-Control-Allow-Credentials", value: "true" },
-          { key: "Access-Control-Allow-Origin", value: process.env.NODE_ENV !== "production" ? '*' : "https://www.qaryb.com,https://qaryb.com"},
+          process.env.NODE_ENV !== "production" && { key: "Access-Control-Allow-Origin", value: '*'},
+	        process.env.NODE_ENV === "production" && { key: "Access-Control-Allow-Origin", value: 'https://www.qaryb.com'},
+	        process.env.NODE_ENV === "production" && { key: "Access-Control-Allow-Origin", value: 'https://qaryb.com'},
           { key: "Access-Control-Allow-Methods", value: "GET,HEAD,PUT,PATCH,POST,DELETE" },
           { key: "Access-Control-Allow-Headers", value: headers.join(", ") }
 	      ]
