@@ -218,7 +218,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					secure: true,
 					path: "/",
-					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
 				};
 				if (account) {
 					token.accessToken = account.access_token;
@@ -239,7 +239,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					};
 					setAuthTokenCookie(res, newInitStateToken, {
 						maxAge: 30 * 24 * 60 * 60, // 30 days
-						sameSite: "lax",
+						sameSite: 'none',
 						...options
 					});
 				}
@@ -263,61 +263,61 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				name: `__Secure-next-auth.session-token`,
 				options: {
 					httpOnly: true,
-					sameSite: "lax",
+					sameSite: 'none',
 					path: "/",
 					secure: true,
-					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			callbackUrl: {
 				name: `__Secure-next-auth.callback-url`,
 				options: {
-					sameSite: "lax",
+					sameSite: 'none',
 					path: "/",
 					secure: true,
-					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			csrfToken: {
 				name: `__Host-next-auth.csrf-token`,
 				options: {
 					httpOnly: true,
-					sameSite: "lax",
+					sameSite: 'none',
 					path: "/",
 					secure: true,
-					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			pkceCodeVerifier: {
 				name: "next-auth.pkce.code_verifier",
 				options: {
 					httpOnly: true,
-					sameSite: "lax",
+					sameSite: 'none',
 					path: "/",
 					secure: true,
 					maxAge: 900,
-					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			state: {
 				name: "next-auth.state",
 				options: {
 					httpOnly: true,
-					sameSite: "lax",
+					sameSite: 'none',
 					path: "/",
 					secure: true,
 					maxAge: 900,
-					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			nonce: {
 				name: "next-auth.nonce",
 				options: {
 					httpOnly: true,
-					sameSite: "lax",
+					sameSite: 'none',
 					path: "/",
 					secure: true,
-					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			}
 		},
