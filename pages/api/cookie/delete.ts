@@ -16,8 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		path: '/',
 		expires: new Date(Date.now()),
 		maxAge: 0,
-		sameSite: "none",
-		domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
+		sameSite: "lax",
+		domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
 	};
 
 	if (req.method === 'POST' && req.body.tokens) {
