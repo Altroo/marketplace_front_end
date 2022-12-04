@@ -1,16 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { deleteCookie, setCookie } from '../../utils/cookies';
-// import NextCors from 'nextjs-cors';
+import NextCors from 'nextjs-cors';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	// Run the cors middleware
    // nextjs-cors uses the cors package, so we invite you to check the documentation https://github.com/expressjs/cors
-   // await NextCors(req, res, {
-   //    // Options
-   //    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-   //    origin: process.env.NODE_ENV !== "production" ? '*' : ['https://www.qaryb.com', 'https://qaryb.com'],
-   //    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-   // });
+   await NextCors(req, res, {
+      // Options
+      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+      origin: process.env.NODE_ENV !== "production" ? '*' : ['https://www.qaryb.com', 'https://qaryb.com'],
+      optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+   });
 	if (req.method === 'POST') {
 		const options = {
 			httpOnly: true,
@@ -179,7 +179,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		}
 		if ('pass_updated' in query) {
 			deleteCookie(res, '@pass_updated', {
-				sameSite: 'none',
+				sameSite: 'lax',
 				...options,
 			});
 		}
