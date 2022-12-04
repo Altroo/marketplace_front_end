@@ -27,6 +27,7 @@ export const isAuthenticatedInstance = (
 		headers: {
 			'Content-Type': contentType,
 		},
+		withCredentials: true
 	});
 	instance.interceptors.request.use(
 		(config: AxiosRequestConfig) => {
