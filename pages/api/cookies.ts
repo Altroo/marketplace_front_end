@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			httpOnly: true,
 			secure: true,
 			path: '/',
-			domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
+			// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 		};
 		const query = req.body;
 		// Store Name
@@ -120,7 +120,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			path: '/',
 			httpOnly: true,
 			secure: true,
-			domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
+			// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 		};
 		const query = req.body;
 		if ('shop_name' in query) {
