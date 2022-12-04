@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	await NextCors(req, res, {
       // Options
       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-      origin: ['https://www.qaryb.com', 'https://qaryb.com'],
+      origin: process.env.NODE_ENV !== "production" ? '*' : ['https://www.qaryb.com', 'https://qaryb.com'],
       optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
    });
 
@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		path: '/',
 		expires: new Date(Date.now()),
 		maxAge: 0,
-		sameSite: "lax",
+		sameSite: "none",
 	};
 
 	if (req.method === 'POST' && req.body.tokens) {

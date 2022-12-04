@@ -239,7 +239,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					};
 					setAuthTokenCookie(res, newInitStateToken, {
 						maxAge: 30 * 24 * 60 * 60, // 30 days
-						sameSite: "lax",
+						sameSite: "none",
 						...options
 					});
 				}
@@ -263,7 +263,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				name: `__Secure-next-auth.session-token`,
 				options: {
 					httpOnly: true,
-					sameSite: "lax",
+					sameSite: "none",
 					path: "/",
 					secure: true,
 				}
@@ -271,7 +271,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 			callbackUrl: {
 				name: `__Secure-next-auth.callback-url`,
 				options: {
-					sameSite: "lax",
+					sameSite: "none",
 					path: "/",
 					secure: true,
 				}
@@ -280,7 +280,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				name: `__Host-next-auth.csrf-token`,
 				options: {
 					httpOnly: true,
-					sameSite: "lax",
+					sameSite: "none",
 					path: "/",
 					secure: true
 				}
@@ -289,7 +289,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				name: "next-auth.pkce.code_verifier",
 				options: {
 					httpOnly: true,
-					sameSite: "lax",
+					sameSite: "none",
 					path: "/",
 					secure: true,
 					maxAge: 900
@@ -299,7 +299,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				name: "next-auth.state",
 				options: {
 					httpOnly: true,
-					sameSite: "lax",
+					sameSite: "none",
 					path: "/",
 					secure: true,
 					maxAge: 900
@@ -309,7 +309,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				name: "next-auth.nonce",
 				options: {
 					httpOnly: true,
-					sameSite: "lax",
+					sameSite: "none",
 					path: "/",
 					secure: true
 				}
@@ -323,8 +323,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	await NextCors(req, res, {
       // Options
       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-      origin: ['https://www.qaryb.com', 'https://qaryb.com'],
-      optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+      origin: process.env.NODE_ENV !== "production" ? '*' : ['https://www.qaryb.com', 'https://qaryb.com'],
+      optionsSuccessStatus: 200, //
    });
 	NextAuth(req, res, getOptions(req, res));
 };
