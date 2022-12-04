@@ -218,7 +218,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					secure: true,
 					path: "/",
-					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				};
 				if (account) {
 					token.accessToken = account.access_token;
@@ -266,7 +266,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: 'none',
 					path: "/",
 					secure: true,
-					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			callbackUrl: {
@@ -275,7 +275,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: 'none',
 					path: "/",
 					secure: true,
-					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			csrfToken: {
@@ -285,7 +285,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: 'none',
 					path: "/",
 					secure: true,
-					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			pkceCodeVerifier: {
@@ -296,7 +296,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					path: "/",
 					secure: true,
 					maxAge: 900,
-					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			state: {
@@ -307,7 +307,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					path: "/",
 					secure: true,
 					maxAge: 900,
-					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
 			nonce: {
@@ -317,7 +317,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					sameSite: 'none',
 					path: "/",
 					secure: true,
-					domain: `.${process.env.NEXT_BACKEND_DOMAIN}`,
+					domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			}
 		},
