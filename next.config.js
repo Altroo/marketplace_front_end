@@ -3,6 +3,12 @@
 const path = require('path');
 const { withSentryConfig } = require('@sentry/nextjs');
 
+const headers = [
+  "Accept", "Accept-Version", "Content-Length",
+  "Content-MD5", "Content-Type", "Date", "X-Api-Version",
+  "X-CSRF-Token", "X-Requested-With",
+];
+
 const nextConfig = {
 	reactStrictMode: false,
 	sassOptions: {
@@ -26,6 +32,19 @@ const nextConfig = {
 		// for more information.
 		hideSourceMaps: true,
 	},
+	async headers() {
+    return [
+      {
+	      source: "/api/(.*)",
+        headers: [
+	        { key: "Access-Control-Allow-Credentials", value: "true" },
+          { key: "Access-Control-Allow-Origin", value: process.env.NEXTAUTH_URL },
+          { key: "Access-Control-Allow-Methods", value: "GET,HEAD,PUT,PATCH,POST,DELETE" },
+          { key: "Access-Control-Allow-Headers", value: headers.join(", ") }
+	      ]
+      }
+    ];
+  }
 };
 
 module.exports = withSentryConfig(nextConfig, {

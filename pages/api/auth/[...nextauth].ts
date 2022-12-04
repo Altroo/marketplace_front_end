@@ -19,7 +19,7 @@ import {
 import { emptyInitStateUniqueID } from "../../../store/slices/_init/_initSlice";
 import { setAuthTokenCookie } from "../../../utils/cookies";
 import axios from "axios";
-import NextCors from "nextjs-cors";
+// import NextCors from "nextjs-cors";
 
 const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 	return {
@@ -319,14 +319,15 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		debug: process.env.NODE_ENV !== "production"
 	} as NextAuthOptions;
 };
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	await NextCors(req, res, {
-      // Options
-      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-      origin: process.env.NODE_ENV !== "production" ? '*' : ['https://www.qaryb.com', 'https://qaryb.com'],
-      optionsSuccessStatus: 200, //
-   });
-	NextAuth(req, res, getOptions(req, res));
-};
+// const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+// 	await NextCors(req, res, {
+//       // Options
+//       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+//       origin: process.env.NODE_ENV !== "production" ? '*' : ['https://www.qaryb.com', 'https://qaryb.com'],
+//       optionsSuccessStatus: 200, //
+//    });
+// 	NextAuth(req, res, getOptions(req, res));
+// };
+const handler = async (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, getOptions(req, res));
 
 export default handler;
