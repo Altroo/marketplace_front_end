@@ -239,7 +239,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					};
 					setAuthTokenCookie(res, newInitStateToken, {
 						maxAge: 30 * 24 * 60 * 60, // 30 days
-						sameSite: 'none',
+						sameSite: 'lax',
 						...options
 					});
 				}
@@ -263,7 +263,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				name: `__Secure-next-auth.session-token`,
 				options: {
 					httpOnly: true,
-					sameSite: 'none',
+					sameSite: 'lax',
 					path: "/",
 					secure: true,
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
@@ -272,7 +272,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 			callbackUrl: {
 				name: `__Secure-next-auth.callback-url`,
 				options: {
-					sameSite: 'none',
+					sameSite: 'lax',
 					path: "/",
 					secure: true,
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
@@ -282,7 +282,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				name: `__Host-next-auth.csrf-token`,
 				options: {
 					httpOnly: true,
-					sameSite: 'none',
+					sameSite: 'lax',
 					path: "/",
 					secure: true,
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
@@ -292,7 +292,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				name: "next-auth.pkce.code_verifier",
 				options: {
 					httpOnly: true,
-					sameSite: 'none',
+					sameSite: 'lax',
 					path: "/",
 					secure: true,
 					maxAge: 900,
@@ -303,7 +303,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				name: "next-auth.state",
 				options: {
 					httpOnly: true,
-					sameSite: 'none',
+					sameSite: 'lax',
 					path: "/",
 					secure: true,
 					maxAge: 900,
@@ -314,7 +314,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				name: "next-auth.nonce",
 				options: {
 					httpOnly: true,
-					sameSite: 'none',
+					sameSite: 'lax',
 					path: "/",
 					secure: true,
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,

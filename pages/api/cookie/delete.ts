@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		path: '/',
 		expires: new Date(Date.now()),
 		maxAge: 0,
-		sameSite: 'none',
+		sameSite: 'lax',
 		// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 	};
 
