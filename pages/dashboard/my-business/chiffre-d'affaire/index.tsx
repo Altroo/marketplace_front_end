@@ -76,6 +76,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 	);
 };
 
+
 type IndexProps = {
 	pageProps: {
 		data: AccountGetDashboardType;
