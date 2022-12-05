@@ -17,6 +17,7 @@ import PrimaryButton from '../components/htmlElements/buttons/primaryButton/prim
 import TextField from '@mui/material/TextField';
 import { versionPostNewsLetterAction } from '../store/actions/version/versionActions';
 import { SagaCallBackOnCompleteBoolType } from '../types/_init/_initTypes';
+import { NextSeo } from "next-seo";
 
 const DesktopLineBreak = () => {
 	return <br className={Styles.desktopOnly} />;
@@ -78,7 +79,9 @@ const Home: NextPage<RootState> = () => {
 	const inputTheme = newsLetterEmailInputTheme();
 
 	return (
-		<main className={Styles.indexMain}>
+		<>
+			<NextSeo title="Qaryb | index" />
+			<main className={Styles.indexMain}>
 			<Stack direction="column" spacing="40px" className={Styles.rootStack}>
 				<Image
 					className={Styles.qarybLogo}
@@ -165,6 +168,7 @@ const Home: NextPage<RootState> = () => {
 				</Stack>
 			</Box>
 		</main>
+		</>
 	);
 };
 
