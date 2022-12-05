@@ -72,6 +72,7 @@ import EditShopTabContent from '../../../components/groupedComponents/shop/edit/
 import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
 import { getShopWSAvatar } from "../../../store/selectors";
+import { NextSeo } from "next-seo";
 
 export type ShopInfoDataType = {
 	shop_name: string;
@@ -1148,6 +1149,7 @@ const Index: NextPage<Props> = (props: Props) => {
 	if (permission === 'OWNER') {
 		return (
 			<>
+				<NextSeo title={`${data.shop_name} | Qaryb`}/>
 				<ViewShopAsOwner data={data} />
 			</>
 		);
@@ -1155,6 +1157,7 @@ const Index: NextPage<Props> = (props: Props) => {
 		// visiter
 		return (
 			<>
+				<NextSeo title={`${data.shop_name} | Qaryb`}/>
 				<ViewShopAsNotOwner data={data} />
 			</>
 		);

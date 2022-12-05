@@ -1,6 +1,6 @@
 import React from 'react';
 import { NextPage } from 'next';
-import Styles from './insta.module.sass';
+import Styles from './boutique-en-ligne-maroc.module.sass';
 import { AUTH_REGISTER } from '../utils/routes';
 import ImliPawIlluSVG from '../public/assets/images/imli-paw-illu.svg';
 import JumelleReverseIlluSVG from '../public/assets/images/jumelle-reversed-illu.svg';
@@ -46,7 +46,7 @@ const InstaListItem: React.FC<InstaListItem> = (props: InstaListItem) => {
 	);
 };
 
-const Insta: NextPage = () => {
+const BoutiqueEnLigneMaroc: NextPage = () => {
 	const DesktopLineBreak = () => {
 		return <br className={Styles.desktopOnly} />;
 	};
@@ -196,4 +196,4 @@ const Insta: NextPage = () => {
 	);
 };
 
-export default Insta;
+export default BoutiqueEnLigneMaroc;

@@ -216,8 +216,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/shopFilterSelect" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-shop/edit/startYourShopContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/offer" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/offer/[offer_pk]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/temp-offer" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/temp-offer/[offer_pk]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/temp-offer/create" isTestSource="false" />
@@ -254,7 +252,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/editShopInfoTabContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/shop/edit/editShopTabContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/IconDropDownMenu" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/offer/product" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/creatorRadioCheckContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/radioCheckElements" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/offer/customSingleCountrySelect" isTestSource="false" />
@@ -263,7 +260,6 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/radioCheckElement/quantityRadioCheckContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/services" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/services/serviceLocalisation" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/offer/service" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/temp-offer/services/serviceMiniMap" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customDateInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customDropDownSelect" isTestSource="false" />
@@ -335,6 +331,10 @@
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/notificationsMenu" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/primaryLoadingButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/inputs/customAutoCompleteMultiSelect" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/article" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/article/[offer_pk]" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/article/produit" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/article/service" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/offer/service" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />

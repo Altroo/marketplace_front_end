@@ -260,7 +260,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 		events: {},
 		cookies: {
 			sessionToken: {
-				name: `__Secure-next-auth.session-token`,
+				name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.session-token`,
 				options: {
 					httpOnly: true,
 					sameSite: 'lax',
@@ -270,7 +270,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				}
 			},
 			callbackUrl: {
-				name: `__Secure-next-auth.callback-url`,
+				name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.callback-url`,
 				options: {
 					sameSite: 'lax',
 					path: "/",
@@ -279,7 +279,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				}
 			},
 			csrfToken: {
-				name: `__Host-next-auth.csrf-token`,
+				name: `${process.env.NODE_ENV === 'production' ? '__Host-' : ''}next-auth.csrf-token`,
 				options: {
 					httpOnly: true,
 					sameSite: 'lax',

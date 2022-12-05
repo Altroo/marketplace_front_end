@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import AuthPageLayout from '../../../components/layouts/auth/authPageLayout';
-import { useRouter } from 'next/router';
 import { GetServerSidePropsContext } from 'next';
 import { signIn, useSession } from 'next-auth/react';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
@@ -40,7 +39,6 @@ type Props = {
 const About: React.FC<Props> = (props: Props) => {
 	const { data: session } = useSession();
 	const dispatch = useAppDispatch();
-	const router = useRouter();
 	const { newEmail } = props.pageProps;
 	const [sessionUpdated, setSessionUpdated] = useState<boolean>(false);
 	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
@@ -85,9 +83,6 @@ const About: React.FC<Props> = (props: Props) => {
 						cookiesDeleter('/cookies', { new_email: 0 }).then(() => {
 							setIsApiCallInProgress(false);
 						});
-						// await router.replace(AUTH_WELCOME).then(() => {
-						//
-						// });
 					});
 				}
 			} catch (e) {
@@ -278,15 +273,6 @@ const About: React.FC<Props> = (props: Props) => {
 							</Stack>
 						</form>
 					</Stack>
-					{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
-					{/*	<p className={Styles.bottomLinks}>*/}
-					{/*		Vous avez déjà un compte ?{" "}*/}
-					{/*		<Link href={AUTH_LOGIN}>*/}
-					{/*			Connectez-vous*/}
-					{/*		</Link>*/}
-					{/*	</p>*/}
-					{/*</Stack>*/}
-					{/*</Stack>*/}
 				</main>
 			</div>
 		</>

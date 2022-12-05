@@ -12,32 +12,35 @@ shop/abc/offer/new => index
  */
 
 // Auth Shop Routes
-export const REAL_SHOP_ADD_SHOP_NAME = '/shop/create';
-export const REAL_SHOP_ADD_AVATAR = '/shop/create/avatar';
-export const REAL_SHOP_ADD_COLOR = '/shop/create/color';
-export const REAL_SHOP_ADD_FONT = '/shop/create/font';
+export const REAL_SHOP_ROOT = '/shop';
+export const SHOP_OFFER_ROOT = 'article';
+export const SHOP_OFFER_PRODUCT = 'produit';
+export const REAL_SHOP_ADD_SHOP_NAME = `${REAL_SHOP_ROOT}/create`;
+export const REAL_SHOP_ADD_AVATAR = `${REAL_SHOP_ROOT}/create/avatar`;
+export const REAL_SHOP_ADD_COLOR = `${REAL_SHOP_ROOT}/create/color`;
+export const REAL_SHOP_ADD_FONT = `${REAL_SHOP_ROOT}/create/font`;
 
 // Auth Shop Routes
-export const REAL_SHOP_BY_SHOP_LINK_ROUTE = (shop_link: string) => `/shop/${shop_link}`;
+export const REAL_SHOP_BY_SHOP_LINK_ROUTE = (shop_link: string) => `${REAL_SHOP_ROOT}/${shop_link}`;
 // Real Offers Routes
 // offer details by offer_pk
-export const REAL_OFFER_ROUTE = (shop_link: string, offer_pk: string) => `/shop/${shop_link}/offer/${offer_pk}`;
+export const REAL_OFFER_ROUTE = (shop_link: string, offer_pk: string) => `${REAL_SHOP_ROOT}/${shop_link}/${SHOP_OFFER_ROOT}/${offer_pk}`;
 // add offer (product, service, location) page.
-export const REAL_OFFER_ADD_INDEX = (shop_link: string) => `/shop/${shop_link}/offer`;
-export const REAL_OFFER_ADD_SERVICE_CATEGORIES = (shop_link: string) => `/shop/${shop_link}/offer/service`;
-export const REAL_OFFER_ADD_SERVICE_DESCRIPTION = (shop_link: string) => `/shop/${shop_link}/offer/service/description`;
-export const REAL_OFFER_ADD_SERVICE_PRICE = (shop_link: string) => `/shop/${shop_link}/offer/service/prix`;
+export const REAL_OFFER_ADD_INDEX = (shop_link: string) => `${REAL_SHOP_ROOT}/${shop_link}/${SHOP_OFFER_ROOT}`;
+export const REAL_OFFER_ADD_SERVICE_CATEGORIES = (shop_link: string) => `${REAL_SHOP_ROOT}/${shop_link}/${SHOP_OFFER_ROOT}/service`;
+export const REAL_OFFER_ADD_SERVICE_DESCRIPTION = (shop_link: string) => `${REAL_SHOP_ROOT}/${shop_link}/${SHOP_OFFER_ROOT}/service/description`;
+export const REAL_OFFER_ADD_SERVICE_PRICE = (shop_link: string) => `${REAL_SHOP_ROOT}/${shop_link}/${SHOP_OFFER_ROOT}/service/prix`;
 
 // add offer (product) first page (categories).
-export const REAL_OFFER_ADD_PRODUCT_CATEGORIES = (shop_link: string) => `/shop/${shop_link}/offer/product`;
-export const REAL_OFFER_ADD_PRODUCT_DESCRIPTION = (shop_link: string) => `/shop/${shop_link}/offer/product/description`;
-export const REAL_OFFER_ADD_PRODUCT_PRICE = (shop_link: string) => `/shop/${shop_link}/offer/product/prix`;
-export const REAL_OFFER_ADD_PRODUCT_DELIVERIES = (shop_link: string) => `/shop/${shop_link}/offer/product/livraison`;
+export const REAL_OFFER_ADD_PRODUCT_CATEGORIES = (shop_link: string) => `${REAL_SHOP_ROOT}/${shop_link}/${SHOP_OFFER_ROOT}/${SHOP_OFFER_PRODUCT}`;
+export const REAL_OFFER_ADD_PRODUCT_DESCRIPTION = (shop_link: string) => `${REAL_SHOP_ROOT}/${shop_link}/${SHOP_OFFER_ROOT}/${SHOP_OFFER_PRODUCT}/description`;
+export const REAL_OFFER_ADD_PRODUCT_PRICE = (shop_link: string) => `${REAL_SHOP_ROOT}/${shop_link}/${SHOP_OFFER_ROOT}/${SHOP_OFFER_PRODUCT}/prix`;
+export const REAL_OFFER_ADD_PRODUCT_DELIVERIES = (shop_link: string) => `${REAL_SHOP_ROOT}/${shop_link}/${SHOP_OFFER_ROOT}/${SHOP_OFFER_PRODUCT}/livraison`;
 
 // export const REAL_SHOP_EDIT_ROUTE = '/shop/edit'; //replaced by shop url page itself
 
 // Auth Routes
-export const AUTH_REGISTER = '/auth/register';
+export const AUTH_REGISTER = 'https://qaryb.com/auth/register';
 // Register second page (details page)
 export const AUTH_REGISTER_ABOUT_PAGE = '/auth/register/about';
 export const AUTH_FB_EMAIL_MISSING = '/auth/register/missing-email';

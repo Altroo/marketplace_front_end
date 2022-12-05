@@ -32,7 +32,6 @@ import {
 	getUserProfilAvatar,
 	getUserShopUrl,
 } from '../../../store/selectors';
-// import SearchIconSVG from '../../../public/assets/svgs/globalIcons/search.svg';
 import Link from 'next/link';
 import {
 	AUTH_LOGIN,
