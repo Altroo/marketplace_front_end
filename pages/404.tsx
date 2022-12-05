@@ -8,6 +8,7 @@ import PrimaryAnchorButton from "../components/htmlElements/buttons/primaryAncho
 import UserMainNavigationBar
 	from "../components/layouts/userMainNavigationBar/userMainNavigationBar";
 import CustomFooter from "../components/layouts/footer/customFooter";
+import { SITE_ROOT } from "../utils/routes";
 
 const NotFoundPage: NextPage = () => {
 
@@ -28,7 +29,7 @@ const NotFoundPage: NextPage = () => {
 								<span>Code 404.</span>
 							</Stack>
 							<div className={Styles.primaryButtonWrapper}>
-								<PrimaryAnchorButton buttonText="Retour à l'acceuil" active={true} nextPage="/"/>
+								<PrimaryAnchorButton buttonText="Retour à l'acceuil" active={true} nextPage={SITE_ROOT}/>
 							</div>
 						</Stack>
 					</Stack>
