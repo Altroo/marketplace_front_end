@@ -106,7 +106,6 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 				<TileLayer
 					crossOrigin='use-credentials'
 					subdomains='map.qaryb.com'
-					accessToken={`${process.env.NODE_ENV === 'production' && `${process.env.NEXT_PUBLIC_MAP_ACCESS_TOOKEN}`}`}
 					url={`${process.env.NEXT_PUBLIC_MAP_URL}`}
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				/>
