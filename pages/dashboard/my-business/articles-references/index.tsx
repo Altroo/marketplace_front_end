@@ -34,7 +34,6 @@ import SelectMultipleGraySVG from '../../../../public/assets/svgs/dashboardIcons
 import SelectMultipleBlueSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/select-multiple-blue.svg';
 import MobileMyBusinessNav from '../../../../components/layouts/mobile/mobileMyBusinessNav/mobileMyBusinessNav';
 import CustomFooter from '../../../../components/layouts/footer/customFooter';
-import PrimaryAnchorButton from '../../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import OutlineButton from '../../../../components/htmlElements/buttons/outlineButton/outlineButton';
 import { useRouter } from 'next/router';
 import {

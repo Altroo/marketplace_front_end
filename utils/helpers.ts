@@ -142,6 +142,7 @@ export const allowAnyInstance = (contentType: APIContentTypeInterface = 'applica
 		(error) => {
 			if (error.response) {
 				let errorObj;
+				console.log(error.response);
 				if ('code' in error && error.code !== 'ERR_BAD_REQUEST') {
 					errorObj = {
 						error: {

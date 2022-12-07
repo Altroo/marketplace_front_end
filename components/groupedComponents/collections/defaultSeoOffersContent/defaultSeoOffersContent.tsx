@@ -1,62 +1,44 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import Styles from './shopTabContent.module.sass';
-import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
-import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from "@mui/material";
+import React, { useCallback, useEffect, useState } from 'react';
+import Styles from './defaultSeoOffersContent.module.sass';
+import MobileFilterWhiteSVG from '../../../../public/assets/svgs/globalIcons/mobile-filter-white.svg';
+import MobileOffersFilterButton from '../../../mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton';
+import { useRouter } from 'next/router';
+import { useAppDispatch } from '../../../../utils/hooks';
+import { availableFiltersInit, offerLinkedHashMapType } from '../../shop/get/shopTabContent/shopTabContent';
 import {
 	GetOffersSagaCallBackOnCompleteDataType,
 	OfferGetAvailableShopFiltersType,
 	OfferGetMyOffersProductServiceType,
-} from '../../../../../types/offer/offerTypes';
-import Link from 'next/link';
-import Image from 'next/image';
-import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
-import { useRouter } from 'next/router';
-import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
-import { useAppDispatch } from '../../../../../utils/hooks';
+} from '../../../../types/offer/offerTypes';
 import {
 	offerGetAvailableFiltersByShopID,
 	offerGetOffersByShopIDWithQueryParamsAction,
-} from '../../../../../store/actions/offer/offerActions';
-import { getDefaultTheme } from '../../../../../utils/themes';
-import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
-import { generateQueryParams, getBackendNextPageNumber } from '../../../../../utils/helpers';
+} from '../../../../store/actions/offer/offerActions';
+import { ApiErrorResponseType } from '../../../../types/_init/_initTypes';
+import { generateQueryParams, getBackendNextPageNumber } from '../../../../utils/helpers';
 import { Iterables } from 'langx-js';
-import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
-import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter';
-import CustomSwipeModal from '../../../../desktop/modals/rightSwipeModal/customSwipeModal';
-import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
-import { REAL_OFFER_ROUTE } from '../../../../../utils/routes';
-import ApiProgress from "../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
-import { ParsedUrlQueryInput } from "querystring";
-
-export type offerLinkedHashMapType = {
-	offersMap: Iterables.LinkedHashMap<number, OfferGetMyOffersProductServiceType> | null;
-	count: number;
-	nextPage: string | null;
-};
+import { ParsedUrlQueryInput } from 'querystring';
+import ApiProgress from '../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
+import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from '@mui/material';
+import ShopFilterSelect from '../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
+import AccordionFilter from '../../../layouts/accordionFilter/accordionFilter';
+import Link from 'next/link';
+import { REAL_OFFER_ROUTE } from '../../../../utils/routes';
+import Image from 'next/image';
+import PinActiveIconSVG from '../../../../public/assets/svgs/globalIcons/pin-active.svg';
+import CreatorIconSVG from '../../../../public/assets/svgs/globalIcons/creator.svg';
+import { getDefaultTheme } from '../../../../utils/themes';
+import SeoAnchorWrapper from '../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
+import CustomSwipeModal from '../../../desktop/modals/rightSwipeModal/customSwipeModal';
+import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
 
 type Props = {
-	shop_pk: number;
-	activeColor: string;
-	openFilterModal: boolean;
-	setOpenFilterModal: React.Dispatch<React.SetStateAction<boolean>>;
+	page_pk: number;
 	children?: React.ReactNode;
 };
 
-export const availableFiltersInit: OfferGetAvailableShopFiltersType = {
-	available_categories: [],
-	available_colors: [],
-	available_sizes: [],
-	available_for_whom: [],
-	available_solder: false,
-	available_labels: false,
-	available_made_in_maroc: false,
-	available_cities: [],
-	available_services: false,
-};
-
-const ShopTabContent: React.FC<Props> = (props: Props) => {
-	const { shop_pk } = props;
+const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
+	const { page_pk } = props;
 	const router = useRouter();
 	const [filter, setFilter] = useState<'D' | 'C'>('D');
 	const dispatch = useAppDispatch();
@@ -70,6 +52,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		nextPage: null,
 		offersMap: null,
 	});
+	const [openFilterModal, setOpenFilterModal] = useState<boolean>(false);
 	const [availableFiltersFetched, setAvailableFiltersFetched] = useState<boolean>(false);
 	const [availableFilters, setAvailableFilters] = useState<OfferGetAvailableShopFiltersType>(availableFiltersInit);
 	const [applyFiltersClicked, setApplyFiltersClicked] = useState<boolean>(false);
@@ -78,7 +61,8 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 
 	useEffect(() => {
 		if (!availableFiltersFetched) {
-			const action = offerGetAvailableFiltersByShopID(shop_pk);
+			// TODO - add action
+			const action = offerGetAvailableFiltersByShopID(page_pk);
 			dispatch({
 				...action,
 				onComplete: ({
@@ -107,7 +91,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			if (!isReset && offersMap !== null && count > 0 && offersMap.size() >= count) {
 				return;
 			}
-			let url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${shop_pk}/`;
+			let url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${page_pk}/`;
 			let queryParams: string;
 			if (nextPage !== null && !isReset) {
 				queryParams = generateQueryParams(router.query, nextPage);
@@ -116,6 +100,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 				queryParams = generateQueryParams(router.query);
 				url += queryParams;
 			}
+			// TODO - add action
 			const action = offerGetOffersByShopIDWithQueryParamsAction(url);
 			dispatch({
 				...action,
@@ -182,46 +167,55 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		loadMoreState,
 		offersLinkedHashMap,
 		router.query,
-		shop_pk,
+		page_pk,
 	]);
 
-	const filterOnChange = useCallback((e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
-		value: string) => {
-		setFilter(value as 'D' | 'C');
-		const queryParams: ParsedUrlQueryInput = {
-			...router.query,
-		};
-		const options = { shallow: true, scroll: false };
+	const filterOnChange = useCallback(
+		(e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null, value: string) => {
+			setFilter(value as 'D' | 'C');
+			const queryParams: ParsedUrlQueryInput = {
+				...router.query,
+			};
+			const options = { shallow: true, scroll: false };
 
-		if (router.query.page) {
-			if (value === 'D') {
-				router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
+			if (router.query.page) {
+				if (value === 'D') {
+					router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				} else {
+					router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				}
 			} else {
-				router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
+				if (value === 'D') {
+					router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				} else {
+					router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				}
 			}
-		} else {
-			if (value === 'D') {
-				router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
-			} else {
-				router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
-			}
-		}
-	}, [router]);
+		},
+		[router],
+	);
 
 	const closeMobileFilterModal = useCallback(() => {
-		props.setOpenFilterModal(false);
-	}, [props]);
+		setOpenFilterModal(false);
+	}, []);
 
 	return (
 		<>
+			<MobileOffersFilterButton
+				buttonText="Filtrer"
+				svgIcon={MobileFilterWhiteSVG}
+				textColor="#FFFFFF"
+				backgroundColor="#0D070B"
+				onClick={() => setOpenFilterModal(true)}
+			/>
 			{(isLoadingInitInProgress || isLoadingNextPageInProgress) && (
 				<ApiProgress
 					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
@@ -245,7 +239,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 								}}
 								state={filter}
 								setStateHandler={setFilter}
-								activeHoverColor={props.activeColor}
+								activeHoverColor="#0D070B"
 							/>
 						</Stack>
 						<Stack direction="row" justifyContent="space-between" className={Styles.rootShopFilterWrapper}>
@@ -274,24 +268,25 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 													}
 												}
 												return (
+													// TODO - include shop_link in the query
 													<Link
 														href={REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))}
 														key={data.key}
 														className={Styles.gridCardOfferWrapper}
 													>
 														<Grid item xs="auto" className={Styles.mobileGridRoot}>
-																<Stack direction="column" spacing={2}>
-																	<Box className={Styles.thumbnailWrapper}>
-																		{data.value.pinned && (
-																			<Image
-																				src={PinActiveIconSVG}
-																				alt=""
-																				width={32}
-																				height={32}
-																				className={Styles.thumbnailActionIcon}
-																			/>
-																		)}
-																		<Box sx={{ position: 'relative', height: '100%', borderRadius: '20px' }}>
+															<Stack direction="column" spacing={2}>
+																<Box className={Styles.thumbnailWrapper}>
+																	{data.value.pinned && (
+																		<Image
+																			src={PinActiveIconSVG}
+																			alt=""
+																			width={32}
+																			height={32}
+																			className={Styles.thumbnailActionIcon}
+																		/>
+																	)}
+																	<Box sx={{ position: 'relative', height: '100%', borderRadius: '20px' }}>
 																		{(!imagesLoading[index] || !data.value.thumbnail) && (
 																			<Skeleton
 																				animation="wave"
@@ -321,38 +316,38 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																			/>
 																		)}
 																	</Box>
-																		{data.value.creator_label && (
-																			<Image
-																				className={Styles.creatorImageTag}
-																				src={CreatorIconSVG}
-																				alt="creator"
-																				width="0"
-																				height="0"
-																				sizes="100vw"
-																			/>
-																		)}
-																	</Box>
-																	<Stack direction="column" spacing={0}>
-																		<span className={Styles.offerTitle}>
-																			{data.value.title.length >= 25
-																				? data.value.title.substring(0, 25) + '...'
-																				: data.value.title}
+																	{data.value.creator_label && (
+																		<Image
+																			className={Styles.creatorImageTag}
+																			src={CreatorIconSVG}
+																			alt="creator"
+																			width="0"
+																			height="0"
+																			sizes="100vw"
+																		/>
+																	)}
+																</Box>
+																<Stack direction="column" spacing={0}>
+																	<span className={Styles.offerTitle}>
+																		{data.value.title.length >= 25
+																			? data.value.title.substring(0, 25) + '...'
+																			: data.value.title}
+																	</span>
+																	<Stack direction="row" spacing={1}>
+																		<span
+																			className={`${Styles.offerPrice} ${
+																				data.value.solder_value !== null && Styles.oldPrice
+																			}`}
+																		>
+																			{data.value.price + ' DH'}
 																		</span>
-																		<Stack direction="row" spacing={1}>
-																			<span
-																				className={`${Styles.offerPrice} ${
-																					data.value.solder_value !== null && Styles.oldPrice
-																				}`}
-																			>
-																				{data.value.price + ' DH'}
-																			</span>
-																			<span className={Styles.solderPrice}>
-																				{data.value.solder_value !== null ? newPrice + ' DH' : null}
-																			</span>
-																		</Stack>
+																		<span className={Styles.solderPrice}>
+																			{data.value.solder_value !== null ? newPrice + ' DH' : null}
+																		</span>
 																	</Stack>
 																</Stack>
-															</Grid>
+															</Stack>
+														</Grid>
 													</Link>
 												);
 											}
@@ -395,11 +390,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 				)}
 				{/* Mobile filter MODAL */}
 				{availableFiltersHasData && (
-					<CustomSwipeModal
-						open={props.openFilterModal}
-						handleClose={() => props.setOpenFilterModal(false)}
-						keepMounted={true}
-					>
+					<CustomSwipeModal open={openFilterModal} handleClose={() => setOpenFilterModal(false)} keepMounted={true}>
 						<Stack
 							className={Styles.mobileFilterRootStack}
 							direction="column"
@@ -407,11 +398,12 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 							alignContent="space-between"
 						>
 							<Box className={Styles.closeButtonWrapper}>
-								<Image src={CloseSVG}
+								<Image
+									src={CloseSVG}
 									width={40}
 									height={40}
 									alt=""
-									onClick={() => props.setOpenFilterModal(false)}
+									onClick={() => setOpenFilterModal(false)}
 									style={{ cursor: 'pointer' }}
 								/>
 							</Box>
@@ -422,7 +414,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 								}}
 								state={filter}
 								setStateHandler={setFilter}
-								activeHoverColor={props.activeColor}
+								activeHoverColor="#0D070B"
 							/>
 							<AccordionFilter
 								availableFilters={availableFilters}
@@ -437,4 +429,5 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		</>
 	);
 };
-export default ShopTabContent;
+
+export default DefaultSeoOffersContent;

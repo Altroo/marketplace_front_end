@@ -670,6 +670,26 @@ export const OfferReadOnlyTheme = () => {
 	});
 };
 
+export const ReadOnlyChipsTheme = () => {
+	return createTheme({
+		components: {
+			MuiChip: {
+				styleOverrides: {
+					root: {
+						fontFamily: 'Poppins-SemiBold',
+						fontSize: '16px',
+						borderRadius: '40px',
+					},
+					filled: {
+						backgroundColor: '#0D070B',
+						color: '#FFFFFF',
+					},
+				},
+			},
+		},
+	});
+}
+
 export const FilterAccordionTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
