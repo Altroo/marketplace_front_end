@@ -6,13 +6,12 @@ import GoogleSignInButton from '../../../components/htmlElements/buttons/googleS
 import FacebookSignInButton from '../../../components/htmlElements/buttons/facebookSignInButton/facebookSignInButton';
 import Divider from '@mui/material/Divider';
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
-import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import {
-	allowAnyInstance,
+	allowAnyInstance, Desktop,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance,
-	setFormikAutoErrors,
-} from '../../../utils/helpers';
+	setFormikAutoErrors, TabletAndMobile
+} from "../../../utils/helpers";
 import { AccountGetCheckAccountResponseType, AccountPostLoginResponseType } from '../../../types/account/accountTypes';
 import { getApi, postApi } from '../../../store/services/_init/_initAPI';
 import { AUTH_REGISTER, AUTH_RESET_PASSWORD, DASHBOARD } from '../../../utils/routes';
@@ -185,22 +184,26 @@ const Login: React.FC = () => {
 			)}
 			{!loading && !session && (
 				<>
-					<div className={Styles.desktopOnly}>
-						<AuthPageLayout href={AUTH_REGISTER} topBarText="CREATE">
-							<LoginPageContent />
-						</AuthPageLayout>
-					</div>
-					<div className={Styles.mobileOnly}>
-						<main className={Styles.main}>
-							<UserMainNavigationBar hideMobileSearch />
-							<LoginPageContent />
-							<Stack direction="column" justifyContent="center" alignItems="center" sx={{ marginTop: '60px' }}>
-								<p className={Styles.bottomLinks}>
-									Pas encore de compte ? <Link href={AUTH_REGISTER}>Inscrivez-vous</Link>
-								</p>
-							</Stack>
-						</main>
-					</div>
+					<Desktop>
+						<div>
+							<AuthPageLayout href={AUTH_REGISTER} topBarText="CREATE">
+								<LoginPageContent />
+							</AuthPageLayout>
+						</div>
+					</Desktop>
+					<TabletAndMobile>
+						<div style={{display: 'flex', width: '100%', height: '100%'}}>
+							<main className={Styles.main}>
+								<UserMainNavigationBar />
+								<LoginPageContent />
+								<Stack direction="column" justifyContent="center" alignItems="center" sx={{ marginTop: '60px' }}>
+									<p className={Styles.bottomLinks}>
+										Pas encore de compte ? <Link href={AUTH_REGISTER}>Inscrivez-vous</Link>
+									</p>
+								</Stack>
+							</main>
+						</div>
+					</TabletAndMobile>
 				</>
 			)}
 		</>

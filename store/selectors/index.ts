@@ -2,7 +2,6 @@ import { RootState } from '../store';
 import { ShopFontNameType, ShopGetRootUniqueIDType } from "../../types/shop/shopTypes";
 import { IconColorType, InitStateUniqueID, TokenChoices } from "../../types/_init/_initTypes";
 import {
-	OfferGetMyOffersProductServiceType,
 	OfferGetRootProductInterface, OfferGetRootServiceInterface,
 	OfferTagsType, WSThumbnailType
 } from "../../types/offer/offerTypes";

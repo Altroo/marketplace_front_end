@@ -27,7 +27,7 @@ export const CustomTheme = (primaryColor: string | undefined = undefined) => {
 				main: 'rgb(129, 199, 132)',
 			},
 			error: {
-				main: 'rgb(229, 115, 115)'
+				main: 'rgb(229, 115, 115)',
 			},
 			// secondary: {
 			// 	main: '#E12D3D'
@@ -429,8 +429,8 @@ export const offerSwitchTheme = (primaryColor: string | undefined = undefined) =
 export const OfferChipTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
+		...defaultTheme,
 		components: {
-			...defaultTheme,
 			MuiChip: {
 				styleOverrides: {
 					root: {
@@ -465,8 +465,8 @@ export const OfferQuantityFieldTheme = (primaryColor: string | undefined = undef
 	const defaultTheme = getDefaultTheme(primaryColor);
 	const blueColor = '#0274d7';
 	return createTheme({
+		...defaultTheme,
 		components: {
-			...defaultTheme,
 			MuiInputBase: {
 				styleOverrides: {
 					root: {
@@ -549,19 +549,20 @@ export const doubleTabNavigationTheme = (primaryColor: string | undefined = unde
 export const SolderPourcentageChipTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
+		...defaultTheme,
 		components: {
-			...defaultTheme,
 			MuiChip: {
 				styleOverrides: {
 					root: {
 						fontFamily: 'Poppins',
 						fontSize: '19px',
-						paddingTop: '10px',
-						paddingBottom: '10px',
 						height: '43px',
 						width: '102px',
 						border: '1px solid #0D070B',
 						borderRadius: '40px',
+					},
+					label: {
+						padding: '7px 12px',
 					},
 					outlined: {
 						'&:hover': {
@@ -688,7 +689,7 @@ export const ReadOnlyChipsTheme = () => {
 			},
 		},
 	});
-}
+};
 
 export const FilterAccordionTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
@@ -736,8 +737,8 @@ export const FilterAccordionTheme = (primaryColor: string | undefined = undefine
 export const FilterChipTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
+		...defaultTheme,
 		components: {
-			...defaultTheme,
 			MuiChip: {
 				styleOverrides: {
 					root: {
@@ -773,8 +774,8 @@ export const FilterChipTheme = (primaryColor: string | undefined = undefined) =>
 export const horairesInputTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
+		...defaultTheme,
 		components: {
-			...defaultTheme,
 			MuiChip: {
 				styleOverrides: {
 					root: {
@@ -831,8 +832,8 @@ export const horairesInputTheme = (primaryColor: string | undefined = undefined)
 export const customToastTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
+		...defaultTheme,
 		components: {
-			...defaultTheme,
 			MuiSnackbar: {
 				styleOverrides: {
 					root: {
@@ -872,8 +873,8 @@ export const customToastTheme = (primaryColor: string | undefined = undefined) =
 export const customModalTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
+		...defaultTheme,
 		components: {
-			...defaultTheme,
 			MuiDialog: {
 				styleOverrides: {
 					root: {
@@ -887,11 +888,70 @@ export const customModalTheme = (primaryColor: string | undefined = undefined) =
 	});
 };
 
+export const customCartModalTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiDialog: {
+				styleOverrides: {
+					root: {
+						'& .MuiPaper-root': {
+							overflowX: 'hidden',
+						},
+						[defaultTheme.breakpoints.down('sm')]: {
+							width: '100%',
+							maxHeight: '500px',
+							// bottom: '0 !important',
+							position: 'sticky !important',
+							boxShadow: '0 0 24px rgba(0, 0, 0, 0.25) !important',
+							borderTopLeftRadius: '40px !important',
+							borderTopRightRadius: '40px !important',
+							overflowX: 'scroll',
+						},
+					},
+					paper: {
+						[defaultTheme.breakpoints.down('sm')]: {
+							minWidth: '320px !important',
+							boxShadow: '0 0 24px rgba(0, 0, 0, 0.25) !important',
+							borderTopLeftRadius: '40px !important',
+							borderTopRightRadius: '40px !important',
+						},
+					},
+				},
+			},
+			// MuiMenu: {
+			// 	styleOverrides: {
+			// 		paper: {
+			// 			boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25) !important',
+			// 			borderRadius: '40px !important',
+			// 			padding: '20px',
+			// 			minWidth: '348px !important',
+			//
+			// 			[defaultTheme.breakpoints.down('sm')]: {
+			// 				minWidth: '320px !important',
+			// 			},
+			// 		},
+			// 	},
+			// },
+			// MuiMenuItem: {
+			// 	styleOverrides: {
+			// 		root: {
+			// 			width: '100%',
+			// 			margin: '0',
+			// 			padding: '0 10px 0 0',
+			// 		},
+			// 	},
+			// },
+		},
+	});
+};
+
 export const customImageModalTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
+		...defaultTheme,
 		components: {
-			...defaultTheme,
 			MuiDialog: {
 				styleOverrides: {
 					root: {
@@ -909,8 +969,8 @@ export const customImageModalTheme = (primaryColor: string | undefined = undefin
 export const customMobileImageModalTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
+		...defaultTheme,
 		components: {
-			...defaultTheme,
 			MuiDialog: {
 				styleOverrides: {
 					root: {
@@ -931,8 +991,8 @@ export const customMobileImageModalTheme = (primaryColor: string | undefined = u
 export const customSliderTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
+		...defaultTheme,
 		components: {
-			...defaultTheme,
 			MuiSlider: {
 				styleOverrides: {
 					root: {
@@ -1119,8 +1179,8 @@ export const newsLetterEmailInputTheme = () => {
 export const SizesChipTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
+		...defaultTheme,
 		components: {
-			...defaultTheme,
 			MuiChip: {
 				styleOverrides: {
 					root: {
@@ -1196,6 +1256,13 @@ export const badgeTheme = (primaryColor: string | undefined = undefined) => {
 						borderRadius: '50px',
 						backgroundColor: '#FF5D6B',
 					},
+					standard: {
+						width: '12px',
+						height: '12px',
+						minWidth: '12px',
+						backgroundColor: '#FF5D6B',
+						fontSize: '8px',
+					},
 				},
 			},
 		},
@@ -1243,3 +1310,51 @@ export const subMenuBadgeTheme = (primaryColor: string | undefined = undefined) 
 		},
 	});
 };
+//
+// export const staticDatePickerTheme = (primaryColor: string | undefined = undefined) => {
+// 	let rippleColor = '#0D070B';
+// 	if (primaryColor) {
+// 		if (primaryColor !== '#FFFFFF') {
+// 			rippleColor = hexToRGB(primaryColor, 0.5);
+// 		} else {
+// 			rippleColor = hexToRGB(rippleColor, 0.5);
+// 		}
+// 	}
+// 	return MuiCreateTheme({
+// 		palette: {
+// 			primary: {
+// 				main: rippleColor,
+// 			},
+// 			success: {
+// 				main: 'rgb(129, 199, 132)',
+// 			},
+// 			error: {
+// 				main: 'rgb(229, 115, 115)',
+// 			},
+//
+// 		},
+// 		breakpoints: {
+// 			values: {
+// 				xs: 0,
+// 				sm: 767,
+// 				md: 991,
+// 				lg: 1200,
+// 				xl: 1920,
+// 			},
+// 		},
+// 		typography: {
+// 			fontFamily: 'Poppins',
+// 		},
+// 		components: {
+// 			MuiStaticDateTimePicker: {
+// 				styleOverrides: {
+// 					root: {
+// 						'& .Mui-selected': {
+// 							backgroundColor: `${primaryColor} !important`,
+// 						},
+// 					},
+// 				},
+// 			},
+// 		},
+// 	});
+// };

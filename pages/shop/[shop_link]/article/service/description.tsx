@@ -630,7 +630,7 @@ const Description: NextPage = () => {
 								/>
 							</div>
 							{localisationModalOpen && (
-								<CustomSwipeModal open={localisationModalOpen} handleClose={() => setLocalisationModalOpen(false)}>
+								<CustomSwipeModal transition open={localisationModalOpen} handleClose={() => setLocalisationModalOpen(false)}>
 									<Box sx={{ marginTop: '24px', height: '100%' }}>
 										<ServiceLocalisation handleClose={() => setLocalisationModalOpen(false)} />
 									</Box>

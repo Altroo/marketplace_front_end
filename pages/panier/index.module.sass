@@ -1,0 +1,36 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.main
+  display: flex
+  flex-direction: column
+  //justify-content: space-between
+  height: 100%
+  padding: 2rem 60px 60px 60px
+  width: 100%
+.emptyCartBox
+  margin-top: 100px
+.emptyCartHeader
+  +Bold
+  font-size: 62px
+  color: $primary
+  margin: 0
+  text-align: center
+.primaryButtonWrapper
+  width: 100%
+  text-align: center
+@media #{$tablette}
+  .main
+    width: 100%
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem
+  .emptyCartBox
+    margin-top: 54px
+  .emptyCartHeader
+    font-size: 32px
+  .primaryButtonWrapper
+    width: 356px
+    max-width: 100%
+// @media #{}
+// @media #{}

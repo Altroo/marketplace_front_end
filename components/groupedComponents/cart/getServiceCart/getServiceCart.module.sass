@@ -1,0 +1,37 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.rootHourStack
+  border: 1px solid #D9D9DD
+  border-radius: 20px
+  padding: 12px
+.rootStack
+  grid-gap: 16px
+  gap: 16px
+.rootGrid
+  gap: 16px
+  grid-gap: 16px
+.rootCartModalStack
+  margin: 100px 32px 40px 32px
+  height: 100%
+.cartTitles
+  +SemiBold
+  font-size: 21px
+  color: $primary
+  letter-spacing: -0.0em
+.primaryButtonWrapper
+  width: 100%
+  text-align: center
+.primaryButton
+  margin-top: 2rem
+@media #{$tablette}
+  .rootCartModalStack
+    margin: 40px 32px 40px 32px
+  .primaryButtonWrapper
+    width: 356px
+    max-width: 100%
+    align-self: center
+// @media #{}
+// @media #{}

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './index.module.sass';
 import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
+import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import ShopInfoTabs from '../../../components/htmlElements/tabs/tab';
 // import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
@@ -48,14 +48,20 @@ import AjouterMesInfosStack, {
 import DesktopColorPicker from '../../../components/desktop/modals/desktopColorPicker/desktopColorPicker';
 import { colors } from '../create/color';
 import { getApi } from '../../../store/services/_init/_initAPI';
-import { ApiErrorResponseType, IconColorType, SagaCallBackOnCompleteBoolType } from "../../../types/_init/_initTypes";
+import { ApiErrorResponseType, IconColorType, SagaCallBackOnCompleteBoolType } from '../../../types/_init/_initTypes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE } from "../../../utils/routes";
-import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../../../utils/routes';
+import {
+	defaultInstance,
+	Desktop,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	TabletAndMobile,
+} from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../components/layouts/footer/customFooter';
@@ -71,8 +77,8 @@ import EditShopInfoTabContent from '../../../components/groupedComponents/shop/e
 import EditShopTabContent from '../../../components/groupedComponents/shop/edit/editShopTabContent/editShopTabContent';
 import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropDownMenu/iconDropDownMenu';
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
-import { getShopWSAvatar } from "../../../store/selectors";
-import { NextSeo } from "next-seo";
+import { getShopWSAvatar } from '../../../store/selectors';
+import { NextSeo } from 'next-seo';
 
 export type ShopInfoDataType = {
 	shop_name: string;
@@ -430,7 +436,22 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 		if (shopWSAvatar) {
 			setPreview(shopWSAvatar);
 		}
-	}, [avatar, bg_color_code, border, color_code, contactModeState, contact_phone, contact_phone_code, contact_whatsapp, contact_whatsapp_code, font_name, icon_color, setPhoneSwitchHandler, setWhatsappSwitchHandler, shopWSAvatar]);
+	}, [
+		avatar,
+		bg_color_code,
+		border,
+		color_code,
+		contactModeState,
+		contact_phone,
+		contact_phone_code,
+		contact_whatsapp,
+		contact_whatsapp_code,
+		font_name,
+		icon_color,
+		setPhoneSwitchHandler,
+		setWhatsappSwitchHandler,
+		shopWSAvatar,
+	]);
 
 	const contacterSaveHandler = useCallback(() => {
 		if (phoneSwitch) {
@@ -564,9 +585,16 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 				<UserMainNavigationBar />
 				<main className={Styles.main}>
 					{!is_subscribed && <ShopNotIndexed />}
-					<Stack direction="row" justifyContent="flex-end" alignItems="flex-end" className={Styles.mobileOnly}>
-						<IconDropDownMenu actions={dropDownActions} menuID="desktop-edit-menu1" buttonID="desktop-edit-menu1-btn" />
-					</Stack>
+					<TabletAndMobile>
+						<Stack direction="row" justifyContent="flex-end" alignItems="flex-end">
+							<IconDropDownMenu
+								actions={dropDownActions}
+								menuID="desktop-edit-menu1"
+								buttonID="desktop-edit-menu1-btn"
+							/>
+						</Stack>
+					</TabletAndMobile>
+
 					<Stack
 						justifyContent="space-between"
 						alignItems="center"
@@ -640,13 +668,15 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 									>
 										{shop_name}
 									</h2>
-									<div className={Styles.desktopOnly}>
-										<IconDropDownMenu
-											actions={dropDownActions}
-											menuID="desktop-edit-menu"
-											buttonID="desktop-edit-menu-btn"
-										/>
-									</div>
+									<Desktop>
+										<div>
+											<IconDropDownMenu
+												actions={dropDownActions}
+												menuID="desktop-edit-menu"
+												buttonID="desktop-edit-menu-btn"
+											/>
+										</div>
+									</Desktop>
 								</Stack>
 							</Stack>
 						</Stack>
@@ -709,7 +739,12 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 						</Stack>
 					</Box>
 					{/* START right side contact modal */}
-					<CustomSwipeModal keepMounted={true} open={openContacterModal} handleClose={handleContactModalClose}>
+					<CustomSwipeModal
+						transition
+						keepMounted={true}
+						open={openContacterModal}
+						handleClose={handleContactModalClose}
+					>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
 								<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
@@ -746,7 +781,12 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					</CustomSwipeModal>
 					{/* END right side contact modal */}
 					{/* Edit info modal */}
-					<CustomSwipeModal open={openInfoModal} handleClose={() => setOpenInfoModal(false)} waitShopSelector={true}>
+					<CustomSwipeModal
+						transition
+						open={openInfoModal}
+						handleClose={() => setOpenInfoModal(false)}
+						waitShopSelector={true}
+					>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
 								<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
@@ -780,72 +820,24 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								}}
 								open={openColorModal}
 							>
-								<div className={Styles.desktopContainerModal}>
-									{colors.map((color: string, index: number) => {
-										return (
-											<DesktopColorPicker
-												color={color}
-												onClick={() => colorClickHandler(color)}
-												selectedColor={bgColorCode}
-												key={index}
-											/>
-										);
-									})}
-								</div>
-								<Box sx={{ position: 'absolute', bottom: '10%' }}>
-									<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
-										<PrimaryButton
-											buttonText="Enregistrer"
-											active={colorCode !== undefined && bgColorCode !== undefined}
-											onClick={() => {
-												editColorHandler(bgColorCode, colorCode);
-												setOpenColorModal(false);
-											}}
-										/>
+								<Desktop>
+									<div className={Styles.desktopContainerModal}>
+										{colors.map((color: string, index: number) => {
+											return (
+												<DesktopColorPicker
+													color={color}
+													onClick={() => colorClickHandler(color)}
+													selectedColor={bgColorCode}
+													key={index}
+												/>
+											);
+										})}
 									</div>
-								</Box>
-
-								<div>
-									<div className={Styles.mobileContainerModal}>
-										<Swiper
-											pagination={{
-												clickable: true,
-												enabled: true,
-												bulletActiveClass: 'activekBullet',
-												clickableClass: 'paginationBullet',
-											}}
-											modules={[Navigation, Pagination, Lazy]}
-											scrollbar={{ enabled: false }}
-											className={Styles.mobileSwiper}
-										>
-											<SwiperSlide className={Styles.swiperSlide}>
-												{colors.slice(0, 10).map((color: string, index: number) => {
-													return (
-														<MobileColorPicker
-															color={color}
-															onClick={() => colorClickHandler(color)}
-															selectedColor={bgColorCode}
-															key={index}
-														/>
-													);
-												})}
-											</SwiperSlide>
-											<SwiperSlide className={Styles.swiperSlide}>
-												{colors.slice(10, 20).map((color: string, index: number) => {
-													return (
-														<MobileColorPicker
-															color={color}
-															onClick={() => colorClickHandler(color)}
-															selectedColor={bgColorCode}
-															key={index}
-														/>
-													);
-												})}
-											</SwiperSlide>
-										</Swiper>
-										<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}>
+								</Desktop>
+								<Desktop>
+									<Box sx={{ position: 'absolute', bottom: '10%' }}>
+										<div className={Styles.primaryButtonZindexWrapper}>
 											<PrimaryButton
-												cssClass={Styles.primaryButton}
 												buttonText="Enregistrer"
 												active={colorCode !== undefined && bgColorCode !== undefined}
 												onClick={() => {
@@ -854,7 +846,60 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 												}}
 											/>
 										</div>
-									</div>
+									</Box>
+								</Desktop>
+								<div>
+									<TabletAndMobile>
+										<div className={Styles.mobileContainerModal}>
+											<Swiper
+												pagination={{
+													clickable: true,
+													enabled: true,
+													bulletActiveClass: 'activekBullet',
+													clickableClass: 'paginationBullet',
+												}}
+												modules={[Navigation, Pagination, Lazy]}
+												scrollbar={{ enabled: false }}
+												className={Styles.mobileSwiper}
+											>
+												<SwiperSlide className={Styles.swiperSlide}>
+													{colors.slice(0, 10).map((color: string, index: number) => {
+														return (
+															<MobileColorPicker
+																color={color}
+																onClick={() => colorClickHandler(color)}
+																selectedColor={bgColorCode}
+																key={index}
+															/>
+														);
+													})}
+												</SwiperSlide>
+												<SwiperSlide className={Styles.swiperSlide}>
+													{colors.slice(10, 20).map((color: string, index: number) => {
+														return (
+															<MobileColorPicker
+																color={color}
+																onClick={() => colorClickHandler(color)}
+																selectedColor={bgColorCode}
+																key={index}
+															/>
+														);
+													})}
+												</SwiperSlide>
+											</Swiper>
+											<div className={Styles.primaryButtonZindexWrapper}>
+												<PrimaryButton
+													cssClass={Styles.primaryButton}
+													buttonText="Enregistrer"
+													active={colorCode !== undefined && bgColorCode !== undefined}
+													onClick={() => {
+														editColorHandler(bgColorCode, colorCode);
+														setOpenColorModal(false);
+													}}
+												/>
+											</div>
+										</div>
+									</TabletAndMobile>
 								</div>
 							</Backdrop>
 						</>
@@ -870,32 +915,36 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								}}
 								open={openFontModal}
 							>
-								<div className={Styles.desktopContainerModal}>
-									{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
-										return (
-											<FontPicker
-												key={index}
-												pickedFontName={fontName}
-												font={font}
+								<Desktop>
+									<div className={Styles.desktopContainerModal}>
+										{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
+											return (
+												<FontPicker
+													key={index}
+													pickedFontName={fontName}
+													font={font}
+													onClick={() => {
+														fontPicker(font.code);
+													}}
+												/>
+											);
+										})}
+									</div>
+								</Desktop>
+								<Desktop>
+									<Box sx={{ position: 'absolute', bottom: '10%' }}>
+										<div className={Styles.primaryButtonZindexWrapper}>
+											<PrimaryButton
+												buttonText="Continuer"
+												active={fontName !== undefined}
 												onClick={() => {
-													fontPicker(font.code);
+													editFontHandler(fontName);
+													setOpenFontModal(false);
 												}}
 											/>
-										);
-									})}
-								</div>
-								<Box sx={{ position: 'absolute', bottom: '10%' }}>
-									<div className={`${Styles.primaryButtonDesktopWrapper} ${Styles.primaryButtonZindexWrapper}`}>
-										<PrimaryButton
-											buttonText="Continuer"
-											active={fontName !== undefined}
-											onClick={() => {
-												editFontHandler(fontName);
-												setOpenFontModal(false);
-											}}
-										/>
-									</div>
-								</Box>
+										</div>
+									</Box>
+								</Desktop>
 								<div>
 									<div className={Styles.mobileFontWrapper}>
 										<div className={Styles.mobileFontContainerModal}>
@@ -912,17 +961,19 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 												);
 											})}
 										</div>
-										<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}>
-											<PrimaryButton
-												cssClass={Styles.primaryButton}
-												buttonText="Enregistrer"
-												active={fontName !== undefined}
-												onClick={() => {
-													editFontHandler(fontName);
-													setOpenFontModal(false);
-												}}
-											/>
-										</div>
+										<TabletAndMobile>
+											<div className={Styles.primaryButtonZindexWrapper}>
+												<PrimaryButton
+													cssClass={Styles.primaryButton}
+													buttonText="Enregistrer"
+													active={fontName !== undefined}
+													onClick={() => {
+														editFontHandler(fontName);
+														setOpenFontModal(false);
+													}}
+												/>
+											</div>
+										</TabletAndMobile>
 									</div>
 								</div>
 							</Backdrop>
@@ -988,7 +1039,11 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 		// set icon colors
 		if (contact_mode === 'W' && contact_whatsapp_code && contact_whatsapp) {
 			setContactModeState('W');
-			setContacterLink('https://api.whatsapp.com/send?phone=' + contact_whatsapp_code.replaceAll('+', '') + contact_whatsapp.replaceAll(' ', ''));
+			setContacterLink(
+				'https://api.whatsapp.com/send?phone=' +
+					contact_whatsapp_code.replaceAll('+', '') +
+					contact_whatsapp.replaceAll(' ', ''),
+			);
 			if (icon_color === 'white') {
 				// setMessageIcon(MessageIconWhiteSVG);
 				setContactIcon(WhatsaappIconWhiteSVG);
@@ -1149,7 +1204,7 @@ const Index: NextPage<Props> = (props: Props) => {
 	if (permission === 'OWNER') {
 		return (
 			<>
-				<NextSeo title={`${data.shop_name} | Qaryb`}/>
+				<NextSeo title={`${data.shop_name} | Qaryb`} />
 				<ViewShopAsOwner data={data} />
 			</>
 		);
@@ -1157,7 +1212,7 @@ const Index: NextPage<Props> = (props: Props) => {
 		// visiter
 		return (
 			<>
-				<NextSeo title={`${data.shop_name} | Qaryb`}/>
+				<NextSeo title={`${data.shop_name} | Qaryb`} />
 				<ViewShopAsNotOwner data={data} />
 			</>
 		);
@@ -1205,12 +1260,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						} else {
 							// shop link not found
 							return {
-								...not_found_redirect
+								...not_found_redirect,
 							};
 						}
 					} catch (e) {
 						return {
-							...not_found_redirect
+							...not_found_redirect,
 						};
 					}
 				} else {
@@ -1234,12 +1289,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						};
 					} else {
 						return {
-							...not_found_redirect
+							...not_found_redirect,
 						};
 					}
 				} catch (e) {
 					return {
-						...not_found_redirect
+						...not_found_redirect,
 					};
 				}
 			}
@@ -1251,7 +1306,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						permanent: false,
 						destination: AUTH_LOGIN,
 					},
-				}
+				};
 			}
 			return {
 				...not_found_redirect,

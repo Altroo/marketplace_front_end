@@ -8,42 +8,41 @@ import SuccessIlluSVG from '../../../public/assets/images/success-illu.svg';
 import PrimaryAnchorButton from '../../../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import { AUTH_LOGIN, DASHBOARD } from '../../../utils/routes';
 import { getCookie } from 'cookies-next';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance, TabletAndMobile } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import { getApi } from '../../../store/services/_init/_initAPI';
-import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
-
+import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 
 const SetPasswordComplete: React.FC = () => {
 	return (
 		<>
-			<div className={Styles.desktopOnly}>
-				<AuthPageLayout href={AUTH_LOGIN} topBarText="CONNECT">
-					<Stack
-						direction="column"
-						spacing={4}
-						className={Styles.contentWrapper}
-					>
-						<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
-						<h2 className={Styles.header}>Mot de passe modifié</h2>
-						<p className={Styles.subHeader}>Votre mot de passe a été modifier, connectez-vous</p>
-						<PrimaryAnchorButton buttonText="Me connecter" active={true} nextPage={AUTH_LOGIN} />
-					</Stack>
-				</AuthPageLayout>
-			</div>
-			<div className={Styles.mobileOnly}>
-				<main className={Styles.main}>
-					<UserMainNavigationBar hideMobileSearch/>
-					<Stack direction="column" spacing={4} className={Styles.contentWrapper}>
-						<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
-						<h2 className={Styles.header}>Mot de passe modifié</h2>
-						<p className={Styles.subHeader}>Votre mot de passe a été modifier, connectez-vous</p>
-					</Stack>
-					<div className={Styles.primaryButtonWrapper}>
-						<PrimaryAnchorButton buttonText="Me connecter" active={true} nextPage={AUTH_LOGIN} />
-					</div>
-				</main>
-			</div>
+			<Desktop>
+				<div>
+					<AuthPageLayout href={AUTH_LOGIN} topBarText="CONNECT">
+						<Stack direction="column" spacing={4} className={Styles.contentWrapper}>
+							<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+							<h2 className={Styles.header}>Mot de passe modifié</h2>
+							<p className={Styles.subHeader}>Votre mot de passe a été modifier, connectez-vous</p>
+							<PrimaryAnchorButton buttonText="Me connecter" active={true} nextPage={AUTH_LOGIN} />
+						</Stack>
+					</AuthPageLayout>
+				</div>
+			</Desktop>
+			<TabletAndMobile>
+				<div>
+					<main className={Styles.main}>
+						<UserMainNavigationBar />
+						<Stack direction="column" spacing={4} className={Styles.contentWrapper}>
+							<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
+							<h2 className={Styles.header}>Mot de passe modifié</h2>
+							<p className={Styles.subHeader}>Votre mot de passe a été modifier, connectez-vous</p>
+						</Stack>
+						<div className={Styles.primaryButtonWrapper}>
+							<PrimaryAnchorButton buttonText="Me connecter" active={true} nextPage={AUTH_LOGIN} />
+						</div>
+					</main>
+				</div>
+			</TabletAndMobile>
 		</>
 	);
 };

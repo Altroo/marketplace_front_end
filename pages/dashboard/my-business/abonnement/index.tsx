@@ -2,7 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../../styles/dashboard/dashboard.module.sass';
 import SubscribedStyles from '../../../../styles/dashboard/subscribed.module.sass';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../utils/helpers';
+import {
+	Desktop,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	TabletAndMobile,
+} from '../../../../utils/helpers';
 import {
 	AccountGetCheckAccountResponseType,
 	AccountGetDashboardResponseType,
@@ -395,15 +400,12 @@ const AlreadySubscribedContent: React.FC<AlreadySubscribedContentType> = (props:
 								<span>/{nbr_article} articles</span>
 							</Stack>
 							<Stack direction="row" alignItems="flex-end" justifyContent="flex-end">
-								<Box className={Styles.desktopOnly}>
+								<Desktop>
 									<TextAnchorButton buttonText="Articles référencés" nextPage={DASHBOARD_INDEXED_OFFERS} />
-								</Box>
-								<Box className={Styles.mobileOnly}>
-									<MobileTextAnchorButton
-										buttonText="Articles référencés"
-										onClick={articleReferenceHandler}
-									/>
-								</Box>
+								</Desktop>
+								<TabletAndMobile>
+									<MobileTextAnchorButton buttonText="Articles référencés" onClick={articleReferenceHandler} />
+								</TabletAndMobile>
 							</Stack>
 						</Stack>
 					</Box>
@@ -486,77 +488,99 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 			<UserMainNavigationBar />
 			{subscriptionData !== null ? (
 				<main className={`${Styles.main} ${Styles.fixMobile}`}>
-					<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
-						<DesktopMyBusinessSideNav backText="My business" data={data} />
-						<Box sx={{ width: '100%' }}>
-							<AlreadySubscribedContent subscriptionData={subscriptionData} />
-						</Box>
-					</Stack>
-					<Stack className={Styles.mobileOnly}>
-						{!mobileElementClicked ? (
-							<MobileMyBusinessNav
-								setContent={setMobileElementClicked}
-								backText="My business"
-								data={data}
-								addMobilePadding={true}
-							/>
-						) : (
-							<Box sx={{ width: '100%', height: '100%' }}>
-								<Stack direction="column">
-									<Stack direction="row" justifyContent="space-between">
-										<Stack
-											className={Styles.topBackNavigationStack}
-											direction="row"
-											spacing={1}
-											onClick={() => setMobileElementClicked(false)}
-											alignItems="center"
-										>
-											<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
-											<span className={Styles.backText}>Retour</span>
-										</Stack>
-									</Stack>
-								</Stack>
+					<Desktop>
+						<Stack direction="row" className={Styles.flexRootStack}>
+							<DesktopMyBusinessSideNav backText="My business" data={data} />
+							<Box sx={{ width: '100%' }}>
 								<AlreadySubscribedContent subscriptionData={subscriptionData} />
 							</Box>
-						)}
-					</Stack>
+						</Stack>
+					</Desktop>
+					<TabletAndMobile>
+						<Stack>
+							{!mobileElementClicked ? (
+								<MobileMyBusinessNav
+									setContent={setMobileElementClicked}
+									backText="My business"
+									data={data}
+									addMobilePadding={true}
+								/>
+							) : (
+								<Box sx={{ width: '100%', height: '100%' }}>
+									<Stack direction="column">
+										<Stack direction="row" justifyContent="space-between">
+											<Stack
+												className={Styles.topBackNavigationStack}
+												direction="row"
+												spacing={1}
+												onClick={() => setMobileElementClicked(false)}
+												alignItems="center"
+											>
+												<Image
+													src={MiniBackSVG}
+													alt=""
+													width="0"
+													height="0"
+													sizes="100vw"
+													className={Styles.backIcon}
+												/>
+												<span className={Styles.backText}>Retour</span>
+											</Stack>
+										</Stack>
+									</Stack>
+									<AlreadySubscribedContent subscriptionData={subscriptionData} />
+								</Box>
+							)}
+						</Stack>
+					</TabletAndMobile>
 				</main>
 			) : (
 				<main className={`${Styles.main} ${Styles.noPaddingFixMobile}`}>
-					<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
-						<DesktopMyBusinessSideNav backText="My business" data={data} />
-						<Box sx={{ width: '100%' }}>
-							<SubscribeSliderContent data={data} />
-						</Box>
-					</Stack>
-					<Stack className={Styles.mobileOnly}>
-						{!mobileElementClicked ? (
-							<MobileMyBusinessNav
-								setContent={setMobileElementClicked}
-								backText="My business"
-								data={data}
-								addMobilePadding={true}
-							/>
-						) : (
-							<Box sx={{ width: '100%', height: '100%' }}>
-								<Stack direction="column">
-									<Stack direction="row" justifyContent="space-between" className={Styles.marginLeft}>
-										<Stack
-											className={Styles.topBackNavigationStack}
-											direction="row"
-											spacing={1}
-											onClick={() => setMobileElementClicked(false)}
-											alignItems="center"
-										>
-											<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
-											<span className={Styles.backText}>Retour</span>
-										</Stack>
-									</Stack>
-								</Stack>
+					<Desktop>
+						<Stack direction="row" className={Styles.flexRootStack}>
+							<DesktopMyBusinessSideNav backText="My business" data={data} />
+							<Box sx={{ width: '100%' }}>
 								<SubscribeSliderContent data={data} />
 							</Box>
-						)}
-					</Stack>
+						</Stack>
+					</Desktop>
+					<TabletAndMobile>
+						<Stack>
+							{!mobileElementClicked ? (
+								<MobileMyBusinessNav
+									setContent={setMobileElementClicked}
+									backText="My business"
+									data={data}
+									addMobilePadding={true}
+								/>
+							) : (
+								<Box sx={{ width: '100%', height: '100%' }}>
+									<Stack direction="column">
+										<Stack direction="row" justifyContent="space-between" className={Styles.marginLeft}>
+											<Stack
+												className={Styles.topBackNavigationStack}
+												direction="row"
+												spacing={1}
+												onClick={() => setMobileElementClicked(false)}
+												alignItems="center"
+											>
+												<Image
+													src={MiniBackSVG}
+													alt=""
+													width="0"
+													height="0"
+													sizes="100vw"
+													className={Styles.backIcon}
+												/>
+												<span className={Styles.backText}>Retour</span>
+											</Stack>
+										</Stack>
+									</Stack>
+									<SubscribeSliderContent data={data} />
+								</Box>
+							)}
+						</Stack>
+					</TabletAndMobile>
 				</main>
 			)}
 			<CustomFooter />

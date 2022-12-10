@@ -8,7 +8,7 @@ import {
 	REAL_OFFER_ADD_SERVICE_DESCRIPTION,
 	REAL_OFFER_ROUTE,
 	REAL_SHOP_ADD_SHOP_NAME,
-	AUTH_LOGIN, REAL_OFFER_ADD_PRODUCT_DESCRIPTION
+	AUTH_LOGIN,
 } from "../../../../../utils/routes";
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';

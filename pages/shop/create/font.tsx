@@ -11,9 +11,6 @@ import DefaultCardSection from '../../../components/htmlElements/cards/defaultCa
 import { setShopFontAction, shopPostRootAction } from '../../../store/actions/shop/shopActions';
 import AvatarShopNameRating from '../../../components/groupedComponents/temp-shop/create/avatarShopNameRating/avatarShopNameRating';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
-import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg';
-import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
-import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
 import ContactIconSVG from '../../../public/assets/svgs/globalIcons/call.svg';
 import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
 import ContactIconBlackSVG from '../../../public/assets/svgs/globalIcons/call-black.svg';
@@ -45,11 +42,13 @@ import {
 	REAL_SHOP_ADD_COLOR,
 	DASHBOARD,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	AUTH_LOGIN, REAL_SHOP_ADD_AVATAR, REAL_SHOP_ADD_SHOP_NAME
-} from "../../../utils/routes";
+	AUTH_LOGIN,
+	REAL_SHOP_ADD_AVATAR,
+	REAL_SHOP_ADD_SHOP_NAME,
+} from '../../../utils/routes';
 import { Box } from '@mui/material';
 import { SagaCallBackOnCompleteStrType } from '../../../types/_init/_initTypes';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance, TabletAndMobile } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 
@@ -182,11 +181,9 @@ const Font: NextPage = () => {
 				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteStrType) => {
 					if (!error && !cancelled && data) {
 						const url: string = REAL_SHOP_BY_SHOP_LINK_ROUTE(data as string);
-						router
-							.replace({ query: { created: 'true' }, pathname: url }, undefined)
-							.then(() => {
-								setIsApiCallInProgress(false);
-							});
+						router.replace({ query: { created: 'true' }, pathname: url }, undefined).then(() => {
+							setIsApiCallInProgress(false);
+						});
 					}
 				},
 			});
@@ -209,7 +206,10 @@ const Font: NextPage = () => {
 					<MobileTopNavigationBar backHref={REAL_SHOP_ADD_COLOR} returnButton closeButtonHref={DASHBOARD} />
 					<MobileStepsBar activeStep={activeStep} />
 					<Box className={Styles.marginLeft}>
-						<HelperH1Header header="Choisissez une police" HelpText="Le style s'applique à la typographie du nom de votre boutique" />
+						<HelperH1Header
+							header="Choisissez une police"
+							HelpText="Le style s'applique à la typographie du nom de votre boutique"
+						/>
 					</Box>
 					<DefaultCardSection cssClass={Styles.cardSection}>
 						<div className={Styles.avatarActionsWrapper}>
@@ -221,7 +221,8 @@ const Font: NextPage = () => {
 									backgroundColor={bgColorCode}
 									textColor={colorCode}
 									border={border}
-									cssClass={Styles.contacterButton} />
+									cssClass={Styles.contacterButton}
+								/>
 							</div>
 						</div>
 						<div className={Styles.shopDetailsWrapper}>
@@ -230,34 +231,38 @@ const Font: NextPage = () => {
 								<DisactivatedTab active={false} text="INFOS" borderColor={bgColorCode} color={blackText} />
 							</div>
 						</div>
-						<div className={Styles.filterWrapper}>
-							<span className={Styles.filterText}>Filtrer</span>
-							<DisabledFilterDropDown text="Trier : Prix décroissant" />
-						</div>
+						<Desktop>
+							<div className={Styles.filterWrapper}>
+								<span className={Styles.filterText}>Filtrer</span>
+								<DisabledFilterDropDown text="Trier : Prix décroissant" />
+							</div>
+						</Desktop>
 						<div className={Styles.shopDetailsAside}>
-							<div className={Styles.shopFilterWrapper}>
-								<IconTextInput active={false} placeholder="Rechercher" />
-								<div className={Styles.shopFilterContainer}>
-									<span className={Styles.subHeader}>Catégories</span>
-									<div className={Styles.categoriesWrapper}>
-										<ChipButtons actions={chipCategoriesAction} />
-									</div>
-									<div className={Styles.promoWrapper}>
-										<span className={Styles.subHeader}>En Promo</span>
-										<IosSwitch disabled checked={false} labelcssStyles={{ paddingLeft: '10px' }} />
-									</div>
-									<div className={Styles.forWhomWrapper}>
-										<span className={Styles.subHeader}>Pour qui</span>
-										<div>
+							<Desktop>
+								<div className={Styles.shopFilterWrapper}>
+									<IconTextInput active={false} placeholder="Rechercher" />
+									<div className={Styles.shopFilterContainer}>
+										<span className={Styles.subHeader}>Catégories</span>
+										<div className={Styles.categoriesWrapper}>
+											<ChipButtons actions={chipCategoriesAction} />
+										</div>
+										<div className={Styles.promoWrapper}>
+											<span className={Styles.subHeader}>En Promo</span>
+											<IosSwitch disabled checked={false} labelcssStyles={{ paddingLeft: '10px' }} />
+										</div>
+										<div className={Styles.forWhomWrapper}>
+											<span className={Styles.subHeader}>Pour qui</span>
 											<div>
-												<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{ paddingLeft: 0 }} />
-												<CheckBox checked active={false} text="Femme" labelcssStyles={{ paddingLeft: 0 }} />
-												<CheckBox checked active={false} text="Homme" labelcssStyles={{ paddingLeft: 0 }} />
+												<div>
+													<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{ paddingLeft: 0 }} />
+													<CheckBox checked active={false} text="Femme" labelcssStyles={{ paddingLeft: 0 }} />
+													<CheckBox checked active={false} text="Homme" labelcssStyles={{ paddingLeft: 0 }} />
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
+							</Desktop>
 							<div className={Styles.shopAddOfferWrapper}>
 								<div className={Styles.addOfferContainer}>
 									<div className={Styles.centeredInfoActionWrapper}>
@@ -276,56 +281,60 @@ const Font: NextPage = () => {
 								</div>
 							</div>
 						</div>
-						<div className={Styles.desktopFontWrapper}>
-							{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
-								return (
-									<FontPicker
-										key={index}
-										pickedFontName={fontName}
-										font={font}
-										onClick={() => {
-											fontPicker(font.code);
-										}}
-									/>
-								);
-							})}
-						</div>
-						<div>
-							<div className={Styles.mobileFontWrapper}>
-								<div className={Styles.mobileFontContainerModal}>
-									{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
-										return (
-											<FontPicker
-												key={index}
-												pickedFontName={fontName}
-												font={font}
-												onClick={() => {
-													fontPicker(font.code);
-												}}
-											/>
-										);
-									})}
-								</div>
-								<div className={`${Styles.primaryButtonMobileWrapper} ${Styles.primaryButtonZindexWrapper}`}>
-									<PrimaryButton
-										cssClass={Styles.primaryButton}
-										buttonText="Continuer"
-										active={fontName !== undefined}
-										onClick={() => fontHandler(fontName)}
-									/>
-								</div>
+						<Desktop>
+							<div className={Styles.desktopFontWrapper}>
+								{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
+									return (
+										<FontPicker
+											key={index}
+											pickedFontName={fontName}
+											font={font}
+											onClick={() => {
+												fontPicker(font.code);
+											}}
+										/>
+									);
+								})}
 							</div>
+						</Desktop>
+						<div>
+							<TabletAndMobile>
+								<div className={Styles.mobileFontWrapper}>
+									<div className={Styles.mobileFontContainerModal}>
+										{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
+											return (
+												<FontPicker
+													key={index}
+													pickedFontName={fontName}
+													font={font}
+													onClick={() => {
+														fontPicker(font.code);
+													}}
+												/>
+											);
+										})}
+									</div>
+									<div className={Styles.primaryButtonZindexWrapper}>
+										<PrimaryButton
+											cssClass={Styles.primaryButton}
+											buttonText="Continuer"
+											active={fontName !== undefined}
+											onClick={() => fontHandler(fontName)}
+										/>
+									</div>
+								</div>
+							</TabletAndMobile>
 						</div>
 					</DefaultCardSection>
-					<div
-						className={`${Styles.primaryButtonDesktopWrapper} ${Styles.miniMarginButtonBottom} ${Styles.primaryButtonZindexWrapper}`}
-					>
-						<PrimaryButton
-							buttonText="Continuer"
-							active={fontName !== undefined}
-							onClick={() => fontHandler(fontName)}
-						/>
-					</div>
+					<Desktop>
+						<div className={`${Styles.miniMarginButtonBottom} ${Styles.primaryButtonZindexWrapper}`}>
+							<PrimaryButton
+								buttonText="Continuer"
+								active={fontName !== undefined}
+								onClick={() => fontHandler(fontName)}
+							/>
+						</div>
+					</Desktop>
 				</Box>
 			</main>
 		</>

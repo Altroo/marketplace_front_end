@@ -1,6 +1,5 @@
-import { AddShopClass, AuthShopClass, newShopType, UserShopClass } from "../../models/shop/AuthShopClass";
+import { AuthShopClass, newShopType, UserShopClass } from "../../models/shop/AuthShopClass";
 import { GlobalApiPromiseError, Nullable, ResponseDataInterface } from "../_init/_initTypes";
-import { WSThumbnailType } from "../offer/offerTypes";
 // ('L', 'Light'), ('R', 'Regular'), ('S', 'Semi-bold'), ('B', 'Black'),
 export type ShopFontNameType = 'L' | 'R' | 'S' | 'B';
 // ('A', 'Address'), ('S', 'Sector')

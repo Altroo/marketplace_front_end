@@ -1,7 +1,5 @@
 import React from 'react';
 import Styles from './helperH1Header.module.sass';
-import QuestionMarkSVG from "../../../public/assets/svgs/globalIcons/question-mark.svg";
-import Image from 'next/image';
 import { Stack } from "@mui/material";
 
 type Props = {

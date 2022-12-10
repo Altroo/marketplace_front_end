@@ -342,6 +342,12 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/collections" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/collections/defaultSeoOffersContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/collections/defaultSeoTextContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/seo_pages" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/seo_pages" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/panier" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/cart" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/cart/getProductCart" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/cart/getServiceCart" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/seo-pages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />

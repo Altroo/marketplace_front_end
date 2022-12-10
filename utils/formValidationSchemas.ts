@@ -13,9 +13,6 @@ import {
 	INPUT_PASSWORD_MIN,
 	SHORT_INPUT_REQUIRED,
 	INPUT_POSTAL_CODE,
-	INPUT_ICE,
-	INPUT_NUMBER_MIN,
-	INPUT_NUMBER_MAX,
 	MINI_INPUT_EMAIL,
 } from './formValidationErrorMessages';
 
@@ -118,12 +115,6 @@ export const addOfferServiceSchema = Yup.object().shape({
 	fr_day: Yup.boolean().nullable().notRequired(),
 	sa_day: Yup.boolean().nullable().notRequired(),
 	su_day: Yup.boolean().nullable().notRequired(),
-	// service_morning_hour_from: Yup.string().required(SHORT_INPUT_REQUIRED).nullable(),
-	// service_morning_hour_to: Yup.string().required(SHORT_INPUT_REQUIRED).nullable(),
-	// service_morning_hour_from: Yup.string().nullable().notRequired(),
-	// service_morning_hour_to: Yup.string().nullable().notRequired(),
-	// service_afternoon_hour_from: Yup.string().nullable().notRequired(),
-	// service_afternoon_hour_to: Yup.string().nullable().notRequired(),
 	service_morning_hour_from: Yup.date().required(SHORT_INPUT_REQUIRED).nullable(),
 	service_morning_hour_to: Yup.date().required(SHORT_INPUT_REQUIRED).nullable(),
 	service_afternoon_hour_from: Yup.date().nullable().notRequired(),
@@ -192,13 +183,6 @@ export const createPasswordSchema = Yup.object().shape({
 });
 
 export const subscriptionSchema = Yup.object().shape({
-	// company: Yup.string().notRequired().nullable(),
-	// ice: Yup.string()
-	// 	.min(15, INPUT_NUMBER_MIN(15))
-	// 	.typeError(INPUT_ICE)
-	// 	.max(15, INPUT_NUMBER_MAX(15))
-	// 	.transform((value) => value.replace(/\D/g, ''))
-	// 	.notRequired(),
 	first_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
 	last_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
 	adresse: Yup.string().min(2, INPUT_MIN(2)).max(50, INPUT_MAX(50)).required(INPUT_REQUIRED),

@@ -3,10 +3,6 @@
 @import 'styles/sass/mixins'
 
 // Global styles
-.desktopOnly
-  display: flex
-.mobileOnly
-  +Hidden
 .comingSoon
   +Regular
   font-size: 9px
@@ -18,7 +14,6 @@
   display: block
   padding-right: 60px
   padding-top: 32px
-  //padding-bottom: 32px
   width: 100%
 .form
   min-width: 430px
@@ -37,7 +32,6 @@
   width: 100%
 .userCardStack
   padding: 18px
-  //justify-content: space-between
 .userCardStackContent
   width: 252px
 .userMembreDepuis
@@ -88,8 +82,6 @@
   @extend .userOldPrice
   color: #E12D3D
 .dashboardShopCardStack
-  //width: 379px
-  //height: 276px
   padding: 18px
   background-color: #FBFBFB
   border-radius: 20px
@@ -255,7 +247,6 @@
   width: 100%
   height: 100%
 .dashboardCreateShopButton
-  //margin-top: 24px
   width: 148px !important
   height: 32px !important
   min-width: 148px !important
@@ -421,8 +412,6 @@
   +SemiBold
   font-size: 17px
   color: $primary
-//.offerVuesTopArticlesRootList
-//  height: 79px
 .offerVuesloadMoreStack
   margin-top: 32px !important
   margin-bottom: 32px !important
@@ -491,8 +480,6 @@
     text-align: center
   .dashboardSellsDesktopBox
     margin-bottom: 60px !important
-  .desktopOnly
-    +Hidden
   .main
     padding-top: 0 !important
     margin-top: 1rem !important
@@ -504,7 +491,6 @@
     position: absolute
     left: 24px
   .rootStack
-    //height: auto !important
     justify-content: center
     align-items: center
   .rootStackVH
@@ -513,8 +499,6 @@
   .mobileMsgNotifRootStack
     margin-left: 24px
     margin-right: 24px
-  .mobileOnly
-    display: flex !important
   .mobileMessageIconButton
     padding: 0
     margin: 12px 6px 12px 0
@@ -547,7 +531,6 @@
     margin: 0
     padding: 12px 0 0
   .topBackNavigationStack
-    //margin-top: 1rem !important
     cursor: pointer
     width: fit-content
     width: -moz-fit-content
@@ -566,7 +549,5 @@
     width: 100%
   .offerVuesloadMoreStack
     width: 100%
-    //margin-left: 24px
-    //margin-right: 24px
   .offerVuesloadMoreButton
     width: calc(100vw - 48px)

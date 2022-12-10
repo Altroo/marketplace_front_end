@@ -3,10 +3,12 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import SharedStyles from '../../../../styles/dashboard/dashboard.module.sass';
 import Styles from '../../../../styles/dashboard/indexedArticles.module.sass';
 import {
+	Desktop,
 	generatePageQueryParams,
 	getBackendNextPageNumber,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance,
+	TabletAndMobile,
 } from '../../../../utils/helpers';
 import {
 	AccountGetCheckAccountResponseType,
@@ -45,7 +47,7 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import { checkBoxTheme, getDefaultTheme } from '../../../../utils/themes';
 import { CheckBoxSVG } from '../../../../components/htmlElements/checkBoxes/checkBox';
 import { Iterables } from 'langx-js';
-import { SagaCallBackOnCompleteBoolType, SagaCallBackType } from '../../../../types/_init/_initTypes';
+import { SagaCallBackOnCompleteBoolType, SagaCallBackResponseType } from '../../../../types/_init/_initTypes';
 import { useAppDispatch } from '../../../../utils/hooks';
 import {
 	subscriptionDeleteSingleIndexedArticleAction,
@@ -94,40 +96,45 @@ const EmptyIndexedContent: React.FC<EmptyIndexedContentType> = (props: EmptyInde
 					<span>sur les moteurs de recherche.</span>
 					<span>Et vous?</span>
 				</Stack>
-				<Box className={SharedStyles.desktopOnly}>
-					<Stack direction="row" spacing="120px" className={Styles.emptyIndexedParagraphe}>
-						<span>
-							L’acte d’achat a plus souvent lieu sur Google que sur Instagram. Si vous n’avez pas de site web bien
-							référencé, abonnez vous pour toucher plus de gens.
-						</span>
-						<Box sx={{ position: 'relative', width: '100%' }}>
+				<Desktop>
+					<Box>
+						<Stack direction="row" spacing="120px" className={Styles.emptyIndexedParagraphe}>
+							<span>
+								L’acte d’achat a plus souvent lieu sur Google que sur Instagram. Si vous n’avez pas de site web bien
+								référencé, abonnez vous pour toucher plus de gens.
+							</span>
+							<Box sx={{ position: 'relative', width: '100%' }}>
+								<Image
+									src={JumelleIlluSVG}
+									alt=""
+									width="273"
+									height="178"
+									sizes="100vw"
+									className={Styles.desktopJumelleIllu}
+								/>
+							</Box>
+						</Stack>
+					</Box>
+				</Desktop>
+				<TabletAndMobile>
+					<Box>
+						<Stack direction="column" spacing="24px" className={Styles.emptyIndexedParagraphe}>
 							<Image
 								src={JumelleIlluSVG}
 								alt=""
 								width="273"
 								height="178"
 								sizes="100vw"
-								className={Styles.desktopJumelleIllu}
+								style={{ alignSelf: 'flex-end' }}
 							/>
-						</Box>
-					</Stack>
-				</Box>
-				<Box className={SharedStyles.mobileOnly}>
-					<Stack direction="column" spacing="24px" className={Styles.emptyIndexedParagraphe}>
-						<Image
-							src={JumelleIlluSVG}
-							alt=""
-							width="273"
-							height="178"
-							sizes="100vw"
-							style={{ alignSelf: 'flex-end' }}
-						/>
-						<span>
-							L’acte d’achat a plus souvent lieu sur Google que sur Instagram. Si vous n’avez pas de site web bien
-							référencé, abonnez vous pour toucher plus de gens.
-						</span>
-					</Stack>
-				</Box>
+							<span>
+								L’acte d’achat a plus souvent lieu sur Google que sur Instagram. Si vous n’avez pas de site web bien
+								référencé, abonnez vous pour toucher plus de gens.
+							</span>
+						</Stack>
+					</Box>
+				</TabletAndMobile>
+
 				<Box className={Styles.emptyIndexedPrimaryButtonBox}>
 					<PrimaryButton
 						buttonText="S'abonner"
@@ -265,7 +272,11 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 			const action = subscriptionGetIndexedArticlesAction(url);
 			dispatch({
 				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackType<subscriptionGetIndexedOffersPaginatedType>) => {
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: SagaCallBackResponseType<subscriptionGetIndexedOffersPaginatedType>) => {
 					if (!error && !cancelled && data) {
 						let map: Iterables.LinkedHashMap<number, subscriptionGetIndexedOffersType>;
 						let checkBoxList: Array<boolean>;
@@ -458,12 +469,14 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 							<Stack direction="row" alignItems="center" justifyContent="space-between">
 								<Stack direction="column" className={Styles.indexedArticlesBoxContent}>
 									<span>Pas assez de slots ?</span>
-									<span className={SharedStyles.desktopOnly}>
-										Passer au niveau supérieur, augementez vos <br /> nombre d&apos;articles référencés
-									</span>
-									<span className={SharedStyles.mobileOnly}>
-										Passer au niveau supérieur, augementez vos nombre d&apos;articles référencés
-									</span>
+									<Desktop>
+										<span>
+											Passer au niveau supérieur, augementez vos <br /> nombre d&apos;articles référencés
+										</span>
+									</Desktop>
+									<TabletAndMobile>
+										<span>Passer au niveau supérieur, augementez vos nombre d&apos;articles référencés</span>
+									</TabletAndMobile>
 								</Stack>
 								<OutlineButton
 									buttonText="Ajouter"
@@ -642,87 +655,95 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 			<main className={`${SharedStyles.main} ${SharedStyles.fixMobile}`}>
 				{!data.is_subscribed ? (
 					<>
-						<Stack direction="row" className={`${SharedStyles.desktopOnly} ${SharedStyles.flexRootStack}`}>
-							<DesktopMyBusinessSideNav backText="My business" data={data} />
-							<Box sx={{ width: '100%' }}>
-								<EmptyIndexedContent
-									indexed_articles_count={indexed_articles_count}
-									all_slots_count={all_slots_count}
-								/>
-							</Box>
-						</Stack>
-						<Stack className={SharedStyles.mobileOnly}>
-							{!mobileElementClicked ? (
-								<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
-							) : (
-								<Box sx={{ width: '100%', height: '100%' }}>
-									<Stack direction="column">
-										<Stack direction="row" justifyContent="space-between">
-											<Stack
-												className={SharedStyles.topBackNavigationStack}
-												direction="row"
-												spacing={1}
-												onClick={() => setMobileElementClicked(false)}
-												alignItems="center"
-											>
-												<Image
-													src={MiniBackSVG}
-													alt=""
-													width="0"
-													height="0"
-													sizes="100vw"
-													className={SharedStyles.backIcon}
-												/>
-												<span className={SharedStyles.backText}>Retour</span>
-											</Stack>
-										</Stack>
-									</Stack>
+						<Desktop>
+							<Stack direction="row" className={SharedStyles.flexRootStack}>
+								<DesktopMyBusinessSideNav backText="My business" data={data} />
+								<Box sx={{ width: '100%' }}>
 									<EmptyIndexedContent
 										indexed_articles_count={indexed_articles_count}
 										all_slots_count={all_slots_count}
 									/>
 								</Box>
-							)}
-						</Stack>
+							</Stack>
+						</Desktop>
+						<TabletAndMobile>
+							<Stack>
+								{!mobileElementClicked ? (
+									<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
+								) : (
+									<Box sx={{ width: '100%', height: '100%' }}>
+										<Stack direction="column">
+											<Stack direction="row" justifyContent="space-between">
+												<Stack
+													className={SharedStyles.topBackNavigationStack}
+													direction="row"
+													spacing={1}
+													onClick={() => setMobileElementClicked(false)}
+													alignItems="center"
+												>
+													<Image
+														src={MiniBackSVG}
+														alt=""
+														width="0"
+														height="0"
+														sizes="100vw"
+														className={SharedStyles.backIcon}
+													/>
+													<span className={SharedStyles.backText}>Retour</span>
+												</Stack>
+											</Stack>
+										</Stack>
+										<EmptyIndexedContent
+											indexed_articles_count={indexed_articles_count}
+											all_slots_count={all_slots_count}
+										/>
+									</Box>
+								)}
+							</Stack>
+						</TabletAndMobile>
 					</>
 				) : (
 					<>
-						<Stack direction="row" className={`${SharedStyles.desktopOnly} ${SharedStyles.flexRootStack}`}>
-							<DesktopMyBusinessSideNav backText="My business" data={data} />
-							<Box sx={{ width: '100%' }}>
-								<IndexedArticlesContent data={data} indexedData={indexedData} setShowToast={setShowToast} />
-							</Box>
-						</Stack>
-						<Stack className={SharedStyles.mobileOnly}>
-							{!mobileElementClicked ? (
-								<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
-							) : (
-								<Box sx={{ width: '100%', height: '100%' }}>
-									<Stack direction="column">
-										<Stack direction="row" justifyContent="space-between">
-											<Stack
-												className={SharedStyles.topBackNavigationStack}
-												direction="row"
-												spacing={1}
-												onClick={() => setMobileElementClicked(false)}
-												alignItems="center"
-											>
-												<Image
-													src={MiniBackSVG}
-													alt=""
-													width="0"
-													height="0"
-													sizes="100vw"
-													className={SharedStyles.backIcon}
-												/>
-												<span className={SharedStyles.backText}>Retour</span>
-											</Stack>
-										</Stack>
-									</Stack>
+						<Desktop>
+							<Stack direction="row" className={SharedStyles.flexRootStack}>
+								<DesktopMyBusinessSideNav backText="My business" data={data} />
+								<Box sx={{ width: '100%' }}>
 									<IndexedArticlesContent data={data} indexedData={indexedData} setShowToast={setShowToast} />
 								</Box>
-							)}
-						</Stack>
+							</Stack>
+						</Desktop>
+						<TabletAndMobile>
+							<Stack>
+								{!mobileElementClicked ? (
+									<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
+								) : (
+									<Box sx={{ width: '100%', height: '100%' }}>
+										<Stack direction="column">
+											<Stack direction="row" justifyContent="space-between">
+												<Stack
+													className={SharedStyles.topBackNavigationStack}
+													direction="row"
+													spacing={1}
+													onClick={() => setMobileElementClicked(false)}
+													alignItems="center"
+												>
+													<Image
+														src={MiniBackSVG}
+														alt=""
+														width="0"
+														height="0"
+														sizes="100vw"
+														className={SharedStyles.backIcon}
+													/>
+													<span className={SharedStyles.backText}>Retour</span>
+												</Stack>
+											</Stack>
+										</Stack>
+										<IndexedArticlesContent data={data} indexedData={indexedData} setShowToast={setShowToast} />
+									</Box>
+								)}
+							</Stack>
+						</TabletAndMobile>
 					</>
 				)}
 				<Portal id="snackbar_portal">

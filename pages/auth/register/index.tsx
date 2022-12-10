@@ -13,16 +13,15 @@ import CustomTextInput from '../../../components/formikElements/customTextInput/
 import { coordonneeTextInputTheme } from '../../../utils/themes';
 import AuthPageLayout from '../../../components/layouts/auth/authPageLayout';
 import {
-	allowAnyInstance,
+	allowAnyInstance, Desktop,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance,
-	setFormikAutoErrors,
-} from '../../../utils/helpers';
+	setFormikAutoErrors, TabletAndMobile
+} from "../../../utils/helpers";
 import { cookiesPoster, getApi, postApi } from '../../../store/services/_init/_initAPI';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import { useFormik } from 'formik';
 import { emailSchema } from '../../../utils/formValidationSchemas';
-import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import {
 	AUTH_REGISTER_ABOUT_PAGE,
 	AUTH_FB_EMAIL_MISSING,
@@ -189,8 +188,9 @@ const Register: NextPage = () => {
 		<>
 			{!loading && !session && (
 				<>
-					<div className={Styles.desktopOnly}>
-						<AuthPageLayout href={AUTH_LOGIN} topBarText="CONNECT">
+					<Desktop>
+						<div>
+							<AuthPageLayout href={AUTH_LOGIN} topBarText="CONNECT">
 							<RegisterPageContent
 								Theme={emailTheme}
 								facebookSignIn={facebookSignIn}
@@ -212,11 +212,13 @@ const Register: NextPage = () => {
 								isSubmitLoading={isSubmitLoading}
 							/>
 						</AuthPageLayout>
-					</div>
-					<div className={Styles.mobileOnly}>
-						<main className={Styles.main}>
+						</div>
+					</Desktop>
+					<TabletAndMobile>
+						<div style={{display: 'flex', width: '100%', height: '100%'}}>
+							<main className={Styles.main}>
 							<Stack direction="column" justifyContent="space-between">
-								<UserMainNavigationBar hideMobileSearch />
+								<UserMainNavigationBar />
 								<RegisterPageContent
 									Theme={emailTheme}
 									facebookSignIn={facebookSignIn}
@@ -244,7 +246,8 @@ const Register: NextPage = () => {
 								</Stack>
 							</Stack>
 						</main>
-					</div>
+						</div>
+					</TabletAndMobile>
 				</>
 			)}
 		</>

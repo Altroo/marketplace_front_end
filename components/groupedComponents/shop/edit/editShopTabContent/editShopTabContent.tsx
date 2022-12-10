@@ -22,7 +22,7 @@ import {
 } from '../../../../../store/actions/offer/offerActions';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
-import { generateQueryParams, getBackendNextPageNumber } from '../../../../../utils/helpers';
+import { Desktop, generateQueryParams, getBackendNextPageNumber } from "../../../../../utils/helpers";
 import ApiProgress from '../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import { Iterables } from 'langx-js';
 import { ApiErrorResponseType, OfferPinSagaCallBackType } from '../../../../../types/_init/_initTypes';
@@ -339,7 +339,8 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 			<Box sx={{ minHeight: '450px' }}>
 				{!offersLinkedHashMap.offersMap?.isEmpty() && firstPageLoaded ? (
 					<>
-						<Stack
+						<Desktop>
+							<Stack
 							className={Styles.filterWrapper}
 							flexDirection="row"
 							justifyContent="space-between"
@@ -355,6 +356,8 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 								activeHoverColor={props.activeColor}
 							/>
 						</Stack>
+						</Desktop>
+
 						<Stack direction="row" justifyContent="space-between" className={Styles.rootShopFilterWrapper}>
 							{/* filter search removed */}
 							{/*<IconTextInput*/}
@@ -364,12 +367,16 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 							{/*	onChange={(e) => setSearchValue(e.target.value)}*/}
 							{/*/>*/}
 							{availableFiltersHasData && (
-								<Stack direction="column" className={Styles.shopFilterWrapperDesktopOnly}>
-									<AccordionFilter
-										availableFilters={availableFilters}
-										setApplyFiltersClicked={setApplyFiltersClicked}
-									/>
-								</Stack>
+								<Desktop>
+										<Stack direction="column" className={Styles.shopFilterWrapperDesktopOnly}>
+											<AccordionFilter
+												filterFor="SHOPS"
+												availableFilters={availableFilters}
+												setApplyFiltersClicked={setApplyFiltersClicked}
+											/>
+									</Stack>
+								</Desktop>
+
 							)}
 							<div className={`${offersLinkedHashMap.nextPage ? Styles.gridInStack : Styles.gridInBlock}`}>
 								<Grid container wrap="wrap" className={Styles.gridRoot}>
@@ -550,6 +557,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 				{/* Mobile filter MODAL */}
 				{availableFiltersHasData && (
 					<CustomSwipeModal
+						transition
 						open={props.openFilterModal}
 						handleClose={() => props.setOpenFilterModal(false)}
 						keepMounted={true}
@@ -580,6 +588,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 								activeHoverColor={props.activeColor}
 							/>
 							<AccordionFilter
+								filterFor="SHOPS"
 								availableFilters={availableFilters}
 								setApplyFiltersClicked={setApplyFiltersClicked}
 								closeModal={closeMobileFilterModal}

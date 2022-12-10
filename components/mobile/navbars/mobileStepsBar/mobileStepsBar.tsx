@@ -1,5 +1,6 @@
 import React, {useMemo} from 'react';
 import Styles from './mobileStepsBar.module.sass';
+import { TabletAndMobile } from "../../../../utils/helpers";
 
 type StepBarProps = {
 	active: boolean;
@@ -31,11 +32,13 @@ const MobileStepsBar: React.FC<Props> = (props: Props) => {
 	}, [props.activeStep]);
 
 	return (
-		<div className={Styles.steps}>
+		<TabletAndMobile>
+			<div className={Styles.steps}>
 			{steps.map((active: boolean, i: number) => (
-				<StepBar active={active} key={i}/>
-			))}
-		</div>
+					<StepBar active={active} key={i}/>
+				))}
+			</div>
+		</TabletAndMobile>
 	);
 };
 

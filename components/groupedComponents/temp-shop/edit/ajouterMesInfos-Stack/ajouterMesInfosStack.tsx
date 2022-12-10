@@ -65,7 +65,7 @@ const AjouterMesInfosStack: React.FC<addMyInfosStackType> = (props: addMyInfosSt
 	return (
 		<>
 			{/* EDIT CONTENT MODAL */}
-			<CustomSwipeModal open={props.openEditModal} handleClose={() => props.setOpenEditModal(false)} waitShopSelector onBackdrop={() => {
+			<CustomSwipeModal transition open={props.openEditModal} handleClose={() => props.setOpenEditModal(false)} waitShopSelector onBackdrop={() => {
 				props.setOpenEditModal(false);
 				props.setOpenParentModal(false);
 			}}>

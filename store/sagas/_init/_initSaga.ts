@@ -8,7 +8,7 @@ import {
 	NewShopCookieType,
 	TokenChoices
 } from "../../../types/_init/_initTypes";
-import { emptyInitStateToken, emptyInitStateUniqueID, initialState, setInitState } from '../../slices/_init/_initSlice';
+import { emptyInitStateUniqueID, initialState, setInitState } from '../../slices/_init/_initSlice';
 import { getInitStateToken, getInitStateUniqueID, getTokenType } from '../../selectors';
 import { versionSaga } from '../version/versionSaga';
 import { initAccount, setIsLoggedIn } from '../../slices/account/accountSlice';

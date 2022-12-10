@@ -12,7 +12,7 @@ import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
 import { shopBioSchema } from '../../../../../../utils/formValidationSchemas';
 import { bioTextAreaTheme } from '../../../../../../utils/themes';
 import CustomTextArea from '../../../../../formikElements/customTextArea/customTextArea';
-import { SagaCallBackType } from '../../../../../../types/_init/_initTypes';
+import { SagaCallBackResponseType } from '../../../../../../types/_init/_initTypes';
 import { setFormikAutoErrors } from '../../../../../../utils/helpers';
 import { useRouter } from 'next/router';
 import { ShopBioType } from '../../../../../../types/shop/shopTypes';
@@ -38,7 +38,7 @@ const EditBio: React.FC<Props> = (props: Props) => {
 			const action = shopPatchBioAction(values.bio);
 			dispatch({
 				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackType<ShopBioType>) => {
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<ShopBioType>) => {
 					if (!error && !cancelled && data) {
 						props.handleClose();
 						router.replace(router.asPath).then();

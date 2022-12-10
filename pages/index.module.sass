@@ -7,10 +7,6 @@
   display: block
 .hidden
   display: none
-.desktopOnly
-  display: flex
-.mobileOnly
-  +Hidden
 .indexMain
   display: flex
   flex-direction: column
@@ -111,14 +107,9 @@
   height: 56px !important
 
 @media #{$tablette}
-  .desktopOnly
-    +Hidden
-  //.indexMain
-  //  height: 100vh
   .rootStack
     padding: 47px 25px 47px 25px
     align-items: center
-    //height: 100%
   .qarybLogo
     width: 103px
     height: 27px

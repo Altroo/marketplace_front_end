@@ -34,7 +34,7 @@ import {
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance } from "../../../utils/helpers";
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 import { SagaCallBackOnCompleteBoolType } from "../../../types/_init/_initTypes";
@@ -138,12 +138,15 @@ const Avatar: NextPage = () => {
 								<DisactivatedTab active={false} text="INFOS" />
 							</div>
 						</div>
-						<div className={Styles.filterWrapper}>
-							<span className={Styles.filterText}>Filtrer</span>
-							<DisabledFilterDropDown text="Trier : Prix décroissant" />
-						</div>
+						<Desktop>
+							<div className={Styles.filterWrapper}>
+								<span className={Styles.filterText}>Filtrer</span>
+								<DisabledFilterDropDown text="Trier : Prix décroissant" />
+							</div>
+						</Desktop>
 						<div className={Styles.shopDetailsAside}>
-							<div className={Styles.shopFilterWrapper}>
+							<Desktop>
+								<div className={Styles.shopFilterWrapper}>
 								<IconTextInput active={false} placeholder="Rechercher" />
 								<div className={Styles.shopFilterContainer}>
 									<span className={Styles.subHeader}>Catégories</span>
@@ -166,6 +169,8 @@ const Avatar: NextPage = () => {
 									</div>
 								</div>
 							</div>
+							</Desktop>
+
 							<div className={Styles.shopAddOfferWrapper}>
 								<div className={Styles.addOfferContainer}>
 									<div className={Styles.centeredInfoActionWrapper}>

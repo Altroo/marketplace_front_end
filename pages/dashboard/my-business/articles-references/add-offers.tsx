@@ -8,10 +8,12 @@ import {
 	AccountGetDashboardType,
 } from '../../../../types/account/accountTypes';
 import {
+	Desktop,
 	generatePageQueryParams,
 	getBackendNextPageNumber,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance,
+	TabletAndMobile,
 } from '../../../../utils/helpers';
 import { getApi } from '../../../../store/services/_init/_initAPI';
 import {
@@ -19,11 +21,7 @@ import {
 	subscriptionGetIndexedOffersResponseType,
 	subscriptionGetIndexedOffersType,
 } from '../../../../types/subscription/subscriptionTypes';
-import {
-	AUTH_LOGIN,
-	DASHBOARD_INDEXED_OFFERS,
-	NOT_FOUND_404,
-} from '../../../../utils/routes';
+import { AUTH_LOGIN, DASHBOARD_INDEXED_OFFERS, NOT_FOUND_404 } from '../../../../utils/routes';
 import UserMainNavigationBar from '../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import { Box, Button, Checkbox, Divider, Skeleton, Stack, ThemeProvider } from '@mui/material';
 import DesktopMyBusinessSideNav from '../../../../components/layouts/desktop/desktopMyBusinessSideNav/desktopMyBusinessSideNav';
@@ -39,7 +37,7 @@ import {
 	subscriptionGetAvailableArticlesAction,
 	subscriptionPostIndexArticlesAction,
 } from '../../../../store/actions/subscription/subscriptionActions';
-import { SagaCallBackOnCompleteBoolType, SagaCallBackType } from '../../../../types/_init/_initTypes';
+import { SagaCallBackOnCompleteBoolType, SagaCallBackResponseType } from '../../../../types/_init/_initTypes';
 import Link from 'next/link';
 import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
 import SelectMultipleGraySVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/select-multiple-gray.svg';
@@ -69,28 +67,18 @@ const BackButton = () => {
 
 	return (
 		<>
-			<Box className={SharedStyles.desktopOnly}>
-				<Link href={DASHBOARD_INDEXED_OFFERS}>
-					<Button color="primary" className={Styles.availableArticlesBackButton}>
-						<Stack direction="row" spacing="7px" alignItems="center">
-							<span>Annuler</span>
-							<Image src={CloseSVG} width="32" height="32" sizes="100vw" alt="" />
-						</Stack>
-					</Button>
-				</Link>
-			</Box>
-			{/*<Box className={SharedStyles.mobileOnly}>*/}
-			{/*	<Stack direction="row" alignItems="center" sx={{cursor: 'pointer'}} onClick={() => {*/}
-			{/*		router.replace({*/}
-			{/*			query: {*/}
-			{/*				direct: true,*/}
-			{/*			},*/}
-			{/*			pathname: DASHBOARD_INDEXED_OFFERS,*/}
-			{/*		}, DASHBOARD_INDEXED_OFFERS).then();*/}
-			{/*	}}>*/}
-			{/*		<Image src={CloseSVG} width="32" height="32" sizes="100vw" alt="" />*/}
-			{/*	</Stack>*/}
-			{/*</Box>*/}
+			<Desktop>
+				<Box>
+					<Link href={DASHBOARD_INDEXED_OFFERS}>
+						<Button color="primary" className={Styles.availableArticlesBackButton}>
+							<Stack direction="row" spacing="7px" alignItems="center">
+								<span>Annuler</span>
+								<Image src={CloseSVG} width="32" height="32" sizes="100vw" alt="" />
+							</Stack>
+						</Button>
+					</Link>
+				</Box>
+			</Desktop>
 		</>
 	);
 };
@@ -134,7 +122,11 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 			const action = subscriptionGetAvailableArticlesAction(url);
 			dispatch({
 				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackType<subscriptionGetIndexedOffersPaginatedType>) => {
+				onComplete: ({
+					error,
+					cancelled,
+					data,
+				}: SagaCallBackResponseType<subscriptionGetIndexedOffersPaginatedType>) => {
 					if (!error && !cancelled && data) {
 						let map: Iterables.LinkedHashMap<number, subscriptionGetIndexedOffersType>;
 						let checkBoxList: Array<boolean>;
@@ -480,53 +472,67 @@ const ReferencerDesArticles: NextPage<ReferencerDesArticlesProps> = (props: Refe
 		<Stack direction="column">
 			<UserMainNavigationBar />
 			<main className={`${SharedStyles.main} ${SharedStyles.fixMobile}`}>
-				<Stack direction="row" className={`${SharedStyles.desktopOnly} ${SharedStyles.flexRootStack}`}>
-					<DesktopMyBusinessSideNav backText="My business" data={data} />
-					<Box sx={{ width: '100%' }}>
-						<AvailableOffersToIndexContent offersData={offersData} availableSlots={data.remaining_slots_count} setShowToast={setShowToast} />
-					</Box>
-				</Stack>
-				<Stack className={SharedStyles.mobileOnly}>
-					{!mobileElementClicked ? (
-						<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
-					) : (
-						<Box sx={{ width: '100%', height: '100%' }}>
-							<Stack direction="column">
-								<Stack direction="row" justifyContent="space-between">
-									<Stack
-										className={SharedStyles.topBackNavigationStack}
-										direction="row"
-										spacing={1}
-										onClick={() => {
-											router.replace({
-												query: {
-													direct: true,
-												},
-												pathname: DASHBOARD_INDEXED_OFFERS,
-											}, DASHBOARD_INDEXED_OFFERS).then();
-										}}
-										alignItems="center"
-									>
-										<Image
-											src={MiniBackSVG}
-											alt=""
-											width="0"
-											height="0"
-											sizes="100vw"
-											className={SharedStyles.backIcon}
-										/>
-										<span className={SharedStyles.backText}>Retour</span>
-									</Stack>
-								</Stack>
-							</Stack>
+				<Desktop>
+					<Stack direction="row" className={SharedStyles.flexRootStack}>
+						<DesktopMyBusinessSideNav backText="My business" data={data} />
+						<Box sx={{ width: '100%' }}>
 							<AvailableOffersToIndexContent
 								offersData={offersData}
 								availableSlots={data.remaining_slots_count}
 								setShowToast={setShowToast}
 							/>
 						</Box>
-					)}
-				</Stack>
+					</Stack>
+				</Desktop>
+
+				<TabletAndMobile>
+					<Stack>
+						{!mobileElementClicked ? (
+							<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
+						) : (
+							<Box sx={{ width: '100%', height: '100%' }}>
+								<Stack direction="column">
+									<Stack direction="row" justifyContent="space-between">
+										<Stack
+											className={SharedStyles.topBackNavigationStack}
+											direction="row"
+											spacing={1}
+											onClick={() => {
+												router
+													.replace(
+														{
+															query: {
+																direct: true,
+															},
+															pathname: DASHBOARD_INDEXED_OFFERS,
+														},
+														DASHBOARD_INDEXED_OFFERS,
+													)
+													.then();
+											}}
+											alignItems="center"
+										>
+											<Image
+												src={MiniBackSVG}
+												alt=""
+												width="0"
+												height="0"
+												sizes="100vw"
+												className={SharedStyles.backIcon}
+											/>
+											<span className={SharedStyles.backText}>Retour</span>
+										</Stack>
+									</Stack>
+								</Stack>
+								<AvailableOffersToIndexContent
+									offersData={offersData}
+									availableSlots={data.remaining_slots_count}
+									setShowToast={setShowToast}
+								/>
+							</Box>
+						)}
+					</Stack>
+				</TabletAndMobile>
 				<Portal id="snackbar_portal">
 					<CustomToast type="success" message="Article(s) référencés." setShow={setShowToast} show={showToast} />
 				</Portal>

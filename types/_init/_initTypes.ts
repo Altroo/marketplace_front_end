@@ -30,7 +30,7 @@ export interface OfferPinSagaCallBackType extends SagaCallBackBase {
 	data: OfferPinType;
 }
 // Global Saga callBackType
-export interface SagaCallBackType<T> extends SagaCallBackBase {
+export interface SagaCallBackResponseType<T> extends SagaCallBackBase {
 	data: T;
 }
 

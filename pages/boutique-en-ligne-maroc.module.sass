@@ -3,10 +3,6 @@
 @import 'styles/sass/mixins'
 
 // Global styles
-.desktopOnly
-  display: block
-.mobileOnly
-  +Hidden
 .main
   height: 100%
   padding: 86px 0 0 0
@@ -71,10 +67,6 @@
   width: 220px !important
   border: 1px solid #FFFFFF !important
 @media #{$tablette}
-  .desktopOnly
-    +Hidden
-  .mobileOnly
-    display: block
   .mainSectionActionButton
     width: fit-content !important
   .main

@@ -50,6 +50,7 @@ import { OfferCategoriesType, OfferOfferTypeType } from "../../../../types/offer
 import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
 import { setOfferProductCategories, setOfferServiceCategories } from "../../../../store/actions/offer/offerActions";
 import { getLocalOfferProductCategories, getLocalOfferServiceCategories } from "../../../../store/selectors";
+import { Desktop } from "../../../../utils/helpers";
 
 type CategoriesObjProps = {
 	code: OfferCategoriesType;
@@ -279,7 +280,9 @@ const CategoriesList: React.FC<Props> = (props: Props) => {
 					);
 				})}
 			</Box>
-			<Divider orientation="vertical" flexItem className={`${Styles.divider} ${Styles.mobileHidden}`} />
+			<Desktop>
+				<Divider orientation="vertical" flexItem className={Styles.divider} />
+			</Desktop>
 			<Box sx={{ width: '100%' }} className={Styles.categoriesSecondList}>
 				{categoriesRightObj.map((category, index) => {
 					return (

@@ -1,26 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NextPage, GetStaticPropsContext } from 'next';
 import Styles from './index.module.sass';
 import { allowAnyInstance } from '../../../utils/helpers';
 import { getApi } from '../../../store/services/_init/_initAPI';
 import { NOT_FOUND_404 } from '../../../utils/routes';
-import { router } from 'next/client';
 import {
 	SeoPagesGetDefaultSeoSlugsResponseType,
 	SeoPagesGetSingleSeoDataResponseType,
 } from '../../../types/seo-pages/seoPagesTypes';
 import { DefaultSeoPageClass } from '../../../models/seo-data/DefaultSeoPageClass';
-import { Box, Stack } from '@mui/material';
-import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
+import { Stack } from '@mui/material';
 import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 import { NextSeo } from "next-seo";
 import CustomFooter from "../../../components/layouts/footer/customFooter";
-import ShopTabContent from "../../../components/groupedComponents/shop/get/shopTabContent/shopTabContent";
-import MobileFilterWhiteSVG from "../../../public/assets/svgs/globalIcons/mobile-filter-white.svg";
-import MobileOffersFilterButton
-	from "../../../components/mobile/buttons/mobileOffersFilterButton/mobileOffersFilterButton";
 import DefaultSeoTextContent from "../../../components/groupedComponents/collections/defaultSeoTextContent/defaultSeoTextContent";
-import { data } from "dom7";
 import DefaultSeoOffersContent
 	from "../../../components/groupedComponents/collections/defaultSeoOffersContent/defaultSeoOffersContent";
 
@@ -30,7 +23,7 @@ type IndexProps = {
 	};
 };
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
-	const { pk, title, page_meta_description, header, paragraphe, tags } = props.pageProps.data;
+	const { title, page_meta_description, header, paragraphe, tags, page_url } = props.pageProps.data;
 
 
 	return (
@@ -41,7 +34,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 				<main className={Styles.main}>
 					<DefaultSeoTextContent title={title} header={header} paragraphe={paragraphe} tags={tags} filterMargin={true}/>
 					{/* Add endpoint ID or change compo - gap 75px between filter & offers */}
-					<DefaultSeoOffersContent page_pk={pk}/>
+					<DefaultSeoOffersContent page_url={page_url}/>
 				</main>
 				<CustomFooter />
 			</Stack>

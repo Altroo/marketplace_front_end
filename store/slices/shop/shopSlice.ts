@@ -20,7 +20,6 @@ import {
 } from '../../../types/shop/shopTypes';
 import { ApiErrorResponseType, IconColorType } from "../../../types/_init/_initTypes";
 import { apiErrorInitialState } from "../_init/_initSlice";
-import { WSThumbnailType } from "../../../types/offer/offerTypes";
 
 // Extra reducers actions
 export const userShopGETApiErrorAction = createAction<ApiErrorResponseType>('userShopGETApiErrorAction');

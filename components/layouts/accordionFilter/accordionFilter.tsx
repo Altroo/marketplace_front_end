@@ -185,11 +185,12 @@ const AccordionSwitchCheck: React.FC<AccordionRadioSwitchType> = (props: Accordi
 type Props = {
 	availableFilters: OfferGetAvailableShopFiltersType;
 	setApplyFiltersClicked: React.Dispatch<React.SetStateAction<boolean>>;
+	filterFor: 'SHOPS' | 'COLLECTIONS';
 	closeModal?: () => void;
 	children?: React.ReactNode;
 };
 const AccordionFilter: React.FC<Props> = (props: Props) => {
-	const { availableFilters } = props;
+	const { availableFilters, filterFor } = props;
 	const router = useRouter();
 
 	// filter states
@@ -210,7 +211,7 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 		available_labels,
 		available_sizes,
 		available_solder,
-		available_cities,
+		// available_cities,
 		available_services,
 	} = availableFilters;
 
@@ -283,13 +284,23 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 				sort_by: router.query.sort_by
 			}
 		}
+		let extra_param = {}
+		if (filterFor === 'SHOPS') {
+			extra_param = {
+				shop_link: router.query.shop_link,
+			}
+		} else if (filterFor === 'COLLECTIONS') {
+			extra_param = {
+				page_url: router.query.page_url,
+			}
+		}
 		router
 			.replace(
 				{
 					pathname: router.pathname,
 					query: {
 						...queryParams,
-						shop_link: router.query.shop_link
+						...extra_param,
 					},
 				},
 				undefined,
@@ -298,6 +309,7 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 			.then(() => {
 				props.setApplyFiltersClicked(true);
 			});
+
 	};
 
 	// Content

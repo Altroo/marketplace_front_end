@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Styles from './desktopPublishEditNavbar.module.sass';
 import PrimaryButton from '../../../htmlElements/buttons/primaryButton/primaryButton';
 import EditIconSVG from '../../../../public/assets/svgs/globalIcons/blue-pencil.svg';

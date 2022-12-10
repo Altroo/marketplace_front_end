@@ -6,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import InstagramMiniSVG from '../../../public/assets/svgs/globalIcons/instagram-mini-.svg';
 import Image from 'next/image';
 import { CGU_PAGE, DASHBOARD_INDEXED_OFFERS, NOT_FOUND_404, REAL_SHOP_ADD_SHOP_NAME } from '../../../utils/routes';
+import { Desktop, TabletAndMobile } from "../../../utils/helpers";
 
 const FooterGtuContent = () => {
 	return (
@@ -105,19 +106,23 @@ const FooterBlock = () => {
 const CustomFooter: React.FC = () => {
 	return (
 		<footer>
-			<Box className={Styles.desktopFooter}>
-				<FooterBlock />
-			</Box>
-			<Box className={Styles.mobileFooter}>
-				<Stack direction="column" spacing={5}>
-					<Stack direction="row" justifyContent="space-between" alignItems="flex-start">
-						<FooterFirstContent/>
-						<FooterSecondContent/>
+			<Desktop>
+				<Box className={Styles.desktopFooter}>
+					<FooterBlock />
+				</Box>
+			</Desktop>
+			<TabletAndMobile>
+				<Box className={Styles.mobileFooter}>
+					<Stack direction="column" spacing={5}>
+						<Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+							<FooterFirstContent/>
+							<FooterSecondContent/>
+						</Stack>
+						<FooterInstaLinks />
+						<FooterGtuContent />
 					</Stack>
-					<FooterInstaLinks />
-					<FooterGtuContent />
-				</Stack>
-			</Box>
+				</Box>
+			</TabletAndMobile>
 		</footer>
 	);
 };

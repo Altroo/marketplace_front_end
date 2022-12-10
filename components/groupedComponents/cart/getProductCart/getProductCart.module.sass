@@ -1,0 +1,71 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+// Cart modal
+.rootStack
+  grid-gap: 24px
+  gap: 24px
+.rootGrid
+  gap: 24px
+  grid-gap: 24px
+.rootCartModalStack
+  margin: 100px 32px 40px 32px
+  height: 100%
+.cartTitles
+  +SemiBold
+  font-size: 21px
+  color: $primary
+  letter-spacing: -0.0em
+.cartSelectedColor
+  +Medium
+  color: #84848A
+  font-size: 19px
+.quantityIconButton
+  padding: 0 !important
+  &:hover
+    background-color: transparent !important
+.rootGridColor
+  margin-top: 16px
+  column-gap: 50px
+  grid-column-gap: 50px
+  row-gap: 18px
+  grid-row-gap: 18px
+.colorButton
+  min-width: 38px
+  width: 38px
+  height: 38px
+  border-radius: 30px
+  position: absolute
+  &:hover
+    background-color: rgba(2, 116, 215, 0.8)
+.colorValue
+  +Medium
+  font-size: 15px
+  color: $grayText
+.colorActive
+  border: 3px solid $blue !important
+.colorWrapper
+  padding: 2px
+  height: 48px
+  width: 48px
+  border-radius: 50%
+  display: flex
+  align-items: center
+  justify-content: center
+  position: relative
+.primaryButtonWrapper
+  width: 100%
+  text-align: center
+.primaryButton
+  margin-top: 2rem
+@media #{$tablette}
+  .rootCartModalStack
+    margin: 40px 32px 40px 32px
+  .primaryButtonWrapper
+    width: 356px
+    max-width: 100%
+    align-self: center
+// @media #{}
+// @media #{}

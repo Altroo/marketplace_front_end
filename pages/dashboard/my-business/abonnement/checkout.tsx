@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from '../../../../utils/helpers';
+import {
+	Desktop,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	setFormikAutoErrors, TabletAndMobile
+} from "../../../../utils/helpers";
 import {
 	AUTH_LOGIN,
 	DASHBOARD_INDEXED_OFFERS,
@@ -72,8 +77,12 @@ const PackArticlesCardContent: React.FC<PackArticlesCardContentType> = (props: P
 				<Stack direction="row" spacing="5px" alignItems="center">
 					<span className={Styles.pricePerArticleTTC}>{prix_unitaire_ttc}</span>
 					<Box>
-						<span className={`${Styles.desktopOnly} ${Styles.pricePerArticleValue}`}>DH /article</span>
-						<span className={`${Styles.mobileOnly} ${Styles.pricePerArticleValue}`}>DH /art</span>
+						<Desktop>
+							<span className={Styles.pricePerArticleValue}>DH /article</span>
+						</Desktop>
+						<TabletAndMobile>
+							<span className={Styles.pricePerArticleValue}>DH /art</span>
+						</TabletAndMobile>
 					</Box>
 				</Stack>
 			</Stack>
@@ -412,7 +421,9 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						<Divider orientation="horizontal" flexItem className={Styles.mobileDivider} />
+						<TabletAndMobile>
+							<Divider orientation="horizontal" flexItem className={Styles.mobileDivider} />
+						</TabletAndMobile>
 						<Box className={Styles.promoBox}>
 							<Stack direction="column" spacing="20px">
 								<Stack direction="column" spacing="12px">

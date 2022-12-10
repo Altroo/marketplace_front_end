@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import Styles from '../../../styles/auth/reset-password/enter-code.module.sass';
 import { GetServerSidePropsContext } from 'next';
 import {
-	allowAnyInstance,
+	allowAnyInstance, Desktop,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance,
-	setFormikAutoErrors,
-} from '../../../utils/helpers';
+	setFormikAutoErrors, TabletAndMobile
+} from "../../../utils/helpers";
 import { getCookie } from 'cookies-next';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import { cookiesPoster, getApi, postApi } from "../../../store/services/_init/_initAPI";
@@ -236,14 +236,18 @@ const EnterCode: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			<div className={Styles.desktopOnly}>
-				<AuthPageLayout href={AUTH_REGISTER} topBarText="CREATE">
+			<Desktop>
+				<div>
+					<AuthPageLayout href={AUTH_REGISTER} topBarText="CREATE">
 					<EnterCodePageContent email={email} whichCode="PASSWORD_RESET" />
 				</AuthPageLayout>
-			</div>
-			<div className={Styles.mobileOnly}>
-				<main className={Styles.main}>
-					<UserMainNavigationBar hideMobileSearch />
+				</div>
+
+			</Desktop>
+			<TabletAndMobile>
+				<div style={{display: 'flex', width: '100%', height: '100%'}}>
+					<main className={Styles.main}>
+					<UserMainNavigationBar />
 					<EnterCodePageContent email={email} whichCode="PASSWORD_RESET" />
 					<Stack direction="column" justifyContent="center" alignItems="center" sx={{ marginTop: '60px' }}>
 						<p className={Styles.bottomLinks}>
@@ -251,7 +255,8 @@ const EnterCode: React.FC<Props> = (props: Props) => {
 						</p>
 					</Stack>
 				</main>
-			</div>
+				</div>
+			</TabletAndMobile>
 		</>
 	);
 };

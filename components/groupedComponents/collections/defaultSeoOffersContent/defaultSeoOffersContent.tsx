@@ -11,11 +11,11 @@ import {
 	OfferGetMyOffersProductServiceType,
 } from '../../../../types/offer/offerTypes';
 import {
-	offerGetAvailableFiltersByShopID,
-	offerGetOffersByShopIDWithQueryParamsAction,
-} from '../../../../store/actions/offer/offerActions';
+	seoPagesGetAvailableFiltersBySeoPageUrlAction,
+	seoPagesGetOffersBySeoPageUrlWithQueryParamsAction
+} from '../../../../store/actions/seo_pages/seoPagesActions';
 import { ApiErrorResponseType } from '../../../../types/_init/_initTypes';
-import { generateQueryParams, getBackendNextPageNumber } from '../../../../utils/helpers';
+import { Desktop, generateQueryParams, getBackendNextPageNumber } from "../../../../utils/helpers";
 import { Iterables } from 'langx-js';
 import { ParsedUrlQueryInput } from 'querystring';
 import ApiProgress from '../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
@@ -25,7 +25,6 @@ import AccordionFilter from '../../../layouts/accordionFilter/accordionFilter';
 import Link from 'next/link';
 import { REAL_OFFER_ROUTE } from '../../../../utils/routes';
 import Image from 'next/image';
-import PinActiveIconSVG from '../../../../public/assets/svgs/globalIcons/pin-active.svg';
 import CreatorIconSVG from '../../../../public/assets/svgs/globalIcons/creator.svg';
 import { getDefaultTheme } from '../../../../utils/themes';
 import SeoAnchorWrapper from '../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
@@ -33,12 +32,12 @@ import CustomSwipeModal from '../../../desktop/modals/rightSwipeModal/customSwip
 import CloseSVG from '../../../../public/assets/svgs/navigationIcons/close.svg';
 
 type Props = {
-	page_pk: number;
+	page_url: string;
 	children?: React.ReactNode;
 };
 
 const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
-	const { page_pk } = props;
+	const { page_url } = props;
 	const router = useRouter();
 	const [filter, setFilter] = useState<'D' | 'C'>('D');
 	const dispatch = useAppDispatch();
@@ -61,8 +60,7 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 
 	useEffect(() => {
 		if (!availableFiltersFetched) {
-			// TODO - add action
-			const action = offerGetAvailableFiltersByShopID(page_pk);
+			const action = seoPagesGetAvailableFiltersBySeoPageUrlAction(page_url);
 			dispatch({
 				...action,
 				onComplete: ({
@@ -91,7 +89,7 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 			if (!isReset && offersMap !== null && count > 0 && offersMap.size() >= count) {
 				return;
 			}
-			let url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${page_pk}/`;
+			let url = `${process.env.NEXT_PUBLIC_SEO_PAGES_OFFERS}${page_url}/`;
 			let queryParams: string;
 			if (nextPage !== null && !isReset) {
 				queryParams = generateQueryParams(router.query, nextPage);
@@ -100,8 +98,7 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 				queryParams = generateQueryParams(router.query);
 				url += queryParams;
 			}
-			// TODO - add action
-			const action = offerGetOffersByShopIDWithQueryParamsAction(url);
+			const action = seoPagesGetOffersBySeoPageUrlWithQueryParamsAction(url);
 			dispatch({
 				...action,
 				onComplete: ({ error, cancelled, data }: GetOffersSagaCallBackOnCompleteDataType) => {
@@ -167,7 +164,7 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 		loadMoreState,
 		offersLinkedHashMap,
 		router.query,
-		page_pk,
+		page_url,
 	]);
 
 	const filterOnChange = useCallback(
@@ -175,6 +172,7 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 			setFilter(value as 'D' | 'C');
 			const queryParams: ParsedUrlQueryInput = {
 				...router.query,
+				page_url: page_url,
 			};
 			const options = { shallow: true, scroll: false };
 
@@ -200,7 +198,7 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 				}
 			}
 		},
-		[router],
+		[page_url, router],
 	);
 
 	const closeMobileFilterModal = useCallback(() => {
@@ -226,7 +224,8 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 			<Box sx={{ minHeight: '450px' }}>
 				{!offersLinkedHashMap.offersMap?.isEmpty() && firstPageLoaded && (
 					<>
-						<Stack
+						<Desktop>
+							<Stack
 							className={Styles.filterWrapper}
 							flexDirection="row"
 							justifyContent="space-between"
@@ -242,14 +241,19 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 								activeHoverColor="#0D070B"
 							/>
 						</Stack>
+						</Desktop>
+
 						<Stack direction="row" justifyContent="space-between" className={Styles.rootShopFilterWrapper}>
 							{availableFiltersHasData && (
-								<Stack direction="column" className={Styles.shopFilterWrapperDesktopOnly}>
-									<AccordionFilter
-										availableFilters={availableFilters}
-										setApplyFiltersClicked={setApplyFiltersClicked}
-									/>
-								</Stack>
+								<Desktop>
+									<Stack direction="column" className={Styles.shopFilterWrapperDesktopOnly}>
+										<AccordionFilter
+											filterFor="COLLECTIONS"
+											availableFilters={availableFilters}
+											setApplyFiltersClicked={setApplyFiltersClicked}
+										/>
+									</Stack>
+								</Desktop>
 							)}
 							<div className={`${offersLinkedHashMap.nextPage ? Styles.gridInStack : Styles.gridInBlock}`}>
 								<Grid container wrap="wrap" className={Styles.rootGrid}>
@@ -268,24 +272,14 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 													}
 												}
 												return (
-													// TODO - include shop_link in the query
 													<Link
-														href={REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))}
+														href={REAL_OFFER_ROUTE(data.value.shop_url as string, encodeURIComponent(data.key))}
 														key={data.key}
 														className={Styles.gridCardOfferWrapper}
 													>
 														<Grid item xs="auto" className={Styles.mobileGridRoot}>
 															<Stack direction="column" spacing={2}>
 																<Box className={Styles.thumbnailWrapper}>
-																	{data.value.pinned && (
-																		<Image
-																			src={PinActiveIconSVG}
-																			alt=""
-																			width={32}
-																			height={32}
-																			className={Styles.thumbnailActionIcon}
-																		/>
-																	)}
 																	<Box sx={{ position: 'relative', height: '100%', borderRadius: '20px' }}>
 																		{(!imagesLoading[index] || !data.value.thumbnail) && (
 																			<Skeleton
@@ -390,7 +384,7 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 				)}
 				{/* Mobile filter MODAL */}
 				{availableFiltersHasData && (
-					<CustomSwipeModal open={openFilterModal} handleClose={() => setOpenFilterModal(false)} keepMounted={true}>
+					<CustomSwipeModal transition open={openFilterModal} handleClose={() => setOpenFilterModal(false)} keepMounted={true}>
 						<Stack
 							className={Styles.mobileFilterRootStack}
 							direction="column"
@@ -417,6 +411,7 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 								activeHoverColor="#0D070B"
 							/>
 							<AccordionFilter
+								filterFor="COLLECTIONS"
 								availableFilters={availableFilters}
 								setApplyFiltersClicked={setApplyFiltersClicked}
 								closeModal={closeMobileFilterModal}

@@ -1,10 +1,10 @@
 import React from 'react';
 import Styles from '../../../styles/auth/reset-password/set-password.module.sass';
 import {
-	allowAnyInstance,
+	allowAnyInstance, Desktop,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance,
-	setFormikAutoErrors
+	setFormikAutoErrors, TabletAndMobile
 } from "../../../utils/helpers";
 import { cookiesPoster, getApi, putApi } from "../../../store/services/_init/_initAPI";
 import { AUTH_REGISTER, AUTH_RESET_PASSWORD, AUTH_RESET_PASSWORD_COMPLETE, DASHBOARD } from "../../../utils/routes";
@@ -130,25 +130,22 @@ const SetPassword: React.FC<Props> = (props: Props) => {
 	const { email, code } = props.pageProps;
 	return (
 		<>
-			<div className={Styles.desktopOnly}>
-				<AuthPageLayout href={AUTH_REGISTER} topBarText="CREATE">
+			<Desktop>
+				<div>
+					<AuthPageLayout href={AUTH_REGISTER} topBarText="CREATE">
 					<SetPasswordPageContent email={email} code={code} />
 				</AuthPageLayout>
-			</div>
-			<div className={Styles.mobileOnly}>
+				</div>
+
+			</Desktop>
+			<TabletAndMobile>
+				<div style={{display: 'flex', width: '100%', height: '100%'}}>
 				<main className={Styles.main}>
-					<UserMainNavigationBar hideMobileSearch/>
+					<UserMainNavigationBar />
 					<SetPasswordPageContent email={email} code={code} />
-					{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
-					{/*	<p className={Styles.bottomLinks}>*/}
-					{/*		Pas encore de compte ?{' '}*/}
-					{/*		<Link href={AUTH_REGISTER}>*/}
-					{/*			Inscrivez-vous*/}
-					{/*		</Link>*/}
-					{/*	</p>*/}
-					{/*</Stack>*/}
 				</main>
-			</div>
+				</div>
+			</TabletAndMobile>
 		</>
 	);
 };

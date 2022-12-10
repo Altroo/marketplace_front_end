@@ -14,6 +14,7 @@ import {
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import UserMainNavigationBar from "../../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
+import { Desktop, TabletAndMobile } from "../../../../utils/helpers";
 
 const Index: NextPage = () => {
 	const router = useRouter();
@@ -23,8 +24,12 @@ const Index: NextPage = () => {
 			<UserMainNavigationBar />
 			<main className={Styles.main}>
 			<Stack direction="row" justifyContent="space-evenly" alignItems="center" spacing={3} className={Styles.flexWrapper}>
-				<h2 className={`${Styles.header} ${Styles.desktopOnly}`}>Choississez le type d&apos;offre que vous souhaitez vendre</h2>
-				<h2 className={`${Styles.header} ${Styles.mobileOnly}`}>Je souhaite...</h2>
+				<Desktop>
+					<h2 className={Styles.header}>Choississez le type d&apos;offre que vous souhaitez vendre</h2>
+				</Desktop>
+				<TabletAndMobile>
+					<h2 className={Styles.header}>Je souhaite...</h2>
+				</TabletAndMobile>
 				<Stack direction="column" spacing={2} className={Styles.cardsWrapper}>
 					<OfferTypeCard
 						title="Vendre"

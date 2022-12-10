@@ -8,7 +8,6 @@ import QarybLogoSVG from '../public/assets/svgs/indexIcons/Qaryb.svg';
 import ClockSVG from '../public/assets/svgs/indexIcons/clock.svg';
 import EmailSentSVG from '../public/assets/svgs/indexIcons/Check.svg';
 import TicTacSVG from '../public/assets/svgs/indexIcons/clock_tic.svg';
-
 import { useFormik } from 'formik';
 import { newsLetterEmailSchema } from '../utils/formValidationSchemas';
 import { useAppDispatch } from '../utils/hooks';
@@ -17,9 +16,14 @@ import PrimaryButton from '../components/htmlElements/buttons/primaryButton/prim
 import TextField from '@mui/material/TextField';
 import { versionPostNewsLetterAction } from '../store/actions/version/versionActions';
 import { SagaCallBackOnCompleteBoolType } from '../types/_init/_initTypes';
+import { Desktop } from "../utils/helpers";
 
 const DesktopLineBreak = () => {
-	return <br className={Styles.desktopOnly} />;
+	return (
+		<Desktop>
+			<br />
+		</Desktop>
+	);
 };
 
 const Home: NextPage<RootState> = () => {

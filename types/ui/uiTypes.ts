@@ -1,6 +1,6 @@
 import { OverridableStringUnion } from '@mui/types';
 import { ChipPropsVariantOverrides } from '@mui/material/Chip/Chip';
-import React, { CSSProperties } from "react";
+import React from "react";
 
 type EditDropDownType = {
 	text: string;

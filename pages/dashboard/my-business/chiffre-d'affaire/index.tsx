@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../../styles/dashboard/dashboard.module.sass';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../utils/helpers';
+import {
+	Desktop,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	TabletAndMobile,
+} from '../../../../utils/helpers';
 import {
 	AccountGetCheckAccountResponseType,
 	AccountGetDashboardResponseType,
@@ -16,7 +21,6 @@ import MobileMyBusinessNav from '../../../../components/layouts/mobile/mobileMyB
 import Image from 'next/image';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import CustomFooter from '../../../../components/layouts/footer/customFooter';
-import QuestionMarkSVG from '../../../../public/assets/svgs/globalIcons/question-mark.svg';
 import DesktopUSDSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/desktop-usd.svg';
 import { fullMonthItemsList } from '../../../../utils/rawData';
 import ColoredOrdersIlluSVG from '../../../../public/assets/images/dashboard_illu/colored-orders.svg';
@@ -94,13 +98,16 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		<Stack direction="column">
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
-				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
+				<Desktop>
+					<Stack direction="row" className={Styles.flexRootStack}>
 					<DesktopMyBusinessSideNav backText="My business" data={data} />
 					<Box sx={{ width: '100%' }}>
 						<PageContent data={data} />
 					</Box>
 				</Stack>
-				<Stack className={Styles.mobileOnly}>
+				</Desktop>
+				<TabletAndMobile>
+					<Stack>
 					{!mobileElementClicked ? (
 						<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
 					) : (
@@ -130,6 +137,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 						</Box>
 					)}
 				</Stack>
+				</TabletAndMobile>
 			</main>
 			<CustomFooter />
 		</Stack>

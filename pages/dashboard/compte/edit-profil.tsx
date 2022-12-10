@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../styles/dashboard/dashboard.module.sass';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { getServerSideCookieTokens, isAuthenticatedInstance, TabletAndMobile, Desktop } from "../../../utils/helpers";
 import { AccountGetProfilResponseType } from '../../../types/account/accountTypes';
 import { getApi } from '../../../store/services/_init/_initAPI';
 import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../utils/routes';
@@ -230,13 +230,16 @@ const EditProfil: NextPage<IndexProps> = (props: IndexProps) => {
 		<Stack direction="column" sx={{position: 'relative'}}>
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
-				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
-					<DesktopDashboardSideNav backText="Mon compte" />
-					<Box sx={{ width: '100%' }}>
-						<FormikContent data={data} setShowDataUpdated={setShowDataUpdated} />
-					</Box>
-				</Stack>
-				<Stack className={Styles.mobileOnly}>
+				<Desktop>
+					<Stack direction="row" className={Styles.flexRootStack}>
+						<DesktopDashboardSideNav backText="Mon compte" />
+						<Box sx={{ width: '100%' }}>
+							<FormikContent data={data} setShowDataUpdated={setShowDataUpdated} />
+						</Box>
+					</Stack>
+				</Desktop>
+				<TabletAndMobile>
+					<Stack>
 					{!mobileElementClicked ? (
 						<MobileDashboardNav setContent={setMobileElementClicked} backText="Mon compte"/>
 					) : (
@@ -266,6 +269,7 @@ const EditProfil: NextPage<IndexProps> = (props: IndexProps) => {
 						</Box>
 					)}
 				</Stack>
+				</TabletAndMobile>
 				<Portal id="snackbar_portal">
 					<CustomToast type="success" message="Profil mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
 				</Portal>

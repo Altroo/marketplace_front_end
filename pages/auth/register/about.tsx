@@ -4,11 +4,11 @@ import { GetServerSidePropsContext } from 'next';
 import { signIn, useSession } from 'next-auth/react';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import {
-	allowAnyInstance,
+	allowAnyInstance, Desktop,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance,
-	setFormikAutoErrors,
-} from '../../../utils/helpers';
+	setFormikAutoErrors, TabletAndMobile
+} from "../../../utils/helpers";
 import {
 	AccountGetCheckAccountResponseType,
 	AccountPostRegisterResponseType,
@@ -104,8 +104,9 @@ const About: React.FC<Props> = (props: Props) => {
 					circularColor="#0D070B"
 				/>
 			)}
-			<div className={Styles.desktopOnly}>
-				<AuthPageLayout href={AUTH_LOGIN} topBarText="CONNECT">
+			<Desktop>
+				<div>
+					<AuthPageLayout href={AUTH_LOGIN} topBarText="CONNECT">
 					<Stack direction="column" className={Styles.contentWrapper} spacing={4}>
 						<Stack direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start" width="100%">
 							<span className={Styles.header}>Dites-nous en plus</span>
@@ -188,10 +189,13 @@ const About: React.FC<Props> = (props: Props) => {
 						</form>
 					</Stack>
 				</AuthPageLayout>
-			</div>
-			<div className={Styles.mobileOnly}>
-				<main className={Styles.main}>
-					<UserMainNavigationBar hideMobileSearch />
+				</div>
+
+			</Desktop>
+			<TabletAndMobile>
+				<div style={{display: 'flex', width: '100%', height: '100%'}}>
+					<main className={Styles.main}>
+					<UserMainNavigationBar />
 					<Stack direction="column" className={Styles.contentWrapper} spacing={4}>
 						<Stack direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start" width="100%">
 							<span className={Styles.header}>Dites-nous en plus</span>
@@ -274,7 +278,8 @@ const About: React.FC<Props> = (props: Props) => {
 						</form>
 					</Stack>
 				</main>
-			</div>
+				</div>
+			</TabletAndMobile>
 		</>
 	);
 };

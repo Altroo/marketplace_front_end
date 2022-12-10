@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import Styles from './customMap.module.sass';
 import { useAppDispatch } from '../../utils/hooks';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
-import L from 'leaflet';
+import L, { CrossOrigin } from 'leaflet';
 import { placesGetGeolocalisationAction } from '../../store/actions/places/placesActions';
 import { MarkerProps } from 'react-leaflet/lib/Marker';
 import { ShopZoneByType } from '../../types/shop/shopTypes';
@@ -104,7 +104,7 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 			>
 				<CustomMapEvents />
 				<TileLayer
-					crossOrigin='use-credentials'
+					crossOrigin={`${process.env.NEXT_PUBLIC_USE_MAP_CREDENTIALS as CrossOrigin}`}
 					subdomains='map.qaryb.com'
 					url={`${process.env.NEXT_PUBLIC_MAP_URL}`}
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

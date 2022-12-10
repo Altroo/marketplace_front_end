@@ -16,6 +16,7 @@ import UserMainNavigationBar from '../components/layouts/userMainNavigationBar/u
 import CustomFooter from '../components/layouts/footer/customFooter';
 import PrimaryAnchorButton from '../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import { NextSeo } from 'next-seo';
+import { Desktop } from "../utils/helpers";
 
 type InstaListItem = {
 	img: string;
@@ -48,7 +49,7 @@ const InstaListItem: React.FC<InstaListItem> = (props: InstaListItem) => {
 
 const BoutiqueEnLigneMaroc: NextPage = () => {
 	const DesktopLineBreak = () => {
-		return <br className={Styles.desktopOnly} />;
+		return <br />;
 	};
 
 	return (
@@ -79,12 +80,12 @@ const BoutiqueEnLigneMaroc: NextPage = () => {
 								<Stack direction="column" spacing="15px">
 									<span className={Styles.mainSectionMiniHeader}>Créez</span>
 									<h1 className={Styles.mainSectionHeader}>
-										votre Boutique <DesktopLineBreak />
+										votre Boutique <Desktop><DesktopLineBreak /></Desktop>
 										en ligne en 2 min !
 									</h1>
 								</Stack>
 								<p className={Styles.mainSectionParagraphe}>
-									La 1ère marketplace premium dédiée <DesktopLineBreak /> aux vendeurs Instagram !
+									La 1ère marketplace premium dédiée <Desktop><DesktopLineBreak /></Desktop> aux vendeurs Instagram !
 								</p>
 								<PrimaryAnchorButton
 									cssClass={Styles.mainSectionActionButton}
@@ -119,17 +120,17 @@ const BoutiqueEnLigneMaroc: NextPage = () => {
 										img_height={100}
 										title="Une présence sur le web"
 									>
-										En créant votre boutique en ligne <DesktopLineBreak /> vous obtenez un site web pour votre
-										<DesktopLineBreak /> marque
+										En créant votre boutique en ligne <Desktop><DesktopLineBreak /></Desktop> vous obtenez un site web pour votre
+										<Desktop><DesktopLineBreak /></Desktop> marque
 									</InstaListItem>
 									<InstaListItem img={ZenIlluSVG} img_width={78} img_height={100} title="Sans effort">
-										Concentrez vous <DesktopLineBreak /> sur votre coeur de métier,
-										<DesktopLineBreak /> on s’occupe du ecommerce
+										Concentrez vous <Desktop><DesktopLineBreak /></Desktop> sur votre coeur de métier,
+										<Desktop><DesktopLineBreak /></Desktop> on s’occupe du ecommerce
 									</InstaListItem>
 									<InstaListItem img={SeoIlluSVG} img_width={170} img_height={100} title="Bien référencé">
 										Vous ajoutez vos articles à votre
-										<DesktopLineBreak /> boutique, nous les référençons sur
-										<DesktopLineBreak /> Google et Qaryb
+										<Desktop><DesktopLineBreak /></Desktop> boutique, nous les référençons sur
+										<Desktop><DesktopLineBreak /></Desktop> Google et Qaryb
 									</InstaListItem>
 								</Stack>
 								<Stack
@@ -140,14 +141,14 @@ const BoutiqueEnLigneMaroc: NextPage = () => {
 								>
 									<InstaListItem img={MoneyIlluSVG} img_width={165} img_height={76} title="Économique">
 										On s’occupe du marketing.
-										<DesktopLineBreak /> Vous économisez votre budget de
-										<DesktopLineBreak /> com et votre dotation en devises
+										<Desktop><DesktopLineBreak /></Desktop> Vous économisez votre budget de
+										<Desktop><DesktopLineBreak /></Desktop> com et votre dotation en devises
 									</InstaListItem>
 									<InstaListItem img={MeterIlluSVG} img_width={286} img_height={95} title="Adapté">
 										Payez à mesure
-										<DesktopLineBreak /> que vous grandissez, de plus nous ne
-										<DesktopLineBreak /> prenons pas de commissions sur vos
-										<DesktopLineBreak /> ventes
+										<Desktop><DesktopLineBreak /></Desktop> que vous grandissez, de plus nous ne
+										<Desktop><DesktopLineBreak /></Desktop> prenons pas de commissions sur vos
+										<Desktop><DesktopLineBreak /></Desktop> ventes
 									</InstaListItem>
 									<InstaListItem
 										img={UserExperienceIlluSVG}
@@ -156,9 +157,9 @@ const BoutiqueEnLigneMaroc: NextPage = () => {
 										title="La meilleure expérience"
 									>
 										Vos clients sont importants,
-										<DesktopLineBreak /> c’est pourquoi nous leur offrons la
-										<DesktopLineBreak /> meilleure expérience de navigation
-										<DesktopLineBreak /> sur le marché
+										<Desktop><DesktopLineBreak /></Desktop> c’est pourquoi nous leur offrons la
+										<Desktop><DesktopLineBreak /></Desktop> meilleure expérience de navigation
+										<Desktop><DesktopLineBreak /></Desktop> sur le marché
 									</InstaListItem>
 								</Stack>
 							</Stack>
@@ -176,7 +177,7 @@ const BoutiqueEnLigneMaroc: NextPage = () => {
 							<Stack direction="column" spacing="24px" className={Styles.mobileThirdSection}>
 								<h4 className={Styles.thirdSectionHeader}>
 									Vous aussi, rejoignez notre
-									<DesktopLineBreak /> communauté de vendeurs au Maroc
+									<Desktop><DesktopLineBreak /></Desktop> communauté de vendeurs au Maroc
 								</h4>
 								<Box className={Styles.actionButtonRootBox}>
 									<PrimaryAnchorButton

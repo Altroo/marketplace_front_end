@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Styles from "../../../styles/auth/register/missing-email.module.sass";
 import { GetServerSidePropsContext } from "next";
 import {
-	allowAnyInstance,
+	allowAnyInstance, Desktop,
 	getServerSideCookieTokens,
-	isAuthenticatedInstance, setFormikAutoErrors
+	isAuthenticatedInstance, setFormikAutoErrors, TabletAndMobile
 } from "../../../utils/helpers";
 import {
 	AccountGetCheckAccountResponseType,
@@ -129,25 +129,21 @@ const AddMissingEmail = () => {
 const MissingEmail: React.FC = () => {
 	return (
 		<>
-			<div className={Styles.desktopOnly}>
-				<AuthPageLayout href={AUTH_LOGIN} topBarText="CONNECT">
+			<Desktop>
+				<div>
+					<AuthPageLayout href={AUTH_LOGIN} topBarText="CONNECT">
 					<AddMissingEmail/>
 				</AuthPageLayout>
-			</div>
-			<div className={Styles.mobileOnly}>
-				<main className={Styles.main}>
-					<UserMainNavigationBar hideMobileSearch/>
-					<AddMissingEmail/>
-					{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
-					{/*	<p className={Styles.bottomLinks}>*/}
-					{/*		Vous avez déjà un compte ?{" "}*/}
-					{/*		<Link href={AUTH_LOGIN}>*/}
-					{/*			Connectez-vous*/}
-					{/*		</Link>*/}
-					{/*	</p>*/}
-					{/*</Stack>*/}
-				</main>
-			</div>
+				</div>
+			</Desktop>
+			<TabletAndMobile>
+				<div style={{display: 'flex', width: '100%', height: '100%'}}>
+					<main className={Styles.main}>
+						<UserMainNavigationBar />
+						<AddMissingEmail/>
+					</main>
+				</div>
+			</TabletAndMobile>
 		</>
 	);
 };

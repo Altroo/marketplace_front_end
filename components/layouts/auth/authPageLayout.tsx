@@ -66,7 +66,7 @@ const AuthPageLayout = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: 
 
 	return (
 		<main className={Styles.main}>
-			<Stack direction="row" className={Styles.desktopOnly}>
+			<Stack direction="row">
 				{/* Left side */}
 				<Box
 					className={Styles.leftBox}

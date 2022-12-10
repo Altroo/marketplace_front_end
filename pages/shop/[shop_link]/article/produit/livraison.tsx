@@ -677,7 +677,7 @@ const Livraison: NextPage = () => {
 									{/*		/>*/}
 									{/*	</Box>*/}
 									{/*)}*/}
-									<CustomSwipeModal open={openClick} handleClose={() => setOpenClick(false)}>
+									<CustomSwipeModal transition open={openClick} handleClose={() => setOpenClick(false)}>
 										<Stack direction="column" spacing={4} sx={{ height: '100%' }}>
 											<Formik
 												enableReinitialize={true}
@@ -824,7 +824,7 @@ const Livraison: NextPage = () => {
 									{/*		/>*/}
 									{/*	</Box>*/}
 									{/*)}*/}
-									<CustomSwipeModal open={openDelivery} handleClose={() => setOpenDelivery(false)} keepMounted={true}>
+									<CustomSwipeModal transition open={openDelivery} handleClose={() => setOpenDelivery(false)} keepMounted={true}>
 										<Stack direction="column" spacing={2} justifyContent="flex-start">
 											<Stack direction="column" sx={{ height: '100%' }}>
 												<TopBarSaveClose

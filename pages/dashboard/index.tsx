@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../utils/helpers';
+import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance, TabletAndMobile } from '../../utils/helpers';
 import { AccountGetDashboardResponseType, AccountGetDashboardType } from '../../types/account/accountTypes';
 import { getApi } from '../../store/services/_init/_initAPI';
 import {
@@ -146,7 +146,9 @@ type UserInfoContentType = {
 };
 
 const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentType) => {
-	const { first_name, last_name,
+	const {
+		first_name,
+		last_name,
 		// global_rating,
 		avatar,
 		// user_id
@@ -159,19 +161,19 @@ const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentTy
 					<Box>
 						<div className={Styles.dashboardAvatarSubWrapper}>
 							{!avatar ? (
-									<Skeleton variant="circular" width={98} height={98} />
-								) : (
-									<Image
-										src={avatar}
-										alt={`${first_name} ${last_name}`}
-										width="0"
-										height="0"
-										sizes="100vw"
-										className={Styles.dashboardAvatar}
-										loading="eager"
-										priority={true}
-									/>
-								)}
+								<Skeleton variant="circular" width={98} height={98} />
+							) : (
+								<Image
+									src={avatar}
+									alt={`${first_name} ${last_name}`}
+									width="0"
+									height="0"
+									sizes="100vw"
+									className={Styles.dashboardAvatar}
+									loading="eager"
+									priority={true}
+								/>
+							)}
 						</div>
 					</Box>
 					<span className={Styles.dashboardShopName}>
@@ -266,9 +268,13 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 				<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardVuesMiniCard}>
 					<Image src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />
 					<Stack direction="column" sx={{ width: '100%' }}>
-						<span className={Styles.dashboardMiniCardCounter}>{total_offers_vue_count} {total_offers_vue_count > 1 ? 'vues' : 'vue'}</span>
+						<span className={Styles.dashboardMiniCardCounter}>
+							{total_offers_vue_count} {total_offers_vue_count > 1 ? 'vues' : 'vue'}
+						</span>
 						<Stack direction="row" justifyContent="space-between">
-							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_vue_month - 1]}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>
+								Mois de {fullMonthItemsList[total_vue_month - 1]}
+							</span>
 							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalVuePourcentageCSS}`}>
 								{total_vue_pourcentage}
 							</span>
@@ -280,9 +286,13 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 				<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardSellsMiniCard}>
 					<Image src={DesktopUSDSVG} alt="" width="40" height="40" sizes="100vw" />
 					<Stack direction="column" sx={{ width: '100%' }}>
-						<span className={Styles.dashboardMiniCardCounter}>{total_sells_count} {total_sells_count > 1 ? 'DHS' : 'DH'}</span>
+						<span className={Styles.dashboardMiniCardCounter}>
+							{total_sells_count} {total_sells_count > 1 ? 'DHS' : 'DH'}
+						</span>
 						<Stack direction="row" justifyContent="space-between">
-							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_sells_month - 1]}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>
+								Mois de {fullMonthItemsList[total_sells_month - 1]}
+							</span>
 							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalSellsPourcentageCSS}`}>
 								{total_sells_pourcentage}
 							</span>
@@ -335,7 +345,11 @@ type MobileDashboardCardsType = {
 const MobileDashboardCards: React.FC<MobileDashboardCardsType> = (props: MobileDashboardCardsType) => {
 	const { icon, title, link } = props;
 	return (
-		<Stack className={Styles.dashboardCardBox} justifyContent="center" sx={{ height: '110px !important', opacity: `${props.disabled ? '0.6' : '1'}` }}>
+		<Stack
+			className={Styles.dashboardCardBox}
+			justifyContent="center"
+			sx={{ height: '110px !important', opacity: `${props.disabled ? '0.6' : '1'}` }}
+		>
 			{!props.disabled ? (
 				<Link href={link}>
 					<Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -358,7 +372,6 @@ const MobileDashboardCards: React.FC<MobileDashboardCardsType> = (props: MobileD
 					<Image src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
 				</Stack>
 			)}
-
 		</Stack>
 	);
 };
@@ -400,13 +413,11 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		avatar,
 		pk,
 		first_name,
-		last_name
+		last_name,
 	} = data;
 
 	const [totalSellsPourcentageCSS, setTotalSellsPourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
 	const [totalVuePourcentageCSS, setTotalVuePourcentageCSS] = useState<string>(Styles.dashboardNeutralePourcentage);
-
-
 
 	useEffect(() => {
 		// if (has_messages) {
@@ -440,182 +451,190 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 					notificationIcon={MobileNotificationSVG}
 				/>
 				<main className={`${Styles.dashboardIndexMain} ${Styles.fixMobile}`}>
-					<Stack direction="row" spacing="24px" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
-						<Stack direction="column" spacing="18px">
-							{has_shop ? (
-								<ShopInfoContent
-									total_sells_count={total_sells_count}
-									total_offers_vue_count={total_offers_vue_count}
-									shop_name={shop_name}
-									is_subscribed={is_subscribed}
-									shop_avatar={shop_avatar}
-									shop_url={shop_url}
-									global_rating={global_rating}
-									total_offers_count={total_offers_count}
-								/>
-							) : (
-								<UserInfoContent
-									first_name={first_name}
-									last_name={last_name}
-									global_rating={global_rating}
-									avatar={avatar}
-									user_id={pk}
-								/>
-							)}
-							{/* second column card */}
-							{has_shop ? (
-								<ShopMyBusinessCardContent
-									total_offers_vue_count={total_offers_vue_count}
-									total_sells_count={total_sells_count}
-									indexed_articles_count={indexed_articles_count}
-									all_slots_count={all_slots_count}
-									total_sells_pourcentage={total_sells_pourcentage}
-									total_vue_month={total_vue_month}
-									total_vue_pourcentage={total_vue_pourcentage}
-									totalVuePourcentageCSS={totalVuePourcentageCSS}
-									total_sells_month={total_sells_month}
-									totalSellsPourcentageCSS={totalSellsPourcentageCSS}
-								/>
-							) : (
-								<UserMyBusinessCardContent rootSX={{ width: '379px' }} />
-							)}
-							<Stack className={Styles.dashboardCardBox} justifyContent="center" sx={{ height: '110px !important' }}>
-								<Link href={DASHBOARD_EDIT_PROFILE}>
-									<Stack direction="row" justifyContent="space-between" alignItems="center">
-										<Stack direction="row" spacing="18px" alignItems="center">
-											<Image src={DesktopMonCompteSVG} alt="" width="54" height="54" sizes="100vw" />
-											<span className={Styles.dashboardCardIconText}>Mon compte</span>
+					<Desktop>
+						<Stack direction="row" spacing="24px" className={Styles.flexRootStack}>
+							<Stack direction="column" spacing="18px">
+								{has_shop ? (
+									<ShopInfoContent
+										total_sells_count={total_sells_count}
+										total_offers_vue_count={total_offers_vue_count}
+										shop_name={shop_name}
+										is_subscribed={is_subscribed}
+										shop_avatar={shop_avatar}
+										shop_url={shop_url}
+										global_rating={global_rating}
+										total_offers_count={total_offers_count}
+									/>
+								) : (
+									<UserInfoContent
+										first_name={first_name}
+										last_name={last_name}
+										global_rating={global_rating}
+										avatar={avatar}
+										user_id={pk}
+									/>
+								)}
+								{/* second column card */}
+								{has_shop ? (
+									<ShopMyBusinessCardContent
+										total_offers_vue_count={total_offers_vue_count}
+										total_sells_count={total_sells_count}
+										indexed_articles_count={indexed_articles_count}
+										all_slots_count={all_slots_count}
+										total_sells_pourcentage={total_sells_pourcentage}
+										total_vue_month={total_vue_month}
+										total_vue_pourcentage={total_vue_pourcentage}
+										totalVuePourcentageCSS={totalVuePourcentageCSS}
+										total_sells_month={total_sells_month}
+										totalSellsPourcentageCSS={totalSellsPourcentageCSS}
+									/>
+								) : (
+									<UserMyBusinessCardContent rootSX={{ width: '379px' }} />
+								)}
+								<Stack className={Styles.dashboardCardBox} justifyContent="center" sx={{ height: '110px !important' }}>
+									<Link href={DASHBOARD_EDIT_PROFILE}>
+										<Stack direction="row" justifyContent="space-between" alignItems="center">
+											<Stack direction="row" spacing="18px" alignItems="center">
+												<Image src={DesktopMonCompteSVG} alt="" width="54" height="54" sizes="100vw" />
+												<span className={Styles.dashboardCardIconText}>Mon compte</span>
+											</Stack>
+											<Image src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
 										</Stack>
-										<Image src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
-									</Stack>
-								</Link>
+									</Link>
+								</Stack>
+							</Stack>
+							{/* second row card on first column */}
+							<Stack direction="column" spacing="24px" className={Styles.maxWidth}>
+								{!is_verified && (
+									<ActivateYourAccount
+										onClick={() => {
+											setShowActivateNowModal(true);
+										}}
+									/>
+								)}
+								<Stack
+									direction="row"
+									spacing={2}
+									justifyContent="space-between"
+									className={`${Styles.maxWidth} ${Styles.maxHeight}`}
+								>
+									<Box className={Styles.dashboardSizedBox}>
+										<Stack direction="column" spacing="12px" className={Styles.maxHeight}>
+											<Stack direction="row" spacing="18px" alignItems="center">
+												<Image src={DesktopMessageSVG} alt="" width="54" height="54" sizes="100vw" />
+												<span className={Styles.dashboardCardIconText}>Messages</span>
+											</Stack>
+											<Stack
+												direction="column"
+												spacing="12px"
+												className={Styles.maxHeight}
+												justifyContent="center"
+												textAlign="center"
+											>
+												{/* TODO - Altroo : apply case has messages */}
+												<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
+													<Image src={EmptyMessagesIlluSVG} alt="" width="123" height="83" sizes="100vw" />
+												</Box>
+												<span className={Styles.dashboardNoContentHeader}>Aucun message</span>
+												<span className={Styles.dashboardNoContentText}>
+													Lorsque quelqu&apos;un vous envoie un
+													<br /> message, il apparaît ici
+												</span>
+											</Stack>
+										</Stack>
+									</Box>
+									<Box className={Styles.dashboardSizedBox}>
+										<Stack direction="column" spacing="12px" className={Styles.maxHeight}>
+											<Stack direction="row" spacing="18px" alignItems="center">
+												<Image src={DesktopOrdersSVG} alt="" width="54" height="54" sizes="100vw" />
+												<span className={Styles.dashboardCardIconText}>Mes commandes</span>
+											</Stack>
+											<Stack
+												direction="column"
+												spacing="12px"
+												className={Styles.maxHeight}
+												justifyContent="center"
+												textAlign="center"
+											>
+												{/* TODO - Altroo : apply case has orders */}
+												<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
+													<Image src={EmptyOrdersIlluSVG} alt="" width="123" height="83" sizes="100vw" />
+												</Box>
+												<span className={Styles.dashboardNoContentHeader}>Aucune commande</span>
+												<span className={Styles.dashboardNoContentText}>
+													C&apos;est ici qu&apos;apparaîtront vos futurs
+													<br /> commandes
+												</span>
+											</Stack>
+										</Stack>
+									</Box>
+								</Stack>
 							</Stack>
 						</Stack>
-						{/* second row card on first column */}
-						<Stack direction="column" spacing="24px" className={Styles.maxWidth}>
-							{!is_verified && (
-								<ActivateYourAccount
-									onClick={() => {
-										setShowActivateNowModal(true);
-									}}
-								/>
-							)}
-							<Stack
-								direction="row"
-								spacing={2}
-								justifyContent="space-between"
-								className={`${Styles.maxWidth} ${Styles.maxHeight}`}
-							>
-								<Box className={Styles.dashboardSizedBox}>
-									<Stack direction="column" spacing="12px" className={Styles.maxHeight}>
-										<Stack direction="row" spacing="18px" alignItems="center">
-											<Image src={DesktopMessageSVG} alt="" width="54" height="54" sizes="100vw" />
-											<span className={Styles.dashboardCardIconText}>Messages</span>
-										</Stack>
-										<Stack
-											direction="column"
-											spacing="12px"
-											className={Styles.maxHeight}
-											justifyContent="center"
-											textAlign="center"
-										>
-											{/* TODO - Altroo : apply case has messages */}
-											<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
-												<Image src={EmptyMessagesIlluSVG} alt="" width="123" height="83" sizes="100vw" />
-											</Box>
-											<span className={Styles.dashboardNoContentHeader}>Aucun message</span>
-											<span className={Styles.dashboardNoContentText}>
-												Lorsque quelqu&apos;un vous envoie un
-												<br /> message, il apparaît ici
-											</span>
-										</Stack>
-									</Stack>
-								</Box>
-								<Box className={Styles.dashboardSizedBox}>
-									<Stack direction="column" spacing="12px" className={Styles.maxHeight}>
-										<Stack direction="row" spacing="18px" alignItems="center">
-											<Image src={DesktopOrdersSVG} alt="" width="54" height="54" sizes="100vw" />
-											<span className={Styles.dashboardCardIconText}>Mes commandes</span>
-										</Stack>
-										<Stack
-											direction="column"
-											spacing="12px"
-											className={Styles.maxHeight}
-											justifyContent="center"
-											textAlign="center"
-										>
-											{/* TODO - Altroo : apply case has orders */}
-											<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
-												<Image src={EmptyOrdersIlluSVG} alt="" width="123" height="83" sizes="100vw" />
-											</Box>
-											<span className={Styles.dashboardNoContentHeader}>Aucune commande</span>
-											<span className={Styles.dashboardNoContentText}>
-												C&apos;est ici qu&apos;apparaîtront vos futurs
-												<br /> commandes
-											</span>
-										</Stack>
-									</Stack>
-								</Box>
+					</Desktop>
+					<TabletAndMobile>
+						<Stack>
+							<Stack direction="column" spacing="12px">
+								{has_shop ? (
+									<ShopInfoContent
+										total_sells_count={total_sells_count}
+										total_offers_vue_count={total_offers_vue_count}
+										shop_name={shop_name}
+										is_subscribed={is_subscribed}
+										shop_avatar={shop_avatar}
+										shop_url={shop_url}
+										global_rating={global_rating}
+										total_offers_count={total_offers_count}
+									/>
+								) : (
+									<UserInfoContent
+										first_name={first_name}
+										last_name={last_name}
+										global_rating={global_rating}
+										avatar={avatar}
+										user_id={pk}
+									/>
+								)}
+								{!is_verified && (
+									<ActivateYourAccount
+										onClick={() => {
+											setShowActivateNowModal(true);
+										}}
+									/>
+								)}
+								{has_shop ? (
+									<MobileDashboardCards icon={MyBusinessSVG} link={DASHBOARD_SUBSCRIPTION} title="My business" />
+								) : (
+									<UserMyBusinessCardContent rootSX={{ width: '100%' }} />
+								)}
+								<MobileDashboardCards icon={DesktopOrdersSVG} link={NOT_FOUND_404} title="Mes commandes" disabled />
+								<MobileDashboardCards icon={DesktopMonCompteSVG} link={DASHBOARD_EDIT_PROFILE} title="Mon compte" />
 							</Stack>
 						</Stack>
-					</Stack>
-					<Stack className={Styles.mobileOnly}>
-						<Stack direction="column" spacing="12px">
-							{has_shop ? (
-								<ShopInfoContent
-									total_sells_count={total_sells_count}
-									total_offers_vue_count={total_offers_vue_count}
-									shop_name={shop_name}
-									is_subscribed={is_subscribed}
-									shop_avatar={shop_avatar}
-									shop_url={shop_url}
-									global_rating={global_rating}
-									total_offers_count={total_offers_count}
-								/>
-							) : (
-								<UserInfoContent
-									first_name={first_name}
-									last_name={last_name}
-									global_rating={global_rating}
-									avatar={avatar}
-									user_id={pk}
-								/>
-							)}
-							{!is_verified && (
-								<ActivateYourAccount
-									onClick={() => {
-										setShowActivateNowModal(true);
-									}}
-								/>
-							)}
-							{has_shop ? (
-								<MobileDashboardCards icon={MyBusinessSVG} link={DASHBOARD_SUBSCRIPTION} title="My business" />
-							) : (
-								<UserMyBusinessCardContent rootSX={{ width: '100%' }} />
-							)}
-							<MobileDashboardCards icon={DesktopOrdersSVG} link={NOT_FOUND_404} title="Mes commandes" disabled />
-							<MobileDashboardCards icon={DesktopMonCompteSVG} link={DASHBOARD_EDIT_PROFILE} title="Mon compte" />
-						</Stack>
-					</Stack>
+					</TabletAndMobile>
 				</main>
-				<div className={Styles.desktopOnly}>
-					<CustomSwipeModal
-						keepMounted={false}
-						direction="up"
-						fullScreen={false}
-						open={showActivateNowModal}
-						handleClose={() => setShowActivateNowModal(false)}
-						cssClasse={Styles.dashboardActivationModal}
-						showCloseIcon={true}
-					>
-						<EnterCodePageContent
-							email={email}
-							cssClass={Styles.enterCodePageContentRoot}
-							whichCode="ACCOUNT_VERIFICATION"
+				<Desktop>
+					<div>
+						<CustomSwipeModal
+							transition
+							keepMounted={false}
+							direction="up"
+							fullScreen={false}
+							open={showActivateNowModal}
 							handleClose={() => setShowActivateNowModal(false)}
-						/>
-					</CustomSwipeModal>
-				</div>
+							cssClasse={Styles.dashboardActivationModal}
+							showCloseIcon={true}
+						>
+							<EnterCodePageContent
+								email={email}
+								cssClass={Styles.enterCodePageContentRoot}
+								whichCode="ACCOUNT_VERIFICATION"
+								handleClose={() => setShowActivateNowModal(false)}
+							/>
+						</CustomSwipeModal>
+					</div>
+				</Desktop>
+
 				<CustomFooter />
 			</Stack>
 		</ThemeProvider>

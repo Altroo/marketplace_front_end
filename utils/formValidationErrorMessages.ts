@@ -11,9 +11,9 @@ export const INPUT_ICE = "Assurez-vous que ce champ comporte votre ICE ex: 00000
 export const INPUT_EMAIL = "Assurez-vous que ce champ comporte votre email ex: abc@gmail.com";
 export const MINI_INPUT_EMAIL = "l'email doit être un email valide";
 export const INPUT_URL = "Assurez-vous que ce champ comporte un lien valide.";
-export const INPUT_FACEBOOK_URL = "Assurez-vous que ce champ comporte un lien valide ex: http://facebook.com/MaPage";
-export const INPUT_INSTAGRAM_URL = "Assurez-vous que ce champ comporte un lien valide ex: http://instagram.com/MaPage";
-export const INPUT_TWITTER_URL = "Assurez-vous que ce champ comporte un lien valide ex: http://twitter.com/MaPage";
+export const INPUT_FACEBOOK_URL = "Assurez-vous que ce champ comporte un lien valide ex: https://facebook.com/MaPage";
+export const INPUT_INSTAGRAM_URL = "Assurez-vous que ce champ comporte un lien valide ex: https://instagram.com/MaPage";
+export const INPUT_TWITTER_URL = "Assurez-vous que ce champ comporte un lien valide ex: https://twitter.com/MaPage";
 export const IMAGE_COUNT_LIMIT_REACHED = (char: number) => `Le nombre d'images sélectionnées dépasse ${char} images.`;
 export const IMAGE_FORMAT = "Seulement les images du type jpg, png, jpeg, sont autorisé.";
 export const IMAGE_SIZE_LIMIT_REACHED = "La taille d'image sélectionné dépasse 5mg";
