@@ -2598,7 +2598,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const options: CookieSerializeOptions = {
 		httpOnly: true,
 		maxAge: 86400,
-		secure: true,
+		secure: process.env.NODE_ENV !== 'development',
 		path: '/',
 		expires: new Date(Date.now() + 86400 * 1000),
 		sameSite: 'lax',

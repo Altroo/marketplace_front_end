@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	if (req.method === 'POST') {
 		const options = {
 			httpOnly: true,
-			secure: true,
+			secure: process.env.NODE_ENV !== 'development',
 			path: '/',
 			// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 		};
@@ -130,7 +130,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			maxAge: -1,
 			path: '/',
 			httpOnly: true,
-			secure: true,
+			secure: process.env.NODE_ENV !== 'development',
 			// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 		};
 		const query = req.body;

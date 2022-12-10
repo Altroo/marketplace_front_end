@@ -391,7 +391,7 @@ export const Desktop = (props: MediaQueryProps) => {
 	// const isResponsive = useMediaQuery({ minWidth: 992 });
 	const isResponsive = useMediaQuery(
 		{ minWidth: 992 },
-		hydrated ? undefined : { width: 992 }
+		hydrated ? undefined : { deviceWidth: 992 }
 	);
   return isResponsive ? props.children : null;
 }
@@ -401,7 +401,7 @@ export const TabletAndMobile = (props: MediaQueryProps) => {
   // const isResponsive = useMediaQuery({ maxWidth: 991 })
   const isResponsive = useMediaQuery(
 		{ maxWidth: 991 },
-		hydrated ? undefined : { width: 767 }
+		hydrated ? undefined : { deviceWidth: 767 }
 	);
   return isResponsive ? props.children : null;
 }

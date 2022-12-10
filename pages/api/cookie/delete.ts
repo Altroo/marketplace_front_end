@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 	const options: CookieSerializeOptions = {
 		httpOnly: true,
-		secure: true,
+		secure: process.env.NODE_ENV !== 'development',
 		path: '/',
 		expires: new Date(Date.now()),
 		maxAge: 0,
