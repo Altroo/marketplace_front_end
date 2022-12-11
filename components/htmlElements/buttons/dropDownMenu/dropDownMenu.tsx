@@ -44,7 +44,7 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 						aria-haspopup="true"
 						aria-expanded={open ? 'true' : undefined}
 						onClick={handleClick}
-						endIcon={<Image src={props.dropDownIcon} alt="" />}
+						endIcon={<Image src={props.dropDownIcon} alt="" sizes="100vw" />}
 					>
 						{props.dropDownText}
 					</Button>

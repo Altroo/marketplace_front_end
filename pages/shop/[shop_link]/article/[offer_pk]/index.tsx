@@ -179,7 +179,7 @@ const AlreadyExistsInCartButton = () => {
 	return (
 		<ThemeProvider theme={getDefaultTheme()}>
 			<Button color="primary" className={Styles.alreadyExistInCartButton} disabled>
-				<Image src={ActiveCheckBlue} width={24} height={24} alt="" className={Styles.alreadyExistInCartIcon} />
+				<Image src={ActiveCheckBlue} width={24} height={24} alt="" sizes="100vw" className={Styles.alreadyExistInCartIcon} />
 				Ajouté au panier !
 			</Button>
 		</ThemeProvider>

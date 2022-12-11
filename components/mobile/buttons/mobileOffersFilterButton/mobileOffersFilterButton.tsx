@@ -53,7 +53,7 @@ const MobileOffersFilterButton: React.FC<Props> = (props: Props) => {
 					style={{ ...cssStyle }}
 				>
 					{props.buttonText}
-					<Image src={props.svgIcon} width={20} height={20} alt="" />
+					<Image src={props.svgIcon} width={20} height={20} alt="" sizes="100vw" />
 				</Fab>
 			</TabletAndMobile>
 		</ThemeProvider>

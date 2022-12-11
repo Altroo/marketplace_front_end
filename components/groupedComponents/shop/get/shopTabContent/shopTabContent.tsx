@@ -418,6 +418,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 								<Image src={CloseSVG}
 									width={40}
 									height={40}
+					        sizes="100vw"
 									alt=""
 									onClick={() => props.setOpenFilterModal(false)}
 									style={{ cursor: 'pointer' }}

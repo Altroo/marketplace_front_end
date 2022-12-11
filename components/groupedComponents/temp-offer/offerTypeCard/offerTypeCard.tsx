@@ -16,7 +16,7 @@ const OfferTypeCard = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: F
 	return props.nextPage ? (
 		<Link href={props.nextPage} ref={ref} className={Styles.cardWrapper}>
 			<Stack direction="row" spacing={2} className={Styles.titleDescWrapper} alignItems="center">
-				<Image src={props.svgIcon} alt="" className={Styles.icon} />
+				<Image src={props.svgIcon} alt="" className={Styles.icon} sizes="100vw" />
 				<Stack direction="column" spacing={1}>
 					<span className={Styles.title}>{props.title}</span>
 					<span className={Styles.description}>{props.description}</span>
@@ -26,7 +26,7 @@ const OfferTypeCard = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: F
 	) : (
 		<div className={Styles.cardWrapper}>
 			<Stack direction="row" spacing={2} className={Styles.titleDescWrapper} alignItems="center">
-				<Image src={props.svgIcon} alt="" className={Styles.icon} />
+				<Image src={props.svgIcon} alt="" className={Styles.icon} sizes="100vw" />
 				<Stack direction="column" spacing={1}>
 					<Stack direction="row" spacing={1} alignItems="center">
 						<span className={Styles.title}>{props.title}</span>

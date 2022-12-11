@@ -747,7 +747,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
-								<Image src={CloseSVG} width={40} height={40} alt="" onClick={handleContactModalClose} />
+								<Image src={CloseSVG} width={40} height={40} alt="" sizes="100vw" onClick={handleContactModalClose} />
 							</div>
 							<HelperDescriptionHeader
 								header="Ajouter un moyen de contact"
@@ -789,7 +789,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
-								<Image src={CloseSVG} width={40} height={40} alt="" onClick={() => setOpenInfoModal(false)} />
+								<Image src={CloseSVG} width={40} height={40} alt="" sizes="100vw" onClick={() => setOpenInfoModal(false)} />
 							</div>
 							<HelperDescriptionHeader header="Ajouter mes infos" />
 							<Stack direction="column" spacing={4}>

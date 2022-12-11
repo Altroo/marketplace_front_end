@@ -96,7 +96,7 @@ type AccordionFilterContentType = {
 const AccordionFilterContent: React.FC<AccordionFilterContentType> = (props: AccordionFilterContentType) => {
 	return (
 		<Accordion disableGutters square expanded>
-			<AccordionSummary expandIcon={<Image src={AccordionDropDownSVG} alt="" width={16} height={16} />}>
+			<AccordionSummary expandIcon={<Image src={AccordionDropDownSVG} alt="" width={16} height={16} sizes="100vw" />}>
 				<span className={Styles.filterTitle}>{props.title}</span>
 			</AccordionSummary>
 			<AccordionDetails>{props.children}</AccordionDetails>

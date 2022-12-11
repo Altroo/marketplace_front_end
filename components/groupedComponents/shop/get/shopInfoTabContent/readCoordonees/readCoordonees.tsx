@@ -27,18 +27,18 @@ const ReadCoordonees: React.FC<Props> = (props: Props) => {
 
 	return (
 		<Stack direction="column" justifyContent="space-between" alignContent="space-between" spacing={2}>
-			{phone ? (
+			{phone && (
 				<Stack direction="row" spacing={2}>
-					<Image src={PhoneOutlinedSVG} width={24} height={24} alt="" />
+					<Image src={PhoneOutlinedSVG} width={24} height={24} sizes="100vw" alt="" />
 					<Link href={`tel:${phone}`} target="_blank" rel="noreferrer" className={Styles.link}>
 						{phone}
 					</Link>
 				</Stack>
-			) : null}
-			{contact_email ? (
+			)}
+			{contact_email && (
 				<>
 					<Stack direction="row" spacing={2}>
-						<Image src={EmailOutlinedSVG} width={24} height={24} alt="" />
+						<Image src={EmailOutlinedSVG} width={24} height={24} sizes="100vw" alt="" />
 						<Box component="span">
 							<Link href={`mailto:${contact_email}`} target="_blank" rel="noreferrer" className={Styles.link}>
 								{contact_email}
@@ -47,11 +47,11 @@ const ReadCoordonees: React.FC<Props> = (props: Props) => {
 					</Stack>
 					<Divider orientation="horizontal" flexItem />
 				</>
-			) : null}
-			{website_link ? (
+			)}
+			{website_link && (
 				<>
 					<Stack direction="row" spacing={2}>
-						<Image src={WebsiteOutlinedSVG} width={24} height={24} alt="" />
+						<Image src={WebsiteOutlinedSVG} width={24} height={24} sizes="100vw" alt="" />
 						<Box component="span">
 							<Link href={website_link} target="_blank" rel="noreferrer" className={Styles.link}>
 								{website_link}
@@ -60,29 +60,29 @@ const ReadCoordonees: React.FC<Props> = (props: Props) => {
 					</Stack>
 					<Divider orientation="horizontal" flexItem />
 				</>
-			) : null}
+			)}
 
 			<Stack direction="row" className={Styles.rootStackLinks}>
-				{facebook_link ? (
+				{facebook_link && (
 					<Link href={facebook_link} target="_blank" rel="noreferrer" className={Styles.link}>
-						<Image src={FacebookCircularSVG} width={40} height={40} alt="" />
+						<Image src={FacebookCircularSVG} width={40} height={40} sizes="100vw" alt="" />
 					</Link>
-				) : null}
-				{twitter_link ? (
+				)}
+				{twitter_link && (
 					<Link href={twitter_link} target="_blank" rel="noreferrer" className={Styles.link}>
-						<Image src={TwitterCircularSVG} width={40} height={40} alt="" />
+						<Image src={TwitterCircularSVG} width={40} height={40} sizes="100vw" alt="" />
 					</Link>
-				) : null}
-				{instagram_link ? (
+				)}
+				{instagram_link && (
 					<Link href={instagram_link} target="_blank" rel="noreferrer" className={Styles.link}>
-						<Image src={InstagramCircularSVG} width={40} height={40} alt="" />
+						<Image src={InstagramCircularSVG} width={40} height={40} sizes="100vw" alt="" />
 					</Link>
-				) : null}
-				{whatsapp ? (
+				)}
+				{whatsapp && (
 					<Link href={`https://api.whatsapp.com/send?phone=${whatsapp.replaceAll('+', '').replaceAll(' ', '')}`} target="_blank" rel="noreferrer" className={Styles.link}>
-						<Image src={WhatsappCircularSVG} width={40} height={40} alt="" />
+						<Image src={WhatsappCircularSVG} width={40} height={40} sizes="100vw" alt="" />
 					</Link>
-				) : null}
+				)}
 			</Stack>
 		</Stack>
 	);

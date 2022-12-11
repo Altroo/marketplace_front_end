@@ -100,11 +100,11 @@ const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps
 				justifyContent="space-between"
 			>
 				<Stack direction="row" spacing={3} sx={{ height: '56px', alignItems: 'center' }}>
-					<Image src={active ? props.blackIcon : props.grayIcon} alt="" />
+					<Image src={active ? props.blackIcon : props.grayIcon} alt="" sizes="100vw" />
 					<span className={`${Styles.categoryTitle} ${active && Styles.active}`}>{props.title}</span>
 				</Stack>
 				<Stack direction="row" spacing={1}>
-					{active && <Image src={ActiveCheckBlue} alt="" />}
+					{active && <Image src={ActiveCheckBlue} alt="" sizes="100vw" />}
 				</Stack>
 			</Stack>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />

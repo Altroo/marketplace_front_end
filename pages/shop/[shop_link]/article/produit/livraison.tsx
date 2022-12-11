@@ -652,7 +652,7 @@ const Livraison: NextPage = () => {
 											justifyContent="center"
 											alignItems="center"
 										>
-											<Image src={ClickCollectSVG} width={70} height={70} alt="" />
+											<Image src={ClickCollectSVG} width={70} height={70} alt="" sizes="100vw" />
 											<p
 												className={`${Styles.defaultLocalisationName} ${
 													selectedClickAndCollect && selectedClickAndCollect.address_name && Styles.activeCardValue
