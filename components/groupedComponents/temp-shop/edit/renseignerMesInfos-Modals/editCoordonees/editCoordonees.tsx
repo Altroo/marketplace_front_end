@@ -30,6 +30,9 @@ import InstagramCircularSVG from '../../../../../../public/assets/svgs/globalIco
 import WhatsappCircularSVG from '../../../../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
 import CustomStackIconTextInput from '../../../../../formikElements/customStackIconTextInput/customStackIconTextInput';
 import { coordonneeTextInputTheme } from '../../../../../../utils/themes';
+import ContacterPhoneInput from "../../contacterPhoneInput/contacterPhoneInput";
+import PhoneInputFields from "../../../../../htmlElements/inputs/phoneInputFields/phoneInputFields";
+import CustomTextMaskInput from "../../../../../formikElements/customTextMaskInput/customTextMaskInput";
 
 type Props = {
 	handleClose: () => void;
@@ -124,7 +127,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 										icon={PhoneCircularSVG}
 										id="phone"
 										label="Téléphone"
-										// placeholder="e.g : 610203040"
+										placeholder="e.g : 212610203040"
 										value={values.phone ? values.phone : ''}
 										onChange={handleChange('phone')}
 										onBlur={handleBlur('phone')}
@@ -227,6 +230,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 										icon={WhatsappCircularSVG}
 										id="whatsapp"
 										label="Whatsapp"
+										placeholder="e.g : 212610203040"
 										value={values.whatsapp ? values.whatsapp : ''}
 										onChange={handleChange('whatsapp')}
 										onBlur={handleBlur('whatsapp')}

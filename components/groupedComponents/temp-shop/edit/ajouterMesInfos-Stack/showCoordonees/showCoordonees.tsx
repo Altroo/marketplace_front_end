@@ -28,7 +28,7 @@ const ShowCoordonees: React.FC = () => {
 								height="24"
 								sizes="100vw"
 							/>
-					<Link href={`tel:${phone}`} target="_blank" rel="noreferrer" className={Styles.link}>
+					<Link href={`tel:${phone.charAt(0) !== '0' ? '+' + phone : phone}`} target="_blank" rel="noreferrer" className={Styles.link}>
 						{phone}
 					</Link>
 				</Stack>
@@ -108,7 +108,7 @@ const ShowCoordonees: React.FC = () => {
 				)}
 				{whatsapp && (
 					<Link
-						href={`https://api.whatsapp.com/send?phone=${whatsapp.replaceAll('+', '').replaceAll(' ', '')}`}
+						href={`https://api.whatsapp.com/send?phone=${whatsapp}`}
 						target="_blank"
 						rel="noreferrer" className={Styles.link}>
 						<Image

@@ -285,6 +285,8 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 													<Link
 														href={REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))}
 														key={data.key}
+														shallow={true}
+														scroll={false}
 														className={Styles.gridCardOfferWrapper}
 													>
 														<Grid item xs="auto" className={Styles.mobileGridRoot}>

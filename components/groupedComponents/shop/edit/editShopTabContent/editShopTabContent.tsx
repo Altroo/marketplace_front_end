@@ -329,7 +329,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			{(isLoadingInitInProgress || isLoadingNextPageInProgress) && (
+			{(isLoadingInitInProgress || isLoadingNextPageInProgress) && (!availableFiltersFetched) && (
 				<ApiProgress
 					cssStyle={{ position: 'absolute', top: '50%', left: '50%' }}
 					backdropColor="#FFFFFF"
@@ -357,15 +357,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 							/>
 						</Stack>
 						</Desktop>
-
 						<Stack direction="row" justifyContent="space-between" className={Styles.rootShopFilterWrapper}>
-							{/* filter search removed */}
-							{/*<IconTextInput*/}
-							{/*	active={true}*/}
-							{/*	placeholder="Rechercher"*/}
-							{/*	value={searchValue}*/}
-							{/*	onChange={(e) => setSearchValue(e.target.value)}*/}
-							{/*/>*/}
 							{availableFiltersHasData && (
 								<Desktop>
 										<Stack direction="column" className={Styles.shopFilterWrapperDesktopOnly}>
@@ -376,7 +368,6 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 											/>
 									</Stack>
 								</Desktop>
-
 							)}
 							<div className={`${offersLinkedHashMap.nextPage ? Styles.gridInStack : Styles.gridInBlock}`}>
 								<Grid container wrap="wrap" className={Styles.gridRoot}>
@@ -410,6 +401,8 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 														href={REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))}
 														key={data.key}
 														className={Styles.gridCardOfferWrapper}
+														shallow={true}
+														scroll={false}
 													>
 														<Grid item xs="auto" className={Styles.mobileGridRoot}>
 															<Stack direction="column" spacing={2}>

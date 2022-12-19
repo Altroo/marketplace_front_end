@@ -22,15 +22,14 @@ import ClickAndCollectSVG from '../../../../../public/assets/svgs/globalIcons/cl
 import ClickAndCollectDisabledSVG from '../../../../../public/assets/svgs/globalIcons/click-and-collect-icon-gray.svg';
 import Chip from '@mui/material/Chip';
 import {
-	dayItemsList,
 	getCategoriesDataArray,
 	getColorsDataArray,
+	getDateFromDayCountNumber,
 	getForWhomDataArray,
 	getProductPriceByData,
 	getServiceAvailabilityDaysArray,
 	getServicePriceByData,
 	getSizesDataArray,
-	monthItemsList,
 } from '../../../../../utils/rawData';
 import Link from 'next/link';
 import {
@@ -86,7 +85,7 @@ import {
 	setOfferServiceToEdit,
 	setSelectedOfferAction,
 } from '../../../../../store/actions/offer/offerActions';
-import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
+import { useAppDispatch } from '../../../../../utils/hooks';
 import CustomSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import TopBarSaveClose from '../../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
 import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
@@ -102,7 +101,6 @@ import {
 	SagaCallBackResponseType,
 } from '../../../../../types/_init/_initTypes';
 import ReadAdresse from '../../../../../components/groupedComponents/shop/get/shopInfoTabContent/readAdresse/readAdresse';
-import { getSelectedOffer } from '../../../../../store/selectors';
 import ApiProgress from '../../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import DropDownMenu from '../../../../../components/htmlElements/buttons/dropDownMenu/dropDownMenu';
 import EditIconSVG from '../../../../../public/assets/svgs/globalIcons/blue-pencil.svg';
@@ -112,6 +110,7 @@ import { getCookie } from 'cookies-next';
 import { CookieSerializeOptions, serialize } from 'cookie';
 import ActiveCheckBlue from '../../../../../public/assets/svgs/globalIcons/active-check-blue.svg';
 import {
+	cartGetCartCounterAction,
 	cartPostProductRootUniqueIDAction,
 	cartPostServiceRootUniqueIDAction,
 } from '../../../../../store/actions/cart/cartActions';
@@ -179,7 +178,14 @@ const AlreadyExistsInCartButton = () => {
 	return (
 		<ThemeProvider theme={getDefaultTheme()}>
 			<Button color="primary" className={Styles.alreadyExistInCartButton} disabled>
-				<Image src={ActiveCheckBlue} width={24} height={24} alt="" sizes="100vw" className={Styles.alreadyExistInCartIcon} />
+				<Image
+					src={ActiveCheckBlue}
+					width={24}
+					height={24}
+					alt=""
+					sizes="100vw"
+					className={Styles.alreadyExistInCartIcon}
+				/>
 				Ajouté au panier !
 			</Button>
 		</ThemeProvider>
@@ -408,17 +414,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const showMobileImage = (src: string) => {
 		setClickedMobileImage(src);
 	};
-
-	const getDate = useCallback((days: number) => {
-		const startDate = new Date(Date.now());
-		const endDate = new Date(Date.now());
-		endDate.setDate(endDate.getDate() + days + 1);
-		const startMonth = monthItemsList[startDate.getMonth()];
-		const startDay = dayItemsList[startDate.getDay()];
-		const endMonth = monthItemsList[endDate.getMonth()];
-		const endDay = dayItemsList[endDate.getDay()];
-		return `${startDay} ${startDate.getDate()} ${startMonth} - ${endDay} ${endDate.getDate()} ${endMonth}`;
-	}, []);
 
 	const setSolderPourcentageInput = useCallback(
 		(value: string) => {
@@ -805,19 +800,27 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 			return null;
 		}
 	};
+
 	const [addedToCart, setAddedToCart] = useState<boolean>(exist_in_cart);
-	const AddProductToCartHandler = async (picked_color: string, picked_size: string, picked_quantity: number) => {
+	const AddProductToCartHandler = async (
+		picked_color: string | null,
+		picked_size: string | null,
+		picked_quantity: number,
+	) => {
 		if (picked_quantity <= 0) {
 			return;
 		}
-		const action = cartPostProductRootUniqueIDAction(pk, unique_id, picked_color, picked_size, picked_quantity);
+		const action = cartPostProductRootUniqueIDAction(pk, 'V', unique_id, picked_color, picked_size, picked_quantity);
 		dispatch({
 			...action,
 			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<CartPostProductRoot>) => {
 				if (!error && !cancelled && data) {
-					setAddedToCart(true);
-					setShowMobileCartModal(false);
-					setShowDesktopCartModal(false);
+					router.replace(router.asPath).then(() => {
+						setAddedToCart(true);
+						dispatch(cartGetCartCounterAction(unique_id));
+						setShowMobileCartModal(false);
+						setShowDesktopCartModal(false);
+					});
 				}
 			},
 		});
@@ -1088,7 +1091,9 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											<span className={Styles.priceBy}>
 												par {getProductPriceByData(details_offer.product_price_by as OfferProductPriceByType)}
 											</span>
-											<span className={Styles.quantity}>{details_offer.product_quantity} restant</span>
+											{details_offer.product_quantity && (
+												<span className={Styles.quantity}>{details_offer.product_quantity} restant</span>
+											)}
 										</Stack>
 									</Stack>
 								</Stack>
@@ -1100,7 +1105,10 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											) : (
 												<PrimaryButton
 													buttonText="Ajouter au panier"
-													active={permission !== 'OWNER' && details_offer.product_quantity > 0}
+													active={
+														permission !== 'OWNER' &&
+														(!details_offer.product_quantity || details_offer.product_quantity > 0)
+													}
 													onClick={() => {
 														setShowDesktopCartModal(true);
 													}}
@@ -1116,7 +1124,10 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											) : (
 												<PrimaryButton
 													buttonText="Ajouter au panier"
-													active={permission !== 'OWNER' && details_offer.product_quantity > 0}
+													active={
+														permission !== 'OWNER' &&
+														(!details_offer.product_quantity || details_offer.product_quantity > 0)
+													}
 													onClick={() => {
 														setShowMobileCartModal(true);
 													}}
@@ -1182,7 +1193,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 																			: delivery.delivery_city?.split(',').join(', ')}
 																	</span>
 																	<span className={Styles.deliveryDetails}>
-																		{getDate(parseInt(delivery.delivery_days as string))}
+																		{getDateFromDayCountNumber(parseInt(delivery.delivery_days as string))}
 																	</span>
 																</Stack>
 															</Stack>
@@ -1970,14 +1981,17 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 
 	const [addedToCart, setAddedToCart] = useState<boolean>(exist_in_cart);
 	const AddServiceToCartHandler = (picked_date: string, picked_hour: string) => {
-		const action = cartPostServiceRootUniqueIDAction(pk, unique_id, picked_date, picked_hour);
+		const action = cartPostServiceRootUniqueIDAction(pk, 'S', unique_id, picked_date, picked_hour);
 		dispatch({
 			...action,
 			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<CartPostServiceRoot>) => {
 				if (!error && !cancelled && data) {
-					setAddedToCart(true);
-					setShowMobileCartModal(false);
-					setShowDesktopCartModal(false);
+					router.replace(router.asPath).then(() => {
+						setAddedToCart(true);
+						dispatch(cartGetCartCounterAction(unique_id));
+						setShowMobileCartModal(false);
+						setShowDesktopCartModal(false);
+					});
 				}
 			},
 		});
@@ -2548,36 +2562,18 @@ type IndexPropsType = {
 const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 	const { permission, data, unique_id } = props.pageProps;
 	const dispatch = useAppDispatch();
-	const [actionDispatched, setActionDispatched] = useState<boolean>(false);
-	const selectedOffer = useAppSelector(getSelectedOffer);
 
 	useEffect(() => {
-		if (!actionDispatched && data) {
-			const action = setSelectedOfferAction(data);
-			dispatch({
-				...action,
-				onComplete: ({
-					error,
-					cancelled,
-					data,
-				}: SagaCallBackResponseType<OfferGetRootProductInterface | OfferGetRootServiceInterface>) => {
-					if (!error && !cancelled && data) {
-						setActionDispatched(true);
-					}
-				},
-			});
+		if (permission === 'OWNER' && data) {
+			dispatch(setSelectedOfferAction(data))
 		}
-	}, [actionDispatched, data, dispatch]);
+	}, [data, dispatch, permission]);
 
-	if (selectedOffer) {
-		if (selectedOffer.offer_type === 'V') {
-			return (
-				<Product data={selectedOffer as OfferGetRootProductInterface} permission={permission} unique_id={unique_id} />
-			);
+	if (data) {
+		if (data.offer_type === 'V') {
+			return <Product data={data as OfferGetRootProductInterface} permission={permission} unique_id={unique_id} />;
 		} else {
-			return (
-				<Service data={selectedOffer as OfferGetRootServiceInterface} permission={permission} unique_id={unique_id} />
-			);
+			return <Service data={data as OfferGetRootServiceInterface} permission={permission} unique_id={unique_id} />;
 		}
 	} else {
 		return (
@@ -2597,10 +2593,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const appToken = getServerSideCookieTokens(context);
 	const options: CookieSerializeOptions = {
 		httpOnly: true,
-		maxAge: 86400,
+		maxAge: 30 * 24 * 60 * 60,
 		secure: process.env.NODE_ENV !== 'development',
 		path: '/',
-		expires: new Date(Date.now() + 86400 * 1000),
+		expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
 		sameSite: 'lax',
 	};
 	let unique_id = getCookie('@unique_id', { req: context.req, res: context.res });

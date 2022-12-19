@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import Styles from './getProductCart.module.sass';
 import { Box, Grid, IconButton, Stack, TextField, ThemeProvider } from '@mui/material';
 import { getDefaultTheme, OfferQuantityFieldTheme, SizesChipTheme } from '../../../../utils/themes';
@@ -18,8 +18,12 @@ const defaultTheme = getDefaultTheme();
 type Props = {
 	colorsListString: Array<string>;
 	sizesListString: Array<string>;
-	productQuantity: number;
-	AddProductToCartHandler: (selectedColor: string, selectedSize: string, selectedQuantity: number) => void;
+	productQuantity: number | null;
+	AddProductToCartHandler: (
+		selectedColor: string | null,
+		selectedSize: string | null,
+		selectedQuantity: number,
+	) => void;
 	children?: React.ReactNode;
 };
 
@@ -28,7 +32,9 @@ const GetProductCart: React.FC<Props> = (props: Props) => {
 	const [selectedColor, setSelectedColor] = useState<string | null>(null);
 	const [selectedSize, setSelectedSize] = useState<string | null>(null);
 	const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
-
+	const [colorsRequireValidation, setColorsRequireValidation] = useState<boolean>(false);
+	const [sizesRequireValidation, setSizesRequireValidation] = useState<boolean>(false);
+	const [isSubmitActive, setIsSubmitActive] = useState<boolean>(false);
 	// Colors
 	const availableColorsList: Array<OfferColorsListType> = useMemo(() => {
 		const stateColorsList: Array<OfferColorsListType> = [];
@@ -123,7 +129,7 @@ const GetProductCart: React.FC<Props> = (props: Props) => {
 		return stateColorsList;
 	}, [colorsListString]);
 	const colorOnClickHandler = useCallback((value: string) => {
-		setSelectedColor(prevState => {
+		setSelectedColor((prevState) => {
 			if (prevState === value) {
 				return null;
 			} else {
@@ -209,9 +215,56 @@ const GetProductCart: React.FC<Props> = (props: Props) => {
 		}
 	}, []);
 
+	useEffect(() => {
+		// colors not exist but sizes exist
+		if (colorsListString.length > 0) {
+			setColorsRequireValidation(true);
+		} else {
+			setColorsRequireValidation(false);
+		}
+		if (sizesListString.length > 0) {
+			setSizesRequireValidation(true);
+		} else {
+			setSizesRequireValidation(false);
+		}
+		if (colorsRequireValidation && sizesRequireValidation) {
+			if (selectedColor && selectedSize && selectedQuantity > 0) {
+				setIsSubmitActive(true);
+			} else {
+				setIsSubmitActive(false);
+			}
+		} else if (colorsRequireValidation && !sizesRequireValidation) {
+			if (selectedColor && selectedQuantity > 0) {
+				setIsSubmitActive(true);
+			} else {
+				setIsSubmitActive(false);
+			}
+		} else if (!colorsRequireValidation && sizesRequireValidation) {
+			if (selectedSize && selectedQuantity > 0) {
+				setIsSubmitActive(true);
+			} else {
+				setIsSubmitActive(false);
+			}
+		} else if (!colorsRequireValidation && !sizesRequireValidation) {
+			if (selectedQuantity > 0) {
+				setIsSubmitActive(true);
+			} else {
+				setIsSubmitActive(false);
+			}
+		}
+	}, [
+		colorsListString.length,
+		colorsRequireValidation,
+		selectedColor,
+		selectedQuantity,
+		selectedSize,
+		sizesListString.length,
+		sizesRequireValidation,
+	]);
+
 	return (
 		<Stack direction="column" className={Styles.rootCartModalStack} justifyContent="space-between" spacing="60px">
-			<Stack direction="column" spacing="48px">
+			<Stack direction="column" spacing={{ xs: '18px', sm: '18px', md: '48px', lg: '48px', xl: '48px' }}>
 				{colorsListString.length > 0 && (
 					<>
 						<span className={Styles.cartTitles}>Choisissez une couleur</span>
@@ -221,7 +274,7 @@ const GetProductCart: React.FC<Props> = (props: Props) => {
 								<span className={Styles.cartSelectedColor}>{selectedColor ? selectedColor : ''}</span>
 							</Stack>
 							<ThemeProvider theme={defaultTheme}>
-								<Grid container justifyContent="space-between" className={Styles.rootGridColor}>
+								<Grid container className={Styles.rootGridColor}>
 									{availableColorsList.map((color, index) => {
 										const rippleColor = hexToRGB(color.hex, 0.5);
 										return (
@@ -284,34 +337,32 @@ const GetProductCart: React.FC<Props> = (props: Props) => {
 						</Stack>
 					</Stack>
 				)}
-				{productQuantity && (
-					<Stack direction="column" spacing="18px">
-						<span className={Styles.cartTitles}>Quantité</span>
-						<Stack direction="row" flexWrap="wrap" spacing="40px">
-							<IconButton onClick={quantityOnClickMinusHandler} className={Styles.quantityIconButton}>
-								<Image src={MinusSVG} alt="" width="40" height="40" sizes="100vw" />
-							</IconButton>
-							<ThemeProvider theme={quantityTheme}>
-								<TextField
-									variant="outlined"
-									value={selectedQuantity}
-									inputProps={{ min: 1, max: productQuantity }}
-									onChange={(e) => quantityOnValueChangeHandler(e)}
-									color="primary"
-								/>
-							</ThemeProvider>
-							<IconButton onClick={quantityOnClickPlusHandler} className={Styles.quantityIconButton}>
-								<Image src={PlusSVG} alt="" width="40" height="40" sizes="100vw" />
-							</IconButton>
-						</Stack>
+				<Stack direction="column" spacing="18px">
+					<span className={Styles.cartTitles}>Quantité</span>
+					<Stack direction="row" flexWrap="wrap" spacing="40px">
+						<IconButton onClick={quantityOnClickMinusHandler} className={Styles.quantityIconButton}>
+							<Image src={MinusSVG} alt="" width="40" height="40" sizes="100vw" />
+						</IconButton>
+						<ThemeProvider theme={quantityTheme}>
+							<TextField
+								variant="outlined"
+								value={selectedQuantity}
+								inputProps={{ min: 1, max: productQuantity ? productQuantity : 100 }}
+								onChange={(e) => quantityOnValueChangeHandler(e)}
+								color="primary"
+							/>
+						</ThemeProvider>
+						<IconButton onClick={quantityOnClickPlusHandler} className={Styles.quantityIconButton}>
+							<Image src={PlusSVG} alt="" width="40" height="40" sizes="100vw" />
+						</IconButton>
 					</Stack>
-				)}
+				</Stack>
 			</Stack>
 			<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
 				<PrimaryButton
 					buttonText="Ajouter au panier"
-					active={(selectedQuantity > 0 && !!selectedColor && !!selectedSize) && (colorsListString.length > 0 || sizesListString.length > 0)}
-					onClick={() => AddProductToCartHandler(selectedColor as string, selectedSize as string, selectedQuantity)}
+					active={isSubmitActive}
+					onClick={() => AddProductToCartHandler(selectedColor, selectedSize, selectedQuantity)}
 				/>
 			</div>
 		</Stack>

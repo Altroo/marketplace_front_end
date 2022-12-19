@@ -162,6 +162,10 @@ export type NewShopCookieType = {
 	'@icon_color': IconColorType | undefined;
 };
 
+export type CartUniqueIDCookieType = {
+	'@unique_id': string | undefined;
+}
+
 export type AuthSagaContextType = {
 	tokenType: TokenChoices;
 	initStateToken: InitStateToken;

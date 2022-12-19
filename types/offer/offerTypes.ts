@@ -168,7 +168,7 @@ export interface OfferServiceInterface extends Omit<OfferServiceClass, 'title'> 
 }
 
 export type DetailsOfferProductType = {
-	product_quantity: number;
+	product_quantity: number | null;
 	product_price_by: OfferProductPriceByType;
 	product_longitude: string | null;
 	product_latitude: string | null;

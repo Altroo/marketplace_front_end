@@ -148,7 +148,7 @@ export const getApi = async (url: string | undefined, instance: AxiosInstance, q
 export const patchApi = async (
 	url: string | undefined,
 	instance: AxiosInstance,
-	body: object,
+	body?: object,
 	unique_id?: string | null,
 ) => {
 	let data;

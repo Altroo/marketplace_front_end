@@ -41,6 +41,7 @@ type Props = {
 	kmRadiusHandler?: (kmRadius: number) => void;
 	positionHandler?: (position: PositionType) => void;
 	address_name?: string;
+	hideLocalisationName?: boolean;
 	children?: React.ReactNode;
 };
 const CustomMap: React.FC<Props> = (props: Props) => {
@@ -109,13 +110,17 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 					url={`${process.env.NEXT_PUBLIC_MAP_URL}`}
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				/>
-				{props.zoneBy === 'A' ? (
-					<>
-						<AdresseMarker icon={adresseIcon} position={[props.position.lat, props.position.lng]} />
-						<LocalisationNamePopup address_name={props.address_name} />
-					</>
+				{props.hideLocalisationName ? (
+					<AdresseMarker icon={adresseIcon} position={[props.position.lat, props.position.lng]} />
 				) : (
-					<SecteurMarker icon={secteurIcon} position={[props.position.lat, props.position.lng]} />
+					props.zoneBy === 'A' ? (
+						<>
+							<AdresseMarker icon={adresseIcon} position={[props.position.lat, props.position.lng]} />
+							<LocalisationNamePopup address_name={props.address_name} />
+						</>
+					) : (
+						<SecteurMarker icon={secteurIcon} position={[props.position.lat, props.position.lng]} />
+					)
 				)}
 			</MapContainer>
 		</div>

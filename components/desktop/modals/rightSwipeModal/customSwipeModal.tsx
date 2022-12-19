@@ -71,7 +71,7 @@ const RightTransition = React.forwardRef(function Transition(
 
 type Props = {
 	open: boolean;
-	handleClose: () => void;
+	handleClose?: () => void;
 	fullScreen?: boolean;
 	keepMounted?: boolean;
 	waitShopSelector?: boolean;
@@ -81,6 +81,8 @@ type Props = {
 	cssClasse?: string;
 	onBackdrop?: () => void;
 	theme?: Theme;
+	hideBackdrop?: boolean;
+	disableScrollLock?: boolean;
 	children?: React.ReactNode;
 };
 
@@ -96,7 +98,9 @@ const CustomSwipeModal: React.FC<Props> = (props: Props) => {
 		cssClasse,
 		onBackdrop,
 		theme,
-		transition
+		transition,
+		disableScrollLock,
+		hideBackdrop,
 	} = props;
 	const [mountDialog, setMountDialog] = useState<boolean>(false);
 	const shopObj = useAppSelector(getShopObj);
@@ -128,13 +132,18 @@ const CustomSwipeModal: React.FC<Props> = (props: Props) => {
 				keepMounted={mountDialog}
 				open={open}
 				TransitionComponent={transition ? Transition : undefined}
+				hideBackdrop={hideBackdrop}
+				disableScrollLock={disableScrollLock}
 				onClose={(e, reason) => {
+
 					if (onBackdrop) {
 						if (reason) {
 							onBackdrop();
 						}
 					} else {
-						handleClose();
+						if (handleClose) {
+							handleClose();
+						}
 					}
 				}}
 				aria-describedby="alert-dialog-slide-description"

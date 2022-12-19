@@ -9,8 +9,8 @@ import {
 	REAL_OFFER_ADD_INDEX,
 	REAL_OFFER_ADD_SERVICE_CATEGORIES,
 	REAL_OFFER_ADD_SERVICE_PRICE,
-	REAL_SHOP_ADD_SHOP_NAME,
-} from '../../../../../utils/routes';
+	REAL_SHOP_ADD_SHOP_NAME
+} from "../../../../../utils/routes";
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
@@ -36,7 +36,7 @@ import {
 	getLocalOfferServiceAddress,
 	getLocalOfferServiceAfternoonHourFrom,
 	getLocalOfferServiceAfternoonHourto,
-	getLocalOfferServiceAvailabilityDays,
+	getLocalOfferServiceAvailabilityDays, getLocalOfferServiceCategories,
 	getLocalOfferServiceDescription,
 	getLocalOfferServiceForwhom,
 	getLocalOfferServiceKmRadius,
@@ -46,8 +46,8 @@ import {
 	getLocalOfferServiceMorningHourTo,
 	getLocalOfferServicePictures,
 	getLocalOfferServiceTitle,
-	getLocalOfferServiceZoneBy,
-} from '../../../../../store/selectors';
+	getLocalOfferServiceZoneBy
+} from "../../../../../store/selectors";
 import { constructDate, forWhomItemsList, getForWhomDataArray } from '../../../../../utils/rawData';
 import { OfferForWhomType } from '../../../../../types/offer/offerTypes';
 import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
@@ -80,6 +80,7 @@ const Description: NextPage = () => {
 	const [images, setImages] = useState<ImageUploadingType>([]);
 	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	// local states
+	const pickedCategories = useAppSelector(getLocalOfferServiceCategories);
 	const pickedTitle = useAppSelector(getLocalOfferServiceTitle);
 	const pickedPictures = useAppSelector(getLocalOfferServicePictures);
 	const pickedForWhom = useAppSelector(getLocalOfferServiceForwhom);
@@ -250,6 +251,9 @@ const Description: NextPage = () => {
 		});
 
 	useEffect(() => {
+		if (pickedCategories.length === 0) {
+			router.replace(REAL_OFFER_ADD_SERVICE_CATEGORIES(router.query.shop_link as string)).then();
+		}
 		if (pickedPictures.length > 0) {
 			setImages(pickedPictures);
 		}
@@ -294,7 +298,7 @@ const Description: NextPage = () => {
 		if (typeof pickedForWhom === 'string') {
 			setForWhomChoice(getForWhomDataArray(pickedForWhom.split(',') as Array<OfferForWhomType>));
 		}
-	}, [availabilityDays, pickedForWhom, setFieldValue, pickedPictures]);
+	}, [availabilityDays, pickedForWhom, setFieldValue, pickedPictures, pickedCategories.length, router]);
 
 	return (
 		<>

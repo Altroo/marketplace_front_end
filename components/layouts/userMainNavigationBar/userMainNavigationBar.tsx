@@ -25,6 +25,7 @@ import EmptyCartSVG from '../../../public/assets/svgs/mainNavBarIcons/empty-cart
 import { useSession, signOut } from 'next-auth/react';
 import { useAppSelector } from '../../../utils/hooks';
 import {
+	getCartCounter,
 	getCheckUserHasShop,
 	getShopAvatar,
 	getUserFirstName,
@@ -64,6 +65,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const userHasShop = useAppSelector(getCheckUserHasShop);
 	const userShopUrl: string | boolean | undefined = useAppSelector(getUserShopUrl);
 	const newNotification = useAppSelector(getUserNewNotification);
+	const cartCount = useAppSelector(getCartCounter);
 	const loading = status === 'loading';
 	// const [searchValue, setSearchValue] = useState<string>('');
 
@@ -271,13 +273,19 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										aria-haspopup="true"
 										color="inherit"
 									>
-										<ThemeProvider theme={badgeTheme()}>
-											<Badge badgeContent={4} color="primary">
-												<Link href={PANIER} className={Styles.anchorWrapper}>
-													<Image src={EmptyCartSVG} alt="" width={30} height={30} sizes="100vw" />
-												</Link>
-											</Badge>
-										</ThemeProvider>
+										{cartCount ? (
+											<ThemeProvider theme={badgeTheme()}>
+												<Badge badgeContent={cartCount} color="primary">
+													<Link href={PANIER} className={Styles.anchorWrapper}>
+														<Image src={EmptyCartSVG} alt="" width={30} height={30} sizes="100vw" />
+													</Link>
+												</Badge>
+											</ThemeProvider>
+										) : (
+											<Link href={PANIER} className={Styles.anchorWrapper}>
+												<Image src={EmptyCartSVG} alt="" width={30} height={30} sizes="100vw" />
+											</Link>
+										)}
 									</IconButton>
 								</Stack>
 							</Stack>
@@ -685,20 +693,33 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 									aria-haspopup="true"
 									color="inherit"
 								>
-									<ThemeProvider theme={badgeTheme()}>
-										<Badge badgeContent={4} color="primary">
-											<Link href={PANIER} className={Styles.anchorWrapper}>
-												<Image
-													src={EmptyCartSVG}
-													alt=""
-													width={24}
-													height={24}
-													sizes="100vw"
-													className={Styles.mobileIcons}
-												/>
-											</Link>
-										</Badge>
-									</ThemeProvider>
+									{cartCount ? (
+										<ThemeProvider theme={badgeTheme()}>
+											<Badge badgeContent={cartCount} color="primary">
+												<Link href={PANIER} className={Styles.anchorWrapper}>
+													<Image
+														src={EmptyCartSVG}
+														alt=""
+														width={24}
+														height={24}
+														sizes="100vw"
+														className={Styles.mobileIcons}
+													/>
+												</Link>
+											</Badge>
+										</ThemeProvider>
+									) : (
+										<Link href={PANIER} className={Styles.anchorWrapper}>
+											<Image
+												src={EmptyCartSVG}
+												alt=""
+												width={24}
+												height={24}
+												sizes="100vw"
+												className={Styles.mobileIcons}
+											/>
+										</Link>
+									)}
 								</IconButton>
 							</Stack>
 						</Toolbar>

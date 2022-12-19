@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Styles from './getServiceCart.module.sass';
 import { Grid, Stack, TextField, ThemeProvider } from '@mui/material';
-import { getDefaultTheme, SolderPourcentageChipTheme } from "../../../../utils/themes";
+import { getDefaultTheme, SolderPourcentageChipTheme } from '../../../../utils/themes';
 import PrimaryButton from '../../../htmlElements/buttons/primaryButton/primaryButton';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
@@ -35,40 +35,90 @@ const GetServiceCart: React.FC<Props> = (props: Props) => {
 		afternoonHourTo,
 		AddServiceToCartHandler,
 	} = props;
-	const [hoursValid, setHoursValid] = useState<boolean>(false);
-
-	useEffect(() => {
-		if (morningHourFrom || morningHourTo || afternoonHourFrom || afternoonHourTo) {
-			setHoursValid(true);
-		}
-	}, [afternoonHourFrom, afternoonHourTo, morningHourFrom, morningHourTo]);
-
-	// console.log('availabilityDays : ', availabilityDays);
-	// console.log('morningHourFrom : ', morningHourFrom);
-	// console.log('morningHourTo : ', morningHourTo);
-	// console.log('afternoonHourFrom : ', afternoonHourFrom);
-	// console.log('afternoonHourTo : ', afternoonHourTo);
-
 	const [pickedDate, setPickedDate] = useState<Dayjs | null>(null);
 	const [pickedDateValue, setPickedDateValue] = useState<string | null>(null);
 	const [pickedHour, setPickedHour] = useState<string | null>(null);
+	const [availableHoursArray, setAvailableHoursArray] = useState<Array<string>>([]);
 
-	const availableHoursList: Array<string> = [
-		'09:00',
-		'10:00',
-		'11:00',
-		'12:00',
-	];
-	const customDayRenderer = (day: Dayjs, selectedDays: (Dayjs | null)[], pickersDayProps: PickersDayProps<Dayjs>) => {
-		const weekDay = getDateFromNumber(day.day(), true);
-		if (!availabilityDays.includes(weekDay)) {
-			return <PickersDay {...pickersDayProps} disabled />;
+	useEffect(() => {
+		const getParsedHourMins = (value: string) => {
+			return {
+				hour: parseInt(value.split(':')[0]),
+				mins: parseInt(value.split(':')[1]),
+			};
+		};
+
+		const hoursFromArray: Array<string> = [];
+		const hoursToArray: Array<string> = [];
+		const generateHoursFrom = (from: string, to: string) => {
+			const parsedFrom = getParsedHourMins(from);
+			const parsedTo = getParsedHourMins(to);
+
+			if (parsedFrom.hour < parsedTo.hour) {
+				// correct
+				let startingHour = parsedFrom.hour;
+				let endingHour = parsedTo.hour;
+				if (parsedTo.mins < 0) {
+					endingHour -= 1;
+				}
+				if (parsedFrom.mins > 0) {
+					startingHour += 1;
+				}
+				for (let i = startingHour; i <= endingHour; i++) {
+					if (!hoursFromArray.includes(`${i}:00`)) {
+						hoursFromArray.push(`${i}:00`);
+					}
+				}
+			} else {
+				// assume user reversed the hours
+				let startingHour = parsedTo.hour;
+				let endingHour = parsedFrom.hour;
+				if (parsedTo.mins > 0) {
+					endingHour -= 1;
+				}
+				if (parsedFrom.mins > 0) {
+					startingHour += 1;
+				}
+				for (let i = startingHour; i <= endingHour; i++) {
+					if (!hoursToArray.includes(`${i}:00`)) {
+						hoursToArray.push(`${i}:00`);
+					}
+				}
+			}
+		};
+
+		if (morningHourFrom && morningHourTo) {
+			generateHoursFrom(morningHourFrom, morningHourTo);
+			setAvailableHoursArray(hoursFromArray);
 		}
-		return <PickersDay {...pickersDayProps} />;
-	};
+
+		if (afternoonHourFrom && afternoonHourTo) {
+			generateHoursFrom(afternoonHourFrom, afternoonHourTo);
+			setAvailableHoursArray((prevState) => {
+				return [...prevState, ...hoursToArray];
+			});
+		}
+	}, [afternoonHourFrom, afternoonHourTo, morningHourFrom, morningHourTo]);
+
+	const customDayRenderer = useCallback(
+		(day: Dayjs, selectedDays: (Dayjs | null)[], pickersDayProps: PickersDayProps<Dayjs>) => {
+			const weekDay = getDateFromNumber(day.day(), true);
+			if (!availabilityDays.includes(weekDay)) {
+				return <PickersDay {...pickersDayProps} disabled />;
+			}
+			return <PickersDay {...pickersDayProps} />;
+		},
+		[availabilityDays],
+	);
+
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<Stack direction="column" className={Styles.rootCartModalStack} justifyContent="space-between" spacing="60px">
+			<Stack
+				direction="column"
+				className={Styles.rootCartModalStack}
+				justifyContent="space-between"
+				spacing={{ xs: '40px', sm: '40px', md: '60px', lg: '60px', xl: '60px' }}
+			>
 				<Stack direction="column" spacing="18px">
 					{availabilityDays.length > 0 && (
 						<>
@@ -87,7 +137,7 @@ const GetServiceCart: React.FC<Props> = (props: Props) => {
 											border: '1px solid #D9D9DD',
 											borderRadius: '20px',
 										},
-										'& .Mui-disabled' : {
+										'& .Mui-disabled': {
 											margin: '2px 5px',
 										},
 										'& .MuiButtonBase-root': {
@@ -135,25 +185,21 @@ const GetServiceCart: React.FC<Props> = (props: Props) => {
 							</LocalizationProvider>
 						</>
 					)}
-					{hoursValid && (
-						<Stack direction="column" spacing="18px" className={Styles.rootHourStack}>
-							{pickedDateValue && <span className={Styles.cartTitles}>{pickedDateValue}</span>}
-							<Stack
-								direction="row"
-								flexWrap="wrap"
-								justifyContent="space-between"
-								alignItems="center"
-								className={Styles.rootStack}
-							>
+					<Stack direction="column" spacing="18px" className={Styles.rootHourStack}>
+						{pickedDateValue && <span className={Styles.cartTitles}>{pickedDateValue}</span>}
+						{availableHoursArray.length > 0 && (
+							<Stack direction="row" flexWrap="wrap" alignItems="center" className={Styles.rootStack}>
 								<ThemeProvider theme={chipTheme}>
 									<Grid container className={Styles.rootGrid}>
-										{availableHoursList.map((value, index) => {
+										{availableHoursArray.map((value, index) => {
 											return (
 												<Grid item key={index}>
 													<Chip
 														label={value}
 														variant={value === pickedHour ? 'filled' : 'outlined'}
-														onClick={() => setPickedHour(value)}
+														onClick={() => {
+															setPickedHour(value);
+														}}
 													/>
 												</Grid>
 											);
@@ -161,11 +207,15 @@ const GetServiceCart: React.FC<Props> = (props: Props) => {
 									</Grid>
 								</ThemeProvider>
 							</Stack>
-						</Stack>
-					)}
+						)}
+					</Stack>
 				</Stack>
 				<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-					<PrimaryButton buttonText="Choisir ce créneau" active={true} onClick={() => {}} />
+					<PrimaryButton
+						buttonText="Choisir ce créneau"
+						active={(!!pickedDate && !!pickedHour) || (!!pickedDate && availableHoursArray.length === 0)}
+						onClick={() => AddServiceToCartHandler(pickedDate?.format('YYYY-MM-DD') as string, pickedHour as string)}
+					/>
 				</div>
 			</Stack>
 		</ThemeProvider>

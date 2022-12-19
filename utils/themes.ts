@@ -560,6 +560,9 @@ export const SolderPourcentageChipTheme = (primaryColor: string | undefined = un
 						width: '102px',
 						border: '1px solid #0D070B',
 						borderRadius: '40px',
+						[defaultTheme.breakpoints.down('sm')]: {
+							width: '86px !important',
+						},
 					},
 					label: {
 						padding: '7px 12px',
@@ -1310,51 +1313,84 @@ export const subMenuBadgeTheme = (primaryColor: string | undefined = undefined) 
 		},
 	});
 };
-//
-// export const staticDatePickerTheme = (primaryColor: string | undefined = undefined) => {
-// 	let rippleColor = '#0D070B';
-// 	if (primaryColor) {
-// 		if (primaryColor !== '#FFFFFF') {
-// 			rippleColor = hexToRGB(primaryColor, 0.5);
-// 		} else {
-// 			rippleColor = hexToRGB(rippleColor, 0.5);
-// 		}
-// 	}
-// 	return MuiCreateTheme({
-// 		palette: {
-// 			primary: {
-// 				main: rippleColor,
-// 			},
-// 			success: {
-// 				main: 'rgb(129, 199, 132)',
-// 			},
-// 			error: {
-// 				main: 'rgb(229, 115, 115)',
-// 			},
-//
-// 		},
-// 		breakpoints: {
-// 			values: {
-// 				xs: 0,
-// 				sm: 767,
-// 				md: 991,
-// 				lg: 1200,
-// 				xl: 1920,
-// 			},
-// 		},
-// 		typography: {
-// 			fontFamily: 'Poppins',
-// 		},
-// 		components: {
-// 			MuiStaticDateTimePicker: {
-// 				styleOverrides: {
-// 					root: {
-// 						'& .Mui-selected': {
-// 							backgroundColor: `${primaryColor} !important`,
-// 						},
-// 					},
-// 				},
-// 			},
-// 		},
-// 	});
-// };
+
+export const CartQuantityFieldTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	const blueColor = '#0274d7';
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						width: '60px',
+						height: '49px',
+						'& fieldset': {
+							// borderRadius: '16px',
+							border: 'none',
+							width: '60px',
+						},
+						'& fieldset > legend': {
+							// size of red error line (label) (input size - 5px)
+							fontFamily: 'Poppins',
+							fontSize: '14px',
+						},
+					},
+					input: {
+						fontFamily: 'Poppins',
+						fontSize: '19px',
+						caretColor: blueColor,
+						textAlign: 'center',
+						'&.Mui-disabled': {
+							color: '#0D070B !important',
+							'WebkitTextFillColor': '#0D070B !important',
+						},
+					}
+				},
+			},
+		},
+	});
+};
+
+export const CartAccordionTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiPaper: {
+				styleOverrides: {
+					root: {
+						backgroundColor: 'transparent !important',
+						'&::before': {
+							backgroundColor: 'transparent !important',
+						},
+					},
+				},
+			},
+			MuiAccordion: {
+				styleOverrides: {
+					root: {
+						// color: 'transparent !important',
+						boxShadow: '0 0 0 0 transparent',
+					},
+				},
+			},
+			MuiAccordionSummary: {
+				styleOverrides: {
+					root: {
+						paddingLeft: '0',
+						paddingRight: '0',
+						marginBottom: '0',
+					},
+				},
+			},
+			MuiAccordionDetails: {
+				styleOverrides: {
+					root: {
+						padding: '0',
+					},
+				},
+			},
+		},
+	});
+};

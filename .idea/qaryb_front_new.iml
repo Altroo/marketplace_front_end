@@ -348,6 +348,9 @@
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/cart" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/cart/getProductCart" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/cart/getServiceCart" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/panier/[shop_pk]" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customPhoneInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/panier/[shop_pk]/order" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/seo-pages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />

@@ -155,3 +155,9 @@ export const getAvailableSubscriptions = (state: RootState) => state.subscriptio
 // Notifications
 export const getUserNotifications = (state: RootState) => state.notification.notifications;
 export const getUserNewNotification = (state: RootState) => state.notification.new_notification;
+// Cart
+export const getCartCounter = (state: RootState) => state.cart.cartCounter;
+export const getFullUserCart = (state: RootState) => state.cart.userCart;
+export const getUserCartUniqueID = (state: RootState) => state.cart.cartUniqueID;
+export const getUserSelectedCart = (state: RootState) => state.cart.selectedCart;
+export const getUserLocalCartOder = (state: RootState) => state.cart.userLocalCartOrder;
