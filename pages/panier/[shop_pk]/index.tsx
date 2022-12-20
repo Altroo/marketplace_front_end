@@ -689,8 +689,6 @@ const Index: React.FC<IndexPropsType> = (props: IndexPropsType) => {
 			});
 			setOnlyServices(areAllTrue(servicesList));
 		}
-		console.log(lotStates);
-
 		if (onlyServices) {
 			setIsSubmitActive(true);
 		} else {
