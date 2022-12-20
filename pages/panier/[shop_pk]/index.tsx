@@ -652,40 +652,84 @@ const Index: React.FC<IndexPropsType> = (props: IndexPropsType) => {
 		[dispatch, unique_id],
 	);
 
-	// const refreshPageData = useCallback(() => {
-	// 	const servicesList: Array<boolean> = [];
-	// 	if (data.results.length > 0 && (data.results.length > lotStates.length)) {
-	// 		data.results.map((result) => {
-	// 			const cart_pks: Array<number> = [];
-	// 			const click_and_collects = false;
-	// 			const deliveries: Array<boolean> = [];
-	// 			if (result.lot.global_offer_type === 'S') {
-	// 				servicesList.push(true);
-	// 			} else {
-	// 				servicesList.push(false);
-	// 			}
-	// 			result.lot.cart_details.map((article) => {
-	// 				cart_pks.push(article.cart_pk);
-	// 			});
-	// 			if (result.lot.deliveries) {
-	// 				result.lot.deliveries.map((_) => {
-	// 					(deliveries as Array<boolean>).push(false);
-	// 				});
-	// 			}
-	// 			setLotStates((prevState) => {
-	// 				return [
-	// 					...prevState,
-	// 					{
-	// 						cart_pks: cart_pks,
-	// 						click_and_collects: click_and_collects,
-	// 						deliveries: deliveries,
-	// 					},
-	// 				];
-	// 			});
-	// 		});
-	// 	}
-	// 	setOnlyServices(servicesList.every((val, i, arr) => val === arr[0]));
-	// }, [data.results, lotStates.length]);
+	const areAllTrue = useCallback((arr: Array<boolean>) => {
+		return arr.every((element) => element);
+	}, []);
+
+	const reloadData = useCallback(() => {
+		if (data.results.length > 0 && data.results.length > lotStates.length) {
+			const servicesList: Array<boolean> = [];
+			data.results.map((result) => {
+				const cart_pks: Array<number> = [];
+				const click_and_collects = false;
+				const deliveries: Array<boolean> = [];
+				if (result.lot.global_offer_type === 'S') {
+					servicesList.push(true);
+				} else {
+					servicesList.push(false);
+				}
+				result.lot.cart_details.map((article) => {
+					cart_pks.push(article.cart_pk);
+				});
+				if (result.lot.deliveries) {
+					result.lot.deliveries.map((_) => {
+						(deliveries as Array<boolean>).push(false);
+					});
+				}
+				setLotStates((prevState) => {
+					return [
+						...prevState,
+						{
+							cart_pks: cart_pks,
+							click_and_collects: click_and_collects,
+							deliveries: deliveries,
+						},
+					];
+				});
+			});
+			setOnlyServices(areAllTrue(servicesList));
+		}
+		console.log(lotStates);
+
+		if (onlyServices) {
+			setIsSubmitActive(true);
+		} else {
+			if (lotStates.length === 1) {
+				if (showGratuitDeliveryOne || deliveriesTotalPriceOne > 0) {
+					setIsSubmitActive(true);
+				} else {
+					setIsSubmitActive(false);
+				}
+			} else if (
+				lotStates.length === 2 &&
+				(lotStates[0].deliveries.length === 0 || lotStates[1].deliveries.length === 0)
+			) {
+				if (showGratuitDeliveryOne || deliveriesTotalPriceOne > 0) {
+					setIsSubmitActive(true);
+				} else {
+					setIsSubmitActive(false);
+				}
+			} else if (lotStates.length >= 3) {
+				if (
+					(showGratuitDeliveryOne || deliveriesTotalPriceOne > 0) &&
+					(showGratuitDeliveryTwo || deliveriesTotalPriceTwo > 0)
+				) {
+					setIsSubmitActive(true);
+				} else {
+					setIsSubmitActive(false);
+				}
+			}
+		}
+	}, [
+		areAllTrue,
+		data.results,
+		deliveriesTotalPriceOne,
+		deliveriesTotalPriceTwo,
+		lotStates,
+		onlyServices,
+		showGratuitDeliveryOne,
+		showGratuitDeliveryTwo,
+	]);
 
 	const onDeleteHandler = useCallback(
 		(cart_pk: number, offer_price: number) => {
@@ -701,7 +745,10 @@ const Index: React.FC<IndexPropsType> = (props: IndexPropsType) => {
 						setDeliveriesTotalPriceOne(0);
 						setShowGratuitDeliveryTwo(false);
 						setDeliveriesTotalPriceTwo(0);
-						router.replace(router.asPath, undefined, { shallow: false }).then();
+						// router.replace(router.asPath, undefined, { shallow: false }).then();
+						router.replace(router.asPath).then(() => {
+							setLotStates([]);
+						});
 					}
 				},
 			});
@@ -743,67 +790,8 @@ const Index: React.FC<IndexPropsType> = (props: IndexPropsType) => {
 	}, []);
 
 	useEffect(() => {
-		if (data.results.length > 0 && data.results.length > lotStates.length) {
-			const servicesList: Array<boolean> = [];
-			data.results.map((result) => {
-				const cart_pks: Array<number> = [];
-				const click_and_collects = false;
-				const deliveries: Array<boolean> = [];
-				if (result.lot.global_offer_type === 'S') {
-					servicesList.push(true);
-				} else {
-					servicesList.push(false);
-				}
-				result.lot.cart_details.map((article) => {
-					cart_pks.push(article.cart_pk);
-				});
-				if (result.lot.deliveries) {
-					result.lot.deliveries.map((_) => {
-						(deliveries as Array<boolean>).push(false);
-					});
-				}
-				setLotStates((prevState) => {
-					return [
-						...prevState,
-						{
-							cart_pks: cart_pks,
-							click_and_collects: click_and_collects,
-							deliveries: deliveries,
-						},
-					];
-				});
-			});
-			setOnlyServices(servicesList.every((val, i, arr) => val === arr[0]));
-		}
-		if (onlyServices) {
-			setIsSubmitActive(true);
-		} else {
-			if (lotStates.length === 1) {
-				if (showGratuitDeliveryOne || deliveriesTotalPriceOne > 0) {
-					setIsSubmitActive(true);
-				} else {
-					setIsSubmitActive(false);
-				}
-			} else if (lotStates.length >= 2) {
-				if (
-					(showGratuitDeliveryOne || deliveriesTotalPriceOne > 0) &&
-					(showGratuitDeliveryTwo || deliveriesTotalPriceTwo > 0)
-				) {
-					setIsSubmitActive(true);
-				} else {
-					setIsSubmitActive(false);
-				}
-			}
-		}
-	}, [
-		data.results,
-		deliveriesTotalPriceOne,
-		deliveriesTotalPriceTwo,
-		lotStates,
-		onlyServices,
-		showGratuitDeliveryOne,
-		showGratuitDeliveryTwo,
-	]);
+		reloadData();
+	}, [reloadData]);
 
 	const onSubmitHandler = useCallback(() => {
 		const shop_pk = router.query.shop_pk as string;
@@ -842,9 +830,6 @@ const Index: React.FC<IndexPropsType> = (props: IndexPropsType) => {
 				if (!error && !cancelled && data) {
 					router.push(PANIER_ORDER_BY_SHOP_PK(parseInt(shop_pk))).then();
 				}
-				console.log(error);
-				console.log(cancelled);
-				console.log(data);
 			},
 		});
 	}, [
