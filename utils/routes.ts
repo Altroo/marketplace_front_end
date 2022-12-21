@@ -75,3 +75,4 @@ export const DASHBOARD_CHIFFRE_DAFFAIRE = `${SITE_ROOT}dashboard/my-business/chi
 export const PANIER = `${SITE_ROOT}panier`;
 export const PANIER_DETAILS_BY_SHOP_PK = (shop_pk: number) => `${PANIER}/${shop_pk}`;
 export const PANIER_ORDER_BY_SHOP_PK = (shop_pk: number) => `${PANIER}/${shop_pk}/order`;
+export const PANIER_ORDER_COMPLETE = (shop_pk: number) => `${PANIER}/${shop_pk}/order-complete`;

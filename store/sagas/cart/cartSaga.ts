@@ -3,26 +3,27 @@ import { call, takeLatest, put } from 'redux-saga/effects';
 import { withCallback } from 'redux-saga-callback';
 import { Saga } from 'redux-saga';
 import {
-	CartCounterTypeResponseType, cartDetailsFormikType,
-	CartGetDetailsResponseType, cartOrderCoordonneeDataSagaType, cartOrderDeliveriesDataSagaType,
+	CartCounterTypeResponseType,
+	cartOrderCoordonneeDataSagaType,
+	cartOrderDeliveriesDataSagaType,
+	cartPostOrderSagaType,
 	CartPostProductRootResponseType,
 	CartPostProductRootSagaPayload,
 	CartPostServiceRootResponseType,
-	CartPostServiceRootSagaPayload
+	CartPostServiceRootSagaPayload, userLocalCartOrderSagaType
 } from "../../../types/cart/cartTypes";
 import { AxiosInstance } from 'axios';
 import { allowAnyInstance } from '../../../utils/helpers';
 import { deleteApi, getApi, patchApi, postApi } from '../../services/_init/_initAPI';
 import {
-	setSelectedCart,
 	setCartUniqueID,
 	setUserCartCounter,
 	setUserLocalCartOrder,
 	setUserLocalCartOrderCoordonneeData,
 	setUserLocalCartOrderDeliveriesData,
+	initUserLocalCartOrder,
 } from '../../slices/cart/cartSlice';
 import { ResponseOnlyInterface } from '../../../types/_init/_initTypes';
-import { CART_SET_LOCAL_CART_ORDER } from "../../actions";
 
 function* cartPostProductRootSaga(payload: CartPostProductRootSagaPayload) {
 	const url = `${process.env.NEXT_PUBLIC_CART_ROOT}/`;
@@ -46,16 +47,6 @@ function* cartPostServiceRootSaga(payload: CartPostServiceRootSagaPayload) {
 	}
 }
 
-// function* cartGetAllCartSaga(payload: {type: string, unique_id: string}) {
-// 	const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_LIST}${payload.unique_id}/`;
-// 	const instance : AxiosInstance = yield call(() => allowAnyInstance());
-// 	const response: CartGetAllResponseType = yield call(() => getApi(url, instance));
-// 	if (response.status === 200) {
-// 		yield put(setUserCart(response.data));
-// 		yield put(setCartUniqueID(payload.unique_id));
-// 	}
-// }
-
 function* cartGetCartCounterSaga(payload: { type: string; unique_id: string }) {
 	const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_COUNTER}${payload.unique_id}/`;
 	const instance: AxiosInstance = yield call(() => allowAnyInstance());
@@ -63,15 +54,6 @@ function* cartGetCartCounterSaga(payload: { type: string; unique_id: string }) {
 	if (response.status === 200) {
 		yield put(setUserCartCounter(response.data));
 		yield put(setCartUniqueID(payload.unique_id));
-	}
-}
-
-function* cartGetDetailsSaga(payload: { type: string; shop_pk: number; unique_id: string }) {
-	const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_DETAILS}${payload.shop_pk}/${payload.unique_id}/`;
-	const instance: AxiosInstance = yield call(() => allowAnyInstance());
-	const response: CartGetDetailsResponseType = yield call(() => getApi(url, instance));
-	if (response.status === 200) {
-		yield put(setSelectedCart(response.data));
 	}
 }
 
@@ -93,32 +75,9 @@ function* cartPatchQuantitySaga(payload: { type: string; cart_pk: number; unique
 	}
 }
 
-function* cartSetLocalCartOrderSaga(payload: {
-	type: string;
-	shop_pk: number;
-	delivery_pk: number;
-	picked_click_and_collect: string;
-	picked_deliveries: string;
-	whichFormik: cartDetailsFormikType;
-	totalPrice: number;
-	showGratuitDeliveryOne: boolean;
-	deliveriesTotalPriceOne: number;
-	showGratuitDeliveryTwo: boolean;
-	deliveriesTotalPriceTwo: number;
-}) {
+function* cartSetLocalCartOrderSaga(payload: userLocalCartOrderSagaType) {
 	yield put(
-		setUserLocalCartOrder({
-			shop_pk: payload.shop_pk,
-			picked_deliveries: payload.picked_deliveries,
-			picked_click_and_collect: payload.picked_click_and_collect,
-			delivery_pk: payload.delivery_pk,
-			whichFormik: payload.whichFormik,
-			totalPrice: payload.totalPrice,
-			showGratuitDeliveryOne: payload.showGratuitDeliveryOne,
-			showGratuitDeliveryTwo: payload.showGratuitDeliveryTwo,
-			deliveriesTotalPriceOne: payload.deliveriesTotalPriceOne,
-			deliveriesTotalPriceTwo: payload.deliveriesTotalPriceTwo,
-		}),
+		setUserLocalCartOrder({...payload}),
 	);
 	return true;
 }
@@ -163,15 +122,28 @@ function* cartSetLocalCartOrderDeliveriesDataSaga(payload: cartOrderDeliveriesDa
 	return true;
 }
 
+function* cartPostOrderSaga(payload: cartPostOrderSagaType) {
+	const { type, url, ...payloadData } = payload;
+	const instance: AxiosInstance = yield call(() => allowAnyInstance());
+	const response: ResponseOnlyInterface = yield call(() => postApi(url, instance, payloadData));
+	if (response.status === 204) {
+		return true;
+	}
+}
+
+function* initCartOrderSaga() {
+	yield call(() => initUserLocalCartOrder());
+}
+
 export function* watchCart() {
 	yield takeLatest(Types.CART_POST_PRODUCT_ROOT, withCallback(cartPostProductRootSaga as Saga));
 	yield takeLatest(Types.CART_POST_SERVICE_ROOT, withCallback(cartPostServiceRootSaga as Saga));
-	// yield takeLatest(Types.CART_GET_ALL, withCallback(cartGetAllCartSaga as Saga));
 	yield takeLatest(Types.CART_GET_CART_COUNTER, withCallback(cartGetCartCounterSaga as Saga));
-	yield takeLatest(Types.CART_GET_DETAILS, withCallback(cartGetDetailsSaga as Saga));
 	yield takeLatest(Types.CART_DELETE_ROOT, withCallback(cartDeleteRootSaga as Saga));
 	yield takeLatest(Types.CART_PATCH_CART_QUANTITY, withCallback(cartPatchQuantitySaga as Saga));
 	yield takeLatest(Types.CART_SET_LOCAL_CART_ORDER, withCallback(cartSetLocalCartOrderSaga as Saga));
 	yield takeLatest(Types.CART_SET_LOCAL_CART_ORDER_COORDONNEE_DATA, withCallback(cartSetLocalCartOrderCoordonneeDataSaga as Saga));
 	yield takeLatest(Types.CART_SET_LOCAL_CART_ORDER_DELIVERIES_DATA, withCallback(cartSetLocalCartOrderDeliveriesDataSaga as Saga));
+	yield takeLatest(Types.CART_POST_ORDER, withCallback(cartPostOrderSaga as Saga));
+	yield takeLatest(Types.CART_INIT_CART_ORDER, withCallback(initCartOrderSaga as Saga));
 }

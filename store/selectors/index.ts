@@ -157,7 +157,6 @@ export const getUserNotifications = (state: RootState) => state.notification.not
 export const getUserNewNotification = (state: RootState) => state.notification.new_notification;
 // Cart
 export const getCartCounter = (state: RootState) => state.cart.cartCounter;
-export const getFullUserCart = (state: RootState) => state.cart.userCart;
-export const getUserCartUniqueID = (state: RootState) => state.cart.cartUniqueID;
-export const getUserSelectedCart = (state: RootState) => state.cart.selectedCart;
 export const getUserLocalCartOder = (state: RootState) => state.cart.userLocalCartOrder;
+export const getUserLocalCartCoordonneeData = (state: RootState) => state.cart.userLocalCartOrderCoordoneeData;
+export const getUserLocalCartDeliveriesData = (state: RootState) => state.cart.userLocalCartOrderDeliveriesData;

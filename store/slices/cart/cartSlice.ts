@@ -1,16 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
 	CartCounterType,
-	CartGetDetailsType, cartOrderCoordonneeDataType, cartOrderDeliveriesDataSagaType, cartOrderDeliveriesDataType,
+	cartOrderCoordonneeDataType,
+	cartOrderDeliveriesDataType,
 	CartStateInterface,
-	getAllMultiCartType,
-	getAllSingleCartType,
-	userLocalCartOrderType
-} from "../../../types/cart/cartTypes";
+	userLocalCartOrderType,
+} from '../../../types/cart/cartTypes';
 
 const initialState: CartStateInterface = {
-	userCart: null,
-	selectedCart: null,
 	cartUniqueID: null,
 	cartCounter: null,
 	userLocalCartOrder: null,
@@ -22,12 +19,6 @@ const cartSlice = createSlice({
 	name: 'cartSlice',
 	initialState: initialState,
 	reducers: {
-		setUserCart: (state, action: PayloadAction<getAllSingleCartType | getAllMultiCartType>) => {
-			state.userCart = action.payload;
-		},
-		setSelectedCart: (state, action: PayloadAction<CartGetDetailsType>) => {
-			state.selectedCart = action.payload;
-		},
 		setCartUniqueID: (state, action: PayloadAction<string>) => {
 			state.cartUniqueID = action.payload;
 		},
@@ -43,10 +34,21 @@ const cartSlice = createSlice({
 		setUserLocalCartOrderDeliveriesData: (state, action: PayloadAction<cartOrderDeliveriesDataType>) => {
 			state.userLocalCartOrderDeliveriesData = action.payload;
 		},
-
+		initUserLocalCartOrder: (state) => {
+			state.userLocalCartOrder = null;
+			state.userLocalCartOrderCoordoneeData = null;
+			state.userLocalCartOrderDeliveriesData = null;
+		}
 	},
 });
 
-export const { setUserCart, setSelectedCart, setCartUniqueID, setUserCartCounter, setUserLocalCartOrder, setUserLocalCartOrderCoordonneeData, setUserLocalCartOrderDeliveriesData } = cartSlice.actions;
+export const {
+	setCartUniqueID,
+	setUserCartCounter,
+	setUserLocalCartOrder,
+	setUserLocalCartOrderCoordonneeData,
+	setUserLocalCartOrderDeliveriesData,
+	initUserLocalCartOrder,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

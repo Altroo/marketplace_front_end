@@ -19,7 +19,7 @@ import CartDropDownBlueSVG from '../../../public/assets/svgs/globalIcons/cart-dr
 import TrashBlackSVG from '../../../public/assets/svgs/globalIcons/trash-black.svg';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '../../../utils/hooks';
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext, NextPage } from "next";
 import { getCookie } from 'cookies-next';
 import { AxiosInstance } from 'axios';
 import { allowAnyInstance, Desktop, TabletAndMobile } from '../../../utils/helpers';
@@ -58,7 +58,7 @@ type AccordionCartContentType = {
 	title: string;
 	children?: React.ReactNode;
 };
-const AccordionCartContent: React.FC<AccordionCartContentType> = (props: AccordionCartContentType) => {
+export const AccordionCartContent: React.FC<AccordionCartContentType> = (props: AccordionCartContentType) => {
 	const [accordionState, setAccordionState] = useState<boolean>(false);
 
 	return (
@@ -121,7 +121,7 @@ const RowArticleProduct: React.FC<RowArticleProductType> = (props: RowArticlePro
 							<h4 className={Styles.offerTitle}>{offer_title}</h4>
 						</Link>
 						<TabletAndMobile>
-							<span className={Styles.offerPrice}>{offer_total_price} DH</span>
+							<span className={Styles.offerPrice}>{offerTotalPrice} DH</span>
 						</TabletAndMobile>
 						{picked_color && <span className={Styles.offerDetails}>Couleur : {picked_color}</span>}
 						{picked_size && <span className={Styles.offerDetails}>Taille : {picked_size}</span>}
@@ -611,7 +611,7 @@ type IndexPropsType = {
 	};
 };
 
-const Index: React.FC<IndexPropsType> = (props: IndexPropsType) => {
+const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 	const { data, unique_id } = props.pageProps;
 	const router = useRouter();
 	const dispatch = useAppDispatch();
@@ -795,20 +795,23 @@ const Index: React.FC<IndexPropsType> = (props: IndexPropsType) => {
 		const shop_pk = router.query.shop_pk as string;
 		let picked_click_and_collect = '';
 		let picked_deliveries = '';
+		const lot_pks: Array<number> = [];
 		lotStates.map((lot) => {
-			if (lot.click_and_collects) {
-				picked_click_and_collect += '1,';
-				picked_deliveries += '0,';
-			} else {
-				if (lot.deliveries.length >= 1) {
-					picked_click_and_collect += '0,';
-					picked_deliveries += '1,';
-				} else {
-					// service
-					picked_click_and_collect += '0,';
+			lot.cart_pks.map((pk) => {
+				lot_pks.push(pk);
+				if (lot.click_and_collects) {
+					picked_click_and_collect += '1,';
 					picked_deliveries += '0,';
+				} else {
+					if (lot.deliveries.length >= 1) {
+						picked_click_and_collect += '0,';
+						picked_deliveries += '1,';
+					} else {
+						picked_click_and_collect += '0,';
+						picked_deliveries += '0,';
+					}
 				}
-			}
+			});
 		});
 		const action = cartSetLocalCartOrderAction({
 			shop_pk: parseInt(shop_pk),
@@ -821,6 +824,7 @@ const Index: React.FC<IndexPropsType> = (props: IndexPropsType) => {
 			deliveriesTotalPriceTwo: deliveriesTotalPriceTwo,
 			showGratuitDeliveryTwo: showGratuitDeliveryTwo,
 			totalPrice: totalPrice,
+			lot_pks: lot_pks,
 		});
 		dispatch({
 			...action,
@@ -830,18 +834,7 @@ const Index: React.FC<IndexPropsType> = (props: IndexPropsType) => {
 				}
 			},
 		});
-	}, [
-		data.formik,
-		deliveriesTotalPriceOne,
-		deliveriesTotalPriceTwo,
-		deliveryPk,
-		dispatch,
-		lotStates,
-		router,
-		showGratuitDeliveryOne,
-		showGratuitDeliveryTwo,
-		totalPrice,
-	]);
+	}, [data.formik, deliveriesTotalPriceOne, deliveriesTotalPriceTwo, deliveryPk, dispatch, lotStates, router, showGratuitDeliveryOne, showGratuitDeliveryTwo, totalPrice]);
 
 	return (
 		<Stack direction="column">

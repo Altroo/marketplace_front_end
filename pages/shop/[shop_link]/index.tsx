@@ -1268,8 +1268,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 							...not_found_redirect,
 						};
 					}
-				} else {
-					console.log('Response status : ', response.status);
 				}
 			} else {
 				// user not online.

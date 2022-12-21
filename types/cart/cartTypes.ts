@@ -12,7 +12,12 @@ export type userLocalCartOrderType = {
 	deliveriesTotalPriceOne: number;
 	showGratuitDeliveryTwo: boolean;
 	deliveriesTotalPriceTwo: number;
+	lot_pks: Array<number>,
 };
+
+export interface userLocalCartOrderSagaType extends userLocalCartOrderType {
+	type: string;
+}
 
 export type cartOrderDeliveriesDataType = {
 	first_name: string;
@@ -54,8 +59,6 @@ export interface cartOrderDeliveriesDataSagaType extends cartOrderDeliveriesData
 
 //!- Cart State
 export interface CartStateInterface {
-	userCart: getAllSingleCartType | getAllMultiCartType | null;
-	selectedCart: CartGetDetailsType | null;
 	cartUniqueID: string | null;
 	cartCounter: number | null;
 	userLocalCartOrder: userLocalCartOrderType | null;
@@ -169,12 +172,19 @@ export interface getAllMultiCartType extends getAllCartRootPaginationType {
 
 export type CartGetAllResponseType = ResponseDataInterface<getAllSingleCartType | getAllMultiCartType>;
 
+type cartServiceCoordonnee = {
+	service_longitude: number | null;
+  service_latitude: number | null;
+  service_address: string | null;
+}
+
 type CartGetDetailsResultsType = {
 	lot: {
 		global_offer_type: OfferOfferTypeType;
 		cart_details: Array<cartPaginationDetails>;
 		click_and_collect?: cartClickAndCollect;
 		deliveries?: Array<cartDeliveries>;
+		service_coordonnee?: cartServiceCoordonnee;
 	};
 };
 
@@ -216,4 +226,9 @@ export type cartPostOrderActionType = {
 	picked_click_and_collect: string;
 	picked_delivery: string;
 	delivery_pk: number | null;
+	lot_pks: Array<number>;
 };
+
+export interface cartPostOrderSagaType extends cartPostOrderActionType {
+	type: string;
+}

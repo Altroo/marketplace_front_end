@@ -98,10 +98,8 @@ export const cartPostOrderAction = (orderData: cartPostOrderActionType) => {
 	};
 };
 
-export const cartGetDetailsAction = (shop_pk: number, unique_id: string) => {
+export const initCartOrderAction = () => {
 	return {
-		type: types.CART_GET_DETAILS,
-		shop_pk,
-		unique_id,
+		type: types.CART_INIT_CART_ORDER,
 	};
 };

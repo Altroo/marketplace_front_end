@@ -112,7 +112,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			});
 		}
 		if ('unique_id' in query) {
-			console.log('setting unique_id : ', query);
 			setCookie(res, '@unique_id', query.unique_id, {
 				maxAge: query.maxAge,
 				sameSite: 'lax',
