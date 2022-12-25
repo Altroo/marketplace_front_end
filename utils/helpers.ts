@@ -224,17 +224,6 @@ export const constructApiFormData = (apiData: object) => {
 	return formData;
 };
 
-// Set Server token cookies
-// export const setRemoteCookiesAppToken = async (
-// 	newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID>,
-// ) => {
-// 	await cookiesPoster('/cookies', { tokenType: newInitStateToken.tokenType }).then(async () => {
-// 		cookiesPoster('/cookies', { initStateToken: newInitStateToken.initStateToken }).then(async () => {
-// 			cookiesPoster('/cookies', { initStateUniqueID: newInitStateToken.initStateUniqueID }).then();
-// 		});
-// 	});
-// };
-
 export const setRemoteCookiesTokenOnly = async (InitStateToken: InitStateToken) => {
 	await cookiesPoster('/cookies', { tokenType: 'TOKEN' }).then(async () => {
 		cookiesPoster('/cookies', { initStateToken: InitStateToken }).then();
@@ -323,7 +312,7 @@ export const getBackendNextPageNumber = (url: string | null) => {
 	return '1';
 };
 
-export const generateQueryParams = (query: ParsedUrlQuery, nextPage?: string) => {
+export const generateOffersFilterQueryParams = (query: ParsedUrlQuery, nextPage?: string) => {
 	// const {page, sort_by} = query;
 	const { sort_by, categories, colors, sizes, forWhom, cities, solder, labels, maroc } = query;
 	// default queries using let.
@@ -374,6 +363,20 @@ export const generatePageQueryParams = (nextPage?: string) => {
 	return `?page=${pageNumber}`;
 };
 
+export const generateOrdersFilterQueryParams = (query: ParsedUrlQuery, nextPage?: string) => {
+	const { order_status } = query;
+	let pageNumber = '1';
+	// construct url if queries found.
+	if (nextPage) {
+		pageNumber = nextPage;
+	}
+	let url = `?page=${pageNumber}`;
+	if (order_status) {
+		url += `&order_status=${order_status}`;
+	}
+	return url;
+};
+
 export const getDateFromNumber = (dayNumber: number, addIndex: boolean) => {
 	const days = ['Samedi', 'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi']
 	if (addIndex) {
@@ -405,9 +408,3 @@ export const TabletAndMobile = (props: MediaQueryProps) => {
 	);
   return isResponsive ? props.children : null;
 }
-
-// export const Mobile = (props: MediaQueryProps) => {
-// 	// 'only screen and (max-width: 767px)'
-//   const isResponsive = useMediaQuery({ maxWidth: 767 })
-//   return isResponsive ? props.children : null
-// }

@@ -19,7 +19,7 @@ import {
 } from '../../../../../store/actions/offer/offerActions';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
-import { Desktop, generateQueryParams, getBackendNextPageNumber } from '../../../../../utils/helpers';
+import { Desktop, generateOffersFilterQueryParams, getBackendNextPageNumber } from '../../../../../utils/helpers';
 import { Iterables } from 'langx-js';
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter';
@@ -110,10 +110,10 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			let url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${shop_pk}/`;
 			let queryParams: string;
 			if (nextPage !== null && !isReset) {
-				queryParams = generateQueryParams(router.query, nextPage);
+				queryParams = generateOffersFilterQueryParams(router.query, nextPage);
 				url += queryParams;
 			} else {
-				queryParams = generateQueryParams(router.query);
+				queryParams = generateOffersFilterQueryParams(router.query);
 				url += queryParams;
 			}
 			const action = offerGetOffersByShopIDWithQueryParamsAction(url);

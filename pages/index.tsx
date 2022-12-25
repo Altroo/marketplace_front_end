@@ -1,175 +1,234 @@
 import type { NextPage } from 'next';
-import { RootState } from '../store/store';
 import Styles from './index.module.sass';
-import { Stack, Box, ThemeProvider, InputAdornment } from '@mui/material';
+import { Stack, Box } from '@mui/material';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
-import QarybLogoSVG from '../public/assets/svgs/indexIcons/Qaryb.svg';
-import ClockSVG from '../public/assets/svgs/indexIcons/clock.svg';
-import EmailSentSVG from '../public/assets/svgs/indexIcons/Check.svg';
-import TicTacSVG from '../public/assets/svgs/indexIcons/clock_tic.svg';
-import { useFormik } from 'formik';
-import { newsLetterEmailSchema } from '../utils/formValidationSchemas';
-import { useAppDispatch } from '../utils/hooks';
-import { newsLetterEmailInputTheme } from '../utils/themes';
-import PrimaryButton from '../components/htmlElements/buttons/primaryButton/primaryButton';
-import TextField from '@mui/material/TextField';
-import { versionPostNewsLetterAction } from '../store/actions/version/versionActions';
-import { SagaCallBackOnCompleteBoolType } from '../types/_init/_initTypes';
-import { Desktop } from "../utils/helpers";
+import React from 'react';
+import { allowAnyInstance, Desktop } from '../utils/helpers';
+import { NextSeo } from 'next-seo';
+import UserMainNavigationBar from '../components/layouts/userMainNavigationBar/userMainNavigationBar';
+import CustomFooter from '../components/layouts/footer/customFooter';
+import { AxiosInstance } from 'axios';
+import { getApi } from '../store/services/_init/_initAPI';
+import { AUTH_REGISTER, NOT_FOUND_404, REAL_SHOP_ADD_SHOP_NAME, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../utils/routes';
+import { GetHomePageType, SeoPagesGetHomePageResponseType } from '../types/seo-pages/seoPagesTypes';
+import FilledHeartBlackSVG from '../public/assets/svgs/homePageIcons/filled-heart-black.svg';
+import CoupDeCoeurShape from '../public/assets/svgs/globalIcons/shape.svg';
+import PrimaryAnchorButton from '../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
+import TextAnchorButton from '../components/htmlElements/buttons/textAnchorButton/textAnchorButton';
+import SeoAnchorWrapper from '../components/htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
+import CreateShopIlluSVG from '../public/assets/images/create-shop-illu.svg';
 
-const DesktopLineBreak = () => {
-	return (
-		<Desktop>
-			<br />
-		</Desktop>
-	);
-};
-
-const Home: NextPage<RootState> = () => {
-	const dispatch = useAppDispatch();
-	const [ticClockImg, setTicClockImg] = useState<boolean>(false);
-	const [counterDays, setCounterDays] = useState<string>('');
-	const [counterHours, setCounterHours] = useState<string>('');
-	const [counterMinutes, setCounterMinutes] = useState<string>('');
-
-	const [emailSentState, setEmailSentState] = useState<boolean>(false);
-	const expirationDate = new Date(2022, 11, 26, 24, 59, 0).getTime();
-
-	const pad = (num: number, size: number) => {
-		let s = num + '';
-		while (s.length < size) s = '0' + s;
-		return s;
+type HomePropsType = {
+	pageProps: {
+		data: GetHomePageType;
 	};
-
-	useEffect(() => {
-		const timerFunc = setInterval(function () {
-			const now = new Date().getTime();
-			const timeleft = expirationDate - now;
-			const days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-			const hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-			const minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-			setCounterDays(pad(days, 2));
-			setCounterHours(pad(hours, 2));
-			setCounterMinutes(pad(minutes, 2));
-			setTicClockImg(prevState => !prevState);
-		}, 1000);
-		return () => {
-			clearInterval(timerFunc);
-		};
-	}, [emailSentState, expirationDate]);
-
-	const formik = useFormik({
-		initialValues: {
-			email: '',
-		},
-		validateOnMount: true,
-		validationSchema: newsLetterEmailSchema,
-		onSubmit: async (values, { setSubmitting }) => {
-			const action = versionPostNewsLetterAction(values.email);
-			dispatch({
-				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
-					if (!error && !cancelled && data) {
-						setEmailSentState(true);
-					}
-				},
-			});
-			setSubmitting(false);
-		},
-	});
-
-	const inputTheme = newsLetterEmailInputTheme();
+};
+const Home: NextPage<HomePropsType> = (props: HomePropsType) => {
+	const { coup_de_coeur_bg, coup_de_coeur, new_shops } = props.pageProps.data;
 
 	return (
-		<main className={Styles.indexMain}>
-			<Stack direction="column" spacing="40px" className={Styles.rootStack}>
-				<Image
-					className={Styles.qarybLogo}
-					src={QarybLogoSVG}
-					width={150}
-					height={40}
-					sizes="100vw"
-					alt="Qaryb"
-				/>
-				<span className={Styles.lancement}>Lancement dans...</span>
-				<Stack direction="row" spacing="120px" alignItems="center" className={Styles.counterRootStack}>
-					<Box className={Styles.bgCounterWrapper}>
-						<Box
-							className={Styles.bgCounter}
-							sx={{
-								background: `url(${ticClockImg ? ClockSVG.src : TicTacSVG.src}) center center no-repeat scroll`,
-								msFilter: `progid:DXImageTransform.Microsoft.AlphaImageLoader(src='${ticClockImg ? ClockSVG.src : TicTacSVG.src}', 
-						sizingMethod='scale')`,
-								backgroundSize: 'cover',
-								width: '460px',
-								height: '236px',
-							}}
-						>
-							<span className={Styles.counterDays}>{counterDays}</span>
-							<span className={Styles.couterHours}>{counterHours}</span>
-							<span className={Styles.counterMinutes}>{counterMinutes}</span>
-						</Box>
-					</Box>
-					<Stack direction="column" className={Styles.headerMessage}>
-						<h2>Notre mission</h2>
-						<h1>
-							Démocratiser <DesktopLineBreak /> le ecommerce <DesktopLineBreak /> au maroc
-						</h1>
-					</Stack>
-				</Stack>
-			</Stack>
-			<Box className={Styles.footerBox}>
-				<Stack direction="column" spacing="40px" alignItems="center" className={Styles.footerRootStack}>
-					<Stack direction="column" alignItems="center">
-						<h3>Vous ne voulez pas manquer le lancement?</h3>
-						<h4>Inscrivez-vous à notre newsletter.</h4>
-					</Stack>
-					<form className={Styles.form} onSubmit={(e) => e.preventDefault()}>
-						<Stack direction="row" spacing="24px" alignItems="center" className={Styles.mobileStack}>
-							<ThemeProvider theme={inputTheme}>
-								<TextField
-									id="email"
-									type="email"
-									value={formik.values.email}
-									onChange={formik.handleChange('email')}
-									onBlur={formik.handleBlur('email')}
-									helperText={formik.touched.email ? formik.errors.email : ''}
-									error={formik.touched.email && Boolean(formik.errors.email)}
-									fullWidth={true}
-									size="medium"
-									placeholder="Email"
-									InputProps={{
-										endAdornment: (
-											<InputAdornment position="end">
-												<Image
-													src={EmailSentSVG}
-													width={18}
-													height={18}
-													sizes="100vw"
-													alt=""
-													style={{
-														display: `${emailSentState ? 'block' : 'none'}`,
-													}}
-												/>
-											</InputAdornment>
-										),
-									}}
-								/>
-							</ThemeProvider>
-							<PrimaryButton
-								buttonText="C'est noté !"
-								active={formik.isValid && !formik.isSubmitting}
-								onClick={formik.handleSubmit}
-								cssClass={Styles.submitButton}
-								type="submit"
+		<>
+			<NextSeo
+				title="Qaryb"
+				// description="A short description goes here."
+			/>
+			<Stack direction="column">
+				<UserMainNavigationBar />
+				<main>
+					<Stack direction="column" spacing={{xs: '25px', sm: '25px'}} className={Styles.main} style={{ backgroundColor: coup_de_coeur_bg }}>
+						<Stack direction="row" alignItems="center" spacing={{ xs: '5px', sm: '5px', md: '10px', lg: '10px', xl: '10px' }} className={Styles.topRowStack}>
+							<span>Coup de</span>
+							<Image src={FilledHeartBlackSVG} alt="" width="26" height="24" sizes="100vw" />
+							<span>de la semaine</span>
+						</Stack>
+						<Stack direction="column" alignItems="center" spacing="10px" className={Styles.blockMobileScroll}>
+							<Stack direction="row" alignItems="center" spacing="32px" justifyContent="center">
+								{coup_de_coeur.left_offers.map((offer, index) => {
+									return (
+										<Box key={index} className={Styles.coeurRootOffersBox}>
+											<Image
+												src={offer.picture}
+												alt=""
+												width="160"
+												className={Styles.offerImage}
+												height="160"
+												sizes="100vw"
+											/>
+										</Box>
+									);
+								})}
+								<Stack direction="row" alignItems="center" spacing="110px">
+									<Image
+										src={coup_de_coeur.avatar}
+										className={Styles.coupDeCoeurShopAvatar}
+										alt=""
+										width="364"
+										height="364"
+										sizes="100vw"
+										style={{
+											WebkitMaskImage: `url(${CoupDeCoeurShape.src})`,
+											maskImage: `url(${CoupDeCoeurShape.src})`,
+										}}
+									/>
+								</Stack>
+								{coup_de_coeur.right_offers.map((offer, index) => {
+									return (
+										<Box key={index} className={Styles.coeurRootOffersBox}>
+											<Image
+												src={offer.picture}
+												alt=""
+												width="160"
+												className={Styles.offerImage}
+												height="160"
+												sizes="100vw"
+											/>
+										</Box>
+									);
+								})}
+							</Stack>
+							<h1 className={Styles.coeurShopName}>{coup_de_coeur.shop_name}</h1>
+							<PrimaryAnchorButton
+								cssClass={Styles.visitShopButton}
+								buttonText="Visiter la boutique"
+								active={true}
+								nextPage={REAL_SHOP_BY_SHOP_LINK_ROUTE(coup_de_coeur.shop_link)}
 							/>
 						</Stack>
-					</form>
-				</Stack>
-			</Box>
-		</main>
+					</Stack>
+					<Stack
+						direction="column"
+						alignItems="center"
+						mt={{ xs: '32px', sm: '32px', md: '80px', lg: '80px', xl: '80px' }}
+						mb={{ xs: '32px', sm: '32px', md: '80px', lg: '80px', xl: '80px' }}
+						spacing="10px"
+					>
+						<Stack direction="row" alignItems="center" spacing="5px" justifyContent="center">
+							<span className={Styles.secondSectionDot}>•</span>
+							<h3 className={Styles.secondSectionHeader}>Vous aussi</h3>
+							<span className={Styles.secondSectionDot}>•</span>
+						</Stack>
+						<h4 className={Styles.secondSectionSubHeader}>Créez votre boutique Qaryb en quelques clicks !</h4>
+						<TextAnchorButton
+							buttonText="Créer ma boutique"
+							nextPage={REAL_SHOP_ADD_SHOP_NAME}
+							cssClass={Styles.createShpTextButton}
+						/>
+					</Stack>
+					{new_shops.length > 0 && (
+						<Stack
+							direction="column"
+							spacing="22px"
+							justifyContent="center"
+							mr={{ xs: '18px', sm: '18px', md: '80px', lg: '80px', xl: '80px' }}
+							mb={{ xs: '18px', sm: '18px', md: '80px', lg: '80px', xl: '80px' }}
+							ml={{ xs: '18px', sm: '18px', md: '80px', lg: '80px', xl: '80px' }}
+						>
+							<Stack direction="column" className={Styles.newShopsStackHeader}>
+								<span>APERÇU</span>
+								<span>Ils viennent de nous rejoindre !</span>
+								<span>Découvrez leur boutique</span>
+							</Stack>
+							<Stack direction={{xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row'}} spacing="12px" className={Styles.newShopsStackWrapper}>
+								{new_shops.map((new_shop, index) => {
+									return (
+										<SeoAnchorWrapper
+											href={REAL_SHOP_BY_SHOP_LINK_ROUTE(new_shop.shop_link)}
+											key={index}
+											anchorCssClass={Styles.hover}
+										>
+											<Stack
+												className={Styles.newShopsRootStack}
+												direction="column"
+												justifyContent="center"
+												alignItems="center"
+												spacing="18px"
+											>
+												<Box className={Styles.newShopsImageBox} sx={{ borderColor: `${new_shop.bg_color_code}` }}>
+													<Image
+														src={new_shop.avatar}
+														alt=""
+														width="158"
+														height="158"
+														sizes="100vw"
+														className={Styles.newShopsImage}
+													/>
+												</Box>
+												<h5 className={Styles.newShopShopName}>{new_shop.shop_name}</h5>
+												<span
+													className={Styles.newShopCategory}
+													style={{ backgroundColor: `${new_shop.bg_color_code}` }}
+												>
+													{new_shop.shop_category}
+												</span>
+											</Stack>
+										</SeoAnchorWrapper>
+									);
+								})}
+							</Stack>
+						</Stack>
+					)}
+					<Box className={Styles.thirdSectionBox}>
+						<Stack
+							direction="row"
+							spacing="84px"
+							alignItems="center"
+							justifyContent="center"
+							className={Styles.mobileRootMain}
+						>
+							<Image src={CreateShopIlluSVG} alt="" width="230" height="214" sizes="100vw" />
+							<Stack direction="column" spacing="24px" className={Styles.mobileThirdSection}>
+								<h4 className={Styles.thirdSectionHeader}>
+									Vous aussi, rejoignez notre
+									<Desktop>
+										<br />
+									</Desktop>{' '}
+									communauté de vendeurs au Maroc
+								</h4>
+								<Box className={Styles.actionButtonRootBox}>
+									<PrimaryAnchorButton
+										buttonText="Créez votre boutique"
+										active={true}
+										nextPage={AUTH_REGISTER}
+										cssClass={Styles.thirdSectionActionButton}
+									/>
+								</Box>
+							</Stack>
+						</Stack>
+					</Box>
+				</main>
+				<CustomFooter />
+			</Stack>
+		</>
 	);
 };
+
+export async function getServerSideProps() {
+	const not_found_redirect = {
+		redirect: {
+			permanent: false,
+			destination: NOT_FOUND_404,
+		},
+	};
+	const url = `${process.env.NEXT_PUBLIC_SEO_PAGES_GET_HOME_PAGE}`;
+	try {
+		const instance: AxiosInstance = allowAnyInstance();
+		const response: SeoPagesGetHomePageResponseType = await getApi(url, instance);
+		if (response.status === 200 && response.data) {
+			return {
+				props: {
+					data: response.data,
+				},
+			};
+		} else {
+			return {
+				...not_found_redirect,
+			};
+		}
+	} catch (e) {
+		return {
+			...not_found_redirect,
+		};
+	}
+}
 
 export default Home;

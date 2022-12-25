@@ -969,6 +969,31 @@ export const customImageModalTheme = (primaryColor: string | undefined = undefin
 	});
 };
 
+export const customOrderActionsModalTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiDialog: {
+				styleOverrides: {
+					root: {
+						'& .MuiPaper-root': {
+							overflowX: 'hidden',
+							height: 'auto',
+							maxWidth: '500px',
+							boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25)',
+							borderRadius: '40px',
+							[defaultTheme.breakpoints.down('sm')]: {
+								width: 'calc(100vw - 2rem)',
+							},
+						},
+					},
+				},
+			},
+		},
+	});
+};
+
 export const customMobileImageModalTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
@@ -1343,9 +1368,9 @@ export const CartQuantityFieldTheme = (primaryColor: string | undefined = undefi
 						textAlign: 'center',
 						'&.Mui-disabled': {
 							color: '#0D070B !important',
-							'WebkitTextFillColor': '#0D070B !important',
+							WebkitTextFillColor: '#0D070B !important',
 						},
-					}
+					},
 				},
 			},
 		},

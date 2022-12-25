@@ -351,6 +351,8 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/panier/[shop_pk]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customPhoneInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/panier/[shop_pk]/order" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/orders" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/orders/[order_pk]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/seo-pages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />

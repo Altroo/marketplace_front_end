@@ -4,13 +4,7 @@ import { Stack } from '@mui/material';
 import NotificationsMenu from "../../../layouts/notificationsMenu/notificationsMenu";
 import { TabletAndMobile } from "../../../../utils/helpers";
 
-type Props = {
-	messageIcon: string;
-	notificationIcon: string;
-	children?: React.ReactNode;
-};
-
-const MobileDashboardMessagesNotifications: React.FC<Props> = (props: Props) => {
+const MobileDashboardMessagesNotifications: React.FC = () => {
 	return (
 		<TabletAndMobile>
 			<Stack

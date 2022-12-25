@@ -1,0 +1,221 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.main
+  display: flex
+  flex-direction: column
+  height: 100%
+  padding: 2rem 60px 60px 60px
+  width: 100%
+.header
+  +Bold
+  font-size: 32px
+  color: $primary
+  margin: 0
+.orderTopStack
+  span
+    +Regular
+    font-size: 14px
+    color: #525256
+.offerPicture
+  border-radius: 10px
+  object-fit: cover
+  width: 96px !important
+  height: 96px !important
+  min-width: 96px !important
+  min-height: 96px !important
+.orderStatus
+  +Regular
+  border-radius: 13px
+  padding: 2px 8px
+  text-align: center
+  font-size: 11px
+  color: $primary
+  width: 100%
+  max-width: fit-content
+.offerTitle
+  +Medium
+  margin: 0
+  font-size: 17px
+  letter-spacing: -0.03em
+  color: $primary
+.offerPrice
+  +SemiBold
+  font-size: 17px
+  color: $primary
+  letter-spacing: -0.03em
+  width: 100%
+  text-align: end
+.offerDetails
+  +Regular
+  font-size: 15px
+  color: #84848A
+.offerQuantity
+  +Regular
+  font-size: 19px
+  color: $primary
+  text-align: center
+.quantityStack
+  width: 100%
+  text-align: center
+.divider
+  width: 100%
+  color: #F2F2F3
+.orderDetailTitle
+  +Medium
+  font-size: 17px
+  letter-spacing: -0.03em
+.orderUserDataHeader
+  +Medium
+  font-size: 17px
+  color: #525256
+.orderUserData
+  +Regular
+  font-size: 17px
+  color: #525256
+.orderSummaryBox
+  padding: 32px
+  box-shadow: 0 0 24px rgba(13,7,11,0.1)
+  border-radius: 40px
+  max-width: 480px
+  width: 100%
+  max-height: 560px
+  height: 100%
+  position: sticky
+  left: 0
+  right: 0
+  bottom: 0
+  top: 30px
+.priceDetails
+  span:nth-child(1)
+    +Regular
+    font-size: 17px
+    color: #84848A
+  span:nth-child(2)
+    +SemiBold
+    font-size: 17px
+    color: $primary
+.livraisonPriceGratuitDetails
+  span:nth-child(1)
+    +Regular
+    font-size: 17px
+    color: #84848A
+  span:nth-child(2)
+    +SemiBold
+    font-size: 17px
+    color: #059982
+.divider
+  width: 100%
+  color: #F2F2F3
+.totalPrice
+  span:nth-child(1)
+    +Regular
+    font-size: 17px
+    color: #84848A
+  span:nth-child(2)
+    +SemiBold
+    font-size: 32px
+    color: $primary
+.summaryBoxTitles
+  +Medium
+  font-size: 17px
+  color: $primary
+  letter-spacing: -0.03em
+.note
+  +Regular
+  font-size: 17px
+  color: #84848A
+.cancelButton
+  background-color: #FFFFFF !important
+  color: #E12D3D !important
+  border: 1px solid #E12D3D !important
+  &:hover
+    background-color: rgba(255, 45, 61, 0.04) !important
+.cancelAcceptButtonInverted
+  background-color: #E12D3D !important
+  color: #FFFFFF !important
+  &:hover
+    background-color: rgba(255, 45, 61, 0.9) !important
+.keepOrderButton
+  background-color: #FFFFFF !important
+  color: $primary !important
+  border: 1px solid $primary !important
+  &:hover
+    background-color: rgba(13, 7, 11, 0.04) !important
+.cancelAcceptButton
+  background-color: #FFFFFF !important
+  color: $primary !important
+  &:hover
+    background-color: rgba(13, 7, 11, 0.04) !important
+.actionsModal
+  left: 0 !important
+  display: flex
+  text-align: center
+  flex-direction: column
+  justify-content: center
+  align-items: center
+.modalRootStack
+  text-align: center
+  padding: 40px 20px
+  width: auto
+  height: auto
+.modalTitle
+  +SemiBold
+  font-size: 21px
+  color: $primary
+  letter-spacing: -0.01em
+.modalBody
+  +Regular
+  font-size: 17px
+  color: #84848A
+@media #{$tablette}
+  .main
+    width: 100%
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem
+  .paimentStack
+    flex-direction: column
+  .rootStack
+    min-width: 100%
+  .offerPrice
+    +Regular
+    font-size: 15px
+    color: #84848A
+    text-align: start
+  .orderTopStack
+    flex-wrap: wrap
+    align-items: flex-start
+    span
+      margin-left: 0 !important
+  .orderStatus
+    +Regular
+    border-radius: 13px
+    padding: 2px 8px
+    text-align: center
+    font-size: 11px
+    color: $primary
+    max-width: fit-content
+  .orderStack
+    flex-direction: column
+  .orderSummaryBox
+    position: unset
+    box-shadow: none
+    max-width: 100%
+    max-height: 100%
+    width: 100%
+    padding: 40px 0 0 0 !important
+    margin-left: 0 !important
+  .orderBoxRootStack
+    margin-top: 22px !important
+    width: 363px
+    max-width: 100%
+    align-self: center
+  .actionsModal
+    width: 100%
+  .modalActionsRootStack
+    width: 270px
+    max-width: 100%
+    align-self: center
+// @media #{}
+// @media #{}

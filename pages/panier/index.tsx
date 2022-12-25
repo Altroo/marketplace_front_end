@@ -17,7 +17,7 @@ import {
 import TextAnchorButton from '../../components/htmlElements/buttons/textAnchorButton/textAnchorButton';
 import ArrowRightSVG from '../../public/assets/svgs/navigationIcons/arrow-right.svg';
 import { allowAnyInstance, Desktop, TabletAndMobile } from '../../utils/helpers';
-import { PANIER_DETAILS_BY_SHOP_PK, REAL_OFFER_ROUTE, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../../utils/routes';
+import { PANIER_DETAILS_BY_SHOP_PK, REAL_OFFER_ROUTE } from '../../utils/routes';
 import Link from 'next/link';
 import { getCookie } from 'cookies-next';
 import { AxiosInstance } from 'axios';

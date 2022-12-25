@@ -9,8 +9,9 @@ import {
 } from '../types/offer/offerTypes';
 import { AccountGenderCodeValueType } from '../types/account/accountTypes';
 import { NotificationsType } from '../types/notification/notificationTypes';
-import { DASHBOARD_SUBSCRIPTION } from './routes';
+import { DASHBOARD_ORDERS, DASHBOARD_SUBSCRIPTION } from "./routes";
 import { useCallback } from 'react';
+import { OrderStatusType } from "../types/order/orderTypes";
 
 export const monthItemsList = [
 	'janv',
@@ -357,6 +358,31 @@ export const getNotificationLink = (type: NotificationsType) => {
 			return {
 				link: DASHBOARD_SUBSCRIPTION,
 				message: 'Votre abonnement est activé',
+			};
+		case 'OR':
+			return {
+				link: DASHBOARD_ORDERS,
+				message: 'Vous avez reçu une nouvelle commande',
+			};
+	}
+};
+
+export const getOrderStatus = (order_status: OrderStatusType) => {
+	switch (order_status) {
+		case 'IP':
+			return {
+				text: 'En cours...',
+				color: '#F8F2DA',
+			};
+		case 'CM':
+			return {
+				text: 'Terminer',
+				color: '#DBFAEA',
+			};
+		case 'CA':
+			return {
+				text: 'Annulée',
+				color: '#F3DCDC',
 			};
 	}
 };

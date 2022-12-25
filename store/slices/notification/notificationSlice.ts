@@ -7,7 +7,7 @@ const initialState: NotificationStateInterface = {
 };
 
 const notificationSlice = createSlice({
-	name: 'slice',
+	name: 'notification',
 	initialState: initialState,
 	reducers: {
 		setNotificationsState: (state, action: PayloadAction<Array<NotificationGetRootType>>) => {

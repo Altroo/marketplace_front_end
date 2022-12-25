@@ -15,7 +15,7 @@ import {
 	seoPagesGetOffersBySeoPageUrlWithQueryParamsAction
 } from '../../../../store/actions/seo_pages/seoPagesActions';
 import { ApiErrorResponseType } from '../../../../types/_init/_initTypes';
-import { Desktop, generateQueryParams, getBackendNextPageNumber } from "../../../../utils/helpers";
+import { Desktop, generateOffersFilterQueryParams, getBackendNextPageNumber } from "../../../../utils/helpers";
 import { Iterables } from 'langx-js';
 import { ParsedUrlQueryInput } from 'querystring';
 import ApiProgress from '../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
@@ -92,10 +92,10 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 			let url = `${process.env.NEXT_PUBLIC_SEO_PAGES_OFFERS}${page_url}/`;
 			let queryParams: string;
 			if (nextPage !== null && !isReset) {
-				queryParams = generateQueryParams(router.query, nextPage);
+				queryParams = generateOffersFilterQueryParams(router.query, nextPage);
 				url += queryParams;
 			} else {
-				queryParams = generateQueryParams(router.query);
+				queryParams = generateOffersFilterQueryParams(router.query);
 				url += queryParams;
 			}
 			const action = seoPagesGetOffersBySeoPageUrlWithQueryParamsAction(url);

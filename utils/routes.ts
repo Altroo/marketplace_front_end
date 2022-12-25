@@ -4,7 +4,8 @@ export const SITE_ROOT = `${process.env.NEXT_PUBLIC_DOMAIN_URL_PREFIX}/`;
 export const NOT_FOUND_404 = `${SITE_ROOT}404`;
 // CGU page
 export const CGU_PAGE = `${SITE_ROOT}cgu`;
-
+// Instagram page
+export const INSTA_PAGE = `${SITE_ROOT}boutique-en-ligne-maroc`;
 /*
 shop/abc/ => index
 shop/abc/offer/1 => index
@@ -70,7 +71,8 @@ export const DASHBOARD_INDEXED_OFFERS = `${SITE_ROOT}dashboard/my-business/artic
 export const DASHBOARD_ADD_INDEX_OFFERS = `${SITE_ROOT}dashboard/my-business/articles-references/add-offers`;
 export const DASHBOARD_AUDIENCES = `${SITE_ROOT}dashboard/my-business/audience`;
 export const DASHBOARD_CHIFFRE_DAFFAIRE = `${SITE_ROOT}dashboard/my-business/chiffre-d'affaire`;
-
+export const DASHBOARD_ORDERS = `${SITE_ROOT}dashboard/my-business/orders`;
+export const DASHBOARD_ORDER_DETAIL = (order_pk: number) => `${SITE_ROOT}dashboard/my-business/orders/${order_pk}`;
 // Panier
 export const PANIER = `${SITE_ROOT}panier`;
 export const PANIER_DETAILS_BY_SHOP_PK = (shop_pk: number) => `${PANIER}/${shop_pk}`;

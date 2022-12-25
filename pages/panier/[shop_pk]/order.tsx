@@ -65,7 +65,7 @@ import { CGUCheckBox } from '../../../components/htmlElements/checkBoxes/checkBo
 
 const inputTheme = coordonneeTextInputTheme();
 
-type RowArticleProductType = {
+type RowOrderProductType = {
 	offer_picture: string;
 	offer_title: string;
 	shop_link: string;
@@ -77,7 +77,7 @@ type RowArticleProductType = {
 	offer_total_price: number;
 };
 
-const RowArticleProduct: React.FC<RowArticleProductType> = (props: RowArticleProductType) => {
+const RowOrderProduct: React.FC<RowOrderProductType> = (props: RowOrderProductType) => {
 	const {
 		offer_picture,
 		offer_title,
@@ -132,7 +132,7 @@ const RowArticleProduct: React.FC<RowArticleProductType> = (props: RowArticlePro
 	);
 };
 
-type RowArticleServiceType = {
+type RowOrderServiceType = {
 	offer_picture: string;
 	offer_title: string;
 	shop_link: string;
@@ -141,7 +141,7 @@ type RowArticleServiceType = {
 	picked_date: Date | null;
 	offer_total_price: number;
 };
-const RowArticleService: React.FC<RowArticleServiceType> = (props: RowArticleServiceType) => {
+const RowOrderService: React.FC<RowOrderServiceType> = (props: RowOrderServiceType) => {
 	const { offer_pk, offer_total_price, offer_picture, offer_title, shop_link, picked_date, picked_hour } = props;
 
 	return (
@@ -895,7 +895,7 @@ const Order: NextPage<OrderPropsType> = (props: OrderPropsType) => {
 																	const { picked_quantity, offer_max_quantity, picked_size, picked_color } =
 																		offer_details as cartPaginationDetailsForProduct;
 																	return (
-																		<RowArticleProduct
+																		<RowOrderProduct
 																			key={lotIndex}
 																			offer_max_quantity={offer_max_quantity}
 																			offer_title={offer_title}
@@ -911,7 +911,7 @@ const Order: NextPage<OrderPropsType> = (props: OrderPropsType) => {
 																} else if (offer_type === 'S') {
 																	const { picked_hour, picked_date } = offer_details as cartPaginationDetailsForService;
 																	return (
-																		<RowArticleService
+																		<RowOrderService
 																			key={lotIndex}
 																			offer_title={offer_title}
 																			offer_picture={offer_picture}

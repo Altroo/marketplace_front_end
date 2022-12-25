@@ -18,6 +18,7 @@ export type WSEventType =
 	| 'NOTIFICATION'
 	| 'FACTURE_PDF';
 
+
 export type WSEvent<T> = {
 	message: T;
 };

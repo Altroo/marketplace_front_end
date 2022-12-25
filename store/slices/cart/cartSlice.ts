@@ -16,7 +16,7 @@ const initialState: CartStateInterface = {
 };
 
 const cartSlice = createSlice({
-	name: 'cartSlice',
+	name: 'cart',
 	initialState: initialState,
 	reducers: {
 		setCartUniqueID: (state, action: PayloadAction<string>) => {

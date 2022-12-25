@@ -25,6 +25,7 @@ import EmptyCartSVG from '../../../public/assets/svgs/mainNavBarIcons/empty-cart
 import { useSession, signOut } from 'next-auth/react';
 import { useAppSelector } from '../../../utils/hooks';
 import {
+	getBoutiqueCoupDeCoeur,
 	getCartCounter,
 	getCheckUserHasShop,
 	getShopAvatar,
@@ -32,8 +33,8 @@ import {
 	getUserLastName,
 	getUserNewNotification,
 	getUserProfilAvatar,
-	getUserShopUrl,
-} from '../../../store/selectors';
+	getUserShopUrl
+} from "../../../store/selectors";
 import Link from 'next/link';
 import {
 	AUTH_LOGIN,
@@ -58,6 +59,7 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 	const { data: session, status } = useSession();
 	const router = useRouter();
 	const stateAvatar = useAppSelector(getUserProfilAvatar);
+	const boutiqueCoupDeCoeur = useAppSelector(getBoutiqueCoupDeCoeur);
 	const stateShopAvatar = useAppSelector(getShopAvatar);
 	const [navBarPicture, setNavBarPicture] = useState<string | null>(null);
 	const firstName = useAppSelector(getUserFirstName);
@@ -296,11 +298,21 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 							<span className={Styles.disabledAnchorText}>Collections lifestyle</span>
 							<span className={Styles.comingSoon}>Coming soon</span>
 						</Stack>
-						<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
-							<span className={Styles.disabledAnchorText}>Boutique coup de</span>
-							<Image alt="" width="0" height="0" sizes="100vw" src={HeartShapeSVG} />
-							<span className={Styles.comingSoon}>Coming soon</span>
-						</Stack>
+						{boutiqueCoupDeCoeur ? (
+							<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(boutiqueCoupDeCoeur)}>
+								<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
+									<span className={Styles.anchorText}>Boutique coup de</span>
+									<Image alt="" width="0" height="0" sizes="100vw" src={HeartShapeSVG} />
+								</Stack>
+							</Link>
+
+						) : (
+							<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
+								<span className={Styles.disabledAnchorText}>Boutique coup de</span>
+								<Image alt="" width="0" height="0" sizes="100vw" src={HeartShapeSVG} />
+								<span className={Styles.comingSoon}>Coming soon</span>
+							</Stack>
+						)}
 						<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
 							<span className={Styles.disabledAnchorText}>Nos produits</span>
 							<span className={Styles.comingSoon}>Coming soon</span>
@@ -388,11 +400,20 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 											<span className={Styles.disabledAnchorText}>Collections lifestyle</span>
 											<span className={Styles.comingSoon}>Coming soon</span>
 										</Stack>
-										<Stack direction="row" alignItems="center" flexWrap="wrap">
-											<span className={Styles.disabledAnchorText}>Boutique coup de</span>
-											<Image alt="" width={32} height={32} sizes="100vw" src={HeartShapeSVG} />
-											<span className={Styles.comingSoon}>Coming soon</span>
-										</Stack>
+										{boutiqueCoupDeCoeur ? (
+											<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(boutiqueCoupDeCoeur)}>
+												<Stack direction="row" alignItems="center" flexWrap="wrap">
+													<span className={Styles.anchorText}>Boutique coup de</span>
+													<Image alt="" width={32} height={32} sizes="100vw" src={HeartShapeSVG} />
+												</Stack>
+											</Link>
+										) : (
+											<Stack direction="row" alignItems="center" flexWrap="wrap">
+												<span className={Styles.disabledAnchorText}>Boutique coup de</span>
+												<Image alt="" width={32} height={32} sizes="100vw" src={HeartShapeSVG} />
+												<span className={Styles.comingSoon}>Coming soon</span>
+											</Stack>
+										)}
 										<Stack direction="row" alignItems="center" flexWrap="wrap">
 											<span className={Styles.disabledAnchorText}>Nos produits</span>
 											<span className={Styles.comingSoon}>Coming soon</span>

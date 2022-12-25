@@ -134,6 +134,7 @@ export type InitStateUniqueID = {
 export interface InitStateInterface<T, K> extends Token_type {
 	initStateToken: T;
 	initStateUniqueID: K;
+	boutiqueCoupDeCoeur?: string | undefined;
 }
 
 type ResponseDataTokenRefresh = {

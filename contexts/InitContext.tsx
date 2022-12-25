@@ -25,6 +25,7 @@ import {
 import { placesGetCitiesAction } from "../store/actions/places/placesActions";
 import { notificationGetRootAction } from "../store/actions/notification/notificationActions";
 import { cartGetCartCounterAction } from "../store/actions/cart/cartActions";
+import { orderGetOrdersCountAction } from "../store/actions/order/orderActions";
 
 const InitContext = createContext<InitStateInterface<InitStateToken, InitStateUniqueID>>({
 	tokenType: null,
@@ -87,6 +88,7 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 			if (userHasShop && typeof userShopUrl === 'string') {
 				dispatch(shopGetRootAction(userShopUrl));
 			}
+			dispatch(orderGetOrdersCountAction());
 			dispatch(notificationGetRootAction());
 		}
 		/*

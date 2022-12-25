@@ -160,3 +160,5 @@ export const getCartCounter = (state: RootState) => state.cart.cartCounter;
 export const getUserLocalCartOder = (state: RootState) => state.cart.userLocalCartOrder;
 export const getUserLocalCartCoordonneeData = (state: RootState) => state.cart.userLocalCartOrderCoordoneeData;
 export const getUserLocalCartDeliveriesData = (state: RootState) => state.cart.userLocalCartOrderDeliveriesData;
+// Index page
+export const getBoutiqueCoupDeCoeur = (state: RootState) => state._init.boutiqueCoupDeCoeur;

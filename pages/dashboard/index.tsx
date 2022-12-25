@@ -12,15 +12,15 @@ import {
 	DASHBOARD_SUBSCRIPTION,
 	NOT_FOUND_404,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	REAL_SHOP_ADD_SHOP_NAME,
-} from '../../utils/routes';
-import { Stack, Box, Skeleton } from '@mui/material';
+	REAL_SHOP_ADD_SHOP_NAME, DASHBOARD_ORDERS, DASHBOARD_ORDER_DETAIL
+} from "../../utils/routes";
+import { Stack, Box, Skeleton, Badge } from '@mui/material';
 import UserMainNavigationBar from '../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import Styles from '../../styles/dashboard/dashboard.module.sass';
 import Image from 'next/image';
 // import MobileNewMessageSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-new-message.svg';
-import MobileMessageSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-message.svg';
-import MobileNotificationSVG from '../../public/assets/svgs/mainNavBarIcons/notification.svg';
+// import MobileMessageSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-message.svg';
+// import MobileNotificationSVG from '../../public/assets/svgs/mainNavBarIcons/notification.svg';
 // import MobileNewNotificationSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-new-notification.svg';
 // import RatingBlackStarSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/rating-black-star.svg';
 import MiniArticlesTotalCountSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mini-articles-total-count.svg';
@@ -42,16 +42,17 @@ import CreateShopIlluSVG from '../../public/assets/images/cards_illu/create-shop
 import MobileDashboardMessagesNotifications from '../../components/mobile/navbars/mobileDashboardMessagesNotifications/mobileDashboardMessagesNotifications';
 import ShopVerified from '../../components/groupedComponents/shop/get/shopVerified/shopVerified';
 import Link from 'next/link';
-import { fullMonthItemsList } from '../../utils/rawData';
+import { fullMonthItemsList, getDateStringFromFormatedDate, getOrderStatus } from "../../utils/rawData";
 import CustomFooter from '../../components/layouts/footer/customFooter';
 import ActivateYourAccount from '../../components/layouts/callToActionCards/activateYourAccount/activateYourAccount';
 import { useRouter } from 'next/router';
 import CustomSwipeModal from '../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import { EnterCodePageContent } from '../auth/reset-password/enter-code';
 import { SxProps, ThemeProvider } from '@mui/system';
-import { getDefaultTheme } from '../../utils/themes';
+import { badgeTheme, getDefaultTheme } from '../../utils/themes';
 import OutlineButton from '../../components/htmlElements/buttons/outlineButton/outlineButton';
 import { Theme } from '@mui/material/styles/createTheme';
+import order from "../panier/[shop_pk]/order";
 // import { accountPostResendActivationAction } from '../../store/actions/account/accountActions';
 // import { useAppDispatch } from '../../utils/hooks';
 
@@ -287,7 +288,7 @@ const ShopMyBusinessCardContent: React.FC<ShopMyBusinessCardContentType> = (prop
 					<Image src={DesktopUSDSVG} alt="" width="40" height="40" sizes="100vw" />
 					<Stack direction="column" sx={{ width: '100%' }}>
 						<span className={Styles.dashboardMiniCardCounter}>
-							{total_sells_count} {total_sells_count > 1 ? 'DHS' : 'DH'}
+							{total_sells_count} DH
 						</span>
 						<Stack direction="row" justifyContent="space-between">
 							<span className={Styles.dashboardMiniCardSubHeader}>
@@ -385,12 +386,12 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	const { data } = props.pageProps;
 	// const dispatch = useAppDispatch();
 	// const [mobileMessagesIconState, setMobileMessagesIconState] = useState<string>(MobileMessageSVG);
-	// const [mobileNotificationsIconState, setMobileNotificationsIconState] = useState<string>(MobileNotificationSVG);
 	const [showActivateNowModal, setShowActivateNowModal] = useState<boolean>(false);
 
 	const {
 		// has_messages,
 		// has_notifications,
+		mini_orders_list,
 		is_subscribed,
 		shop_name,
 		shop_avatar,
@@ -398,7 +399,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		email,
 		has_shop,
 		indexed_articles_count,
-		// has_orders,
+		has_orders,
 		// is_creator,
 		is_verified,
 		shop_url,
@@ -423,9 +424,6 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		// if (has_messages) {
 		// 	setMobileMessagesIconState(MobileNewMessageSVG);
 		// }
-		// if (has_notifications) {
-		// 	setMobileNotificationsIconState(MobileNewNotificationSVG);
-		// }
 		if (total_vue_pourcentage.startsWith('+')) {
 			setTotalVuePourcentageCSS(Styles.dashboardPositivePourcentage);
 		} else if (total_vue_pourcentage.startsWith('-')) {
@@ -443,13 +441,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		<ThemeProvider theme={getDefaultTheme()}>
 			<Stack direction="column">
 				<UserMainNavigationBar />
-				{/* TODO - Altroo : apply case has messages - has notifications */}
-				<MobileDashboardMessagesNotifications
-					// messageIcon={mobileMessagesIconState}
-					// notificationIcon={mobileNotificationsIconState}
-					messageIcon={MobileMessageSVG}
-					notificationIcon={MobileNotificationSVG}
-				/>
+				<MobileDashboardMessagesNotifications />
 				<main className={`${Styles.dashboardIndexMain} ${Styles.fixMobile}`}>
 					<Desktop>
 						<Stack direction="row" spacing="24px" className={Styles.flexRootStack}>
@@ -546,26 +538,76 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 									<Box className={Styles.dashboardSizedBox}>
 										<Stack direction="column" spacing="12px" className={Styles.maxHeight}>
 											<Stack direction="row" spacing="18px" alignItems="center">
-												<Image src={DesktopOrdersSVG} alt="" width="54" height="54" sizes="100vw" />
+												{has_orders ? (
+													<ThemeProvider theme={badgeTheme()}>
+														<Badge
+															variant="dot"
+															overlap="circular"
+															anchorOrigin={{
+																vertical: 'top',
+																horizontal: 'right',
+															}}
+															color="primary"
+														>
+															<Image src={DesktopOrdersSVG} alt="" width="54" height="54" sizes="100vw" />
+														</Badge>
+													</ThemeProvider>
+												) : (
+													<Image src={DesktopOrdersSVG} alt="" width="54" height="54" sizes="100vw" />
+												)}
 												<span className={Styles.dashboardCardIconText}>Mes commandes</span>
 											</Stack>
-											<Stack
-												direction="column"
-												spacing="12px"
-												className={Styles.maxHeight}
-												justifyContent="center"
-												textAlign="center"
-											>
-												{/* TODO - Altroo : apply case has orders */}
-												<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
-													<Image src={EmptyOrdersIlluSVG} alt="" width="123" height="83" sizes="100vw" />
-												</Box>
-												<span className={Styles.dashboardNoContentHeader}>Aucune commande</span>
-												<span className={Styles.dashboardNoContentText}>
-													C&apos;est ici qu&apos;apparaîtront vos futurs
-													<br /> commandes
-												</span>
-											</Stack>
+											{mini_orders_list.length > 0 ? (
+												<Stack direction="column" justifyContent="space-between" spacing="18px" pt="18px" height="100%">
+													{mini_orders_list.map((order) => {
+														const {text, color} = getOrderStatus(order.order_status);
+														return (
+															<Link href={DASHBOARD_ORDER_DETAIL(order.pk)} key={order.pk} className={Styles.hover}>
+																<Stack direction="row" alignItems="center" spacing="18px" className={Styles.orderRootStack}>
+																	<Image
+																		src={order.avatar}
+																		alt=""
+																		width="48"
+																		height="48"
+																		sizes="100vw"
+																		className={Styles.buyerAvatar}
+																	/>
+																	<Stack direction="column" spacing="6px" width="85%">
+																		<Stack direction="row" justifyContent="space-between" width="100%">
+																			<span className={Styles.orderStatus} style={{backgroundColor: color}}>{text}</span>
+																			<span className={Styles.orderDate}>{getDateStringFromFormatedDate(order.order_date)}</span>
+																		</Stack>
+																		<span className={Styles.buyerName}>{order.first_name} {order.last_name}</span>
+																		<span className={Styles.buyerProductPrice}>{order.articles_count} • {order.total_price} DH</span>
+																	</Stack>
+																</Stack>
+															</Link>
+														);
+													})}
+													<Stack direction="row" alignSelf="flex-end">
+														<Link href={DASHBOARD_ORDERS} className={Styles.hrefLink}>
+															Toutes les commandes
+														</Link>
+													</Stack>
+												</Stack>
+											) : (
+												<Stack
+													direction="column"
+													spacing="12px"
+													className={Styles.maxHeight}
+													justifyContent="center"
+													textAlign="center"
+												>
+													<Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
+														<Image src={EmptyOrdersIlluSVG} alt="" width="123" height="83" sizes="100vw" />
+													</Box>
+													<span className={Styles.dashboardNoContentHeader}>Aucune commande</span>
+													<span className={Styles.dashboardNoContentText}>
+														C&apos;est ici qu&apos;apparaîtront vos futurs
+														<br /> commandes
+													</span>
+												</Stack>
+											)}
 										</Stack>
 									</Box>
 								</Stack>
@@ -607,7 +649,37 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 								) : (
 									<UserMyBusinessCardContent rootSX={{ width: '100%' }} />
 								)}
-								<MobileDashboardCards icon={DesktopOrdersSVG} link={NOT_FOUND_404} title="Mes commandes" disabled />
+								{has_orders ? (
+									<Stack
+										className={Styles.dashboardCardBox}
+										justifyContent="center"
+										sx={{ height: '110px !important', opacity: '1'} }
+									>
+										<Link href={DASHBOARD_ORDERS}>
+											<Stack direction="row" justifyContent="space-between" alignItems="center">
+												<Stack direction="row" spacing="18px" alignItems="center">
+													<ThemeProvider theme={badgeTheme()}>
+														<Badge
+															variant="dot"
+															overlap="circular"
+															anchorOrigin={{
+																vertical: 'top',
+																horizontal: 'right',
+															}}
+															color="primary"
+														>
+															<Image src={DesktopOrdersSVG} alt="" width="54" height="54" sizes="100vw" />
+														</Badge>
+													</ThemeProvider>
+													<span className={Styles.dashboardCardIconText}>Mes commandes</span>
+												</Stack>
+												<Image src={GrayArrowSVG} alt="" width="14" height="14" sizes="100vw" />
+											</Stack>
+										</Link>
+									</Stack>
+								) : (
+									<MobileDashboardCards icon={DesktopOrdersSVG} link={DASHBOARD_ORDERS} title="Mes commandes" />
+								)}
 								<MobileDashboardCards icon={DesktopMonCompteSVG} link={DASHBOARD_EDIT_PROFILE} title="Mon compte" />
 							</Stack>
 						</Stack>
@@ -634,7 +706,6 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 						</CustomSwipeModal>
 					</div>
 				</Desktop>
-
 				<CustomFooter />
 			</Stack>
 		</ThemeProvider>
