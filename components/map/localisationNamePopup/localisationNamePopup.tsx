@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import Styles from './localisationNamePopup.module.sass';
 import { Stack } from '@mui/material';
-import MarkerBlueSVG from '../../../public/assets/svgs/globalIcons/marker-blue.svg';
 import {
 	getLocalisationName,
 	getPlacesApiError,
-	getPlacesApiFetchPromiseStatus, getShopAddressName,
-} from "../../../store/selectors";
+	getPlacesApiFetchPromiseStatus,
+	getShopAddressName,
+} from '../../../store/selectors';
 import { useAppSelector } from '../../../utils/hooks';
-import Image from 'next/image';
 
 type Props = {
 	address_name?: string;
@@ -41,15 +40,6 @@ const LocalisationNamePopup: React.FC<Props> = (props: Props) => {
 		<div className={Styles.localisationNamePopupWrapper}>
 			{localisationName && apiFetchPromiseStatus !== 'REJECTED' ? (
 				<Stack direction="row" justifyContent="space-around">
-					<div className={Styles.localisationIconWrapper}>
-						<Image
-									src={MarkerBlueSVG}
-									alt=""
-									width="20"
-									height="20"
-									sizes="100vw"
-								/>
-					</div>
 					<p className={Styles.localisationName}>{localisationName}</p>
 				</Stack>
 			) : (

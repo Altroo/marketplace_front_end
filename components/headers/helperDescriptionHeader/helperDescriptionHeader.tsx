@@ -1,7 +1,5 @@
 import React from "react";
 import Styles from './helperDescriptionHeader.module.sass';
-import QuestionMarkSVG from '../../../public/assets/svgs/globalIcons/question-mark.svg';
-import Image from 'next/image';
 
 type Props = {
 	header: string;

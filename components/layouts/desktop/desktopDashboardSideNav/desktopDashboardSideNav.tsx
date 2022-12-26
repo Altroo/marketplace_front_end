@@ -14,8 +14,8 @@ import { useRouter } from 'next/router';
 import {
 	DASHBOARD_ADRESSE_EMAIL,
 	DASHBOARD_PASSWORD,
-	DASHBOARD_EDIT_PROFILE,
-} from '../../../../utils/routes';
+	DASHBOARD_EDIT_PROFILE, SITE_ROOT
+} from "../../../../utils/routes";
 
 export type DesktopSideNavElementType = {
 	icon: string;
@@ -53,7 +53,7 @@ const DesktopDashboardSideNav: React.FC<Props> = (props: Props) => {
 			text: 'Mon profil',
 			link: DASHBOARD_EDIT_PROFILE,
 			icon: MonProfilSVG,
-			current: router.pathname.endsWith(DASHBOARD_EDIT_PROFILE),
+			current: router.pathname.endsWith(DASHBOARD_EDIT_PROFILE.replace(SITE_ROOT, '')),
 			disabled: false,
 		},
 	];
@@ -62,14 +62,14 @@ const DesktopDashboardSideNav: React.FC<Props> = (props: Props) => {
 			text: 'Adresse email',
 			link: DASHBOARD_ADRESSE_EMAIL,
 			icon: AdresseEmailSVG,
-			current: router.pathname.endsWith(DASHBOARD_ADRESSE_EMAIL),
+			current: router.pathname.endsWith(DASHBOARD_ADRESSE_EMAIL.replace(SITE_ROOT, '')),
 			disabled: false,
 		},
 		{
 			text: 'Mot de passe',
 			link: DASHBOARD_PASSWORD,
 			icon: MotDePasseSVG,
-			current: router.pathname.endsWith(DASHBOARD_PASSWORD),
+			current: router.pathname.endsWith(DASHBOARD_PASSWORD.replace(SITE_ROOT, '')),
 			disabled: false,
 		},
 	];

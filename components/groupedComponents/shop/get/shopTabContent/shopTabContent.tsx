@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Styles from './shopTabContent.module.sass';
 import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilterSelect';
-import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from "@mui/material";
+import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from '@mui/material';
 import {
 	GetOffersSagaCallBackOnCompleteDataType,
 	OfferGetAvailableShopFiltersType,
@@ -10,7 +10,6 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
-// import BlackStarSVG from '../../../../../public/assets/svgs/globalIcons/black-star.svg';
 import { useRouter } from 'next/router';
 import CreatorIconSVG from '../../../../../public/assets/svgs/globalIcons/creator.svg';
 import { useAppDispatch } from '../../../../../utils/hooks';
@@ -20,17 +19,17 @@ import {
 } from '../../../../../store/actions/offer/offerActions';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
-import { generateQueryParams, getBackendNextPageNumber } from '../../../../../utils/helpers';
+import { Desktop, generateOffersFilterQueryParams, getBackendNextPageNumber } from '../../../../../utils/helpers';
 import { Iterables } from 'langx-js';
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter';
 import CustomSwipeModal from '../../../../desktop/modals/rightSwipeModal/customSwipeModal';
 import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
 import { REAL_OFFER_ROUTE } from '../../../../../utils/routes';
-import ApiProgress from "../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
-import { ParsedUrlQueryInput } from "querystring";
+import ApiProgress from '../../../../formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
+import { ParsedUrlQueryInput } from 'querystring';
 
-type offerLinkedHashMapType = {
+export type offerLinkedHashMapType = {
 	offersMap: Iterables.LinkedHashMap<number, OfferGetMyOffersProductServiceType> | null;
 	count: number;
 	nextPage: string | null;
@@ -44,7 +43,7 @@ type Props = {
 	children?: React.ReactNode;
 };
 
-const availableFiltersInit: OfferGetAvailableShopFiltersType = {
+export const availableFiltersInit: OfferGetAvailableShopFiltersType = {
 	available_categories: [],
 	available_colors: [],
 	available_sizes: [],
@@ -111,10 +110,10 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			let url = `${process.env.NEXT_PUBLIC_OFFER_OFFERS}${shop_pk}/`;
 			let queryParams: string;
 			if (nextPage !== null && !isReset) {
-				queryParams = generateQueryParams(router.query, nextPage);
+				queryParams = generateOffersFilterQueryParams(router.query, nextPage);
 				url += queryParams;
 			} else {
-				queryParams = generateQueryParams(router.query);
+				queryParams = generateOffersFilterQueryParams(router.query);
 				url += queryParams;
 			}
 			const action = offerGetOffersByShopIDWithQueryParamsAction(url);
@@ -186,85 +185,38 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		shop_pk,
 	]);
 
-	// const filterOnChange = (
-	// 	e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
-	// 	value: string,
-	// ) => {
-	// 	setFilter(value as 'D' | 'C');
-	// 	// default prix decroissant.
-	// 	// -price = D
-	// 	// price = T
-	// 	const queryParams: ParsedUrlQueryInput = {
-	// 		// shop_link: router.query.shop_link,
-	// 		// sort_by: '-price',
-	// 		...router.query,
-	// 	};
-	// 	const options = { shallow: true, scroll: false };
-	//
-	// 	if (router.query.page) {
-	// 		if (value === 'D') {
-	// 			router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
-	// 				setFilterChanged(true);
-	// 			});
-	// 		} else {
-	// 			router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
-	// 				setFilterChanged(true);
-	// 			});
-	// 		}
-	// 	} else {
-	// 		if (value === 'D') {
-	// 			router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
-	// 				setFilterChanged(true);
-	// 			});
-	// 		} else {
-	// 			router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
-	// 				setFilterChanged(true);
-	// 			});
-	// 		}
-	// 	}
-	// };
+	const filterOnChange = useCallback(
+		(e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null, value: string) => {
+			setFilter(value as 'D' | 'C');
+			const queryParams: ParsedUrlQueryInput = {
+				...router.query,
+			};
+			const options = { shallow: true, scroll: false };
 
-	const filterOnChange = useCallback((e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent | React.FocusEvent | null,
-		value: string) => {
-		setFilter(value as 'D' | 'C');
-		// default prix decroissant.
-		// -price = D
-		// price = T
-		const queryParams: ParsedUrlQueryInput = {
-			// shop_link: router.query.shop_link,
-			// sort_by: '-price',
-			...router.query,
-		};
-		const options = { shallow: true, scroll: false };
-
-		if (router.query.page) {
-			if (value === 'D') {
-				router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
+			if (router.query.page) {
+				if (value === 'D') {
+					router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				} else {
+					router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				}
 			} else {
-				router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
+				if (value === 'D') {
+					router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				} else {
+					router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
+						setFilterChanged(true);
+					});
+				}
 			}
-		} else {
-			if (value === 'D') {
-				router.replace({ query: { ...queryParams, sort_by: '-price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
-			} else {
-				router.replace({ query: { ...queryParams, sort_by: 'price' } }, undefined, options).then(() => {
-					setFilterChanged(true);
-				});
-			}
-		}
-	}, [router]);
-
-	// const [searchValue, setSearchValue] = useState<string>('');
-
-	// const closeMobileFilterModal = () => {
-	// 	props.setOpenFilterModal(false);
-	// };
+		},
+		[router],
+	);
 
 	const closeMobileFilterModal = useCallback(() => {
 		props.setOpenFilterModal(false);
@@ -282,30 +234,36 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			<Box sx={{ minHeight: '450px' }}>
 				{!offersLinkedHashMap.offersMap?.isEmpty() && firstPageLoaded && (
 					<>
-						<Stack
-							className={Styles.filterWrapper}
-							flexDirection="row"
-							justifyContent="space-between"
-							alignItems="center"
-						>
-							<span className={Styles.filterText}>Filtrer</span>
-							<ShopFilterSelect
-								onChange={(e, value) => {
-									filterOnChange(e, value as 'D' | 'C');
-								}}
-								state={filter}
-								setStateHandler={setFilter}
-								activeHoverColor={props.activeColor}
-							/>
-						</Stack>
+						<Desktop>
+							<Stack
+								className={Styles.filterWrapper}
+								flexDirection="row"
+								justifyContent="space-between"
+								alignItems="center"
+							>
+								<span className={Styles.filterText}>Filtrer</span>
+								<ShopFilterSelect
+									onChange={(e, value) => {
+										filterOnChange(e, value as 'D' | 'C');
+									}}
+									state={filter}
+									setStateHandler={setFilter}
+									activeHoverColor={props.activeColor}
+								/>
+							</Stack>
+						</Desktop>
+
 						<Stack direction="row" justifyContent="space-between" className={Styles.rootShopFilterWrapper}>
 							{availableFiltersHasData && (
-								<Stack direction="column" className={Styles.shopFilterWrapperDesktopOnly}>
-									<AccordionFilter
-										availableFilters={availableFilters}
-										setApplyFiltersClicked={setApplyFiltersClicked}
-									/>
-								</Stack>
+								<Desktop>
+									<Stack direction="column" className={Styles.shopFilterWrapperDesktopOnly}>
+										<AccordionFilter
+											filterFor="SHOPS"
+											availableFilters={availableFilters}
+											setApplyFiltersClicked={setApplyFiltersClicked}
+										/>
+									</Stack>
+								</Desktop>
 							)}
 							<div className={`${offersLinkedHashMap.nextPage ? Styles.gridInStack : Styles.gridInBlock}`}>
 								<Grid container wrap="wrap" className={Styles.rootGrid}>
@@ -327,21 +285,23 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 													<Link
 														href={REAL_OFFER_ROUTE(router.query.shop_link as string, encodeURIComponent(data.key))}
 														key={data.key}
+														shallow={true}
+														scroll={false}
 														className={Styles.gridCardOfferWrapper}
 													>
 														<Grid item xs="auto" className={Styles.mobileGridRoot}>
-																<Stack direction="column" spacing={2}>
-																	<Box className={Styles.thumbnailWrapper}>
-																		{data.value.pinned && (
-																			<Image
-																				src={PinActiveIconSVG}
-																				alt=""
-																				width={32}
-																				height={32}
-																				className={Styles.thumbnailActionIcon}
-																			/>
-																		)}
-																		<Box sx={{ position: 'relative', height: '100%', borderRadius: '20px' }}>
+															<Stack direction="column" spacing={2}>
+																<Box className={Styles.thumbnailWrapper}>
+																	{data.value.pinned && (
+																		<Image
+																			src={PinActiveIconSVG}
+																			alt=""
+																			width={32}
+																			height={32}
+																			className={Styles.thumbnailActionIcon}
+																		/>
+																	)}
+																	<Box sx={{ position: 'relative', height: '100%', borderRadius: '20px' }}>
 																		{(!imagesLoading[index] || !data.value.thumbnail) && (
 																			<Skeleton
 																				animation="wave"
@@ -371,38 +331,38 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																			/>
 																		)}
 																	</Box>
-																		{data.value.creator_label && (
-																			<Image
-																				className={Styles.creatorImageTag}
-																				src={CreatorIconSVG}
-																				alt="creator"
-																				width="0"
-																				height="0"
-																				sizes="100vw"
-																			/>
-																		)}
-																	</Box>
-																	<Stack direction="column" spacing={0}>
-																		<span className={Styles.offerTitle}>
-																			{data.value.title.length >= 25
-																				? data.value.title.substring(0, 25) + '...'
-																				: data.value.title}
+																	{data.value.creator_label && (
+																		<Image
+																			className={Styles.creatorImageTag}
+																			src={CreatorIconSVG}
+																			alt="creator"
+																			width="0"
+																			height="0"
+																			sizes="100vw"
+																		/>
+																	)}
+																</Box>
+																<Stack direction="column" spacing={0}>
+																	<span className={Styles.offerTitle}>
+																		{data.value.title.length >= 25
+																			? data.value.title.substring(0, 25) + '...'
+																			: data.value.title}
+																	</span>
+																	<Stack direction="row" spacing={1}>
+																		<span
+																			className={`${Styles.offerPrice} ${
+																				data.value.solder_value !== null && Styles.oldPrice
+																			}`}
+																		>
+																			{data.value.price + ' DH'}
 																		</span>
-																		<Stack direction="row" spacing={1}>
-																			<span
-																				className={`${Styles.offerPrice} ${
-																					data.value.solder_value !== null && Styles.oldPrice
-																				}`}
-																			>
-																				{data.value.price + ' DH'}
-																			</span>
-																			<span className={Styles.solderPrice}>
-																				{data.value.solder_value !== null ? newPrice + ' DH' : null}
-																			</span>
-																		</Stack>
+																		<span className={Styles.solderPrice}>
+																			{data.value.solder_value !== null ? newPrice + ' DH' : null}
+																		</span>
 																	</Stack>
 																</Stack>
-															</Grid>
+															</Stack>
+														</Grid>
 													</Link>
 												);
 											}
@@ -446,6 +406,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 				{/* Mobile filter MODAL */}
 				{availableFiltersHasData && (
 					<CustomSwipeModal
+						transition
 						open={props.openFilterModal}
 						handleClose={() => props.setOpenFilterModal(false)}
 						keepMounted={true}
@@ -457,9 +418,11 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 							alignContent="space-between"
 						>
 							<Box className={Styles.closeButtonWrapper}>
-								<Image src={CloseSVG}
+								<Image
+									src={CloseSVG}
 									width={40}
 									height={40}
+									sizes="100vw"
 									alt=""
 									onClick={() => props.setOpenFilterModal(false)}
 									style={{ cursor: 'pointer' }}
@@ -475,6 +438,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 								activeHoverColor={props.activeColor}
 							/>
 							<AccordionFilter
+								filterFor="SHOPS"
 								availableFilters={availableFilters}
 								setApplyFiltersClicked={setApplyFiltersClicked}
 								closeModal={closeMobileFilterModal}

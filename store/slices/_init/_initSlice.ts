@@ -65,6 +65,9 @@ const _initSlice = createSlice({
 		setFbEmailInInit: (state, action: PayloadAction<{email : string}>) => {
 			state.initStateToken.user.email = action.payload.email;
 		},
+		setBoutiqueCoupDeCoeur: (state, action: PayloadAction<string>) => {
+			state.boutiqueCoupDeCoeur = action.payload;
+		},
 		initToken: () => {
 			return initialState;
 		},
@@ -76,6 +79,6 @@ const _initSlice = createSlice({
 	// },
 });
 
-export const { setInitState, setTokenState, setFbEmailInInit, initToken } = _initSlice.actions;
+export const { setInitState, setTokenState, setFbEmailInInit, initToken, setBoutiqueCoupDeCoeur } = _initSlice.actions;
 
 export default _initSlice.reducer;

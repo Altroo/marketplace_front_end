@@ -13,11 +13,8 @@ import {
 	INPUT_PASSWORD_MIN,
 	SHORT_INPUT_REQUIRED,
 	INPUT_POSTAL_CODE,
-	INPUT_ICE,
-	INPUT_NUMBER_MIN,
-	INPUT_NUMBER_MAX,
-	MINI_INPUT_EMAIL,
-} from './formValidationErrorMessages';
+	MINI_INPUT_EMAIL, INPUT_WHATSAPP_PONE
+} from "./formValidationErrorMessages";
 
 export const shopNameSchema = Yup.object().shape({
 	shop_name: Yup.string().min(2, INPUT_MIN(2)).max(50, INPUT_MAX(50)).required(INPUT_REQUIRED),
@@ -45,16 +42,17 @@ export const shopAvailabilityDaysSchema = Yup.object().shape({
 	afternoon_hour_to: Yup.date().nullable().notRequired(),
 });
 
-const rePhoneNumber = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
+// const rePhoneNumber = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
+const reWhatsappNumber = /^(\d{0,4})?(\(?\d{3}\)?)?(\(?\d{3}\)?)?(\(?\d{4}\)?)?$/;
 export const reUrl = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/;
 export const shopCoordonneeSchema = Yup.object().shape({
-	phone: Yup.string().matches(rePhoneNumber, { message: INPUT_PONE }).nullable().notRequired(),
+	phone: Yup.string().min(11, INPUT_PONE).matches(reWhatsappNumber, { message: INPUT_PONE }).nullable().notRequired(),
 	contact_email: Yup.string().email(INPUT_EMAIL).nullable().notRequired(),
 	website_link: Yup.string().matches(reUrl, INPUT_URL).nullable().notRequired(),
 	facebook_link: Yup.string().matches(reUrl,INPUT_FACEBOOK_URL).nullable().notRequired(),
 	twitter_link: Yup.string().matches(reUrl,INPUT_TWITTER_URL).nullable().notRequired(),
 	instagram_link: Yup.string().matches(reUrl,INPUT_INSTAGRAM_URL).nullable().notRequired(),
-	whatsapp: Yup.string().matches(rePhoneNumber, { message: INPUT_PONE }).nullable().notRequired(),
+	whatsapp: Yup.string().min(11, INPUT_WHATSAPP_PONE).matches(reWhatsappNumber, { message: INPUT_WHATSAPP_PONE }).nullable().notRequired(),
 });
 
 export const shopAddressSchema = Yup.object().shape({
@@ -118,12 +116,6 @@ export const addOfferServiceSchema = Yup.object().shape({
 	fr_day: Yup.boolean().nullable().notRequired(),
 	sa_day: Yup.boolean().nullable().notRequired(),
 	su_day: Yup.boolean().nullable().notRequired(),
-	// service_morning_hour_from: Yup.string().required(SHORT_INPUT_REQUIRED).nullable(),
-	// service_morning_hour_to: Yup.string().required(SHORT_INPUT_REQUIRED).nullable(),
-	// service_morning_hour_from: Yup.string().nullable().notRequired(),
-	// service_morning_hour_to: Yup.string().nullable().notRequired(),
-	// service_afternoon_hour_from: Yup.string().nullable().notRequired(),
-	// service_afternoon_hour_to: Yup.string().nullable().notRequired(),
 	service_morning_hour_from: Yup.date().required(SHORT_INPUT_REQUIRED).nullable(),
 	service_morning_hour_to: Yup.date().required(SHORT_INPUT_REQUIRED).nullable(),
 	service_afternoon_hour_from: Yup.date().nullable().notRequired(),
@@ -192,13 +184,6 @@ export const createPasswordSchema = Yup.object().shape({
 });
 
 export const subscriptionSchema = Yup.object().shape({
-	// company: Yup.string().notRequired().nullable(),
-	// ice: Yup.string()
-	// 	.min(15, INPUT_NUMBER_MIN(15))
-	// 	.typeError(INPUT_ICE)
-	// 	.max(15, INPUT_NUMBER_MAX(15))
-	// 	.transform((value) => value.replace(/\D/g, ''))
-	// 	.notRequired(),
 	first_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
 	last_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
 	adresse: Yup.string().min(2, INPUT_MIN(2)).max(50, INPUT_MAX(50)).required(INPUT_REQUIRED),
@@ -213,4 +198,24 @@ export const promoCodeSchema = Yup.object().shape({
 
 export const newsLetterEmailSchema = Yup.object().shape({
 	email: Yup.string().email(MINI_INPUT_EMAIL).notRequired().nullable(),
+});
+
+export const orderVSchema = Yup.object().shape({
+	first_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	last_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	address: Yup.string().min(2, INPUT_MIN(2)).max(50, INPUT_MAX(50)).required(INPUT_REQUIRED),
+	city: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	zip_code: Yup.number().typeError(INPUT_POSTAL_CODE).required(INPUT_REQUIRED),
+	country: Yup.string().required(INPUT_REQUIRED),
+	phone: Yup.string().min(11, INPUT_PONE).matches(reWhatsappNumber, { message: INPUT_PONE }).nullable().required(INPUT_REQUIRED),
+	email: Yup.string().email(MINI_INPUT_EMAIL).required(INPUT_REQUIRED),
+	note: Yup.string().notRequired().nullable(),
+});
+
+export const orderSSchema = Yup.object().shape({
+	first_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	last_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
+	phone: Yup.string().min(11, INPUT_PONE).matches(reWhatsappNumber, { message: INPUT_PONE }).nullable().required(INPUT_REQUIRED),
+	email: Yup.string().email(MINI_INPUT_EMAIL).required(INPUT_REQUIRED),
+	note: Yup.string().notRequired().nullable(),
 });

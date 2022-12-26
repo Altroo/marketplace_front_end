@@ -1,7 +1,7 @@
 // SA = subscription activated
 import { ResponseDataInterface } from "../_init/_initTypes";
 
-export type NotificationsType = 'SA';
+export type NotificationsType = 'SA' | 'OR';
 
 //!- Notification State
 export interface NotificationStateInterface {

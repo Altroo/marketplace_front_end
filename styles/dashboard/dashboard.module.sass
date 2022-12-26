@@ -3,10 +3,6 @@
 @import 'styles/sass/mixins'
 
 // Global styles
-.desktopOnly
-  display: flex
-.mobileOnly
-  +Hidden
 .comingSoon
   +Regular
   font-size: 9px
@@ -18,7 +14,6 @@
   display: block
   padding-right: 60px
   padding-top: 32px
-  //padding-bottom: 32px
   width: 100%
 .form
   min-width: 430px
@@ -37,7 +32,6 @@
   width: 100%
 .userCardStack
   padding: 18px
-  //justify-content: space-between
 .userCardStackContent
   width: 252px
 .userMembreDepuis
@@ -88,8 +82,6 @@
   @extend .userOldPrice
   color: #E12D3D
 .dashboardShopCardStack
-  //width: 379px
-  //height: 276px
   padding: 18px
   background-color: #FBFBFB
   border-radius: 20px
@@ -255,7 +247,6 @@
   width: 100%
   height: 100%
 .dashboardCreateShopButton
-  //margin-top: 24px
   width: 148px !important
   height: 32px !important
   min-width: 148px !important
@@ -412,6 +403,7 @@
     line-height: 40px
 .offerVuesThumbnail
   border-radius: 10px
+  object-fit: cover
 .offerVuesOfferTitle
   +Medium
   font-size: 17px
@@ -420,8 +412,6 @@
   +SemiBold
   font-size: 17px
   color: $primary
-//.offerVuesTopArticlesRootList
-//  height: 79px
 .offerVuesloadMoreStack
   margin-top: 32px !important
   margin-bottom: 32px !important
@@ -435,6 +425,60 @@
   padding: 14px 32px
   width: 364px
   height: 54px
+.orderNumber
+  +Medium
+  font-size: 17px
+  color: $primary
+  letter-spacing: -0.03em
+.orderSpan
+  +Regular
+  font-size: 15px
+  color: #525256
+.dashboardChiffreAffaireBox
+  width: 100%
+  border: 1px solid #D9D9DD
+  border-radius: 20px
+  padding: 12px
+  margin-bottom: 0 !important
+  &:hover
+    background-color: rgba(13, 7, 11, 0.04) !important // hover effect
+.orderRootStack
+  padding: 2px 8px
+
+.hover
+  border-radius: 13px
+  &:hover
+    background-color: rgba(13, 7, 11, 0.04) !important // hover effect
+.hrefLink
+  +Regular
+  font-size: 13px
+  color: #0274d7
+.buyerAvatar
+  object-fit: cover
+  max-height: 100%
+  max-width: 100%
+  overflow: hidden
+  border-radius: 50%
+.buyerName
+  +SemiBold
+  font-size: 19px
+  color: $primary
+  letter-spacing: 0.02em
+.orderDate
+  +Regular
+  font-size: 11px
+  color: #84848A
+.buyerProductPrice
+  +Regular
+  font-size: 15px
+  color: #84848A
+.orderStatus
+  +Regular
+  border-radius: 13px
+  padding: 2px 8px
+  text-align: center
+  font-size: 11px
+  color: $primary
 @media #{$tablette}
   .dashboardNotSubscribedPriceBy
     margin-left: 0 !important
@@ -490,8 +534,6 @@
     text-align: center
   .dashboardSellsDesktopBox
     margin-bottom: 60px !important
-  .desktopOnly
-    +Hidden
   .main
     padding-top: 0 !important
     margin-top: 1rem !important
@@ -503,7 +545,6 @@
     position: absolute
     left: 24px
   .rootStack
-    //height: auto !important
     justify-content: center
     align-items: center
   .rootStackVH
@@ -512,8 +553,6 @@
   .mobileMsgNotifRootStack
     margin-left: 24px
     margin-right: 24px
-  .mobileOnly
-    display: flex !important
   .mobileMessageIconButton
     padding: 0
     margin: 12px 6px 12px 0
@@ -546,7 +585,6 @@
     margin: 0
     padding: 12px 0 0
   .topBackNavigationStack
-    //margin-top: 1rem !important
     cursor: pointer
     width: fit-content
     width: -moz-fit-content
@@ -565,7 +603,5 @@
     width: 100%
   .offerVuesloadMoreStack
     width: 100%
-    //margin-left: 24px
-    //margin-right: 24px
   .offerVuesloadMoreButton
     width: calc(100vw - 48px)

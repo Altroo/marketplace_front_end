@@ -37,6 +37,7 @@ import { setOfferProductDescriptionPage } from '../../../../../store/actions/off
 import { useRouter } from 'next/router';
 import {
 	getAvailableCountries,
+	getLocalOfferProductCategories,
 	getLocalOfferProductColors,
 	getLocalOfferProductCreator,
 	getLocalOfferProductDescription,
@@ -96,6 +97,7 @@ const Description: NextPage = () => {
 		setXState,
 		setXlState,
 	};
+	const pickedCategories = useAppSelector(getLocalOfferProductCategories);
 	const [quantity, setQuantity] = useState<number>(0);
 	const pickedTitle = useAppSelector(getLocalOfferProductTitle);
 	const pickedPictures = useAppSelector(getLocalOfferProductPictures);
@@ -128,6 +130,9 @@ const Description: NextPage = () => {
 	const [togglePickedCreator, setTogglePickedCreator] = useState<boolean>(false);
 
 	useEffect(() => {
+		if (pickedCategories.length === 0) {
+			router.replace(REAL_OFFER_ADD_PRODUCT_CATEGORIES(router.query.shop_link as string)).then();
+		}
 		if (availableCountries.length === 0) {
 			dispatch(placesGetCountriesAction());
 		}
@@ -182,12 +187,14 @@ const Description: NextPage = () => {
 	}, [
 		availableCountries.length,
 		dispatch,
+		pickedCategories.length,
 		pickedColorsList,
 		pickedCreator,
 		pickedForWhom,
 		pickedMadeIn,
 		pickedQuantity,
 		pickedSizesList,
+		router,
 	]);
 
 	// submit handler
@@ -222,6 +229,10 @@ const Description: NextPage = () => {
 				productSizesArray.push('XL');
 			}
 			const productSizesStr = productSizesArray.join(',');
+			let localQuantity: number | null = null;
+			if (quantity > 0) {
+				localQuantity = quantity;
+			}
 			const action = setOfferProductDescriptionPage(
 				values.title,
 				values.images,
@@ -229,7 +240,7 @@ const Description: NextPage = () => {
 				forWhomStr,
 				productColorsStr,
 				productSizesStr,
-				quantity,
+				localQuantity,
 				madeIn,
 				togglePickedCreator,
 			);

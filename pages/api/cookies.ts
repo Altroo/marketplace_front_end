@@ -4,17 +4,20 @@ import NextCors from 'nextjs-cors';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	// Run the cors middleware
-   // nextjs-cors uses the cors package, so we invite you to check the documentation https://github.com/expressjs/cors
-   await NextCors(req, res, {
-      // Options
-      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-      origin: process.env.NODE_ENV !== "production" ? '*' : ['https://www.qaryb.com', 'https://qaryb.com'],
-      optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-   });
+	// nextjs-cors uses the cors package, so we invite you to check the documentation https://github.com/expressjs/cors
+	await NextCors(req, res, {
+		// Options
+		methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+		origin:
+			process.env.NODE_ENV !== 'production'
+				? '*'
+				: ['https://www.qaryb.com', 'https://qaryb.com', 'https://dev.qaryb.com'],
+		optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+	});
 	if (req.method === 'POST') {
 		const options = {
 			httpOnly: true,
-			secure: true,
+			secure: process.env.NODE_ENV !== 'development',
 			path: '/',
 			// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 		};
@@ -108,6 +111,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				...options,
 			});
 		}
+		if ('unique_id' in query) {
+			setCookie(res, '@unique_id', query.unique_id, {
+				maxAge: query.maxAge,
+				sameSite: 'lax',
+				...options,
+			})
+		}
 		res.status(204);
 		res.end();
 	} else if (req.method === 'GET') {
@@ -119,7 +129,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			maxAge: -1,
 			path: '/',
 			httpOnly: true,
-			secure: true,
+			secure: process.env.NODE_ENV !== 'development',
 			// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 		};
 		const query = req.body;

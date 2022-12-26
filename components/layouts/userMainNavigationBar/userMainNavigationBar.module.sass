@@ -3,15 +3,11 @@
 @import 'styles/sass/mixins'
 
 // Global styles
-.mobileOnly
-  +Hidden
 .appBar
   padding-top: 1rem
   padding-left: 2rem
   padding-right: 2rem
 .logo
-  //width: 150px
-  //height: 40px
   max-width: 100%
   height: 100%
 .navBarIcons
@@ -130,8 +126,6 @@
   background: rgba(213, 206, 238, 0.4)
   padding: 6px 12px
 @media #{$tablette}
-  .desktopOnly
-    +Hidden
   .mobileOnly
     display: block !important
     width: 100%

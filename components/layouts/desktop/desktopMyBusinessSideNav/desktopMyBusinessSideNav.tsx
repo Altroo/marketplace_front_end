@@ -12,7 +12,7 @@ import {
 	DASHBOARD_AUDIENCES,
 	DASHBOARD_CHIFFRE_DAFFAIRE,
 	DASHBOARD_INDEXED_OFFERS,
-	DASHBOARD_SUBSCRIPTION
+	DASHBOARD_SUBSCRIPTION, SITE_ROOT
 } from "../../../../utils/routes";
 import { Stack } from '@mui/material';
 import Image from 'next/image';
@@ -45,32 +45,31 @@ const DesktopMyBusinessSideNav: React.FC<Props> = (props: Props) => {
 			text: 'Abonnement',
 			link: DASHBOARD_SUBSCRIPTION,
 			icon: MobileAbonnementSVG,
-			current: router.pathname.endsWith(DASHBOARD_SUBSCRIPTION),
+			current: router.pathname.endsWith(DASHBOARD_SUBSCRIPTION.replace(SITE_ROOT, '')),
 			disabled: false,
 		},
 		{
 			text: 'Articles référencés',
 			link: DASHBOARD_INDEXED_OFFERS,
 			icon: MobileIndexedOffersSVG,
-			current: router.pathname.includes(DASHBOARD_INDEXED_OFFERS), // changed to include
+			current: router.pathname.includes(DASHBOARD_INDEXED_OFFERS.replace(SITE_ROOT, '')), // changed to include
 			disabled: false,
 		},
 		{
 			text: 'Audience',
 			link: DASHBOARD_AUDIENCES,
 			icon: MobileAudiencesSVG,
-			current: router.pathname.endsWith(DASHBOARD_AUDIENCES),
+			current: router.pathname.endsWith(DASHBOARD_AUDIENCES.replace(SITE_ROOT, '')),
 			disabled: false,
 		},
 		{
 			text: "Chiffre d'affaire",
 			link: DASHBOARD_CHIFFRE_DAFFAIRE,
 			icon: MobileChiffreAffaireSVG,
-			current: router.pathname.endsWith(DASHBOARD_CHIFFRE_DAFFAIRE),
+			current: router.pathname.endsWith(DASHBOARD_CHIFFRE_DAFFAIRE.replace(SITE_ROOT, '')),
 			disabled: false,
 		},
 	];
-
 	return (
 		<Stack direction="column" className={Styles.sideBar}>
 			<Stack direction="column" spacing={4}>

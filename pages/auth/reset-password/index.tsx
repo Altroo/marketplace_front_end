@@ -2,11 +2,11 @@ import React from 'react';
 import Styles from '../../../styles/auth/reset-password/reset-password.module.sass';
 import { GetServerSidePropsContext } from 'next';
 import {
-	allowAnyInstance,
+	allowAnyInstance, Desktop,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance,
-	setFormikAutoErrors,
-} from '../../../utils/helpers';
+	setFormikAutoErrors, TabletAndMobile
+} from "../../../utils/helpers";
 import { AccountGetCheckAccountResponseType, AccountPostLoginResponseType } from '../../../types/account/accountTypes';
 import { cookiesPoster, getApi, postApi } from '../../../store/services/_init/_initAPI';
 import { AUTH_REGISTER, AUTH_RESET_PASSWORD_ENTER_CODE, DASHBOARD } from '../../../utils/routes';
@@ -94,14 +94,18 @@ const ResetPasswordPageContent = () => {
 const ResetPassword: React.FC = () => {
 	return (
 		<>
-			<div className={Styles.desktopOnly}>
-				<AuthPageLayout href={AUTH_REGISTER} topBarText="CREATE">
+			<Desktop>
+				<div>
+					<AuthPageLayout href={AUTH_REGISTER} topBarText="CREATE">
 					<ResetPasswordPageContent />
 				</AuthPageLayout>
-			</div>
-			<div className={Styles.mobileOnly}>
-				<main className={Styles.main}>
-					<UserMainNavigationBar hideMobileSearch/>
+				</div>
+
+			</Desktop>
+			<TabletAndMobile>
+				<div style={{display: 'flex', width: '100%', height: '100%'}}>
+					<main className={Styles.main}>
+					<UserMainNavigationBar />
 					<ResetPasswordPageContent />
 					<Stack direction="column" justifyContent="center" alignItems="center" sx={{marginTop: '60px'}}>
 						<p className={Styles.bottomLinks}>
@@ -109,7 +113,9 @@ const ResetPassword: React.FC = () => {
 						</p>
 					</Stack>
 				</main>
-			</div>
+				</div>
+
+			</TabletAndMobile>
 		</>
 	);
 };

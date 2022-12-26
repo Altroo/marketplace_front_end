@@ -6,8 +6,8 @@ import {
 	DASHBOARD_AUDIENCES,
 	DASHBOARD_CHIFFRE_DAFFAIRE,
 	DASHBOARD_INDEXED_OFFERS,
-	DASHBOARD_SUBSCRIPTION,
-} from '../../../../utils/routes';
+	DASHBOARD_SUBSCRIPTION, SITE_ROOT
+} from "../../../../utils/routes";
 import MobileAbonnementSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-abonnement.svg';
 import MobileIndexedOffersSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-indexed-articles.svg';
 import MobileAudiencesSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons/mobile-articles-total-count.svg';
@@ -45,7 +45,7 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 			text: 'Abonnement',
 			link: DASHBOARD_SUBSCRIPTION,
 			icon: MobileAbonnementSVG,
-			current: router.pathname.endsWith(DASHBOARD_SUBSCRIPTION),
+			current: router.pathname.endsWith(DASHBOARD_SUBSCRIPTION.replace(SITE_ROOT, '')),
 			disabled: false,
 			setContent: props.setContent,
 		},
@@ -53,7 +53,7 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 			text: 'Articles référencés',
 			link: DASHBOARD_INDEXED_OFFERS,
 			icon: MobileIndexedOffersSVG,
-			current: router.pathname.includes(DASHBOARD_INDEXED_OFFERS), // changed to include
+			current: router.pathname.includes(DASHBOARD_INDEXED_OFFERS.replace(SITE_ROOT, '')), // changed to include
 			disabled: false,
 			setContent: props.setContent,
 		},
@@ -61,7 +61,7 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 			text: 'Audience',
 			link: DASHBOARD_AUDIENCES,
 			icon: MobileAudiencesSVG,
-			current: router.pathname.endsWith(DASHBOARD_AUDIENCES),
+			current: router.pathname.endsWith(DASHBOARD_AUDIENCES.replace(SITE_ROOT, '')),
 			disabled: false,
 			setContent: props.setContent,
 		},
@@ -69,7 +69,7 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 			text: "Chiffre d'affaire",
 			link: DASHBOARD_CHIFFRE_DAFFAIRE,
 			icon: MobileChiffreAffaireSVG,
-			current: router.pathname.endsWith(DASHBOARD_CHIFFRE_DAFFAIRE),
+			current: router.pathname.endsWith(DASHBOARD_CHIFFRE_DAFFAIRE.replace(SITE_ROOT, '')),
 			disabled: false,
 			setContent: props.setContent,
 		},

@@ -4,7 +4,13 @@ import Styles from '../../../styles/dashboard/dashboard.module.sass';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import DesktopDashboardSideNav from '../../../components/layouts/desktop/desktopDashboardSideNav/desktopDashboardSideNav';
 import { Box, Stack } from '@mui/material';
-import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from '../../../utils/helpers';
+import {
+	Desktop,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	setFormikAutoErrors,
+	TabletAndMobile,
+} from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import { getApi } from '../../../store/services/_init/_initAPI';
 import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../utils/routes';
@@ -13,19 +19,19 @@ import Image from 'next/image';
 import MiniBackSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import { useAppDispatch } from '../../../utils/hooks';
 import { useFormik } from 'formik';
-import { changePasswordSchema, createPasswordSchema } from "../../../utils/formValidationSchemas";
+import { changePasswordSchema, createPasswordSchema } from '../../../utils/formValidationSchemas';
 import {
 	accountPostPasswordChangeAction,
-	accountPutCreatePasswordAction
-} from "../../../store/actions/account/accountActions";
+	accountPutCreatePasswordAction,
+} from '../../../store/actions/account/accountActions';
 import { coordonneeTextInputTheme } from '../../../utils/themes';
 import CustomPasswordInput from '../../../components/formikElements/customPasswordInput/customPasswordInput';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { SagaCallBackOnCompleteBoolType } from '../../../types/_init/_initTypes';
-import CustomToast from "../../../components/portals/customToast/customToast";
-import { useRouter } from "next/router";
-import CustomFooter from "../../../components/layouts/footer/customFooter";
-import Portal from "../../../contexts/Portal";
+import CustomToast from '../../../components/portals/customToast/customToast';
+import { useRouter } from 'next/router';
+import CustomFooter from '../../../components/layouts/footer/customFooter';
+import Portal from '../../../contexts/Portal';
 
 type formikContentType = {
 	setShowDataUpdated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,11 +49,7 @@ const FormikContenChangePassword: React.FC<formikContentType> = (props: formikCo
 		validateOnMount: true,
 		validationSchema: changePasswordSchema,
 		onSubmit: async (values, { setSubmitting, setFieldError, resetForm }) => {
-			const action = accountPostPasswordChangeAction(
-				values.old_password,
-				values.new_password,
-				values.new_password2
-			);
+			const action = accountPostPasswordChangeAction(values.old_password, values.new_password, values.new_password2);
 			dispatch({
 				...action,
 				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
@@ -213,60 +215,62 @@ type IndexProps = {
 const MotDePasse: NextPage<IndexProps> = (props: IndexProps) => {
 	const { has_password } = props.pageProps;
 	const [showDataUpdated, setShowDataUpdated] = useState<boolean>(false);
-	const router = useRouter()
+	const router = useRouter();
 	const direct = router.query.direct as boolean | undefined;
 	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(direct ? direct : false);
 
 	return (
-		<Stack direction="column" sx={{position: 'relative'}}>
+		<Stack direction="column" sx={{ position: 'relative' }}>
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
-				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
-					<DesktopDashboardSideNav backText="Mon compte" />
-					<Box sx={{ width: '100%' }}>
-						{has_password ? (
-							<FormikContenChangePassword setShowDataUpdated={setShowDataUpdated} />
-						) : (
-							<FormikContentCreatePassword setShowDataUpdated={setShowDataUpdated} />
-						)}
-					</Box>
-				</Stack>
-				<Stack className={`${Styles.mobileOnly}`}>
-					{!mobileElementClicked ? (
-						<MobileDashboardNav setContent={setMobileElementClicked} backText="Mon compte" />
-					) : (
-						<Box sx={{ width: '100%', height: '100%' }}>
-							<Stack direction="column">
-								<Stack direction="row" justifyContent="space-between">
-									<Stack
-										className={Styles.topBackNavigationStack}
-										direction="row"
-										spacing={1}
-										onClick={() => setMobileElementClicked(false)}
-										alignItems="center"
-									>
-										<Image
-											src={MiniBackSVG}
-											alt=""
-											width="0"
-											height="0"
-											sizes="100vw"
-											className={Styles.backIcon}
-										/>
-										<span className={Styles.backText}>Retour</span>
-									</Stack>
-								</Stack>
-							</Stack>
+				<Desktop>
+					<Stack direction="row" className={Styles.flexRootStack}>
+						<DesktopDashboardSideNav backText="Mon compte" />
+						<Box sx={{ width: '100%' }}>
 							{has_password ? (
 								<FormikContenChangePassword setShowDataUpdated={setShowDataUpdated} />
 							) : (
 								<FormikContentCreatePassword setShowDataUpdated={setShowDataUpdated} />
 							)}
 						</Box>
-					)}
-				</Stack>
+					</Stack>
+				</Desktop>
+				<TabletAndMobile>
+					<Stack>
+						{!mobileElementClicked ? (
+							<MobileDashboardNav setContent={setMobileElementClicked} backText="Mon compte" />
+						) : (
+							<Box sx={{ width: '100%', height: '100%' }}>
+								<Stack direction="column">
+									<Stack direction="row" justifyContent="space-between">
+										<Stack
+											className={Styles.topBackNavigationStack}
+											direction="row"
+											spacing={1}
+											onClick={() => setMobileElementClicked(false)}
+											alignItems="center"
+										>
+											<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
+											<span className={Styles.backText}>Retour</span>
+										</Stack>
+									</Stack>
+								</Stack>
+								{has_password ? (
+									<FormikContenChangePassword setShowDataUpdated={setShowDataUpdated} />
+								) : (
+									<FormikContentCreatePassword setShowDataUpdated={setShowDataUpdated} />
+								)}
+							</Box>
+						)}
+					</Stack>
+				</TabletAndMobile>
 				<Portal id="snackbar_portal">
-					<CustomToast type="success" message="Mot de passe mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
+					<CustomToast
+						type="success"
+						message="Mot de passe mis à jour"
+						setShow={setShowDataUpdated}
+						show={showDataUpdated}
+					/>
 				</Portal>
 			</main>
 			<CustomFooter />

@@ -216,7 +216,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 			async jwt({ token, user, account, profile, isNewUser }) {
 				const options = {
 					httpOnly: true,
-					secure: true,
+					secure: process.env.NODE_ENV !== 'development',
 					path: "/",
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				};
@@ -265,7 +265,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					sameSite: 'lax',
 					path: "/",
-					secure: true,
+					secure: process.env.NODE_ENV !== 'development',
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
@@ -274,7 +274,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				options: {
 					sameSite: 'lax',
 					path: "/",
-					secure: true,
+					secure: process.env.NODE_ENV !== 'development',
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
@@ -284,7 +284,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					sameSite: 'lax',
 					path: "/",
-					secure: true,
+					secure: process.env.NODE_ENV !== 'development',
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			},
@@ -294,7 +294,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					sameSite: 'lax',
 					path: "/",
-					secure: true,
+					secure: process.env.NODE_ENV !== 'development',
 					maxAge: 900,
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
@@ -305,7 +305,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					sameSite: 'lax',
 					path: "/",
-					secure: true,
+					secure: process.env.NODE_ENV !== 'development',
 					maxAge: 900,
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
@@ -316,7 +316,7 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					httpOnly: true,
 					sameSite: 'lax',
 					path: "/",
-					secure: true,
+					secure: process.env.NODE_ENV !== 'development',
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				}
 			}
@@ -329,7 +329,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	await NextCors(req, res, {
       // Options
       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-      origin: process.env.NODE_ENV !== "production" ? '*' : ['https://www.qaryb.com', 'https://qaryb.com'],
+      origin: process.env.NODE_ENV !== "production" ? '*' : ['https://www.qaryb.com', 'https://qaryb.com', 'https://dev.qaryb.com'],
       optionsSuccessStatus: 200, //
    });
 	NextAuth(req, res, getOptions(req, res));

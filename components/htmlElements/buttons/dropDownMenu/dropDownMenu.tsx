@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useEffect } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -44,7 +44,7 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 						aria-haspopup="true"
 						aria-expanded={open ? 'true' : undefined}
 						onClick={handleClick}
-						endIcon={<Image src={props.dropDownIcon} alt="" />}
+						endIcon={<Image src={props.dropDownIcon} alt="" sizes="100vw" />}
 					>
 						{props.dropDownText}
 					</Button>

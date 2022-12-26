@@ -50,6 +50,7 @@ import { OfferCategoriesType, OfferOfferTypeType } from "../../../../types/offer
 import { useAppDispatch, useAppSelector } from "../../../../utils/hooks";
 import { setOfferProductCategories, setOfferServiceCategories } from "../../../../store/actions/offer/offerActions";
 import { getLocalOfferProductCategories, getLocalOfferServiceCategories } from "../../../../store/selectors";
+import { Desktop } from "../../../../utils/helpers";
 
 type CategoriesObjProps = {
 	code: OfferCategoriesType;
@@ -99,11 +100,11 @@ const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps
 				justifyContent="space-between"
 			>
 				<Stack direction="row" spacing={3} sx={{ height: '56px', alignItems: 'center' }}>
-					<Image src={active ? props.blackIcon : props.grayIcon} alt="" />
+					<Image src={active ? props.blackIcon : props.grayIcon} alt="" sizes="100vw" />
 					<span className={`${Styles.categoryTitle} ${active && Styles.active}`}>{props.title}</span>
 				</Stack>
 				<Stack direction="row" spacing={1}>
-					{active && <Image src={ActiveCheckBlue} alt="" />}
+					{active && <Image src={ActiveCheckBlue} alt="" sizes="100vw" />}
 				</Stack>
 			</Stack>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />
@@ -279,7 +280,9 @@ const CategoriesList: React.FC<Props> = (props: Props) => {
 					);
 				})}
 			</Box>
-			<Divider orientation="vertical" flexItem className={`${Styles.divider} ${Styles.mobileHidden}`} />
+			<Desktop>
+				<Divider orientation="vertical" flexItem className={Styles.divider} />
+			</Desktop>
 			<Box sx={{ width: '100%' }} className={Styles.categoriesSecondList}>
 				{categoriesRightObj.map((category, index) => {
 					return (

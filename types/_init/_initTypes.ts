@@ -30,7 +30,7 @@ export interface OfferPinSagaCallBackType extends SagaCallBackBase {
 	data: OfferPinType;
 }
 // Global Saga callBackType
-export interface SagaCallBackType<T> extends SagaCallBackBase {
+export interface SagaCallBackResponseType<T> extends SagaCallBackBase {
 	data: T;
 }
 
@@ -134,6 +134,7 @@ export type InitStateUniqueID = {
 export interface InitStateInterface<T, K> extends Token_type {
 	initStateToken: T;
 	initStateUniqueID: K;
+	boutiqueCoupDeCoeur?: string | undefined;
 }
 
 type ResponseDataTokenRefresh = {
@@ -161,6 +162,10 @@ export type NewShopCookieType = {
 	'@border': string | undefined;
 	'@icon_color': IconColorType | undefined;
 };
+
+export type CartUniqueIDCookieType = {
+	'@unique_id': string | undefined;
+}
 
 export type AuthSagaContextType = {
 	tokenType: TokenChoices;

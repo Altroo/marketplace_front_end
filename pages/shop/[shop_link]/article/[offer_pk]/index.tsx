@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Image from 'next/image';
 import Styles from '../../../../../styles/offers/create/overview.module.sass';
@@ -22,15 +22,14 @@ import ClickAndCollectSVG from '../../../../../public/assets/svgs/globalIcons/cl
 import ClickAndCollectDisabledSVG from '../../../../../public/assets/svgs/globalIcons/click-and-collect-icon-gray.svg';
 import Chip from '@mui/material/Chip';
 import {
-	dayItemsList,
 	getCategoriesDataArray,
 	getColorsDataArray,
+	getDateFromDayCountNumber,
 	getForWhomDataArray,
 	getProductPriceByData,
 	getServiceAvailabilityDaysArray,
 	getServicePriceByData,
 	getSizesDataArray,
-	monthItemsList,
 } from '../../../../../utils/rawData';
 import Link from 'next/link';
 import {
@@ -42,10 +41,12 @@ import {
 import PrimaryButton from '../../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import Divider from '@mui/material/Divider';
 import {
+	customCartModalTheme,
 	customImageModalTheme,
 	customMobileImageModalTheme,
 	CustomTheme,
 	doubleTabNavigationTheme,
+	getDefaultTheme,
 	OfferReadOnlyTheme,
 	SolderPourcentageChipTheme,
 } from '../../../../../utils/themes';
@@ -55,16 +56,21 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/lazy';
-import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../../utils/helpers';
+import {
+	defaultInstance,
+	Desktop,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	TabletAndMobile,
+} from '../../../../../utils/helpers';
 import { getApi } from '../../../../../store/services/_init/_initAPI';
 import UserMainNavigationBar from '../../../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../../../components/layouts/footer/customFooter';
 import ReactCountryFlag from 'react-country-flag';
-// import DesktopPublishEditNavbar from '../../../../../components/desktop/navbars/desktopPublishEditNavbar/desktopPublishEditNavbar';
 import { DropDownActionType } from '../../../../../types/ui/uiTypes';
 import EditBlackSVG from '../../../../../public/assets/svgs/globalIcons/edit-black.svg';
-import EpinglerActiveSVG from '../../../../../public/assets/svgs/globalIcons/epingler-active.svg';
-import EpinglerInactiveSVG from '../../../../../public/assets/svgs/globalIcons/epingler-inactive.svg';
+// import EpinglerActiveSVG from '../../../../../public/assets/svgs/globalIcons/epingler-active.svg';
+// import EpinglerInactiveSVG from '../../../../../public/assets/svgs/globalIcons/epingler-inactive.svg';
 // import SolderEditActiveSVG from '../../../../../public/assets/svgs/globalIcons/solder-edit-active.svg';
 // import SolderEditInactiveSVG from '../../../../../public/assets/svgs/globalIcons/solder-edit-inactive.svg';
 import SupprimerSVG from '../../../../../public/assets/svgs/globalIcons/close-black.svg';
@@ -73,13 +79,13 @@ import {
 	offerDeleteRootAction,
 	offerDeleteSolderAction,
 	offerPatchSolderAction,
-	offerPostPinAction,
+	// offerPostPinAction,
 	offerPostSolderAction,
 	setOfferProductToEdit,
 	setOfferServiceToEdit,
 	setSelectedOfferAction,
 } from '../../../../../store/actions/offer/offerActions';
-import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
+import { useAppDispatch } from '../../../../../utils/hooks';
 import CustomSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 import TopBarSaveClose from '../../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
 import HelperDescriptionHeader from '../../../../../components/headers/helperDescriptionHeader/helperDescriptionHeader';
@@ -91,15 +97,25 @@ import ActionModals from '../../../../../components/htmlElements/modals/actionMo
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
 import {
 	ApiErrorResponseType,
-	OfferPinSagaCallBackType,
-	SagaCallBackType,
+	// OfferPinSagaCallBackType,
+	SagaCallBackResponseType,
 } from '../../../../../types/_init/_initTypes';
 import ReadAdresse from '../../../../../components/groupedComponents/shop/get/shopInfoTabContent/readAdresse/readAdresse';
-import { getSelectedOffer } from '../../../../../store/selectors';
 import ApiProgress from '../../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import DropDownMenu from '../../../../../components/htmlElements/buttons/dropDownMenu/dropDownMenu';
 import EditIconSVG from '../../../../../public/assets/svgs/globalIcons/blue-pencil.svg';
 import ImageModal from '../../../../../components/desktop/modals/imageModal/imageModal';
+import GetProductCart from '../../../../../components/groupedComponents/cart/getProductCart/getProductCart';
+import { getCookie } from 'cookies-next';
+import { CookieSerializeOptions, serialize } from 'cookie';
+import ActiveCheckBlue from '../../../../../public/assets/svgs/globalIcons/active-check-blue.svg';
+import {
+	cartGetCartCounterAction,
+	cartPostProductRootUniqueIDAction,
+	cartPostServiceRootUniqueIDAction,
+} from '../../../../../store/actions/cart/cartActions';
+import { CartPostProductRoot, CartPostServiceRoot } from '../../../../../types/cart/cartTypes';
+import GetServiceCart from '../../../../../components/groupedComponents/cart/getServiceCart/getServiceCart';
 
 // const NoCommentsAvailableContent = () => {
 // 	return (
@@ -126,7 +142,7 @@ import ImageModal from '../../../../../components/desktop/modals/imageModal/imag
 // 		</>
 // 	);
 // };
-
+const customCartTheme = customCartModalTheme();
 const OfferCreatorBanner = () => {
 	return (
 		<Box
@@ -158,6 +174,24 @@ const OfferCreatorBanner = () => {
 	);
 };
 
+const AlreadyExistsInCartButton = () => {
+	return (
+		<ThemeProvider theme={getDefaultTheme()}>
+			<Button color="primary" className={Styles.alreadyExistInCartButton} disabled>
+				<Image
+					src={ActiveCheckBlue}
+					width={24}
+					height={24}
+					alt=""
+					sizes="100vw"
+					className={Styles.alreadyExistInCartIcon}
+				/>
+				Ajouté au panier !
+			</Button>
+		</ThemeProvider>
+	);
+};
+
 type deliveriesObj = {
 	delivery_city: string | null;
 	all_cities: boolean | null;
@@ -168,11 +202,12 @@ type deliveriesObj = {
 type ProductProps = {
 	permission: 'OWNER' | 'NOT_OWNER';
 	data: OfferGetRootProductInterface;
+	unique_id: string;
 	children?: React.ReactNode;
 };
 const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const router = useRouter();
-	const { data, permission } = props;
+	const { data, permission, unique_id } = props;
 	const dispatch = useAppDispatch();
 	const {
 		pk,
@@ -193,8 +228,10 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		creator_label,
 		made_in_label,
 		pinned,
+		exist_in_cart,
 		// tags,
 	} = data;
+
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
 	const [clickedImage, setClickedImage] = useState<string | null>(null);
@@ -206,8 +243,8 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const [sizesListString, setSizesListString] = useState<Array<string>>([]);
 	const [deliveriesListString, setDeliveriesListString] = useState<Array<deliveriesObj>>([]);
 	const [newPrice, setNewPrice] = useState<number | null>(null);
-	const customPourcentageInput = useRef<HTMLInputElement>(null);
-	const [customPourcentageState, setCustomPourcentageState] = useState<string>('');
+	// const customPourcentageInput = useRef<HTMLInputElement>(null);
+	// const [customPourcentageState, setCustomPourcentageState] = useState<string>('');
 	const [solderByState, setSolderByState] = useState<OfferSolderByType>(solder_type ? solder_type : 'F');
 	const [newSolderValue, setNewSolderValue] = useState<string>(
 		typeof solder_value === 'number' ? solder_value.toString() : '0.00',
@@ -223,10 +260,11 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const [newSolderPourcentageValue, setNewSolderPourcentageValue] = useState<string>('0.00');
 	const [openSolderModal, setOpenSolderModal] = useState<boolean>(false);
 	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-	const [pinnedIconState, setPinnedIconState] = useState(!pinned ? EpinglerInactiveSVG : EpinglerActiveSVG);
+	// const [pinnedIconState, setPinnedIconState] = useState(!pinned ? EpinglerInactiveSVG : EpinglerActiveSVG);
 	const [voirPlus, setVoirPlus] = useState<boolean>(true);
+	const [showDesktopCartModal, setShowDesktopCartModal] = useState<boolean>(false);
+	const [showMobileCartModal, setShowMobileCartModal] = useState<boolean>(false);
 
-	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
 		// set images
 		if (picture_1) {
@@ -250,11 +288,11 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		}
 		setAvailableImages(availableImages);
 
-		if (pinned) {
-			setPinnedIconState(EpinglerActiveSVG);
-		} else {
-			setPinnedIconState(EpinglerInactiveSVG);
-		}
+		// if (pinned) {
+		// 	setPinnedIconState(EpinglerActiveSVG);
+		// } else {
+		// 	setPinnedIconState(EpinglerInactiveSVG);
+		// }
 
 		// check solder values
 		if (
@@ -376,17 +414,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const showMobileImage = (src: string) => {
 		setClickedMobileImage(src);
 	};
-
-	const getDate = useCallback((days: number) => {
-		const startDate = new Date(Date.now());
-		const endDate = new Date(Date.now());
-		endDate.setDate(endDate.getDate() + days + 1);
-		const startMonth = monthItemsList[startDate.getMonth()];
-		const startDay = dayItemsList[startDate.getDay()];
-		const endMonth = monthItemsList[endDate.getMonth()];
-		const endDay = dayItemsList[endDate.getDay()];
-		return `${startDay} ${startDate.getDate()} ${startMonth} - ${endDay} ${endDate.getDate()} ${endMonth}`;
-	}, []);
 
 	const setSolderPourcentageInput = useCallback(
 		(value: string) => {
@@ -595,25 +622,25 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		title,
 	]);
 
-	const togglePinOfferHandler = useCallback(() => {
-		const action = offerPostPinAction(pk);
-		dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: OfferPinSagaCallBackType) => {
-				if (!error && !cancelled && data) {
-					router
-						.replace(router.asPath, undefined, {
-							scroll: false,
-						})
-						.then();
-				}
-			},
-		});
-	}, [dispatch, pk, router]);
-
-	const showSolderOfferNav = () => {
-		setOpenSolderModal(true);
-	};
+	// const togglePinOfferHandler = useCallback(() => {
+	// 	const action = offerPostPinAction(pk);
+	// 	dispatch({
+	// 		...action,
+	// 		onComplete: ({ error, cancelled, data }: OfferPinSagaCallBackType) => {
+	// 			if (!error && !cancelled && data) {
+	// 				router
+	// 					.replace(router.asPath, undefined, {
+	// 						scroll: false,
+	// 					})
+	// 					.then();
+	// 			}
+	// 		},
+	// 	});
+	// }, [dispatch, pk, router]);
+	//
+	// const showSolderOfferNav = () => {
+	// 	setOpenSolderModal(true);
+	// };
 
 	const deleteOfferHandler = useCallback(() => {
 		const action = offerDeleteRootAction(pk);
@@ -660,7 +687,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 			const action = offerPostSolderAction(pk, solderByState, parseFloat(valueToSend));
 			dispatch({
 				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackType<OfferSolderInterface>) => {
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<OfferSolderInterface>) => {
 					if (!error && !cancelled && data) {
 						router.replace(router.asPath).then(() => {
 							setOpenSolderModal(false);
@@ -673,7 +700,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 			const action = offerPatchSolderAction(pk, solderByState, parseFloat(valueToSend));
 			dispatch({
 				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackType<OfferSolderInterface>) => {
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<OfferSolderInterface>) => {
 					if (!error && !cancelled && data) {
 						router.replace(router.asPath).then(() => {
 							setOpenSolderModal(false);
@@ -689,7 +716,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		const action = offerDeleteSolderAction(pk);
 		dispatch({
 			...action,
-			onComplete: ({ error, cancelled, data }: SagaCallBackType<boolean>) => {
+			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
 				if (!error && !cancelled && data) {
 					router.replace(router.asPath).then(() => {
 						setOpenSolderModal(false);
@@ -774,6 +801,31 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		}
 	};
 
+	const [addedToCart, setAddedToCart] = useState<boolean>(exist_in_cart);
+	const AddProductToCartHandler = async (
+		picked_color: string | null,
+		picked_size: string | null,
+		picked_quantity: number,
+	) => {
+		if (picked_quantity <= 0) {
+			return;
+		}
+		const action = cartPostProductRootUniqueIDAction(pk, 'V', unique_id, picked_color, picked_size, picked_quantity);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<CartPostProductRoot>) => {
+				if (!error && !cancelled && data) {
+					router.replace(router.asPath).then(() => {
+						setAddedToCart(true);
+						dispatch(cartGetCartCounterAction(unique_id));
+						setShowMobileCartModal(false);
+						setShowDesktopCartModal(false);
+					});
+				}
+			},
+		});
+	};
+
 	return (
 		<ThemeProvider theme={customTheme}>
 			<Stack direction="column">
@@ -792,173 +844,175 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 					)}
 					<Box className={`${Styles.pageWrapper} ${permission === 'NOT_OWNER' && Styles.removeTopMargin}`}>
 						<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
-							{/* DESKTOP Only */}
-							<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }} className={Styles.desktopOnly}>
-								<Stack direction="row" spacing={3}>
-									<Stack direction="column" spacing={1.8}>
-										{availableImages.length > 0 ? (
-											availableImages.map((image, index) => (
-												<ImageListItem key={index}>
-													{image ? (
-														<Image
-															className={`${Styles.thumbnails} ${
-																image === selectedImage ? Styles.selectedThumbnail : null
-															}`}
-															src={image}
-															width={80}
-															height={80}
-															sizes="100vw"
-															onClick={() => showThumbnail(image)}
-															alt=""
-														/>
-													) : null}
-												</ImageListItem>
-											))
-										) : (
-											<>
-												<ImageListItem>
-													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
-												</ImageListItem>
-												<ImageListItem>
-													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
-												</ImageListItem>
-												<ImageListItem>
-													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
-												</ImageListItem>
-												<ImageListItem>
-													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
-												</ImageListItem>
-											</>
-										)}
-									</Stack>
-									{!selectedImage ? (
-										<Box className={Styles.mainImageWrapper}>
-											<Skeleton variant="rectangular" width={590} height={388} className={Styles.selectedImage} />
-										</Box>
-									) : (
-										<Box className={Styles.mainImageWrapper}>
-											<Image
-												className={Styles.selectedImage}
-												src={selectedImage}
-												width={590}
-												height={388}
-												sizes="100vw"
-												onClick={() => showImage(selectedImage)}
-												alt=""
-											/>
-											{creator_label && (
-												<Image
-													className={Styles.creatorImageTag}
-													src={CreatorIconSVG}
-													alt="creator"
-													width="0"
-													height="0"
-													sizes="100vw"
-												/>
-											)}
-										</Box>
-									)}
-								</Stack>
-								{clickedImage && (
-									<ImageModal
-										open={!!clickedImage}
-										handleClose={() => setClickedImage(null)}
-										direction="up"
-										onBackdrop={() => setClickedImage(null)}
-										fullScreen={true}
-										theme={customImageModalTheme()}
-										cssClasse={Styles.clickedImageModal}
-									>
-										<Box className={Styles.clickedImageBox}>
-											<Image
-												className={Styles.clickedImage}
-												src={clickedImage}
-												width={590}
-												height={388}
-												sizes="100vw"
-												alt=""
-											/>
-										</Box>
-									</ImageModal>
-								)}
-								{/* Desktop creator banner goes here */}
-								{creator_label && <OfferCreatorBanner />}
-								{/*<NoCommentsAvailableContent />*/}
-							</Stack>
-							{/* Mobile Only */}
-							<div className={Styles.mobileOnly} style={{ display: 'block', marginLeft: '0' }}>
-								<>
-									<Swiper
-										pagination={{
-											clickable: true,
-											enabled: true,
-											bulletActiveClass: 'activekOfferBullet',
-											clickableClass: 'paginationOfferBullet',
-										}}
-										modules={[Navigation, Pagination, Lazy]}
-										scrollbar={{ enabled: false }}
-										className={Styles.swiperSlide}
-									>
-										{availableImages.length > 0 ? (
-											availableImages.map((image, index) => {
-												return (
-													<SwiperSlide key={index}>
-														<Box className={Styles.mainImageWrapper}>
+							<Desktop>
+								<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }}>
+									<Stack direction="row" spacing={3}>
+										<Stack direction="column" spacing={1.8}>
+											{availableImages.length > 0 ? (
+												availableImages.map((image, index) => (
+													<ImageListItem key={index}>
+														{image ? (
 															<Image
-																className={Styles.selectedImage}
+																className={`${Styles.thumbnails} ${
+																	image === selectedImage ? Styles.selectedThumbnail : null
+																}`}
 																src={image}
-																width={365}
-																height={240}
-																onClick={() => showMobileImage(image)}
+																width={80}
+																height={80}
 																sizes="100vw"
+																onClick={() => showThumbnail(image)}
 																alt=""
 															/>
-															{creator_label && (
-																<Image
-																	className={Styles.creatorImageTag}
-																	src={CreatorIconSVG}
-																	alt="creator"
-																	width="0"
-																	height="0"
-																	sizes="100vw"
-																/>
-															)}
-														</Box>
-													</SwiperSlide>
-												);
-											})
+														) : null}
+													</ImageListItem>
+												))
+											) : (
+												<>
+													<ImageListItem>
+														<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+													</ImageListItem>
+													<ImageListItem>
+														<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+													</ImageListItem>
+													<ImageListItem>
+														<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+													</ImageListItem>
+													<ImageListItem>
+														<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+													</ImageListItem>
+												</>
+											)}
+										</Stack>
+										{!selectedImage ? (
+											<Box className={Styles.mainImageWrapper}>
+												<Skeleton variant="rectangular" width={590} height={388} className={Styles.selectedImage} />
+											</Box>
 										) : (
-											<SwiperSlide>
-												<Box className={Styles.mainImageWrapper}>
-													<Skeleton variant="rectangular" width={365} height={240} className={Styles.selectedImage} />
-												</Box>
-											</SwiperSlide>
+											<Box className={Styles.mainImageWrapper}>
+												<Image
+													className={Styles.selectedImage}
+													src={selectedImage}
+													width={590}
+													height={388}
+													sizes="100vw"
+													onClick={() => showImage(selectedImage)}
+													alt=""
+												/>
+												{creator_label && (
+													<Image
+														className={Styles.creatorImageTag}
+														src={CreatorIconSVG}
+														alt="creator"
+														width="0"
+														height="0"
+														sizes="100vw"
+													/>
+												)}
+											</Box>
 										)}
-									</Swiper>
-									{clickedMobileImage && (
+									</Stack>
+									{clickedImage && (
 										<ImageModal
-											open={!!clickedMobileImage}
-											handleClose={() => setClickedMobileImage(null)}
+											open={!!clickedImage}
+											handleClose={() => setClickedImage(null)}
 											direction="up"
-											onBackdrop={() => setClickedMobileImage(null)}
+											onBackdrop={() => setClickedImage(null)}
 											fullScreen={true}
-											theme={customMobileImageModalTheme()}
+											theme={customImageModalTheme()}
 											cssClasse={Styles.clickedImageModal}
 										>
 											<Box className={Styles.clickedImageBox}>
 												<Image
 													className={Styles.clickedImage}
-													src={clickedMobileImage}
-													width={365}
-													height={240}
+													src={clickedImage}
+													width={590}
+													height={388}
 													sizes="100vw"
 													alt=""
 												/>
 											</Box>
 										</ImageModal>
 									)}
-								</>
-							</div>
+									{/* Desktop creator banner goes here */}
+									{creator_label && <OfferCreatorBanner />}
+									{/*<NoCommentsAvailableContent />*/}
+								</Stack>
+							</Desktop>
+							<TabletAndMobile>
+								<div style={{ display: 'block', marginLeft: '0' }}>
+									<>
+										<Swiper
+											pagination={{
+												clickable: true,
+												enabled: true,
+												bulletActiveClass: 'activekOfferBullet',
+												clickableClass: 'paginationOfferBullet',
+											}}
+											modules={[Navigation, Pagination, Lazy]}
+											scrollbar={{ enabled: false }}
+											className={Styles.swiperSlide}
+										>
+											{availableImages.length > 0 ? (
+												availableImages.map((image, index) => {
+													return (
+														<SwiperSlide key={index}>
+															<Box className={Styles.mainImageWrapper}>
+																<Image
+																	className={Styles.selectedImage}
+																	src={image}
+																	width={365}
+																	height={240}
+																	onClick={() => showMobileImage(image)}
+																	sizes="100vw"
+																	alt=""
+																/>
+																{creator_label && (
+																	<Image
+																		className={Styles.creatorImageTag}
+																		src={CreatorIconSVG}
+																		alt="creator"
+																		width="0"
+																		height="0"
+																		sizes="100vw"
+																	/>
+																)}
+															</Box>
+														</SwiperSlide>
+													);
+												})
+											) : (
+												<SwiperSlide>
+													<Box className={Styles.mainImageWrapper}>
+														<Skeleton variant="rectangular" width={365} height={240} className={Styles.selectedImage} />
+													</Box>
+												</SwiperSlide>
+											)}
+										</Swiper>
+										{clickedMobileImage && (
+											<ImageModal
+												open={!!clickedMobileImage}
+												handleClose={() => setClickedMobileImage(null)}
+												direction="up"
+												onBackdrop={() => setClickedMobileImage(null)}
+												fullScreen={true}
+												theme={customMobileImageModalTheme()}
+												cssClasse={Styles.clickedImageModal}
+											>
+												<Box className={Styles.clickedImageBox}>
+													<Image
+														className={Styles.clickedImage}
+														src={clickedMobileImage}
+														width={365}
+														height={240}
+														sizes="100vw"
+														alt=""
+													/>
+												</Box>
+											</ImageModal>
+										)}
+									</>
+								</div>
+							</TabletAndMobile>
 							<Stack direction="column" spacing={1} className={Styles.offerWrapper}>
 								<Stack direction="column" spacing={4}>
 									<Stack direction="column" spacing={2}>
@@ -1006,24 +1060,24 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											</Box>
 										</Stack>
 										<Stack direction="column" spacing={1}>
-											{colorsListString.length > 0 ? (
+											{colorsListString.length > 0 && (
 												<p className={Styles.colorBody}>
 													<span className={Styles.colorTitle}>Couleurs : </span>
 													{colorsListString.join(', ')}
 												</p>
-											) : null}
-											{sizesListString.length > 0 ? (
+											)}
+											{sizesListString.length > 0 && (
 												<p className={Styles.sizesBody}>
 													<span className={Styles.sizesTitle}>Taille : </span>
 													{sizesListString.join(', ')}
 												</p>
-											) : null}
-											{forWhomListString.length > 0 ? (
+											)}
+											{forWhomListString.length > 0 && (
 												<p className={Styles.forWhomBody}>
 													<span className={Styles.forWhomTitle}>Pour : </span>
 													{forWhomListString.join(', ')}
 												</p>
-											) : null}
+											)}
 										</Stack>
 									</Stack>
 									<Stack direction="column" className={Styles.priceWrapper}>
@@ -1037,14 +1091,51 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											<span className={Styles.priceBy}>
 												par {getProductPriceByData(details_offer.product_price_by as OfferProductPriceByType)}
 											</span>
-											<span className={Styles.quantity}>{details_offer.product_quantity} restant</span>
+											{details_offer.product_quantity && (
+												<span className={Styles.quantity}>{details_offer.product_quantity} restant</span>
+											)}
 										</Stack>
 									</Stack>
 								</Stack>
 								<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
-									<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-										<PrimaryButton buttonText="Ajouter au panier" active={false} /> {/* permission !== 'OWNER' */}
-									</div>
+									<Desktop>
+										<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+											{addedToCart ? (
+												<AlreadyExistsInCartButton />
+											) : (
+												<PrimaryButton
+													buttonText="Ajouter au panier"
+													active={
+														permission !== 'OWNER' &&
+														(!details_offer.product_quantity || details_offer.product_quantity > 0)
+													}
+													onClick={() => {
+														setShowDesktopCartModal(true);
+													}}
+												/>
+											)}
+										</div>
+									</Desktop>
+
+									<TabletAndMobile>
+										<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+											{addedToCart ? (
+												<AlreadyExistsInCartButton />
+											) : (
+												<PrimaryButton
+													buttonText="Ajouter au panier"
+													active={
+														permission !== 'OWNER' &&
+														(!details_offer.product_quantity || details_offer.product_quantity > 0)
+													}
+													onClick={() => {
+														setShowMobileCartModal(true);
+													}}
+												/>
+											)}
+										</div>
+									</TabletAndMobile>
+
 									<Box className={Styles.clickAnddeliveriesWrapper}>
 										<Stack
 											direction="column"
@@ -1102,7 +1193,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 																			: delivery.delivery_city?.split(',').join(', ')}
 																	</span>
 																	<span className={Styles.deliveryDetails}>
-																		{getDate(parseInt(delivery.delivery_days as string))}
+																		{getDateFromDayCountNumber(parseInt(delivery.delivery_days as string))}
 																	</span>
 																</Stack>
 															</Stack>
@@ -1131,17 +1222,19 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 										</Stack>
 									</Box>
 								</Stack>
-								<Stack direction="column" spacing={3} className={Styles.mobileOnly}>
-									<Divider orientation="horizontal" flexItem className={Styles.divider} />
-									{/* mobile creator banner goes here */}
-									{creator_label && <OfferCreatorBanner />}
-									{/*<NoCommentsAvailableContent />*/}
-								</Stack>
+								<TabletAndMobile>
+									<Stack direction="column" spacing={3}>
+										<Divider orientation="horizontal" flexItem className={Styles.divider} />
+										{/* mobile creator banner goes here */}
+										{creator_label && <OfferCreatorBanner />}
+										{/*<NoCommentsAvailableContent />*/}
+									</Stack>
+								</TabletAndMobile>
 							</Stack>
 						</Stack>
 					</Box>
 					{permission === 'OWNER' && (
-						<CustomSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
+						<CustomSwipeModal transition open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
 							<Stack
 								direction="column"
 								justifyContent="space-between"
@@ -1345,12 +1438,52 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 							</Stack>
 						</CustomSwipeModal>
 					)}
-					{showDeleteModal && permission === 'OWNER' ? (
+					{showDeleteModal && permission === 'OWNER' && (
 						<ActionModals title="Supprimer cette offre ?" actions={deleteModalActions} />
-					) : null}
+					)}
 					{/* Solder modal */}
 				</main>
 				<CustomFooter />
+				{/* Desktop Cart Modal */}
+				<Desktop>
+					<Box>
+						<CustomSwipeModal
+							transition
+							showCloseIcon
+							direction="left"
+							open={showDesktopCartModal}
+							handleClose={() => setShowDesktopCartModal(false)}
+						>
+							<GetProductCart
+								colorsListString={colorsListString}
+								sizesListString={sizesListString}
+								productQuantity={details_offer.product_quantity}
+								AddProductToCartHandler={AddProductToCartHandler}
+							/>
+						</CustomSwipeModal>
+					</Box>
+				</Desktop>
+
+				{/* Mobile Cart Modal */}
+				<TabletAndMobile>
+					<Box>
+						<CustomSwipeModal
+							theme={customCartTheme}
+							showCloseIcon
+							fullScreen={true}
+							transition={false}
+							open={showMobileCartModal}
+							handleClose={() => setShowMobileCartModal(false)}
+						>
+							<GetProductCart
+								colorsListString={colorsListString}
+								sizesListString={sizesListString}
+								productQuantity={details_offer.product_quantity}
+								AddProductToCartHandler={AddProductToCartHandler}
+							/>
+						</CustomSwipeModal>
+					</Box>
+				</TabletAndMobile>
 			</Stack>
 		</ThemeProvider>
 	);
@@ -1359,11 +1492,12 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 type ServiceProps = {
 	permission: 'OWNER' | 'NOT_OWNER';
 	data: OfferGetRootServiceInterface;
+	unique_id: string;
 	children?: React.ReactNode;
 };
 const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	const router = useRouter();
-	const { data, permission } = props;
+	const { data, permission, unique_id } = props;
 	const dispatch = useAppDispatch();
 	// const { offer_pk } = router.query;
 	const {
@@ -1381,7 +1515,8 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		solder_value,
 		shop_name,
 		for_whom,
-		pinned,
+		exist_in_cart,
+		// pinned,
 		// tags,
 	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
@@ -1412,11 +1547,11 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	const [newSolderPourcentageValue, setNewSolderPourcentageValue] = useState<string>('0.00');
 	const [openSolderModal, setOpenSolderModal] = useState<boolean>(false);
 	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-	// TODO - missing callbacks & memos (as in products)
-	const [pinnedIconState, setPinnedIconState] = useState(!pinned ? EpinglerInactiveSVG : EpinglerActiveSVG);
+	// const [pinnedIconState, setPinnedIconState] = useState(!pinned ? EpinglerInactiveSVG : EpinglerActiveSVG);
 	const [voirPlus, setVoirPlus] = useState<boolean>(true);
+	const [showDesktopCartModal, setShowDesktopCartModal] = useState<boolean>(false);
+	const [showMobileCartModal, setShowMobileCartModal] = useState<boolean>(false);
 
-	// TODO Altroo solder can get improved if moved to getServerSideProps or api backend
 	useEffect(() => {
 		// set images
 		if (picture_1) {
@@ -1439,11 +1574,11 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			availableImages.push(picture_4);
 		}
 		setAvailableImages(availableImages);
-		if (pinned) {
-			setPinnedIconState(EpinglerActiveSVG);
-		} else {
-			setPinnedIconState(EpinglerInactiveSVG);
-		}
+		// if (pinned) {
+		// 	setPinnedIconState(EpinglerActiveSVG);
+		// } else {
+		// 	setPinnedIconState(EpinglerInactiveSVG);
+		// }
 		// check solder values
 		if (
 			fivePourcentSolder ||
@@ -1527,7 +1662,6 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			}
 		}
 	}, [
-		pinned,
 		details_offer,
 		fiftyPourcentSolder,
 		fivePourcentSolder,
@@ -1671,25 +1805,25 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		});
 	};
 
-	const togglePinOfferHandler = () => {
-		const action = offerPostPinAction(pk);
-		dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: OfferPinSagaCallBackType) => {
-				if (!error && !cancelled && data) {
-					router
-						.replace(router.asPath, undefined, {
-							scroll: false,
-						})
-						.then();
-				}
-			},
-		});
-	};
+	// const togglePinOfferHandler = () => {
+	// 	const action = offerPostPinAction(pk);
+	// 	dispatch({
+	// 		...action,
+	// 		onComplete: ({ error, cancelled, data }: OfferPinSagaCallBackType) => {
+	// 			if (!error && !cancelled && data) {
+	// 				router
+	// 					.replace(router.asPath, undefined, {
+	// 						scroll: false,
+	// 					})
+	// 					.then();
+	// 			}
+	// 		},
+	// 	});
+	// };
 
-	const showSolderOfferNav = () => {
-		setOpenSolderModal(true);
-	};
+	// const showSolderOfferNav = () => {
+	// 	setOpenSolderModal(true);
+	// };
 
 	const deleteOfferHandler = () => {
 		const action = offerDeleteRootAction(pk);
@@ -1733,7 +1867,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			const action = offerPostSolderAction(pk, solderByState, parseFloat(valueToSend));
 			dispatch({
 				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackType<OfferSolderInterface>) => {
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<OfferSolderInterface>) => {
 					if (!error && !cancelled && data) {
 						router.replace(router.asPath).then(() => {
 							setOpenSolderModal(false);
@@ -1746,7 +1880,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			const action = offerPatchSolderAction(pk, solderByState, parseFloat(valueToSend));
 			dispatch({
 				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackType<OfferSolderInterface>) => {
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<OfferSolderInterface>) => {
 					if (!error && !cancelled && data) {
 						router.replace(router.asPath).then(() => {
 							setOpenSolderModal(false);
@@ -1762,7 +1896,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		const action = offerDeleteSolderAction(pk);
 		dispatch({
 			...action,
-			onComplete: ({ error, cancelled, data }: SagaCallBackType<boolean>) => {
+			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
 				if (!error && !cancelled && data) {
 					router.replace(router.asPath).then(() => {
 						setOpenSolderModal(false);
@@ -1845,6 +1979,24 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		}
 	};
 
+	const [addedToCart, setAddedToCart] = useState<boolean>(exist_in_cart);
+	const AddServiceToCartHandler = (picked_date: string, picked_hour: string) => {
+		const action = cartPostServiceRootUniqueIDAction(pk, 'S', unique_id, picked_date, picked_hour);
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<CartPostServiceRoot>) => {
+				if (!error && !cancelled && data) {
+					router.replace(router.asPath).then(() => {
+						setAddedToCart(true);
+						dispatch(cartGetCartCounterAction(unique_id));
+						setShowMobileCartModal(false);
+						setShowDesktopCartModal(false);
+					});
+				}
+			},
+		});
+	};
+
 	return (
 		<ThemeProvider theme={customTheme}>
 			<Stack direction="column">
@@ -1863,154 +2015,158 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 					)}
 					<Box className={`${Styles.pageWrapper} ${permission === 'NOT_OWNER' && Styles.removeTopMargin}`}>
 						<Stack direction="row" spacing={10} className={Styles.imagesWrapper} justifyContent="center">
-							{/* DESKTOP Only */}
-							<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }} className={Styles.desktopOnly}>
-								<Stack direction="row" spacing={3}>
-									<Stack direction="column" spacing={1.8}>
-										{availableImages.length > 0 ? (
-											availableImages.map((image, index) => (
-												<ImageListItem key={index}>
-													{image ? (
-														<Image
-															className={`${Styles.thumbnails} ${
-																image === selectedImage ? Styles.selectedThumbnail : null
-															}`}
-															src={image}
-															width={80}
-															height={80}
-															sizes="100vw"
-															onClick={() => showThumbnail(image)}
-															alt=""
-														/>
-													) : null}
-												</ImageListItem>
-											))
-										) : (
-											<>
-												<ImageListItem>
-													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
-												</ImageListItem>
-												<ImageListItem>
-													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
-												</ImageListItem>
-												<ImageListItem>
-													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
-												</ImageListItem>
-												<ImageListItem>
-													<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
-												</ImageListItem>
-											</>
-										)}
-									</Stack>
-									{!selectedImage ? (
-										<Box className={Styles.mainImageWrapper}>
-											<Skeleton variant="rectangular" width={590} height={388} className={Styles.selectedImage} />
-										</Box>
-									) : (
-										<Box className={Styles.mainImageWrapper}>
-											<Image
-												className={Styles.selectedImage}
-												src={selectedImage}
-												width={590}
-												height={388}
-												sizes="100vw"
-												onClick={() => showImage(selectedImage)}
-												alt=""
-											/>
-										</Box>
-									)}
-								</Stack>
-								{clickedImage && (
-									<ImageModal
-										open={!!clickedImage}
-										handleClose={() => setClickedImage(null)}
-										direction="up"
-										onBackdrop={() => setClickedImage(null)}
-										fullScreen={true}
-										theme={customImageModalTheme()}
-										cssClasse={Styles.clickedImageModal}
-									>
-										<Box className={Styles.clickedImageBox}>
-											<Image
-												className={Styles.clickedImage}
-												src={clickedImage}
-												width={590}
-												height={388}
-												sizes="100vw"
-												alt=""
-											/>
-										</Box>
-									</ImageModal>
-								)}
-								{/*<NoCommentsAvailableContent />*/}
-							</Stack>
-							{/* Mobile Only */}
-							<div className={Styles.mobileOnly} style={{ display: 'block', marginLeft: '0' }}>
-								<>
-									<Swiper
-										pagination={{
-											clickable: true,
-											enabled: true,
-											bulletActiveClass: 'activekOfferBullet',
-											clickableClass: 'paginationOfferBullet',
-										}}
-										modules={[Navigation, Pagination, Lazy]}
-										scrollbar={{ enabled: false }}
-										className={Styles.swiperSlide}
-									>
-										{availableImages.length > 0 ? (
-											availableImages.map((image, index) => {
-												return (
-													<SwiperSlide key={index}>
-														<Box className={Styles.mainImageWrapper}>
+							<Desktop>
+								<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }}>
+									<Stack direction="row" spacing={3}>
+										<Stack direction="column" spacing={1.8}>
+											{availableImages.length > 0 ? (
+												availableImages.map((image, index) => (
+													<ImageListItem key={index}>
+														{image ? (
 															<Image
-																className={Styles.selectedImage}
+																className={`${Styles.thumbnails} ${
+																	image === selectedImage ? Styles.selectedThumbnail : null
+																}`}
 																src={image}
-																width={365}
-																height={240}
-																onClick={() => showMobileImage(image)}
+																width={80}
+																height={80}
 																sizes="100vw"
-																// loading="eager"
-																// priority={true}
-																// decoding="async"
+																onClick={() => showThumbnail(image)}
 																alt=""
 															/>
-														</Box>
-													</SwiperSlide>
-												);
-											})
+														) : null}
+													</ImageListItem>
+												))
+											) : (
+												<>
+													<ImageListItem>
+														<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+													</ImageListItem>
+													<ImageListItem>
+														<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+													</ImageListItem>
+													<ImageListItem>
+														<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+													</ImageListItem>
+													<ImageListItem>
+														<Skeleton variant="rectangular" width={80} height={80} className={Styles.thumbnails} />
+													</ImageListItem>
+												</>
+											)}
+										</Stack>
+										{!selectedImage ? (
+											<Box className={Styles.mainImageWrapper}>
+												<Skeleton variant="rectangular" width={590} height={388} className={Styles.selectedImage} />
+											</Box>
 										) : (
-											<SwiperSlide>
-												<Box className={Styles.mainImageWrapper}>
-													<Skeleton variant="rectangular" width={365} height={240} className={Styles.selectedImage} />
-												</Box>
-											</SwiperSlide>
+											<Box className={Styles.mainImageWrapper}>
+												<Image
+													className={Styles.selectedImage}
+													src={selectedImage}
+													width={590}
+													height={388}
+													sizes="100vw"
+													onClick={() => showImage(selectedImage)}
+													alt=""
+												/>
+											</Box>
 										)}
-									</Swiper>
-									{clickedMobileImage && (
+									</Stack>
+									{clickedImage && (
 										<ImageModal
-											open={!!clickedMobileImage}
-											handleClose={() => setClickedMobileImage(null)}
+											open={!!clickedImage}
+											handleClose={() => setClickedImage(null)}
 											direction="up"
-											onBackdrop={() => setClickedMobileImage(null)}
+											onBackdrop={() => setClickedImage(null)}
 											fullScreen={true}
-											theme={customMobileImageModalTheme()}
+											theme={customImageModalTheme()}
 											cssClasse={Styles.clickedImageModal}
 										>
 											<Box className={Styles.clickedImageBox}>
 												<Image
 													className={Styles.clickedImage}
-													src={clickedMobileImage}
-													width={365}
-													height={240}
+													src={clickedImage}
+													width={590}
+													height={388}
 													sizes="100vw"
 													alt=""
 												/>
 											</Box>
 										</ImageModal>
 									)}
-								</>
-							</div>
+									{/*<NoCommentsAvailableContent />*/}
+								</Stack>
+							</Desktop>
+							<TabletAndMobile>
+								<div style={{ display: 'block', marginLeft: '0' }}>
+									<>
+										<Swiper
+											pagination={{
+												clickable: true,
+												enabled: true,
+												bulletActiveClass: 'activekOfferBullet',
+												clickableClass: 'paginationOfferBullet',
+											}}
+											modules={[Navigation, Pagination, Lazy]}
+											scrollbar={{ enabled: false }}
+											className={Styles.swiperSlide}
+										>
+											{availableImages.length > 0 ? (
+												availableImages.map((image, index) => {
+													return (
+														<SwiperSlide key={index}>
+															<Box className={Styles.mainImageWrapper}>
+																<Image
+																	className={Styles.selectedImage}
+																	src={image}
+																	width={365}
+																	height={240}
+																	onClick={() => showMobileImage(image)}
+																	sizes="100vw"
+																	// loading="eager"
+																	// priority={true}
+																	// decoding="async"
+																	alt=""
+																/>
+															</Box>
+														</SwiperSlide>
+													);
+												})
+											) : (
+												<SwiperSlide>
+													<Box className={Styles.mainImageWrapper}>
+														<Skeleton variant="rectangular" width={365} height={240} className={Styles.selectedImage} />
+													</Box>
+												</SwiperSlide>
+											)}
+										</Swiper>
+										{clickedMobileImage && (
+											<ImageModal
+												open={!!clickedMobileImage}
+												handleClose={() => setClickedMobileImage(null)}
+												direction="up"
+												onBackdrop={() => setClickedMobileImage(null)}
+												fullScreen={true}
+												theme={customMobileImageModalTheme()}
+												cssClasse={Styles.clickedImageModal}
+											>
+												<Box className={Styles.clickedImageBox}>
+													<Image
+														className={Styles.clickedImage}
+														src={clickedMobileImage}
+														width={365}
+														height={240}
+														sizes="100vw"
+														alt=""
+													/>
+												</Box>
+											</ImageModal>
+										)}
+									</>
+								</div>
+							</TabletAndMobile>
+							{/* Mobile Only */}
+
 							<Stack direction="column" spacing={1} className={Styles.offerWrapper}>
 								<Stack direction="column" spacing={4}>
 									<Stack direction="column" spacing={2}>
@@ -2088,9 +2244,37 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 									</Stack>
 								</Stack>
 								<Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
-									<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
-										<PrimaryButton buttonText="Ajouter au panier" active={false} /> {/* permission !== 'OWNER' */}
-									</div>
+									<Desktop>
+										<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+											{addedToCart ? (
+												<AlreadyExistsInCartButton />
+											) : (
+												<PrimaryButton
+													buttonText="Ajouter au panier"
+													active={permission !== 'OWNER'}
+													onClick={() => {
+														setShowDesktopCartModal(true);
+													}}
+												/>
+											)}
+										</div>
+									</Desktop>
+									<TabletAndMobile>
+										<div className={`${Styles.primaryButtonWrapper} ${Styles.primaryButton}`}>
+											{addedToCart ? (
+												<AlreadyExistsInCartButton />
+											) : (
+												<PrimaryButton
+													buttonText="Ajouter au panier"
+													active={permission !== 'OWNER'}
+													onClick={() => {
+														setShowMobileCartModal(true);
+													}}
+												/>
+											)}
+										</div>
+									</TabletAndMobile>
+
 									<Box className={Styles.servicesMapWrapper}>
 										<Stack
 											direction="column"
@@ -2106,15 +2290,11 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										</Stack>
 									</Box>
 								</Stack>
-								{/*<Stack direction="column" spacing={3} className={Styles.mobileOnly}>*/}
-								{/*	/!*<Divider orientation="horizontal" flexItem className={Styles.divider} />*!/*/}
-								{/*	<NoCommentsAvailableContent />*/}
-								{/*</Stack>*/}
 							</Stack>
 						</Stack>
 					</Box>
 					{permission === 'OWNER' && (
-						<CustomSwipeModal open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
+						<CustomSwipeModal transition open={openSolderModal} handleClose={() => setOpenSolderModal(false)}>
 							<Stack
 								direction="column"
 								justifyContent="space-between"
@@ -2324,6 +2504,49 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 					{/* Solder modal */}
 				</main>
 				<CustomFooter />
+				{/* Desktop Cart Modal */}
+				<Desktop>
+					<Box>
+						<CustomSwipeModal
+							transition
+							showCloseIcon
+							direction="left"
+							open={showDesktopCartModal}
+							handleClose={() => setShowDesktopCartModal(false)}
+						>
+							<GetServiceCart
+								availabilityDays={availabilityDays}
+								morningHourFrom={morningHourFrom}
+								morningHourTo={morningHourTo}
+								afternoonHourFrom={afternoonHourFrom}
+								afternoonHourTo={afternoonHourTo}
+								AddServiceToCartHandler={AddServiceToCartHandler}
+							/>
+						</CustomSwipeModal>
+					</Box>
+				</Desktop>
+				{/* Mobile Cart Modal */}
+				<TabletAndMobile>
+					<Box>
+						<CustomSwipeModal
+							theme={customCartTheme}
+							showCloseIcon
+							fullScreen={true}
+							transition={false}
+							open={showMobileCartModal}
+							handleClose={() => setShowMobileCartModal(false)}
+						>
+							<GetServiceCart
+								availabilityDays={availabilityDays}
+								morningHourFrom={morningHourFrom}
+								morningHourTo={morningHourTo}
+								afternoonHourFrom={afternoonHourFrom}
+								afternoonHourTo={afternoonHourTo}
+								AddServiceToCartHandler={AddServiceToCartHandler}
+							/>
+						</CustomSwipeModal>
+					</Box>
+				</TabletAndMobile>
 			</Stack>
 		</ThemeProvider>
 	);
@@ -2333,37 +2556,24 @@ type IndexPropsType = {
 	pageProps: {
 		permission: 'OWNER' | 'NOT_OWNER';
 		data: OfferGetRootProductInterface | OfferGetRootServiceInterface;
+		unique_id: string;
 	};
 };
 const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
-	const { permission, data } = props.pageProps;
+	const { permission, data, unique_id } = props.pageProps;
 	const dispatch = useAppDispatch();
-	const [actionDispatched, setActionDispatched] = useState<boolean>(false);
-	const selectedOffer = useAppSelector(getSelectedOffer);
 
 	useEffect(() => {
-		if (!actionDispatched && data) {
-			const action = setSelectedOfferAction(data);
-			dispatch({
-				...action,
-				onComplete: ({
-					error,
-					cancelled,
-					data,
-				}: SagaCallBackType<OfferGetRootProductInterface | OfferGetRootServiceInterface>) => {
-					if (!error && !cancelled && data) {
-						setActionDispatched(true);
-					}
-				},
-			});
+		if (permission === 'OWNER' && data) {
+			dispatch(setSelectedOfferAction(data))
 		}
-	}, [actionDispatched, data, dispatch]);
+	}, [data, dispatch, permission]);
 
-	if (selectedOffer) {
-		if (selectedOffer.offer_type === 'V') {
-			return <Product data={selectedOffer as OfferGetRootProductInterface} permission={permission} />;
+	if (data) {
+		if (data.offer_type === 'V') {
+			return <Product data={data as OfferGetRootProductInterface} permission={permission} unique_id={unique_id} />;
 		} else {
-			return <Service data={selectedOffer as OfferGetRootServiceInterface} permission={permission} />;
+			return <Service data={data as OfferGetRootServiceInterface} permission={permission} unique_id={unique_id} />;
 		}
 	} else {
 		return (
@@ -2376,54 +2586,39 @@ const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 	}
 };
 
-// export async function getStaticPaths() {
-// 	return {
-// 		// false : return 404 if id requested isn't found in paths list of params
-// 		// true : generates a missing page by most visited ones.
-// 		// 'blocking': will not return 404 if next can't find the page immediately
-// 		fallback: false,
-// 		paths: [
-// 			{
-// 				params: {
-// 					offer_pk: '44',
-// 				},
-// 			},
-// 			{
-// 				params: {
-// 					offer_pk: '38',
-// 				},
-// 			},
-// 			{
-// 				params: {
-// 					offer_pk: '25',
-// 				},
-// 			},
-// 			{
-// 				params: {
-// 					offer_pk: '26',
-// 				},
-// 			},
-// 		],
-// 	};
-// }
-
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/${context.params?.shop_link}/${context.params?.offer_pk}/`;
 	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
 	const check_url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	const instance = defaultInstance(base_url);
 	const appToken = getServerSideCookieTokens(context);
+	const options: CookieSerializeOptions = {
+		httpOnly: true,
+		maxAge: 30 * 24 * 60 * 60,
+		secure: process.env.NODE_ENV !== 'development',
+		path: '/',
+		expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+		sameSite: 'lax',
+	};
+	let unique_id = getCookie('@unique_id', { req: context.req, res: context.res });
+	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/${context.params?.shop_link}/${context.params?.offer_pk}/${
+		unique_id ? `${unique_id}/` : ''
+	}`;
 	try {
 		const response: OfferGetRootProductResponseType | OfferGetRootServiceResponseType = await getApi(url, instance);
 		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
 			const isAuthInstance = isAuthenticatedInstance(appToken.initStateToken);
 			const authResponse: AccountGetCheckAccountResponseType = await getApi(check_url, isAuthInstance);
 			if (authResponse.status === 200 && response.status === 200) {
+				if (!unique_id) {
+					unique_id = response.data.unique_id;
+					context.res.setHeader('Set-Cookie', serialize('@unique_id', unique_id, options));
+				}
 				if (authResponse.data.pk === response.data.user_pk) {
 					return {
 						props: {
 							permission: 'OWNER',
 							data: response.data,
+							unique_id: unique_id,
 						},
 					};
 				} else {
@@ -2431,16 +2626,22 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						props: {
 							permission: 'NOT_OWNER',
 							data: response.data,
+							unique_id: unique_id,
 						},
 					};
 				}
 			}
 		} else {
 			if (response.status === 200) {
+				if (!unique_id) {
+					unique_id = response.data.unique_id;
+					context.res.setHeader('Set-Cookie', serialize('@unique_id', unique_id, options));
+				}
 				return {
 					props: {
 						permission: 'NOT_OWNER',
 						data: response.data,
+						unique_id: unique_id,
 					},
 				};
 			}

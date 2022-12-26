@@ -652,7 +652,7 @@ const Livraison: NextPage = () => {
 											justifyContent="center"
 											alignItems="center"
 										>
-											<Image src={ClickCollectSVG} width={70} height={70} alt="" />
+											<Image src={ClickCollectSVG} width={70} height={70} alt="" sizes="100vw" />
 											<p
 												className={`${Styles.defaultLocalisationName} ${
 													selectedClickAndCollect && selectedClickAndCollect.address_name && Styles.activeCardValue
@@ -677,7 +677,7 @@ const Livraison: NextPage = () => {
 									{/*		/>*/}
 									{/*	</Box>*/}
 									{/*)}*/}
-									<CustomSwipeModal open={openClick} handleClose={() => setOpenClick(false)}>
+									<CustomSwipeModal transition open={openClick} handleClose={() => setOpenClick(false)}>
 										<Stack direction="column" spacing={4} sx={{ height: '100%' }}>
 											<Formik
 												enableReinitialize={true}
@@ -824,7 +824,7 @@ const Livraison: NextPage = () => {
 									{/*		/>*/}
 									{/*	</Box>*/}
 									{/*)}*/}
-									<CustomSwipeModal open={openDelivery} handleClose={() => setOpenDelivery(false)} keepMounted={true}>
+									<CustomSwipeModal transition open={openDelivery} handleClose={() => setOpenDelivery(false)} keepMounted={true}>
 										<Stack direction="column" spacing={2} justifyContent="flex-start">
 											<Stack direction="column" sx={{ height: '100%' }}>
 												<TopBarSaveClose

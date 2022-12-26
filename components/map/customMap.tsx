@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import Styles from './customMap.module.sass';
 import { useAppDispatch } from '../../utils/hooks';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
-import L from 'leaflet';
+import L, { CrossOrigin } from 'leaflet';
 import { placesGetGeolocalisationAction } from '../../store/actions/places/placesActions';
 import { MarkerProps } from 'react-leaflet/lib/Marker';
 import { ShopZoneByType } from '../../types/shop/shopTypes';
@@ -41,6 +41,7 @@ type Props = {
 	kmRadiusHandler?: (kmRadius: number) => void;
 	positionHandler?: (position: PositionType) => void;
 	address_name?: string;
+	hideLocalisationName?: boolean;
 	children?: React.ReactNode;
 };
 const CustomMap: React.FC<Props> = (props: Props) => {
@@ -104,18 +105,22 @@ const CustomMap: React.FC<Props> = (props: Props) => {
 			>
 				<CustomMapEvents />
 				<TileLayer
-					crossOrigin='use-credentials'
-					subdomains='map.qaryb.com'
+					crossOrigin={`${process.env.NEXT_PUBLIC_USE_MAP_CREDENTIALS as CrossOrigin}`}
+					subdomains={process.env.NODE_ENV !== 'development' ? 'map.qaryb.com' : 'localhost:8080'}
 					url={`${process.env.NEXT_PUBLIC_MAP_URL}`}
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				/>
-				{props.zoneBy === 'A' ? (
-					<>
-						<AdresseMarker icon={adresseIcon} position={[props.position.lat, props.position.lng]} />
-						<LocalisationNamePopup address_name={props.address_name} />
-					</>
+				{props.hideLocalisationName ? (
+					<AdresseMarker icon={adresseIcon} position={[props.position.lat, props.position.lng]} />
 				) : (
-					<SecteurMarker icon={secteurIcon} position={[props.position.lat, props.position.lng]} />
+					props.zoneBy === 'A' ? (
+						<>
+							<AdresseMarker icon={adresseIcon} position={[props.position.lat, props.position.lng]} />
+							<LocalisationNamePopup address_name={props.address_name} />
+						</>
+					) : (
+						<SecteurMarker icon={secteurIcon} position={[props.position.lat, props.position.lng]} />
+					)
 				)}
 			</MapContainer>
 		</div>

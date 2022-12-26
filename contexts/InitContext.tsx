@@ -1,7 +1,7 @@
 import React, { createContext, PropsWithChildren, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../utils/hooks';
 import {
-	AppTokensCookieType,
+	AppTokensCookieType, CartUniqueIDCookieType,
 	InitStateInterface,
 	InitStateToken,
 	InitStateUniqueID, NewShopCookieType
@@ -24,6 +24,8 @@ import {
 } from "../store/selectors";
 import { placesGetCitiesAction } from "../store/actions/places/placesActions";
 import { notificationGetRootAction } from "../store/actions/notification/notificationActions";
+import { cartGetCartCounterAction } from "../store/actions/cart/cartActions";
+import { orderGetOrdersCountAction } from "../store/actions/order/orderActions";
 
 const InitContext = createContext<InitStateInterface<InitStateToken, InitStateUniqueID>>({
 	tokenType: null,
@@ -38,8 +40,9 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 	const tokenType = useAppSelector(getTokenType);
 	const token = useAppSelector(getInitStateToken);
 	const uniqueID = useAppSelector(getInitStateUniqueID);
-	const [appTokenCookiesLoaded, setAppTokenCookiesLoaded] = useState(false);
-	const [newShopCookiesLoaded, setNewShopCookiesLoaded] = useState(false);
+	const [appTokenCookiesLoaded, setAppTokenCookiesLoaded] = useState<boolean>(false);
+	const [newShopCookiesLoaded, setNewShopCookiesLoaded] = useState<boolean>(false);
+	const [cartUniqueIDLoaded, setCartUniqueIDLoaded] = useState<boolean>(false);
 
 	useEffect(() => {
 		// init app tokens from cookies
@@ -60,6 +63,16 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 				}
 			});
 		}
+		// Init user cart with the unique_id
+		if (!cartUniqueIDLoaded) {
+			cookiesFetcher('/cookies').then((value: {data: {cookies: CartUniqueIDCookieType}; status: number}) => {
+				if (value.status === 200 && value.data.cookies["@unique_id"]) {
+					// dispatch(cartGetAllAction(value.data.cookies["@unique_id"]));
+					dispatch(cartGetCartCounterAction(value.data.cookies["@unique_id"]));
+					setCartUniqueIDLoaded(true);
+				}
+			});
+		}
 		// Initialise states
 		dispatch(initAppAction());
 		dispatch(placesGetCitiesAction('MA'));
@@ -75,6 +88,7 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 			if (userHasShop && typeof userShopUrl === 'string') {
 				dispatch(shopGetRootAction(userShopUrl));
 			}
+			dispatch(orderGetOrdersCountAction());
 			dispatch(notificationGetRootAction());
 		}
 		/*
@@ -83,7 +97,7 @@ export const InitContextProvider = (props: PropsWithChildren<Record<string, unkn
 			dispatch(shopGetRootAction());
 		}
 		 */
-	}, [appTokenCookiesLoaded, dispatch, newShopCookiesLoaded, token, tokenType, userHasShop, userShopUrl]);
+	}, [appTokenCookiesLoaded, cartUniqueIDLoaded, dispatch, newShopCookiesLoaded, token, tokenType, userHasShop, userShopUrl]);
 
 	const contextValue: InitStateInterface<InitStateToken, InitStateUniqueID> = {
 		tokenType: tokenType,

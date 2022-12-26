@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Styles from '../../../styles/auth/register/welcome.module.sass';
 import AuthPageLayout from '../../../components/layouts/auth/authPageLayout';
 import { GetServerSidePropsContext } from 'next';
-import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
+import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance, TabletAndMobile } from "../../../utils/helpers";
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import { getApi } from '../../../store/services/_init/_initAPI';
 import { AUTH_REGISTER, DASHBOARD, REAL_SHOP_ADD_SHOP_NAME } from '../../../utils/routes';
@@ -33,8 +33,9 @@ const Welcome: React.FC<Props> = (props: Props) => {
 					circularColor="#0D070B"
 				/>
 			)}
-			<div className={Styles.desktopOnly}>
-				<AuthPageLayout>
+			<Desktop>
+				<div>
+					<AuthPageLayout>
 					<Stack
 						direction="column"
 						spacing={4}
@@ -53,11 +54,14 @@ const Welcome: React.FC<Props> = (props: Props) => {
 						/>
 					</Stack>
 				</AuthPageLayout>
-			</div>
-			<div className={Styles.mobileOnly}>
-				<main className={Styles.main}>
+				</div>
+
+			</Desktop>
+			<TabletAndMobile>
+				<div>
+					<main className={Styles.main}>
 					<Stack direction="column">
-						<UserMainNavigationBar hideMobileSearch />
+						<UserMainNavigationBar />
 						<Stack direction="column" justifyContent="space-between" spacing="24px" className={Styles.rootStack}>
 							<Stack direction="column" spacing="50px" alignItems="center">
 								<Image src={SuccessIlluSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.logo} />
@@ -76,16 +80,9 @@ const Welcome: React.FC<Props> = (props: Props) => {
 							</div>
 						</Stack>
 					</Stack>
-					{/*<Stack direction="column" justifyContent="center" alignItems="center">*/}
-					{/*	<p className={Styles.bottomLinks}>*/}
-					{/*		Vous avez déjà un compte ?{' '}*/}
-					{/*		<Link href={AUTH_LOGIN}>*/}
-					{/*			Connectez-vous*/}
-					{/*		</Link>*/}
-					{/*	</p>*/}
-					{/*</Stack>*/}
 				</main>
-			</div>
+				</div>
+			</TabletAndMobile>
 		</>
 	);
 };

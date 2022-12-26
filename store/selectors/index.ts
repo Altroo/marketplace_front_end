@@ -2,7 +2,6 @@ import { RootState } from '../store';
 import { ShopFontNameType, ShopGetRootUniqueIDType } from "../../types/shop/shopTypes";
 import { IconColorType, InitStateUniqueID, TokenChoices } from "../../types/_init/_initTypes";
 import {
-	OfferGetMyOffersProductServiceType,
 	OfferGetRootProductInterface, OfferGetRootServiceInterface,
 	OfferTagsType, WSThumbnailType
 } from "../../types/offer/offerTypes";
@@ -156,3 +155,10 @@ export const getAvailableSubscriptions = (state: RootState) => state.subscriptio
 // Notifications
 export const getUserNotifications = (state: RootState) => state.notification.notifications;
 export const getUserNewNotification = (state: RootState) => state.notification.new_notification;
+// Cart
+export const getCartCounter = (state: RootState) => state.cart.cartCounter;
+export const getUserLocalCartOder = (state: RootState) => state.cart.userLocalCartOrder;
+export const getUserLocalCartCoordonneeData = (state: RootState) => state.cart.userLocalCartOrderCoordoneeData;
+export const getUserLocalCartDeliveriesData = (state: RootState) => state.cart.userLocalCartOrderDeliveriesData;
+// Index page
+export const getBoutiqueCoupDeCoeur = (state: RootState) => state._init.boutiqueCoupDeCoeur;

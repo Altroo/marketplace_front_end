@@ -12,7 +12,7 @@ import TopBarSaveClose from '../topBar-Save-Close/topBarSaveClose';
 import { shopNameSchema } from '../../../../../../utils/formValidationSchemas';
 import CustomTextInput from '../../../../../formikElements/customTextInput/customTextInput';
 import { editShopNameTextInputTheme } from '../../../../../../utils/themes';
-import { SagaCallBackType } from '../../../../../../types/_init/_initTypes';
+import { SagaCallBackResponseType } from '../../../../../../types/_init/_initTypes';
 import { ShopNameType } from '../../../../../../types/shop/shopTypes';
 import { useRouter } from 'next/router';
 import { setFormikAutoErrors } from '../../../../../../utils/helpers';
@@ -38,7 +38,7 @@ const EditNomBoutique: React.FC<Props> = (props: Props) => {
 			const action = shopPatchShopNameAction(values.shop_name);
 			dispatch({
 				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackType<ShopNameType>) => {
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<ShopNameType>) => {
 					if (!error && !cancelled && data) {
 						props.handleClose();
 						router.replace(router.asPath).then();

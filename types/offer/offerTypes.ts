@@ -168,7 +168,7 @@ export interface OfferServiceInterface extends Omit<OfferServiceClass, 'title'> 
 }
 
 export type DetailsOfferProductType = {
-	product_quantity: number;
+	product_quantity: number | null;
 	product_price_by: OfferProductPriceByType;
 	product_longitude: string | null;
 	product_latitude: string | null;
@@ -233,7 +233,8 @@ export interface OfferGetRootProductInterface
 	// details_offer: T;
 	pinned: boolean;
 	deliveries: Array<DeliveriesFlatResponseType> | [];
-	exists_in_cart?: boolean;
+	exist_in_cart: boolean;
+	unique_id: string;
 }
 
 export type DeliveriesFlatResponseType = {
@@ -271,7 +272,8 @@ export interface OfferGetRootServiceInterface
 		code: null;
 	};
 	pinned: boolean;
-	exists_in_cart?: boolean;
+	exist_in_cart: boolean;
+	unique_id: string;
 }
 
 export type OfferProductLocalisation = {
@@ -425,6 +427,7 @@ export type OfferGetMyOffersProductServiceType = {
 	pinned: boolean;
 	offer_type: OfferOfferTypeType;
 	creator_label: boolean;
+	shop_url: string;
 };
 
 export type OfferGetMyOffersProductInterface = OfferGetMyOffersProductServiceType;

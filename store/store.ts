@@ -11,6 +11,8 @@ import accountReducer from './slices/account/accountSlice';
 import versionReducer from './slices/version/versionSlice';
 import subscriptionReducer from './slices/subscription/subscriptionSlice';
 import notificationReducer from './slices/notification/notificationSlice';
+import cartReducer from './slices/cart/cartSlice';
+import orderReducer from './slices/order/orderSlice';
 
 const SagaMiddleware = createSagaMiddleware({});
 
@@ -22,6 +24,8 @@ const combinedReducers = combineReducers({
 	account: accountReducer,
 	subscription: subscriptionReducer,
 	notification: notificationReducer,
+	cart: cartReducer,
+	order: orderReducer,
 	version: versionReducer,
 });
 

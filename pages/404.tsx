@@ -18,7 +18,7 @@ const NotFoundPage: NextPage = () => {
 				<UserMainNavigationBar/>
 				<main className={Styles.main}>
 					<Stack direction="row" justifyContent="space-around" spacing={4} className={Styles.rootStack}>
-						<Image src={NotFoundIlluSVG} alt="" className={Styles.illustration} />
+						<Image src={NotFoundIlluSVG} alt="" className={Styles.illustration} sizes="100vw" />
 						<Stack direction="column" spacing={4} className={Styles.rootContent}>
 							<Stack direction="column" spacing={1} className={Styles.header}>
 								<span>Ooops...</span>

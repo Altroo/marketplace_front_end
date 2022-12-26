@@ -3,6 +3,21 @@
 @import 'styles/sass/mixins'
 
 // Global styles
+.alreadyExistInCartButton
+  +Medium
+  width: 300px !important
+  height: 48px !important
+  font-size: 19px
+  line-height: 18px
+  background-color: #FFFFFF
+  border: 1px solid #0274d7
+  border-radius: 60px
+  cursor: none
+  padding: 12px 42px 12px 42px
+  color: #0274d7 !important
+  text-transform: none
+.alreadyExistInCartIcon
+  margin-right: 12px
 .main
   display: flex
   flex-direction: column
@@ -209,8 +224,6 @@
 .deliveryNotFoundRow
   @extend .deliveryRow
   background-color: #f2f2f3
-.mobileOnly
-  display: none !important
 // solder modal
 .modalContentWrapper
   margin: 24px 32px 40px
@@ -282,8 +295,6 @@
   .main
     width: 100%
     padding: 1.5rem 1.5rem 1.5rem 1.5rem
-  .desktopOnly
-    display: none
   .offerWrapper
     min-width: 100%
     margin-left: 0 !important
@@ -296,8 +307,6 @@
   .deliveryRow
     padding-top: .3rem
     padding-bottom: .3rem
-  .mobileOnly
-    display: flex !important
   .noCommentsAvailableContent
     flex-direction: column !important
     align-items: flex-start !important
@@ -321,8 +330,3 @@
 @media #{$mobile}
   .mainImageWrapper
     height: 200px !important
-  .main
-    width: 100%
-    padding: 1.5rem 1.5rem 1.5rem 1.5rem
-  .desktopOnly
-    display: none

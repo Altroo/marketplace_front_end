@@ -9,9 +9,15 @@ import Image from 'next/image';
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useFormik } from 'formik';
-import { changeEmailSchema, changeEmailWithPasswordSchema } from "../../../utils/formValidationSchemas";
+import { changeEmailSchema, changeEmailWithPasswordSchema } from '../../../utils/formValidationSchemas';
 import CustomPasswordInput from '../../../components/formikElements/customPasswordInput/customPasswordInput';
-import { getServerSideCookieTokens, isAuthenticatedInstance, setFormikAutoErrors } from '../../../utils/helpers';
+import {
+	Desktop,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	setFormikAutoErrors,
+	TabletAndMobile,
+} from '../../../utils/helpers';
 import {
 	AccountGetCheckAccountResponseType,
 	AccountPutChangeEmailHasPasswordSagaCallback,
@@ -23,12 +29,12 @@ import MobileDashboardNav from '../../../components/layouts/mobile/mobileDashboa
 import MiniBackSVG from '../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 import {
 	accountPostChangeEmailNotHasPasswordAction,
-	accountPutChangeEmailHasPasswordAction
-} from "../../../store/actions/account/accountActions";
-import CustomToast from "../../../components/portals/customToast/customToast";
-import { useRouter } from "next/router";
-import CustomFooter from "../../../components/layouts/footer/customFooter";
-import Portal from "../../../contexts/Portal";
+	accountPutChangeEmailHasPasswordAction,
+} from '../../../store/actions/account/accountActions';
+import CustomToast from '../../../components/portals/customToast/customToast';
+import { useRouter } from 'next/router';
+import CustomFooter from '../../../components/layouts/footer/customFooter';
+import Portal from '../../../contexts/Portal';
 
 type formikContentType = {
 	email: string;
@@ -134,7 +140,11 @@ const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formik
 		validateOnMount: true,
 		validationSchema: changeEmailWithPasswordSchema,
 		onSubmit: async (values, { setSubmitting, setFieldError, resetForm }) => {
-			const action = accountPostChangeEmailNotHasPasswordAction(values.email, values.new_password1, values.new_password2);
+			const action = accountPostChangeEmailNotHasPasswordAction(
+				values.email,
+				values.new_password1,
+				values.new_password2,
+			);
 			dispatch({
 				...action,
 				onComplete: ({ error, cancelled, data }: AccountPutChangeEmailHasPasswordSagaCallback) => {
@@ -163,7 +173,8 @@ const FormikContentWithNewPassword: React.FC<formikContentType> = (props: formik
 			<h2 className={Styles.pageTitle}>Modifier l&apos;email</h2>
 			<span className={Styles.paragrapheContent}>
 				Votre email actuelle est <span>{newEmail}</span>.<br />
-				Votre compte n&apos;a pas encore un mot de passe.<br />
+				Votre compte n&apos;a pas encore un mot de passe.
+				<br />
 				Pour modifier cette adresse, veuillez insérer votre nouveau mot de passe et votre nouvel email.
 			</span>
 			<form onSubmit={(e) => e.preventDefault()}>
@@ -231,60 +242,57 @@ type IndexProps = {
 const AdresseEmail: NextPage<IndexProps> = (props: IndexProps) => {
 	const { email, has_password } = props.pageProps;
 	const [showDataUpdated, setShowDataUpdated] = useState<boolean>(false);
-	const router = useRouter()
+	const router = useRouter();
 	const direct = router.query.direct as boolean | undefined;
 	const [mobileElementClicked, setMobileElementClicked] = useState<boolean>(direct ? direct : false);
 
 	return (
-		<Stack direction="column" sx={{position: 'relative'}}>
+		<Stack direction="column" sx={{ position: 'relative' }}>
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
-				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
-					<DesktopDashboardSideNav backText="Mon compte" />
-					<Box sx={{ width: '100%' }}>
-						{has_password ? (
-							<FormikContentWithOldPassword email={email} setShowDataUpdated={setShowDataUpdated} />
+				<Desktop>
+					<Stack direction="row" className={Styles.flexRootStack}>
+						<DesktopDashboardSideNav backText="Mon compte" />
+						<Box sx={{ width: '100%' }}>
+							{has_password ? (
+								<FormikContentWithOldPassword email={email} setShowDataUpdated={setShowDataUpdated} />
+							) : (
+								<FormikContentWithNewPassword email={email} setShowDataUpdated={setShowDataUpdated} />
+							)}
+						</Box>
+					</Stack>
+				</Desktop>
+				<TabletAndMobile>
+					<Stack>
+						{!mobileElementClicked ? (
+							<MobileDashboardNav setContent={setMobileElementClicked} backText="Mon compte" />
 						) : (
-							<FormikContentWithNewPassword email={email} setShowDataUpdated={setShowDataUpdated} />
-						)}
-					</Box>
-				</Stack>
-				<Stack className={`${Styles.mobileOnly}`}>
-					{!mobileElementClicked ? (
-						<MobileDashboardNav setContent={setMobileElementClicked} backText="Mon compte"/>
-					) : (
-						<Box sx={{ width: '100%', height: '100%' }}>
-							<Stack direction="column">
-								<Stack direction="row" justifyContent="space-between">
-									<Stack
-										className={Styles.topBackNavigationStack}
-										direction="row"
-										spacing={1}
-										onClick={() => setMobileElementClicked(false)}
-										alignItems="center"
-									>
-										<Image
-											src={MiniBackSVG}
-											alt=""
-											width="0"
-											height="0"
-											sizes="100vw"
-											className={Styles.backIcon}
-										/>
-										<span className={Styles.backText}>Retour</span>
+							<Box sx={{ width: '100%', height: '100%' }}>
+								<Stack direction="column">
+									<Stack direction="row" justifyContent="space-between">
+										<Stack
+											className={Styles.topBackNavigationStack}
+											direction="row"
+											spacing={1}
+											onClick={() => setMobileElementClicked(false)}
+											alignItems="center"
+										>
+											<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
+											<span className={Styles.backText}>Retour</span>
+										</Stack>
 									</Stack>
 								</Stack>
-							</Stack>
-							{has_password ? (
-							<FormikContentWithOldPassword email={email} setShowDataUpdated={setShowDataUpdated} />
-						) : (
-							<FormikContentWithNewPassword email={email} setShowDataUpdated={setShowDataUpdated} />
+								{has_password ? (
+									<FormikContentWithOldPassword email={email} setShowDataUpdated={setShowDataUpdated} />
+								) : (
+									<FormikContentWithNewPassword email={email} setShowDataUpdated={setShowDataUpdated} />
+								)}
+							</Box>
 						)}
-						</Box>
-					)}
-				</Stack>
+					</Stack>
+				</TabletAndMobile>
 				<Portal id="snackbar_portal">
-					<CustomToast type="success" message="Email mis à jour" setShow={setShowDataUpdated} show={showDataUpdated}/>
+					<CustomToast type="success" message="Email mis à jour" setShow={setShowDataUpdated} show={showDataUpdated} />
 				</Portal>
 			</main>
 			<CustomFooter />

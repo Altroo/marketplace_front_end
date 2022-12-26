@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../../styles/dashboard/dashboard.module.sass';
 import {
+	Desktop,
 	generatePageQueryParams,
 	getBackendNextPageNumber,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance,
+	TabletAndMobile,
 } from '../../../../utils/helpers';
 import {
 	AccountGetCheckAccountResponseType,
@@ -30,7 +32,7 @@ import { Iterables } from 'langx-js';
 import { useRouter } from 'next/router';
 import { offerGetVuesAction } from '../../../../store/actions/offer/offerActions';
 import { useAppDispatch } from '../../../../utils/hooks';
-import { SagaCallBackType } from '../../../../types/_init/_initTypes';
+import { SagaCallBackResponseType } from '../../../../types/_init/_initTypes';
 import ApiProgress from '../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import { getDefaultTheme } from '../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../components/htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
@@ -116,7 +118,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 			const action = offerGetVuesAction(vues_url);
 			dispatch({
 				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackType<OfferGetVuesType>) => {
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<OfferGetVuesType>) => {
 					if (!error && !cancelled && data) {
 						let map: Iterables.LinkedHashMap<number, OfferGetVues>;
 						if (vuesMap === null || isReset) {
@@ -178,9 +180,13 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 				<Stack direction="row" spacing={1} alignItems="center" className={Styles.dashboardVuesDesktopCard}>
 					<Image src={DesktopArticlesTotalCountSVG} alt="" width="40" height="40" sizes="100vw" />
 					<Stack direction="column" sx={{ width: '100%' }}>
-						<span className={Styles.dashboardMiniCardCounter}>{total_offers_vue_count} {total_offers_vue_count > 1 ? 'vues' : 'vue'}</span>
+						<span className={Styles.dashboardMiniCardCounter}>
+							{total_offers_vue_count} {total_offers_vue_count > 1 ? 'vues' : 'vue'}
+						</span>
 						<Stack direction="row" justifyContent="space-between">
-							<span className={Styles.dashboardMiniCardSubHeader}>Mois de {fullMonthItemsList[total_vue_month - 1]}</span>
+							<span className={Styles.dashboardMiniCardSubHeader}>
+								Mois de {fullMonthItemsList[total_vue_month - 1]}
+							</span>
 							<span className={`${Styles.dashboardMiniCardPourcentage} ${totalVuePourcentageCSS}`}>
 								{total_vue_pourcentage}
 							</span>
@@ -201,11 +207,7 @@ const PageContent: React.FC<PageContentType> = (props: PageContentType) => {
 									.map((data) => {
 										if (data.value) {
 											return (
-												<Stack
-													direction="column"
-													key={data.key}
-													className={Styles.offerVuesTopArticlesRootList}
-												>
+												<Stack direction="column" key={data.key} className={Styles.offerVuesTopArticlesRootList}>
 													<Stack direction="row" justifyContent="space-between" sx={{ width: '100%' }}>
 														<Stack direction="row" spacing="12px" alignItems="center">
 															<Image
@@ -313,42 +315,39 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		<Stack direction="column">
 			<UserMainNavigationBar />
 			<main className={`${Styles.main} ${Styles.fixMobile}`}>
-				<Stack direction="row" className={`${Styles.desktopOnly} ${Styles.flexRootStack}`}>
-					<DesktopMyBusinessSideNav backText="My business" data={data} />
-					<Box sx={{ width: '100%' }}>
-						<PageContent data={data} vuesData={vuesData} />
-					</Box>
-				</Stack>
-				<Stack className={Styles.mobileOnly}>
-					{!mobileElementClicked ? (
-						<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
-					) : (
-						<Box sx={{ width: '100%', height: '100%' }}>
-							<Stack direction="column">
-								<Stack direction="row" justifyContent="space-between">
-									<Stack
-										className={Styles.topBackNavigationStack}
-										direction="row"
-										spacing={1}
-										onClick={() => setMobileElementClicked(false)}
-										alignItems="center"
-									>
-										<Image
-											src={MiniBackSVG}
-											alt=""
-											width="0"
-											height="0"
-											sizes="100vw"
-											className={Styles.backIcon}
-										/>
-										<span className={Styles.backText}>Retour</span>
-									</Stack>
-								</Stack>
-							</Stack>
+				<Desktop>
+					<Stack direction="row" className={Styles.flexRootStack}>
+						<DesktopMyBusinessSideNav backText="My business" data={data} />
+						<Box sx={{ width: '100%' }}>
 							<PageContent data={data} vuesData={vuesData} />
 						</Box>
-					)}
-				</Stack>
+					</Stack>
+				</Desktop>
+				<TabletAndMobile>
+					<Stack>
+						{!mobileElementClicked ? (
+							<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
+						) : (
+							<Box sx={{ width: '100%', height: '100%' }}>
+								<Stack direction="column">
+									<Stack direction="row" justifyContent="space-between">
+										<Stack
+											className={Styles.topBackNavigationStack}
+											direction="row"
+											spacing={1}
+											onClick={() => setMobileElementClicked(false)}
+											alignItems="center"
+										>
+											<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
+											<span className={Styles.backText}>Retour</span>
+										</Stack>
+									</Stack>
+								</Stack>
+								<PageContent data={data} vuesData={vuesData} />
+							</Box>
+						)}
+					</Stack>
+				</TabletAndMobile>
 			</main>
 			<CustomFooter />
 		</Stack>

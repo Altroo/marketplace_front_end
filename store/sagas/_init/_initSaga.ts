@@ -8,7 +8,7 @@ import {
 	NewShopCookieType,
 	TokenChoices
 } from "../../../types/_init/_initTypes";
-import { emptyInitStateToken, emptyInitStateUniqueID, initialState, setInitState } from '../../slices/_init/_initSlice';
+import { emptyInitStateUniqueID, initialState, setInitState, setBoutiqueCoupDeCoeur } from '../../slices/_init/_initSlice';
 import { getInitStateToken, getInitStateUniqueID, getTokenType } from '../../selectors';
 import { versionSaga } from '../version/versionSaga';
 import { initAccount, setIsLoggedIn } from '../../slices/account/accountSlice';
@@ -17,12 +17,27 @@ import { initOffer } from '../../slices/offer/offerSlice';
 import { initPlaces } from '../../slices/places/placesSlice';
 import { initVersion } from '../../slices/version/versionSlice';
 import { shopGetPhoneCodesSaga } from '../shop/shopSaga';
+import { AxiosInstance } from "axios";
+import { allowAnyInstance } from "../../../utils/helpers";
+import { SeoPagesGetHomePageResponseType } from "../../../types/seo-pages/seoPagesTypes";
+import { getApi } from "../../services/_init/_initAPI";
 
 function* initAppSaga() {
 	// init version first.
 	yield call(() => versionSaga());
 	// load phone codes.
 	yield call(() => shopGetPhoneCodesSaga());
+	// load boutique coup de coeur
+	yield call(() => getBoutiqueCoupDeCoeurSaga());
+}
+
+function* getBoutiqueCoupDeCoeurSaga() {
+	const url = `${process.env.NEXT_PUBLIC_SEO_PAGES_GET_HOME_PAGE}`;
+	const instance: AxiosInstance = yield call(() => allowAnyInstance());
+	const response: SeoPagesGetHomePageResponseType = yield call(() => getApi(url, instance));
+	if (response.status === 200 && response.data) {
+		yield put(setBoutiqueCoupDeCoeur(response.data.coup_de_coeur.shop_link));
+	}
 }
 
 function* initAppCookieTokensSaga(payload: { type: string; cookies: AppTokensCookieType }) {

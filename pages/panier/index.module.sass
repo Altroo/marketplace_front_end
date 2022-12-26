@@ -1,0 +1,117 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.main
+  display: flex
+  flex-direction: column
+  //justify-content: space-between
+  height: 100%
+  padding: 2rem 60px 60px 60px
+  width: 100%
+.emptyCartBox
+  margin-top: 100px
+.emptyCartHeader
+  +Bold
+  font-size: 62px
+  color: $primary
+  margin: 0
+  text-align: center
+.primaryButtonWrapper
+  width: 100%
+  text-align: center
+.header
+  +Bold
+  font-size: 32px
+  color: $primary
+  margin: 0
+  span
+    +Medium
+    font-size: 15px
+    letter-spacing: -0.03em
+.multiRootBox
+  border: 1px solid #D9D9DD
+  border-radius: 20px
+  width: 100%
+  padding: 12px
+  cursor: pointer
+  &:hover
+    background-color: rgba(13, 7, 11, 0.04)
+.avatarSubWrapper
+  width: 48px
+  height: 48px
+  position: relative
+  overflow: hidden
+  border-radius: 50%
+.avatar
+  width: 100%
+  max-width: 100%
+  object-fit: cover
+  height: 100%
+.shopName
+  +SemiBold
+  margin: 0
+  font-size: 19px
+  color: $primary
+  letter-spacing: 0.02em
+  &:hover
+    color: #0274d7 !important
+.nbrArticle
+  +Regular
+  font-size: 15px
+  color: #84848A
+.offerPicture
+  border-radius: 10px
+  object-fit: cover
+.offerTitle
+  +Medium
+  margin: 0
+  font-size: 17px
+  letter-spacing: -0.03em
+  color: $primary
+  &:hover
+    color: #0274d7 !important
+.offerDetails
+  +Regular
+  font-size: 15px
+  color: #84848A
+.offerQuantity
+  +Regular
+  font-size: 19px
+  color: $primary
+  text-align: center
+  width: 100%
+.offerPrice
+  +SemiBold
+  font-size: 17px
+  color: #84848A
+  letter-spacing: -0.03em
+  text-align: end
+  width: 100%
+.divider
+  width: 100%
+  color: #F2F2F3
+.rootArticleStack:last-child
+  .divider
+    +Hidden
+.totalPrice
+  @extend .offerPrice
+  color: $primary
+  width: 100%
+  text-align: end
+@media #{$tablette}
+  .main
+    width: 100%
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem
+  .emptyCartBox
+    margin-top: 54px
+  .emptyCartHeader
+    font-size: 32px
+  .primaryButtonWrapper
+    width: 356px
+    max-width: 100%
+  .offerPrice
+    text-align: start
+// @media #{}
+// @media #{}

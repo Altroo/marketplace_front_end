@@ -331,11 +331,30 @@
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/notificationsMenu" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/primaryLoadingButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/inputs/customAutoCompleteMultiSelect" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/models/seo-data" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/collections" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/collections/[page_url]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/article" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/article/[offer_pk]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/article/produit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/shop/[shop_link]/article/service" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/offer/service" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/collections" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/collections/defaultSeoOffersContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/collections/defaultSeoTextContent" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/seo_pages" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/seo_pages" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/panier" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/cart" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/cart/getProductCart" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/groupedComponents/cart/getServiceCart" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/panier/[shop_pk]" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customPhoneInput" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/panier/[shop_pk]/order" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/orders" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/orders/[order_pk]" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components/layouts/callToActionCards/createYourShopLarge" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/seo-pages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />

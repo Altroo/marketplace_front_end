@@ -1,0 +1,77 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.header
+  +Bold
+  font-size: 32px
+  color: $primary
+  margin: 0
+.subHeader
+  +Regular
+  font-size: 17px
+  color: #84848A
+.inputsMaxWidth
+  max-width: 540px
+.divider
+  color: #D9D9DD
+.maxWidth
+  width: 100% !important
+.subRecap
+  +Medium
+  font-size: 19px
+  color: $primary
+.orderDetailTitle
+  +Medium
+  font-size: 17px
+  letter-spacing: -0.03em
+.orderUserDataHeader
+  +Medium
+  font-size: 17px
+  color: #525256
+.orderUserData
+  +Regular
+  font-size: 17px
+  color: #525256
+.cguCheckBoxText
+  +Regular
+  font-size: 15px
+  color: $primary
+.cguUnderlineBlue
+  color: $blue !important
+  text-decoration: underline
+  text-decoration-color: $blue
+.cguParagraphe
+  +Regular
+  font-size: 11px
+  color: #525256
+.paimentBox
+  padding: 32px
+  box-shadow: 0 0 24px rgba(13,7,11,0.1)
+  border-radius: 40px
+  max-width: 480px
+  max-height: 711px
+  height: fit-content
+  position: sticky
+  left: 0
+  right: 0
+  bottom: 0
+  top: 30px
+@media #{$tablette}
+  .inputsMaxWidth
+    max-width: 100%
+  .paimentStack
+    flex-direction: column
+  .rootStack
+    min-width: 100%
+  .paimentBox
+    position: unset
+    box-shadow: none
+    max-width: 100%
+    max-height: 100%
+    width: 100%
+    padding: 40px 0 0 0 !important
+    margin-left: 0 !important
+// @media #{}
+// @media #{}

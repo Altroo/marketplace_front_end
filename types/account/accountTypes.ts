@@ -6,6 +6,7 @@ import {
 	SagaCallBackBase,
 } from '../_init/_initTypes';
 import { UserClass } from '../../models/account/UserClass';
+import { OrdersSmallListBoxType } from "../order/orderTypes";
 
 export type AccountGenderType = 'M' | 'F';
 
@@ -111,6 +112,7 @@ export type AccountGetDashboardType = {
 	has_messages: boolean;
 	has_notifications: boolean;
 	has_orders: boolean;
+	mini_orders_list: Array<OrdersSmallListBoxType>,
 	indexed_articles_count: number;
 	remaining_slots_count: number;
 	all_slots_count: number;

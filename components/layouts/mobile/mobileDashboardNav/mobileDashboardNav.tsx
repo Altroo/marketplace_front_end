@@ -9,8 +9,8 @@ import { useRouter } from 'next/router';
 import {
 	DASHBOARD_ADRESSE_EMAIL,
 	DASHBOARD_PASSWORD,
-	DASHBOARD_EDIT_PROFILE,
-} from '../../../../utils/routes';
+	DASHBOARD_EDIT_PROFILE, SITE_ROOT
+} from "../../../../utils/routes";
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 
 export type MobileSideNavElementType = {
@@ -66,7 +66,7 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 			link: DASHBOARD_EDIT_PROFILE,
 			icon: MonProfilSVG,
 			disabled: false,
-			current: router.pathname.endsWith(DASHBOARD_EDIT_PROFILE),
+			current: router.pathname.endsWith(DASHBOARD_EDIT_PROFILE.replace(SITE_ROOT, '')),
 			setContent: props.setContent,
 		},
 	];
@@ -76,7 +76,7 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 			link: DASHBOARD_ADRESSE_EMAIL,
 			icon: AdresseEmailSVG,
 			disabled: false,
-			current: router.pathname.endsWith(DASHBOARD_ADRESSE_EMAIL),
+			current: router.pathname.endsWith(DASHBOARD_ADRESSE_EMAIL.replace(SITE_ROOT, '')),
 			setContent: props.setContent,
 		},
 		{
@@ -84,7 +84,7 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 			link: DASHBOARD_PASSWORD,
 			icon: MotDePasseSVG,
 			disabled: false,
-			current: router.pathname.endsWith(DASHBOARD_PASSWORD),
+			current: router.pathname.endsWith(DASHBOARD_PASSWORD.replace(SITE_ROOT, '')),
 			setContent: props.setContent,
 		},
 	];

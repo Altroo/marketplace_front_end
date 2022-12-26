@@ -1,9 +1,7 @@
 import React from 'react';
 import Styles from './avatarShopNameRating.module.sass';
 import CircularAvatarInputFile from '../../../../htmlElements/buttons/circularAvatarInputFile/circularAvatarInputFile';
-import BlackStarSVG from '../../../../../public/assets/svgs/globalIcons/black-star.svg';
 import { ShopFontNameType } from '../../../../../types/shop/shopTypes';
-import Image from 'next/image';
 
 type Props = {
 	shopName: string | undefined;

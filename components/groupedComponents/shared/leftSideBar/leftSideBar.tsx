@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import Styles from './leftSideBar.module.sass';
 import LogoSVG from '../../../../public/assets/svgs/globalIcons/logo.svg';
 import RightArrowSVG from '../../../../public/assets/svgs/navigationIcons/right-arrow-long.svg';
@@ -11,6 +11,7 @@ import StepTwoBlackSVG from '../../../../public/assets/svgs/navigationIcons/seco
 import StepThreeBlackSVG from '../../../../public/assets/svgs/navigationIcons/step-three-black.svg';
 import StepFourBlackSVG from '../../../../public/assets/svgs/navigationIcons/fourth-step-black.svg';
 import Image from 'next/image';
+import { Desktop } from '../../../../utils/helpers';
 
 const Spacer = () => <div className={Styles.OneRemSpace}></div>;
 
@@ -25,22 +26,10 @@ const SideBarElem: React.FC<SideBarProps> = (props: SideBarProps) => {
 		<>
 			<div className={Styles.sideBarItemWrapper}>
 				<div className={Styles.sideBarItem}>
-					<Image
-					src={element.stepImage}
-					alt=""
-					width="32"
-					height="32"
-					sizes="100vw"
-					/>
+					<Image src={element.stepImage} alt="" width="32" height="32" sizes="100vw" />
 					<span style={{ color: element.active ? element.textColor : '#84848A' }}>{element.title}</span>
 				</div>
-				{element.active && <Image
-					src={RightArrowSVG}
-					alt=""
-					width="18"
-					height="18"
-					sizes="100vw"
-					/>}
+				{element.active && <Image src={RightArrowSVG} alt="" width="18" height="18" sizes="100vw" />}
 			</div>
 			<Spacer />
 			<Spacer />
@@ -64,7 +53,7 @@ const LeftSideBar: React.FC<Props> = (props: Props) => {
 	const elements = useMemo(() => {
 		if (props.which === 'SHOP') {
 			return ['Nom de boutique', 'Image', 'Couleur', 'Police'];
-		}else if (props.which === 'PRODUCT') {
+		} else if (props.which === 'PRODUCT') {
 			return ['Catégories', 'Description', 'Prix', 'Livraison'];
 		} else {
 			return ['Catégories', 'Description', 'Prix'];
@@ -72,7 +61,7 @@ const LeftSideBar: React.FC<Props> = (props: Props) => {
 	}, [props.which]);
 
 	const newIconArray = useMemo(() => {
-			if (props.step === '1') {
+		if (props.step === '1') {
 			return [StepOneSVG, StepTwoSVG, StepThreeSVG, StepFourSVG];
 		} else if (props.step === '2') {
 			return [StepActiveSVG, StepTwoBlackSVG, StepThreeSVG, StepFourSVG];
@@ -81,36 +70,32 @@ const LeftSideBar: React.FC<Props> = (props: Props) => {
 		} else if (props.step === '4') {
 			return [StepActiveSVG, StepActiveSVG, StepActiveSVG, StepFourBlackSVG];
 		} else {
-				return []
-			}
+			return [];
+		}
 	}, [props.step]);
 
 	return (
-		<aside className={Styles.sideBar}>
-			<div>
-				<Image
-					src={LogoSVG}
-					alt=""
-					width="152"
-					height="40"
-					sizes="100vw"
+		<Desktop>
+			<aside className={Styles.sideBar}>
+				<div>
+					<Image src={LogoSVG} alt="" width="152" height="40" sizes="100vw" />
+				</div>
+				<Spacer />
+				<Spacer />
+				<Spacer />
+				{elements.map((elem: string, i: number) => (
+					<SideBarElem
+						key={i}
+						element={{
+							stepImage: newIconArray[i],
+							title: elem,
+							textColor: generateColorArray(i)[i],
+							active: i == parseInt(props.step) - 1,
+						}}
 					/>
-			</div>
-			<Spacer />
-			<Spacer />
-			<Spacer />
-			{elements.map((elem: string, i: number) => (
-				<SideBarElem
-					key={i}
-					element={{
-						stepImage: newIconArray[i],
-						title: elem,
-						textColor: generateColorArray(i)[i],
-						active: i == parseInt(props.step) - 1,
-					}}
-				/>
-			))}
-		</aside>
+				))}
+			</aside>
+		</Desktop>
 	);
 };
 

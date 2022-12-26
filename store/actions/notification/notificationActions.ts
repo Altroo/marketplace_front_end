@@ -1,6 +1,5 @@
 import * as types from '../index';
 import { NotificationsType } from '../../../types/notification/notificationTypes';
-import { WS_FACTURE } from "../index";
 
 export const notificationGetRootAction = () => {
 	return {

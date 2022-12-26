@@ -1,0 +1,40 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.rootBox
+  background-color: $primary
+  padding-top: 63px
+  padding-bottom: 63px
+.sectionHeader
+  +Medium
+  font-size: 32px
+  color: #FFFFFF
+  line-height: 48px
+  margin: 0
+.actionButton
+  background-color: $primary !important
+  color: #FFFFFF !important
+  width: 220px !important
+  border: 1px solid #FFFFFF !important
+@media #{$tablette}
+  .rootBox
+    padding: 66px 25px 45px 25px
+  .rootStack
+    padding-bottom: 25px
+    flex-direction: column
+    align-items: center
+  .childStack
+    margin: 0 !important
+  .sectionHeader
+    +SemiBold
+    margin-top: 34px
+    font-size: 22px
+    letter-spacing: -0.01em
+    line-height: 29px
+    text-align: center
+  .actionButtonRootBox
+    align-self: center !important
+// @media #{}
+// @media #{}

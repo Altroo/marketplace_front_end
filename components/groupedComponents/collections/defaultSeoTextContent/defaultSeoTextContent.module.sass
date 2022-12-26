@@ -1,0 +1,40 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.filterMargin
+  margin-left: 273px
+.rootStack
+  margin-top: 32px
+  margin-bottom: 50px
+.pageType
+  +Regular
+  color: #0274d7
+  font-size: 13px
+.pageTitle
+  +Bold
+  font-size: 32px
+  color: $primary
+  margin: 0
+.rootChipStack
+  gap: 8px
+  grid-gap: 8px
+.header
+  margin: 0
+  +Medium
+  font-size: 19px
+  color: $primary
+.paragraphe
+  +Regular
+  font-size: 17px
+  color: #84848A
+  margin: 0
+@media #{$tablette}
+  .filterMargin
+    margin-left: 0
+  .rootStack
+    margin-top: 18px
+    margin-bottom: 32px
+// @media #{}
+// @media #{}

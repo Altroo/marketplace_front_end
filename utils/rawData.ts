@@ -8,8 +8,10 @@ import {
 	OfferServicePriceByType,
 } from '../types/offer/offerTypes';
 import { AccountGenderCodeValueType } from '../types/account/accountTypes';
-import { NotificationsType } from "../types/notification/notificationTypes";
-import { DASHBOARD_SUBSCRIPTION } from "./routes";
+import { NotificationsType } from '../types/notification/notificationTypes';
+import { DASHBOARD_ORDERS, DASHBOARD_SUBSCRIPTION } from "./routes";
+import { useCallback } from 'react';
+import { OrderStatusType } from "../types/order/orderTypes";
 
 export const monthItemsList = [
 	'janv',
@@ -357,5 +359,55 @@ export const getNotificationLink = (type: NotificationsType) => {
 				link: DASHBOARD_SUBSCRIPTION,
 				message: 'Votre abonnement est activé',
 			};
+		case 'OR':
+			return {
+				link: DASHBOARD_ORDERS,
+				message: 'Vous avez reçu une nouvelle commande',
+			};
 	}
+};
+
+export const getOrderStatus = (order_status: OrderStatusType) => {
+	switch (order_status) {
+		case 'IP':
+			return {
+				text: 'En cours...',
+				color: '#F8F2DA',
+			};
+		case 'CM':
+			return {
+				text: 'Terminer',
+				color: '#DBFAEA',
+			};
+		case 'CA':
+			return {
+				text: 'Annulée',
+				color: '#F3DCDC',
+			};
+	}
+};
+
+export const getDateFromDayCountNumber = (days: number) => {
+	const startDate = new Date(Date.now());
+	const endDate = new Date(Date.now());
+	endDate.setDate(endDate.getDate() + days + 1);
+	const startMonth = monthItemsList[startDate.getMonth()];
+	const startDay = dayItemsList[startDate.getDay()];
+	const endMonth = monthItemsList[endDate.getMonth()];
+	const endDay = dayItemsList[endDate.getDay()];
+	return `${startDay} ${startDate.getDate()} ${startMonth} - ${endDay} ${endDate.getDate()} ${endMonth}`;
+};
+
+export const getDateStringFromFormatedDate = (dateString: Date) => {
+	const date = new Date(dateString);
+	const value = date.toLocaleDateString("fr-FR", {weekday: 'long', day: 'numeric', month: 'long'});
+	return value.charAt(0).toUpperCase() + value.slice(1);
 }
+
+export const getCitiesFromArray = (citiesArray: Array<{ pk: number; name: string }>) => {
+	const cities: Array<string> = [];
+	citiesArray.map((city) => {
+		cities.push(city.name);
+	});
+	return cities;
+};

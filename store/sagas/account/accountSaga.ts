@@ -4,7 +4,7 @@ import {
 	allowAnyInstance,
 	emptyRemoteCookiesUniqueIDOnly,
 	isAuthenticatedInstance,
-	setRemoteCookiesTokenOnly,
+
 } from '../../../utils/helpers';
 import { getApi, patchApi, postApi, putApi } from '../../services/_init/_initAPI';
 import {
