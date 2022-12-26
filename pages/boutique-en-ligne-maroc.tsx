@@ -17,6 +17,7 @@ import CustomFooter from '../components/layouts/footer/customFooter';
 import PrimaryAnchorButton from '../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import { NextSeo } from 'next-seo';
 import { Desktop } from "../utils/helpers";
+import CreateYourShopLarge from "../components/layouts/callToActionCards/createYourShopLarge/createYourShopLarge";
 
 type InstaListItem = {
 	img: string;
@@ -165,31 +166,32 @@ const BoutiqueEnLigneMaroc: NextPage = () => {
 							</Stack>
 						</Stack>
 					</Stack>
-					<Box className={Styles.thirdSectionBox}>
-						<Stack
-							direction="row"
-							spacing="84px"
-							alignItems="center"
-							justifyContent="center"
-							className={Styles.mobileRootMain}
-						>
-							<Image src={CreateShopIlluSVG} alt="" width="230" height="214" sizes="100vw" />
-							<Stack direction="column" spacing="24px" className={Styles.mobileThirdSection}>
-								<h4 className={Styles.thirdSectionHeader}>
-									Vous aussi, rejoignez notre
-									<Desktop><DesktopLineBreak /></Desktop> communauté de vendeurs au Maroc
-								</h4>
-								<Box className={Styles.actionButtonRootBox}>
-									<PrimaryAnchorButton
-										buttonText="Créez votre boutique"
-										active={true}
-										nextPage={AUTH_REGISTER}
-										cssClass={Styles.thirdSectionActionButton}
-									/>
-								</Box>
-							</Stack>
-						</Stack>
-					</Box>
+					<CreateYourShopLarge/>
+					{/*<Box className={Styles.thirdSectionBox}>*/}
+					{/*	<Stack*/}
+					{/*		direction="row"*/}
+					{/*		spacing="84px"*/}
+					{/*		alignItems="center"*/}
+					{/*		justifyContent="center"*/}
+					{/*		className={Styles.mobileRootMain}*/}
+					{/*	>*/}
+					{/*		<Image src={CreateShopIlluSVG} alt="" width="230" height="214" sizes="100vw" />*/}
+					{/*		<Stack direction="column" spacing="24px" className={Styles.mobileThirdSection}>*/}
+					{/*			<h4 className={Styles.thirdSectionHeader}>*/}
+					{/*				Vous aussi, rejoignez notre*/}
+					{/*				<Desktop><DesktopLineBreak /></Desktop> communauté de vendeurs au Maroc*/}
+					{/*			</h4>*/}
+					{/*			<Box className={Styles.actionButtonRootBox}>*/}
+					{/*				<PrimaryAnchorButton*/}
+					{/*					buttonText="Créez votre boutique"*/}
+					{/*					active={true}*/}
+					{/*					nextPage={AUTH_REGISTER}*/}
+					{/*					cssClass={Styles.thirdSectionActionButton}*/}
+					{/*				/>*/}
+					{/*			</Box>*/}
+					{/*		</Stack>*/}
+					{/*	</Stack>*/}
+					{/*</Box>*/}
 				</main>
 				<CustomFooter />
 			</Stack>

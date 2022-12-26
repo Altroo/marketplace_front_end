@@ -17,6 +17,7 @@ import PrimaryAnchorButton from '../components/htmlElements/buttons/primaryAncho
 import TextAnchorButton from '../components/htmlElements/buttons/textAnchorButton/textAnchorButton';
 import SeoAnchorWrapper from '../components/htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
 import CreateShopIlluSVG from '../public/assets/images/create-shop-illu.svg';
+import CreateYourShopLarge from '../components/layouts/callToActionCards/createYourShopLarge/createYourShopLarge';
 
 type HomePropsType = {
 	pageProps: {
@@ -35,8 +36,18 @@ const Home: NextPage<HomePropsType> = (props: HomePropsType) => {
 			<Stack direction="column">
 				<UserMainNavigationBar />
 				<main>
-					<Stack direction="column" spacing={{xs: '25px', sm: '25px'}} className={Styles.main} style={{ backgroundColor: coup_de_coeur_bg }}>
-						<Stack direction="row" alignItems="center" spacing={{ xs: '5px', sm: '5px', md: '10px', lg: '10px', xl: '10px' }} className={Styles.topRowStack}>
+					<Stack
+						direction="column"
+						spacing={{ xs: '25px', sm: '25px' }}
+						className={Styles.main}
+						style={{ backgroundColor: coup_de_coeur_bg }}
+					>
+						<Stack
+							direction="row"
+							alignItems="center"
+							spacing={{ xs: '5px', sm: '5px', md: '10px', lg: '10px', xl: '10px' }}
+							className={Styles.topRowStack}
+						>
 							<span>Coup de</span>
 							<Image src={FilledHeartBlackSVG} alt="" width="26" height="24" sizes="100vw" />
 							<span>de la semaine</span>
@@ -128,7 +139,11 @@ const Home: NextPage<HomePropsType> = (props: HomePropsType) => {
 								<span>Ils viennent de nous rejoindre !</span>
 								<span>Découvrez leur boutique</span>
 							</Stack>
-							<Stack direction={{xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row'}} spacing="12px" className={Styles.newShopsStackWrapper}>
+							<Stack
+								direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }}
+								spacing="12px"
+								className={Styles.newShopsStackWrapper}
+							>
 								{new_shops.map((new_shop, index) => {
 									return (
 										<SeoAnchorWrapper
@@ -167,34 +182,7 @@ const Home: NextPage<HomePropsType> = (props: HomePropsType) => {
 							</Stack>
 						</Stack>
 					)}
-					<Box className={Styles.thirdSectionBox}>
-						<Stack
-							direction="row"
-							spacing="84px"
-							alignItems="center"
-							justifyContent="center"
-							className={Styles.mobileRootMain}
-						>
-							<Image src={CreateShopIlluSVG} alt="" width="230" height="214" sizes="100vw" />
-							<Stack direction="column" spacing="24px" className={Styles.mobileThirdSection}>
-								<h4 className={Styles.thirdSectionHeader}>
-									Vous aussi, rejoignez notre
-									<Desktop>
-										<br />
-									</Desktop>{' '}
-									communauté de vendeurs au Maroc
-								</h4>
-								<Box className={Styles.actionButtonRootBox}>
-									<PrimaryAnchorButton
-										buttonText="Créez votre boutique"
-										active={true}
-										nextPage={AUTH_REGISTER}
-										cssClass={Styles.thirdSectionActionButton}
-									/>
-								</Box>
-							</Stack>
-						</Stack>
-					</Box>
+					<CreateYourShopLarge />
 				</main>
 				<CustomFooter />
 			</Stack>
