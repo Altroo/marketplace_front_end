@@ -1,16 +1,15 @@
 import React from 'react';
 import { NextPage } from 'next';
-import Styles from './boutique-en-ligne-maroc.module.sass';
+import Styles from '../styles/index/boutique-en-ligne-maroc.module.sass';
 import { AUTH_REGISTER } from '../utils/routes';
 import ImliPawIlluSVG from '../public/assets/images/imli-paw-illu.svg';
 import JumelleReverseIlluSVG from '../public/assets/images/jumelle-reversed-illu.svg';
-import CreateShopIlluSVG from '../public/assets/images/create-shop-illu.svg';
 import MeterIlluSVG from '../public/assets/images/meter-illu.svg';
 import MoneyIlluSVG from '../public/assets/images/money-illu.svg';
 import SeoIlluSVG from '../public/assets/images/seo-illu.svg';
 import ZenIlluSVG from '../public/assets/images/zen-illu.svg';
 import UserExperienceIlluSVG from '../public/assets/images/user-experience-illu.svg';
-import { Stack, Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import Image from 'next/image';
 import UserMainNavigationBar from '../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../components/layouts/footer/customFooter';
@@ -167,31 +166,6 @@ const BoutiqueEnLigneMaroc: NextPage = () => {
 						</Stack>
 					</Stack>
 					<CreateYourShopLarge/>
-					{/*<Box className={Styles.thirdSectionBox}>*/}
-					{/*	<Stack*/}
-					{/*		direction="row"*/}
-					{/*		spacing="84px"*/}
-					{/*		alignItems="center"*/}
-					{/*		justifyContent="center"*/}
-					{/*		className={Styles.mobileRootMain}*/}
-					{/*	>*/}
-					{/*		<Image src={CreateShopIlluSVG} alt="" width="230" height="214" sizes="100vw" />*/}
-					{/*		<Stack direction="column" spacing="24px" className={Styles.mobileThirdSection}>*/}
-					{/*			<h4 className={Styles.thirdSectionHeader}>*/}
-					{/*				Vous aussi, rejoignez notre*/}
-					{/*				<Desktop><DesktopLineBreak /></Desktop> communauté de vendeurs au Maroc*/}
-					{/*			</h4>*/}
-					{/*			<Box className={Styles.actionButtonRootBox}>*/}
-					{/*				<PrimaryAnchorButton*/}
-					{/*					buttonText="Créez votre boutique"*/}
-					{/*					active={true}*/}
-					{/*					nextPage={AUTH_REGISTER}*/}
-					{/*					cssClass={Styles.thirdSectionActionButton}*/}
-					{/*				/>*/}
-					{/*			</Box>*/}
-					{/*		</Stack>*/}
-					{/*	</Stack>*/}
-					{/*</Box>*/}
 				</main>
 				<CustomFooter />
 			</Stack>

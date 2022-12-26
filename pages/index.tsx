@@ -1,22 +1,21 @@
 import type { NextPage } from 'next';
-import Styles from './index.module.sass';
+import Styles from '../styles/index/index.module.sass';
 import { Stack, Box } from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
-import { allowAnyInstance, Desktop } from '../utils/helpers';
+import { allowAnyInstance } from '../utils/helpers';
 import { NextSeo } from 'next-seo';
 import UserMainNavigationBar from '../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../components/layouts/footer/customFooter';
 import { AxiosInstance } from 'axios';
 import { getApi } from '../store/services/_init/_initAPI';
-import { AUTH_REGISTER, NOT_FOUND_404, REAL_SHOP_ADD_SHOP_NAME, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../utils/routes';
+import { NOT_FOUND_404, REAL_SHOP_ADD_SHOP_NAME, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../utils/routes';
 import { GetHomePageType, SeoPagesGetHomePageResponseType } from '../types/seo-pages/seoPagesTypes';
 import FilledHeartBlackSVG from '../public/assets/svgs/homePageIcons/filled-heart-black.svg';
 import CoupDeCoeurShape from '../public/assets/svgs/globalIcons/shape.svg';
 import PrimaryAnchorButton from '../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import TextAnchorButton from '../components/htmlElements/buttons/textAnchorButton/textAnchorButton';
 import SeoAnchorWrapper from '../components/htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
-import CreateShopIlluSVG from '../public/assets/images/create-shop-illu.svg';
 import CreateYourShopLarge from '../components/layouts/callToActionCards/createYourShopLarge/createYourShopLarge';
 
 type HomePropsType = {

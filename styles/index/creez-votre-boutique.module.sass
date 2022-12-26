@@ -1,0 +1,52 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.main
+  height: 100%
+  padding: 110px 130px 110px 130px
+.header
+  +Black
+  font-size: 80px
+  color: $primary
+  margin: 0
+  line-height: 80px
+  span
+    +Bold
+    font-size: 32px
+.subHeader
+  +Medium
+  font-size: 32px
+  color: $primary
+  line-height: 48px
+.paragraphe
+  +Regular
+  font-size: 21px
+  letter-spacing: -0.01em
+  color: #525256
+  line-height: 28px
+.anchorButton
+  width: fit-content
+.primaryButton
+  width: fit-content !important
+  padding: 14.7px 33.6px !important
+@media #{$tablette}
+  .main
+    padding: 34px 24px 63px 24px
+  .header
+    font-size: 40px
+    line-height: 51px
+    span
+      +SemiBold
+      font-size: 20px
+  .subHeader
+    font-size: 22.11px
+    letter-spacing: -0.01em
+    line-height: 29px
+  .paragraphe
+    font-size: 15px
+    letter-spacing: 0
+    line-height: 22px
+// @media #{}
+// @media #{}

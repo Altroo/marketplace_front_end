@@ -10,6 +10,7 @@ type Props = {
 	active: boolean;
 	nextPage: string | UrlObject;
 	onClick?: () => void;
+	anchorcssClass?: string;
 	cssClass?: string;
 	scroll?: boolean;
 	shallow?: boolean;
@@ -21,13 +22,7 @@ type Props = {
 const PrimaryAnchorButton = forwardRef<HTMLAnchorElement, Props>(
 	(props: Props, ref: ForwardedRef<HTMLAnchorElement>) => {
 		return (
-			<Link href={props.nextPage} scroll={props.scroll} shallow={props.shallow} replace={props.replace} ref={ref}>
-				{/*<button*/}
-				{/*	className={`${Styles.primaryButtonDisabled} */}
-				{/*	${props.active ? `${Styles.primaryButtonActive}` : ''}*/}
-				{/*	${props.cssClass && `${props.cssClass}`}`}*/}
-				{/*	onClick={props.onClick}*/}
-				{/*	disabled={!props.active}>*/}
+			<Link href={props.nextPage} className={props.anchorcssClass} scroll={props.scroll} shallow={props.shallow} replace={props.replace} ref={ref}>
 				<ThemeProvider theme={getDefaultTheme()}>
 					<Button
 						onClick={props.onClick}

@@ -4,13 +4,17 @@ export const SITE_ROOT = `${process.env.NEXT_PUBLIC_DOMAIN_URL_PREFIX}/`;
 export const NOT_FOUND_404 = `${SITE_ROOT}404`;
 // CGU page
 export const CGU_PAGE = `${SITE_ROOT}cgu`;
-// Instagram page
-export const INSTA_PAGE = `${SITE_ROOT}boutique-en-ligne-maroc`;
-/*
-shop/abc/ => index
-shop/abc/offer/1 => index
-shop/abc/offer/new => index
- */
+
+// Footer pages
+export const NOTRE_MISSION_FOOTER_PAGE = `${SITE_ROOT}notre-mission`;
+export const PARTENARIAT_FOOTER_PAGE = `${SITE_ROOT}partenariat`;
+export const CARRIERE_FOOTER_PAGE = `${SITE_ROOT}carriere`;
+export const CREER_VOTRE_BOUTIQUE_FOOTER_PAGE = `${SITE_ROOT}creez-votre-boutique`;
+export const LES_VENDEURS_INSTAGRAM_FOOTER_PAGE = `${SITE_ROOT}boutique-en-ligne-maroc`;
+export const REFERENCER_VOS_ARTICLES_FOOTER_PAGE = `${SITE_ROOT}referencer-vos-articles`;
+export const DES_QUESTION_FOOTER_PAGE = `${SITE_ROOT}des-question`;
+
+
 
 // Auth Shop Routes
 const REAL_SHOP_ROOT = 'shop';
