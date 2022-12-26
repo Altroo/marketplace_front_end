@@ -1,6 +1,6 @@
 import React from 'react';
 import { NextPage } from 'next';
-import Styles from './cgu.module.sass';
+import Styles from '../styles/index/cgu.module.sass';
 import { Stack } from '@mui/material';
 
 const Cgu: NextPage = () => {

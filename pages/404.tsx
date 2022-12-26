@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import Styles from "./404.module.sass";
+import Styles from "../styles/index/404.module.sass";
 import Image from 'next/image';
 import NotFoundIlluSVG from '../public/assets/images/404.svg';
 import { Stack } from "@mui/material";

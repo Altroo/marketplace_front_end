@@ -26,6 +26,8 @@
             <path value="file://$PROJECT_DIR$/public/ico" />
             <path value="file://$PROJECT_DIR$/public/assets/images/cart_illu" />
             <path value="file://$PROJECT_DIR$/public/assets/svgs/homePageIcons" />
+            <path value="file://$PROJECT_DIR$/public/assets/images/footer_illu" />
+            <path value="file://$PROJECT_DIR$/public/assets/svgs/footerIcons" />
           </resourceRoots>
         </entryData>
       </entry>
