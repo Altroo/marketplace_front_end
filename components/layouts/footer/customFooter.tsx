@@ -7,9 +7,7 @@ import InstagramMiniSVG from '../../../public/assets/svgs/globalIcons/instagram-
 import Image from 'next/image';
 import {
 	CGU_PAGE,
-	DASHBOARD_INDEXED_OFFERS,
 	LES_VENDEURS_INSTAGRAM_FOOTER_PAGE,
-	NOT_FOUND_404,
 	CREER_VOTRE_BOUTIQUE_FOOTER_PAGE,
 	DES_QUESTION_FOOTER_PAGE,
 	PARTENARIAT_FOOTER_PAGE,
@@ -47,9 +45,10 @@ const FooterInstaLinks = () => {
 			<Link href={DES_QUESTION_FOOTER_PAGE} className={Styles.anchor}>
 				Des questions ? Contactez nous
 			</Link>
-			<Link href={NOT_FOUND_404} className={Styles.anchor}>
-				Faites votre shopping (coming soon)
-			</Link>
+			<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
+				<span className={Styles.disabledAnchorText}>Faites votre shopping</span>
+				<span className={Styles.comingSoon}>Coming soon</span>
+			</Stack>
 		</Stack>
 	);
 };
@@ -58,21 +57,19 @@ const FooterFirstContent = () => {
 	return (
 		<Stack direction="column" spacing={1}>
 			<span className={Styles.header}>Qaryb</span>
-			<Link href={NOT_FOUND_404} className={Styles.anchor}>
-				Notre mission (coming soon)
+			<Link href={NOTRE_MISSION_FOOTER_PAGE} className={Styles.anchor}>
+				Notre mission
 			</Link>
-			{/*<Link href={NOTRE_MISSION_FOOTER_PAGE} className={Styles.anchor}>*/}
-			{/*	Notre mission*/}
-			{/*</Link>*/}
 			<Link href={PARTENARIAT_FOOTER_PAGE} className={Styles.anchor}>
 				Partenariat
 			</Link>
 			<Link href={CARRIERE_FOOTER_PAGE} className={Styles.anchor}>
 				Carrière
 			</Link>
-			<Link href={NOT_FOUND_404} className={Styles.anchor}>
-				Blog (coming soon)
-			</Link>
+			<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
+				<span className={Styles.disabledAnchorText}>Blog</span>
+				<span className={Styles.comingSoon}>Coming soon</span>
+			</Stack>
 		</Stack>
 	);
 };
@@ -90,9 +87,10 @@ const FooterSecondContent = () => {
 			<Link href={REFERENCER_VOS_ARTICLES_FOOTER_PAGE} className={Styles.anchor}>
 				Référencez vos articles
 			</Link>
-			<Link href={NOT_FOUND_404} className={Styles.anchor}>
-				Carte cadeaux (coming soon)
-			</Link>
+			<Stack direction="row" alignItems="center" flexWrap="wrap" columnGap="6px">
+				<span className={Styles.disabledAnchorText}>Carte cadeaux</span>
+				<span className={Styles.comingSoon}>Coming soon</span>
+			</Stack>
 		</Stack>
 	);
 };

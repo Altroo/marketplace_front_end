@@ -1,0 +1,86 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.main
+  height: 100%
+.bodyStack
+  padding-left: 60px
+  padding-right: 60px
+  padding-bottom: 86px
+.header
+  +Black
+  font-size: 80px
+  color: $primary
+  margin: 0
+  line-height: 80px
+  span
+    +Bold
+    font-size: 32px
+.bodyBox
+  padding: 48px 130px 100px
+  background-color: #FBFBFB
+.sectionDot
+  +Bold
+  font-size: 38px
+  color: #FF9DBF
+  line-height: 38px
+.sectionHeader
+  +Bold
+  font-size: 38px
+  color: $primary
+  line-height: 48px
+  text-align: center
+.subHeader
+  +Medium
+  font-size: 32px
+  line-height: 40px
+  color: $primary
+.paragraphe
+  +Regular
+  font-size: 21px
+  line-height: 30px
+  letter-spacing: -0.01em
+  color: #84848A
+.anchorButton
+  width: fit-content !important
+.primaryButton
+  width: fit-content !important
+  padding: 14px 32px !important
+@media #{$tablette}
+  .main
+    margin-top: 20px
+  .bodyStack
+    padding-left: 24px
+    padding-right: 24px
+    padding-bottom: 24px
+  .header
+    font-size: 40px
+    line-height: 51px
+    span
+      +SemiBold
+      font-size: 20px
+  .avatarImage
+    width: 109px
+    height: 109px
+  .bodyBox
+    padding: 25px 25px 63px
+  .sectionDot
+    font-size: 33px
+    line-height: 42px
+    max-width: 100% !important
+    margin: 0 !important
+  .sectionHeader
+    margin: 0 !important
+    letter-spacing: -0.05em
+  .subHeader
+    font-size: 22px
+    line-height: 29.5px
+    letter-spacing: -0.01em
+  .paragraphe
+    font-size: 20px
+    line-height: normal
+    letter-spacing: normal
+// @media #{}
+// @media #{}
