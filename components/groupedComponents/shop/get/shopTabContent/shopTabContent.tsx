@@ -40,6 +40,7 @@ type Props = {
 	activeColor: string;
 	openFilterModal: boolean;
 	setOpenFilterModal: React.Dispatch<React.SetStateAction<boolean>>;
+	setShowMobileFilterButton: React.Dispatch<React.SetStateAction<boolean>>;
 	children?: React.ReactNode;
 };
 
@@ -56,7 +57,7 @@ export const availableFiltersInit: OfferGetAvailableShopFiltersType = {
 };
 
 const ShopTabContent: React.FC<Props> = (props: Props) => {
-	const { shop_pk } = props;
+	const { shop_pk, setShowMobileFilterButton } = props;
 	const router = useRouter();
 	const [filter, setFilter] = useState<'D' | 'C'>('D');
 	const dispatch = useAppDispatch();
@@ -173,6 +174,11 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 			loadFirstPage();
 			setApplyFiltersClicked(false);
 		}
+		if (offersLinkedHashMap.offersMap?.isEmpty()) {
+			setShowMobileFilterButton(false);
+		} else {
+			setShowMobileFilterButton(true);
+		}
 	}, [
 		applyFiltersClicked,
 		availableFiltersFetched,
@@ -182,6 +188,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		loadMoreState,
 		offersLinkedHashMap,
 		router.query,
+		setShowMobileFilterButton,
 		shop_pk,
 	]);
 

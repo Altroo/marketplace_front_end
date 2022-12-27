@@ -150,9 +150,6 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 							nextPage: getBackendNextPageNumber(data.next),
 							count: data.count,
 						};
-						if (!map.isEmpty()) {
-							setShowMobileFilterButton(true);
-						}
 						setOffersLinkedHashMap(result);
 						setIsLoadingNextPageInProgress(false);
 						if (isReset) {
@@ -190,6 +187,11 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 		if (applyFiltersClicked) {
 			loadFirstPage();
 			setApplyFiltersClicked(false);
+		}
+		if (offersLinkedHashMap.offersMap?.isEmpty()) {
+			setShowMobileFilterButton(false);
+		} else {
+			setShowMobileFilterButton(true);
 		}
 	}, [
 		applyFiltersClicked,

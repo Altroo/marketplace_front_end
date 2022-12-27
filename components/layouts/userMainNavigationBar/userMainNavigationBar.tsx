@@ -21,6 +21,7 @@ import BoutiqueSVG from '../../../public/assets/svgs/mainNavBarIcons/boutique.sv
 import HambourgerMenuSVG from '../../../public/assets/svgs/mainNavBarIcons/hambourger-menu.svg';
 import LogoutSVG from '../../../public/assets/svgs/mainNavBarIcons/logout.svg';
 import HeartShapeSVG from '../../../public/assets/svgs/mainNavBarIcons/heart-shape.svg';
+import HeartShapeBlackSVG from '../../../public/assets/svgs/mainNavBarIcons/heart-shape-black.svg';
 import EmptyCartSVG from '../../../public/assets/svgs/mainNavBarIcons/empty-cart.svg';
 import { useSession, signOut } from 'next-auth/react';
 import { useAppSelector } from '../../../utils/hooks';
@@ -402,9 +403,9 @@ const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
 										</Stack>
 										{boutiqueCoupDeCoeur ? (
 											<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(boutiqueCoupDeCoeur)}>
-												<Stack direction="row" alignItems="center" flexWrap="wrap">
+												<Stack direction="row" alignItems="center" flexWrap="wrap" spacing="3px">
 													<span className={Styles.anchorText}>Boutique coup de</span>
-													<Image alt="" width={32} height={32} sizes="100vw" src={HeartShapeSVG} />
+													<Image alt="" width={32} height={32} sizes="100vw" src={HeartShapeBlackSVG} />
 												</Stack>
 											</Link>
 										) : (

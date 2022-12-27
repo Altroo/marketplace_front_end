@@ -789,7 +789,14 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					>
 						<div className={Styles.modalContentWrapper}>
 							<div className={Styles.topBar}>
-								<Image src={CloseSVG} width={40} height={40} alt="" sizes="100vw" onClick={() => setOpenInfoModal(false)} />
+								<Image
+									src={CloseSVG}
+									width={40}
+									height={40}
+									alt=""
+									sizes="100vw"
+									onClick={() => setOpenInfoModal(false)}
+								/>
 							</div>
 							<HelperDescriptionHeader header="Ajouter mes infos" />
 							<Stack direction="column" spacing={4}>
@@ -1065,6 +1072,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	}, [contact_mode, contact_phone, contact_phone_code, contact_whatsapp, contact_whatsapp_code, icon_color]);
 
 	const [openFilterModal, setOpenFilterModal] = useState<boolean>(false);
+	const [showMobileFilterButton, setShowMobileFilterButton] = useState<boolean>(false);
 
 	return (
 		<Stack direction="column">
@@ -1161,13 +1169,15 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 				<Box>
 					<Stack className={Styles.shopDetailsWrapper} direction="column">
 						<Stack className={Styles.shopTabs} direction="row">
-							<MobileOffersFilterButton
-								buttonText="Filtrer"
-								svgIcon={MobileFilterWhiteSVG}
-								textColor="#FFFFFF"
-								backgroundColor="#0D070B"
-								onClick={() => setOpenFilterModal(true)}
-							/>
+							{showMobileFilterButton && (
+								<MobileOffersFilterButton
+									buttonText="Filtrer"
+									svgIcon={MobileFilterWhiteSVG}
+									textColor="#FFFFFF"
+									backgroundColor="#0D070B"
+									onClick={() => setOpenFilterModal(true)}
+								/>
+							)}
 							<ShopInfoTabs
 								color={bg_color_code}
 								borderColor={bg_color_code}
@@ -1177,6 +1187,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 										shop_pk={pk}
 										openFilterModal={openFilterModal}
 										setOpenFilterModal={setOpenFilterModal}
+										setShowMobileFilterButton={setShowMobileFilterButton}
 									/>
 								}
 								InfoContent={<ShopInfoTabContent shopInfoData={shopInfoData} />}
