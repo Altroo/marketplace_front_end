@@ -101,7 +101,6 @@ const BoutiqueEnLigneMaroc: NextPage = () => {
 								justifyContent="center"
 								alignItems="center"
 								spacing="32px"
-								className={Styles.secondSectionStackMobile}
 							>
 								<span className={Styles.secondSectionDot}>•</span>
 								<h3 className={Styles.secondSectionHeader}>Quelques raisons pour nous rejoindre</h3>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NextPage } from 'next';
-import Styles from './referencer-vos-articles.module.sass';
+import Styles from '../styles/index/referencer-vos-articles.module.sass';
 import UserMainNavigationBar from '../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import { Stack } from '@mui/material';
 import CustomFooter from '../components/layouts/footer/customFooter';
@@ -11,7 +11,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { DASHBOARD, DASHBOARD_SUBSCRIPTION } from "../utils/routes";
 import TextButton from "../components/htmlElements/buttons/textButton/textButton";
-import { router } from "next/client";
 import { useRouter } from 'next/router';
 
 type Props = {
