@@ -58,6 +58,7 @@ export const availableFiltersInit: OfferGetAvailableShopFiltersType = {
 
 const ShopTabContent: React.FC<Props> = (props: Props) => {
 	const { shop_pk, setShowMobileFilterButton } = props;
+	const [shopPkState, setShopPkState] = useState<number>(shop_pk);
 	const router = useRouter();
 	const [filter, setFilter] = useState<'D' | 'C'>('D');
 	const dispatch = useAppDispatch();
@@ -78,6 +79,9 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 	const [imagesLoading, setImagesLoading] = useState<Array<boolean>>([]);
 
 	useEffect(() => {
+		if (shop_pk) {
+			setShopPkState(shop_pk);
+		}
 		if (!availableFiltersFetched) {
 			const action = offerGetAvailableFiltersByShopID(shop_pk);
 			dispatch({
@@ -152,7 +156,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		};
 
 		// on page first load
-		if (!firstPageLoaded) {
+		if (!firstPageLoaded || shopPkState !== shop_pk) {
 			loadFirstPage();
 		}
 
@@ -189,6 +193,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		offersLinkedHashMap,
 		router.query,
 		setShowMobileFilterButton,
+		shopPkState,
 		shop_pk,
 	]);
 

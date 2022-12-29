@@ -669,7 +669,10 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 						<TabletAndMobile>
 							<Stack>
 								{!mobileElementClicked ? (
-									<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
+									<MobileMyBusinessNav
+										setContent={setMobileElementClicked}
+										backText="My business"
+										data={data} />
 								) : (
 									<Box sx={{ width: '100%', height: '100%' }}>
 										<Stack direction="column">

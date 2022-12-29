@@ -168,31 +168,8 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 			{!data.is_subscribed || renderBack ? (
 				<Stack direction="column" className={Styles.dashboardNotSubscribedRootStack}>
 					<Stack direction="column" spacing="24px">
-						{/*<Stack*/}
-						{/*	direction="row"*/}
-						{/*	justifyContent="space-between"*/}
-						{/*	alignItems="center"*/}
-						{/*	className={Styles.dashboardNotSubscribedSubRootStack}*/}
-						{/*>*/}
-						{/*	<Stack direction="column" className={Styles.dashboardNotSubscribedHeaderWrapper}>*/}
-						{/*		<span className={Styles.dashboardNotSubscribedSpanHeaderOne}>*/}
-						{/*			Vos clients sont sur les moteurs de recherche.*/}
-						{/*		</span>*/}
-						{/*		<span className={Styles.dashboardNotSubscribedSpanHeaderTwo}>Et vous ?</span>*/}
-						{/*	</Stack>*/}
-						{/*	<Image src={JumelleIlluSVG} alt="" width="281" height="178" sizes="100vw" />*/}
-						{/*</Stack>*/}
-						<Box className={Styles.dashboardNotSubscribedMobileMain}>
-							<Stack direction="column" spacing="24px">
-								{/*<p className={Styles.dashboardNotSubscribedParagraphe}>*/}
-								{/*	L’acte d’achat a plus souvent lieu sur Google que sur Instagram. Si vous n’avez pas de site web bien*/}
-								{/*	référencé, abonnez vous pour toucher plus de gens.*/}
-								{/*</p>*/}
 								<Stack direction="column" alignItems="center" className={Styles.dashboardNotSubscribedHeadline}>
 									<span>Combien d’articles désirez-vous référencer ?</span>
-									{/*<Link href="/">*/}
-									{/*	En savoir plus sur les articles référencés*/}
-									{/*</Link>*/}
 								</Stack>
 								<Stack direction="column" pt="48px" className={Styles.dashboardNotSubscribedPopulaireBannerWrapper}>
 									{articlesValue === 70 && (
@@ -305,8 +282,6 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 									</Stack>
 								</Stack>
 							</Stack>
-						</Box>
-					</Stack>
 					<Box mt="0px" mb="0px" className={Styles.dashboardNotSubscribedAvantageBox}>
 						<Stack direction="column" spacing="30px" className={Styles.dashboardNotSubscribedAvantageMobile}>
 							<Box className={Styles.dashboardNotSubscribedAvantage}>Les avatantages de nos abonnements:</Box>
@@ -486,103 +461,95 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	return (
 		<Stack direction="column">
 			<UserMainNavigationBar />
-			{subscriptionData !== null ? (
-				<main className={`${Styles.main} ${Styles.fixMobile}`}>
-					<Desktop>
-						<Stack direction="row" className={Styles.flexRootStack}>
-							<DesktopMyBusinessSideNav backText="My business" data={data} />
-							<Box sx={{ width: '100%' }}>
-								<AlreadySubscribedContent subscriptionData={subscriptionData} />
-							</Box>
-						</Stack>
-					</Desktop>
-					<TabletAndMobile>
-						<Stack>
-							{!mobileElementClicked ? (
-								<MobileMyBusinessNav
-									setContent={setMobileElementClicked}
-									backText="My business"
-									data={data}
-									addMobilePadding={true}
-								/>
-							) : (
-								<Box sx={{ width: '100%', height: '100%' }}>
-									<Stack direction="column">
-										<Stack direction="row" justifyContent="space-between">
-											<Stack
-												className={Styles.topBackNavigationStack}
-												direction="row"
-												spacing={1}
-												onClick={() => setMobileElementClicked(false)}
-												alignItems="center"
-											>
-												<Image
-													src={MiniBackSVG}
-													alt=""
-													width="0"
-													height="0"
-													sizes="100vw"
-													className={Styles.backIcon}
-												/>
-												<span className={Styles.backText}>Retour</span>
-											</Stack>
-										</Stack>
-									</Stack>
+			<main className={`${Styles.main} ${Styles.fixMobile}`}>
+				{subscriptionData !== null ? (
+					<>
+						<Desktop>
+							<Stack direction="row" className={Styles.flexRootStack}>
+								<DesktopMyBusinessSideNav backText="My business" data={data} />
+								<Box sx={{ width: '100%' }}>
 									<AlreadySubscribedContent subscriptionData={subscriptionData} />
 								</Box>
-							)}
-						</Stack>
-					</TabletAndMobile>
-				</main>
-			) : (
-				<main className={`${Styles.main} ${Styles.noPaddingFixMobile}`}>
-					<Desktop>
-						<Stack direction="row" className={Styles.flexRootStack}>
-							<DesktopMyBusinessSideNav backText="My business" data={data} />
-							<Box sx={{ width: '100%' }}>
-								<SubscribeSliderContent data={data} />
-							</Box>
-						</Stack>
-					</Desktop>
-					<TabletAndMobile>
-						<Stack>
-							{!mobileElementClicked ? (
-								<MobileMyBusinessNav
-									setContent={setMobileElementClicked}
-									backText="My business"
-									data={data}
-									addMobilePadding={true}
-								/>
-							) : (
-								<Box sx={{ width: '100%', height: '100%' }}>
-									<Stack direction="column">
-										<Stack direction="row" justifyContent="space-between" className={Styles.marginLeft}>
-											<Stack
-												className={Styles.topBackNavigationStack}
-												direction="row"
-												spacing={1}
-												onClick={() => setMobileElementClicked(false)}
-												alignItems="center"
-											>
-												<Image
-													src={MiniBackSVG}
-													alt=""
-													width="0"
-													height="0"
-													sizes="100vw"
-													className={Styles.backIcon}
-												/>
-												<span className={Styles.backText}>Retour</span>
+							</Stack>
+						</Desktop>
+						<TabletAndMobile>
+							<Stack>
+								{!mobileElementClicked ? (
+									<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
+								) : (
+									<Box sx={{ width: '100%', height: '100%' }}>
+										<Stack direction="column">
+											<Stack direction="row" justifyContent="space-between">
+												<Stack
+													className={Styles.topBackNavigationStack}
+													direction="row"
+													spacing={1}
+													onClick={() => setMobileElementClicked(false)}
+													alignItems="center"
+												>
+													<Image
+														src={MiniBackSVG}
+														alt=""
+														width="0"
+														height="0"
+														sizes="100vw"
+														className={Styles.backIcon}
+													/>
+													<span className={Styles.backText}>Retour</span>
+												</Stack>
 											</Stack>
 										</Stack>
-									</Stack>
+										<AlreadySubscribedContent subscriptionData={subscriptionData} />
+									</Box>
+								)}
+							</Stack>
+						</TabletAndMobile>
+					</>
+				) : (
+					<>
+						<Desktop>
+							<Stack direction="row" className={Styles.flexRootStack}>
+								<DesktopMyBusinessSideNav backText="My business" data={data} />
+								<Box sx={{ width: '100%' }}>
 									<SubscribeSliderContent data={data} />
 								</Box>
-							)}
-						</Stack>
-					</TabletAndMobile>
-				</main>
-			)}
+							</Stack>
+						</Desktop>
+						<TabletAndMobile>
+							<Stack>
+								{!mobileElementClicked ? (
+									<MobileMyBusinessNav setContent={setMobileElementClicked} backText="My business" data={data} />
+								) : (
+									<Box sx={{ width: '100%', height: '100%' }}>
+										<Stack direction="column">
+											<Stack direction="row" justifyContent="space-between">
+												<Stack
+													className={Styles.topBackNavigationStack}
+													direction="row"
+													spacing={1}
+													onClick={() => setMobileElementClicked(false)}
+													alignItems="center"
+												>
+													<Image
+														src={MiniBackSVG}
+														alt=""
+														width="0"
+														height="0"
+														sizes="100vw"
+														className={Styles.backIcon}
+													/>
+													<span className={Styles.backText}>Retour</span>
+												</Stack>
+											</Stack>
+										</Stack>
+										<SubscribeSliderContent data={data} />
+									</Box>
+								)}
+							</Stack>
+						</TabletAndMobile>
+					</>
+				)}
+			</main>
 			<CustomFooter />
 		</Stack>
 	);

@@ -8,13 +8,14 @@ type Props = {
 	title: string;
 	description: string;
 	svgIcon: string;
+	onClick?: () => void;
 	nextPage?: string;
 	children?: React.ReactNode;
 };
 
 const OfferTypeCard = forwardRef<HTMLAnchorElement, Props>((props: Props, ref: ForwardedRef<HTMLAnchorElement>) => {
 	return props.nextPage ? (
-		<Link href={props.nextPage} ref={ref} className={Styles.cardWrapper}>
+		<Link href={props.nextPage} ref={ref} className={Styles.cardWrapper} onClick={props.onClick}>
 			<Stack direction="row" spacing={2} className={Styles.titleDescWrapper} alignItems="center">
 				<Image src={props.svgIcon} alt="" className={Styles.icon} sizes="100vw" />
 				<Stack direction="column" spacing={1}>
