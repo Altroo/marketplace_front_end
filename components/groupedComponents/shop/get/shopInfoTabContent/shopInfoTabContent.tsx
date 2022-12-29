@@ -45,6 +45,8 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 			if (bio.length > shopBioMaxLength) {
 				setVoirPlus(false);
 			}
+		} else {
+			setShopBio(null);
 		}
 	}, [bio]);
 

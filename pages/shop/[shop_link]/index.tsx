@@ -1037,11 +1037,16 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	// states
 	// Gray Message Icon
 	// const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
-	const [contactModeState, setContactModeState] = useState(contact_mode);
+	const [contactModeState, setContactModeState] = useState<string | null>(null);
 	const [contactIcon, setContactIcon] = useState<string | null>(null);
 	const [contacterLink, setContacterLink] = useState<string | undefined>(undefined);
 
 	useEffect(() => {
+		if (contact_mode) {
+			setContactModeState(contact_mode);
+		} else {
+			setContactModeState(null);
+		}
 		// set icon colors
 		if (contact_mode === 'W' && contact_whatsapp_code && contact_whatsapp) {
 			setContactModeState('W');
