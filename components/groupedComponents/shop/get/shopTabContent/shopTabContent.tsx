@@ -82,7 +82,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 		if (shop_pk) {
 			setShopPkState(shop_pk);
 		}
-		if (!availableFiltersFetched) {
+		if (!availableFiltersFetched || (shopPkState !== shop_pk)) {
 			const action = offerGetAvailableFiltersByShopID(shop_pk);
 			dispatch({
 				...action,
