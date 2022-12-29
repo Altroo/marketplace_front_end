@@ -69,7 +69,7 @@
   height: 165px
   object-fit: cover
 .offerTitle
-  width: 100%
+  max-width: 250px
   +Medium
   font-size: 17px
   color: $primary
@@ -110,6 +110,8 @@
   display: flex
 
 @media #{$tablette}
+  .offerTitle
+    max-width: 100%
   .rootGrid
     gap: 6px
     grid-gap: 6px

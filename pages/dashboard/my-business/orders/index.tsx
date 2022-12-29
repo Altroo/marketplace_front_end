@@ -36,6 +36,8 @@ import SeoAnchorWrapper from '../../../../components/htmlElements/buttons/seoAnc
 import { ParsedUrlQueryInput } from 'querystring';
 import { getApi } from "../../../../store/services/_init/_initAPI";
 import { AxiosInstance } from "axios";
+import SharedStyles from "../../../../styles/dashboard/dashboard.module.sass";
+import MiniBackSVG from "../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg";
 
 type ordersLinkedHashMapType = {
 	count: number;
@@ -173,6 +175,27 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 			<Stack direction="column">
 				<UserMainNavigationBar />
 				<main className={Styles.main}>
+					<TabletAndMobile>
+						<Stack direction="row" justifyContent="space-between">
+							<Stack
+								className={SharedStyles.topBackNavigationStack}
+								direction="row"
+								spacing={1}
+								onClick={() => router.back()}
+								alignItems="center"
+							>
+								<Image
+									src={MiniBackSVG}
+									alt=""
+									width="0"
+									height="0"
+									sizes="100vw"
+									className={SharedStyles.backIcon}
+								/>
+								<span className={SharedStyles.backText}>Retour</span>
+							</Stack>
+						</Stack>
+					</TabletAndMobile>
 					<Stack direction="column" spacing="32px">
 						<h2 className={Styles.header}>Commandes</h2>
 						<Stack direction="row" spacing="6px">

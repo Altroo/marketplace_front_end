@@ -594,7 +594,6 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 							/>
 						</Stack>
 					</TabletAndMobile>
-
 					<Stack
 						justifyContent="space-between"
 						alignItems="center"

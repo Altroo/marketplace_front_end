@@ -33,11 +33,13 @@ import FactureBlackSVG from '../../../../../public/assets/svgs/globalIcons/factu
 import { useAppDispatch } from '../../../../../utils/hooks';
 import { useRouter } from 'next/router';
 import CustomSwipeModal from '../../../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
-import { SagaCallBackResponseType } from "../../../../../types/_init/_initTypes";
+import { SagaCallBackResponseType } from '../../../../../types/_init/_initTypes';
 import {
 	orderPostAcceptOrderAction,
-	orderPostCancelOrderAction
-} from "../../../../../store/actions/order/orderActions";
+	orderPostCancelOrderAction,
+} from '../../../../../store/actions/order/orderActions';
+import SharedStyles from '../../../../../styles/dashboard/dashboard.module.sass';
+import MiniBackSVG from '../../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
 
 type OrderSummaryBoxContentType = {
 	totalPrice: number;
@@ -259,38 +261,58 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 		setCancelModalState(true);
 	}, []);
 
-	const onAcceptHandler = useCallback((order_pk: number) => {
-		const action = orderPostAcceptOrderAction(order_pk);
-		dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
-				if (!error && !cancelled && data) {
-					router.replace(router.asPath).then(() => {
-						setAcceptModalState(false);
-					});
-				}
-			},
-		});
-	}, [dispatch, router]);
+	const onAcceptHandler = useCallback(
+		(order_pk: number) => {
+			const action = orderPostAcceptOrderAction(order_pk);
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
+					if (!error && !cancelled && data) {
+						router.replace(router.asPath).then(() => {
+							setAcceptModalState(false);
+						});
+					}
+				},
+			});
+		},
+		[dispatch, router],
+	);
 
-	const onCancelHandler = useCallback((order_pk: number) => {
-		const action = orderPostCancelOrderAction(order_pk);
-		dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
-				if (!error && !cancelled && data) {
-					router.replace(router.asPath).then(() => {
-						setCancelModalState(false);
-					});
-				}
-			},
-		});
-	}, [dispatch, router]);
+	const onCancelHandler = useCallback(
+		(order_pk: number) => {
+			const action = orderPostCancelOrderAction(order_pk);
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
+					if (!error && !cancelled && data) {
+						router.replace(router.asPath).then(() => {
+							setCancelModalState(false);
+						});
+					}
+				},
+			});
+		},
+		[dispatch, router],
+	);
 
 	return (
 		<Stack direction="column">
 			<UserMainNavigationBar />
 			<main className={Styles.main}>
+				<TabletAndMobile>
+					<Stack direction="row" justifyContent="space-between">
+						<Stack
+							className={SharedStyles.topBackNavigationStack}
+							direction="row"
+							spacing={1}
+							onClick={() => router.back()}
+							alignItems="center"
+						>
+							<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={SharedStyles.backIcon} />
+							<span className={SharedStyles.backText}>Retour</span>
+						</Stack>
+					</Stack>
+				</TabletAndMobile>
 				<Stack direction="row" spacing="80px" justifyContent="space-between" className={Styles.orderStack}>
 					<Stack direction="column" spacing="0px" width="100%" className={Styles.rootStack}>
 						<Stack direction="column" spacing="0px">
@@ -428,11 +450,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 							alignItems="center"
 							className={Styles.modalActionsRootStack}
 						>
-							<PrimaryButton
-								buttonText="Accepter"
-                active={true}
-								onClick={() => onAcceptHandler(data.pk)}
-							/>
+							<PrimaryButton buttonText="Accepter" active={true} onClick={() => onAcceptHandler(data.pk)} />
 							<PrimaryButton
 								cssClass={Styles.cancelAcceptButton}
 								buttonText="Annuler"

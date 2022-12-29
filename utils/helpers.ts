@@ -16,10 +16,6 @@ import { SITE_ROOT } from './routes';
 import { useMediaQuery } from 'react-responsive';
 import { useComponentHydrated } from "react-hydration-provider";
 
-// const refreshToken = async (refresh_token: string): Promise<ResponseDataTokenRefreshType> => {
-// 	return await tokenRefreshApi(refresh_token);
-// };
-
 export const isAuthenticatedInstance = (
 	initStateToken: InitStateToken,
 	contentType: APIContentTypeInterface = 'application/json',
@@ -36,7 +32,12 @@ export const isAuthenticatedInstance = (
 			/* initStateToken might be using the old access_token. */
 			// load new access token from storage instead.
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			config.headers!['Authorization'] = 'Bearer ' + initStateToken.access_token;
+			// config.headers!['Authorization'] = 'Bearer ' + initStateToken.access_token;
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			// @ts-ignore
+			config.headers?.set({
+				Authorization: 'Bearer ' + initStateToken.access_token
+			});
 			return config;
 		},
 		(error) => {
@@ -222,12 +223,6 @@ export const constructApiFormData = (apiData: object) => {
 		formData.append(key, value);
 	}
 	return formData;
-};
-
-export const setRemoteCookiesTokenOnly = async (InitStateToken: InitStateToken) => {
-	await cookiesPoster('/cookies', { tokenType: 'TOKEN' }).then(async () => {
-		cookiesPoster('/cookies', { initStateToken: InitStateToken }).then();
-	});
 };
 
 export const emptyRemoteCookiesUniqueIDOnly = () => {
