@@ -7,10 +7,11 @@ import { Desktop } from '../../../../utils/helpers';
 import PrimaryAnchorButton from '../../../htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
 import { AUTH_REGISTER } from '../../../../utils/routes';
 
+const DesktopLineBreak = () => {
+	return <br />;
+};
+
 const CreateYourShopLarge: React.FC = () => {
-	const DesktopLineBreak = () => {
-		return <br />;
-	};
 
 	return (
 		<Box className={Styles.rootBox}>

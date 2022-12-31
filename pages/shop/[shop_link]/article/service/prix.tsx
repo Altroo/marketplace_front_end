@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import Styles from './prix.module.sass';
@@ -9,7 +9,7 @@ import {
 	REAL_OFFER_ROUTE,
 	REAL_SHOP_ADD_SHOP_NAME,
 	AUTH_LOGIN,
-} from "../../../../../utils/routes";
+} from '../../../../../utils/routes';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
 import MobileStepsBar from '../../../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import { Box, Stack, ThemeProvider } from '@mui/material';
@@ -39,7 +39,9 @@ import {
 	OfferPostRootServiceResponseType,
 	OfferPutRootServiceResponseType,
 } from '../../../../../types/offer/offerTypes';
-import ApiProgress from "../../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
+import ApiProgress from '../../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
+
+const chipTheme = SizesChipTheme();
 
 const Prix: NextPage = () => {
 	const offer_pk = useAppSelector(getLocalOfferServiceEditPK);
@@ -77,7 +79,7 @@ const Prix: NextPage = () => {
 	const [prestation, setPrestation] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'P'));
 	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
-	const handleSubmit = () => {
+	const handleSubmit = useCallback(() => {
 		setIsApiCallInProgress(true);
 		let price_by: 'H' | 'J' | 'S' | 'M' | 'P' = 'P';
 		if (heur) {
@@ -186,10 +188,36 @@ const Prix: NextPage = () => {
 				},
 			});
 		}
-	};
+	}, [
+		categoriesList,
+		description,
+		dispatch,
+		forWhom,
+		heur,
+		jour,
+		mois,
+		offer_pk,
+		pictures,
+		prestation,
+		price,
+		router,
+		semaine,
+		service_address,
+		service_afternoon_hour_from,
+		service_afternoon_hour_to,
+		service_availability_days,
+		service_km_radius,
+		service_latitude,
+		service_longitude,
+		service_morning_hour_from,
+		service_morning_hour_to,
+		service_zone_by,
+		thumbnails,
+		title,
+	]);
 
 	useEffect(() => {
-		if(!isApiCallInProgress && !title){
+		if (!isApiCallInProgress && !title) {
 			router.replace(REAL_OFFER_ADD_SERVICE_DESCRIPTION(router.query.shop_link as string)).then();
 		}
 		if (price === '' && (!heur || !jour || !semaine || !mois || !prestation)) {
@@ -211,7 +239,6 @@ const Prix: NextPage = () => {
 		}
 	}, [heur, isApiCallInProgress, jour, mois, prestation, price, router, semaine, title]);
 
-	const chipTheme = SizesChipTheme();
 	return (
 		<>
 			{isApiCallInProgress && (
@@ -236,10 +263,7 @@ const Prix: NextPage = () => {
 					/>
 					<MobileStepsBar activeStep={activeStep} />
 					<Box className={Styles.marginLeft}>
-						<HelperH1Header
-							header="Fixer un prix"
-							headerClasses={Styles.topHeader}
-						/>
+						<HelperH1Header header="Fixer un prix" headerClasses={Styles.topHeader} />
 					</Box>
 					<Stack direction="column" className={Styles.stackWrapper} justifyContent="space-between">
 						<Stack direction="column" spacing="12px" alignItems="center">

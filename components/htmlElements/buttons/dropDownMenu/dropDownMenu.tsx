@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useCallback } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -7,6 +7,8 @@ import { DropDownActionType, DropDownVariantType } from '../../../../types/ui/ui
 import { ThemeProvider } from '@mui/material';
 import { getDropDownMenuTheme } from '../../../../utils/themes';
 import Image from 'next/image';
+
+const customTheme = getDropDownMenuTheme();
 
 type Props = {
 	menuID: string;
@@ -23,15 +25,14 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
-	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+	const handleClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
-	};
+	}, []);
 
-	const handleClose = () => {
+	const handleClose = useCallback(() => {
 		setAnchorEl(null);
-	};
+	}, []);
 
-	const customTheme = getDropDownMenuTheme();
 	return (
 		<div className={Styles.dropDownWrapper}>
 			<ThemeProvider theme={customTheme}>

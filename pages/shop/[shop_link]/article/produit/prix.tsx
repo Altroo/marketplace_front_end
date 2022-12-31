@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import Styles from './prix.module.sass';
@@ -31,6 +31,7 @@ import { AccountGetCheckAccountResponseType } from '../../../../../types/account
 import { getApi } from '../../../../../store/services/_init/_initAPI';
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
 
+const chipTheme = SizesChipTheme();
 const Prix: NextPage = () => {
 	const activeStep = '3';
 	const router = useRouter();
@@ -38,12 +39,13 @@ const Prix: NextPage = () => {
 	const [submitActive, setSubmitActive] = useState<boolean>(false);
 	const pickedPriceBy = useAppSelector(getLocalOfferProductPriceBy);
 	const pickedPrice = useAppSelector(getLocalOfferProductPrice);
+	const pickedTitle = useAppSelector(getLocalOfferProductTitle);
 	const [price, setPrice] = useState<string | number>(pickedPrice ? pickedPrice : '');
 	const [unity, setUnity] = useState<boolean>(pickedPrice ? !!(pickedPriceBy && pickedPriceBy === 'U') : true);
 	const [kg, setKg] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'K'));
 	const [liter, setLiter] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'L'));
 
-	const handleSubmit = () => {
+	const handleSubmit = useCallback(() => {
 		let price_by: 'L' | 'U' | 'K' = 'U';
 		if (unity) {
 			price_by = 'U';
@@ -63,8 +65,8 @@ const Prix: NextPage = () => {
 				}
 			},
 		});
-	};
-	const pickedTitle = useAppSelector(getLocalOfferProductTitle);
+	}, [dispatch, kg, liter, price, router, unity]);
+
 	useEffect(() => {
 		if(!pickedTitle){
 			router.replace(REAL_OFFER_ADD_PRODUCT_DESCRIPTION(router.query.shop_link as string)).then();
@@ -88,7 +90,6 @@ const Prix: NextPage = () => {
 		}
 	}, [kg, liter, pickedTitle, price, router, unity]);
 
-	const chipTheme = SizesChipTheme();
 	return (
 		<>
 			<main className={Styles.main}>

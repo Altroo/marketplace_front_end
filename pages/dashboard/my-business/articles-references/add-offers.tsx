@@ -50,6 +50,8 @@ import AddWhiteSVG from '../../../../public/assets/svgs/dashboardIcons/mainIcons
 import CustomToast from '../../../../components/portals/customToast/customToast';
 import Portal from '../../../../contexts/Portal';
 
+const CheckboxIcon = CheckBoxSVG('#0274D7', 24, 24);
+
 type indexedDataLinkedHashMapType = {
 	count: number;
 	nextPage: string | null;
@@ -63,8 +65,6 @@ type AvailableOffersToIndexContentType = {
 };
 
 const BackButton = () => {
-	// const router = useRouter();
-
 	return (
 		<>
 			<Desktop>
@@ -209,14 +209,7 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 		}
 	}, [firstPageLoaded, getOffersData, offersData, offersDataLinkedHashMap, isLoadingInitInProgress, loadMoreState]);
 
-	const selectAllClickHandler = () => {
-		setSelectAllState((prevState) => {
-			setAllCheckHandler(!prevState);
-			return !prevState;
-		});
-	};
-
-	const setAllCheckHandler = (checked: boolean) => {
+	const setAllCheckHandler = useCallback((checked: boolean) => {
 		const checkedList = itemsCheckList.map((_) => {
 			return checked;
 		});
@@ -232,9 +225,16 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 			setItemIDS([]);
 		}
 		setItemsCheckList(checkedList);
-	};
+	}, [itemsCheckList]);
 
-	const handleCheckChange = (event: React.ChangeEvent<HTMLInputElement>, index: number, pk: number) => {
+	const selectAllClickHandler = useCallback(() => {
+		setSelectAllState((prevState) => {
+			setAllCheckHandler(!prevState);
+			return !prevState;
+		});
+	}, [setAllCheckHandler]);
+
+	const handleCheckChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, index: number, pk: number) => {
 		const checkedList = itemsCheckList.map((item, itemIndex) => {
 			if (index === itemIndex) {
 				if (event.target.checked && !itemIDS.includes(pk)) {
@@ -259,9 +259,9 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 		} else {
 			setSelectAllState(false);
 		}
-	};
+	}, [itemIDS, itemsCheckList]);
 
-	const indexNewOffersHandler = (pk: number | string) => {
+	const indexNewOffersHandler = useCallback((pk: number | string) => {
 		const action = subscriptionPostIndexArticlesAction(pk);
 		dispatch({
 			...action,
@@ -295,9 +295,8 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 				}
 			},
 		});
-	};
+	}, [dispatch, getOffersData, setShowToast]);
 
-	const CheckboxIcon = CheckBoxSVG('#0274D7', 24, 24);
 	return (
 		<>
 			{(isLoadingInitInProgress || isLoadingNextPageInProgress) && (

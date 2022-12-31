@@ -46,11 +46,11 @@ const InstaListItem: React.FC<InstaListItem> = (props: InstaListItem) => {
 		</Stack>
 	);
 };
+const DesktopLineBreak = () => {
+	return <br />;
+};
 
 const BoutiqueEnLigneMaroc: NextPage = () => {
-	const DesktopLineBreak = () => {
-		return <br />;
-	};
 
 	return (
 		<>

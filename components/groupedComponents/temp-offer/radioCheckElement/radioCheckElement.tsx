@@ -4,6 +4,9 @@ import { Collapse, Stack, ThemeProvider, Grid, Box } from '@mui/material';
 import IosSwitch from '../../../htmlElements/switches/iosSwitch';
 import { getDefaultTheme, offerSwitchTheme } from '../../../../utils/themes';
 
+const defaultTheme = getDefaultTheme();
+const switchTheme = offerSwitchTheme();
+
 type Props = {
 	title: string;
 	disabled?: boolean;
@@ -11,9 +14,6 @@ type Props = {
 	defaultValue?: boolean;
 	children?: React.ReactNode;
 };
-const defaultTheme = getDefaultTheme();
-const switchTheme = offerSwitchTheme();
-
 const RadioCheckElement: React.FC<Props> = (props: Props) => {
 	const [open, setOpen] = useState<boolean>(props.defaultValue ? props.defaultValue : false);
 	const [showOptional, setShowOptional] = useState<boolean>(true);

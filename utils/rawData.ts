@@ -10,7 +10,6 @@ import {
 import { AccountGenderCodeValueType } from '../types/account/accountTypes';
 import { NotificationsType } from '../types/notification/notificationTypes';
 import { DASHBOARD_ORDERS, DASHBOARD_SUBSCRIPTION } from "./routes";
-import { useCallback } from 'react';
 import { OrderStatusType } from "../types/order/orderTypes";
 
 export const monthItemsList = [

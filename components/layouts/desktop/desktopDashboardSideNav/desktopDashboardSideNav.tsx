@@ -1,7 +1,5 @@
-import {
-	Stack,
-} from "@mui/material";
-import React from 'react';
+import React, {useMemo} from 'react';
+import { Stack } from '@mui/material';
 import Styles from './desktopDashboardSideNav.module.sass';
 import ArrowActiveSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/arrow-active.svg';
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
@@ -14,8 +12,9 @@ import { useRouter } from 'next/router';
 import {
 	DASHBOARD_ADRESSE_EMAIL,
 	DASHBOARD_PASSWORD,
-	DASHBOARD_EDIT_PROFILE, SITE_ROOT
-} from "../../../../utils/routes";
+	DASHBOARD_EDIT_PROFILE,
+	SITE_ROOT,
+} from '../../../../utils/routes';
 
 export type DesktopSideNavElementType = {
 	icon: string;
@@ -27,7 +26,12 @@ export type DesktopSideNavElementType = {
 
 export const DesktopSideNavElement: React.FC<DesktopSideNavElementType> = (props: DesktopSideNavElementType) => {
 	return (
-		<Stack direction="row" justifyContent="space-between" alignItems="center" className={`${props.disabled && Styles.disabledElement}`}>
+		<Stack
+			direction="row"
+			justifyContent="space-between"
+			alignItems="center"
+			className={`${props.disabled && Styles.disabledElement}`}
+		>
 			<Link href={props.link} replace className={`${props.disabled && Styles.disabledCursor}`}>
 				<Stack direction="row" spacing={2} alignItems="center">
 					<Image src={props.icon} alt="" width="0" height="0" sizes="100vw" className={Styles.mainIcon} />
@@ -48,7 +52,9 @@ type Props = {
 
 const DesktopDashboardSideNav: React.FC<Props> = (props: Props) => {
 	const router = useRouter();
-	const profilNavElements: Array<DesktopSideNavElementType> = [
+
+	const profilNavElements: Array<DesktopSideNavElementType> = useMemo(() => {
+		return [
 		{
 			text: 'Mon profil',
 			link: DASHBOARD_EDIT_PROFILE,
@@ -56,8 +62,11 @@ const DesktopDashboardSideNav: React.FC<Props> = (props: Props) => {
 			current: router.pathname.endsWith(DASHBOARD_EDIT_PROFILE.replace(SITE_ROOT, '')),
 			disabled: false,
 		},
-	];
-	const parametresNavElements: Array<DesktopSideNavElementType> = [
+	]
+	}, [router.pathname]);
+
+	const parametresNavElements: Array<DesktopSideNavElementType> = useMemo(() => {
+		return [
 		{
 			text: 'Adresse email',
 			link: DASHBOARD_ADRESSE_EMAIL,
@@ -72,26 +81,29 @@ const DesktopDashboardSideNav: React.FC<Props> = (props: Props) => {
 			current: router.pathname.endsWith(DASHBOARD_PASSWORD.replace(SITE_ROOT, '')),
 			disabled: false,
 		},
-	];
+	]
+	}, [router.pathname]);
 
 	return (
 		<Stack direction="column" className={Styles.sideBar}>
 			<Stack direction="column" spacing={4}>
-				{props.backText && <Stack direction="column">
-					<Stack direction="row" justifyContent="space-between">
-						<Stack
-							className={Styles.topBackNavigationStack}
-							direction="row"
-							spacing={1}
-							onClick={() => router.back()}
-							alignItems="center"
-						>
-							<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
-							<span className={Styles.backText}>Retour</span>
+				{props.backText && (
+					<Stack direction="column">
+						<Stack direction="row" justifyContent="space-between">
+							<Stack
+								className={Styles.topBackNavigationStack}
+								direction="row"
+								spacing={1}
+								onClick={() => router.back()}
+								alignItems="center"
+							>
+								<Image src={MiniBackSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.backIcon} />
+								<span className={Styles.backText}>Retour</span>
+							</Stack>
 						</Stack>
+						<span className={Styles.backHeader}>{props.backText}</span>
 					</Stack>
-					<span className={Styles.backHeader}>{props.backText}</span>
-				</Stack>}
+				)}
 				<Stack direction="column" spacing={4}>
 					<Stack direction="column" spacing={2}>
 						<span className={Styles.header}>Profil</span>

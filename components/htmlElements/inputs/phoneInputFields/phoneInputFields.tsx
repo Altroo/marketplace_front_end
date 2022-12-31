@@ -7,6 +7,11 @@ import { Stack } from '@mui/material';
 import { useAppSelector } from '../../../../utils/hooks';
 import { SelectInputcontacterType } from '../../../../types/ui/uiTypes';
 
+type phoneOptions = {
+	label: string;
+	code: string;
+};
+
 type inputProps = {
 	open: boolean;
 	value: string;
@@ -21,10 +26,6 @@ const PhoneInputFields: React.FC<inputProps> = (props: inputProps) => {
 	const phoneCodes = useAppSelector((state) => state.shop.phoneCodes);
 	const [phoneCodesObj, setPhoneCodesObj] = useState<Array<SelectInputcontacterType> | undefined>(undefined);
 
-	type phoneOptions = {
-		label: string;
-		code: string;
-	};
 	const customTheme = CustomTheme(props.backgroundColor);
 
 	const [value, setValue] = useState({ label: props.code, code: props.code });

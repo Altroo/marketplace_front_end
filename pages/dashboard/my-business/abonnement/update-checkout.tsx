@@ -47,6 +47,9 @@ import { useRouter } from 'next/router';
 import TextField from "@mui/material/TextField";
 import { Check, Close } from "@mui/icons-material";
 
+const inputTheme = coordonneeTextInputTheme();
+const promoCodeTheme = promoCodeTextInputTheme();
+
 type PackArticlesCardContentType = {
 	is_subscribed: boolean;
 	nbr_article: number;
@@ -258,9 +261,6 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 			dispatch(placesGetCountriesAction());
 		}
 	}, [availableCountries.length, dispatch]);
-
-	const inputTheme = coordonneeTextInputTheme();
-	const promoCodeTheme = promoCodeTextInputTheme();
 
 	return (
 		<Stack direction="column">

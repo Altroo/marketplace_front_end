@@ -78,13 +78,7 @@ const ShowHoraire: React.FC = () => {
 	return (
 		<>
 			<Stack direction="row" spacing={1} sx={{ wordWrap: 'break-word' }} className={Styles.wrapper}>
-				<Image
-								src={ClockSVG}
-								alt=""
-								width="24"
-								height="24"
-								sizes="100vw"
-							/>
+				<Image src={ClockSVG} alt="" width="24" height="24" sizes="100vw" />
 				<Box component="p" sx={{ wordWrap: 'break-word', width: '100%' }}>
 					{horaireAllContent !== '' ? horaireAllContent : openingDaysArray.join(', ')}
 				</Box>

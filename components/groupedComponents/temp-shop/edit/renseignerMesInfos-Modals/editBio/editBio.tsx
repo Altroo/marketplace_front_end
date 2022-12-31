@@ -17,6 +17,8 @@ import { setFormikAutoErrors } from '../../../../../../utils/helpers';
 import { useRouter } from 'next/router';
 import { ShopBioType } from '../../../../../../types/shop/shopTypes';
 
+const bioTextAreaCustomTheme = bioTextAreaTheme();
+
 type Props = {
 	handleClose: () => void;
 	children?: React.ReactNode;
@@ -55,7 +57,6 @@ const EditBio: React.FC<Props> = (props: Props) => {
 		},
 	});
 
-	const bioTextAreaCustomTheme = bioTextAreaTheme();
 	return (
 		<Stack direction="column" spacing={4}>
 			<form onSubmit={(e) => e.preventDefault()}>

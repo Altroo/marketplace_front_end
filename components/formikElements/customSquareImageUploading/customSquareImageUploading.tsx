@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useCallback, useMemo } from 'react';
 import Styles from './customSquareImageUploading.module.sass';
 import ImageUploading from 'react-images-uploading';
 import { Box, Stack } from '@mui/material';
@@ -23,35 +23,39 @@ type Props = {
 };
 
 const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
+	const { onCrop } = props;
 	const cropperRefOne = useRef<ReactCropperElement>(null);
 	const cropperRefTwo = useRef<ReactCropperElement>(null);
 	const cropperRefThree = useRef<ReactCropperElement>(null);
 	const cropperRefFfour = useRef<ReactCropperElement>(null);
 
-	const refArrays = [
-		cropperRefOne,
-		cropperRefTwo,
-		cropperRefThree,
-		cropperRefFfour,
-	]
+	const refArrays = useMemo(() => {
+		return [cropperRefOne, cropperRefTwo, cropperRefThree, cropperRefFfour];
+	}, []);
 
-	const onCropEnd = (index: number) => {
-		const imageElement: ReactCropperElement | null = refArrays[index]?.current;
-		const cropper = imageElement?.cropper;
-		if (cropper) {
-			const data = cropper.getCroppedCanvas().toDataURL();
-			props.onCrop(data, index);
-		}
-	};
+	const onCropEnd = useCallback(
+		(index: number) => {
+			const imageElement: ReactCropperElement | null = refArrays[index]?.current;
+			const cropper = imageElement?.cropper;
+			if (cropper) {
+				const data = cropper.getCroppedCanvas().toDataURL();
+				onCrop(data, index);
+			}
+		},
+		[onCrop, refArrays],
+	);
 
-	const onCropClear = (index: number) => {
-		const imageElement: ReactCropperElement | null = refArrays[index]?.current;
-		const cropper = imageElement?.cropper;
-		if (cropper) {
-			cropper.clear();
-			props.onCrop(null, index);
-		}
-	}
+	const onCropClear = useCallback(
+		(index: number) => {
+			const imageElement: ReactCropperElement | null = refArrays[index]?.current;
+			const cropper = imageElement?.cropper;
+			if (cropper) {
+				cropper.clear();
+				onCrop(null, index);
+			}
+		},
+		[onCrop, refArrays],
+	);
 
 	return (
 		<>
@@ -77,22 +81,12 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 										alignItems="center"
 										id="offersCropper"
 									>
-										{/*<Image*/}
-										{/*	className={Styles.showImage}*/}
-										{/*	src={image['dataURL'] as string}*/}
-										{/*	alt=""*/}
-										{/*	width={250}*/}
-										{/*	height={160}*/}
-										{/*	loading="eager"*/}
-										{/*	priority={true}*/}
-										{/*	onClick={() => showImage(image['dataURL'] as string)}*/}
-										{/*/>*/}
 										<Cropper
 											ref={refArrays[index]}
 											className={Styles.showImage}
 											src={image['dataURL'] as string}
 											cropBoxResizable={false}
-											initialAspectRatio={36/25}
+											initialAspectRatio={36 / 25}
 											minCropBoxWidth={360}
 											minCropBoxHeight={250}
 											minCanvasWidth={360}
@@ -102,12 +96,14 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 											dragMode="move"
 											viewMode={3}
 											crop={() => onCropEnd(index)}
-											// cropend={() => onCropEnd(index)}
 										/>
-										<Box className={Styles.closeButtonWrapper} onClick={() => {
-											onImageRemove(index);
-											onCropClear(index);
-										}}>
+										<Box
+											className={Styles.closeButtonWrapper}
+											onClick={() => {
+												onImageRemove(index);
+												onCropClear(index);
+											}}
+										>
 											<Image src={CircularRemoveBlack} alt="" width="32" height="32" sizes="100vw" />
 										</Box>
 									</Stack>

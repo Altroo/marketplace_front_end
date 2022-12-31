@@ -5,7 +5,6 @@ import { CheckBoxSVG } from "../../checkBoxes/checkBox";
 import { hexToRGB } from "../../../../utils/helpers";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
-
 type Props = {
 	text: string;
 	checked: boolean;

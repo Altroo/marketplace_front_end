@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import { Stack, Snackbar, ThemeProvider, Slide } from '@mui/material';
 import Styles from './customToast.module.sass';
 import MuiAlert, { AlertProps, AlertColor } from '@mui/material/Alert';
@@ -34,14 +34,14 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 });
 
 const CustomToast: React.FC<Props> = (props: Props) => {
-	const { type } = props;
+	const { type, setShow } = props;
 
-	const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+	const handleClose = useCallback((event?: React.SyntheticEvent | Event, reason?: string) => {
 		if (reason === 'clickaway') {
 			return;
 		}
-		props.setShow(false);
-	};
+		setShow(false);
+	}, [setShow]);
 
 	return (
 		<ThemeProvider theme={customToastTheme()}>

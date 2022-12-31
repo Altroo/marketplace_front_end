@@ -17,6 +17,8 @@ import { ShopNameType } from '../../../../../../types/shop/shopTypes';
 import { useRouter } from 'next/router';
 import { setFormikAutoErrors } from '../../../../../../utils/helpers';
 
+const shopNameFieldTheme = editShopNameTextInputTheme();
+
 type Props = {
 	handleClose: () => void;
 	children?: React.ReactNode;
@@ -55,7 +57,6 @@ const EditNomBoutique: React.FC<Props> = (props: Props) => {
 		},
 	});
 
-	const shopNameFieldTheme = editShopNameTextInputTheme();
 	return (
 		<Stack direction="column" spacing={4}>
 			<form onSubmit={(e) => e.preventDefault()}>

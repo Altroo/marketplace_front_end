@@ -10,6 +10,7 @@ type Props = {
 const ApiAlert: React.FC<Props> = (props: Props) => {
 	const errorDetails = props.errorDetails;
 	const errorMessage: Array<Record<string, Array<string>>> = [];
+
 	if (errorDetails) {
 		if ('error' in errorDetails) {
 			errorMessage.push({ error: errorDetails.error });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './color.module.sass';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
@@ -10,9 +10,9 @@ import DefaultCardSection from '../../../components/htmlElements/cards/defaultCa
 import { setShopColorAction } from '../../../store/actions/shop/shopActions';
 import AvatarShopNameRating from '../../../components/groupedComponents/temp-shop/create/avatarShopNameRating/avatarShopNameRating';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
-import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg';
-import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
-import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
+// import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg';
+// import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
+// import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
 import ContactIconSVG from '../../../public/assets/svgs/globalIcons/call.svg';
 import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
 import ContactIconBlackSVG from '../../../public/assets/svgs/globalIcons/call-black.svg';
@@ -48,7 +48,7 @@ import {
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
-import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance, TabletAndMobile } from "../../../utils/helpers";
+import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance, TabletAndMobile } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 
@@ -95,29 +95,33 @@ const Color: NextPage = () => {
 	// Border
 	const [border, setborder] = useState<string>('');
 	// Gray Message Icon
-	const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
+	// const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
 	// Gray contact Icon
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconSVG);
 	// Icon color
 	// type IconColorType = 'gray' | 'black' | 'white';
 	const [iconColor, setIconColor] = useState<IconColorType>('black');
-	const chipCategoriesAction: chipActionsType = [
-		{
-			buttonText: 'Bien-être',
-			selected: true,
-			disabled: true,
-		},
-		{
-			buttonText: 'Service',
-			selected: false,
-			disabled: true,
-		},
-		{
-			buttonText: 'Sport',
-			selected: true,
-			disabled: true,
-		},
-	];
+
+	const chipCategoriesAction: chipActionsType = useMemo(() => {
+		return [
+			{
+				buttonText: 'Bien-être',
+				selected: true,
+				disabled: true,
+			},
+			{
+				buttonText: 'Service',
+				selected: false,
+				disabled: true,
+			},
+			{
+				buttonText: 'Sport',
+				selected: true,
+				disabled: true,
+			},
+		];
+	}, []);
+
 	useEffect(() => {
 		if (shopAvatar) {
 			setPreview(shopAvatar);
@@ -126,55 +130,65 @@ const Color: NextPage = () => {
 		}
 	}, [shopAvatar, router]);
 
-	const colorHandler = (_bgColorCode: string | null, _colorCode: string | null) => {
-		if (_colorCode && _bgColorCode) {
-			setIsApiCallInProgress(true);
-			// _bgColorCode & _colorCode are reversed for this action.
-			const action = setShopColorAction(_bgColorCode, _colorCode, border, iconColor);
-			dispatch({
-				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
-					if (!error && !cancelled && data) {
-						router.push(REAL_SHOP_ADD_FONT).then(() => {
-							setIsApiCallInProgress(false);
-						});
-					}
-				},
-			});
-		}
-	};
-	const whiteTextColors = ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
+	const colorHandler = useCallback(
+		(_bgColorCode: string | null, _colorCode: string | null) => {
+			if (_colorCode && _bgColorCode) {
+				setIsApiCallInProgress(true);
+				// _bgColorCode & _colorCode are reversed for this action.
+				const action = setShopColorAction(_bgColorCode, _colorCode, border, iconColor);
+				dispatch({
+					...action,
+					onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
+						if (!error && !cancelled && data) {
+							router.push(REAL_SHOP_ADD_FONT).then(() => {
+								setIsApiCallInProgress(false);
+							});
+						}
+					},
+				});
+			}
+		},
+		[border, dispatch, iconColor, router],
+	);
+
+	const whiteTextColors = useMemo(() => {
+		return ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
+	}, []);
+
 	const whiteText = '#FFFFFF';
 	const blackText = '#0D070B';
 
-	const colorClickHandler = (color: string) => {
-		// If picked color is white => apply border + white text + black bg
-		if (color === whiteText) {
-			setBgColorCode(color);
-			setColorCode(whiteText);
-			setborder('1px solid #0D070B');
-			// Else other colors than white.
-		} else {
-			setBgColorCode(color);
-			setborder('0px solid transparent');
-		}
-		// if picked color fall into those white text colors => apply white text color
-		if (whiteTextColors.includes(color)) {
-			setColorCode(whiteText);
-			setContactIcon(ContactIconWhiteSVG);
-			setMessageIcon(MessageIconWhiteSVG);
-			setIconColor('white');
-			if (color === blackText) {
+	const colorClickHandler = useCallback(
+		(color: string) => {
+			// If picked color is white => apply border + white text + black bg
+			if (color === whiteText) {
+				setBgColorCode(color);
 				setColorCode(whiteText);
+				setborder('1px solid #0D070B');
+				// Else other colors than white.
+			} else {
+				setBgColorCode(color);
+				setborder('0px solid transparent');
 			}
-			// else apply black text color
-		} else {
-			setContactIcon(ContactIconBlackSVG);
-			setMessageIcon(MessageIconBlackSVG);
-			setIconColor('black');
-			setColorCode(blackText);
-		}
-	};
+			// if picked color fall into those white text colors => apply white text color
+			if (whiteTextColors.includes(color)) {
+				setColorCode(whiteText);
+				setContactIcon(ContactIconWhiteSVG);
+				// setMessageIcon(MessageIconWhiteSVG);
+				setIconColor('white');
+				if (color === blackText) {
+					setColorCode(whiteText);
+				}
+				// else apply black text color
+			} else {
+				setContactIcon(ContactIconBlackSVG);
+				// setMessageIcon(MessageIconBlackSVG);
+				setIconColor('black');
+				setColorCode(blackText);
+			}
+		},
+		[whiteTextColors],
+	);
 
 	return (
 		<>
@@ -227,28 +241,28 @@ const Color: NextPage = () => {
 						<div className={Styles.shopDetailsAside}>
 							<Desktop>
 								<div className={Styles.shopFilterWrapper}>
-								<IconTextInput active={false} placeholder="Rechercher" />
-								<div className={Styles.shopFilterContainer}>
-									<span className={Styles.subHeader}>Catégories</span>
-									<div className={Styles.categoriesWrapper}>
-										<ChipButtons actions={chipCategoriesAction} />
-									</div>
-									<div className={Styles.promoWrapper}>
-										<span className={Styles.subHeader}>En Promo</span>
-										<IosSwitch disabled checked={false} labelcssStyles={{ paddingLeft: '10px' }} />
-									</div>
-									<div className={Styles.forWhomWrapper}>
-										<span className={Styles.subHeader}>Pour qui</span>
-										<div>
+									<IconTextInput active={false} placeholder="Rechercher" />
+									<div className={Styles.shopFilterContainer}>
+										<span className={Styles.subHeader}>Catégories</span>
+										<div className={Styles.categoriesWrapper}>
+											<ChipButtons actions={chipCategoriesAction} />
+										</div>
+										<div className={Styles.promoWrapper}>
+											<span className={Styles.subHeader}>En Promo</span>
+											<IosSwitch disabled checked={false} labelcssStyles={{ paddingLeft: '10px' }} />
+										</div>
+										<div className={Styles.forWhomWrapper}>
+											<span className={Styles.subHeader}>Pour qui</span>
 											<div>
-												<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{ paddingLeft: 0 }} />
-												<CheckBox checked active={false} text="Femme" labelcssStyles={{ paddingLeft: 0 }} />
-												<CheckBox checked active={false} text="Homme" labelcssStyles={{ paddingLeft: 0 }} />
+												<div>
+													<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{ paddingLeft: 0 }} />
+													<CheckBox checked active={false} text="Femme" labelcssStyles={{ paddingLeft: 0 }} />
+													<CheckBox checked active={false} text="Homme" labelcssStyles={{ paddingLeft: 0 }} />
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
 							</Desktop>
 
 							<div className={Styles.shopAddOfferWrapper}>
@@ -271,68 +285,68 @@ const Color: NextPage = () => {
 						</div>
 						<Desktop>
 							<div className={Styles.desktopContainerModal}>
-							{colors.map((color: string, index: number) => {
-								return (
-									<DesktopColorPicker
-										color={color}
-										onClick={() => colorClickHandler(color)}
-										selectedColor={bgColorCode}
-										key={index}
-									/>
-								);
-							})}
-						</div>
+								{colors.map((color: string, index: number) => {
+									return (
+										<DesktopColorPicker
+											color={color}
+											onClick={() => colorClickHandler(color)}
+											selectedColor={bgColorCode}
+											key={index}
+										/>
+									);
+								})}
+							</div>
 						</Desktop>
 						<div>
 							<TabletAndMobile>
 								<div className={Styles.mobileContainerModal}>
-								<Swiper
-									pagination={{
-										clickable: true,
-										enabled: true,
-										bulletActiveClass: 'activekBullet',
-										clickableClass: 'paginationBullet',
-									}}
-									modules={[Navigation, Pagination, Lazy]}
-									scrollbar={{ enabled: false }}
-									className={Styles.mobileSwiper}
-								>
-									<SwiperSlide className={Styles.swiperSlide}>
-										{colors.slice(0, 10).map((color: string, index: number) => {
-											return (
-												<MobileColorPicker
-													color={color}
-													onClick={() => colorClickHandler(color)}
-													selectedColor={bgColorCode}
-													key={index}
-												/>
-											);
-										})}
-									</SwiperSlide>
-									<SwiperSlide className={Styles.swiperSlide}>
-										{colors.slice(10, 20).map((color: string, index: number) => {
-											return (
-												<MobileColorPicker
-													color={color}
-													onClick={() => colorClickHandler(color)}
-													selectedColor={bgColorCode}
-													key={index}
-												/>
-											);
-										})}
-									</SwiperSlide>
-								</Swiper>
-								<TabletAndMobile>
-									<div className={Styles.primaryButtonCreateZindexWrapper}>
-								<PrimaryButton
-									cssClass={Styles.primaryButton}
-									buttonText="Continuer"
-									active={colorCode !== undefined && bgColorCode !== undefined}
-									onClick={() => colorHandler(bgColorCode, colorCode)}
-								/>
-							</div>
-								</TabletAndMobile>
-							</div>
+									<Swiper
+										pagination={{
+											clickable: true,
+											enabled: true,
+											bulletActiveClass: 'activekBullet',
+											clickableClass: 'paginationBullet',
+										}}
+										modules={[Navigation, Pagination, Lazy]}
+										scrollbar={{ enabled: false }}
+										className={Styles.mobileSwiper}
+									>
+										<SwiperSlide className={Styles.swiperSlide}>
+											{colors.slice(0, 10).map((color: string, index: number) => {
+												return (
+													<MobileColorPicker
+														color={color}
+														onClick={() => colorClickHandler(color)}
+														selectedColor={bgColorCode}
+														key={index}
+													/>
+												);
+											})}
+										</SwiperSlide>
+										<SwiperSlide className={Styles.swiperSlide}>
+											{colors.slice(10, 20).map((color: string, index: number) => {
+												return (
+													<MobileColorPicker
+														color={color}
+														onClick={() => colorClickHandler(color)}
+														selectedColor={bgColorCode}
+														key={index}
+													/>
+												);
+											})}
+										</SwiperSlide>
+									</Swiper>
+									<TabletAndMobile>
+										<div className={Styles.primaryButtonCreateZindexWrapper}>
+											<PrimaryButton
+												cssClass={Styles.primaryButton}
+												buttonText="Continuer"
+												active={colorCode !== undefined && bgColorCode !== undefined}
+												onClick={() => colorHandler(bgColorCode, colorCode)}
+											/>
+										</div>
+									</TabletAndMobile>
+								</div>
 							</TabletAndMobile>
 						</div>
 					</DefaultCardSection>

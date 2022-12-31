@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import Styles from './editCoordonees.module.sass';
 import { useAppDispatch, useAppSelector } from '../../../../../../utils/hooks';
 import {
@@ -30,9 +30,21 @@ import InstagramCircularSVG from '../../../../../../public/assets/svgs/globalIco
 import WhatsappCircularSVG from '../../../../../../public/assets/svgs/globalIcons/whatsapp-circular.svg';
 import CustomStackIconTextInput from '../../../../../formikElements/customStackIconTextInput/customStackIconTextInput';
 import { coordonneeTextInputTheme } from '../../../../../../utils/themes';
-import ContacterPhoneInput from "../../contacterPhoneInput/contacterPhoneInput";
-import PhoneInputFields from "../../../../../htmlElements/inputs/phoneInputFields/phoneInputFields";
-import CustomTextMaskInput from "../../../../../formikElements/customTextMaskInput/customTextMaskInput";
+// import ContacterPhoneInput from "../../contacterPhoneInput/contacterPhoneInput";
+// import PhoneInputFields from "../../../../../htmlElements/inputs/phoneInputFields/phoneInputFields";
+// import CustomTextMaskInput from "../../../../../formikElements/customTextMaskInput/customTextMaskInput";
+
+const coordoneeTextInputCustomTheme = coordonneeTextInputTheme();
+
+type editCoordonnesValuesType = {
+	phone: string | null;
+	contact_email: string | null;
+	website_link: string | null;
+	facebook_link: string | null;
+	twitter_link: string | null;
+	instagram_link: string | null;
+	whatsapp: string | null;
+};
 
 type Props = {
 	handleClose: () => void;
@@ -40,6 +52,7 @@ type Props = {
 };
 
 const EditCoordonees: React.FC<Props> = (props: Props) => {
+	const {handleClose} = props;
 	const dispatch = useAppDispatch();
 	const phone = useAppSelector(getShopPhone);
 	const twitter_link = useAppSelector(getShopTwitterLink);
@@ -52,16 +65,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 	const editPromiseStatus = useAppSelector(getNewShopEditPromiseStatus);
 	const apiError = useAppSelector(getNewShopApiError);
 
-	type editCoordonnesValuesType = {
-		phone: string | null;
-		contact_email: string | null;
-		website_link: string | null;
-		facebook_link: string | null;
-		twitter_link: string | null;
-		instagram_link: string | null;
-		whatsapp: string | null;
-	};
-	const editCoordoneesHandler = (values: editCoordonnesValuesType) => {
+	const editCoordoneesHandler = useCallback((values: editCoordonnesValuesType) => {
 		dispatch(
 			shopPatchContactAction(
 				values.phone,
@@ -76,11 +80,10 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 		if (!isEditInProgress && editPromiseStatus === 'REJECTED' && apiError) {
 			return;
 		} else {
-			props.handleClose();
+			handleClose();
 		}
-	};
+	}, [apiError, dispatch, editPromiseStatus, handleClose, isEditInProgress]);
 
-	const coordoneeTextInputCustomTheme = coordonneeTextInputTheme();
 	return (
 		<Stack direction="column" spacing={4}>
 			<Formik
@@ -105,7 +108,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 						<Stack direction="column" justifyContent="space-between" alignContent="space-between">
 							<TopBarSaveClose
 								buttonText="Enregistrer"
-								handleClose={props.handleClose}
+								handleClose={handleClose}
 								handleSubmit={handleSubmit}
 								isSubmitting={isSubmitting}
 								isValid={isValid}

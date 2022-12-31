@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import SelectUnstyled, { SelectUnstyledProps, selectUnstyledClasses, SelectOption } from '@mui/base/SelectUnstyled';
 import OptionUnstyled, { optionUnstyledClasses } from '@mui/base/OptionUnstyled';
 import PopperUnstyled from '@mui/base/PopperUnstyled';
@@ -104,7 +104,7 @@ function CustomSelect(props: SelectUnstyledProps<string>) {
 	return <SelectUnstyled {...props} slots={components} className={Styles.mobileOption} />;
 }
 
-function renderValue(option: SelectOption<string> | null) {
+const renderValue = (option: SelectOption<string> | null) => {
 	const label = 'Trier par :';
 	if (option === null) {
 		return <span>{label}</span>;
@@ -121,7 +121,7 @@ function renderValue(option: SelectOption<string> | null) {
 			</span>
 		);
 	}
-}
+};
 
 type Props = {
 	state: 'D' | 'C';
@@ -135,6 +135,7 @@ type Props = {
 };
 
 const ShopFilterSelect: React.FC<Props> = (props: Props) => {
+
 	if (props.activeHoverColor) {
 		if (props.activeHoverColor !== '#FFFFFF') {
 			hoverColor = hexToRGB(props.activeHoverColor, 0.04);

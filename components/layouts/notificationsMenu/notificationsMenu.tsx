@@ -16,11 +16,7 @@ import { notificationPatchRootAction } from '../../../store/actions/notification
 
 const notificationsMenuTheme = NotificationsDropDownMenuTheme();
 
-type Props = {
-	children?: React.ReactNode;
-};
-
-const NotificationsMenu: React.FC<Props> = (props: Props) => {
+const NotificationsMenu: React.FC = () => {
 	// const router = useRouter();
 	const dispatch = useAppDispatch();
 	const userNotifications = useAppSelector(getUserNotifications);

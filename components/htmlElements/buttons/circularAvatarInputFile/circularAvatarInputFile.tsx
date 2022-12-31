@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useCallback } from 'react';
+import React, { useRef, useCallback } from 'react';
 import Styles from './circularAvatarInputFile.module.sass';
 import Image from 'next/image';
 import AvatarIconSVG from '../../../../public/assets/svgs/globalIcons/avatar.svg';
@@ -16,9 +16,8 @@ const CircularAvatarInputFile: React.FC<Props> = (props: Props) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const { setAvatar } = props;
 
-	const avatarInputOnChangeHandler = useMemo(
-		() => (e: React.ChangeEvent<HTMLInputElement>) => {
-			if (!e.target.files) {
+	const avatarInputOnChangeHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		if (!e.target.files) {
 				return;
 			}
 			if (!setAvatar) {
@@ -30,9 +29,7 @@ const CircularAvatarInputFile: React.FC<Props> = (props: Props) => {
 			} else {
 				setAvatar(null);
 			}
-		},
-		[setAvatar],
-	);
+	}, [setAvatar]);
 
 	// opens hidden avatar input
 	const avatarInputOnClickHandler = useCallback((e: React.MouseEvent<HTMLDivElement | HTMLSpanElement>) => {

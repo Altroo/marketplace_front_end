@@ -10,6 +10,7 @@ type Props = {
 	children?: React.ReactNode;
 };
 const ChipButtons: React.FC<Props> = (props: Props) => {
+
 	return (
 		<>
 			{props.actions.map((action, index: number) => {

@@ -73,6 +73,19 @@ const descriptionFieldTheme = coordonneeTextInputTheme();
 const forWhomFieldTheme = offerForWhomDropdownTheme();
 const chipTheme = SizesChipTheme();
 
+type submitDataType = {
+	title: string;
+	description: string;
+	images: ImageUploadingType | [];
+	thumbnails: Array<string>;
+	service_availability_days: string;
+	service_morning_hour_from: string | null;
+	service_morning_hour_to: string | null;
+	service_afternoon_hour_from: string | null;
+	service_afternoon_hour_to: string | null;
+	// tags: Array<string>;
+};
+
 const Description: NextPage = () => {
 	const activeStep = '2';
 	const dispatch = useAppDispatch();
@@ -99,18 +112,6 @@ const Description: NextPage = () => {
 	const zone_by = useAppSelector(getLocalOfferServiceZoneBy);
 	const km_radius = useAppSelector(getLocalOfferServiceKmRadius);
 
-	type submitDataType = {
-		title: string;
-		description: string;
-		images: ImageUploadingType | [];
-		thumbnails: Array<string>;
-		service_availability_days: string;
-		service_morning_hour_from: string | null;
-		service_morning_hour_to: string | null;
-		service_afternoon_hour_from: string | null;
-		service_afternoon_hour_to: string | null;
-		// tags: Array<string>;
-	};
 	const [localisationModalOpen, setLocalisationModalOpen] = useState<boolean>(false);
 
 	// // submit handler

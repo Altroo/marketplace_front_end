@@ -9,6 +9,8 @@ import { offerGetTagsAction } from '../../../../store/actions/offer/offerActions
 import closeWhiteSVG from '../../../../public/assets/svgs/navigationIcons/close-white.svg';
 import Image from 'next/image';
 
+const customTheme = bioTextAreaTheme();
+
 type Props = {
 	pickedTags: Array<string>;
 	onChange: (event: React.SyntheticEvent<Element, Event>, values: Array<string>) => void;
@@ -16,7 +18,6 @@ type Props = {
 };
 
 const TagChips: React.FC<Props> = (props: Props) => {
-	const customTheme = bioTextAreaTheme();
 	const availableTags: Array<string> = useAppSelector(getOfferTags);
 	const dispatch = useAppDispatch();
 

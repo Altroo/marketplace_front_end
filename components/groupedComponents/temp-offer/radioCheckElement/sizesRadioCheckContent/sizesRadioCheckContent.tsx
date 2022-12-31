@@ -16,6 +16,7 @@ type Props = {
 };
 
 const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
+
 	const sizesRef = [
 		useRef<HTMLInputElement>(null),
 		useRef<HTMLInputElement>(null),

@@ -1,5 +1,4 @@
 import * as Types from "../index";
-import { ORDER_POST_ACCEPT_ORDER, ORDER_POST_CANCEL_ORDER } from "../index";
 
 export const orderGetChiffreAffaireAction = (url: string) => {
 	return {

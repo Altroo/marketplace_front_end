@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
@@ -5,7 +6,6 @@ import Styles from './index.module.sass';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
 import HelperH1Header from '../../../components/headers/helperH1Header/helperH1Header';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
-import React, { useEffect, useState } from 'react';
 import { setShopNameAction } from "../../../store/actions/shop/shopActions";
 import { getApi } from "../../../store/services/_init/_initAPI";
 import MobileTopNavigationBar from '../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';
@@ -28,6 +28,8 @@ import { AccountGetCheckAccountResponseType } from '../../../types/account/accou
 import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 import { SagaCallBackOnCompleteBoolType } from "../../../types/_init/_initTypes";
 
+const inputTheme = shopNameTextInputTheme();
+
 const ShopName: NextPage = () => {
 	const activeStep = '1';
 	const router = useRouter();
@@ -42,7 +44,7 @@ const ShopName: NextPage = () => {
 		}
 	}, [router, shopName]);
 
-	const shopNameSubmitHandler = (value: string) => {
+	const shopNameSubmitHandler = useCallback((value: string) => {
 		setIsApiCallInProgress(true);
 		const action = setShopNameAction(value);
 		dispatch({
@@ -55,8 +57,7 @@ const ShopName: NextPage = () => {
 				}
 			},
 		});
-	};
-	const inputTheme = shopNameTextInputTheme();
+	}, [dispatch, router]);
 
 	return (
 		<>
