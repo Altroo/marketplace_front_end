@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import Styles from './avatar.module.sass';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import MobileStepsBar from '../../../components/mobile/navbars/mobileStepsBar/mobileStepsBar';
@@ -29,15 +29,20 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	AUTH_LOGIN,
 	DASHBOARD,
-	REAL_SHOP_ADD_COLOR
-} from "../../../utils/routes";
+	REAL_SHOP_ADD_COLOR,
+} from '../../../utils/routes';
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
-import { Box } from '@mui/material';
-import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance } from "../../../utils/helpers";
+import { Box, Stack } from '@mui/material';
+import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../utils/helpers';
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
-import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
-import { SagaCallBackOnCompleteBoolType } from "../../../types/_init/_initTypes";
+import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
+import { SagaCallBackOnCompleteBoolType } from '../../../types/_init/_initTypes';
+
+import Cropper, { ReactCropperElement } from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
+import CustomSwipeModal from '../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
+import { customOrderActionsModalTheme } from '../../../utils/themes';
 
 const Avatar: NextPage = () => {
 	const activeStep = '2';
@@ -54,55 +59,74 @@ const Avatar: NextPage = () => {
 
 	const [preview, setPreview] = useState<string | ArrayBuffer | null>(avatarInitial);
 	const [avatar, setAvatar] = useState<File | null>(null);
-	const chipCategoriesAction: chipActionsType = [
-		{
-			buttonText: 'Bien-être',
-			selected: true,
-			disabled: true,
-		},
-		{
-			buttonText: 'Service',
-			selected: false,
-			disabled: true,
-		},
-		{
-			buttonText: 'Sport',
-			selected: true,
-			disabled: true,
-		},
-	];
+	const [openCropModal, setOpenCropModal] = useState<boolean>(false);
+
+	const chipCategoriesAction: chipActionsType = useMemo(() => {
+		return [
+			{
+				buttonText: 'Bien-être',
+				selected: true,
+				disabled: true,
+			},
+			{
+				buttonText: 'Service',
+				selected: false,
+				disabled: true,
+			},
+			{
+				buttonText: 'Sport',
+				selected: true,
+				disabled: true,
+			},
+		];
+	}, []);
 
 	useEffect(() => {
 		if (!shopName) {
 			router.replace(REAL_SHOP_ADD_SHOP_NAME).then();
-		}
-		const reader = new FileReader();
-		if (avatar) {
-			reader.onloadend = () => {
-				setPreview(reader.result);
-			};
-			reader.readAsDataURL(avatar);
 		} else {
-			setPreview(avatarInitial);
+			const reader = new FileReader();
+			if (avatar) {
+				reader.onloadend = () => {
+					setPreview(reader.result);
+					setOpenCropModal(true);
+				};
+				reader.readAsDataURL(avatar);
+			} else {
+				setPreview(avatarInitial);
+				setOpenCropModal(false);
+			}
 		}
-	}, [avatarInitial, avatar, shopName, router]);
+	}, [avatarInitial, avatar, router, shopName]);
 
-	const avatarHandler = (avatar: string | ArrayBuffer | null) => {
-		if (avatar) {
+	const avatarHandler = useCallback(
+		(avatar: string | ArrayBuffer | null) => {
 			setIsApiCallInProgress(true);
 			const action = setShopAvatarAction(avatar);
 			dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
-				if (!error && !cancelled && data) {
-					router.push(REAL_SHOP_ADD_COLOR).then(() => {
-						setIsApiCallInProgress(false);
-					})
-				}
-			},
-		});
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
+					if (!error && !cancelled && data) {
+						router.push(REAL_SHOP_ADD_COLOR).then(() => {
+							setIsApiCallInProgress(false);
+						});
+					}
+				},
+			});
+		},
+		[dispatch, router],
+	);
+
+	const cropperRef = useRef<ReactCropperElement>(null);
+
+	const onSaveCropImage = useCallback(() => {
+		const imageElement: ReactCropperElement | null = cropperRef?.current;
+		const cropper = imageElement?.cropper;
+		if (cropper) {
+			setPreview(cropper.getCroppedCanvas().toDataURL());
+			setOpenCropModal(false);
 		}
-	};
+	}, []);
 
 	return (
 		<>
@@ -147,30 +171,29 @@ const Avatar: NextPage = () => {
 						<div className={Styles.shopDetailsAside}>
 							<Desktop>
 								<div className={Styles.shopFilterWrapper}>
-								<IconTextInput active={false} placeholder="Rechercher" />
-								<div className={Styles.shopFilterContainer}>
-									<span className={Styles.subHeader}>Catégories</span>
-									<div className={Styles.categoriesWrapper}>
-										<ChipButtons actions={chipCategoriesAction} />
-									</div>
-									<div className={Styles.promoWrapper}>
-										<span className={Styles.subHeader}>En Promo</span>
-										<IosSwitch disabled checked={false} labelcssStyles={{ paddingLeft: '10px' }} />
-									</div>
-									<div className={Styles.forWhomWrapper}>
-										<span className={Styles.subHeader}>Pour qui</span>
-										<div>
+									<IconTextInput active={false} placeholder="Rechercher" />
+									<div className={Styles.shopFilterContainer}>
+										<span className={Styles.subHeader}>Catégories</span>
+										<div className={Styles.categoriesWrapper}>
+											<ChipButtons actions={chipCategoriesAction} />
+										</div>
+										<div className={Styles.promoWrapper}>
+											<span className={Styles.subHeader}>En Promo</span>
+											<IosSwitch disabled checked={false} labelcssStyles={{ paddingLeft: '10px' }} />
+										</div>
+										<div className={Styles.forWhomWrapper}>
+											<span className={Styles.subHeader}>Pour qui</span>
 											<div>
-												<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{ paddingLeft: 0 }} />
-												<CheckBox checked active={false} text="Femme" labelcssStyles={{ paddingLeft: 0 }} />
-												<CheckBox checked active={false} text="Homme" labelcssStyles={{ paddingLeft: 0 }} />
+												<div>
+													<CheckBox checked={false} active={false} text="Enfant" labelcssStyles={{ paddingLeft: 0 }} />
+													<CheckBox checked active={false} text="Femme" labelcssStyles={{ paddingLeft: 0 }} />
+													<CheckBox checked active={false} text="Homme" labelcssStyles={{ paddingLeft: 0 }} />
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
 							</Desktop>
-
 							<div className={Styles.shopAddOfferWrapper}>
 								<div className={Styles.addOfferContainer}>
 									<div className={Styles.centeredInfoActionWrapper}>
@@ -191,13 +214,47 @@ const Avatar: NextPage = () => {
 						</div>
 					</DefaultCardSection>
 					<div className={`${Styles.primaryButtonWrapper} ${Styles.marginButtonBottom}`}>
-						<PrimaryButton
-							buttonText="Continuer"
-							active={preview !== null}
-							onClick={() => avatarHandler(preview)}
-						/>
+						<PrimaryButton buttonText="Continuer" active={preview !== null} onClick={() => avatarHandler(preview)} />
 					</div>
 				</Box>
+				<CustomSwipeModal
+					keepMounted={false}
+					direction="up"
+					fullScreen={false}
+					showCloseIcon={false}
+					onBackdrop={() => {}}
+					theme={customOrderActionsModalTheme()}
+					transition
+					open={openCropModal}
+					handleClose={() => setOpenCropModal(false)}
+					cssClasse={Styles.centerModal}
+				>
+					<Stack direction="column" spacing="24px" id="shopAvatarCropper">
+						<Cropper
+							src={preview as string}
+							style={{ height: '100%', width: '100%' }}
+							cropBoxResizable={false}
+							initialAspectRatio={4 / 4}
+							minCropBoxWidth={98}
+							minCropBoxHeight={98}
+							minCanvasWidth={98}
+							minCanvasHeight={98}
+							minContainerHeight={98}
+							minContainerWidth={98}
+							dragMode="move"
+							ref={cropperRef}
+							viewMode={3}
+						/>
+						<Stack direction="row" width="100%" justifyContent="center" pb="24px">
+							<PrimaryButton
+								buttonText="Enregistrer"
+								active={true}
+								onClick={onSaveCropImage}
+								cssClass={Styles.cropButton}
+							/>
+						</Stack>
+					</Stack>
+				</CustomSwipeModal>
 			</main>
 		</>
 	);

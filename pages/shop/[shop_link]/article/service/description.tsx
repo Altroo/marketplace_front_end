@@ -44,7 +44,7 @@ import {
 	getLocalOfferServiceLongitude,
 	getLocalOfferServiceMorningHourFrom,
 	getLocalOfferServiceMorningHourTo,
-	getLocalOfferServicePictures,
+	getLocalOfferServicePictures, getLocalOfferServiceThumbnails,
 	getLocalOfferServiceTitle,
 	getLocalOfferServiceZoneBy
 } from "../../../../../store/selectors";
@@ -64,6 +64,7 @@ import CustomTimeInput from '../../../../../components/formikElements/customTime
 import dayjs from 'dayjs';
 import Chip from '@mui/material/Chip';
 import RadioCheckElement from '../../../../../components/groupedComponents/temp-offer/radioCheckElement/radioCheckElement';
+import { __spreadArrays } from "tslib";
 
 // themes
 const titleFieldTheme = coordonneeTextInputTheme();
@@ -77,12 +78,12 @@ const Description: NextPage = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const [titleTooltip, setTitleTooltip] = useState<boolean>(false);
-	const [images, setImages] = useState<ImageUploadingType>([]);
 	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	// local states
 	const pickedCategories = useAppSelector(getLocalOfferServiceCategories);
 	const pickedTitle = useAppSelector(getLocalOfferServiceTitle);
 	const pickedPictures = useAppSelector(getLocalOfferServicePictures);
+	const pickedThumbnails = useAppSelector(getLocalOfferServiceThumbnails);
 	const pickedForWhom = useAppSelector(getLocalOfferServiceForwhom);
 	const pickedDescription = useAppSelector(getLocalOfferServiceDescription);
 	const availabilityDays = useAppSelector(getLocalOfferServiceAvailabilityDays);
@@ -98,13 +99,11 @@ const Description: NextPage = () => {
 	const zone_by = useAppSelector(getLocalOfferServiceZoneBy);
 	const km_radius = useAppSelector(getLocalOfferServiceKmRadius);
 
-	const imagesOnChangeHandler = useCallback((imageList: ImageUploadingType) => {
-		setImages(imageList);
-	}, []);
-
 	type submitDataType = {
 		title: string;
 		description: string;
+		images: ImageUploadingType | [];
+		thumbnails: Array<string>;
 		service_availability_days: string;
 		service_morning_hour_from: string | null;
 		service_morning_hour_to: string | null;
@@ -138,7 +137,8 @@ const Description: NextPage = () => {
 				: null;
 			const action = setOfferServiceDescriptionPage(
 				values.title,
-				images,
+				values.images,
+				values.thumbnails,
 				values.description,
 				forWhomStr,
 				values.service_availability_days,
@@ -164,7 +164,7 @@ const Description: NextPage = () => {
 				},
 			});
 		},
-		[dispatch, forWhomChoice, images, router],
+		[dispatch, forWhomChoice, router],
 	);
 
 	// on change for whom
@@ -179,7 +179,8 @@ const Description: NextPage = () => {
 		useFormik({
 			initialValues: {
 				title: pickedTitle ? pickedTitle : '',
-				images: pickedPictures.length > 0 ? pickedPictures : '',
+				images: pickedPictures.length > 0 ? pickedPictures : [],
+				thumbnails: pickedThumbnails.length > 0 ? pickedThumbnails : [],
 				description: pickedDescription ? pickedDescription : '',
 				al_day: false,
 				mo_day: false,
@@ -225,12 +226,14 @@ const Description: NextPage = () => {
 					values.title &&
 					values.service_morning_hour_from &&
 					values.service_morning_hour_to &&
-					images.length > 0 &&
+					values.images.length > 0 &&
 					address_name
 				) {
 					addDescriptionSubmitHandler({
 						title: values.title,
 						description: values.description,
+						images: values.images,
+						thumbnails: values.thumbnails,
 						service_availability_days: availabilityDaysString,
 						service_morning_hour_from: values.service_morning_hour_from
 							? dayjs(new Date(values.service_morning_hour_from.toString())).toString()
@@ -253,9 +256,6 @@ const Description: NextPage = () => {
 	useEffect(() => {
 		if (pickedCategories.length === 0) {
 			router.replace(REAL_OFFER_ADD_SERVICE_CATEGORIES(router.query.shop_link as string)).then();
-		}
-		if (pickedPictures.length > 0) {
-			setImages(pickedPictures);
 		}
 		if (availabilityDays) {
 			availabilityDays.map((day) => {
@@ -358,9 +358,18 @@ const Description: NextPage = () => {
 											</div>
 										</ClickAwayListener>
 										<CustomSquareImageUploading
-											images={images}
+											images={values.images}
 											onChange={(e) => {
-												imagesOnChangeHandler(e);
+												setFieldValue('images', e);
+											}}
+											onCrop={(data, index) => {
+												if (data) {
+													setFieldValue(`thumbnails.${index}`, data);
+												} else {
+													const updatedList = __spreadArrays(values.thumbnails);
+													updatedList.splice(index, 1);
+													setFieldValue("thumbnails", updatedList);
+												}
 											}}
 											maxNumber={4}
 										/>

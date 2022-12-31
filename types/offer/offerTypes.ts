@@ -350,6 +350,7 @@ export interface UserLocalProductType {
 	title: string | null;
 	description: string | null;
 	pictures: ImageUploadingType;
+	thumbnails: Array<string>;
 	forWhom: string | null;
 	colors: string | null;
 	sizes: string | null;
@@ -368,6 +369,7 @@ export interface UserLocalServiceType {
 	title: string | null;
 	description: string | null;
 	pictures: ImageUploadingType;
+	thumbnails: Array<string>;
 	forWhom: string | null;
 	service_availability_days: OfferServiceAvailabilityDaysArray | [];
 	service_morning_hour_from: string | null,
@@ -472,6 +474,7 @@ export type LocalOfferProductDescriptionPageType = {
 	type: string;
 	title: string;
 	pictures: ImageUploadingType;
+	thumbnails: Array<string>;
 	description: string;
 	for_whom: string | null;
 	product_colors: string | null;
@@ -486,6 +489,7 @@ export type LocalOfferProductDescriptionPageType = {
 export type LocalOfferServiceDescriptionPageType = {
 	title: string | null,
 	pictures: ImageUploadingType,
+	thumbnails: Array<string>,
 	description: string | null,
 	for_whom: string | null,
 	service_availability_days: OfferServiceAvailabilityDaysArray,

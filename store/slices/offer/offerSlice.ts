@@ -45,6 +45,7 @@ const userLocalProductInitial = {
 	title: null,
 	description: null,
 	pictures: [],
+	thumbnails: [],
 	forWhom: null,
 	colors: null,
 	sizes: null,
@@ -63,6 +64,7 @@ const userLocalServiceInitial = {
 	title: null,
 	description: null,
 	pictures: [],
+	thumbnails: [],
 	forWhom: null,
 	service_availability_days: [],
 	service_morning_hour_from: null,
@@ -247,6 +249,7 @@ const OfferSlice = createSlice({
 			state.userLocalProduct.title = action.payload.title;
 			state.userLocalProduct.description = action.payload.description;
 			state.userLocalProduct.pictures = action.payload.pictures;
+			state.userLocalProduct.thumbnails = action.payload.thumbnails;
 			state.userLocalProduct.forWhom = action.payload.for_whom;
 			state.userLocalProduct.colors = action.payload.product_colors;
 			state.userLocalProduct.sizes = action.payload.product_sizes;
@@ -259,6 +262,7 @@ const OfferSlice = createSlice({
 			state.userLocalService.title = action.payload.title;
 			state.userLocalService.description = action.payload.description;
 			state.userLocalService.pictures = action.payload.pictures;
+			state.userLocalService.thumbnails = action.payload.thumbnails;
 			state.userLocalService.forWhom = action.payload.for_whom;
 			state.userLocalService.service_availability_days = action.payload.service_availability_days;
 			state.userLocalService.service_morning_hour_from = action.payload.service_morning_hour_from;

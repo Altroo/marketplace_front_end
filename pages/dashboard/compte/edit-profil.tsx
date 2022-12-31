@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../styles/dashboard/dashboard.module.sass';
 import { getServerSideCookieTokens, isAuthenticatedInstance, TabletAndMobile, Desktop } from "../../../utils/helpers";
@@ -33,6 +33,11 @@ import CustomToast from "../../../components/portals/customToast/customToast";
 import CustomFooter from "../../../components/layouts/footer/customFooter";
 import Portal from "../../../contexts/Portal";
 import { useRouter } from "next/router";
+import { customOrderActionsModalTheme } from '../../../utils/themes';
+import 'cropperjs/dist/cropper.css';
+import Cropper, { ReactCropperElement } from 'react-cropper';
+import CustomSwipeModal from "../../../components/desktop/modals/rightSwipeModal/customSwipeModal";
+
 
 type formikContentType = {
 	data: UserClass;
@@ -102,14 +107,16 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 		if (availableCountries.length === 0) {
 			dispatch(placesGetCountriesAction());
 		}
-		const reader = new FileReader();
 		if (avatar) {
+			const reader = new FileReader();
 			reader.onloadend = () => {
 				setPreview(reader.result);
+				setOpenCropModal(true);
 			};
 			reader.readAsDataURL(avatar);
 		} else {
 			setPreview(avatarInitial);
+			setOpenCropModal(false);
 		}
 	}, [avatarInitial, avatar, data.birth_date, availableCountries.length, dispatch]);
 
@@ -124,6 +131,18 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 	const handleDateChange = (newValue: Dayjs | null) => {
 		setPickedBirthDate(newValue);
 	};
+
+	const [openCropModal, setOpenCropModal] = useState<boolean>(false);
+	const cropperRef = useRef<ReactCropperElement>(null);
+
+	const onSaveCropImage = useCallback(() => {
+		const imageElement: ReactCropperElement | null = cropperRef?.current;
+		const cropper = imageElement?.cropper;
+		if (cropper) {
+			setPreview(cropper.getCroppedCanvas().toDataURL());
+			setOpenCropModal(false);
+		}
+	}, []);
 
 	return (
 		<Stack direction="column" alignItems="center" spacing={2}>
@@ -209,6 +228,44 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 					/>
 				</Stack>
 			</form>
+			<CustomSwipeModal
+				keepMounted={false}
+				direction="up"
+				fullScreen={false}
+				showCloseIcon={false}
+				onBackdrop={() => {}}
+				theme={customOrderActionsModalTheme()}
+				transition
+				open={openCropModal}
+				handleClose={() => setOpenCropModal(false)}
+				cssClasse={Styles.centerModal}
+			>
+				<Stack direction="column" spacing="24px" id="shopAvatarCropper">
+					<Cropper
+						src={preview as string}
+						style={{ height: '100%', width: '100%' }}
+						cropBoxResizable={false}
+						initialAspectRatio={4 / 4}
+						minCropBoxWidth={98}
+						minCropBoxHeight={98}
+						minCanvasWidth={98}
+						minCanvasHeight={98}
+						minContainerHeight={98}
+						minContainerWidth={98}
+						dragMode="move"
+						ref={cropperRef}
+						viewMode={3}
+					/>
+					<Stack direction="row" width="100%" justifyContent="center" pb="24px">
+						<PrimaryButton
+							buttonText="Enregistrer"
+							active={true}
+							onClick={onSaveCropImage}
+							cssClass={Styles.cropButton}
+						/>
+					</Stack>
+				</Stack>
+			</CustomSwipeModal>
 		</Stack>
 	);
 };
