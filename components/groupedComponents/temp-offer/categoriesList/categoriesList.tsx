@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Styles from './categoriesList.module.sass';
 import Image from 'next/image';
 import ActiveCheckBlue from '../../../../public/assets/svgs/globalIcons/active-check-blue.svg';
@@ -80,14 +80,14 @@ const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps
 		}
 	}, [code, pickedProductCategories, pickedServiceCategories, props.offerType]);
 
-	const categoryItemClickHandler = () => {
+	const categoryItemClickHandler = useCallback(() => {
 		if (props.offerType === 'V') {
 			dispatch(setOfferProductCategories(code));
 		} else if (props.offerType === 'S') {
 			dispatch(setOfferServiceCategories(code));
 		}
 		setActive((prevState) => !prevState);
-	};
+	}, [code, dispatch, props.offerType]);
 
 	return (
 		<Box className={Styles.categoryItem}>
@@ -119,7 +119,8 @@ type Props = {
 
 const CategoriesList: React.FC<Props> = (props: Props) => {
 
-	const categoriesLeftObj: Array<CategoriesObjProps> = [
+	const categoriesLeftObj: Array<CategoriesObjProps> = useMemo(() => {
+		return [
 		{
 			code: 'AC',
 			title: 'Accessoire',
@@ -190,8 +191,11 @@ const CategoriesList: React.FC<Props> = (props: Props) => {
 			blackIcon: LoisirsBlack,
 			offerType: props.offerType,
 		},
-	];
-	const categoriesRightObj: Array<CategoriesObjProps> = [
+	]
+	}, [props.offerType]);
+
+	const categoriesRightObj: Array<CategoriesObjProps> = useMemo(() => {
+		return [
 		{
 			code: 'LI',
 			title: 'Livres',
@@ -262,7 +266,8 @@ const CategoriesList: React.FC<Props> = (props: Props) => {
 			blackIcon: VoyageBlack,
 			offerType: props.offerType,
 		},
-	];
+	]
+	}, [props.offerType]);
 
 	return (
 		<Stack direction="row" justifyContent="space-between" spacing={4} className={Styles.categoriesListWrapper}>

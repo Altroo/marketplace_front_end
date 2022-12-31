@@ -5,6 +5,8 @@ import Image from 'next/image';
 import GoogleSVG from '../../../../public/assets/svgs/authIcons/google.svg';
 import { getDefaultTheme } from '../../../../utils/themes';
 
+const defaultTheme = getDefaultTheme();
+
 type Props = {
 	onClick: () => void;
 	disabled?: boolean;
@@ -12,7 +14,6 @@ type Props = {
 };
 
 const GoogleSignInButton: React.FC<Props> = (props: Props) => {
-	const defaultTheme = getDefaultTheme();
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<Button

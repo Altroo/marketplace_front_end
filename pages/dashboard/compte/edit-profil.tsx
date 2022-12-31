@@ -38,6 +38,7 @@ import 'cropperjs/dist/cropper.css';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import CustomSwipeModal from "../../../components/desktop/modals/rightSwipeModal/customSwipeModal";
 
+const inputTheme = coordonneeTextInputTheme();
 
 type formikContentType = {
 	data: UserClass;
@@ -98,8 +99,6 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 		},
 	});
 
-	const inputTheme = coordonneeTextInputTheme();
-
 	useEffect(() => {
 		if (data.birth_date) {
 			setPickedBirthDate(dayjs(data.birth_date, 'YYYY-MM-DD'));
@@ -121,16 +120,16 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 	}, [avatarInitial, avatar, data.birth_date, availableCountries.length, dispatch]);
 
 	// on change for whom
-	const genderHandleChange = (event: SelectChangeEvent) => {
+	const genderHandleChange = useCallback((event: SelectChangeEvent) => {
 		const {
 			target: { value },
 		} = event;
 		setGenderChoice(value);
-	};
+	}, []);
 
-	const handleDateChange = (newValue: Dayjs | null) => {
+	const handleDateChange = useCallback((newValue: Dayjs | null) => {
 		setPickedBirthDate(newValue);
-	};
+	}, []);
 
 	const [openCropModal, setOpenCropModal] = useState<boolean>(false);
 	const cropperRef = useRef<ReactCropperElement>(null);

@@ -1,9 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Styles from './showBio.module.sass';
 import { useAppSelector } from '../../../../../../utils/hooks';
 import { getShopBio } from '../../../../../../store/selectors';
 import { Stack, Button, Box, ThemeProvider, createTheme } from '@mui/material';
 import {CustomTheme} from '../../../../../../utils/themes';
+
+const blueColor = '#0274d7';
+const customTheme = CustomTheme(blueColor);
+
+const buttonTheme = createTheme({
+	...customTheme,
+	components: {
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					padding: '0px',
+				},
+			},
+		},
+	},
+});
 
 const ShowBio: React.FC = () => {
 	const shopBio = useAppSelector(getShopBio);
@@ -20,27 +36,11 @@ const ShowBio: React.FC = () => {
 		}
 	}, [shopBio]);
 
-	const blueColor = '#0274d7';
-	const customTheme = CustomTheme(blueColor);
-
-	const buttonTheme = createTheme({
-		...customTheme,
-		components: {
-			MuiButton: {
-				styleOverrides: {
-					root: {
-						padding: '0px',
-					},
-				},
-			},
-		},
-	});
-
-	const voirPlusHandler = (value: boolean) => {
+	const voirPlusHandler = useCallback((value: boolean) => {
 		setVoirPlus(value);
-	};
+	}, []);
 
-	const VoirPlusMoinButtons = () => {
+	const VoirPlusMoinButtons = useCallback(() => {
 		if (bio && bio.length > shopBioMaxLength) {
 			if (voirPlus) {
 				return (
@@ -62,7 +62,7 @@ const ShowBio: React.FC = () => {
 		} else {
 			return null;
 		}
-	};
+	}, [bio, voirPlus, voirPlusHandler]);
 
 	return (
 		<Stack direction="column" spacing={2} sx={{ wordWrap: 'break-word' }}>

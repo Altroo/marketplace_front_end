@@ -16,8 +16,6 @@ import {
 import {
 	CartGetDetailsResponseType,
 	CartGetDetailsType,
-	cartOrderCoordonneeDataType,
-	cartOrderDeliveriesDataType,
 	cartPaginationDetailsForProduct,
 	cartPaginationDetailsForService,
 } from '../../../types/cart/cartTypes';
@@ -58,12 +56,13 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import CustomSingleCountrySelect from '../../../components/groupedComponents/offer/customSingleCountrySelect/customSingleCountrySelect';
 import { placesGetCountriesAction } from '../../../store/actions/places/placesActions';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
-import shop_pk, { AccordionCartContent } from '.';
+import { AccordionCartContent } from '.';
 import Link from 'next/link';
 import { getDateStringFromFormatedDate } from '../../../utils/rawData';
 import { CGUCheckBox } from '../../../components/htmlElements/checkBoxes/checkBox';
 
 const inputTheme = coordonneeTextInputTheme();
+const quantityTheme = CartQuantityFieldTheme();
 
 type RowOrderProductType = {
 	offer_picture: string;
@@ -89,8 +88,6 @@ const RowOrderProduct: React.FC<RowOrderProductType> = (props: RowOrderProductTy
 		offer_total_price,
 		offer_max_quantity,
 	} = props;
-
-	const quantityTheme = CartQuantityFieldTheme();
 
 	return (
 		<Stack direction="column" spacing="12px">

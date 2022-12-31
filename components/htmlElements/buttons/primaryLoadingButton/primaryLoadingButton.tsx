@@ -14,8 +14,6 @@ type Props = {
 	children?: React.ReactNode;
 };
 
-
-
 const PrimaryLoadingButton: React.FC<Props> = (props: Props) => {
 	return (
 		<ThemeProvider theme={getDefaultTheme()}>

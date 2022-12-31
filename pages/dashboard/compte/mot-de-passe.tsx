@@ -33,6 +33,8 @@ import { useRouter } from 'next/router';
 import CustomFooter from '../../../components/layouts/footer/customFooter';
 import Portal from '../../../contexts/Portal';
 
+const inputTheme = coordonneeTextInputTheme();
+
 type formikContentType = {
 	setShowDataUpdated: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -68,7 +70,6 @@ const FormikContenChangePassword: React.FC<formikContentType> = (props: formikCo
 			setSubmitting(false);
 		},
 	});
-	const inputTheme = coordonneeTextInputTheme();
 
 	return (
 		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.flexRootStack}`} mt="32px">
@@ -160,7 +161,6 @@ const FormikContentCreatePassword: React.FC<formikContentType> = (props: formikC
 			setSubmitting(false);
 		},
 	});
-	const inputTheme = coordonneeTextInputTheme();
 
 	return (
 		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.flexRootStack}`} mt="32px">

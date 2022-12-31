@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import {
 	getLocalisationName,
@@ -25,12 +25,21 @@ const CustomMap = dynamic(() => import('../../../../map/customMap'), {
 	ssr: false,
 });
 
+type serviceAdressValues = {
+	service_zone_by: ShopZoneByType | null;
+	service_longitude: number | null;
+	service_latitude: number | null;
+	service_address: string | null;
+	service_km_radius: number | null;
+};
+
 type Props = {
 	handleClose: () => void;
 	children?: React.ReactNode;
 };
 
 const ServiceLocalisation: React.FC<Props> = (props: Props) => {
+	const {handleClose} = props;
 	const dispatch = useAppDispatch();
 	let CENTER = {
 		lat: 34.023827,
@@ -62,15 +71,7 @@ const ServiceLocalisation: React.FC<Props> = (props: Props) => {
 	const addressNameRef = useRef<HTMLInputElement>(null);
 	const kmRadiusRef = useRef<HTMLInputElement>(null);
 
-	type serviceAdressValues = {
-		service_zone_by: ShopZoneByType | null;
-		service_longitude: number | null;
-		service_latitude: number | null;
-		service_address: string | null;
-		service_km_radius: number | null;
-	};
-
-	const localisationHandler = (values: serviceAdressValues) => {
+	const localisationHandler = useCallback((values: serviceAdressValues) => {
 		dispatch(
 			setOfferServiceLocalisation(
 				values.service_zone_by,
@@ -80,8 +81,8 @@ const ServiceLocalisation: React.FC<Props> = (props: Props) => {
 				values.service_km_radius,
 			),
 		);
-		props.handleClose();
-	};
+		handleClose();
+	}, [dispatch, handleClose]);
 
 	useEffect(() => {
 		if (localisationName && addressNameRef.current !== null) {
@@ -101,7 +102,7 @@ const ServiceLocalisation: React.FC<Props> = (props: Props) => {
 		}
 	}, [kmRadiusState, localisationName, position.lat, position.lng, zoneByState]);
 
-	const positionHandler = (position: PositionType) => {
+	const positionHandler = useCallback((position: PositionType) => {
 		setPosition((prevState) => {
 			return { ...prevState, lat: position.lat, lng: position.lng };
 		});
@@ -115,21 +116,22 @@ const ServiceLocalisation: React.FC<Props> = (props: Props) => {
 			latitudeRef.current.value = position.lat.toString();
 			addressNameRef.current.value = localisationName;
 		}
-	};
+	}, [localisationName]);
 
-	const zoneByHandler = (zoneBy: ShopZoneByType) => {
+	const zoneByHandler = useCallback((zoneBy: ShopZoneByType) => {
 		setZoneByState(zoneBy);
 		if (zoneByRef.current !== null) {
 			zoneByRef.current.value = zoneBy;
 		}
-	};
+	}, []);
 
-	const kmRadiusHandler = (kmRadius: number) => {
+	const kmRadiusHandler = useCallback((kmRadius: number) => {
 		setKmRadiusState(kmRadius);
 		if (kmRadiusRef.current !== null) {
 			kmRadiusRef.current.value = kmRadius.toString();
 		}
-	};
+	}, []);
+
 	return (
 		<Stack direction="column" spacing={4} style={{ height: '100%' }}>
 			<Formik
@@ -163,7 +165,7 @@ const ServiceLocalisation: React.FC<Props> = (props: Props) => {
 						>
 							<TopBarSaveClose
 								buttonText="Enregistrer"
-								handleClose={props.handleClose}
+								handleClose={handleClose}
 								handleSubmit={handleSubmit}
 								isSubmitting={isSubmitting}
 								isValid={isValid}

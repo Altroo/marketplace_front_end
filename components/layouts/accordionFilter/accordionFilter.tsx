@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Styles from './accordionFilter.module.sass';
 import { FilterAccordionTheme, FilterChipTheme } from '../../../utils/themes';
 import {
@@ -23,7 +23,7 @@ import IosSwitch from '../../htmlElements/switches/iosSwitch';
 import TextButton from '../../htmlElements/buttons/textButton/textButton';
 import PrimaryButton from '../../htmlElements/buttons/primaryButton/primaryButton';
 import { OfferColorsListType } from '../../../types/ui/uiTypes';
-import { ParsedUrlQueryInput } from "querystring";
+import { ParsedUrlQueryInput } from 'querystring';
 
 type FilterColorsGridParentType = {
 	availableColors: Array<OfferProductColors>;
@@ -31,23 +31,29 @@ type FilterColorsGridParentType = {
 	setSelectedColorsList: React.Dispatch<React.SetStateAction<Array<string>>>;
 };
 const FlterColorsGridParent: React.FC<FilterColorsGridParentType> = (props: FilterColorsGridParentType) => {
-	const colorOnClickHandler = (color: OfferProductColors) => {
-		if (!props.selectedColorsList.includes(color)) {
-			props.setSelectedColorsList((prevState) => {
-				return [...prevState, color];
-			});
-		} else {
-			const colorsList = [...props.selectedColorsList];
-			const index = props.selectedColorsList.indexOf(color);
-			if (index > -1) {
-				colorsList.splice(index, 1);
-				props.setSelectedColorsList(colorsList);
+	const { selectedColorsList, setSelectedColorsList, availableColors } = props;
+
+	const colorOnClickHandler = useCallback(
+		(color: OfferProductColors) => {
+			if (!selectedColorsList.includes(color)) {
+				setSelectedColorsList((prevState) => {
+					return [...prevState, color];
+				});
+			} else {
+				const colorsList = [...selectedColorsList];
+				const index = selectedColorsList.indexOf(color);
+				if (index > -1) {
+					colorsList.splice(index, 1);
+					setSelectedColorsList(colorsList);
+				}
 			}
-		}
-	};
+		},
+		[selectedColorsList, setSelectedColorsList],
+	);
 
 	const constructColorsList: Array<OfferColorsListType> = [];
-	props.availableColors.map((availableColor) => {
+
+	availableColors.map((availableColor) => {
 		const color = availableColorsList.find((item) => item.code === availableColor);
 		if (color) {
 			constructColorsList.push(color);
@@ -58,8 +64,8 @@ const FlterColorsGridParent: React.FC<FilterColorsGridParentType> = (props: Filt
 		<Grid container className={Styles.rootGrid}>
 			{constructColorsList.map((color, index) => {
 				const rippleColor = hexToRGB(color.hex, 0.5);
-				const colorExistInPage = props.availableColors.includes(color.code as OfferProductColors);
-				const colorSelected = props.selectedColorsList.includes(color.code as OfferProductColors);
+				const colorExistInPage = availableColors.includes(color.code as OfferProductColors);
+				const colorSelected = selectedColorsList.includes(color.code as OfferProductColors);
 
 				return (
 					<Grid item md={2} sm={2} key={index}>
@@ -190,7 +196,7 @@ type Props = {
 	children?: React.ReactNode;
 };
 const AccordionFilter: React.FC<Props> = (props: Props) => {
-	const { availableFilters, filterFor } = props;
+	const { availableFilters, filterFor, closeModal, setApplyFiltersClicked } = props;
 	const router = useRouter();
 
 	// filter states
@@ -215,7 +221,7 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 		available_services,
 	} = availableFilters;
 
-	const applyFilterHandler = () => {
+	const applyFilterHandler = useCallback(() => {
 		let queryParams: ParsedUrlQueryInput = {
 			...router.query,
 		};
@@ -261,15 +267,27 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 			delete queryParams['maroc'];
 		}
 		router.replace({ query: { ...queryParams } }, undefined, options).then(() => {
-			props.setApplyFiltersClicked(true);
+			setApplyFiltersClicked(true);
 		});
 
-		if (props.closeModal){
-			props.closeModal();
+		if (closeModal) {
+			closeModal();
 		}
-	};
+	}, [
+		closeModal,
+		pickedCategories,
+		pickedCities,
+		pickedColors,
+		pickedForWhom,
+		pickedLabels,
+		pickedMaroc,
+		pickedSizes,
+		pickedSolder,
+		router,
+		setApplyFiltersClicked,
+	]);
 
-	const clearFiltersHandler = () => {
+	const clearFiltersHandler = useCallback(() => {
 		setPickedCategories([]);
 		setPickedColors([]);
 		setPickedSizes([]);
@@ -281,18 +299,18 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 		let queryParams: ParsedUrlQueryInput = {};
 		if (router.query.sort_by) {
 			queryParams = {
-				sort_by: router.query.sort_by
-			}
+				sort_by: router.query.sort_by,
+			};
 		}
-		let extra_param = {}
+		let extra_param = {};
 		if (filterFor === 'SHOPS') {
 			extra_param = {
 				shop_link: router.query.shop_link,
-			}
+			};
 		} else if (filterFor === 'COLLECTIONS') {
 			extra_param = {
 				page_url: router.query.page_url,
-			}
+			};
 		}
 		router
 			.replace(
@@ -307,10 +325,9 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 				{ shallow: true, scroll: false },
 			)
 			.then(() => {
-				props.setApplyFiltersClicked(true);
+				setApplyFiltersClicked(true);
 			});
-
-	};
+	}, [filterFor, router, setApplyFiltersClicked]);
 
 	// Content
 	let categoriesFilter;
@@ -341,7 +358,7 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 					objectToMap={categories}
 				/>
 			</AccordionFilterContent>
-		)
+		);
 	}
 
 	let colorsFilter = null;

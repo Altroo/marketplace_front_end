@@ -5,6 +5,8 @@ import Image from 'next/image';
 import FacebookSVG from "../../../../public/assets/svgs/authIcons/facebook.svg";
 import { getDefaultTheme } from "../../../../utils/themes";
 
+const defaultTheme = getDefaultTheme();
+
 type Props = {
 	onClick: () => void;
 	disabled?: boolean;
@@ -13,7 +15,6 @@ type Props = {
 
 const FacebookSignInButton: React.FC<Props> = (props: Props) => {
 
-	const defaultTheme = getDefaultTheme();
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<Button

@@ -29,6 +29,8 @@ import { accountPostRegisterAction } from '../../../store/actions/account/accoun
 import { refreshAppTokenStatesAction } from '../../../store/actions/_init/_initActions';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 
+const inputTheme = coordonneeTextInputTheme();
+
 type Props = {
 	pageProps: {
 		newEmail: string;
@@ -92,8 +94,6 @@ const About: React.FC<Props> = (props: Props) => {
 			setIsApiCallInProgress(false);
 		},
 	});
-
-	const inputTheme = coordonneeTextInputTheme();
 
 	return (
 		<>
@@ -190,7 +190,6 @@ const About: React.FC<Props> = (props: Props) => {
 					</Stack>
 				</AuthPageLayout>
 				</div>
-
 			</Desktop>
 			<TabletAndMobile>
 				<div style={{display: 'flex', width: '100%', height: '100%'}}>

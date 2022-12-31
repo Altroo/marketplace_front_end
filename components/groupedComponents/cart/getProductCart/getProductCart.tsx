@@ -128,6 +128,7 @@ const GetProductCart: React.FC<Props> = (props: Props) => {
 		});
 		return stateColorsList;
 	}, [colorsListString]);
+
 	const colorOnClickHandler = useCallback((value: string) => {
 		setSelectedColor((prevState) => {
 			if (prevState === value) {
@@ -183,6 +184,7 @@ const GetProductCart: React.FC<Props> = (props: Props) => {
 		});
 		return stateSizesList;
 	}, [sizesListString]);
+
 	const sizeOnClickHandler = useCallback((code: string) => {
 		setSelectedSize(code);
 	}, []);

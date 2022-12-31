@@ -21,6 +21,7 @@ import CustomTextInput from '../../../components/formikElements/customTextInput/
 import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 
+const inputTheme = coordonneeTextInputTheme();
 const ResetPasswordPageContent = () => {
 	const router = useRouter();
 
@@ -48,8 +49,6 @@ const ResetPasswordPageContent = () => {
 			setSubmitting(false);
 		},
 	});
-
-	const inputTheme = coordonneeTextInputTheme();
 
 	return (
 		<Stack direction="column" className={Styles.contentWrapper} spacing={4}>

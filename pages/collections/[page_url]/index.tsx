@@ -25,7 +25,6 @@ type IndexProps = {
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	const { title, page_meta_description, header, paragraphe, tags, page_url } = props.pageProps.data;
 
-
 	return (
 		<>
 			<NextSeo title={title} description={page_meta_description}/>

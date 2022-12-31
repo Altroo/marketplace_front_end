@@ -30,6 +30,7 @@ import { refreshAppTokenStatesAction } from "../../../store/actions/_init/_initA
 import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 import ApiProgress from "../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress";
 
+const inputTheme = coordonneeTextInputTheme();
 const AddMissingEmail = () => {
 	const { data: session } = useSession();
 	const token = useAppSelector(getInitStateToken);
@@ -75,8 +76,6 @@ const AddMissingEmail = () => {
 			setIsApiCallInProgress(false);
 		}
 	});
-
-	const inputTheme = coordonneeTextInputTheme();
 
 	return (
 		<>

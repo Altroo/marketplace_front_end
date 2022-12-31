@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Styles from './editHoraire.module.sass';
 import { useAppDispatch, useAppSelector } from '../../../../../../utils/hooks';
 import {
@@ -20,12 +20,24 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useRouter } from "next/router";
 import { constructDate } from "../../../../../../utils/rawData";
 
+const horaireTheme = horairesInputTheme('#0274d7');
+const titleFieldTheme = coordonneeTextInputTheme();
+
+type valuesType = {
+	opening_days: string;
+	morning_hour_from: Dayjs | null;
+	morning_hour_to: Dayjs | null;
+	afternoon_hour_from: Dayjs | null;
+	afternoon_hour_to: Dayjs | null;
+};
+
 type Props = {
 	handleClose: () => void;
 	children?: React.ReactNode;
 };
 
 const EditHoraire: React.FC<Props> = (props: Props) => {
+	const {handleClose} = props;
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const opening_days = useAppSelector(getShopOpeningDays);
@@ -62,12 +74,10 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 	const suRef = useRef<HTMLInputElement>(null);
 
 	// Availability day handlers
-	const availabilityDaysSwitchHandler = (
-		setState: React.Dispatch<React.SetStateAction<boolean>>,
+	const availabilityDaysSwitchHandler = useCallback((setState: React.Dispatch<React.SetStateAction<boolean>>,
 		state: boolean,
 		ref: React.RefObject<HTMLInputElement>,
-		textValue: string,
-	) => {
+		textValue: string) => {
 		setState(state);
 		if (ref.current !== null) {
 			if (state) {
@@ -76,16 +86,9 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 				ref.current.value = '';
 			}
 		}
-	};
+	}, []);
 
-	type valuesType = {
-		opening_days: string;
-		morning_hour_from: Dayjs | null;
-		morning_hour_to: Dayjs | null;
-		afternoon_hour_from: Dayjs | null;
-		afternoon_hour_to: Dayjs | null;
-	};
-	const editHoraireHandler = (values: valuesType) => {
+	const editHoraireHandler = useCallback((values: valuesType) => {
 		const morning_hour_from = values.morning_hour_from ? values.morning_hour_from.format('HH:mm') : null;
 		const morning_hour_to = values.morning_hour_to ? values.morning_hour_to.format('HH:mm') : null;
 		const afternoon_hour_from = values.afternoon_hour_from ? values.afternoon_hour_from.format('HH:mm') : null;
@@ -100,9 +103,9 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 				afternoon_hour_to,
 			),
 		);
-		props.handleClose();
+		handleClose();
 		router.replace(router.asPath).then();
-	};
+	}, [dispatch, handleClose, router]);
 
 	useEffect(() => {
 		if (morningHourFrom) {
@@ -156,10 +159,7 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 				}
 			});
 		}
-	}, [afternoonHourFrom, afternoonHourTo, morningHourFrom, morningHourTo, opening_days]);
-
-	const horaireTheme = horairesInputTheme('#0274d7');
-	const titleFieldTheme = coordonneeTextInputTheme();
+	}, [afternoonHourFrom, afternoonHourTo, availabilityDaysSwitchHandler, morningHourFrom, morningHourTo, opening_days]);
 
 	return (
 		<ThemeProvider theme={horaireTheme}>
@@ -227,7 +227,7 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 							>
 								<TopBarSaveClose
 									buttonText="Enregistrer"
-									handleClose={props.handleClose}
+									handleClose={handleClose}
 									handleSubmit={handleSubmit}
 									isSubmitting={isSubmitting}
 									isValid={isValid}

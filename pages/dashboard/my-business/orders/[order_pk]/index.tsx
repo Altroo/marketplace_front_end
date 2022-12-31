@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from './index.module.sass';
+import Styles from '../../../../../styles/dashboard/orders/order_pk/orderDetail.module.sass';
 import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../../../utils/routes';
 import { AxiosInstance } from 'axios';
 import {
@@ -134,6 +134,7 @@ const RowOrderDetailProduct: React.FC<RowOrderDetailProductType> = (props: RowOr
 	const { offer_thumbnail, offer_title, picked_size, picked_color, picked_quantity, offer_total_price, order_status } =
 		props;
 	const { text, color } = getOrderStatus(order_status);
+
 	return (
 		<Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
 			<Stack direction="row" spacing="18px" alignItems="center" width="100%" minWidth="300px">
@@ -187,6 +188,7 @@ const RowOrderDetailService: React.FC<RowOrderDetailServiceType> = (props: RowOr
 	const { offer_total_price, offer_thumbnail, offer_title, picked_date, picked_hour, order_status } = props;
 
 	const { text, color } = getOrderStatus(order_status);
+
 	return (
 		<Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
 			<Stack direction="row" spacing="18px" alignItems="center" width="100%" minWidth="300px">

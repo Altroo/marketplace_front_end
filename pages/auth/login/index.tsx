@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Styles from '../../../styles/auth/login/login.module.sass';
 import { GetServerSidePropsContext } from 'next';
 import { Stack } from '@mui/material';
@@ -31,6 +31,7 @@ import { refreshAppTokenStatesAction } from '../../../store/actions/_init/_initA
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import PrimaryLoadingButton from '../../../components/htmlElements/buttons/primaryLoadingButton/primaryLoadingButton';
 
+const inputTheme = coordonneeTextInputTheme();
 const LoginPageContent = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
@@ -38,15 +39,13 @@ const LoginPageContent = () => {
 	const [errorState, setErrorState] = useState<string | Array<string> | undefined>(undefined);
 	const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
 
-	const googleSignIn = () => {
-		// redirect to the same page that will then check if user is new or old
+	const googleSignIn = useCallback(() => {
 		signIn('google').then();
-	};
+	}, []);
 
-	const facebookSignIn = () => {
-		// redirect to the same page that will then check if user is new or old
+	const facebookSignIn = useCallback(() => {
 		signIn('facebook').then();
-	};
+	}, []);
 
 	useEffect(() => {
 		if (error === 'AccessDenied') {
@@ -89,7 +88,6 @@ const LoginPageContent = () => {
 		},
 	});
 
-	const inputTheme = coordonneeTextInputTheme();
 	return (
 		<Stack direction="column" spacing={4} className={Styles.contentWrapper}>
 			<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" width="100%">
@@ -137,13 +135,6 @@ const LoginPageContent = () => {
 							router.push(AUTH_RESET_PASSWORD).then();
 						}}
 					/>
-					{/*<PrimaryButton*/}
-					{/*	buttonText="Me connecter"*/}
-					{/*	active={formik.isValid && !formik.isSubmitting}*/}
-					{/*	onClick={formik.handleSubmit}*/}
-					{/*	cssClass={Styles.emailRegisterButton}*/}
-					{/*	type="submit"*/}
-					{/*/>*/}
 					<PrimaryLoadingButton
 						buttonText="Me connecter"
 						active={formik.isValid && !formik.isSubmitting}

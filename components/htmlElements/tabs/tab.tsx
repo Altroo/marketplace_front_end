@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import Styles from './tab.module.sass';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
@@ -48,7 +48,7 @@ interface TabPanelProps {
 	children?: React.ReactNode;
 }
 
-function TabPanel(props: TabPanelProps) {
+const TabPanel = (props: TabPanelProps) => {
 	const { children, value, index, ...other } = props;
 
 	return (
@@ -62,7 +62,7 @@ function TabPanel(props: TabPanelProps) {
 			{value === index && <Box sx={{ pt: 3, pb: 3 }}>{children}</Box>}
 		</div>
 	);
-}
+};
 
 const tabIDS = (index: number) => {
 	return {
@@ -84,13 +84,13 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 	const theme = useTheme();
 	const [value, setValue] = React.useState(0);
 
-	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+	const handleChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
-	};
+	}, []);
 
-	const handleChangeIndex = (index: number) => {
+	const handleChangeIndex = useCallback((index: number) => {
 		setValue(index);
-	};
+	}, []);
 	// Check if white color
 	let newColor = props.color;
 	let newBorderColor = props.borderColor;
@@ -100,6 +100,7 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 	if (newBorderColor === '#FFFFFF') {
 		newBorderColor = '#0D070B';
 	}
+
 	const colorTheme = createTheme({
 		palette: {
 			background: {

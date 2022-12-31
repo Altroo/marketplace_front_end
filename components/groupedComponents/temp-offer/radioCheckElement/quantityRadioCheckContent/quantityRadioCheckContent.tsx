@@ -7,6 +7,8 @@ import PlusSVG from '../../../../../public/assets/svgs/globalIcons/plus-circular
 import Image from 'next/image';
 import Styles from './quantityRadioCheckContent.module.sass';
 
+const quantityTheme = OfferQuantityFieldTheme();
+
 type Props = {
 	switchOpen: boolean;
 	quantity: number;
@@ -15,7 +17,6 @@ type Props = {
 };
 
 const QuantityRadioCheckContent: React.FC<Props> = (props: Props) => {
-	const quantityTheme = OfferQuantityFieldTheme();
 
 	return (
 		<RadioCheckElement title="Quantité" defaultValue={props.switchOpen}>

@@ -52,11 +52,7 @@ import { useRouter } from 'next/router';
 import NotificationsMenu from '../notificationsMenu/notificationsMenu';
 import { Desktop, TabletAndMobile } from '../../../utils/helpers';
 
-type Props = {
-	children?: React.ReactNode;
-};
-
-const UserMainNavigationBar: React.FC<Props> = (props: Props) => {
+const UserMainNavigationBar: React.FC = () => {
 	const { data: session, status } = useSession();
 	const router = useRouter();
 	const stateAvatar = useAppSelector(getUserProfilAvatar);

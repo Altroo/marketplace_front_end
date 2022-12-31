@@ -52,7 +52,6 @@ import { SxProps, ThemeProvider } from '@mui/system';
 import { badgeTheme, getDefaultTheme } from '../../utils/themes';
 import OutlineButton from '../../components/htmlElements/buttons/outlineButton/outlineButton';
 import { Theme } from '@mui/material/styles/createTheme';
-import order from "../panier/[shop_pk]/order";
 // import { accountPostResendActivationAction } from '../../store/actions/account/accountActions';
 // import { useAppDispatch } from '../../utils/hooks';
 

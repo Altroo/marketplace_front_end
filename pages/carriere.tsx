@@ -6,7 +6,6 @@ import CustomFooterTemplate from '../components/layouts/footer/customFooterTempl
 import FooterChairIllu from '../public/assets/images/footer_illu/chair-illu.svg';
 import { Stack } from '@mui/material';
 import PrimaryAnchorButton from '../components/htmlElements/buttons/primaryAnchorButton/primaryAnchorButton';
-import Link from 'next/link';
 import CustomFooter from '../components/layouts/footer/customFooter';
 import Image from 'next/image';
 import LikeOutlineBlueSVG from '../public/assets/svgs/footerIcons/like-outline-blue.svg';

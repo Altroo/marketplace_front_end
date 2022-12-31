@@ -5,13 +5,14 @@ import BlueAdd from '../../../../public/assets/svgs/globalIcons/blue-add.svg';
 import { getDefaultTheme } from '../../../../utils/themes';
 import Image from 'next/image';
 
+const defaultTheme = getDefaultTheme();
+
 type Props = {
 	onImageUpload: () => void;
 	children?: React.ReactNode;
 };
 
 const SquareImageInputFile: React.FC<Props> = (props: Props) => {
-	const defaultTheme = getDefaultTheme();
 
 	return (
 		<ThemeProvider theme={defaultTheme}>

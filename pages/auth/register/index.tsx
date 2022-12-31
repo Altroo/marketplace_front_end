@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Styles from '../../../styles/auth/register/register.module.sass';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -34,6 +34,8 @@ import Link from 'next/link';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import { CGUCheckBox } from '../../../components/htmlElements/checkBoxes/checkBox';
 import PrimaryLoadingButton from "../../../components/htmlElements/buttons/primaryLoadingButton/primaryLoadingButton";
+
+const emailTheme = coordonneeTextInputTheme();
 
 type registerPageContentProps = {
 	googleSignIn: () => void;
@@ -146,15 +148,14 @@ const Register: NextPage = () => {
 		}
 	}, [dispatch, error, session, sessionUpdated]);
 
-	const googleSignIn = () => {
-		// redirect to the same page that will then check if user is new or old
+	const googleSignIn = useCallback(() => {
 		signIn('google').then();
-	};
+	}, []);
 
-	const facebookSignIn = () => {
-		// redirect to the same page that will then check if user is new or old
+	const facebookSignIn = useCallback(() => {
 		signIn('facebook').then();
-	};
+	}, []);
+
 	// via email
 	const formik = useFormik({
 		initialValues: {
@@ -183,7 +184,6 @@ const Register: NextPage = () => {
 		},
 	});
 
-	const emailTheme = coordonneeTextInputTheme();
 	return (
 		<>
 			{!loading && !session && (

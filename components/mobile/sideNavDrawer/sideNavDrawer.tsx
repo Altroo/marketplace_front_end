@@ -5,6 +5,20 @@ import Slide from '@mui/material/Slide';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 
+const customTheme = createTheme({
+	components: {
+		MuiDialog: {
+			styleOverrides: {
+				root: {
+					'& .MuiPaper-root': {
+						overflowX: 'hidden',
+					}
+				}
+			}
+		}
+	}
+});
+
 const Transition = React.forwardRef(function Transition(
 	props: TransitionProps & {
 		// eslint-disable-next-line
@@ -24,19 +38,6 @@ type Props = {
 };
 
 const SideNavDrawer: React.FC<Props> = (props: Props) => {
-	const customTheme = createTheme({
-		components: {
-			MuiDialog: {
-				styleOverrides: {
-					root: {
-						'& .MuiPaper-root': {
-							overflowX: 'hidden',
-						}
-					}
-				}
-			}
-		}
-	});
 
 	return (
 		<ThemeProvider theme={customTheme}>

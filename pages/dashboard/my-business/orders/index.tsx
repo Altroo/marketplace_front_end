@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from './index.module.sass';
+import Styles from '../../../../styles/dashboard/orders/ordersList.module.sass';
 import {
 	Desktop,
 	generateOrdersFilterQueryParams,

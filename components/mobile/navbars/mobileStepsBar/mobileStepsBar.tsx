@@ -17,19 +17,21 @@ type Props = {
 };
 
 const MobileStepsBar: React.FC<Props> = (props: Props) => {
+	const {activeStep} = props;
+
 	const steps = useMemo(() => {
-		if (props.activeStep === '1') {
+		if (activeStep === '1') {
 			return [true, false, false, false];
-		}else if (props.activeStep === '2') {
+		}else if (activeStep === '2') {
 			return [true, true, false, false];
-		} else if (props.activeStep === '3') {
+		} else if (activeStep === '3') {
 			return [true, true, true, false];
-		} else if (props.activeStep === '4') {
+		} else if (activeStep === '4') {
 			return [true, true, true, true];
 		} else {
 			return [true, false, false, false]
 		}
-	}, [props.activeStep]);
+	}, [activeStep]);
 
 	return (
 		<TabletAndMobile>

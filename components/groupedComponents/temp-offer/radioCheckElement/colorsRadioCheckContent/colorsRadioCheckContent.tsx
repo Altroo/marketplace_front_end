@@ -79,6 +79,7 @@ const defaultTheme = getDefaultTheme();
 
 const ColorsRadioCheckContent: React.FC<Props> = (props: Props) => {
 	const { selectedColorsList, setselectedColorsList } = props;
+
 	const colorOnClickHandler = useCallback(
 		(color: string) => {
 			if (!selectedColorsList.includes(color)) {

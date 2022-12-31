@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Styles from './shopInfoTabContent.module.sass';
 import { Box, Button, createTheme, Stack, ThemeProvider } from "@mui/material";
 import { ShopInfoDataType } from '../../../../../pages/shop/[shop_link]';
@@ -6,6 +6,22 @@ import ReadShopHoraire from './readShopHoraire/readShopHoraire';
 import ReadCoordonees from './readCoordonees/readCoordonees';
 import ReadAdresse from './readAdresse/readAdresse';
 import { CustomTheme } from "../../../../../utils/themes";
+
+const blueColor = '#0274d7';
+const customTheme = CustomTheme(blueColor);
+
+const buttonTheme = createTheme({
+	...customTheme,
+	components: {
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					padding: '0px',
+				},
+			},
+		},
+	},
+});
 
 type Props = {
 	shopInfoData: ShopInfoDataType;
@@ -50,27 +66,11 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 		}
 	}, [bio]);
 
-	const blueColor = '#0274d7';
-	const customTheme = CustomTheme(blueColor);
-
-	const buttonTheme = createTheme({
-		...customTheme,
-		components: {
-			MuiButton: {
-				styleOverrides: {
-					root: {
-						padding: '0px',
-					},
-				},
-			},
-		},
-	});
-
-	const voirPlusHandler = (value: boolean) => {
+	const voirPlusHandler = useCallback((value: boolean) => {
 		setVoirPlus(value);
-	};
+	}, []);
 
-	const VoirPlusMoinButtons = () => {
+	const VoirPlusMoinButtons = useCallback(() => {
 		if (bio && bio.length > shopBioMaxLength) {
 			if (voirPlus) {
 				return (
@@ -92,7 +92,7 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 		} else {
 			return null;
 		}
-	};
+	}, [bio, voirPlus, voirPlusHandler]);
 
 	return (
 		<>

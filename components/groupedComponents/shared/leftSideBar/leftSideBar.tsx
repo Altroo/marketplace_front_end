@@ -50,6 +50,7 @@ type Props = {
 };
 
 const LeftSideBar: React.FC<Props> = (props: Props) => {
+
 	const elements = useMemo(() => {
 		if (props.which === 'SHOP') {
 			return ['Nom de boutique', 'Image', 'Couleur', 'Police'];

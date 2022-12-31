@@ -59,6 +59,8 @@ import CustomToast from '../../../../components/portals/customToast/customToast'
 import Portal from '../../../../contexts/Portal';
 import PrimaryButton from '../../../../components/htmlElements/buttons/primaryButton/primaryButton';
 
+const CheckboxIcon = CheckBoxSVG('#0274D7', 24, 24);
+
 type EmptyIndexedContentType = {
 	all_slots_count: number;
 	indexed_articles_count: number;
@@ -239,9 +241,8 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 	});
 	const [selectAllState, setSelectAllState] = useState<boolean>(false);
 
-	const addNewSlotsClickHandler = () => {
-		router
-			.push(
+	const addNewSlotsClickHandler = useCallback(() => {
+		router.push(
 				{
 					pathname: DASHBOARD_SUBSCRIPTION,
 					query: {
@@ -252,7 +253,7 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 				DASHBOARD_SUBSCRIPTION,
 			)
 			.then();
-	};
+	}, [router]);
 
 	const getIndexedData = useCallback(
 		(isReset = false) => {
@@ -359,14 +360,7 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 		}
 	}, [firstPageLoaded, getIndexedData, indexedData, indexedDataLinkedHashMap, isLoadingInitInProgress, loadMoreState]);
 
-	const selectAllClickHandler = () => {
-		setSelectAllState((prevState) => {
-			setAllCheckHandler(!prevState);
-			return !prevState;
-		});
-	};
-
-	const setAllCheckHandler = (checked: boolean) => {
+	const setAllCheckHandler = useCallback((checked: boolean) => {
 		const checkedList = itemsCheckList.map((_) => {
 			return checked;
 		});
@@ -382,9 +376,16 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 			setItemIDS([]);
 		}
 		setItemsCheckList(checkedList);
-	};
+	}, [itemsCheckList]);
 
-	const handleCheckChange = (event: React.ChangeEvent<HTMLInputElement>, index: number, pk: number) => {
+	const selectAllClickHandler = useCallback(() => {
+		setSelectAllState((prevState) => {
+			setAllCheckHandler(!prevState);
+			return !prevState;
+		});
+	}, [setAllCheckHandler]);
+
+	const handleCheckChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, index: number, pk: number) => {
 		const checkedList = itemsCheckList.map((item, itemIndex) => {
 			if (index === itemIndex) {
 				if (event.target.checked && !itemIDS.includes(pk)) {
@@ -409,9 +410,9 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 		} else {
 			setSelectAllState(false);
 		}
-	};
+	}, [itemIDS, itemsCheckList]);
 
-	const deleteItemsHandler = (pk: number | string) => {
+	const deleteItemsHandler = useCallback((pk: number | string) => {
 		const action = subscriptionDeleteSingleIndexedArticleAction(pk.toString());
 		dispatch({
 			...action,
@@ -445,9 +446,7 @@ const IndexedArticlesContent: React.FC<IndexedArticlesContentType> = (props: Ind
 				}
 			},
 		});
-	};
-
-	const CheckboxIcon = CheckBoxSVG('#0274D7', 24, 24);
+	}, [dispatch, getIndexedData, setShowToast]);
 
 	return (
 		<>

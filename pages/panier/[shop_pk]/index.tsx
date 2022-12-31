@@ -54,6 +54,8 @@ const CustomMap = dynamic(() => import('../../../components/map/customMap'), {
 	ssr: false,
 });
 
+const quantityTheme = CartQuantityFieldTheme();
+
 type AccordionCartContentType = {
 	title: string;
 	children?: React.ReactNode;
@@ -108,8 +110,6 @@ const RowArticleProduct: React.FC<RowArticleProductType> = (props: RowArticlePro
 	} = props;
 	const [quantity, setQuantity] = useState<number>(picked_quantity);
 	const [offerTotalPrice, setOfferTotalPrice] = useState<number>(offer_total_price);
-
-	const quantityTheme = CartQuantityFieldTheme();
 
 	return (
 		<Stack direction="column" spacing="12px">

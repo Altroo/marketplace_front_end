@@ -50,8 +50,9 @@ import {
 	getUserLocalOfferProductEditPK,
 	// getOfferOfferApi,
 	getLocalOfferProductMadeIn,
-	getLocalOfferProductCreator, getLocalOfferProductThumbnails
-} from "../../../../../store/selectors";
+	getLocalOfferProductCreator,
+	getLocalOfferProductThumbnails,
+} from '../../../../../store/selectors';
 import { PositionType } from '../../../../../components/map/customMap';
 import TopBarSaveClose from '../../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
 import { clickAndCollectSchema } from '../../../../../utils/formValidationSchemas';
@@ -87,6 +88,8 @@ import {
 	OfferPutRootServiceResponseType,
 } from '../../../../../types/offer/offerTypes';
 import ApiProgress from '../../../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
+
+const defaultTheme = getDefaultTheme();
 
 const CustomMap = dynamic(() => import('../../../../../components/map/customMap'), {
 	ssr: false,
@@ -570,6 +573,7 @@ const Livraison: NextPage = () => {
 		pickedPriceBy,
 		pickedQuantity,
 		pickedSizes,
+		pickedThumbnails,
 		pickedTitle,
 		router,
 	]);
@@ -610,8 +614,6 @@ const Livraison: NextPage = () => {
 		// 	setSubmitActive(false);
 		// }
 	}, [dispatch]);
-
-	const defaultTheme = getDefaultTheme();
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
@@ -827,7 +829,12 @@ const Livraison: NextPage = () => {
 									{/*		/>*/}
 									{/*	</Box>*/}
 									{/*)}*/}
-									<CustomSwipeModal transition open={openDelivery} handleClose={() => setOpenDelivery(false)} keepMounted={true}>
+									<CustomSwipeModal
+										transition
+										open={openDelivery}
+										handleClose={() => setOpenDelivery(false)}
+										keepMounted={true}
+									>
 										<Stack direction="column" spacing={2} justifyContent="flex-start">
 											<Stack direction="column" sx={{ height: '100%' }}>
 												<TopBarSaveClose

@@ -22,6 +22,8 @@ import { AccountGetCheckAccountResponseType } from "../../../types/account/accou
 import { getCookie } from "cookies-next";
 import UserMainNavigationBar from "../../../components/layouts/userMainNavigationBar/userMainNavigationBar";
 
+const inputTheme = coordonneeTextInputTheme();
+
 type setPasswordPageContentProps = {
 	email: string;
 	code: string;
@@ -61,8 +63,6 @@ const SetPasswordPageContent = (props: setPasswordPageContentProps) => {
 			setSubmitting(false);
 		},
 	});
-
-	const inputTheme = coordonneeTextInputTheme();
 
 	return (
 		<Stack direction="column" className={Styles.contentWrapper} spacing={6}>

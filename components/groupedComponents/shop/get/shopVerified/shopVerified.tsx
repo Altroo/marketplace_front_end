@@ -6,6 +6,8 @@ import { Skeleton, ThemeProvider, Tooltip } from '@mui/material';
 import { getDefaultTheme } from '../../../../../utils/themes';
 import Styles from './shopVerified.module.sass';
 
+const defaultTheme = getDefaultTheme();
+
 type Props = {
 	avatar: string;
 	shop_name: string;
@@ -13,7 +15,7 @@ type Props = {
 };
 
 const ShopVerified: React.FC<Props> = (props: Props) => {
-	const defaultTheme = getDefaultTheme();
+
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<Tooltip disableFocusListener title="Boutique verifié.">
