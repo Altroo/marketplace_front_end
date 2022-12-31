@@ -50,8 +50,8 @@ import {
 	getUserLocalOfferProductEditPK,
 	// getOfferOfferApi,
 	getLocalOfferProductMadeIn,
-	getLocalOfferProductCreator,
-} from '../../../../../store/selectors';
+	getLocalOfferProductCreator, getLocalOfferProductThumbnails
+} from "../../../../../store/selectors";
 import { PositionType } from '../../../../../components/map/customMap';
 import TopBarSaveClose from '../../../../../components/groupedComponents/temp-shop/edit/renseignerMesInfos-Modals/topBar-Save-Close/topBarSaveClose';
 import { clickAndCollectSchema } from '../../../../../utils/formValidationSchemas';
@@ -129,6 +129,7 @@ const Livraison: NextPage = () => {
 	const pickedCategories = useAppSelector(getLocalOfferProductCategories);
 	const pickedTitle = useAppSelector(getLocalOfferProductTitle);
 	const pickedPictures = useAppSelector(getLocalOfferProductPictures);
+	const pickedThumbnails = useAppSelector(getLocalOfferProductThumbnails);
 	const pickedDescription = useAppSelector(getLocalOfferProductDescription);
 	const pickedForWhom = useAppSelector(getLocalOfferProductForwhom);
 	const pickedColors = useAppSelector(getLocalOfferProductColors);
@@ -442,6 +443,7 @@ const Livraison: NextPage = () => {
 				pickedCategories.join(','),
 				pickedTitle,
 				pickedPictures,
+				pickedThumbnails,
 				pickedDescription,
 				pickedForWhom,
 				pickedColors,
@@ -493,6 +495,7 @@ const Livraison: NextPage = () => {
 				pickedCategories.join(','),
 				pickedTitle,
 				pickedPictures,
+				pickedThumbnails,
 				pickedDescription,
 				pickedForWhom,
 				pickedColors,

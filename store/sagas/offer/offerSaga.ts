@@ -74,11 +74,15 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/`;
 	const { type, onComplete, ...payloadData } = payload;
-	const { pictures, ...remainingData } = payloadData;
+	const { pictures, thumbnails, ...remainingData } = payloadData;
 	let picture_1 = null;
+	let thumbnail_1 = null;
 	let picture_2 = null;
+	let thumbnail_2 = null;
 	let picture_3 = null;
+	let thumbnail_3 = null;
 	let picture_4 = null;
+	let thumbnail_4 = null;
 	if (pictures.length === 1) {
 		picture_1 = pictures[0].dataURL;
 	} else if (pictures.length === 2) {
@@ -94,12 +98,31 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 		picture_3 = pictures[2].dataURL;
 		picture_4 = pictures[3].dataURL;
 	}
+	if (thumbnails.length === 1) {
+		thumbnail_1 = thumbnails[0];
+	} else if (thumbnails.length === 2) {
+		thumbnail_1 = thumbnails[0];
+		thumbnail_2 = thumbnails[1];
+	} else if (thumbnails.length === 3) {
+		thumbnail_1 = thumbnails[0];
+		thumbnail_2 = thumbnails[1];
+		thumbnail_3 = thumbnails[2];
+	} else if (thumbnails.length === 4) {
+		thumbnail_1 = thumbnails[0];
+		thumbnail_2 = thumbnails[1];
+		thumbnail_3 = thumbnails[2];
+		thumbnail_4 = thumbnails[3];
+	}
 	const dataToSend = {
 		...remainingData,
 		picture_1,
+		thumbnail_1,
 		picture_2,
+		thumbnail_2,
 		picture_3,
+		thumbnail_3,
 		picture_4,
+		thumbnail_4,
 	};
 	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 		const instance: AxiosInstance = yield call(() =>
@@ -218,11 +241,15 @@ function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServic
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/`;
 	const { type, onComplete, ...payloadData } = payload;
-	const { pictures, ...remainingData } = payloadData;
+	const { pictures, thumbnails, ...remainingData } = payloadData;
 	let picture_1 = null;
+	let thumbnail_1 = null;
 	let picture_2 = null;
+	let thumbnail_2 = null;
 	let picture_3 = null;
+	let thumbnail_3 = null;
 	let picture_4 = null;
+	let thumbnail_4 = null;
 	if (pictures.length === 1) {
 		picture_1 = pictures[0].dataURL;
 	} else if (pictures.length === 2) {
@@ -238,12 +265,31 @@ function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServic
 		picture_3 = pictures[2].dataURL;
 		picture_4 = pictures[3].dataURL;
 	}
+	if (thumbnails.length === 1) {
+		thumbnail_1 = thumbnails[0];
+	} else if (thumbnails.length === 2) {
+		thumbnail_1 = thumbnails[0];
+		thumbnail_2 = thumbnails[1];
+	} else if (thumbnails.length === 3) {
+		thumbnail_1 = thumbnails[0];
+		thumbnail_2 = thumbnails[1];
+		thumbnail_3 = thumbnails[2];
+	} else if (thumbnails.length === 4) {
+		thumbnail_1 = thumbnails[0];
+		thumbnail_2 = thumbnails[1];
+		thumbnail_3 = thumbnails[2];
+		thumbnail_4 = thumbnails[3];
+	}
 	const dataToSend = {
 		...remainingData,
 		picture_1,
+		thumbnail_1,
 		picture_2,
+		thumbnail_2,
 		picture_3,
+		thumbnail_3,
 		picture_4,
+		thumbnail_4,
 	};
 	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
@@ -414,6 +460,7 @@ function* setOfferProductDescriptionPageSaga(payload: {
 	type: string;
 	title: string;
 	pictures: ImageUploadingType;
+	thumbnails: Array<string>;
 	description: string;
 	for_whom: string | null;
 	product_colors: string | null;
@@ -430,6 +477,7 @@ function* setOfferProductDescriptionPageSaga(payload: {
 function* setOfferServiceDescriptionPageSaga(payload: {
 	title: string,
 	pictures: ImageUploadingType,
+	thumbnails: Array<string>,
 	description: string,
 	for_whom: string | null,
 	service_availability_days: string,
@@ -450,6 +498,7 @@ function* setOfferServiceDescriptionPageSaga(payload: {
 			const newPayload = {
 				title: payload.title,
 				pictures: payload.pictures,
+				thumbnails: payload.thumbnails,
 				description: payload.description,
 				for_whom: payload.for_whom,
 				service_availability_days: response.data,
@@ -530,6 +579,7 @@ function* setOfferProductToEditSaga(payload: setOfferProductToEditPayloadType) {
 		title: payload.title as string,
 		description: payload.description as string,
 		pictures: payload.pictures,
+		thumbnails: payload.thumbnails,
 		for_whom: payload.forWhom,
 		product_colors: payload.colors,
 		product_sizes: payload.sizes,
@@ -574,6 +624,7 @@ function* setOfferServiceToEditSaga(payload: setOfferServiceToEditPayloadType) {
 	const newPayload = {
 		title: payload.title,
 		pictures: payload.pictures,
+		thumbnails: payload.thumbnails,
 		description: payload.description,
 		for_whom: payload.forWhom,
 		service_availability_days: payload.service_availability_days,

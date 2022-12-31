@@ -143,6 +143,22 @@ import GetServiceCart from '../../../../../components/groupedComponents/cart/get
 // 	);
 // };
 const customCartTheme = customCartModalTheme();
+const customTheme = OfferReadOnlyTheme();
+const navigationTheme = doubleTabNavigationTheme();
+
+const customThemeButton = CustomTheme('#0274d7');
+const buttonTheme = createTheme({
+	...customThemeButton,
+	components: {
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					padding: '0px',
+				},
+			},
+		},
+	},
+});
 const OfferCreatorBanner = () => {
 	return (
 		<Box
@@ -215,9 +231,13 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		description,
 		offer_categories,
 		picture_1,
+		picture_1_thumb,
 		picture_2,
+		picture_2_thumb,
 		picture_3,
+		picture_3_thumb,
 		picture_4,
+		picture_4_thumb,
 		details_offer,
 		price,
 		solder_type,
@@ -233,6 +253,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	} = data;
 
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
+	const [availableThumbnails, setAvailableThumbnails] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
 	const [clickedImage, setClickedImage] = useState<string | null>(null);
 	const [clickedMobileImage, setClickedMobileImage] = useState<string | null>(null);
@@ -265,17 +286,15 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const [showDesktopCartModal, setShowDesktopCartModal] = useState<boolean>(false);
 	const [showMobileCartModal, setShowMobileCartModal] = useState<boolean>(false);
 
+
 	useEffect(() => {
 		// set images
-		if (picture_1) {
-			setSelectedImage(picture_1);
-		} else {
-			setSelectedImage(null);
-		}
 		const availableImages: Array<string> = [];
 		if (picture_1) {
 			availableImages.push(picture_1);
 			setSelectedImage(picture_1);
+		} else {
+			setSelectedImage(null);
 		}
 		if (picture_2) {
 			availableImages.push(picture_2);
@@ -287,7 +306,20 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 			availableImages.push(picture_4);
 		}
 		setAvailableImages(availableImages);
-
+		const thumbnails: Array<string> = [];
+		if (picture_1_thumb) {
+			thumbnails.push(picture_1_thumb);
+		}
+		if (picture_2_thumb) {
+			thumbnails.push(picture_2_thumb);
+		}
+		if (picture_3_thumb) {
+			thumbnails.push(picture_3_thumb);
+		}
+		if (picture_4_thumb) {
+			thumbnails.push(picture_4_thumb);
+		}
+		setAvailableThumbnails(thumbnails);
 		// if (pinned) {
 		// 	setPinnedIconState(EpinglerActiveSVG);
 		// } else {
@@ -401,19 +433,24 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		thirtyPourcentSolder,
 		twentyPourcentSolder,
 		description,
+		picture_1_thumb,
+		picture_2_thumb,
+		picture_3_thumb,
+		picture_4_thumb,
 	]);
+	const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+	const showThumbnail = useCallback((index: number) => {
+		setSelectedImage(availableImages[index]);
+		setSelectedImageIndex(index);
+	}, [availableImages]);
 
-	const showThumbnail = (src: string) => {
-		setSelectedImage(src);
-	};
-
-	const showImage = (src: string) => {
+	const showImage = useCallback((src: string) => {
 		setClickedImage(src);
-	};
+	}, []);
 
-	const showMobileImage = (src: string) => {
+	const showMobileImage = useCallback((src: string) => {
 		setClickedMobileImage(src);
-	};
+	}, []);
 
 	const setSolderPourcentageInput = useCallback(
 		(value: string) => {
@@ -498,6 +535,19 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 				dataURL: picture_4,
 			});
 		}
+		const thumbnails: Array<string> = [];
+		if (picture_1_thumb) {
+			thumbnails.push(picture_1_thumb);
+		}
+		if (picture_2_thumb) {
+			thumbnails.push(picture_2_thumb);
+		}
+		if (picture_3_thumb) {
+			thumbnails.push(picture_3_thumb);
+		}
+		if (picture_4_thumb) {
+			thumbnails.push(picture_4_thumb);
+		}
 		const deliveriesObjList: {
 			delivery_city_1: string;
 			all_cities_1: boolean;
@@ -574,6 +624,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 			title: title,
 			description: description,
 			pictures: pictures,
+			thumbnails: thumbnails,
 			forWhom: for_whom.join(','),
 			colors: details_offer.product_colors.join(','),
 			sizes: details_offer.product_sizes.join(','),
@@ -613,9 +664,13 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		made_in_label?.name,
 		offer_categories,
 		picture_1,
+		picture_1_thumb,
 		picture_2,
+		picture_2_thumb,
 		picture_3,
+		picture_3_thumb,
 		picture_4,
+		picture_4_thumb,
 		pk,
 		price,
 		router,
@@ -671,9 +726,9 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		];
 	}, [deleteOfferHandler]);
 
-	const showDeleteOfferModal = () => {
+	const showDeleteOfferModal = useCallback(() => {
 		setShowDeleteModal(true);
-	};
+	}, []);
 
 	const handleSaveSolder = useCallback(() => {
 		let valueToSend;
@@ -727,9 +782,9 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		});
 	}, [dispatch, pk, router]);
 
-	const solderTabHandleChange = (event: React.SyntheticEvent, solderBy: OfferSolderByType) => {
+	const solderTabHandleChange = useCallback((event: React.SyntheticEvent, solderBy: OfferSolderByType) => {
 		setSolderByState(solderBy);
-	};
+	}, []);
 
 	const dropDownActions: DropDownActionType = useMemo(() => {
 		return [
@@ -754,30 +809,13 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 				onClick: showDeleteOfferModal,
 			},
 		];
-	}, [editOfferHandler]);
+	}, [editOfferHandler, showDeleteOfferModal]);
 
-	const customTheme = OfferReadOnlyTheme();
-	const navigationTheme = doubleTabNavigationTheme();
-
-	const customThemeButton = CustomTheme('#0274d7');
-	const buttonTheme = createTheme({
-		...customThemeButton,
-		components: {
-			MuiButton: {
-				styleOverrides: {
-					root: {
-						padding: '0px',
-					},
-				},
-			},
-		},
-	});
-
-	const voirPlusHandler = (value: boolean) => {
+	const voirPlusHandler = useCallback((value: boolean) => {
 		setVoirPlus(value);
-	};
+	}, []);
 
-	const VoirPlusMoinButtons = () => {
+	const VoirPlusMoinButtons = useCallback(() => {
 		if (description && description.length > 300) {
 			if (voirPlus) {
 				return (
@@ -799,32 +837,32 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		} else {
 			return null;
 		}
-	};
+	}, [description, voirPlus, voirPlusHandler]);
 
 	const [addedToCart, setAddedToCart] = useState<boolean>(exist_in_cart);
-	const AddProductToCartHandler = async (
-		picked_color: string | null,
-		picked_size: string | null,
-		picked_quantity: number,
-	) => {
-		if (picked_quantity <= 0) {
-			return;
-		}
-		const action = cartPostProductRootUniqueIDAction(pk, 'V', unique_id, picked_color, picked_size, picked_quantity);
-		dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<CartPostProductRoot>) => {
-				if (!error && !cancelled && data) {
-					router.replace(router.asPath).then(() => {
-						setAddedToCart(true);
-						dispatch(cartGetCartCounterAction(unique_id));
-						setShowMobileCartModal(false);
-						setShowDesktopCartModal(false);
-					});
-				}
-			},
-		});
-	};
+
+	const AddProductToCartHandler = useCallback(
+		async (picked_color: string | null, picked_size: string | null, picked_quantity: number) => {
+			if (picked_quantity <= 0) {
+				return;
+			}
+			const action = cartPostProductRootUniqueIDAction(pk, 'V', unique_id, picked_color, picked_size, picked_quantity);
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<CartPostProductRoot>) => {
+					if (!error && !cancelled && data) {
+						router.replace(router.asPath).then(() => {
+							setAddedToCart(true);
+							dispatch(cartGetCartCounterAction(unique_id));
+							setShowMobileCartModal(false);
+							setShowDesktopCartModal(false);
+						});
+					}
+				},
+			});
+		},
+		[dispatch, pk, router, unique_id],
+	);
 
 	return (
 		<ThemeProvider theme={customTheme}>
@@ -848,22 +886,22 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 								<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }}>
 									<Stack direction="row" spacing={3}>
 										<Stack direction="column" spacing={1.8}>
-											{availableImages.length > 0 ? (
-												availableImages.map((image, index) => (
+											{availableThumbnails.length > 0 ? (
+												availableThumbnails.map((image, index) => (
 													<ImageListItem key={index}>
-														{image ? (
+														{image && (
 															<Image
 																className={`${Styles.thumbnails} ${
-																	image === selectedImage ? Styles.selectedThumbnail : null
+																	selectedImageIndex === index ? Styles.selectedThumbnail : null
 																}`}
 																src={image}
 																width={80}
 																height={80}
 																sizes="100vw"
-																onClick={() => showThumbnail(image)}
+																onClick={() => showThumbnail(index)}
 																alt=""
 															/>
-														) : null}
+														)}
 													</ImageListItem>
 												))
 											) : (
@@ -895,7 +933,9 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 													width={590}
 													height={388}
 													sizes="100vw"
-													onClick={() => showImage(selectedImage)}
+													onClick={() => {
+														showImage(selectedImage);
+													}}
 													alt=""
 												/>
 												{creator_label && (
@@ -952,8 +992,8 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 											scrollbar={{ enabled: false }}
 											className={Styles.swiperSlide}
 										>
-											{availableImages.length > 0 ? (
-												availableImages.map((image, index) => {
+											{availableThumbnails.length > 0 ? (
+												availableThumbnails.map((image, index) => {
 													return (
 														<SwiperSlide key={index}>
 															<Box className={Styles.mainImageWrapper}>
@@ -962,7 +1002,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 																	src={image}
 																	width={365}
 																	height={240}
-																	onClick={() => showMobileImage(image)}
+																	onClick={() => showMobileImage(availableImages[index])}
 																	sizes="100vw"
 																	alt=""
 																/>
@@ -1506,9 +1546,13 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		description,
 		offer_categories,
 		picture_1,
+		picture_1_thumb,
 		picture_2,
+		picture_2_thumb,
 		picture_3,
+		picture_3_thumb,
 		picture_4,
+		picture_4_thumb,
 		details_offer,
 		price,
 		solder_type,
@@ -1520,6 +1564,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		// tags,
 	} = data;
 	const [availableImages, setAvailableImages] = useState<Array<string>>([]);
+	const [availableThumbnails, setAvailableThumbnails] = useState<Array<string>>([]);
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
 	const [clickedImage, setClickedImage] = useState<string | null>(null);
 	const [clickedMobileImage, setClickedMobileImage] = useState<string | null>(null);
@@ -1553,16 +1598,12 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	const [showMobileCartModal, setShowMobileCartModal] = useState<boolean>(false);
 
 	useEffect(() => {
-		// set images
-		if (picture_1) {
-			setSelectedImage(picture_1);
-		} else {
-			setSelectedImage(null);
-		}
 		const availableImages: Array<string> = [];
 		if (picture_1) {
 			availableImages.push(picture_1);
 			setSelectedImage(picture_1);
+		} else {
+			setSelectedImage(null);
 		}
 		if (picture_2) {
 			availableImages.push(picture_2);
@@ -1574,6 +1615,20 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			availableImages.push(picture_4);
 		}
 		setAvailableImages(availableImages);
+		const thumbnails: Array<string> = [];
+		if (picture_1_thumb) {
+			thumbnails.push(picture_1_thumb);
+		}
+		if (picture_2_thumb) {
+			thumbnails.push(picture_2_thumb);
+		}
+		if (picture_3_thumb) {
+			thumbnails.push(picture_3_thumb);
+		}
+		if (picture_4_thumb) {
+			thumbnails.push(picture_4_thumb);
+		}
+		setAvailableThumbnails(thumbnails);
 		// if (pinned) {
 		// 	setPinnedIconState(EpinglerActiveSVG);
 		// } else {
@@ -1662,6 +1717,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			}
 		}
 	}, [
+		description,
 		details_offer,
 		fiftyPourcentSolder,
 		fivePourcentSolder,
@@ -1669,9 +1725,13 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		newSolderPourcentageValue,
 		offer_categories,
 		picture_1,
+		picture_1_thumb,
 		picture_2,
+		picture_2_thumb,
 		picture_3,
+		picture_3_thumb,
 		picture_4,
+		picture_4_thumb,
 		price,
 		seventyPourcentSolder,
 		solder_type,
@@ -1679,80 +1739,84 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		tenPourcentSolder,
 		thirtyPourcentSolder,
 		twentyPourcentSolder,
-		description,
 	]);
 
-	const showThumbnail = (src: string) => {
-		setSelectedImage(src);
-	};
+	const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+	const showThumbnail = useCallback((index: number) => {
+		setSelectedImage(availableImages[index]);
+		setSelectedImageIndex(index);
+	}, [availableImages]);
 
-	const showImage = (src: string) => {
+	const showImage = useCallback((src: string) => {
 		setClickedImage(src);
-	};
+	}, []);
 
-	const showMobileImage = (src: string) => {
+	const showMobileImage = useCallback((src: string) => {
 		setClickedMobileImage(src);
-	};
+	}, []);
 
-	const setSolderPourcentageInput = (value: string) => {
-		if (typeof price === 'number') {
-			const newValue = price - (price * parseFloat(value)) / 100;
-			setNewSolderPourcentageValue(newValue.toString());
-		}
-		setSolderPourcentageForApi(value);
-		switch (value) {
-			case '5':
-				setFivePourcentSolder((prevState) => !prevState);
-				setTenPourcentSolder(false);
-				setTwentyPourcentSolder(false);
-				setThirtyPourcentSolder(false);
-				setFiftyPourcentSolder(false);
-				setSeventyPourcentSolder(false);
-				break;
-			case '10':
-				setTenPourcentSolder((prevState) => !prevState);
-				setFivePourcentSolder(false);
-				setTwentyPourcentSolder(false);
-				setThirtyPourcentSolder(false);
-				setFiftyPourcentSolder(false);
-				setSeventyPourcentSolder(false);
-				break;
-			case '20':
-				setTwentyPourcentSolder((prevState) => !prevState);
-				setFivePourcentSolder(false);
-				setTenPourcentSolder(false);
-				setThirtyPourcentSolder(false);
-				setFiftyPourcentSolder(false);
-				setSeventyPourcentSolder(false);
-				break;
-			case '30':
-				setThirtyPourcentSolder((prevState) => !prevState);
-				setFivePourcentSolder(false);
-				setTenPourcentSolder(false);
-				setTwentyPourcentSolder(false);
-				setFiftyPourcentSolder(false);
-				setSeventyPourcentSolder(false);
-				break;
-			case '50':
-				setFiftyPourcentSolder((prevState) => !prevState);
-				setFivePourcentSolder(false);
-				setTenPourcentSolder(false);
-				setTwentyPourcentSolder(false);
-				setThirtyPourcentSolder(false);
-				setSeventyPourcentSolder(false);
-				break;
-			case '70':
-				setSeventyPourcentSolder((prevState) => !prevState);
-				setFivePourcentSolder(false);
-				setTenPourcentSolder(false);
-				setTwentyPourcentSolder(false);
-				setThirtyPourcentSolder(false);
-				setFiftyPourcentSolder(false);
-				break;
-		}
-	};
+	const setSolderPourcentageInput = useCallback(
+		(value: string) => {
+			if (typeof price === 'number') {
+				const newValue = price - (price * parseFloat(value)) / 100;
+				setNewSolderPourcentageValue(newValue.toString());
+			}
+			setSolderPourcentageForApi(value);
+			switch (value) {
+				case '5':
+					setFivePourcentSolder((prevState) => !prevState);
+					setTenPourcentSolder(false);
+					setTwentyPourcentSolder(false);
+					setThirtyPourcentSolder(false);
+					setFiftyPourcentSolder(false);
+					setSeventyPourcentSolder(false);
+					break;
+				case '10':
+					setTenPourcentSolder((prevState) => !prevState);
+					setFivePourcentSolder(false);
+					setTwentyPourcentSolder(false);
+					setThirtyPourcentSolder(false);
+					setFiftyPourcentSolder(false);
+					setSeventyPourcentSolder(false);
+					break;
+				case '20':
+					setTwentyPourcentSolder((prevState) => !prevState);
+					setFivePourcentSolder(false);
+					setTenPourcentSolder(false);
+					setThirtyPourcentSolder(false);
+					setFiftyPourcentSolder(false);
+					setSeventyPourcentSolder(false);
+					break;
+				case '30':
+					setThirtyPourcentSolder((prevState) => !prevState);
+					setFivePourcentSolder(false);
+					setTenPourcentSolder(false);
+					setTwentyPourcentSolder(false);
+					setFiftyPourcentSolder(false);
+					setSeventyPourcentSolder(false);
+					break;
+				case '50':
+					setFiftyPourcentSolder((prevState) => !prevState);
+					setFivePourcentSolder(false);
+					setTenPourcentSolder(false);
+					setTwentyPourcentSolder(false);
+					setThirtyPourcentSolder(false);
+					setSeventyPourcentSolder(false);
+					break;
+				case '70':
+					setSeventyPourcentSolder((prevState) => !prevState);
+					setFivePourcentSolder(false);
+					setTenPourcentSolder(false);
+					setTwentyPourcentSolder(false);
+					setThirtyPourcentSolder(false);
+					setFiftyPourcentSolder(false);
+					break;
+			}
+		},
+		[price],
+	);
 
-	const editOfferHandler = () => {
+	const editOfferHandler = useCallback(() => {
 		const pictures: ImageUploadingType = [];
 		if (picture_1) {
 			pictures.push({
@@ -1774,12 +1838,26 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 				dataURL: picture_4,
 			});
 		}
+		const thumbnails: Array<string> = [];
+		if (picture_1_thumb) {
+			thumbnails.push(picture_1_thumb);
+		}
+		if (picture_2_thumb) {
+			thumbnails.push(picture_2_thumb);
+		}
+		if (picture_3_thumb) {
+			thumbnails.push(picture_3_thumb);
+		}
+		if (picture_4_thumb) {
+			thumbnails.push(picture_4_thumb);
+		}
 		const action = setOfferServiceToEdit({
 			pk: pk,
 			categoriesList: offer_categories,
 			title: title,
 			description: description,
 			pictures: pictures,
+			thumbnails: thumbnails,
 			forWhom: for_whom.join(','),
 			service_availability_days: details_offer.service_availability_days,
 			service_morning_hour_from: details_offer.service_morning_hour_from,
@@ -1803,7 +1881,35 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 				}
 			},
 		});
-	};
+	}, [
+		description,
+		details_offer.service_address,
+		details_offer.service_afternoon_hour_from,
+		details_offer.service_afternoon_hour_to,
+		details_offer.service_availability_days,
+		details_offer.service_km_radius,
+		details_offer.service_latitude,
+		details_offer.service_longitude,
+		details_offer.service_morning_hour_from,
+		details_offer.service_morning_hour_to,
+		details_offer.service_price_by,
+		details_offer.service_zone_by,
+		dispatch,
+		for_whom,
+		offer_categories,
+		picture_1,
+		picture_1_thumb,
+		picture_2,
+		picture_2_thumb,
+		picture_3,
+		picture_3_thumb,
+		picture_4,
+		picture_4_thumb,
+		pk,
+		price,
+		router,
+		title,
+	]);
 
 	// const togglePinOfferHandler = () => {
 	// 	const action = offerPostPinAction(pk);
@@ -1825,7 +1931,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	// 	setOpenSolderModal(true);
 	// };
 
-	const deleteOfferHandler = () => {
+	const deleteOfferHandler = useCallback(() => {
 		const action = offerDeleteRootAction(pk);
 		dispatch({
 			...action,
@@ -1836,26 +1942,28 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			},
 		});
 		setShowDeleteModal(false);
-	};
+	}, [dispatch, pk, router]);
 
-	const deleteModalActions = [
-		{
-			active: true,
-			text: 'Oui',
-			onClick: deleteOfferHandler,
-		},
-		{
-			active: false,
-			text: 'Non',
-			onClick: () => setShowDeleteModal(false),
-		},
-	];
+	const deleteModalActions = useMemo(() => {
+		return [
+			{
+				active: true,
+				text: 'Oui',
+				onClick: deleteOfferHandler,
+			},
+			{
+				active: false,
+				text: 'Non',
+				onClick: () => setShowDeleteModal(false),
+			},
+		];
+	}, [deleteOfferHandler]);
 
-	const showDeleteOfferModal = () => {
+	const showDeleteOfferModal = useCallback(() => {
 		setShowDeleteModal(true);
-	};
+	}, []);
 
-	const handleSaveSolder = () => {
+	const handleSaveSolder = useCallback(() => {
 		let valueToSend;
 		if (solderPourcentageForApi && solderByState === 'P') {
 			valueToSend = solderPourcentageForApi;
@@ -1889,9 +1997,9 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 				},
 			});
 		}
-	};
+	}, [dispatch, newSolderValue, pk, router, solderByState, solderPourcentageForApi, solder_value]);
 
-	const deleteSolderHandler = () => {
+	const deleteSolderHandler = useCallback(() => {
 		// dispatch delete
 		const action = offerDeleteSolderAction(pk);
 		dispatch({
@@ -1905,14 +2013,15 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 				}
 			},
 		});
-	};
+	}, [dispatch, pk, router]);
 
-	const solderTabHandleChange = (event: React.SyntheticEvent, solderBy: OfferSolderByType) => {
+	const solderTabHandleChange = useCallback((event: React.SyntheticEvent, solderBy: OfferSolderByType) => {
 		setSolderByState(solderBy);
-	};
+	}, []);
 
-	const dropDownActions: DropDownActionType = [
-		{
+	const dropDownActions: DropDownActionType = useMemo(() => {
+		return [
+			{
 			icon: EditBlackSVG,
 			text: 'Modifier',
 			onClick: editOfferHandler,
@@ -1932,30 +2041,14 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			text: 'Supprimer',
 			onClick: showDeleteOfferModal,
 		},
-	];
+		]
+	}, [editOfferHandler, showDeleteOfferModal]);
 
-	const customTheme = OfferReadOnlyTheme();
-	const navigationTheme = doubleTabNavigationTheme();
-
-	const customThemeButton = CustomTheme('#0274d7');
-	const buttonTheme = createTheme({
-		...customThemeButton,
-		components: {
-			MuiButton: {
-				styleOverrides: {
-					root: {
-						padding: '0px',
-					},
-				},
-			},
-		},
-	});
-
-	const voirPlusHandler = (value: boolean) => {
+	const voirPlusHandler = useCallback((value: boolean) => {
 		setVoirPlus(value);
-	};
+	}, []);
 
-	const VoirPlusMoinButtons = () => {
+	const VoirPlusMoinButtons = useCallback(() => {
 		if (description && description.length > 300) {
 			if (voirPlus) {
 				return (
@@ -1977,10 +2070,11 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		} else {
 			return null;
 		}
-	};
+	}, [description, voirPlus, voirPlusHandler]);
 
 	const [addedToCart, setAddedToCart] = useState<boolean>(exist_in_cart);
-	const AddServiceToCartHandler = (picked_date: string, picked_hour: string) => {
+
+	const AddServiceToCartHandler = useCallback(async (picked_date: string, picked_hour: string) => {
 		const action = cartPostServiceRootUniqueIDAction(pk, 'S', unique_id, picked_date, picked_hour);
 		dispatch({
 			...action,
@@ -1995,7 +2089,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 				}
 			},
 		});
-	};
+	}, [dispatch, pk, router, unique_id]);
 
 	return (
 		<ThemeProvider theme={customTheme}>
@@ -2019,22 +2113,22 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 								<Stack direction="column" spacing={5} sx={{ maxWidth: '55%' }}>
 									<Stack direction="row" spacing={3}>
 										<Stack direction="column" spacing={1.8}>
-											{availableImages.length > 0 ? (
-												availableImages.map((image, index) => (
+											{availableThumbnails.length > 0 ? (
+												availableThumbnails.map((image, index) => (
 													<ImageListItem key={index}>
-														{image ? (
+														{image && (
 															<Image
 																className={`${Styles.thumbnails} ${
-																	image === selectedImage ? Styles.selectedThumbnail : null
+																	selectedImageIndex === index ? Styles.selectedThumbnail : null
 																}`}
 																src={image}
 																width={80}
 																height={80}
 																sizes="100vw"
-																onClick={() => showThumbnail(image)}
+																onClick={() => showThumbnail(index)}
 																alt=""
 															/>
-														) : null}
+														)}
 													</ImageListItem>
 												))
 											) : (
@@ -2066,7 +2160,9 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 													width={590}
 													height={388}
 													sizes="100vw"
-													onClick={() => showImage(selectedImage)}
+													onClick={() => {
+														showImage(selectedImage);
+													}}
 													alt=""
 												/>
 											</Box>
@@ -2111,8 +2207,8 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 											scrollbar={{ enabled: false }}
 											className={Styles.swiperSlide}
 										>
-											{availableImages.length > 0 ? (
-												availableImages.map((image, index) => {
+											{availableThumbnails.length > 0 ? (
+												availableThumbnails.map((image, index) => {
 													return (
 														<SwiperSlide key={index}>
 															<Box className={Styles.mainImageWrapper}>
@@ -2121,7 +2217,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 																	src={image}
 																	width={365}
 																	height={240}
-																	onClick={() => showMobileImage(image)}
+																	onClick={() => showMobileImage(availableImages[index])}
 																	sizes="100vw"
 																	// loading="eager"
 																	// priority={true}
@@ -2565,7 +2661,7 @@ const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 
 	useEffect(() => {
 		if (permission === 'OWNER' && data) {
-			dispatch(setSelectedOfferAction(data))
+			dispatch(setSelectedOfferAction(data));
 		}
 	}, [data, dispatch, permission]);
 

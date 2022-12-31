@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef } from "react";
 import Styles from './customSquareImageUploading.module.sass';
 import ImageUploading from 'react-images-uploading';
 import { Box, Stack } from '@mui/material';
@@ -11,22 +11,47 @@ import {
 	IMAGE_FORMAT,
 	IMAGE_SIZE_LIMIT_REACHED,
 } from '../../../utils/formValidationErrorMessages';
-import ImageModal from '../../desktop/modals/imageModal/imageModal';
-import { customImageModalTheme } from '../../../utils/themes';
+import 'cropperjs/dist/cropper.css';
+import Cropper, { ReactCropperElement } from 'react-cropper';
 
 type Props = {
 	images: ImageListType;
 	onChange: (imageList: ImageListType, addUpdateIndex?: Array<number>) => void;
+	onCrop: (data: string | null, index: number) => void;
 	maxNumber: number;
 	children?: React.ReactNode;
 };
 
 const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
-	const [clickedImage, setClickedImage] = useState<string | null>(null);
+	const cropperRefOne = useRef<ReactCropperElement>(null);
+	const cropperRefTwo = useRef<ReactCropperElement>(null);
+	const cropperRefThree = useRef<ReactCropperElement>(null);
+	const cropperRefFfour = useRef<ReactCropperElement>(null);
 
-	const showImage = (src: string) => {
-		setClickedImage(src);
+	const refArrays = [
+		cropperRefOne,
+		cropperRefTwo,
+		cropperRefThree,
+		cropperRefFfour,
+	]
+
+	const onCropEnd = (index: number) => {
+		const imageElement: ReactCropperElement | null = refArrays[index]?.current;
+		const cropper = imageElement?.cropper;
+		if (cropper) {
+			const data = cropper.getCroppedCanvas().toDataURL();
+			props.onCrop(data, index);
+		}
 	};
+
+	const onCropClear = (index: number) => {
+		const imageElement: ReactCropperElement | null = refArrays[index]?.current;
+		const cropper = imageElement?.cropper;
+		if (cropper) {
+			cropper.clear();
+			props.onCrop(null, index);
+		}
+	}
 
 	return (
 		<>
@@ -50,18 +75,39 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 										className={Styles.addImagesWrapper}
 										justifyContent="center"
 										alignItems="center"
+										id="offersCropper"
 									>
-										<Image
+										{/*<Image*/}
+										{/*	className={Styles.showImage}*/}
+										{/*	src={image['dataURL'] as string}*/}
+										{/*	alt=""*/}
+										{/*	width={250}*/}
+										{/*	height={160}*/}
+										{/*	loading="eager"*/}
+										{/*	priority={true}*/}
+										{/*	onClick={() => showImage(image['dataURL'] as string)}*/}
+										{/*/>*/}
+										<Cropper
+											ref={refArrays[index]}
 											className={Styles.showImage}
 											src={image['dataURL'] as string}
-											alt=""
-											width={250}
-											height={160}
-											loading="eager"
-											priority={true}
-											onClick={() => showImage(image['dataURL'] as string)}
+											cropBoxResizable={false}
+											initialAspectRatio={36/25}
+											minCropBoxWidth={360}
+											minCropBoxHeight={250}
+											minCanvasWidth={360}
+											minCanvasHeight={250}
+											minContainerWidth={360}
+											minContainerHeight={250}
+											dragMode="move"
+											viewMode={3}
+											crop={() => onCropEnd(index)}
+											// cropend={() => onCropEnd(index)}
 										/>
-										<Box className={Styles.closeButtonWrapper} onClick={() => onImageRemove(index)}>
+										<Box className={Styles.closeButtonWrapper} onClick={() => {
+											onImageRemove(index);
+											onCropClear(index);
+										}}>
 											<Image src={CircularRemoveBlack} alt="" width="32" height="32" sizes="100vw" />
 										</Box>
 									</Stack>
@@ -79,21 +125,21 @@ const CustomSquareImageUploading: React.FC<Props> = (props: Props) => {
 					</>
 				)}
 			</ImageUploading>
-			{clickedImage && (
-				<ImageModal
-					open={!!clickedImage}
-					handleClose={() => setClickedImage(null)}
-					direction="up"
-					onBackdrop={() => setClickedImage(null)}
-					fullScreen={true}
-					theme={customImageModalTheme()}
-					cssClasse={Styles.clickedImageModal}
-				>
-					<Box className={Styles.clickedImageBox}>
-						<Image className={Styles.clickedImage} src={clickedImage} width={590} height={388} sizes="100vw" alt="" />
-					</Box>
-				</ImageModal>
-			)}
+			{/*{clickedImage && (*/}
+			{/*	<ImageModal*/}
+			{/*		open={!!clickedImage}*/}
+			{/*		handleClose={() => setClickedImage(null)}*/}
+			{/*		direction="up"*/}
+			{/*		onBackdrop={() => setClickedImage(null)}*/}
+			{/*		fullScreen={true}*/}
+			{/*		theme={customImageModalTheme()}*/}
+			{/*		cssClasse={Styles.clickedImageModal}*/}
+			{/*	>*/}
+			{/*		<Box className={Styles.clickedImageBox}>*/}
+			{/*			<Image className={Styles.clickedImage} src={clickedImage} width={590} height={388} sizes="100vw" alt="" />*/}
+			{/*		</Box>*/}
+			{/*	</ImageModal>*/}
+			{/*)}*/}
 		</>
 	);
 };

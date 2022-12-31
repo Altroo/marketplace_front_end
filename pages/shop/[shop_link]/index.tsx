@@ -79,6 +79,9 @@ import IconDropDownMenu from '../../../components/htmlElements/buttons/IconDropD
 import DismissMessageModal from '../../../components/htmlElements/modals/dismissMessageModal/dismissMessageModal';
 import { getShopWSAvatar } from '../../../store/selectors';
 import { NextSeo } from 'next-seo';
+import { customOrderActionsModalTheme } from '../../../utils/themes';
+import 'cropperjs/dist/cropper.css';
+import Cropper, { ReactCropperElement } from 'react-cropper';
 
 export type ShopInfoDataType = {
 	shop_name: string;
@@ -340,7 +343,6 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const [openFontModal, setOpenFontModal] = useState<boolean>(false);
 
 	const avatarInputOnClickHandler = useCallback(() => {
-		// e.preventDefault();
 		if (!avatarInputRef.current) {
 			return;
 		}
@@ -540,31 +542,48 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 		}
 	}, []);
 
+	const cropperRef = useRef<ReactCropperElement>(null);
+	const [openCropModal, setOpenCropModal] = useState<boolean>(false);
+
 	const avatarInputOnChangeUploadHandler = useMemo(
 		() => (e: React.ChangeEvent<HTMLInputElement>) => {
 			if (!e.target.files) {
 				return;
 			}
-			setPreview(null);
 			const file = e.target.files[0];
 			if (file && file.type.substring(0, 5) === 'image') {
+				// to trigger loading skeleton animation
+				setPreview(null);
 				const reader = new FileReader();
 				reader.readAsDataURL(file);
 				reader.onloadend = () => {
-					const action = shopPatchAvatarAction(reader.result as string);
-					dispatch({
-						...action,
-						onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
-							if (!error && !cancelled && data) {
-								router.replace(router.asPath).then();
-							}
-						},
-					});
+					setPreview(reader.result as string);
+					setOpenCropModal(true);
 				};
 			}
 		},
-		[dispatch, router],
+		[],
 	);
+
+	const onSaveCropImage = useCallback(() => {
+		const imageElement: ReactCropperElement | null = cropperRef?.current;
+		const cropper = imageElement?.cropper;
+		if (cropper) {
+			const dataUrl = cropper.getCroppedCanvas().toDataURL();
+			const action = shopPatchAvatarAction(dataUrl);
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompleteBoolType) => {
+					if (!error && !cancelled && data) {
+						router.replace(router.asPath).then(() => {
+							setPreview(dataUrl);
+							setOpenCropModal(false);
+						});
+					}
+				},
+			});
+		}
+	}, [dispatch, router]);
 
 	return (
 		<>
@@ -985,6 +1004,46 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 							</Backdrop>
 						</>
 					)}
+					{/* Start crop shop avatar */}
+					<CustomSwipeModal
+						keepMounted={false}
+						direction="up"
+						fullScreen={false}
+						showCloseIcon={false}
+						onBackdrop={() => {}}
+						theme={customOrderActionsModalTheme()}
+						transition
+						open={openCropModal}
+						handleClose={() => setOpenCropModal(false)}
+						cssClasse={Styles.centerModal}
+					>
+						<Stack direction="column" spacing="24px" id="shopAvatarCropper">
+							<Cropper
+								src={preview as string}
+								style={{ height: '100%', width: '100%' }}
+								cropBoxResizable={false}
+								initialAspectRatio={4 / 4}
+								minCropBoxWidth={98}
+								minCropBoxHeight={98}
+								minCanvasWidth={98}
+								minCanvasHeight={98}
+								minContainerHeight={98}
+								minContainerWidth={98}
+								dragMode="move"
+								ref={cropperRef}
+								viewMode={3}
+							/>
+							<Stack direction="row" width="100%" justifyContent="center" pb="24px">
+								<PrimaryButton
+									buttonText="Enregistrer"
+									active={true}
+									onClick={onSaveCropImage}
+									cssClass={Styles.cropButton}
+								/>
+							</Stack>
+						</Stack>
+					</CustomSwipeModal>
+					{/* shop avatar crop end */}
 				</main>
 				<CustomFooter />
 			</Stack>

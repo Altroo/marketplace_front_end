@@ -18,7 +18,6 @@ const AvatarShopNameRating: React.FC<Props> = (props: Props) => {
 			<div>
 				<CircularAvatarInputFile setAvatar={props.setAvatar} preview={props.preview} active={props.active}/>
 			</div>
-			{/*<div className={Styles.shopNameContainer}>*/}
 			<h2
 				className={Styles.shopName}
 				style={{
@@ -33,17 +32,6 @@ const AvatarShopNameRating: React.FC<Props> = (props: Props) => {
 				}}>
 				{props.shopName}
 			</h2>
-				{/*<div className={Styles.ratingContainer}>*/}
-				{/*	<Image*/}
-				{/*				src={BlackStarSVG}*/}
-				{/*				alt=""*/}
-				{/*				width="20"*/}
-				{/*				height="20"*/}
-				{/*				sizes="100vw"*/}
-				{/*			/>*/}
-				{/*	<span>Votre note</span>*/}
-				{/*</div>*/}
-			{/*</div>*/}
 		</div>
 	);
 };

@@ -1,8 +1,8 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useCallback } from 'react';
 import Styles from './circularAvatarInputFile.module.sass';
 import Image from 'next/image';
 import AvatarIconSVG from '../../../../public/assets/svgs/globalIcons/avatar.svg';
-import { Stack } from "@mui/material";
+import { Stack } from '@mui/material';
 
 type Props = {
 	preview: string | ArrayBuffer | null;
@@ -35,13 +35,13 @@ const CircularAvatarInputFile: React.FC<Props> = (props: Props) => {
 	);
 
 	// opens hidden avatar input
-	const avatarInputOnClickHandler = (e: React.MouseEvent<HTMLDivElement | HTMLSpanElement>) => {
+	const avatarInputOnClickHandler = useCallback((e: React.MouseEvent<HTMLDivElement | HTMLSpanElement>) => {
 		e.preventDefault();
 		if (!fileInputRef.current) {
 			return;
 		}
 		fileInputRef.current.click();
-	};
+	}, []);
 
 	return (
 		<Stack direction="column" spacing={1} justifyContent="center" alignItems="center">

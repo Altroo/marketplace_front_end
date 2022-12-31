@@ -46,6 +46,7 @@ import {
 	getLocalOfferProductPictures,
 	getLocalOfferProductQuantity,
 	getLocalOfferProductSizes,
+	getLocalOfferProductThumbnails,
 	getLocalOfferProductTitle,
 } from '../../../../../store/selectors';
 import { forWhomItemsList, getForWhomDataArray } from '../../../../../utils/rawData';
@@ -56,6 +57,7 @@ import { getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../
 import { AccountGetCheckAccountResponseType } from '../../../../../types/account/accountTypes';
 import { getApi } from '../../../../../store/services/_init/_initAPI';
 import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
+import { __spreadArrays } from "tslib";
 
 // themes
 const titleFieldTheme = coordonneeTextInputTheme();
@@ -69,9 +71,6 @@ const Description: NextPage = () => {
 	const router = useRouter();
 	const [titleTooltip, setTitleTooltip] = useState<boolean>(false);
 	const [selectedColorsList, setselectedColorsList] = useState<Array<string>>([]);
-	// const [offerTitle, setOfferTitle] = useState<string>('');
-	// const [offerDescription, setOfferDescription] = useState<string>('');
-	// const [images, setImages] = useState<ImageUploadingType>([]);
 	const [forWhomChoice, setForWhomChoice] = useState<Array<string>>([]);
 	const [xsState, setXsState] = useState<boolean>(false);
 	const [sState, setSState] = useState<boolean>(false);
@@ -101,6 +100,7 @@ const Description: NextPage = () => {
 	const [quantity, setQuantity] = useState<number>(0);
 	const pickedTitle = useAppSelector(getLocalOfferProductTitle);
 	const pickedPictures = useAppSelector(getLocalOfferProductPictures);
+	const pickedThumbnails = useAppSelector(getLocalOfferProductThumbnails);
 	const pickedForWhom = useAppSelector(getLocalOfferProductForwhom);
 	const pickedDescription = useAppSelector(getLocalOfferProductDescription);
 	const pickedColorsList = useAppSelector(getLocalOfferProductColors);
@@ -109,15 +109,11 @@ const Description: NextPage = () => {
 	const pickedMadeIn = useAppSelector(getLocalOfferProductMadeIn);
 	const pickedCreator = useAppSelector(getLocalOfferProductCreator);
 	const availableCountries = useAppSelector(getAvailableCountries);
-	// on change images
-
-	// const imagesOnChangeHandler = useCallback((imageList: ImageUploadingType) => {
-	// 	setImages(imageList);
-	// }, []);
 
 	type submitDataType = {
 		title: string;
 		images: ImageUploadingType | [];
+		thumbnails: Array<string>;
 		description: string;
 	};
 	const [colorSwitchOpen, setColorSwitchOpen] = useState<boolean>(false);
@@ -236,6 +232,7 @@ const Description: NextPage = () => {
 			const action = setOfferProductDescriptionPage(
 				values.title,
 				values.images,
+				values.thumbnails,
 				values.description,
 				forWhomStr,
 				productColorsStr,
@@ -301,6 +298,7 @@ const Description: NextPage = () => {
 							initialValues={{
 								title: pickedTitle ? pickedTitle : '',
 								images: pickedPictures.length > 0 ? pickedPictures : [],
+								thumbnails: pickedThumbnails.length > 0 ? pickedThumbnails : [],
 								description: pickedDescription ? pickedDescription : '',
 								made_in: pickedMadeIn ? pickedMadeIn : 'Maroc',
 							}}
@@ -361,6 +359,15 @@ const Description: NextPage = () => {
 													images={values.images}
 													onChange={(e) => {
 														setFieldValue('images', e);
+													}}
+													onCrop={(data, index) => {
+														if (data) {
+															setFieldValue(`thumbnails.${index}`, data);
+														} else {
+															const updatedList = __spreadArrays(values.thumbnails);
+															updatedList.splice(index, 1);
+															setFieldValue("thumbnails", updatedList);
+														}
 													}}
 													maxNumber={4}
 												/>
