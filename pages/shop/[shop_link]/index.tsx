@@ -971,7 +971,8 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 									</Box>
 								</Desktop>
 								<div>
-									<div className={Styles.mobileFontWrapper}>
+									<TabletAndMobile>
+										<div className={Styles.mobileFontWrapper}>
 										<div className={Styles.mobileFontContainerModal}>
 											{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
 												return (
@@ -1000,6 +1001,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 											</div>
 										</TabletAndMobile>
 									</div>
+									</TabletAndMobile>
 								</div>
 							</Backdrop>
 						</>
