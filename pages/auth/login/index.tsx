@@ -96,7 +96,7 @@ const LoginPageContent = () => {
 				<h2 className={Styles.content}>Connexion</h2>
 			</Stack>
 			<Stack direction="column" spacing={2} className={Styles.mobileWidth}>
-				<GoogleSignInButton onClick={googleSignIn} />
+				{/*<GoogleSignInButton onClick={googleSignIn} />*/}
 				<FacebookSignInButton onClick={facebookSignIn} />
 				{errorState && <span className={Styles.errorMessage}>{errorState}</span>}
 			</Stack>
