@@ -196,10 +196,6 @@ export const promoCodeSchema = Yup.object().shape({
 	promo_code: Yup.string().notRequired().nullable(),
 });
 
-export const newsLetterEmailSchema = Yup.object().shape({
-	email: Yup.string().email(MINI_INPUT_EMAIL).notRequired().nullable(),
-});
-
 export const orderVSchema = Yup.object().shape({
 	first_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
 	last_name: Yup.string().min(2, INPUT_MIN(2)).max(30, INPUT_MAX(30)).required(INPUT_REQUIRED),
