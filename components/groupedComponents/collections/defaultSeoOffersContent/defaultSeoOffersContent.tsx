@@ -423,4 +423,5 @@ const DefaultSeoOffersContent: React.FC<Props> = (props: Props) => {
 	);
 };
 
+// No longer used (client side only)
 export default DefaultSeoOffersContent;
