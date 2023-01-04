@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import Styles from './shopInfoTabContent.module.sass';
 import { Box, Button, createTheme, Stack, ThemeProvider } from "@mui/material";
 import { ShopInfoDataType } from '../../../../../pages/shop/[shop_link]';
