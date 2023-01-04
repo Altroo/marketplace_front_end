@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useCallback } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Styles from './iconDropDownMenu.module.sass';
@@ -22,13 +22,13 @@ const IconDropDownMenu: React.FC<Props> = (props: Props) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
-	const handleClick = useCallback((event: MouseEvent<HTMLImageElement>) => {
+	const handleClick = (event: MouseEvent<HTMLImageElement>) => {
 		setAnchorEl(event.currentTarget);
-	}, []);
+	};
 
-	const handleClose = useCallback(() => {
+	const handleClose = () => {
 		setAnchorEl(null);
-	}, []);
+	};
 
 	return (
 		<div className={Styles.dropDownWrapper}>

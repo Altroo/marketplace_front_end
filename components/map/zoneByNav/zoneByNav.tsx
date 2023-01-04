@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { ThemeProvider } from '@mui/material';
@@ -14,11 +14,10 @@ type Props = {
 };
 
 const ZoneByNav: React.FC<Props> = (props: Props) => {
-	const {zoneByHandler} = props;
 
-	const handleChange = useCallback((event: React.SyntheticEvent, newValue: ShopZoneByType) => {
-		zoneByHandler(newValue);
-	}, [zoneByHandler]);
+	const handleChange = (event: React.SyntheticEvent, newValue: ShopZoneByType) => {
+		props.zoneByHandler(newValue);
+	};
 
 	return (
 		<ThemeProvider theme={navigationTheme}>

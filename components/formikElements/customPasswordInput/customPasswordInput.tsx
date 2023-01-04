@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, useState, useCallback } from "react";
+import React, { ForwardedRef, forwardRef, useState } from "react";
 import {
 	ThemeProvider,
 	TextField,
@@ -29,9 +29,9 @@ const CustomPasswordInput = forwardRef<HTMLInputElement, Props>((props: Props, r
 	const { cssClass, theme, ...restOfProps } = props;
 	const [showpassword, setshowpassword] = useState<boolean>(false);
 
-	const handleClickShowPassword = useCallback(() => {
+	const handleClickShowPassword = () => {
 		setshowpassword(prevState => !prevState);
-	}, []);
+  };
 
 	return (
 		<ThemeProvider theme={theme}>

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';
 import {
 	getLocalisationName,
@@ -71,7 +71,7 @@ const ServiceLocalisation: React.FC<Props> = (props: Props) => {
 	const addressNameRef = useRef<HTMLInputElement>(null);
 	const kmRadiusRef = useRef<HTMLInputElement>(null);
 
-	const localisationHandler = useCallback((values: serviceAdressValues) => {
+	const localisationHandler = (values: serviceAdressValues) => {
 		dispatch(
 			setOfferServiceLocalisation(
 				values.service_zone_by,
@@ -81,8 +81,8 @@ const ServiceLocalisation: React.FC<Props> = (props: Props) => {
 				values.service_km_radius,
 			),
 		);
-		handleClose();
-	}, [dispatch, handleClose]);
+		props.handleClose();
+	};
 
 	useEffect(() => {
 		if (localisationName && addressNameRef.current !== null) {
@@ -102,7 +102,7 @@ const ServiceLocalisation: React.FC<Props> = (props: Props) => {
 		}
 	}, [kmRadiusState, localisationName, position.lat, position.lng, zoneByState]);
 
-	const positionHandler = useCallback((position: PositionType) => {
+	const positionHandler = (position: PositionType) => {
 		setPosition((prevState) => {
 			return { ...prevState, lat: position.lat, lng: position.lng };
 		});
@@ -116,22 +116,21 @@ const ServiceLocalisation: React.FC<Props> = (props: Props) => {
 			latitudeRef.current.value = position.lat.toString();
 			addressNameRef.current.value = localisationName;
 		}
-	}, [localisationName]);
+	};
 
-	const zoneByHandler = useCallback((zoneBy: ShopZoneByType) => {
+	const zoneByHandler = (zoneBy: ShopZoneByType) => {
 		setZoneByState(zoneBy);
 		if (zoneByRef.current !== null) {
 			zoneByRef.current.value = zoneBy;
 		}
-	}, []);
+	};
 
-	const kmRadiusHandler = useCallback((kmRadius: number) => {
+	const kmRadiusHandler = (kmRadius: number) => {
 		setKmRadiusState(kmRadius);
 		if (kmRadiusRef.current !== null) {
 			kmRadiusRef.current.value = kmRadius.toString();
 		}
-	}, []);
-
+	};
 	return (
 		<Stack direction="column" spacing={4} style={{ height: '100%' }}>
 			<Formik

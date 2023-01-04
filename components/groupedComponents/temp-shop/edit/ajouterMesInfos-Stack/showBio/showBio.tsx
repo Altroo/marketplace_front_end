@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from './showBio.module.sass';
 import { useAppSelector } from '../../../../../../utils/hooks';
 import { getShopBio } from '../../../../../../store/selectors';
@@ -36,11 +36,11 @@ const ShowBio: React.FC = () => {
 		}
 	}, [shopBio]);
 
-	const voirPlusHandler = useCallback((value: boolean) => {
+	const voirPlusHandler = (value: boolean) => {
 		setVoirPlus(value);
-	}, []);
+	};
 
-	const VoirPlusMoinButtons = useCallback(() => {
+	const VoirPlusMoinButtons = () => {
 		if (bio && bio.length > shopBioMaxLength) {
 			if (voirPlus) {
 				return (
@@ -62,7 +62,7 @@ const ShowBio: React.FC = () => {
 		} else {
 			return null;
 		}
-	}, [bio, voirPlus, voirPlusHandler]);
+	};
 
 	return (
 		<Stack direction="column" spacing={2} sx={{ wordWrap: 'break-word' }}>

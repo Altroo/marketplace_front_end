@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import Styles from './accordionFilter.module.sass';
 import { FilterAccordionTheme, FilterChipTheme } from '../../../utils/themes';
 import {
@@ -33,8 +33,7 @@ type FilterColorsGridParentType = {
 const FlterColorsGridParent: React.FC<FilterColorsGridParentType> = (props: FilterColorsGridParentType) => {
 	const { selectedColorsList, setSelectedColorsList, availableColors } = props;
 
-	const colorOnClickHandler = useCallback(
-		(color: OfferProductColors) => {
+	const colorOnClickHandler = (color: OfferProductColors) => {
 			if (!selectedColorsList.includes(color)) {
 				setSelectedColorsList((prevState) => {
 					return [...prevState, color];
@@ -47,9 +46,7 @@ const FlterColorsGridParent: React.FC<FilterColorsGridParentType> = (props: Filt
 					setSelectedColorsList(colorsList);
 				}
 			}
-		},
-		[selectedColorsList, setSelectedColorsList],
-	);
+		};
 
 	const constructColorsList: Array<OfferColorsListType> = [];
 
@@ -221,7 +218,7 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 		available_services,
 	} = availableFilters;
 
-	const applyFilterHandler = useCallback(() => {
+	const applyFilterHandler = () => {
 		let queryParams: ParsedUrlQueryInput = {
 			...router.query,
 		};
@@ -273,21 +270,9 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 		if (closeModal) {
 			closeModal();
 		}
-	}, [
-		closeModal,
-		pickedCategories,
-		pickedCities,
-		pickedColors,
-		pickedForWhom,
-		pickedLabels,
-		pickedMaroc,
-		pickedSizes,
-		pickedSolder,
-		router,
-		setApplyFiltersClicked,
-	]);
+	};
 
-	const clearFiltersHandler = useCallback(() => {
+	const clearFiltersHandler = () => {
 		setPickedCategories([]);
 		setPickedColors([]);
 		setPickedSizes([]);
@@ -327,7 +312,7 @@ const AccordionFilter: React.FC<Props> = (props: Props) => {
 			.then(() => {
 				setApplyFiltersClicked(true);
 			});
-	}, [filterFor, router, setApplyFiltersClicked]);
+	};
 
 	// Content
 	let categoriesFilter;

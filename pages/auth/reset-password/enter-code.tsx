@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import Styles from '../../../styles/auth/reset-password/enter-code.module.sass';
 import { GetServerSidePropsContext } from 'next';
 import {
@@ -48,7 +48,7 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const renvoyerLeCodeHandler = useCallback(() => {
+	const renvoyerLeCodeHandler = () => {
 		setLoading(true);
 		// dispatch with callback
 		let action;
@@ -68,7 +68,7 @@ export const EnterCodePageContent = (props: enterCodePageContentProps) => {
 				}
 			},
 		});
-	}, [dispatch, email, whichCode]);
+	};
 
 	const formik = useFormik({
 		initialValues: {

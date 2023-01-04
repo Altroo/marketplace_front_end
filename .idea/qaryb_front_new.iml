@@ -327,7 +327,6 @@
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/offer/product" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/formikElements/customTimeInput" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/desktop/modals/imageModal" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/archives/disponibilitiesRadioCheckContent" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/notificationsMenu" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/buttons/primaryLoadingButton" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/htmlElements/inputs/customAutoCompleteMultiSelect" isTestSource="false" />
@@ -375,6 +374,7 @@
       <excludeFolder url="file://$MODULE_DIR$/archives/offerTitleField" />
       <excludeFolder url="file://$MODULE_DIR$/archives/shop/edit" />
       <excludeFolder url="file://$MODULE_DIR$/archives/edit" />
+      <excludeFolder url="file://$MODULE_DIR$/archives/disponibilitiesRadioCheckContent" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

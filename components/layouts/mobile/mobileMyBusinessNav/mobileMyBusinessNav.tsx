@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 // using mobileDashboardNav styles
 import Styles from '../mobileDashboardNav/mobileDashboardNav.module.sass';
 import { useRouter } from 'next/router';
@@ -29,7 +29,7 @@ type Props = {
 };
 
 const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
-	const { data, addMobilePadding, setContent } = props;
+	const { data, addMobilePadding } = props;
 	const {
 		total_sells_count,
 		total_offers_vue_count,
@@ -42,43 +42,40 @@ const MobileMyBusinessNav: React.FC<Props> = (props: Props) => {
 	} = data;
 	const router = useRouter();
 
-	const myBusinessNavElements: Array<MobileSideNavElementType> = useMemo(() => {
-		return [
-			{
-				text: 'Abonnement',
-				link: DASHBOARD_SUBSCRIPTION,
-				icon: MobileAbonnementSVG,
-				current: router.pathname.endsWith(DASHBOARD_SUBSCRIPTION.replace(SITE_ROOT, '')),
-				disabled: false,
-				setContent: setContent,
-			},
-			{
-				text: 'Articles référencés',
-				link: DASHBOARD_INDEXED_OFFERS,
-				icon: MobileIndexedOffersSVG,
-				current: router.pathname.includes(DASHBOARD_INDEXED_OFFERS.replace(SITE_ROOT, '')), // changed to include
-				disabled: false,
-				setContent: setContent,
-			},
-			{
-				text: 'Audience',
-				link: DASHBOARD_AUDIENCES,
-				icon: MobileAudiencesSVG,
-				current: router.pathname.endsWith(DASHBOARD_AUDIENCES.replace(SITE_ROOT, '')),
-				disabled: false,
-				setContent: setContent,
-			},
-			{
-				text: "Chiffre d'affaire",
-				link: DASHBOARD_CHIFFRE_DAFFAIRE,
-				icon: MobileChiffreAffaireSVG,
-				current: router.pathname.endsWith(DASHBOARD_CHIFFRE_DAFFAIRE.replace(SITE_ROOT, '')),
-				disabled: false,
-				setContent: setContent,
-			},
-		];
-	}, [router.pathname, setContent]);
-
+	const myBusinessNavElements: Array<MobileSideNavElementType> = [
+		{
+			text: 'Abonnement',
+			link: DASHBOARD_SUBSCRIPTION,
+			icon: MobileAbonnementSVG,
+			current: router.pathname.endsWith(DASHBOARD_SUBSCRIPTION.replace(SITE_ROOT, '')),
+			disabled: false,
+			setContent: props.setContent,
+		},
+		{
+			text: 'Articles référencés',
+			link: DASHBOARD_INDEXED_OFFERS,
+			icon: MobileIndexedOffersSVG,
+			current: router.pathname.includes(DASHBOARD_INDEXED_OFFERS.replace(SITE_ROOT, '')), // changed to include
+			disabled: false,
+			setContent: props.setContent,
+		},
+		{
+			text: 'Audience',
+			link: DASHBOARD_AUDIENCES,
+			icon: MobileAudiencesSVG,
+			current: router.pathname.endsWith(DASHBOARD_AUDIENCES.replace(SITE_ROOT, '')),
+			disabled: false,
+			setContent: props.setContent,
+		},
+		{
+			text: "Chiffre d'affaire",
+			link: DASHBOARD_CHIFFRE_DAFFAIRE,
+			icon: MobileChiffreAffaireSVG,
+			current: router.pathname.endsWith(DASHBOARD_CHIFFRE_DAFFAIRE.replace(SITE_ROOT, '')),
+			disabled: false,
+			setContent: props.setContent,
+		},
+	];
 	return (
 		<Stack
 			direction="column"

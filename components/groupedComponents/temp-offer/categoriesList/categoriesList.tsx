@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Styles from './categoriesList.module.sass';
 import Image from 'next/image';
 import ActiveCheckBlue from '../../../../public/assets/svgs/globalIcons/active-check-blue.svg';
@@ -80,14 +80,14 @@ const CategoryItemObj: React.FC<CategoriesObjProps> = (props: CategoriesObjProps
 		}
 	}, [code, pickedProductCategories, pickedServiceCategories, props.offerType]);
 
-	const categoryItemClickHandler = useCallback(() => {
+	const categoryItemClickHandler = () => {
 		if (props.offerType === 'V') {
 			dispatch(setOfferProductCategories(code));
 		} else if (props.offerType === 'S') {
 			dispatch(setOfferServiceCategories(code));
 		}
 		setActive((prevState) => !prevState);
-	}, [code, dispatch, props.offerType]);
+	};
 
 	return (
 		<Box className={Styles.categoryItem}>

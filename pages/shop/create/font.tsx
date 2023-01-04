@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Styles from './font.module.sass';
@@ -97,25 +97,23 @@ const Font: NextPage = () => {
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconSVG);
 	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
-	const chipCategoriesAction: chipActionsType = useMemo(() => {
-		return [
-			{
-				buttonText: 'Bien-être',
-				selected: true,
-				disabled: true,
-			},
-			{
-				buttonText: 'Service',
-				selected: false,
-				disabled: true,
-			},
-			{
-				buttonText: 'Sport',
-				selected: true,
-				disabled: true,
-			},
-		];
-	}, []);
+	const chipCategoriesAction: chipActionsType = [
+		{
+			buttonText: 'Bien-être',
+			selected: true,
+			disabled: true,
+		},
+		{
+			buttonText: 'Service',
+			selected: false,
+			disabled: true,
+		},
+		{
+			buttonText: 'Sport',
+			selected: true,
+			disabled: true,
+		},
+	];
 
 	// const whiteText = '#FFFFFF';
 	const blackText = '#0D070B';
@@ -160,14 +158,13 @@ const Font: NextPage = () => {
 		}
 	}, [router, shopAvatar, shopBgColorCode, shopBorder, shopColorCode, shopFontName, shopIconColor, shopName]);
 
-	const fontPicker = useCallback((font: ShopFontNameType | undefined) => {
+	const fontPicker = (font: ShopFontNameType | undefined) => {
 		if (font) {
 			setFontName(font);
 		}
-	}, []);
+	};
 
-	const fontHandler = useCallback(
-		(font: ShopFontNameType | undefined) => {
+	const fontHandler = (font: ShopFontNameType | undefined) => {
 			if (font) {
 				setIsApiCallInProgress(true);
 				dispatch(setShopFontAction(font));
@@ -192,9 +189,7 @@ const Font: NextPage = () => {
 					},
 				});
 			}
-		},
-		[dispatch, router, shopAvatar, shopBgColorCode, shopBorder, shopColorCode, shopIconColor, shopName],
-	);
+		};
 
 	return (
 		<>

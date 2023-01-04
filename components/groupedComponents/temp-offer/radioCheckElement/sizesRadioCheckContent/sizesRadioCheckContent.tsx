@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import Styles from './sizesRadioCheckContent.module.sass';
 import { SizesChipTheme } from "../../../../../utils/themes";
 import { ThemeProvider, Stack, Grid } from '@mui/material';
@@ -26,7 +26,7 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 		useRef<HTMLInputElement>(null),
 	];
 
-	const sizeOnClickHandler = useCallback((setState: React.Dispatch<React.SetStateAction<boolean>>,
+	const sizeOnClickHandler = (setState: React.Dispatch<React.SetStateAction<boolean>>,
 		state: boolean,
 		ref: React.RefObject<HTMLInputElement>,
 		code: string) => {
@@ -40,7 +40,7 @@ const SizesRadioCheckContent: React.FC<Props> = (props: Props) => {
 				// dispatch state remove here
 			}
 		}
-	}, []);
+	};
 
 	const availableSizesList: Array<OfferBulkStatesListType> = useMemo(() => {
 		return [

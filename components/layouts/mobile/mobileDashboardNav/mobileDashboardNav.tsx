@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import { Stack, Button } from '@mui/material';
 import Styles from './mobileDashboardNav.module.sass';
 import MonProfilSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mon-profil.svg';
@@ -59,31 +59,25 @@ type Props = {
 };
 
 const MobileDashboardNav: React.FC<Props> = (props: Props) => {
-	const {setContent} = props;
 	const router = useRouter();
-
-	const profilNavElements: Array<MobileSideNavElementType> = useMemo(() => {
-		return [
+	const profilNavElements: Array<MobileSideNavElementType> = [
 		{
 			text: 'Mon profil',
 			link: DASHBOARD_EDIT_PROFILE,
 			icon: MonProfilSVG,
 			disabled: false,
 			current: router.pathname.endsWith(DASHBOARD_EDIT_PROFILE.replace(SITE_ROOT, '')),
-			setContent: setContent,
+			setContent: props.setContent,
 		},
-	]
-	}, [setContent, router.pathname]);
-
-	const parametresNavElements: Array<MobileSideNavElementType> = useMemo(() => {
-		return [
+	];
+	const parametresNavElements: Array<MobileSideNavElementType> = [
 		{
 			text: 'Adresse email',
 			link: DASHBOARD_ADRESSE_EMAIL,
 			icon: AdresseEmailSVG,
 			disabled: false,
 			current: router.pathname.endsWith(DASHBOARD_ADRESSE_EMAIL.replace(SITE_ROOT, '')),
-			setContent: setContent,
+			setContent: props.setContent,
 		},
 		{
 			text: 'Mot de passe',
@@ -91,10 +85,9 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 			icon: MotDePasseSVG,
 			disabled: false,
 			current: router.pathname.endsWith(DASHBOARD_PASSWORD.replace(SITE_ROOT, '')),
-			setContent: setContent,
+			setContent: props.setContent,
 		},
-	]
-	}, [setContent, router.pathname]);
+	];
 
 	return (
 		<Stack direction="column" className={Styles.sideBar} spacing={4}>

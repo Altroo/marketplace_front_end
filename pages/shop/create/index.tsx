@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import DesktopTopNavigationBar from '../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
@@ -44,7 +44,7 @@ const ShopName: NextPage = () => {
 		}
 	}, [router, shopName]);
 
-	const shopNameSubmitHandler = useCallback((value: string) => {
+	const shopNameSubmitHandler = (value: string) => {
 		setIsApiCallInProgress(true);
 		const action = setShopNameAction(value);
 		dispatch({
@@ -57,7 +57,7 @@ const ShopName: NextPage = () => {
 				}
 			},
 		});
-	}, [dispatch, router]);
+	};
 
 	return (
 		<>

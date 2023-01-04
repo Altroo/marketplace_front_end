@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import { Stack } from '@mui/material';
 import Styles from './desktopDashboardSideNav.module.sass';
 import ArrowActiveSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/arrow-active.svg';
@@ -53,8 +53,7 @@ type Props = {
 const DesktopDashboardSideNav: React.FC<Props> = (props: Props) => {
 	const router = useRouter();
 
-	const profilNavElements: Array<DesktopSideNavElementType> = useMemo(() => {
-		return [
+	const profilNavElements: Array<DesktopSideNavElementType> = [
 		{
 			text: 'Mon profil',
 			link: DASHBOARD_EDIT_PROFILE,
@@ -62,11 +61,9 @@ const DesktopDashboardSideNav: React.FC<Props> = (props: Props) => {
 			current: router.pathname.endsWith(DASHBOARD_EDIT_PROFILE.replace(SITE_ROOT, '')),
 			disabled: false,
 		},
-	]
-	}, [router.pathname]);
+	];
 
-	const parametresNavElements: Array<DesktopSideNavElementType> = useMemo(() => {
-		return [
+	const parametresNavElements: Array<DesktopSideNavElementType> = [
 		{
 			text: 'Adresse email',
 			link: DASHBOARD_ADRESSE_EMAIL,
@@ -81,8 +78,7 @@ const DesktopDashboardSideNav: React.FC<Props> = (props: Props) => {
 			current: router.pathname.endsWith(DASHBOARD_PASSWORD.replace(SITE_ROOT, '')),
 			disabled: false,
 		},
-	]
-	}, [router.pathname]);
+	];
 
 	return (
 		<Stack direction="column" className={Styles.sideBar}>

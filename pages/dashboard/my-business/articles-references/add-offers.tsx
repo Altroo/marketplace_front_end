@@ -209,7 +209,7 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 		}
 	}, [firstPageLoaded, getOffersData, offersData, offersDataLinkedHashMap, isLoadingInitInProgress, loadMoreState]);
 
-	const setAllCheckHandler = useCallback((checked: boolean) => {
+	const setAllCheckHandler = (checked: boolean) => {
 		const checkedList = itemsCheckList.map((_) => {
 			return checked;
 		});
@@ -225,16 +225,16 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 			setItemIDS([]);
 		}
 		setItemsCheckList(checkedList);
-	}, [itemsCheckList]);
+	};
 
-	const selectAllClickHandler = useCallback(() => {
+	const selectAllClickHandler = () => {
 		setSelectAllState((prevState) => {
 			setAllCheckHandler(!prevState);
 			return !prevState;
 		});
-	}, [setAllCheckHandler]);
+	};
 
-	const handleCheckChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, index: number, pk: number) => {
+	const handleCheckChange = (event: React.ChangeEvent<HTMLInputElement>, index: number, pk: number) => {
 		const checkedList = itemsCheckList.map((item, itemIndex) => {
 			if (index === itemIndex) {
 				if (event.target.checked && !itemIDS.includes(pk)) {
@@ -259,9 +259,9 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 		} else {
 			setSelectAllState(false);
 		}
-	}, [itemIDS, itemsCheckList]);
+	};
 
-	const indexNewOffersHandler = useCallback((pk: number | string) => {
+	const indexNewOffersHandler = (pk: number | string) => {
 		const action = subscriptionPostIndexArticlesAction(pk);
 		dispatch({
 			...action,
@@ -295,7 +295,7 @@ const AvailableOffersToIndexContent: React.FC<AvailableOffersToIndexContentType>
 				}
 			},
 		});
-	}, [dispatch, getOffersData, setShowToast]);
+	};
 
 	return (
 		<>

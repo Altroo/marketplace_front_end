@@ -181,7 +181,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 		setShowPromoCodeMessage(null);
 	}, [nbr_article, pourcentage, prix_ttc, prix_unitaire_ttc]);
 
-	const paymentParCheckHandler = useCallback((type: 'C' | 'V') => {
+	const paymentParCheckHandler = (type: 'C' | 'V') => {
 		if (type === 'C') {
 			setPaymentParCarte(true);
 			setPaymentParVirement(false);
@@ -189,7 +189,7 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 			setPaymentParCarte(false);
 			setPaymentParVirement(true);
 		}
-	}, []);
+	};
 
 	const formik = useFormik({
 		initialValues: {

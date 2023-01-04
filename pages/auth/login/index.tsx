@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import Styles from '../../../styles/auth/login/login.module.sass';
 import { GetServerSidePropsContext } from 'next';
 import { Stack } from '@mui/material';
@@ -39,13 +39,15 @@ const LoginPageContent = () => {
 	const [errorState, setErrorState] = useState<string | Array<string> | undefined>(undefined);
 	const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
 
-	const googleSignIn = useCallback(() => {
+	const googleSignIn = () => {
+		// redirect to the same page that will then check if user is new or old
 		signIn('google').then();
-	}, []);
+	};
 
-	const facebookSignIn = useCallback(() => {
+	const facebookSignIn = () => {
+		// redirect to the same page that will then check if user is new or old
 		signIn('facebook').then();
-	}, []);
+	};
 
 	useEffect(() => {
 		if (error === 'AccessDenied') {

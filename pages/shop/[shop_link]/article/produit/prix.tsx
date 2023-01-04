@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import Styles from './prix.module.sass';
@@ -45,7 +45,7 @@ const Prix: NextPage = () => {
 	const [kg, setKg] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'K'));
 	const [liter, setLiter] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'L'));
 
-	const handleSubmit = useCallback(() => {
+	const handleSubmit = () => {
 		let price_by: 'L' | 'U' | 'K' = 'U';
 		if (unity) {
 			price_by = 'U';
@@ -65,7 +65,7 @@ const Prix: NextPage = () => {
 				}
 			},
 		});
-	}, [dispatch, kg, liter, price, router, unity]);
+	};
 
 	useEffect(() => {
 		if(!pickedTitle){

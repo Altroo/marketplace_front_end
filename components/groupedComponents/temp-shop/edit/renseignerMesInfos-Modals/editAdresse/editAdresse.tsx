@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../../utils/hooks';
 import {
 	getLocalisationName,
@@ -81,7 +81,7 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 	const editPromiseStatus = useAppSelector(getNewShopEditPromiseStatus);
 	const apiError = useAppSelector(getNewShopApiError);
 
-	const editAdresseHandler = useCallback((values: adressValues) => {
+	const editAdresseHandler = (values: adressValues) => {
 		const action = shopPatchAddressAction(
 			values.zone_by,
 			values.longitude,
@@ -97,7 +97,7 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 				}
 			},
 		});
-	}, [dispatch, handleClose]);
+	};
 
 	useEffect(() => {
 		if (localisationName && addressNameRef.current !== null) {
@@ -117,7 +117,7 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 		}
 	}, [kmRadiusState, localisationName, position.lat, position.lng, zoneByState]);
 
-	const positionHandler = useCallback((position: PositionType) => {
+	const positionHandler = (position: PositionType) => {
 		setPosition((prevState) => {
 			return { ...prevState, lat: position.lat, lng: position.lng };
 		});
@@ -131,24 +131,21 @@ const EditAdresse: React.FC<Props> = (props: Props) => {
 			latitudeRef.current.value = position.lat.toString();
 			addressNameRef.current.value = localisationName;
 		}
-	}, [localisationName]);
+	};
 
-
-	const zoneByHandler = useCallback((zoneBy: ShopZoneByType) => {
+	const zoneByHandler = (zoneBy: ShopZoneByType) => {
 		setZoneByState(zoneBy);
 		if (zoneByRef.current !== null) {
 			zoneByRef.current.value = zoneBy;
 		}
-	}, []);
+	};
 
-
-	const kmRadiusHandler = useCallback((kmRadius: number) => {
+	const kmRadiusHandler = (kmRadius: number) => {
 		setKmRadiusState(kmRadius);
 		if (kmRadiusRef.current !== null) {
 			kmRadiusRef.current.value = kmRadius.toString();
 		}
-	}, []);
-
+	};
 
 	return (
 		<Stack direction="column" spacing={4} style={{ height: '100%' }}>
