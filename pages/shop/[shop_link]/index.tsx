@@ -1217,7 +1217,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 						{/*
 								 target="_blank" rel="noreferrer"
 								 */}
-						{(contactModeState === 'P' || contactModeState === 'W') && contactIcon ? (
+						{(contactModeState === 'P' || contactModeState === 'W') && contactIcon && (
 							<IconAnchorButton
 								buttonText="Contacter"
 								svgIcon={contactIcon}
@@ -1228,7 +1228,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								active={contacterLink === undefined}
 								cssClass={Styles.iconButton}
 							/>
-						) : null}
+						)}
 					</Stack>
 				</Stack>
 				<Box>

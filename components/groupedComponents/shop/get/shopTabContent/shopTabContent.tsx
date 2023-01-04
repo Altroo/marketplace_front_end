@@ -4,9 +4,9 @@ import ShopFilterSelect from '../../../temp-shop/edit/shopFilterSelect/shopFilte
 import { Box, Button, Grid, Skeleton, Stack, ThemeProvider } from '@mui/material';
 import {
 	GetOffersSagaCallBackOnCompleteDataType,
-	OfferGetAvailableShopFiltersType,
-	OfferGetMyOffersProductServiceType,
-} from '../../../../../types/offer/offerTypes';
+	OfferGetAvailableShopFiltersType, OfferGetMyOffersProductInterface,
+	OfferGetMyOffersProductServiceType, OfferGetMyOffersServiceInterface
+} from "../../../../../types/offer/offerTypes";
 import Link from 'next/link';
 import Image from 'next/image';
 import PinActiveIconSVG from '../../../../../public/assets/svgs/globalIcons/pin-active.svg';
@@ -21,7 +21,7 @@ import { getDefaultTheme } from '../../../../../utils/themes';
 import SeoAnchorWrapper from '../../../../htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
 import { Desktop, generateOffersFilterQueryParams, getBackendNextPageNumber } from '../../../../../utils/helpers';
 import { Iterables } from 'langx-js';
-import { ApiErrorResponseType } from '../../../../../types/_init/_initTypes';
+import { ApiErrorResponseType, PaginationResponseType } from "../../../../../types/_init/_initTypes";
 import AccordionFilter from '../../../../layouts/accordionFilter/accordionFilter';
 import CustomSwipeModal from '../../../../desktop/modals/rightSwipeModal/customSwipeModal';
 import CloseSVG from '../../../../../public/assets/svgs/navigationIcons/close.svg';
@@ -31,6 +31,12 @@ import { ParsedUrlQueryInput } from 'querystring';
 
 export type offerLinkedHashMapType = {
 	offersMap: Iterables.LinkedHashMap<number, OfferGetMyOffersProductServiceType> | null;
+	count: number;
+	nextPage: string | null;
+};
+
+export type offersSeoPagesLinkedHashMapType = {
+	offersMap: Array<OfferGetMyOffersProductInterface | OfferGetMyOffersServiceInterface>;
 	count: number;
 	nextPage: string | null;
 };
