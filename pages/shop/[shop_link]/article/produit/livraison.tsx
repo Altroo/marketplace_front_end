@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from './livraison.module.sass';
+import Styles from '../../../../../styles/shop/shop_link/article/produit/livraison.module.sass';
 import { useRouter } from 'next/router';
 import { Box, Stack, ThemeProvider, Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../../utils/hooks';

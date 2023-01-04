@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from './index.module.sass';
+import Styles from '../../../../../styles/shop/shop_link/article/produit/index.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import MobileTopNavigationBar from '../../../../../components/mobile/navbars/mobileTopNavigationBar/mobileTopNavigationBar';

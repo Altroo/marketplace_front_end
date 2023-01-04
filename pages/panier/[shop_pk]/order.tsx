@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from './order.module.sass';
-import SharedStyles from './index.module.sass';
+import Styles from '../../../styles/panier/shop_pk/order.module.sass';
+import SharedStyles from '../../../styles/panier/shop_pk/index.module.sass';
 import { getCookie } from 'cookies-next';
 import ClickAndCollectBlackSVG from '../../../public/assets/svgs/globalIcons/click-and-collect-black.svg';
 import LieuServiceBlackSVG from '../../../public/assets/svgs/globalIcons/lieu-service-black.svg';

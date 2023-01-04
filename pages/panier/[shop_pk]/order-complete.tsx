@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import Styles from './order-complete.module.sass';
+import Styles from '../../../styles/panier/shop_pk/order-complete.module.sass';
 import SuccessIlluSVG from '../../../public/assets/images/success-illu.svg';
 import Image from 'next/image';
 import { Stack } from '@mui/material';

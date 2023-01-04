@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Styles from './index.module.sass';
+import Styles from '../../../styles/panier/shop_pk/index.module.sass';
 import {
 	Accordion,
 	AccordionDetails,

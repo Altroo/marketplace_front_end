@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from './index.module.sass';
+import Styles from '../../../styles/shop/shop_link/shopLinkIndex.module.sass';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';

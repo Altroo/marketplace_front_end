@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
-import Styles from './prix.module.sass';
+import Styles from '../../../../../styles/shop/shop_link/article/produit/prix.module.sass';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';
 import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
