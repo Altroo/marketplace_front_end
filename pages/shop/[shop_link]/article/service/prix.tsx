@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import Styles from './prix.module.sass';
@@ -79,7 +79,7 @@ const Prix: NextPage = () => {
 	const [prestation, setPrestation] = useState<boolean>(!!(pickedPriceBy && pickedPriceBy === 'P'));
 	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
 
-	const handleSubmit = useCallback(() => {
+	const handleSubmit = () => {
 		setIsApiCallInProgress(true);
 		let price_by: 'H' | 'J' | 'S' | 'M' | 'P' = 'P';
 		if (heur) {
@@ -188,33 +188,7 @@ const Prix: NextPage = () => {
 				},
 			});
 		}
-	}, [
-		categoriesList,
-		description,
-		dispatch,
-		forWhom,
-		heur,
-		jour,
-		mois,
-		offer_pk,
-		pictures,
-		prestation,
-		price,
-		router,
-		semaine,
-		service_address,
-		service_afternoon_hour_from,
-		service_afternoon_hour_to,
-		service_availability_days,
-		service_km_radius,
-		service_latitude,
-		service_longitude,
-		service_morning_hour_from,
-		service_morning_hour_to,
-		service_zone_by,
-		thumbnails,
-		title,
-	]);
+	};
 
 	useEffect(() => {
 		if (!isApiCallInProgress && !title) {

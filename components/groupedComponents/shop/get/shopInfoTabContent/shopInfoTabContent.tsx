@@ -66,11 +66,11 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 		}
 	}, [bio]);
 
-	const voirPlusHandler = useCallback((value: boolean) => {
+	const voirPlusHandler = (value: boolean) => {
 		setVoirPlus(value);
-	}, []);
+	};
 
-	const VoirPlusMoinButtons = useCallback(() => {
+	const VoirPlusMoinButtons = () => {
 		if (bio && bio.length > shopBioMaxLength) {
 			if (voirPlus) {
 				return (
@@ -92,7 +92,7 @@ const ShopInfoTabContent: React.FC<Props> = (props: Props) => {
 		} else {
 			return null;
 		}
-	}, [bio, voirPlus, voirPlusHandler]);
+	};
 
 	return (
 		<>

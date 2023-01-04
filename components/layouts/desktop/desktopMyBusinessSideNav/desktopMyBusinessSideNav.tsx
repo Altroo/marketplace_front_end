@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 // using desktopDashboardSideNav styles
 import Styles from '../desktopDashboardSideNav/desktopDashboardSideNav.module.sass';
 import { useRouter } from 'next/router';
@@ -40,8 +40,7 @@ const DesktopMyBusinessSideNav: React.FC<Props> = (props: Props) => {
 	} = data;
 	const router = useRouter();
 
-	const myBusinessNavElements: Array<DesktopSideNavElementType> = useMemo(() => {
-		return [
+	const myBusinessNavElements: Array<DesktopSideNavElementType> = [
 		{
 			text: 'Abonnement',
 			link: DASHBOARD_SUBSCRIPTION,
@@ -70,9 +69,7 @@ const DesktopMyBusinessSideNav: React.FC<Props> = (props: Props) => {
 			current: router.pathname.endsWith(DASHBOARD_CHIFFRE_DAFFAIRE.replace(SITE_ROOT, '')),
 			disabled: false,
 		},
-	]
-	}, [router.pathname]);
-
+	];
 
 	return (
 		<Stack direction="column" className={Styles.sideBar}>

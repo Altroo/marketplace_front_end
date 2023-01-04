@@ -286,7 +286,6 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 	const [showDesktopCartModal, setShowDesktopCartModal] = useState<boolean>(false);
 	const [showMobileCartModal, setShowMobileCartModal] = useState<boolean>(false);
 
-
 	useEffect(() => {
 		// set images
 		const availableImages: Array<string> = [];
@@ -439,18 +438,22 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		picture_4_thumb,
 	]);
 	const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-	const showThumbnail = useCallback((index: number) => {
-		setSelectedImage(availableImages[index]);
-		setSelectedImageIndex(index);
-	}, [availableImages]);
 
-	const showImage = useCallback((src: string) => {
+	const showThumbnail = useCallback(
+		(index: number) => {
+			setSelectedImage(availableImages[index]);
+			setSelectedImageIndex(index);
+		},
+		[availableImages],
+	);
+
+	const showImage = (src: string) => {
 		setClickedImage(src);
-	}, []);
+	};
 
-	const showMobileImage = useCallback((src: string) => {
+	const showMobileImage = (src: string) => {
 		setClickedMobileImage(src);
-	}, []);
+	};
 
 	const setSolderPourcentageInput = useCallback(
 		(value: string) => {
@@ -726,9 +729,9 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		];
 	}, [deleteOfferHandler]);
 
-	const showDeleteOfferModal = useCallback(() => {
+	const showDeleteOfferModal = () => {
 		setShowDeleteModal(true);
-	}, []);
+	};
 
 	const handleSaveSolder = useCallback(() => {
 		let valueToSend;
@@ -782,40 +785,38 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		});
 	}, [dispatch, pk, router]);
 
-	const solderTabHandleChange = useCallback((event: React.SyntheticEvent, solderBy: OfferSolderByType) => {
+	const solderTabHandleChange = (event: React.SyntheticEvent, solderBy: OfferSolderByType) => {
 		setSolderByState(solderBy);
-	}, []);
+	};
 
-	const dropDownActions: DropDownActionType = useMemo(() => {
-		return [
-			{
-				icon: EditBlackSVG,
-				text: 'Modifier',
-				onClick: editOfferHandler,
-			},
-			// {
-			// 	icon: pinned ? EpinglerActiveSVG : EpinglerInactiveSVG,
-			// 	text: 'Épingler',
-			// 	onClick: togglePinOfferHandler,
-			// },
-			// {
-			// 	icon: solder_value !== null ? SolderEditActiveSVG : SolderEditInactiveSVG,
-			// 	text: 'Solder',
-			// 	onClick: showSolderOfferNav,
-			// },
-			{
-				icon: SupprimerSVG,
-				text: 'Supprimer',
-				onClick: showDeleteOfferModal,
-			},
-		];
-	}, [editOfferHandler, showDeleteOfferModal]);
+	const dropDownActions: DropDownActionType = [
+		{
+			icon: EditBlackSVG,
+			text: 'Modifier',
+			onClick: editOfferHandler,
+		},
+		// {
+		// 	icon: pinned ? EpinglerActiveSVG : EpinglerInactiveSVG,
+		// 	text: 'Épingler',
+		// 	onClick: togglePinOfferHandler,
+		// },
+		// {
+		// 	icon: solder_value !== null ? SolderEditActiveSVG : SolderEditInactiveSVG,
+		// 	text: 'Solder',
+		// 	onClick: showSolderOfferNav,
+		// },
+		{
+			icon: SupprimerSVG,
+			text: 'Supprimer',
+			onClick: showDeleteOfferModal,
+		},
+	];
 
-	const voirPlusHandler = useCallback((value: boolean) => {
+	const voirPlusHandler = (value: boolean) => {
 		setVoirPlus(value);
-	}, []);
+	};
 
-	const VoirPlusMoinButtons = useCallback(() => {
+	const VoirPlusMoinButtons = () => {
 		if (description && description.length > 300) {
 			if (voirPlus) {
 				return (
@@ -837,7 +838,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		} else {
 			return null;
 		}
-	}, [description, voirPlus, voirPlusHandler]);
+	};
 
 	const [addedToCart, setAddedToCart] = useState<boolean>(exist_in_cart);
 
@@ -1742,18 +1743,21 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 	]);
 
 	const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-	const showThumbnail = useCallback((index: number) => {
-		setSelectedImage(availableImages[index]);
-		setSelectedImageIndex(index);
-	}, [availableImages]);
+	const showThumbnail = useCallback(
+		(index: number) => {
+			setSelectedImage(availableImages[index]);
+			setSelectedImageIndex(index);
+		},
+		[availableImages],
+	);
 
-	const showImage = useCallback((src: string) => {
+	const showImage = (src: string) => {
 		setClickedImage(src);
-	}, []);
+	};
 
-	const showMobileImage = useCallback((src: string) => {
+	const showMobileImage = (src: string) => {
 		setClickedMobileImage(src);
-	}, []);
+	};
 
 	const setSolderPourcentageInput = useCallback(
 		(value: string) => {
@@ -1959,9 +1963,9 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		];
 	}, [deleteOfferHandler]);
 
-	const showDeleteOfferModal = useCallback(() => {
+	const showDeleteOfferModal = () => {
 		setShowDeleteModal(true);
-	}, []);
+	};
 
 	const handleSaveSolder = useCallback(() => {
 		let valueToSend;
@@ -2019,9 +2023,8 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		setSolderByState(solderBy);
 	}, []);
 
-	const dropDownActions: DropDownActionType = useMemo(() => {
-		return [
-			{
+	const dropDownActions: DropDownActionType = [
+		{
 			icon: EditBlackSVG,
 			text: 'Modifier',
 			onClick: editOfferHandler,
@@ -2041,14 +2044,13 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 			text: 'Supprimer',
 			onClick: showDeleteOfferModal,
 		},
-		]
-	}, [editOfferHandler, showDeleteOfferModal]);
+	];
 
-	const voirPlusHandler = useCallback((value: boolean) => {
+	const voirPlusHandler = (value: boolean) => {
 		setVoirPlus(value);
-	}, []);
+	};
 
-	const VoirPlusMoinButtons = useCallback(() => {
+	const VoirPlusMoinButtons = () => {
 		if (description && description.length > 300) {
 			if (voirPlus) {
 				return (
@@ -2070,26 +2072,29 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 		} else {
 			return null;
 		}
-	}, [description, voirPlus, voirPlusHandler]);
+	};
 
 	const [addedToCart, setAddedToCart] = useState<boolean>(exist_in_cart);
 
-	const AddServiceToCartHandler = useCallback(async (picked_date: string, picked_hour: string) => {
-		const action = cartPostServiceRootUniqueIDAction(pk, 'S', unique_id, picked_date, picked_hour);
-		dispatch({
-			...action,
-			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<CartPostServiceRoot>) => {
-				if (!error && !cancelled && data) {
-					router.replace(router.asPath).then(() => {
-						setAddedToCart(true);
-						dispatch(cartGetCartCounterAction(unique_id));
-						setShowMobileCartModal(false);
-						setShowDesktopCartModal(false);
-					});
-				}
-			},
-		});
-	}, [dispatch, pk, router, unique_id]);
+	const AddServiceToCartHandler = useCallback(
+		async (picked_date: string, picked_hour: string) => {
+			const action = cartPostServiceRootUniqueIDAction(pk, 'S', unique_id, picked_date, picked_hour);
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<CartPostServiceRoot>) => {
+					if (!error && !cancelled && data) {
+						router.replace(router.asPath).then(() => {
+							setAddedToCart(true);
+							dispatch(cartGetCartCounterAction(unique_id));
+							setShowMobileCartModal(false);
+							setShowDesktopCartModal(false);
+						});
+					}
+				},
+			});
+		},
+		[dispatch, pk, router, unique_id],
+	);
 
 	return (
 		<ThemeProvider theme={customTheme}>

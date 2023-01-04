@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useCallback } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -25,13 +25,13 @@ const DropDownMenu: React.FC<Props> = (props: Props) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
-	const handleClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
-	}, []);
+	};
 
-	const handleClose = useCallback(() => {
+	const handleClose = () => {
 		setAnchorEl(null);
-	}, []);
+	};
 
 	return (
 		<div className={Styles.dropDownWrapper}>

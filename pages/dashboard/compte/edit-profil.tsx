@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../styles/dashboard/dashboard.module.sass';
 import { getServerSideCookieTokens, isAuthenticatedInstance, TabletAndMobile, Desktop } from "../../../utils/helpers";
@@ -120,28 +120,28 @@ const FormikContent: React.FC<formikContentType> = (props: formikContentType) =>
 	}, [avatarInitial, avatar, data.birth_date, availableCountries.length, dispatch]);
 
 	// on change for whom
-	const genderHandleChange = useCallback((event: SelectChangeEvent) => {
+	const genderHandleChange = (event: SelectChangeEvent) => {
 		const {
 			target: { value },
 		} = event;
 		setGenderChoice(value);
-	}, []);
+	};
 
-	const handleDateChange = useCallback((newValue: Dayjs | null) => {
+	const handleDateChange = (newValue: Dayjs | null) => {
 		setPickedBirthDate(newValue);
-	}, []);
+	};
 
 	const [openCropModal, setOpenCropModal] = useState<boolean>(false);
 	const cropperRef = useRef<ReactCropperElement>(null);
 
-	const onSaveCropImage = useCallback(() => {
+	const onSaveCropImage = () => {
 		const imageElement: ReactCropperElement | null = cropperRef?.current;
 		const cropper = imageElement?.cropper;
 		if (cropper) {
 			setPreview(cropper.getCroppedCanvas().toDataURL());
 			setOpenCropModal(false);
 		}
-	}, []);
+	};
 
 	return (
 		<Stack direction="column" alignItems="center" spacing={2}>

@@ -66,7 +66,7 @@ const availableFiltersInit: OfferGetAvailableShopFiltersType = {
 };
 
 const EditShopTabContent: React.FC<Props> = (props: Props) => {
-	const { shop_pk, setShowMobileFilterButton } = props;
+	const { shop_pk, setShowMobileFilterButton, setOpenFilterModal } = props;
 	const router = useRouter();
 	const [filter, setFilter] = useState<'D' | 'C'>('D');
 	const dispatch = useAppDispatch();
@@ -253,8 +253,8 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 	// };
 
 	const closeMobileFilterModal = useCallback(() => {
-		props.setOpenFilterModal(false);
-	}, [props]);
+		setOpenFilterModal(false);
+	}, [setOpenFilterModal]);
 
 	// const togglePinHandler = (e: React.MouseEvent<HTMLImageElement, MouseEvent>, pk: number) => {
 	// 	e.preventDefault();
@@ -552,7 +552,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 					<CustomSwipeModal
 						transition
 						open={props.openFilterModal}
-						handleClose={() => props.setOpenFilterModal(false)}
+						handleClose={() => setOpenFilterModal(false)}
 						keepMounted={true}
 					>
 						<Stack
@@ -567,7 +567,7 @@ const EditShopTabContent: React.FC<Props> = (props: Props) => {
 									width={40}
 									height={40}
 									alt=""
-									onClick={() => props.setOpenFilterModal(false)}
+									onClick={() => setOpenFilterModal(false)}
 									style={{ cursor: 'pointer' }}
 								/>
 							</Box>

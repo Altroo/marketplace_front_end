@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import Styles from '../../../styles/auth/register/register.module.sass';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -148,14 +148,15 @@ const Register: NextPage = () => {
 		}
 	}, [dispatch, error, session, sessionUpdated]);
 
-	const googleSignIn = useCallback(() => {
+	const googleSignIn = () => {
+		// redirect to the same page that will then check if user is new or old
 		signIn('google').then();
-	}, []);
+	};
 
-	const facebookSignIn = useCallback(() => {
+	const facebookSignIn = () => {
+		// redirect to the same page that will then check if user is new or old
 		signIn('facebook').then();
-	}, []);
-
+	};
 	// via email
 	const formik = useFormik({
 		initialValues: {

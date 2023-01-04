@@ -119,14 +119,14 @@ const Avatar: NextPage = () => {
 
 	const cropperRef = useRef<ReactCropperElement>(null);
 
-	const onSaveCropImage = useCallback(() => {
+	const onSaveCropImage = () => {
 		const imageElement: ReactCropperElement | null = cropperRef?.current;
 		const cropper = imageElement?.cropper;
 		if (cropper) {
 			setPreview(cropper.getCroppedCanvas().toDataURL());
 			setOpenCropModal(false);
 		}
-	}, []);
+	};
 
 	return (
 		<>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from './color.module.sass';
 import LeftSideBar from '../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
@@ -102,25 +102,23 @@ const Color: NextPage = () => {
 	// type IconColorType = 'gray' | 'black' | 'white';
 	const [iconColor, setIconColor] = useState<IconColorType>('black');
 
-	const chipCategoriesAction: chipActionsType = useMemo(() => {
-		return [
-			{
-				buttonText: 'Bien-être',
-				selected: true,
-				disabled: true,
-			},
-			{
-				buttonText: 'Service',
-				selected: false,
-				disabled: true,
-			},
-			{
-				buttonText: 'Sport',
-				selected: true,
-				disabled: true,
-			},
-		];
-	}, []);
+	const chipCategoriesAction: chipActionsType = [
+		{
+			buttonText: 'Bien-être',
+			selected: true,
+			disabled: true,
+		},
+		{
+			buttonText: 'Service',
+			selected: false,
+			disabled: true,
+		},
+		{
+			buttonText: 'Sport',
+			selected: true,
+			disabled: true,
+		},
+	];
 
 	useEffect(() => {
 		if (shopAvatar) {
@@ -130,8 +128,7 @@ const Color: NextPage = () => {
 		}
 	}, [shopAvatar, router]);
 
-	const colorHandler = useCallback(
-		(_bgColorCode: string | null, _colorCode: string | null) => {
+	const colorHandler = (_bgColorCode: string | null, _colorCode: string | null) => {
 			if (_colorCode && _bgColorCode) {
 				setIsApiCallInProgress(true);
 				// _bgColorCode & _colorCode are reversed for this action.
@@ -147,19 +144,14 @@ const Color: NextPage = () => {
 					},
 				});
 			}
-		},
-		[border, dispatch, iconColor, router],
-	);
+		};
 
-	const whiteTextColors = useMemo(() => {
-		return ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
-	}, []);
+	const whiteTextColors = ['#FF5D6B', '#0274D7', '#8669FB', '#878E88', '#0D070B'];
 
 	const whiteText = '#FFFFFF';
 	const blackText = '#0D070B';
 
-	const colorClickHandler = useCallback(
-		(color: string) => {
+	const colorClickHandler = (color: string) => {
 			// If picked color is white => apply border + white text + black bg
 			if (color === whiteText) {
 				setBgColorCode(color);
@@ -186,9 +178,7 @@ const Color: NextPage = () => {
 				setIconColor('black');
 				setColorCode(blackText);
 			}
-		},
-		[whiteTextColors],
-	);
+		};
 
 	return (
 		<>

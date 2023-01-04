@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import Styles from './editCoordonees.module.sass';
 import { useAppDispatch, useAppSelector } from '../../../../../../utils/hooks';
 import {
@@ -65,7 +65,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 	const editPromiseStatus = useAppSelector(getNewShopEditPromiseStatus);
 	const apiError = useAppSelector(getNewShopApiError);
 
-	const editCoordoneesHandler = useCallback((values: editCoordonnesValuesType) => {
+	const editCoordoneesHandler = (values: editCoordonnesValuesType) => {
 		dispatch(
 			shopPatchContactAction(
 				values.phone,
@@ -82,7 +82,7 @@ const EditCoordonees: React.FC<Props> = (props: Props) => {
 		} else {
 			handleClose();
 		}
-	}, [apiError, dispatch, editPromiseStatus, handleClose, isEditInProgress]);
+	};
 
 	return (
 		<Stack direction="column" spacing={4}>

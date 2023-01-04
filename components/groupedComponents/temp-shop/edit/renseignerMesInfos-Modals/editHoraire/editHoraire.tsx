@@ -74,10 +74,12 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 	const suRef = useRef<HTMLInputElement>(null);
 
 	// Availability day handlers
-	const availabilityDaysSwitchHandler = useCallback((setState: React.Dispatch<React.SetStateAction<boolean>>,
+	const availabilityDaysSwitchHandler = (
+		setState: React.Dispatch<React.SetStateAction<boolean>>,
 		state: boolean,
 		ref: React.RefObject<HTMLInputElement>,
-		textValue: string) => {
+		textValue: string,
+	) => {
 		setState(state);
 		if (ref.current !== null) {
 			if (state) {
@@ -86,9 +88,9 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 				ref.current.value = '';
 			}
 		}
-	}, []);
+	};
 
-	const editHoraireHandler = useCallback((values: valuesType) => {
+	const editHoraireHandler = (values: valuesType) => {
 		const morning_hour_from = values.morning_hour_from ? values.morning_hour_from.format('HH:mm') : null;
 		const morning_hour_to = values.morning_hour_to ? values.morning_hour_to.format('HH:mm') : null;
 		const afternoon_hour_from = values.afternoon_hour_from ? values.afternoon_hour_from.format('HH:mm') : null;
@@ -105,7 +107,7 @@ const EditHoraire: React.FC<Props> = (props: Props) => {
 		);
 		handleClose();
 		router.replace(router.asPath).then();
-	}, [dispatch, handleClose, router]);
+	};
 
 	useEffect(() => {
 		if (morningHourFrom) {

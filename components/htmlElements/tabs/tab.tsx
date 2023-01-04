@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import Styles from './tab.module.sass';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
@@ -84,13 +84,13 @@ const ShopInfoTabs: React.FC<BasicTabsProps> = (props: BasicTabsProps) => {
 	const theme = useTheme();
 	const [value, setValue] = React.useState(0);
 
-	const handleChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
+	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
-	}, []);
+	};
 
-	const handleChangeIndex = useCallback((index: number) => {
+	const handleChangeIndex = (index: number) => {
 		setValue(index);
-	}, []);
+	};
 	// Check if white color
 	let newColor = props.color;
 	let newBorderColor = props.borderColor;
