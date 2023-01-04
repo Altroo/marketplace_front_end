@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Styles from './description.module.sass';
+import Styles from '../../../../../styles/shop/shop_link/article/produit/description.module.sass';
 import LeftSideBar from '../../../../../components/groupedComponents/shared/leftSideBar/leftSideBar';
 import { Box, ClickAwayListener, Grid, Stack } from '@mui/material';
 import DesktopTopNavigationBar from '../../../../../components/desktop/navbars/desktopTopNavigationBar/desktopTopNavigationBar';

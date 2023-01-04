@@ -1,6 +1,6 @@
 import React from 'react';
 import { NextPage, GetServerSidePropsContext } from 'next';
-import Styles from './index.module.sass';
+import Styles from '../../styles/panier/panierIndex.module.sass';
 import UserMainNavigationBar from '../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import { Stack, Box, Divider } from '@mui/material';
 import CustomFooter from '../../components/layouts/footer/customFooter';

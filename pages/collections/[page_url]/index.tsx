@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage, GetStaticPropsContext } from 'next';
-import Styles from './index.module.sass';
+import Styles from '../../../styles/collections/collectionPageUrlIndex.module.sass';
 import { allowAnyInstance } from '../../../utils/helpers';
 import { getApi } from '../../../store/services/_init/_initAPI';
 import { NOT_FOUND_404 } from '../../../utils/routes';

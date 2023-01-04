@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetServerSidePropsContext, NextPage } from "next";
-import Styles from './index.module.sass';
+import Styles from '../../../../styles/shop/shop_link/article/articleIndex.module.sass';
 import OfferTypeCard from '../../../../components/groupedComponents/temp-offer/offerTypeCard/offerTypeCard';
 import SellProductIcon from '../../../../public/assets/svgs/globalIcons/sell-product-icon.svg';
 import SellServiceIcon from '../../../../public/assets/svgs/globalIcons/sell-service-icon.svg';
