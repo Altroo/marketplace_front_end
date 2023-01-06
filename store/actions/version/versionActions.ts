@@ -1,14 +1,14 @@
 import * as Types from '../index';
 
-export const versionGetRootAction = () => { // <= used as export in saga
-	return {
-		type: Types.VERSION_GET_ROOT,
-	};
-};
+// export const versionGetRootAction = () => {
+// 	return {
+// 		type: Types.VERSION_GET_ROOT,// <= used as export in saga
+// 	};
+// };
 
-export const versionPostNewsLetterAction = (email: string) => {
-	return {
-		type: Types.VERSION_POST_NEWS_LETTER,
-		email,
-	};
-};
+// export const versionPostNewsLetterAction = (email: string) => {
+// 	return {
+// 		type: Types.VERSION_POST_NEWS_LETTER,
+// 		email,
+// 	};
+// };

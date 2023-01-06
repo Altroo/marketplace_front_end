@@ -1,8 +1,9 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+	AccountBlockType,
 	AccountCheckAccountType,
-	AccountStateInterface,
-} from '../../../types/account/accountTypes';
+	AccountStateInterface
+} from "../../../types/account/accountTypes";
 import { UserClass } from '../../../models/account/UserClass';
 import { ApiErrorResponseType } from '../../../types/_init/_initTypes';
 import { apiErrorInitialState } from "../_init/_initSlice";
@@ -25,6 +26,7 @@ const initialState: AccountStateInterface = {
 	passwordResetCodeSent: false,
 	emailChanged: false,
 	facture: null,
+	blockedList: [],
 };
 
 const accountSlice = createSlice({
@@ -38,6 +40,9 @@ const accountSlice = createSlice({
 			state.profil = action.payload;
 			state.profilApi.fetchPromiseStatus = 'RESOLVED';
 			state.profilApi.isFetchInProgress = false;
+		},
+		setBlockedList: (state, action: PayloadAction<AccountBlockType>) => {
+			state.blockedList = action.payload;
 		},
 		setCheckAccountGETLoading: (state) => {
 			state.check_accountApi.isFetchInProgress = true;
@@ -109,6 +114,7 @@ export const {
 	setWSUserAvatar,
 	setWSUserFacture,
 	initAccount,
+	setBlockedList,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

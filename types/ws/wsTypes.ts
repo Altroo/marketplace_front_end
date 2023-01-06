@@ -88,3 +88,34 @@ export interface WSNotification extends WSRootType {
 export interface WSFacture extends WSRootType {
 	path: string,
 }
+
+export interface WSChatNewMessage extends WSRootType {
+	pk: number,
+	initiator: number,
+	recipient: number,
+	body: string
+}
+/*
+"message": {
+	"pk": self.id,
+	"initiator": self.user.id,
+	"recipient": self.recipient.id,
+}
+ */
+export interface WSChatMessageSeen extends WSRootType {
+	pk: number,
+	initiator: number,
+	recipient: number,
+}
+/*
+"message": {
+	"user_pk": self.user.pk,
+	"online": True,
+	"recipient_pk": user_pk,
+}
+ */
+export interface WSChatUserStatus extends WSRootType {
+	user: number,
+	online: boolean,
+	recipient: number,
+}

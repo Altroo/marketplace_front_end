@@ -363,6 +363,7 @@
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/article" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/article/produit" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/shop/shop_link/article/service" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/user/[user_id]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/seo-pages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />

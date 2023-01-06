@@ -70,11 +70,11 @@ export const shopGetRootAction = (qaryb_link?: string) => {
 };
 
 // GET : /api/1.0.0/shop/phone_codes/
-export const shopGetPhoneCodesAction = () => { // <= saga used as export
-	return {
-		type: Types.SHOP_GET_PHONE_CODES,
-	};
-};
+// export const shopGetPhoneCodesAction = () => { // <= saga used as export
+// 	return {
+// 		type: Types.SHOP_GET_PHONE_CODES,
+// 	};
+// };
 
 // PATCH : /api/1.0.0/shop/store_name/
 export const shopPatchShopNameAction = (shop_name: string) => {

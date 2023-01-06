@@ -502,14 +502,14 @@ export const offerGetAvailableFiltersByShopID = (
 	}
 }
 
-export const offerGetAvailableFiltersByUniqueID = (
-	unique_id: string,
-) => {
-	return {
-		type: Types.OFFER_GET_AVAILABLE_FILTERS_BY_UNIQUE_ID,
-		unique_id,
-	}
-}
+// export const offerGetAvailableFiltersByUniqueID = (
+// 	unique_id: string,
+// ) => {
+// 	return {
+// 		type: Types.OFFER_GET_AVAILABLE_FILTERS_BY_UNIQUE_ID,
+// 		unique_id,
+// 	}
+// }
 
 export const setEmptyUserLocalOffer = () => {
 	return {

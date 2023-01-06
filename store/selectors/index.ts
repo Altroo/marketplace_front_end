@@ -6,6 +6,7 @@ import {
 	OfferTagsType, WSThumbnailType
 } from "../../types/offer/offerTypes";
 import { CountriesType } from "../../types/places/placesTypes";
+import { ChatGetConversationsType } from "../../types/chat/chatTypes";
 
 // _Init
 export const getTokenType = (state: RootState) => state._init.tokenType as TokenChoices;
@@ -24,8 +25,8 @@ export const getNewShopFontName = (state: RootState) => state.shop.newShop.font_
 // Global
 export const getNewShopApiError = (state: RootState) => state.shop.userShopApi.error;
 // Add
-export const getNewShopIsAddInProgress = (state: RootState) => state.shop.userShopApi.isAddInProgress;
-export const getNewShopAddPromiseStatus = (state: RootState) => state.shop.userShopApi.addPromiseStatus;
+// export const getNewShopIsAddInProgress = (state: RootState) => state.shop.userShopApi.isAddInProgress;
+// export const getNewShopAddPromiseStatus = (state: RootState) => state.shop.userShopApi.addPromiseStatus;
 // Edit
 export const getNewShopIsEditInProgress = (state: RootState) => state.shop.userShopApi.isEditInProgress;
 export const getNewShopEditPromiseStatus = (state: RootState) => state.shop.userShopApi.editPromiseStatus;
@@ -38,16 +39,16 @@ export const getNewShopEditPromiseStatus = (state: RootState) => state.shop.user
 export const getShopName = (state: RootState) => state.shop.userShop?.shop_name as string;
 export const getShopAvatar = (state: RootState) => state.shop.userShop?.avatar as string;
 export const getShopWSAvatar = (state: RootState) => state.shop.shop_thumbnail;
-export const getShopColorCode = (state: RootState) => state.shop.userShop?.color_code as string;
-export const getShopBgColorCode = (state: RootState) => state.shop.userShop?.bg_color_code as string;
-export const getShopFontName = (state: RootState) => state.shop.userShop?.font_name as ShopFontNameType;
-export const getShopBorder = (state: RootState) => state.shop.userShop?.border as string;
-export const getShopIconColor = (state: RootState) => state.shop.userShop?.icon_color as IconColorType;
-export const getShopPhoneContactCode = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_phone_code;
-export const getShopWhatsappContactCode = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_whatsapp_code;
-export const getShopPhoneContact = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_phone;
-export const getShopWhatsappContact = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_whatsapp;
-export const getShopContactMode = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_mode;
+// export const getShopColorCode = (state: RootState) => state.shop.userShop?.color_code as string;
+// export const getShopBgColorCode = (state: RootState) => state.shop.userShop?.bg_color_code as string;
+// export const getShopFontName = (state: RootState) => state.shop.userShop?.font_name as ShopFontNameType;
+// export const getShopBorder = (state: RootState) => state.shop.userShop?.border as string;
+// export const getShopIconColor = (state: RootState) => state.shop.userShop?.icon_color as IconColorType;
+// export const getShopPhoneContactCode = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_phone_code;
+// export const getShopWhatsappContactCode = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_whatsapp_code;
+// export const getShopPhoneContact = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_phone;
+// export const getShopWhatsappContact = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_whatsapp;
+// export const getShopContactMode = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.contact_mode;
 export const getShopBio = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.bio;
 
 export const getShopOpeningDays = (state: RootState) => (state.shop.userShop as ShopGetRootUniqueIDType)?.opening_days;
@@ -89,7 +90,7 @@ export const getWSFacture = (state: RootState) => state.account.facture;
 
 // Offers
 export const getOfferTags = (state: RootState) => state.offer.selectedTags as OfferTagsType;
-export const getSelectedOffer = (state: RootState) => state.offer.selectedOffer as OfferGetRootProductInterface | OfferGetRootServiceInterface | null;
+// export const getSelectedOffer = (state: RootState) => state.offer.selectedOffer as OfferGetRootProductInterface | OfferGetRootServiceInterface | null;
 export const getWsOfferThumbnail = (state: RootState) => state.offer.offer_thumbnail as WSThumbnailType | null;
 // Local offers
 // Product
@@ -149,7 +150,7 @@ export const getLocalOfferServicePriceBy = (state: RootState) => state.offer.use
 
 
 // Offer by pk
-export const getOfferOfferApi = (state: RootState) => state.offer.offerApi;
+// export const getOfferOfferApi = (state: RootState) => state.offer.offerApi;
 
 // Subscription
 export const getAvailableSubscriptions = (state: RootState) => state.subscription.available_subscription_plan;
@@ -164,3 +165,7 @@ export const getUserLocalCartCoordonneeData = (state: RootState) => state.cart.u
 export const getUserLocalCartDeliveriesData = (state: RootState) => state.cart.userLocalCartOrderDeliveriesData;
 // Index page
 export const getBoutiqueCoupDeCoeur = (state: RootState) => state._init.boutiqueCoupDeCoeur;
+
+// Chat
+export const getMyConversationsResults = (state: RootState) => state.chat.conversationsList.results as Array<ChatGetConversationsType>;
+export const getMyConversationsNextPage = (state: RootState) => state.chat.conversationsList.next as string | null;
