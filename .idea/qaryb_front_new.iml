@@ -387,6 +387,7 @@
       <excludeFolder url="file://$MODULE_DIR$/archives/shop/edit" />
       <excludeFolder url="file://$MODULE_DIR$/archives/edit" />
       <excludeFolder url="file://$MODULE_DIR$/archives/disponibilitiesRadioCheckContent" />
+      <excludeFolder url="file://$MODULE_DIR$/.yarn" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
