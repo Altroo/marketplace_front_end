@@ -5,7 +5,10 @@ import {
 	WSMaintenance, WSNotification,
 	WSOfferPictureType,
 	WSShopAvatar,
-	WSUserAvatar
+	WSUserAvatar,
+	WSChatMessageSeen,
+	WSChatNewMessage,
+	WSChatUserStatus,
 } from "../../types/ws/wsTypes";
 import {
 	WSMaintenanceAction,
@@ -19,6 +22,9 @@ import {
 	WSOfferPicture3ThumbAction,
 	WSOfferPicture4Action,
 	WSOfferPicture4ThumbAction,
+	WSMessageSeenAction,
+	WSNewMessageAction,
+	WSUserStatusAction,
 } from '../actions/ws/wsActions';
 import { WSFactureAction, WSNotificationAction } from "../actions/notification/notificationActions";
 
@@ -42,7 +48,19 @@ export function initWebsocket(token: string) {
 					if (msg) {
 						const { message } = msg;
 						const signalType : WSEventType = message.type;
-						if (signalType === 'OFFER_PICTURE_1') {
+						if (signalType === 'NEW_MESSAGE') {
+							const { message } = msg as WSEvent<WSChatNewMessage>;
+							const {pk, initiator, recipient, body} = message;
+							return emitter(WSNewMessageAction(pk, initiator, recipient, body));
+						} else if (signalType === 'MSG_SEEN') {
+							const { message } = msg as WSEvent<WSChatMessageSeen>;
+							const {pk, initiator, recipient} = message;
+							return emitter(WSMessageSeenAction(pk, initiator, recipient));
+						} else if (signalType === 'USER_STATUS') {
+							const { message } = msg as WSEvent<WSChatUserStatus>;
+							const {user, online, recipient} = message;
+							return emitter(WSUserStatusAction(user, online, recipient));
+						} else if (signalType === 'OFFER_PICTURE_1') {
 							const { message } = msg as WSEvent<WSOfferPictureType>;
 							const { pk, offer_picture } = message;
 							return emitter(WSOfferPicture1Action(pk, offer_picture));

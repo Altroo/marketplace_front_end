@@ -10,7 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/fr';
 import { TextFieldProps } from '@mui/material/TextField/TextField';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers';
-import { getDateFromNumber } from '../../../../utils/helpers';
+import { getDayStrFromNumber } from '../../../../utils/helpers';
 import Chip from '@mui/material/Chip';
 
 const defaultTheme = getDefaultTheme('#0D070B');
@@ -102,7 +102,7 @@ const GetServiceCart: React.FC<Props> = (props: Props) => {
 
 	const customDayRenderer = useCallback(
 		(day: Dayjs, selectedDays: (Dayjs | null)[], pickersDayProps: PickersDayProps<Dayjs>) => {
-			const weekDay = getDateFromNumber(day.day(), true);
+			const weekDay = getDayStrFromNumber(day.day(), true);
 			if (!availabilityDays.includes(weekDay)) {
 				return <PickersDay {...pickersDayProps} disabled />;
 			}

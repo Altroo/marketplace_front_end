@@ -12,7 +12,7 @@ import {
 	DASHBOARD_SUBSCRIPTION,
 	NOT_FOUND_404,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	REAL_SHOP_ADD_SHOP_NAME, DASHBOARD_ORDERS, DASHBOARD_ORDER_DETAIL
+	REAL_SHOP_ADD_SHOP_NAME, DASHBOARD_ORDERS, DASHBOARD_ORDER_DETAIL, USER_VIEW_PROFILE_BY_ID
 } from "../../utils/routes";
 import { Stack, Box, Skeleton, Badge } from '@mui/material';
 import UserMainNavigationBar from '../../components/layouts/userMainNavigationBar/userMainNavigationBar';
@@ -22,7 +22,7 @@ import Image from 'next/image';
 // import MobileMessageSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-message.svg';
 // import MobileNotificationSVG from '../../public/assets/svgs/mainNavBarIcons/notification.svg';
 // import MobileNewNotificationSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mobile-new-notification.svg';
-// import RatingBlackStarSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/rating-black-star.svg';
+import RatingBlackStarSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/rating-black-star.svg';
 import MiniArticlesTotalCountSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mini-articles-total-count.svg';
 import MiniArticlesVueCountSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mini-articles-vue-count.svg';
 import MiniUSDSVG from '../../public/assets/svgs/dashboardIcons/mainIcons/mini-usd.svg';
@@ -75,7 +75,7 @@ export const ShopInfoContent: React.FC<ShopInfoContentType> = (props: ShopInfoCo
 		total_offers_vue_count,
 		total_sells_count,
 		total_offers_count,
-		// global_rating,
+		global_rating,
 	} = props;
 
 	return (
@@ -105,12 +105,12 @@ export const ShopInfoContent: React.FC<ShopInfoContentType> = (props: ShopInfoCo
 						)}
 					</Box>
 					<span className={Styles.dashboardShopName}>{shop_name}</span>
-					{/*<Box>*/}
-					{/*	<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">*/}
-					{/*		<Image src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />*/}
-					{/*		<span className={Styles.dashboardRatingText}>{global_rating} sur 5</span>*/}
-					{/*	</Stack>*/}
-					{/*</Box>*/}
+					<Box>
+						<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
+							<Image src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />
+							<span className={Styles.dashboardRatingText}>{global_rating} sur 5</span>
+						</Stack>
+					</Box>
 				</Stack>
 				<Stack direction="row" justifyContent="center" spacing={2} alignItems="center">
 					<Stack direction="row" spacing={1} alignItems="center">
@@ -149,9 +149,9 @@ const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentTy
 	const {
 		first_name,
 		last_name,
-		// global_rating,
+		global_rating,
 		avatar,
-		// user_id
+		user_id
 	} = props;
 
 	return (
@@ -179,19 +179,19 @@ const UserInfoContent: React.FC<UserInfoContentType> = (props: UserInfoContentTy
 					<span className={Styles.dashboardShopName}>
 						{first_name} {last_name}
 					</span>
-					{/*<Box>*/}
-					{/*	<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">*/}
-					{/*		<Image src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />*/}
-					{/*		<span className={Styles.dashboardRatingText}>{global_rating} sur 5</span>*/}
-					{/*	</Stack>*/}
-					{/*</Box>*/}
+					<Box>
+						<Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
+							<Image src={RatingBlackStarSVG} alt="" width="13" height="13" sizes="100vw" />
+							<span className={Styles.dashboardRatingText}>{global_rating} sur 5</span>
+						</Stack>
+					</Box>
 				</Stack>
 			</Stack>
-			{/*<Stack direction="row" justifyContent="flex-end" alignItems="flex-end">*/}
-			{/*	<Link passHref href={USER_VIEW_PROFILE_BY_ID(user_id)}>*/}
-			{/*		<a className={Styles.dashboardAnchorLink}>Voir mon profil</a>*/}
-			{/*	</Link>*/}
-			{/*</Stack>*/}
+			<Stack direction="row" justifyContent="flex-end" alignItems="flex-end">
+				<Link passHref href={USER_VIEW_PROFILE_BY_ID(user_id)}>
+					<span className={Styles.dashboardAnchorLink}>Voir mon profil</span>
+				</Link>
+			</Stack>
 		</Stack>
 	);
 };

@@ -7,6 +7,7 @@ import {
 } from '../_init/_initTypes';
 import { UserClass } from '../../models/account/UserClass';
 import { OrdersSmallListBoxType } from "../order/orderTypes";
+import { OfferCategoriesType, OffersGetMiniOffersList } from "../offer/offerTypes";
 
 export type AccountGenderType = 'M' | 'F';
 
@@ -45,7 +46,22 @@ export interface AccountStateInterface {
 	passwordResetCodeSent: boolean;
 	emailChanged: boolean;
 	facture: string | null;
+	blockedList: Array<AccountGetBlockType> | [];
 }
+
+export type AccountGetBlockType = {
+	pk: number;
+	blocked_user_pk: number;
+	blocked_user_first_name: string | null;
+	blocked_user_last_name: string | null;
+	blocked_user_avatar: string;
+};
+
+export type AccountBlockType = Array<AccountGetBlockType> | [];
+
+export type AccountGetBlockResponseType = ResponseDataInterface<AccountBlockType>;
+export type AccountPostBlockResponseType = ResponseDataInterface<AccountGetBlockType>;
+
 
 export type AccountPostRegisterResponseType = ResponseDataInterface<InitStateNonNullableToken>;
 
@@ -126,3 +142,21 @@ export type AccountGetDashboardType = {
 };
 
 export type AccountGetDashboardResponseType = ResponseDataInterface<AccountGetDashboardType>;
+
+export type AccountGetProfilByUserIDType = {
+	pk: number;
+	avatar: string;
+	first_name: string;
+	last_name: string;
+	city: string | null;
+	country: string | null;
+	date_joined: string;
+	shop_pk: number | null;
+	shop_name: string | null;
+	shop_link: string | null;
+	available_categories: Array<OfferCategoriesType>;
+	available_services: boolean;
+	offers: Array<OffersGetMiniOffersList>;
+};
+
+export type AccountGetProfilByUserIDResponseType = ResponseDataInterface<AccountGetProfilByUserIDType>;

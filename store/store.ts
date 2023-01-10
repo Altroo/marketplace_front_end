@@ -13,6 +13,7 @@ import subscriptionReducer from './slices/subscription/subscriptionSlice';
 import notificationReducer from './slices/notification/notificationSlice';
 import cartReducer from './slices/cart/cartSlice';
 import orderReducer from './slices/order/orderSlice';
+import chatReducer from './slices/chat/chatSlice';
 
 const SagaMiddleware = createSagaMiddleware({});
 
@@ -26,6 +27,7 @@ const combinedReducers = combineReducers({
 	notification: notificationReducer,
 	cart: cartReducer,
 	order: orderReducer,
+	chat: chatReducer,
 	version: versionReducer,
 });
 

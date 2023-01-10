@@ -177,48 +177,48 @@ export const editShopNameTextInputTheme = (primaryColor: string | undefined = un
 	});
 };
 // Offer title text input
-export const offerTitleTextInputTheme = (primaryColor: string | undefined = undefined) => {
-	const defaultTheme = getDefaultTheme(primaryColor);
-
-	return createTheme({
-		...defaultTheme,
-		components: {
-			MuiInputBase: {
-				styleOverrides: {
-					// input wrapper (div)
-					root: {
-						fontFamily: 'Poppins',
-						fontSize: '19px',
-						height: '55px',
-						padding: '10px',
-						width: '100%',
-						'& fieldset': {
-							padding: '10px 18px',
-							height: '59px',
-							fontFamily: 'Poppins',
-							fontSize: '19px',
-							borderRadius: '16px',
-							border: '1px solid #A3A3AD',
-						},
-						'& fieldset > legend': {
-							// size of red error line (label) (input size - 5px)
-							fontFamily: 'Poppins',
-							fontSize: '14px',
-						},
-					},
-				},
-			},
-			MuiFormControl: {
-				styleOverrides: {
-					root: {
-						width: 'auto',
-						height: '100%',
-					},
-				},
-			},
-		},
-	});
-};
+// export const offerTitleTextInputTheme = (primaryColor: string | undefined = undefined) => {
+// 	const defaultTheme = getDefaultTheme(primaryColor);
+//
+// 	return createTheme({
+// 		...defaultTheme,
+// 		components: {
+// 			MuiInputBase: {
+// 				styleOverrides: {
+// 					// input wrapper (div)
+// 					root: {
+// 						fontFamily: 'Poppins',
+// 						fontSize: '19px',
+// 						height: '55px',
+// 						padding: '10px',
+// 						width: '100%',
+// 						'& fieldset': {
+// 							padding: '10px 18px',
+// 							height: '59px',
+// 							fontFamily: 'Poppins',
+// 							fontSize: '19px',
+// 							borderRadius: '16px',
+// 							border: '1px solid #A3A3AD',
+// 						},
+// 						'& fieldset > legend': {
+// 							// size of red error line (label) (input size - 5px)
+// 							fontFamily: 'Poppins',
+// 							fontSize: '14px',
+// 						},
+// 					},
+// 				},
+// 			},
+// 			MuiFormControl: {
+// 				styleOverrides: {
+// 					root: {
+// 						width: 'auto',
+// 						height: '100%',
+// 					},
+// 				},
+// 			},
+// 		},
+// 	});
+// };
 // Shop bio text area
 export const bioTextAreaTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
@@ -1135,74 +1135,74 @@ export const checkBoxTheme = (primaryColor: string | undefined = undefined) => {
 	});
 };
 
-export const newsLetterEmailInputTheme = () => {
-	const whiteColor = '#FFFFFF';
-
-	return createTheme({
-		palette: {
-			primary: {
-				main: whiteColor,
-			},
-		},
-		breakpoints: {
-			values: {
-				xs: 0,
-				sm: 767,
-				md: 991,
-				lg: 1200,
-				xl: 1920,
-			},
-		},
-		typography: {
-			fontFamily: 'Poppins',
-		},
-		components: {
-			MuiInputBase: {
-				styleOverrides: {
-					root: {
-						'& fieldset': {
-							borderRadius: '16px',
-							border: '1px solid #A3A3AD',
-						},
-						'& fieldset > legend': {
-							// size of red error line (label) (input size - 5px)
-							fontFamily: 'Poppins',
-							fontSize: '14px',
-						},
-						'&:hover': {
-							borderRadius: '16px',
-							border: '1px solid #A3A3AD',
-						},
-					},
-					input: {
-						fontFamily: 'Poppins',
-						fontSize: '19px',
-						caretColor: whiteColor,
-					},
-				},
-			},
-			MuiFormControl: {
-				styleOverrides: {
-					root: {
-						'& .MuiFormLabel-root': {
-							fontFamily: 'Poppins',
-							fontSize: '19px',
-							color: '#A3A3AD',
-						},
-						'& .MuiFormLabel-root.Mui-focused': {
-							fontFamily: 'Poppins',
-							fontSize: '19px',
-							color: whiteColor,
-						},
-						'& .MuiInputBase-root': {
-							color: whiteColor,
-						},
-					},
-				},
-			},
-		},
-	});
-};
+// export const newsLetterEmailInputTheme = () => {
+// 	const whiteColor = '#FFFFFF';
+//
+// 	return createTheme({
+// 		palette: {
+// 			primary: {
+// 				main: whiteColor,
+// 			},
+// 		},
+// 		breakpoints: {
+// 			values: {
+// 				xs: 0,
+// 				sm: 767,
+// 				md: 991,
+// 				lg: 1200,
+// 				xl: 1920,
+// 			},
+// 		},
+// 		typography: {
+// 			fontFamily: 'Poppins',
+// 		},
+// 		components: {
+// 			MuiInputBase: {
+// 				styleOverrides: {
+// 					root: {
+// 						'& fieldset': {
+// 							borderRadius: '16px',
+// 							border: '1px solid #A3A3AD',
+// 						},
+// 						'& fieldset > legend': {
+// 							// size of red error line (label) (input size - 5px)
+// 							fontFamily: 'Poppins',
+// 							fontSize: '14px',
+// 						},
+// 						'&:hover': {
+// 							borderRadius: '16px',
+// 							border: '1px solid #A3A3AD',
+// 						},
+// 					},
+// 					input: {
+// 						fontFamily: 'Poppins',
+// 						fontSize: '19px',
+// 						caretColor: whiteColor,
+// 					},
+// 				},
+// 			},
+// 			MuiFormControl: {
+// 				styleOverrides: {
+// 					root: {
+// 						'& .MuiFormLabel-root': {
+// 							fontFamily: 'Poppins',
+// 							fontSize: '19px',
+// 							color: '#A3A3AD',
+// 						},
+// 						'& .MuiFormLabel-root.Mui-focused': {
+// 							fontFamily: 'Poppins',
+// 							fontSize: '19px',
+// 							color: whiteColor,
+// 						},
+// 						'& .MuiInputBase-root': {
+// 							color: whiteColor,
+// 						},
+// 					},
+// 				},
+// 			},
+// 		},
+// 	});
+// };
 
 export const SizesChipTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);

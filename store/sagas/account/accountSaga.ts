@@ -6,9 +6,9 @@ import {
 	isAuthenticatedInstance,
 
 } from '../../../utils/helpers';
-import { getApi, patchApi, postApi, putApi } from '../../services/_init/_initAPI';
+import { deleteApi, getApi, patchApi, postApi, putApi } from "../../services/_init/_initAPI";
 import {
-	check_accountGETApiErrorAction,
+	check_accountGETApiErrorAction, setBlockedList,
 	setCheckAccount,
 	setCheckAccountGETLoading,
 	setEmailChanged,
@@ -27,9 +27,10 @@ import {
 	ResponseOnlyInterface,
 } from "../../../types/_init/_initTypes";
 import {
+	AccountGetBlockResponseType,
 	AccountGetCheckAccountResponseType,
 	AccountPatchProfilResponseType,
-	AccountPatchProfilType,
+	AccountPatchProfilType, AccountPostBlockResponseType,
 	AccountPutChangeEmailHasPasswordResponseType
 } from "../../../types/account/accountTypes";
 import { setTokenState, setFbEmailInInit } from "../../slices/_init/_initSlice";
@@ -193,6 +194,70 @@ function* accountPostRegisterSaga(payload: {type: string, tokens: InitStateNonNu
 	yield put(setIsLoggedIn(true));
 }
 
+function* accountGetBlockSaga() {
+	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
+	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_BLOCK}`;
+	try {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+			const response: AccountGetBlockResponseType = yield call(() => getApi(url, authInstance));
+			if (response.status === 200) {
+				yield put(setBlockedList(response.data));
+			} else {
+				console.log(response.data);
+				console.log(response.status);
+			}
+		}
+	} catch (e) {
+		const errors = e as ApiErrorResponseType;
+		console.log(errors);
+		// set error state
+	}
+}
+
+function* accountPostBlockSaga(payload: { type: string; user_pk: number }) {
+	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
+	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_BLOCK}`;
+	try {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+			const response: AccountPostBlockResponseType = yield call(() =>
+				postApi(url, authInstance, { user_pk: payload.user_pk }),
+			);
+			if (response.status === 204) {
+				// Reload the block list
+				yield call(() => accountGetBlockSaga());
+			} else {
+				console.log(response.status);
+			}
+		}
+	} catch (e) {
+		const errors = e as ApiErrorResponseType;
+		console.log(errors);
+		// set error state
+	}
+}
+
+function* accountDeleteBlockSaga(payload: { type: string; user_pk: number }) {
+	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
+	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_BLOCK}${payload.user_pk}/`;
+	try {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+			const response: ResponseOnlyInterface = yield call(() => deleteApi(url, authInstance));
+			if (response.status === 204) {
+				// Reload the block list
+				yield call(() => accountGetBlockSaga());
+			} else {
+				console.log(response.status);
+			}
+		}
+	} catch (e) {
+		const errors = e as ApiErrorResponseType;
+		console.log(errors);
+		// set error state
+	}
+}
 
 export function* watchAccount() {
 	yield takeLatest(Types.ACCOUNT_POST_REGISTER, accountPostRegisterSaga);
@@ -205,6 +270,9 @@ export function* watchAccount() {
 	yield takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_HAS_PASSWORD, withCallback(accountPutChangeEmailHasPasswordSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_PUT_CHANGE_EMAIL_NOT_HAS_PASSWORD, withCallback(accountPutChangeEmailNotHasPasswordSaga as Saga));
 	yield takeLatest(Types.ACCOUNT_SET_FACEBOOK_EMAIL, accountSetFacebookEmailSaga);
+	yield takeLatest(Types.ACCOUNT_GET_BLOCK, accountGetBlockSaga);
+	yield takeLatest(Types.ACCOUNT_POST_BLOCK, accountPostBlockSaga);
+	yield takeLatest(Types.ACCOUNT_DELETE_BLOCK, accountDeleteBlockSaga);
 	yield takeLatest(Types.WS_USER_AVATAR, wsUserAvatarSaga);
 	yield takeLatest(Types.WS_FACTURE, wsUserFactureSaga);
 }

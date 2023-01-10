@@ -92,3 +92,45 @@ export const accountGetCheckAccountAction = () => {
 		type: types.ACCOUNT_GET_CHECK_ACCOUNT,
 	};
 };
+
+export const accountGetProfilAction = () => {
+	return {
+		type: types.ACCOUNT_GET_PROFIL,
+	};
+};
+
+export const accountGetProfilByUserIDAction = (user_pk: number) => {
+	return {
+		type: types.ACCOUNT_GET_PROFIL_BY_USER_ID,
+		user_pk
+	};
+};
+
+export const accountGetBlockedAction = () => {
+	return {
+		type: types.ACCOUNT_GET_BLOCK,
+	};
+};
+
+export const accountPostBlockAction = (user_pk: number) => {
+	return {
+		type: types.ACCOUNT_POST_BLOCK,
+		user_pk,
+	};
+};
+
+export const accountDeleteBlockAction = (user_pk: number) => {
+	return {
+		type: types.ACCOUNT_DELETE_BLOCK,
+		user_pk,
+	};
+};
+
+/*** report_reason needs a type - NOT YET AVAILABLE ON FIGMA */
+export const accountPostReportAction = (user_pk: number, report_reason: string) => {
+	return {
+		type: types.ACCOUNT_POST_REPORT,
+		user_pk,
+		report_reason,
+	};
+};

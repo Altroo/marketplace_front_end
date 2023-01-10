@@ -32,19 +32,19 @@ export type checkBoxForWhomType = {
 	children?: React.ReactNode;
 };
 
-export type checkBoxesForWhomActionType = {
-	onChange: (value: ((prevState: boolean) => boolean) | boolean) => void;
-	checked: boolean;
-	active: boolean;
-	activeColor: string;
-	text: string;
-};
-
-export type switchActionType = {
-	checked: boolean;
-	onChange: React.Dispatch<React.SetStateAction<boolean>>;
-	activeColor?: string;
-};
+// export type checkBoxesForWhomActionType = {
+// 	onChange: (value: ((prevState: boolean) => boolean) | boolean) => void;
+// 	checked: boolean;
+// 	active: boolean;
+// 	activeColor: string;
+// 	text: string;
+// };
+//
+// export type switchActionType = {
+// 	checked: boolean;
+// 	onChange: React.Dispatch<React.SetStateAction<boolean>>;
+// 	activeColor?: string;
+// };
 
 export type contacterPhoneInputType = {
 	checked: boolean;

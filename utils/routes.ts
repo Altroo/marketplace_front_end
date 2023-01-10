@@ -82,3 +82,9 @@ export const PANIER = `${SITE_ROOT}panier`;
 export const PANIER_DETAILS_BY_SHOP_PK = (shop_pk: number) => `${PANIER}/${shop_pk}`;
 export const PANIER_ORDER_BY_SHOP_PK = (shop_pk: number) => `${PANIER}/${shop_pk}/order`;
 export const PANIER_ORDER_COMPLETE = (shop_pk: number) => `${PANIER}/${shop_pk}/order-complete`;
+
+// user index - (view profil - has shop data - user data or both)
+export const USER_VIEW_PROFILE_BY_ID = (user_id: number) => `/user/${user_id}/`;
+
+// Blog test
+export const BLOG = `${SITE_ROOT}blog`;

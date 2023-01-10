@@ -58,7 +58,7 @@ type IndexProps = {
 	};
 };
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
-	const { title, page_meta_description, header, paragraphe, tags, page_url } = props.pageProps.page_data;
+	const { title, page_meta_description, h_one, h_two, paragraphe, tags, page_url } = props.pageProps.page_data;
 	const { offers_data, page_filters } = props.pageProps;
 
 	const map = new Iterables.LinkedHashMap<number, OfferGetMyOffersProductServiceType>();
@@ -199,8 +199,8 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 				<UserMainNavigationBar />
 				<main className={Styles.main}>
 					<DefaultSeoTextContent
-						title={title}
-						header={header}
+						h_one={h_one}
+						h_two={h_two}
 						paragraphe={paragraphe}
 						tags={tags}
 						filterMargin={true}

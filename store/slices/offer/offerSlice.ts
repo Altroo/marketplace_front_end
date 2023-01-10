@@ -370,7 +370,7 @@ const OfferSlice = createSlice({
 
 export const {
 	setSelectedOfferTags,
-	setMyOffersFirstPageListIsLoading,
+	// setMyOffersFirstPageListIsLoading,
 	setPutOfferIsLoading,
 	setOfferLastUsedLocalisation,
 	setDeleteOfferIsLoading,
