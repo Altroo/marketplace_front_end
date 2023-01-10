@@ -924,7 +924,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 										</Stack>
 										{!selectedImage ? (
 											<Box className={Styles.mainImageWrapper}>
-												<Skeleton variant="rectangular" width={590} height={388} className={Styles.selectedImage} />
+												<Skeleton variant="rectangular" width={590} height={500} className={Styles.selectedImage} />
 											</Box>
 										) : (
 											<Box className={Styles.mainImageWrapper}>
@@ -932,7 +932,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 													className={Styles.selectedImage}
 													src={selectedImage}
 													width={590}
-													height={388}
+													height={500}
 													sizes="100vw"
 													onClick={() => {
 														showImage(selectedImage);
@@ -967,7 +967,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 													className={Styles.clickedImage}
 													src={clickedImage}
 													width={590}
-													height={388}
+													height={500}
 													sizes="100vw"
 													alt=""
 												/>
@@ -2155,7 +2155,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 										</Stack>
 										{!selectedImage ? (
 											<Box className={Styles.mainImageWrapper}>
-												<Skeleton variant="rectangular" width={590} height={388} className={Styles.selectedImage} />
+												<Skeleton variant="rectangular" width={590} height={500} className={Styles.selectedImage} />
 											</Box>
 										) : (
 											<Box className={Styles.mainImageWrapper}>
@@ -2163,7 +2163,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 													className={Styles.selectedImage}
 													src={selectedImage}
 													width={590}
-													height={388}
+													height={500}
 													sizes="100vw"
 													onClick={() => {
 														showImage(selectedImage);
@@ -2188,7 +2188,7 @@ const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
 													className={Styles.clickedImage}
 													src={clickedImage}
 													width={590}
-													height={388}
+													height={500}
 													sizes="100vw"
 													alt=""
 												/>
