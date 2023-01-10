@@ -362,9 +362,7 @@ const ShopTabContent: React.FC<Props> = (props: Props) => {
 																</Box>
 																<Stack direction="column" spacing={0}>
 																	<span className={Styles.offerTitle}>
-																		{data.value.title.length >= 25
-																			? data.value.title.substring(0, 25) + '...'
-																			: data.value.title}
+																		{data.value.title}
 																	</span>
 																	<Stack direction="row" spacing={1}>
 																		<span
