@@ -372,7 +372,7 @@ export const generateOrdersFilterQueryParams = (query: ParsedUrlQuery, nextPage?
 	return url;
 };
 
-export const getDateFromNumber = (dayNumber: number, addIndex: boolean) => {
+export const getDayStrFromNumber = (dayNumber: number, addIndex: boolean) => {
 	const days = ['Samedi', 'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi']
 	if (addIndex) {
 		return days[dayNumber + 1];

@@ -85,3 +85,6 @@ export const PANIER_ORDER_COMPLETE = (shop_pk: number) => `${PANIER}/${shop_pk}/
 
 // user index - (view profil - has shop data - user data or both)
 export const USER_VIEW_PROFILE_BY_ID = (user_id: number) => `/user/${user_id}/`;
+
+// Blog test
+export const BLOG = `${SITE_ROOT}blog`;
