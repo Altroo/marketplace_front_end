@@ -292,6 +292,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 		if (picture_1) {
 			availableImages.push(picture_1);
 			setSelectedImage(picture_1);
+			setSelectedImageIndex(0);
 		} else {
 			setSelectedImage(null);
 		}
