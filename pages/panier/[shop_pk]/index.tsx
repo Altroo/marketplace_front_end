@@ -22,16 +22,22 @@ import { useAppDispatch } from '../../../utils/hooks';
 import { GetServerSidePropsContext, NextPage } from "next";
 import { getCookie } from 'cookies-next';
 import { AxiosInstance } from 'axios';
-import { allowAnyInstance, Desktop, TabletAndMobile } from '../../../utils/helpers';
+import {
+	allowAnyInstance,
+	Desktop,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	TabletAndMobile
+} from "../../../utils/helpers";
 import {
 	CartClickAndCollectDeliveriesStateType,
 	CartGetDetailsResponseType,
 	CartGetDetailsType,
 	cartPaginationDetailsForProduct,
-	cartPaginationDetailsForService,
-} from '../../../types/cart/cartTypes';
+	cartPaginationDetailsForService
+} from "../../../types/cart/cartTypes";
 import { getApi } from '../../../store/services/_init/_initAPI';
-import { PANIER, PANIER_ORDER_BY_SHOP_PK, REAL_OFFER_ROUTE } from '../../../utils/routes';
+import { PANIER, PANIER_ORDER_BY_SHOP_PK, REAL_OFFER_ROUTE } from "../../../utils/routes";
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../../components/layouts/footer/customFooter';
 import Link from 'next/link';
@@ -607,7 +613,7 @@ const PaimentBoxContent: React.FC<PaimentBoxContentType> = (props: PaimentBoxCon
 type IndexPropsType = {
 	pageProps: {
 		data: CartGetDetailsType;
-		unique_id: string;
+		unique_id: string | null;
 	};
 };
 
@@ -981,6 +987,38 @@ const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 	);
 };
 
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+// 	const cart_unique_id = getCookie('@unique_id', { req: context.req, res: context.res });
+// 	const { shop_pk } = context.query;
+// 	const emptyRedirect = {
+// 		redirect: {
+// 			permanent: false,
+// 			destination: PANIER,
+// 		},
+// 	};
+// 	if (cart_unique_id && shop_pk) {
+// 		const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_DETAILS}${shop_pk}/${cart_unique_id}/`;
+// 		const instance: AxiosInstance = allowAnyInstance();
+// 		const response: CartGetDetailsResponseType = await getApi(url, instance);
+// 		if (response.status === 200) {
+// 			if (response.data.results.length > 0) {
+// 				return {
+// 					props: {
+// 						data: response.data,
+// 						unique_id: cart_unique_id,
+// 					},
+// 				};
+// 			} else {
+// 				return emptyRedirect;
+// 			}
+// 		} else {
+// 			return emptyRedirect;
+// 		}
+// 	} else {
+// 		return emptyRedirect;
+// 	}
+// }
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const cart_unique_id = getCookie('@unique_id', { req: context.req, res: context.res });
 	const { shop_pk } = context.query;
@@ -990,27 +1028,53 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			destination: PANIER,
 		},
 	};
-	if (cart_unique_id && shop_pk) {
-		const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_DETAILS}${shop_pk}/${cart_unique_id}/`;
-		const instance: AxiosInstance = allowAnyInstance();
-		const response: CartGetDetailsResponseType = await getApi(url, instance);
-		if (response.status === 200) {
-			if (response.data.results.length > 0) {
-				return {
-					props: {
-						data: response.data,
-						unique_id: cart_unique_id,
-					},
-				};
+	const appToken = getServerSideCookieTokens(context);
+	try {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null && shop_pk) {
+			const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_DETAILS}${shop_pk}/`;
+			const instance = isAuthenticatedInstance(appToken.initStateToken);
+			const response: CartGetDetailsResponseType = await getApi(url, instance);
+			if (response.status === 200) {
+				if (response.data.results.length > 0) {
+					return {
+							props: {
+								data: response.data,
+								unique_id: null,
+							},
+						};
+				} else {
+					return emptyRedirect;
+				}
 			} else {
 				return emptyRedirect;
 			}
 		} else {
-			return emptyRedirect;
+			if (cart_unique_id && shop_pk) {
+				const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_DETAILS}${shop_pk}/${cart_unique_id}/`;
+				const instance: AxiosInstance = allowAnyInstance();
+				const response: CartGetDetailsResponseType = await getApi(url, instance);
+				if (response.status === 200) {
+					if (response.data.results.length > 0) {
+						return {
+							props: {
+								data: response.data,
+								unique_id: cart_unique_id,
+							},
+						};
+					} else {
+						return emptyRedirect;
+					}
+				} else {
+					return emptyRedirect;
+				}
+			} else {
+				return emptyRedirect;
+			}
 		}
-	} else {
+	} catch (e) {
 		return emptyRedirect;
 	}
 }
+
 
 export default Index;

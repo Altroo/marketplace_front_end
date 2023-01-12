@@ -120,6 +120,83 @@ const OrderSummaryBoxContent: React.FC<OrderSummaryBoxContentType> = (props: Ord
 	);
 };
 
+type OrderSummaryReadOnlyBoxContentType = {
+	totalPrice: number;
+	total_delivery_price: number | null;
+	onCancelHandler: () => void;
+	note: string | null;
+	order_status: OrderStatusType;
+};
+const OrderSummaryReadOnlyBoxContent: React.FC<OrderSummaryReadOnlyBoxContentType> = (props: OrderSummaryReadOnlyBoxContentType) => {
+	const { totalPrice, note, onCancelHandler, total_delivery_price, order_status } = props;
+
+	return (
+		<Box className={Styles.orderSummaryBox}>
+			<Stack direction="column" spacing="18px">
+				<Stack direction="column" spacing="18px">
+					{note && (
+						<Stack direction="column" spacing="18px">
+							<Stack direction="column" spacing="10px">
+								<Stack direction="row" spacing="10px" alignItems="center">
+									<Image src={RemarqueBlackSVG} alt="" width={21} height={18} />
+									<span className={Styles.summaryBoxTitles}>Remarque</span>
+								</Stack>
+								<span className={Styles.note}>{note}</span>
+							</Stack>
+							<Divider orientation="horizontal" flexItem className={Styles.divider} />
+						</Stack>
+					)}
+					<Stack direction="column" spacing="18px">
+						<Stack direction="row" spacing="10px" alignItems="center">
+							<Image src={FactureBlackSVG} alt="" width={21} height={18} />
+							<span className={Styles.summaryBoxTitles}>Facture</span>
+						</Stack>
+						<Stack direction="row" justifyContent="space-between" className={Styles.priceDetails}>
+							<span>Total des produit(s)</span>
+							<span>{totalPrice} DH</span>
+						</Stack>
+						<Stack
+							direction="row"
+							justifyContent="space-between"
+							className={`${
+								total_delivery_price && total_delivery_price > 0
+									? Styles.priceDetails
+									: Styles.livraisonPriceGratuitDetails
+							}`}
+						>
+							<span>Livraison</span>
+							<span>
+								{total_delivery_price && total_delivery_price > 0 ? `${total_delivery_price} DH` : 'GRATUITE'}
+							</span>
+						</Stack>
+						<Divider orientation="horizontal" flexItem className={Styles.divider} />
+						<Stack direction="column" justifyContent="center" alignItems="center" className={Styles.totalPrice}>
+							<span>Total</span>
+							<span>{total_delivery_price ? total_delivery_price + totalPrice : totalPrice} DH</span>
+						</Stack>
+					</Stack>
+				</Stack>
+				{order_status === 'IP' && (
+					<Stack
+						direction="column"
+						justifyContent="center"
+						spacing="18px"
+						alignItems="center"
+						className={Styles.orderBoxRootStack}
+					>
+						<PrimaryButton
+							buttonText="Annuler commande"
+							cssClass={Styles.cancelButton}
+							active={true}
+							onClick={onCancelHandler}
+						/>
+					</Stack>
+				)}
+			</Stack>
+		</Box>
+	);
+};
+
 type RowOrderDetailProductType = {
 	offer_thumbnail: string;
 	offer_title: string;
@@ -417,14 +494,24 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 							</Stack>
 						</ThemeProvider>
 					</Stack>
-					<OrderSummaryBoxContent
-						onAcceptHandler={onAcceptHandlerShowModal}
-						onCancelHandler={onCancelHandlerShowModal}
-						total_delivery_price={data.highest_delivery_price}
-						totalPrice={data.total_price}
-						order_status={data.order_status}
-						note={data.note}
-					/>
+					{data.order_for === 'S' ? (
+						<OrderSummaryBoxContent
+							onAcceptHandler={onAcceptHandlerShowModal}
+							onCancelHandler={onCancelHandlerShowModal}
+							total_delivery_price={data.highest_delivery_price}
+							totalPrice={data.total_price}
+							order_status={data.order_status}
+							note={data.note}
+						/>
+					) : (
+						<OrderSummaryReadOnlyBoxContent
+							onCancelHandler={onCancelHandlerShowModal}
+							total_delivery_price={data.highest_delivery_price}
+							totalPrice={data.total_price}
+							order_status={data.order_status}
+							note={data.note}
+						/>
+					)}
 				</Stack>
 			</main>
 			{/* Accept Modal */}

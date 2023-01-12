@@ -390,7 +390,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 	const {
 		// has_messages,
 		// has_notifications,
-		mini_orders_list,
+		mixed_mini_orders_list,
 		is_subscribed,
 		shop_name,
 		shop_avatar,
@@ -556,9 +556,9 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 												)}
 												<span className={Styles.dashboardCardIconText}>Mes commandes</span>
 											</Stack>
-											{mini_orders_list.length > 0 ? (
-												<Stack direction="column" justifyContent="space-between" spacing="18px" pt="18px" height="100%">
-													{mini_orders_list.map((order) => {
+											{mixed_mini_orders_list.length > 0 ? (
+												<Stack direction="column" spacing="18px" pt="18px" height="100%">
+													{mixed_mini_orders_list.map((order) => {
 														const {text, color} = getOrderStatus(order.order_status);
 														return (
 															<Link href={DASHBOARD_ORDER_DETAIL(order.pk)} key={order.pk} className={Styles.hover}>
@@ -583,7 +583,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 															</Link>
 														);
 													})}
-													<Stack direction="row" alignSelf="flex-end">
+													<Stack direction="column" alignSelf="flex-end" height="100%" justifyContent="flex-end">
 														<Link href={DASHBOARD_ORDERS} className={Styles.hrefLink}>
 															Toutes les commandes
 														</Link>

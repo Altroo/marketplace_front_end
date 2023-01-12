@@ -21,7 +21,13 @@ import {
 } from '../../../types/cart/cartTypes';
 import { getApi } from '../../../store/services/_init/_initAPI';
 import { AxiosInstance } from 'axios';
-import { allowAnyInstance, Desktop, TabletAndMobile } from '../../../utils/helpers';
+import {
+	allowAnyInstance,
+	Desktop,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	TabletAndMobile
+} from "../../../utils/helpers";
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import {
@@ -409,7 +415,7 @@ const RecapBoxContent: React.FC<RecapBoxContentType> = (props: RecapBoxContentTy
 type OrderPropsType = {
 	pageProps: {
 		data: CartGetDetailsType;
-		unique_id: string;
+		unique_id: string | null;
 	};
 };
 const Order: NextPage<OrderPropsType> = (props: OrderPropsType) => {
@@ -442,6 +448,12 @@ const Order: NextPage<OrderPropsType> = (props: OrderPropsType) => {
 		onSubmit: async (values, { setSubmitting }) => {
 			if (userLocalCart) {
 				const { shop_pk, delivery_pk, picked_click_and_collect, picked_deliveries } = userLocalCart;
+				let url;
+				if (unique_id) {
+					url = `${process.env.NEXT_PUBLIC_CART_ROOT_POST_ORDER}${unique_id}/`;
+				} else {
+					url = `${process.env.NEXT_PUBLIC_CART_ROOT_POST_ORDER}`;
+				}
 				const action = cartSetLocalCartOrderDeliveriesDataAction({
 					first_name: values.first_name,
 					last_name: values.last_name,
@@ -456,7 +468,7 @@ const Order: NextPage<OrderPropsType> = (props: OrderPropsType) => {
 					shop_pk: shop_pk,
 					picked_click_and_collect: picked_click_and_collect,
 					picked_delivery: picked_deliveries,
-					url: `${process.env.NEXT_PUBLIC_CART_ROOT_POST_ORDER}${unique_id}/`,
+					url: url,
 				});
 				dispatch({
 					...action,
@@ -496,6 +508,12 @@ const Order: NextPage<OrderPropsType> = (props: OrderPropsType) => {
 		onSubmit: async (values, { setSubmitting }) => {
 			if (userLocalCart) {
 				const { shop_pk, delivery_pk, picked_click_and_collect, picked_deliveries } = userLocalCart;
+				let url;
+				if (unique_id) {
+					url = `${process.env.NEXT_PUBLIC_CART_ROOT_POST_ORDER}${unique_id}/`;
+				} else {
+					url = `${process.env.NEXT_PUBLIC_CART_ROOT_POST_ORDER}`;
+				}
 				const action = cartSetLocalCartOrderCoordonneeDataAction({
 					first_name: values.first_name,
 					last_name: values.last_name,
@@ -506,7 +524,7 @@ const Order: NextPage<OrderPropsType> = (props: OrderPropsType) => {
 					shop_pk: shop_pk,
 					picked_click_and_collect: picked_click_and_collect,
 					picked_delivery: picked_deliveries,
-					url: `${process.env.NEXT_PUBLIC_CART_ROOT_POST_ORDER}${unique_id}/`,
+					url: url,
 				});
 				dispatch({
 					...action,
@@ -1033,6 +1051,38 @@ const Order: NextPage<OrderPropsType> = (props: OrderPropsType) => {
 	);
 };
 
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+// 	const cart_unique_id = getCookie('@unique_id', { req: context.req, res: context.res });
+// 	const { shop_pk } = context.query;
+// 	const emptyRedirect = {
+// 		redirect: {
+// 			permanent: false,
+// 			destination: PANIER,
+// 		},
+// 	};
+// 	if (cart_unique_id && shop_pk) {
+// 		const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_DETAILS}${shop_pk}/${cart_unique_id}/`;
+// 		const instance: AxiosInstance = allowAnyInstance();
+// 		const response: CartGetDetailsResponseType = await getApi(url, instance);
+// 		if (response.status === 200) {
+// 			if (response.data.results.length > 0) {
+// 				return {
+// 					props: {
+// 						data: response.data,
+// 						unique_id: cart_unique_id,
+// 					},
+// 				};
+// 			} else {
+// 				return emptyRedirect;
+// 			}
+// 		} else {
+// 			return emptyRedirect;
+// 		}
+// 	} else {
+// 		return emptyRedirect;
+// 	}
+// }
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const cart_unique_id = getCookie('@unique_id', { req: context.req, res: context.res });
 	const { shop_pk } = context.query;
@@ -1042,25 +1092,50 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			destination: PANIER,
 		},
 	};
-	if (cart_unique_id && shop_pk) {
-		const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_DETAILS}${shop_pk}/${cart_unique_id}/`;
-		const instance: AxiosInstance = allowAnyInstance();
-		const response: CartGetDetailsResponseType = await getApi(url, instance);
-		if (response.status === 200) {
-			if (response.data.results.length > 0) {
-				return {
-					props: {
-						data: response.data,
-						unique_id: cart_unique_id,
-					},
-				};
+	const appToken = getServerSideCookieTokens(context);
+	try {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null && shop_pk) {
+			const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_DETAILS}${shop_pk}/`;
+			const instance = isAuthenticatedInstance(appToken.initStateToken);
+			const response: CartGetDetailsResponseType = await getApi(url, instance);
+			if (response.status === 200) {
+				if (response.data.results.length > 0) {
+					return {
+							props: {
+								data: response.data,
+								unique_id: null,
+							},
+						};
+				} else {
+					return emptyRedirect;
+				}
 			} else {
 				return emptyRedirect;
 			}
 		} else {
-			return emptyRedirect;
+			if (cart_unique_id && shop_pk) {
+				const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_DETAILS}${shop_pk}/${cart_unique_id}/`;
+				const instance: AxiosInstance = allowAnyInstance();
+				const response: CartGetDetailsResponseType = await getApi(url, instance);
+				if (response.status === 200) {
+					if (response.data.results.length > 0) {
+						return {
+							props: {
+								data: response.data,
+								unique_id: cart_unique_id,
+							},
+						};
+					} else {
+						return emptyRedirect;
+					}
+				} else {
+					return emptyRedirect;
+				}
+			} else {
+				return emptyRedirect;
+			}
 		}
-	} else {
+	} catch (e) {
 		return emptyRedirect;
 	}
 }

@@ -218,7 +218,7 @@ type deliveriesObj = {
 type ProductProps = {
 	permission: 'OWNER' | 'NOT_OWNER';
 	data: OfferGetRootProductInterface;
-	unique_id: string;
+	unique_id: string | null;
 	children?: React.ReactNode;
 };
 const Product: React.FC<ProductProps> = (props: ProductProps) => {
@@ -1534,7 +1534,7 @@ const Product: React.FC<ProductProps> = (props: ProductProps) => {
 type ServiceProps = {
 	permission: 'OWNER' | 'NOT_OWNER';
 	data: OfferGetRootServiceInterface;
-	unique_id: string;
+	unique_id: string | null;
 	children?: React.ReactNode;
 };
 const Service: React.FC<ServiceProps> = (props: ServiceProps) => {
@@ -2658,7 +2658,7 @@ type IndexPropsType = {
 	pageProps: {
 		permission: 'OWNER' | 'NOT_OWNER';
 		data: OfferGetRootProductInterface | OfferGetRootServiceInterface;
-		unique_id: string;
+		unique_id: string | null;
 	};
 };
 const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
@@ -2689,9 +2689,6 @@ const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
-	const check_url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
-	const instance = defaultInstance(base_url);
 	const appToken = getServerSideCookieTokens(context);
 	const options: CookieSerializeOptions = {
 		httpOnly: true,
@@ -2701,26 +2698,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
 		sameSite: 'lax',
 	};
-	let unique_id = getCookie('@unique_id', { req: context.req, res: context.res });
-	const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/${context.params?.shop_link}/${context.params?.offer_pk}/${
-		unique_id ? `${unique_id}/` : ''
-	}`;
 	try {
-		const response: OfferGetRootProductResponseType | OfferGetRootServiceResponseType = await getApi(url, instance);
 		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
-			const isAuthInstance = isAuthenticatedInstance(appToken.initStateToken);
-			const authResponse: AccountGetCheckAccountResponseType = await getApi(check_url, isAuthInstance);
+			const instance = isAuthenticatedInstance(appToken.initStateToken);
+			const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/${context.params?.shop_link}/${context.params?.offer_pk}/`;
+			const check_url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
+			const response: OfferGetRootProductResponseType | OfferGetRootServiceResponseType = await getApi(url, instance);
+			const authResponse: AccountGetCheckAccountResponseType = await getApi(check_url, instance);
 			if (authResponse.status === 200 && response.status === 200) {
-				if (!unique_id) {
-					unique_id = response.data.unique_id;
-					context.res.setHeader('Set-Cookie', serialize('@unique_id', unique_id, options));
-				}
 				if (authResponse.data.pk === response.data.user_pk) {
 					return {
 						props: {
 							permission: 'OWNER',
 							data: response.data,
-							unique_id: unique_id,
+							unique_id: null,
 						},
 					};
 				} else {
@@ -2728,12 +2719,19 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						props: {
 							permission: 'NOT_OWNER',
 							data: response.data,
-							unique_id: unique_id,
+							unique_id: null,
 						},
 					};
 				}
 			}
 		} else {
+			let unique_id = getCookie('@unique_id', { req: context.req, res: context.res });
+			const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/${context.params?.shop_link}/${context.params?.offer_pk}/${
+				unique_id ? `${unique_id}/` : ''
+			}`;
+			const base_url = `${process.env.NEXT_PUBLIC_ROOT_API_URL}`;
+			const instance = defaultInstance(base_url);
+			const response: OfferGetRootProductResponseType | OfferGetRootServiceResponseType = await getApi(url, instance);
 			if (response.status === 200) {
 				if (!unique_id) {
 					unique_id = response.data.unique_id;
@@ -2757,6 +2755,63 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			props: {},
 		};
 	}
+
+
+	// const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/${context.params?.shop_link}/${context.params?.offer_pk}/${
+	// 	unique_id ? `${unique_id}/` : ''
+	// }`;
+	// try {
+	// 	const response: OfferGetRootProductResponseType | OfferGetRootServiceResponseType = await getApi(url, instance);
+	// 	if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+	// 		const isAuthInstance = isAuthenticatedInstance(appToken.initStateToken);
+	// 		const authResponse: AccountGetCheckAccountResponseType = await getApi(check_url, isAuthInstance);
+	// 		if (authResponse.status === 200 && response.status === 200) {
+	// 			if (!unique_id) {
+	// 				unique_id = response.data.unique_id;
+	// 				context.res.setHeader('Set-Cookie', serialize('@unique_id', unique_id, options));
+	// 			}
+	// 			if (authResponse.data.pk === response.data.user_pk) {
+	// 				return {
+	// 					props: {
+	// 						permission: 'OWNER',
+	// 						data: response.data,
+	// 						unique_id: unique_id,
+	// 					},
+	// 				};
+	// 			} else {
+	// 				return {
+	// 					props: {
+	// 						permission: 'NOT_OWNER',
+	// 						data: response.data,
+	// 						unique_id: unique_id,
+	// 					},
+	// 				};
+	// 			}
+	// 		}
+	// 	} else {
+	// 		if (response.status === 200) {
+	// 			if (!unique_id) {
+	// 				unique_id = response.data.unique_id;
+	// 				context.res.setHeader('Set-Cookie', serialize('@unique_id', unique_id, options));
+	// 			}
+	// 			return {
+	// 				props: {
+	// 					permission: 'NOT_OWNER',
+	// 					data: response.data,
+	// 					unique_id: unique_id,
+	// 				},
+	// 			};
+	// 		}
+	// 	}
+	// } catch (e) {
+	// 	return {
+	// 		redirect: {
+	// 			permanent: false,
+	// 			destination: NOT_FOUND_404,
+	// 		},
+	// 		props: {},
+	// 	};
+	// }
 }
 
 export default Index;
