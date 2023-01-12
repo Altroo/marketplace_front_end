@@ -10,7 +10,7 @@ import {
 export const cartPostProductRootUniqueIDAction = (
 	offer_pk: number,
 	offer_type: OfferOfferTypeType,
-	unique_id: string,
+	unique_id: string | null,
 	picked_color: string | null,
 	picked_size: string | null,
 	picked_quantity: number,
@@ -29,7 +29,7 @@ export const cartPostProductRootUniqueIDAction = (
 export const cartPostServiceRootUniqueIDAction = (
 	offer_pk: number,
 	offer_type: OfferOfferTypeType,
-	unique_id: string,
+	unique_id: string | null,
 	picked_date: string,
 	picked_hour: string,
 ) => {
@@ -43,14 +43,14 @@ export const cartPostServiceRootUniqueIDAction = (
 	};
 };
 
-export const cartGetCartCounterAction = (unique_id: string) => {
+export const cartGetCartCounterAction = (unique_id: string | null) => {
 	return {
 		type: types.CART_GET_CART_COUNTER,
 		unique_id,
 	};
 };
 
-export const cartPatchCartQuantityAction = (cart_pk: number, unique_id: string, action_type: '+' | '-') => {
+export const cartPatchCartQuantityAction = (cart_pk: number, unique_id: string | null, action_type: '+' | '-') => {
 	return {
 		type: types.CART_PATCH_CART_QUANTITY,
 		cart_pk,
@@ -59,7 +59,7 @@ export const cartPatchCartQuantityAction = (cart_pk: number, unique_id: string, 
 	};
 };
 
-export const cartDeleteAction = (cart_pk: number, unique_id: string) => {
+export const cartDeleteAction = (cart_pk: number, unique_id: string | null) => {
 	return {
 		type: types.CART_DELETE_ROOT,
 		cart_pk,

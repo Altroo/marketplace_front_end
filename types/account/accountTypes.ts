@@ -128,7 +128,7 @@ export type AccountGetDashboardType = {
 	has_messages: boolean;
 	has_notifications: boolean;
 	has_orders: boolean;
-	mini_orders_list: Array<OrdersSmallListBoxType>,
+	mixed_mini_orders_list: Array<OrdersSmallListBoxType>,
 	indexed_articles_count: number;
 	remaining_slots_count: number;
 	all_slots_count: number;

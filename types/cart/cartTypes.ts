@@ -68,7 +68,7 @@ export interface CartStateInterface {
 
 type CartBaseType = {
 	pk: number;
-	unique_id: string;
+	unique_id: string | null;
 };
 
 export interface CartPostProductRoot extends CartBaseType {

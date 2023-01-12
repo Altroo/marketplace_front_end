@@ -16,13 +16,19 @@ import {
 } from '../../types/cart/cartTypes';
 import TextAnchorButton from '../../components/htmlElements/buttons/textAnchorButton/textAnchorButton';
 import ArrowRightSVG from '../../public/assets/svgs/navigationIcons/arrow-right.svg';
-import { allowAnyInstance, Desktop, TabletAndMobile } from '../../utils/helpers';
+import {
+	allowAnyInstance,
+	Desktop,
+	getServerSideCookieTokens,
+	isAuthenticatedInstance,
+	TabletAndMobile,
+} from '../../utils/helpers';
 import { PANIER_DETAILS_BY_SHOP_PK, REAL_OFFER_ROUTE } from '../../utils/routes';
 import Link from 'next/link';
 import { getCookie } from 'cookies-next';
 import { AxiosInstance } from 'axios';
 import { getApi } from '../../store/services/_init/_initAPI';
-import { getDateStringFromFormatedDate } from "../../utils/rawData";
+import { getDateStringFromFormatedDate } from '../../utils/rawData';
 
 const EmptyCartContent = () => {
 	const router = useRouter();
@@ -142,12 +148,14 @@ const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 																				<Stack direction="column">
 																					{(offer.offer_details as cartPaginationDetailsForProduct).picked_color && (
 																						<span className={Styles.offerDetails}>
-																							Couleur : {(offer.offer_details as cartPaginationDetailsForProduct).picked_color}
+																							Couleur :{' '}
+																							{(offer.offer_details as cartPaginationDetailsForProduct).picked_color}
 																						</span>
 																					)}
 																					{(offer.offer_details as cartPaginationDetailsForProduct).picked_size && (
 																						<span className={Styles.offerDetails}>
-																							Taille : {(offer.offer_details as cartPaginationDetailsForProduct).picked_size}
+																							Taille :{' '}
+																							{(offer.offer_details as cartPaginationDetailsForProduct).picked_size}
 																						</span>
 																					)}
 																				</Stack>
@@ -155,12 +163,19 @@ const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 																				<Stack direction="column">
 																					{(offer.offer_details as cartPaginationDetailsForService).picked_date && (
 																						<span className={Styles.offerDetails}>
-																							Date : {getDateStringFromFormatedDate((offer.offer_details as cartPaginationDetailsForService).picked_date as Date)}
+																							Date :{' '}
+																							{getDateStringFromFormatedDate(
+																								(offer.offer_details as cartPaginationDetailsForService)
+																									.picked_date as Date,
+																							)}
 																						</span>
 																					)}
 																					{(offer.offer_details as cartPaginationDetailsForService).picked_hour && (
 																						<span className={Styles.offerDetails}>
-																							Heure : {(offer.offer_details as cartPaginationDetailsForService).picked_hour?.slice(0, -3)}
+																							Heure :{' '}
+																							{(
+																								offer.offer_details as cartPaginationDetailsForService
+																							).picked_hour?.slice(0, -3)}
 																						</span>
 																					)}
 																				</Stack>
@@ -194,9 +209,13 @@ const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 							<Stack direction="column" spacing="12px">
 								{data.results.map((result, index) => {
 									return (
-										<Box key={index} className={Styles.multiRootBox} onClick={() => {
+										<Box
+											key={index}
+											className={Styles.multiRootBox}
+											onClick={() => {
 												router.push(PANIER_DETAILS_BY_SHOP_PK(result.shop_pk)).then();
-											}}>
+											}}
+										>
 											<Stack direction="row" justifyContent="space-between" alignItems="center" spacing="18px">
 												<Stack direction="row" alignItems="center" spacing="18px">
 													<div className={Styles.avatarSubWrapper}>
@@ -236,6 +255,48 @@ const Index: NextPage<IndexPropsType> = (props: IndexPropsType) => {
 	}
 };
 
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+// 	const cart_unique_id = getCookie('@unique_id', { req: context.req, res: context.res });
+// 	const emptyProps = {
+// 		props: {
+// 			data: null,
+// 			cart_unique_id: null,
+// 		},
+// 	};
+// 	if (cart_unique_id) {
+// 		const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_LIST}${cart_unique_id}/`;
+// 		const instance: AxiosInstance = allowAnyInstance();
+// 		const response: CartGetAllResponseType = await getApi(url, instance);
+// 		if (response.status === 200) {
+// 			if (response.data.results.length > 0) {
+// 				// redirect here if single
+// 				if (response.data.cart_type === 'MULTI_SHOP') {
+// 					return {
+// 						props: {
+// 							data: response.data,
+// 							cart_unique_id: cart_unique_id,
+// 						},
+// 					};
+// 				} else {
+// 					return {
+// 						// redirect to single page detail
+// 						redirect: {
+// 							permanent: false,
+// 							destination: PANIER_DETAILS_BY_SHOP_PK(response.data.results[0].shop_pk),
+// 						},
+// 					};
+// 				}
+// 			} else {
+// 				return emptyProps;
+// 			}
+// 		} else {
+// 			return emptyProps;
+// 		}
+// 	} else {
+// 		return emptyProps;
+// 	}
+// }
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const cart_unique_id = getCookie('@unique_id', { req: context.req, res: context.res });
 	const emptyProps = {
@@ -244,36 +305,72 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			cart_unique_id: null,
 		},
 	};
-	if (cart_unique_id) {
-		const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_LIST}${cart_unique_id}/`;
-		const instance: AxiosInstance = allowAnyInstance();
-		const response: CartGetAllResponseType = await getApi(url, instance);
-		if (response.status === 200) {
-			if (response.data.results.length > 0) {
-				// redirect here if single
-				if (response.data.cart_type === 'MULTI_SHOP') {
-					return {
-						props: {
-							data: response.data,
-							cart_unique_id: cart_unique_id,
-						},
-					};
+	const appToken = getServerSideCookieTokens(context);
+	try {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+			const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_LIST}`;
+			const instance = isAuthenticatedInstance(appToken.initStateToken);
+			const response: CartGetAllResponseType = await getApi(url, instance);
+			if (response.status === 200) {
+				if (response.data.results.length > 0) {
+					// redirect here if single
+					if (response.data.cart_type === 'MULTI_SHOP') {
+						return {
+							props: {
+								data: response.data,
+								cart_unique_id: cart_unique_id,
+							},
+						};
+					} else {
+						return {
+							// redirect to single page detail
+							redirect: {
+								permanent: false,
+								destination: PANIER_DETAILS_BY_SHOP_PK(response.data.results[0].shop_pk),
+							},
+						};
+					}
 				} else {
-					return {
-						// redirect to single page detail
-						redirect: {
-							permanent: false,
-							destination: PANIER_DETAILS_BY_SHOP_PK(response.data.results[0].shop_pk),
-						},
-					};
+					return emptyProps;
 				}
 			} else {
 				return emptyProps;
 			}
 		} else {
-			return emptyProps;
+			if (cart_unique_id) {
+				const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_LIST}${cart_unique_id}/`;
+				const instance: AxiosInstance = allowAnyInstance();
+				const response: CartGetAllResponseType = await getApi(url, instance);
+				if (response.status === 200) {
+					if (response.data.results.length > 0) {
+						// redirect here if single
+						if (response.data.cart_type === 'MULTI_SHOP') {
+							return {
+								props: {
+									data: response.data,
+									cart_unique_id: cart_unique_id,
+								},
+							};
+						} else {
+							return {
+								// redirect to single page detail
+								redirect: {
+									permanent: false,
+									destination: PANIER_DETAILS_BY_SHOP_PK(response.data.results[0].shop_pk),
+								},
+							};
+						}
+					} else {
+						return emptyProps;
+					}
+				} else {
+					return emptyProps;
+				}
+			} else {
+				return emptyProps;
+			}
 		}
-	} else {
+	} catch (e) {
 		return emptyProps;
 	}
 }

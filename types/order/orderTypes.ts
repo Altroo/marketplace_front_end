@@ -77,6 +77,7 @@ export interface OrdersGetOrdersListType extends Omit<OrdersSmallListBoxType, 'a
 	order_details: Array<OrderDetailsListType>;
 	note: string | null;
 	highest_delivery_price: number | null;
+	order_for: 'S' | 'B',
 }
 
 export type OrdersGetOrdersListResponseType = ResponseDataInterface<PaginationResponseType<OrdersGetOrdersListType>>;
