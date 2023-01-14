@@ -23,7 +23,7 @@ const DefaultSeoTextContent: React.FC<Props> = (props: Props) => {
 				<h1 className={Styles.pageTitle}>{h_one}</h1>
 				<ThemeProvider theme={ReadOnlyChipsTheme()}>
 					<Stack direction="row" flexWrap="wrap" className={Styles.rootChipStack}>
-						{tags.map((tag, index) => {
+						{tags && tags.map((tag, index) => {
 							return <Chip key={index} label={tag} variant="filled" />;
 						})}
 					</Stack>
