@@ -33,6 +33,7 @@ export type OrderStatusType = 'IP' | 'CM' | 'CA';
 
 export type OrdersSmallListBoxType = {
 	pk: number;
+	link: number | string;
 	first_name: string;
 	last_name: string;
 	avatar: string;

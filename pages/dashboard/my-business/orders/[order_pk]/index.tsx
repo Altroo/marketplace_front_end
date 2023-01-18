@@ -1,7 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Styles from '../../../../../styles/dashboard/orders/order_pk/orderDetail.module.sass';
-import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../../../utils/routes';
+import {
+	AUTH_LOGIN,
+	NOT_FOUND_404,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE,
+	USER_VIEW_PROFILE_BY_ID
+} from "../../../../../utils/routes";
 import { AxiosInstance } from 'axios';
 import {
 	Desktop,
@@ -40,6 +45,7 @@ import {
 } from '../../../../../store/actions/order/orderActions';
 import SharedStyles from '../../../../../styles/dashboard/dashboard.module.sass';
 import MiniBackSVG from '../../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
+import Link from "next/link";
 
 type OrderSummaryBoxContentType = {
 	totalPrice: number;
@@ -395,7 +401,16 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 				<Stack direction="row" spacing="80px" justifyContent="space-between" className={Styles.orderStack}>
 					<Stack direction="column" spacing="0px" width="100%" className={Styles.rootStack}>
 						<Stack direction="column" spacing="0px">
-							<h2 className={Styles.header}>{`${data.first_name} ${data.last_name}`}</h2>
+							{data.order_for === 'B' ? (
+								<Link href={REAL_SHOP_BY_SHOP_LINK_ROUTE(data.link as string)} target="_blank" rel="noreferrer">
+									<h2 className={Styles.header}>{`${data.first_name} ${data.last_name}`}</h2>
+								</Link>
+							) : (
+								<Link href={USER_VIEW_PROFILE_BY_ID(data.link as number)} target="_blank" rel="noreferrer">
+									<h2 className={Styles.header}>{`${data.first_name} ${data.last_name}`}</h2>
+								</Link>
+							)}
+							{/*<h2 className={Styles.header}>{`${data.first_name} ${data.last_name}`}</h2>*/}
 							<Stack direction="row" spacing="5px" alignItems="center" className={Styles.orderTopStack}>
 								<span>Commande N° {data.order_number}</span>
 								<Desktop>

@@ -33,8 +33,6 @@ export const isAuthenticatedInstance = (
 			// load new access token from storage instead.
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			// config.headers!['Authorization'] = 'Bearer ' + initStateToken.access_token;
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			// @ts-ignore
 			config.headers?.set({
 				Authorization: 'Bearer ' + initStateToken.access_token
 			});
@@ -268,6 +266,17 @@ export const getServerSideCookieTokens = (context: GetServerSidePropsContext) =>
 	}
 	return appToken;
 };
+
+export const getServerSideVirementData = (context: GetServerSidePropsContext) => {
+	const virement = getCookie('@virement', { req: context.req, res: context.res });
+	if (virement) {
+		return JSON.parse(virement as string);
+	}
+	return {
+		reference_number: undefined,
+		total_paid: undefined,
+	}
+}
 
 type formikAutoErrors = {
 	e: unknown;

@@ -1,4 +1,6 @@
-import * as Types from '../index';
+//@ts-ignore
+{ /* empty */ }
+// import * as Types from '../index';
 
 // export const versionGetRootAction = () => {
 // 	return {

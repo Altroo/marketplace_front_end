@@ -295,28 +295,38 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
 						<Stack direction="row" spacing="6px">
 							<TextButton
 								buttonText="Achats"
-								onClick={() => setToggleOrdersType('B')}
-								cssClass={Styles.toggleOrdersButton}
+								onClick={() => {
+									setToggleOrdersType('B');
+									if ('order_status' in router.query) {
+										applyFilterHandler(router.query.order_status as OrderStatusType);
+									}
+								}}
+								cssClass={`${Styles.toggleOrdersButton} ${toggleOrdersType === 'B' && Styles.orderTypeActive}`}
 							/>
 							<TextButton
 								buttonText="Ventes"
-								onClick={() => setToggleOrdersType('S')}
-								cssClass={Styles.toggleOrdersButton}
+								onClick={() => {
+									setToggleOrdersType('S');
+									if ('order_status' in router.query) {
+										applyFilterHandler(router.query.order_status as OrderStatusType);
+									}
+								}}
+								cssClass={`${Styles.toggleOrdersButton} ${toggleOrdersType === 'S' && Styles.orderTypeActive}`}
 							/>
 							<TextButton
 								buttonText="En cours..."
 								onClick={() => applyFilterHandler('IP')}
-								cssClass={Styles.filterEnCours}
+								cssClass={`${Styles.filterEnCours} ${router.query.order_status === 'IP' && Styles.filterEnCoursActive}`}
 							/>
 							<TextButton
 								buttonText="Terminer"
 								onClick={() => applyFilterHandler('CM')}
-								cssClass={Styles.filterTerminer}
+								cssClass={`${Styles.filterTerminer} ${router.query.order_status === 'CM' && Styles.filterTerminerActive}`}
 							/>
 							<TextButton
 								buttonText="Annulée"
 								onClick={() => applyFilterHandler('CA')}
-								cssClass={Styles.filterAnnuler}
+								cssClass={`${Styles.filterAnnuler} ${router.query.order_status === 'CA' && Styles.filterAnnulerActive}`}
 							/>
 						</Stack>
 						{toggleOrdersType === 'S' ? (

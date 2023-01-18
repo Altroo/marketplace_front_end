@@ -14,7 +14,7 @@ import {
 	NOT_FOUND_404,
 } from '../../../../utils/routes';
 import { AccountGetCheckAccountResponseType } from '../../../../types/account/accountTypes';
-import { getApi } from '../../../../store/services/_init/_initAPI';
+import { cookiesPoster, getApi } from "../../../../store/services/_init/_initAPI";
 import {
 	availableSubscriptionPlanType,
 	SagaCallBackOnCompleteCheckPromoCodeType,
@@ -230,19 +230,14 @@ const UpdateCheckout: NextPage<UpdateCheckoutProps> = (props: UpdateCheckoutProp
 				...action,
 				onComplete: ({ error, cancelled, data }: SagaCallBackOnCompletePostSubscriptionType) => {
 					if (!error && !cancelled && data) {
-						const query = {
-							reference_number: data.reference_number,
-							total_paid: data.total_paid,
-						};
-						router
-							.replace(
-								{
-									pathname: DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT,
-									query: { ...query },
-								},
-								DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT,
-							) // using "as" to hide the query params
-							.then();
+						cookiesPoster('/cookies', {
+								virement: {
+									reference_number: data.reference_number,
+									total_paid: data.total_paid,
+								}
+							}).then(() => {
+								router.push(DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT).then();
+							});
 					}
 					if (error) {
 						setFormikAutoErrors({

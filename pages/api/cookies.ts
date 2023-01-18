@@ -116,7 +116,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				maxAge: query.maxAge,
 				sameSite: 'lax',
 				...options,
-			})
+			});
+		}
+		if ('virement' in query) {
+			setCookie(res, '@virement', query.virement, {
+				maxAge: query.maxAge,
+				sameSite: 'lax',
+				...options,
+			});
 		}
 		res.status(204);
 		res.end();

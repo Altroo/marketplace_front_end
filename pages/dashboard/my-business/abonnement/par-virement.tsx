@@ -2,7 +2,12 @@ import React from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import SharedStyles from '../../../../styles/dashboard/dashboard.module.sass';
 import Styles from '../../../../styles/dashboard/subscription.module.sass';
-import { defaultInstance, getServerSideCookieTokens, isAuthenticatedInstance } from '../../../../utils/helpers';
+import {
+	defaultInstance,
+	getServerSideCookieTokens,
+	getServerSideVirementData,
+	isAuthenticatedInstance
+} from "../../../../utils/helpers";
 import {
 	AccountGetCheckAccountResponseType,
 	AccountGetDashboardResponseType,
@@ -112,7 +117,8 @@ const ParVirement: NextPage<ParVirementProps> = (props: ParVirementProps) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	const appToken = getServerSideCookieTokens(context);
-	const { reference_number, total_paid } = context.query;
+	const { reference_number, total_paid } = getServerSideVirementData(context);
+
 	try {
 		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);

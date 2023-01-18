@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import {
 	Desktop,
 	getServerSideCookieTokens,
 	isAuthenticatedInstance,
-	setFormikAutoErrors, TabletAndMobile
-} from "../../../../utils/helpers";
+	setFormikAutoErrors,
+	TabletAndMobile,
+} from '../../../../utils/helpers';
 import {
 	AUTH_LOGIN,
 	DASHBOARD_INDEXED_OFFERS,
@@ -14,7 +15,7 @@ import {
 	NOT_FOUND_404,
 } from '../../../../utils/routes';
 import { AccountGetCheckAccountResponseType } from '../../../../types/account/accountTypes';
-import { getApi } from '../../../../store/services/_init/_initAPI';
+import { cookiesPoster, getApi } from '../../../../store/services/_init/_initAPI';
 import {
 	availableSubscriptionPlanType,
 	SagaCallBackOnCompleteCheckPromoCodeType,
@@ -29,11 +30,7 @@ import { useAppDispatch, useAppSelector } from '../../../../utils/hooks';
 import { useFormik } from 'formik';
 import { promoCodeSchema, subscriptionSchema } from '../../../../utils/formValidationSchemas';
 import { getAvailableCountries } from '../../../../store/selectors';
-import {
-	coordonneeTextInputTheme,
-	offerForWhomDropdownTheme,
-	promoCodeTextInputTheme,
-} from '../../../../utils/themes';
+import { coordonneeTextInputTheme, offerForWhomDropdownTheme, promoCodeTextInputTheme } from '../../../../utils/themes';
 import { placesGetCountriesAction } from '../../../../store/actions/places/placesActions';
 import CustomTextInput from '../../../../components/formikElements/customTextInput/customTextInput';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -244,19 +241,14 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 						if (data.total_paid === 0) {
 							router.replace(DASHBOARD_INDEXED_OFFERS).then();
 						} else {
-							const query = {
-								reference_number: data.reference_number,
-								total_paid: data.total_paid,
-							};
-							router
-								.replace(
-									{
-										pathname: DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT,
-										query: { ...query },
-									},
-									DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT,
-								) // using "as" to hide the query params
-								.then();
+							cookiesPoster('/cookies', {
+								virement: {
+									reference_number: data.reference_number,
+									total_paid: data.total_paid,
+								}
+							}).then(() => {
+								router.push(DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT).then();
+							});
 						}
 					}
 					if (error) {
@@ -435,15 +427,22 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 											value={formikPromoCode.values.promo_code}
 											onChange={formikPromoCode.handleChange('promo_code')}
 											onBlur={formikPromoCode.handleBlur('promo_code')}
-											helperText={(formikPromoCode.touched.promo_code ? formikPromoCode.errors.promo_code : '') || (showPromoCodeMessage && showPromoCodeMessage === 'success' ? 'Promo code appliquer.' : '')}
+											helperText={
+												(formikPromoCode.touched.promo_code ? formikPromoCode.errors.promo_code : '') ||
+												(showPromoCodeMessage && showPromoCodeMessage === 'success' ? 'Promo code appliquer.' : '')
+											}
 											error={formikPromoCode.touched.promo_code && Boolean(formikPromoCode.errors.promo_code)}
 											fullWidth={false}
 											size="medium"
 											color={showPromoCodeMessage && showPromoCodeMessage === 'success' ? 'success' : 'primary'}
 											sx={{
 												'& .MuiFormHelperText-root': {
-													color: `${showPromoCodeMessage && showPromoCodeMessage === 'success' ? 'rgb(129, 199, 132)' : 'rgb(229, 115, 115)'}`
-												}
+													color: `${
+														showPromoCodeMessage && showPromoCodeMessage === 'success'
+															? 'rgb(129, 199, 132)'
+															: 'rgb(229, 115, 115)'
+													}`,
+												},
 											}}
 											InputProps={{
 												endAdornment: (
@@ -462,7 +461,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 														</IconButton>
 														<IconButton
 															onClick={() => {
-																if (!formikPromoCode.values.promo_code){
+																if (!formikPromoCode.values.promo_code) {
 																	return;
 																}
 																codePromoOnClickValidHandler();
@@ -477,8 +476,7 @@ const Checkout: NextPage<CheckoutProps> = (props: CheckoutProps) => {
 													</InputAdornment>
 												),
 											}}
-										>
-										</TextField>
+										></TextField>
 									</ThemeProvider>
 								</Stack>
 								<Stack direction="column" spacing="12px" className={Styles.mobilePromoStack}>

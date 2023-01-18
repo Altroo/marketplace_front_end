@@ -360,22 +360,22 @@ export const getNotificationLink = (type: NotificationsType) => {
 			};
 		case 'OR':
 			return {
-				link: DASHBOARD_ORDERS,
+				link: DASHBOARD_ORDERS + '?order_status=IP',
 				message: 'Vous avez reçu une nouvelle commande',
 			};
 		case 'CS':
 			return {
-				link: DASHBOARD_ORDERS,
+				link: DASHBOARD_ORDERS + '?order_status=CA',
 				message: "Commande annulée par le vendeur",
 			};
 		case 'CB':
 			return {
-				link: DASHBOARD_ORDERS,
+				link: DASHBOARD_ORDERS + '?order_status=CA',
 				message: "Commande annulée par l'acheteur",
 			};
 		case 'OA':
 			return {
-				link: DASHBOARD_ORDERS,
+				link: DASHBOARD_ORDERS + '?order_status=CM',
 				message: "Votre commande à été accepté par le vendeur",
 			};
 	}
