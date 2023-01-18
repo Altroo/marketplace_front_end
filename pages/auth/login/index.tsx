@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Styles from '../../../styles/auth/login/login.module.sass';
 import { GetServerSidePropsContext } from 'next';
 import { Stack } from '@mui/material';
-// import GoogleSignInButton from '../../../components/htmlElements/buttons/googleSignInButton/googleSignInButton';
+import GoogleSignInButton from '../../../components/htmlElements/buttons/googleSignInButton/googleSignInButton';
 import FacebookSignInButton from '../../../components/htmlElements/buttons/facebookSignInButton/facebookSignInButton';
 import Divider from '@mui/material/Divider';
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
@@ -96,7 +96,7 @@ const LoginPageContent = () => {
 				<h2 className={Styles.content}>Connexion</h2>
 			</Stack>
 			<Stack direction="column" spacing={2} className={Styles.mobileWidth}>
-				{/*<GoogleSignInButton onClick={googleSignIn} />*/}
+				<GoogleSignInButton onClick={googleSignIn} />
 				<FacebookSignInButton onClick={facebookSignIn} />
 				{errorState && <span className={Styles.errorMessage}>{errorState}</span>}
 			</Stack>

@@ -22,7 +22,7 @@ const FooterGtuContent = () => {
 		<Stack direction="column" spacing={2}>
 			<Divider orientation="horizontal" flexItem className={Styles.divider} />
 			<Stack direction="row" justifyContent="space-between">
-				<span className={Styles.bottomFooterSpan}>© 2022 Qaryb</span>
+				<span className={Styles.bottomFooterSpan}>© 2023 Qaryb</span>
 				<Link href={CGU_PAGE} className={Styles.bottomAnchor}>
 					Conditions générales d&apos;Utilisation
 				</Link>
@@ -38,7 +38,7 @@ const FooterInstaLinks = () => {
 				<Link href="https://instagram.com/qaryb.officiel" target="_blank" rel="noreferrer">
 					<Stack direction="row" spacing={1} alignItems="center">
 						<Image src={InstagramMiniSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.miniIcon} />
-						<span>qaryb.ma</span>
+						<span>qaryb.officiel</span>
 					</Stack>
 				</Link>
 			</Stack>

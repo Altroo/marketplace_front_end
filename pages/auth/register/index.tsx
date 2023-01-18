@@ -6,7 +6,7 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { useAppDispatch } from '../../../utils/hooks';
 import { refreshAppTokenStatesAction } from '../../../store/actions/_init/_initActions';
 import { Stack, Theme } from '@mui/material';
-// import GoogleSignInButton from '../../../components/htmlElements/buttons/googleSignInButton/googleSignInButton';
+import GoogleSignInButton from '../../../components/htmlElements/buttons/googleSignInButton/googleSignInButton';
 import FacebookSignInButton from '../../../components/htmlElements/buttons/facebookSignInButton/facebookSignInButton';
 import Divider from '@mui/material/Divider';
 import CustomTextInput from '../../../components/formikElements/customTextInput/customTextInput';
@@ -63,7 +63,7 @@ const RegisterPageContent = (props: registerPageContentProps) => {
 				<p className={Styles.subHeader}>Inscrivez vous pour créer votre boutique. ça ne prend que quelques secondes.</p>
 			</Stack>
 			<Stack direction="column" spacing={2} className={Styles.mobileWidth}>
-				{/*<GoogleSignInButton onClick={props.googleSignIn} />*/}
+				<GoogleSignInButton onClick={props.googleSignIn} />
 				<FacebookSignInButton onClick={props.facebookSignIn} />
 				{props.error && <span className={Styles.errorMessage}>{props.error}</span>}
 			</Stack>
