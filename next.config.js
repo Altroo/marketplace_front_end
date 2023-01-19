@@ -5,6 +5,9 @@ const { withSentryConfig } = require('@sentry/nextjs');
 
 const nextConfig = {
 	reactStrictMode: false,
+	experimental: {
+    nextScriptWorkers: true,
+  },
 	sassOptions: {
 		includePaths: [path.join(__dirname, 'styles')],
 	},

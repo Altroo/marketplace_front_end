@@ -4,6 +4,7 @@ import createEmotionServer from '@emotion/server/create-instance';
 // import {getDefaultTheme} from '../utils/themes';
 import createEmotionCache from '../utils/createEmotionCache';
 import { Container } from "@mui/material";
+import { Partytown } from '@builder.io/partytown/react';
 
 export default class MyDocument extends Document {
   render() {
@@ -12,6 +13,7 @@ export default class MyDocument extends Document {
         <Head>
           {/* PWA primary color */}
           {/*<meta name="theme-color" content={getDefaultTheme().palette.primary.main} />*/}
+          <Partytown debug={true} forward={['dataLayer.push']} />
           <link rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
           />
