@@ -227,15 +227,14 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 												<Box className={Styles.dashboardNotSubscribedArticlesBox}>
 													<span>{articlesState}</span>
 												</Box>
-
 												<Stack direction="row" spacing={2} alignItems="center">
 													{togglePriceType ? (
-														<span className={Styles.dashboardNotSubscribedPriceByDescription}>
-															{`soit ${selectedSlideValues.prix_ttc} Dh par an`}
+														<span className={Styles.dashboardNotSubscribedPriceBy}>
+															soit<span>{` ${selectedSlideValues.prix_ttc} `}</span>Dh par an
 														</span>
 													) : (
-														<span className={Styles.dashboardNotSubscribedPriceByDescription}>
-															{`soit ${selectedSlideValues.prix_ht} Dh par an`}
+														<span className={Styles.dashboardNotSubscribedPriceBy}>
+															soit<span>{` ${selectedSlideValues.prix_ht} `}</span>Dh par an
 														</span>
 													)}
 													<Box className={Styles.dashboardNotSubscribedSaveWrapper}>
@@ -263,14 +262,14 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 												onChange={onSliderValueChangeHandler}
 											/>
 										</Box>
-										<span className={Styles.dashboardNotSubscribedPriceBy}>
-											{togglePriceType ? (
-												<span>{selectedSlideValues.prix_unitaire_ttc}</span>
-											) : (
-												<span>{selectedSlideValues.prix_unitaire_ht}</span>
-											)}
-											{' DH '}/ article
-										</span>
+										{/*<span className={Styles.dashboardNotSubscribedPriceBy}>*/}
+										{/*	{togglePriceType ? (*/}
+										{/*		<span>{selectedSlideValues.prix_unitaire_ttc}</span>*/}
+										{/*	) : (*/}
+										{/*		<span>{selectedSlideValues.prix_unitaire_ht}</span>*/}
+										{/*	)}*/}
+										{/*	{' DH '}/ article*/}
+										{/*</span>*/}
 									</Stack>
 									<Stack direction="row" justifyContent="center" alignItems="center">
 										<PrimaryButton
