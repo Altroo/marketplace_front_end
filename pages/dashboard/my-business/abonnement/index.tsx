@@ -168,119 +168,114 @@ const SubscribeSliderContent: React.FC<SubscribeSliderContentType> = (props: Sub
 			{!data.is_subscribed || renderBack ? (
 				<Stack direction="column" className={Styles.dashboardNotSubscribedRootStack}>
 					<Stack direction="column" spacing="24px">
-								<Stack direction="column" alignItems="center" className={Styles.dashboardNotSubscribedHeadline}>
-									<span>Combien d’articles désirez-vous référencer ?</span>
+						<Stack direction="column" alignItems="center" className={Styles.dashboardNotSubscribedHeadline}>
+							<span>Combien d’articles désirez-vous référencer ?</span>
+						</Stack>
+						<Stack direction="column" pt="48px" className={Styles.dashboardNotSubscribedPopulaireBannerWrapper}>
+							{articlesValue === 70 && (
+								<Box className={Styles.dashboardNotSubscribedPopulaireBanner}>
+									<span>Populaire</span>
+								</Box>
+							)}
+							<Stack direction="column" spacing={1} mt={2}>
+								<Stack direction="row" justifyContent="flex-end" spacing={1}>
+									<span className={Styles.dashboardNotSubscribedPriceType}>
+										<span className={`${!togglePriceType && Styles.dashboardNotSubscribedPriceToggleActive}`}>HT </span>
+										/
+										<span className={`${togglePriceType && Styles.dashboardNotSubscribedPriceToggleActive}`}> TTC</span>
+									</span>
+									<IosSwitch
+										checked={togglePriceType}
+										onChange={() => setTogglePriceType((prevState) => !prevState)}
+										activeColor="#0D070B"
+										labelcssStyles={{ marginLeft: '18px', marginRight: '0px' }}
+									/>
 								</Stack>
-								<Stack direction="column" pt="48px" className={Styles.dashboardNotSubscribedPopulaireBannerWrapper}>
-									{articlesValue === 70 && (
-										<Box className={Styles.dashboardNotSubscribedPopulaireBanner}>
-											<span>Populaire</span>
-										</Box>
-									)}
-									<Stack direction="column" spacing={1} mt={2}>
-										<Stack direction="row" justifyContent="flex-end" spacing={1}>
-											<span className={Styles.dashboardNotSubscribedPriceType}>
-												<span className={`${!togglePriceType && Styles.dashboardNotSubscribedPriceToggleActive}`}>
-													HT{' '}
-												</span>
-												/
-												<span className={`${togglePriceType && Styles.dashboardNotSubscribedPriceToggleActive}`}>
-													{' '}
-													TTC
-												</span>
-											</span>
-											<IosSwitch
-												checked={togglePriceType}
-												onChange={() => setTogglePriceType((prevState) => !prevState)}
-												activeColor="#0D070B"
-												labelcssStyles={{ marginLeft: '18px', marginRight: '0px' }}
-											/>
-										</Stack>
-										<Stack direction="row" justifyContent="flex-end">
-											<span className={Styles.dashboardNotSubscribedPriceMessage}>
-												Tous nos forfaits sont facturés annuellement
-											</span>
-										</Stack>
-									</Stack>
-									<Stack direction="column" alignItems="center" spacing={1} pt="20px">
-										{illimiteState ? (
-											<Stack direction="column" alignItems="center" spacing={1}>
-												<Stack
-													direction="column"
-													spacing={1}
-													alignItems="center"
-													className={Styles.dashboardNotSubscribedNousContacterBox}
-												>
-													<span>Un besoin particulier ?</span>
-													<span>N’hésitez pas à nous contacter !</span>
-												</Stack>
-												<TextButton
-													buttonText="Nous contacter"
-													onClick={() => {
-														router.push(`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`).then();
-													}}
-													cssClass={Styles.dashboardNotSubscribedNousContacter}
-												/>
-											</Stack>
-										) : (
-											<Stack direction="column" alignItems="center" spacing={2} mt="4px">
-												<Box className={Styles.dashboardNotSubscribedArticlesBox}>
-													<span>{articlesState}</span>
-												</Box>
-												<Stack direction="row" spacing={2} alignItems="center">
-													{togglePriceType ? (
-														<span className={Styles.dashboardNotSubscribedPriceBy}>
-															soit<span>{` ${selectedSlideValues.prix_ttc} `}</span>Dh par an
-														</span>
-													) : (
-														<span className={Styles.dashboardNotSubscribedPriceBy}>
-															soit<span>{` ${selectedSlideValues.prix_ht} `}</span>Dh par an
-														</span>
-													)}
-													<Box className={Styles.dashboardNotSubscribedSaveWrapper}>
-														<span className={Styles.dashboardNotSubscribedSave}>
-															{`Save ${selectedSlideValues.pourcentage}%`}
-														</span>
-													</Box>
-												</Stack>
-											</Stack>
-										)}
-									</Stack>
-								</Stack>
-								<Stack direction="column" spacing={3} pb="60px">
-									<Stack
-										direction="row"
-										justifyContent="center"
-										alignItems="center"
-										spacing="32px"
-										className={Styles.dashboardNotSubscribedSliderRoot}
-									>
-										<Box className={Styles.dashboardNotSubscribedSliderBox}>
-											<CustomSlider
-												value={articlesValue}
-												defaultValue={70} // populaire - 7 articles
-												onChange={onSliderValueChangeHandler}
-											/>
-										</Box>
-										{/*<span className={Styles.dashboardNotSubscribedPriceBy}>*/}
-										{/*	{togglePriceType ? (*/}
-										{/*		<span>{selectedSlideValues.prix_unitaire_ttc}</span>*/}
-										{/*	) : (*/}
-										{/*		<span>{selectedSlideValues.prix_unitaire_ht}</span>*/}
-										{/*	)}*/}
-										{/*	{' DH '}/ article*/}
-										{/*</span>*/}
-									</Stack>
-									<Stack direction="row" justifyContent="center" alignItems="center">
-										<PrimaryButton
-											buttonText="Continuer"
-											active={pickedArticle < 110} // disable button on illimité
-											onClick={subscribingClickHandler}
-											cssClass={Styles.dashboardNotSubscribedActionButton}
-										/>
-									</Stack>
+								<Stack direction="row" justifyContent="flex-end">
+									<span className={Styles.dashboardNotSubscribedPriceMessage}>
+										Tous nos forfaits sont facturés annuellement
+									</span>
 								</Stack>
 							</Stack>
+							<Stack direction="column" alignItems="center" spacing={1} pt="20px">
+								{illimiteState ? (
+									<Stack direction="column" alignItems="center" spacing={1}>
+										<Stack
+											direction="column"
+											spacing={1}
+											alignItems="center"
+											className={Styles.dashboardNotSubscribedNousContacterBox}
+										>
+											<span>Un besoin particulier ?</span>
+											<span>N’hésitez pas à nous contacter !</span>
+										</Stack>
+										<TextButton
+											buttonText="Nous contacter"
+											onClick={() => {
+												router.push(`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`).then();
+											}}
+											cssClass={Styles.dashboardNotSubscribedNousContacter}
+										/>
+									</Stack>
+								) : (
+									<Stack direction="column" alignItems="center" spacing={2} mt="4px">
+										<Box className={Styles.dashboardNotSubscribedArticlesBox}>
+											<span>{articlesState}</span>
+										</Box>
+										<Stack direction="row" spacing={2} alignItems="center">
+											{togglePriceType ? (
+												<span className={Styles.dashboardNotSubscribedPriceBy}>
+													soit<span>{` ${selectedSlideValues.prix_ttc} `}</span>Dh par an
+												</span>
+											) : (
+												<span className={Styles.dashboardNotSubscribedPriceBy}>
+													soit<span>{` ${selectedSlideValues.prix_ht} `}</span>Dh par an
+												</span>
+											)}
+											<Box className={Styles.dashboardNotSubscribedSaveWrapper}>
+												<span className={Styles.dashboardNotSubscribedSave}>
+													{`Save ${selectedSlideValues.pourcentage}%`}
+												</span>
+											</Box>
+										</Stack>
+									</Stack>
+								)}
+							</Stack>
+						</Stack>
+						<Stack direction="column" spacing={3} pb="60px">
+							<Stack
+								direction="row"
+								justifyContent="center"
+								alignItems="center"
+								spacing="32px"
+								className={Styles.dashboardNotSubscribedSliderRoot}
+							>
+								<Box className={Styles.dashboardNotSubscribedSliderBox}>
+									<CustomSlider
+										value={articlesValue}
+										defaultValue={70} // populaire - 7 articles
+										onChange={onSliderValueChangeHandler}
+									/>
+								</Box>
+								{/*<span className={Styles.dashboardNotSubscribedPriceBy}>*/}
+								{/*	{togglePriceType ? (*/}
+								{/*		<span>{selectedSlideValues.prix_unitaire_ttc}</span>*/}
+								{/*	) : (*/}
+								{/*		<span>{selectedSlideValues.prix_unitaire_ht}</span>*/}
+								{/*	)}*/}
+								{/*	{' DH '}/ article*/}
+								{/*</span>*/}
+							</Stack>
+							<Stack direction="row" justifyContent="center" alignItems="center">
+								<PrimaryButton
+									buttonText="Continuer"
+									active={pickedArticle < 110} // disable button on illimité
+									onClick={subscribingClickHandler}
+									cssClass={Styles.dashboardNotSubscribedActionButton}
+								/>
+							</Stack>
+						</Stack>
+					</Stack>
 					<Box mt="0px" mb="0px" className={Styles.dashboardNotSubscribedAvantageBox}>
 						<Stack direction="column" spacing="30px" className={Styles.dashboardNotSubscribedAvantageMobile}>
 							<Box className={Styles.dashboardNotSubscribedAvantage}>Les avatantages de nos abonnements:</Box>
