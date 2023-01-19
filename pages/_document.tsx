@@ -13,7 +13,7 @@ export default class MyDocument extends Document {
         <Head>
           {/* PWA primary color */}
           {/*<meta name="theme-color" content={getDefaultTheme().palette.primary.main} />*/}
-          <Partytown debug={true} forward={['dataLayer.push']} />
+          <Partytown debug={false} forward={['dataLayer.push']} />
           <link rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
           />
