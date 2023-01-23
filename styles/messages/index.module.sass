@@ -1,0 +1,78 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.main
+  display: flex
+  flex-direction: row
+  padding: 32px 60px 60px 60px
+  width: 100%
+  height: 100%
+.conversationsSideBar
+  padding: 24px
+  box-shadow: 0 0 5px -2px rgba(0, 0, 0, 0.25)
+  max-width: 440px
+  z-index: 1
+.backButton
+  width: fit-content !important
+  padding: 14px 24px !important
+  margin: 0 !important
+.header
+  +Bold
+  font-size: 32px
+  line-height: 40px
+  color: $primary
+  margin: 0
+.onlineImage
+  width: 12px
+  height: 12px
+  box-shadow: 0 2.80058px 11.2023px rgba(13, 7, 11, 0.2)
+  outline: 3px solid white
+.userAvatar
+  width: 48px
+  height: 48px
+.chatUserName
+  +SemiBold
+  font-size: 19px
+  letter-spacing: -0.02em
+  line-height: 28px
+  color: $primary
+.chatLongAgo
+  +Regular
+  font-size: 11px
+  color: #84848A
+  line-height: 16px
+.bodyRegularMessage
+  +Regular
+  font-size: 15px
+  line-height: 22px
+  color: #84848A
+.bodyNewMessage
+  +Medium
+  font-size: 15px
+  line-height: 22px
+  color: #84848A
+  letter-spacing: -0.03em
+.splitDivider
+  color: $buttonTextDisabled !important
+  border-width: 0.1px
+.conversationsRootStack
+  padding: 10px
+  width: 100%
+.conversationsListRootStack
+  cursor: pointer
+  &:hover
+    background-color: rgba(13, 7, 11, 0.04) !important
+.conversationsListRootStack:last-child
+  .splitDivider
+    +Hidden
+@media #{$tablette}
+  .main
+    padding: 18px 24px 60px 24px
+  .conversationsSideBar
+    width: 100vw !important
+    margin-right: 0 !important
+    box-shadow: none !important
+// @media #{}
+// @media #{}

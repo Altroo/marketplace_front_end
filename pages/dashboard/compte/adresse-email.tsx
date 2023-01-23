@@ -78,7 +78,7 @@ const FormikContentWithOldPassword: React.FC<formikContentType> = (props: formik
 	});
 
 	return (
-		<Stack direction="column" alignItems="center" spacing={2} className={`${Styles.flexRootStack}`} mt="32px">
+		<Stack direction="column" alignItems="center" spacing={2} className={Styles.flexRootStack} mt="32px">
 			<h2 className={Styles.pageTitle}>Modifier l&apos;email</h2>
 			<span className={Styles.paragrapheContent}>
 				Votre email actuelle est <span>{newEmail}</span>.<br />

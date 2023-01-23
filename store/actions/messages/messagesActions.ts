@@ -30,8 +30,9 @@ export const chatPatchMessageAsSeenAction = (message_pk: number) => {
 	};
 };
 
-export const chatGetConversationsAction = () => {
+export const chatGetConversationsAction = (url: string) => {
 	return {
 		type: types.CHAT_GET_CONVERSATIONS,
+		url,
 	};
 }

@@ -241,21 +241,12 @@ function* accountPostBlockSaga(payload: { type: string; user_pk: number }) {
 function* accountDeleteBlockSaga(payload: { type: string; user_pk: number }) {
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_BLOCK}${payload.user_pk}/`;
-	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: ResponseOnlyInterface = yield call(() => deleteApi(url, authInstance));
-			if (response.status === 204) {
-				// Reload the block list
-				yield call(() => accountGetBlockSaga());
-			} else {
-				console.log(response.status);
-			}
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		const response: ResponseOnlyInterface = yield call(() => deleteApi(url, authInstance));
+		if (response.status === 204) {
+			return true;
 		}
-	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-		// set error state
 	}
 }
 
@@ -272,7 +263,7 @@ export function* watchAccount() {
 	yield takeLatest(Types.ACCOUNT_SET_FACEBOOK_EMAIL, accountSetFacebookEmailSaga);
 	yield takeLatest(Types.ACCOUNT_GET_BLOCK, accountGetBlockSaga);
 	yield takeLatest(Types.ACCOUNT_POST_BLOCK, accountPostBlockSaga);
-	yield takeLatest(Types.ACCOUNT_DELETE_BLOCK, accountDeleteBlockSaga);
+	yield takeLatest(Types.ACCOUNT_DELETE_BLOCK, withCallback(accountDeleteBlockSaga as Saga));
 	yield takeLatest(Types.WS_USER_AVATAR, wsUserAvatarSaga);
 	yield takeLatest(Types.WS_FACTURE, wsUserFactureSaga);
 }

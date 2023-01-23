@@ -28,7 +28,6 @@
       <sourceFolder url="file://$MODULE_DIR$/types/_init" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/account" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/cart" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/types/chat" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/offer" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/order" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/places" isTestSource="false" />
@@ -43,7 +42,6 @@
       <sourceFolder url="file://$MODULE_DIR$/store/actions/_init" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/actions/account" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/actions/cart" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/store/actions/chat" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/actions/offer" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/actions/order" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/actions/places" isTestSource="false" />
@@ -54,7 +52,6 @@
       <sourceFolder url="file://$MODULE_DIR$/store/sagas/_init" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/sagas/account" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/sagas/cart" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/store/sagas/chat" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/sagas/offer" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/sagas/order" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/sagas/places" isTestSource="false" />
@@ -66,7 +63,6 @@
       <sourceFolder url="file://$MODULE_DIR$/store/slices/_init" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/account" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/cart" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/store/slices/chat" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/offer" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/order" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/store/slices/places" isTestSource="false" />
@@ -369,6 +365,14 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/blog/[page_url]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/blog" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/blog" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/messages" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/messages/[receiver_pk]" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/actions/messages" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/sagas/messages" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/store/slices/messages" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/messages" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles/messages/receiver_pk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/types/messages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/seo-pages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />

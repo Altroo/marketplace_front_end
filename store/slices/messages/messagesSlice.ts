@@ -4,7 +4,7 @@ import {
 	ChatGetMessagesOfTargetInterface,
 	ChatPostMessageOutput,
 	ChatStateInterface,
-} from '../../../types/chat/chatTypes';
+} from '../../../types/messages/messagesTypes';
 import { paginationInitial } from "../_init/_initSlice";
 // import { HYDRATE } from "next-redux-wrapper";
 
@@ -16,7 +16,7 @@ const initialState: ChatStateInterface = {
 	},
 };
 
-const chatSlice = createSlice({
+const messagesSlice = createSlice({
 	name: 'chat',
 	initialState: initialState,
 	reducers: {
@@ -118,6 +118,6 @@ export const {
 	setPatchMessageAsViewed,
 	setWSUserStatus,
 	initChat,
-} = chatSlice.actions;
+} = messagesSlice.actions;
 
-export default chatSlice.reducer;
+export default messagesSlice.reducer;

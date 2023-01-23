@@ -11,7 +11,7 @@ import { watchNotifications } from './notification/notificationSaga';
 import { watchSeoPages } from './seo_pages/seoPagesSaga';
 import {watchCart} from './cart/cartSaga';
 import {watchOrder} from './order/orderSaga';
-import {watchChat} from './chat/chatSaga';
+import {watchMessages} from './messages/messagesSaga';
 
 // spawn : whenever a watcher get's crashed somehow,
 // we use spawn to respawn it back. (except it's unblocking)
@@ -105,7 +105,7 @@ const sagas = [
 	watchSeoPages,
 	watchCart,
 	watchOrder,
-	watchChat,
+	watchMessages,
 ];
 export function* rootSaga() {
 	yield all([...sagas.map(saga =>

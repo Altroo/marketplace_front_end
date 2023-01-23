@@ -5,7 +5,7 @@ import {
 	OfferTagsType, WSThumbnailType
 } from "../../types/offer/offerTypes";
 import { CountriesType } from "../../types/places/placesTypes";
-import { ChatGetConversationsType } from "../../types/chat/chatTypes";
+import { ChatGetConversationsType } from "../../types/messages/messagesTypes";
 
 // _Init
 export const getTokenType = (state: RootState) => state._init.tokenType as TokenChoices;
@@ -166,5 +166,6 @@ export const getUserLocalCartDeliveriesData = (state: RootState) => state.cart.u
 export const getBoutiqueCoupDeCoeur = (state: RootState) => state._init.boutiqueCoupDeCoeur;
 
 // Chat
-export const getMyConversationsResults = (state: RootState) => state.chat.conversationsList.results as Array<ChatGetConversationsType>;
-export const getMyConversationsNextPage = (state: RootState) => state.chat.conversationsList.next as string | null;
+export const getMyConversationsResults = (state: RootState) => state.messages.conversationsList.results as Array<ChatGetConversationsType>;
+export const getMyConversationsNextPage = (state: RootState) => state.messages.conversationsList.next as string | null;
+export const getSelectedConversation = (state: RootState) => state.messages.selectedConversation;

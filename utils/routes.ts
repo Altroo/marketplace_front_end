@@ -63,9 +63,10 @@ export const AUTH_RESET_PASSWORD_COMPLETE = `${SITE_ROOT}auth/reset-password/set
 export const DASHBOARD = `${SITE_ROOT}dashboard`;
 // Mon profil
 export const DASHBOARD_ACCOUNT = `${SITE_ROOT}dashboard/compte`; // placeholder with redirect
-export const DASHBOARD_EDIT_PROFILE = `${SITE_ROOT}dashboard/compte/edit-profil`; // phase 1
-export const DASHBOARD_ADRESSE_EMAIL = `${SITE_ROOT}dashboard/compte/adresse-email`; // phase 1
-export const DASHBOARD_PASSWORD = `${SITE_ROOT}dashboard/compte/mot-de-passe`; // phase 1
+export const DASHBOARD_EDIT_PROFILE = `${SITE_ROOT}dashboard/compte/edit-profil`;
+export const DASHBOARD_ADRESSE_EMAIL = `${SITE_ROOT}dashboard/compte/adresse-email`;
+export const DASHBOARD_PASSWORD = `${SITE_ROOT}dashboard/compte/mot-de-passe`;
+export const DASHBOARD_COMPTE_BLOQUES = `${SITE_ROOT}dashboard/compte/comptes-bloques`;
 // my business
 export const DASHBOARD_SUBSCRIPTION = `${SITE_ROOT}dashboard/my-business/abonnement`;
 export const DASHBOARD_NEW_SUBSCRIPTION = `${SITE_ROOT}dashboard/my-business/abonnement/checkout`;
@@ -88,3 +89,7 @@ export const USER_VIEW_PROFILE_BY_ID = (user_id: number) => `/user/${user_id}/`;
 
 // Blog test
 export const BLOG = `${SITE_ROOT}blog`;
+
+// Chat
+export const CHAT_INDEX = `${SITE_ROOT}messages`;
+export const CHAT_BY_RECEIVER_PK = (receiver_pk: number) => `${CHAT_INDEX}/${receiver_pk}`;

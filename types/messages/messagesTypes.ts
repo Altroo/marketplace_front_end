@@ -1,4 +1,6 @@
 import { PaginationResponseType, ResponseDataInterface } from '../_init/_initTypes';
+import { Iterables } from "langx-js";
+import { OfferGetMyOffersProductServiceType } from "../offer/offerTypes";
 
 type PayloadType = {
 	type: string;
@@ -21,7 +23,7 @@ export type ChatPostMessageOutput = {
 	user: number,
 	initiator: string,
 	recipient: number,
-	created: string,
+	created: Date,
 	body: string | null,
 	attachment_link: string | null,
 	attachment_thumbnail_link: string | null,
@@ -45,7 +47,7 @@ export type ChatGetMessagesOfTargetReceiverPart = {
 	last_name: string,
 	picture: string,
 	online: boolean,
-	online_timestamp: string,
+	online_timestamp: Date,
 	shop: ChatGetMessagesOfTargetReceiverShopPart
 }
 
@@ -66,11 +68,23 @@ export type ChatGetConversationsType = {
 	viewed: boolean,
 	created: string,
 	online: boolean,
-	shop_pk: number,
-	shop_name: string,
-	shop_avatar_thumbnail: string,
+	shop_pk: number | null,
+	shop_name: string | null,
+	shop_avatar_thumbnail: string | null,
 }
 
 export type ChatGetConversationsPaginatedType = PaginationResponseType<ChatGetConversationsType>;
 
 export type ChatGetConversationsResponseType = ResponseDataInterface<ChatGetConversationsPaginatedType>;
+
+export type ConversationsLinkedHashMapType = {
+	conversationsMap: Iterables.LinkedHashMap<number, ChatGetConversationsType> | null;
+	count: number;
+	nextPage: string | null;
+};
+
+export type ChatGetConversationsLinkedResponseType = {
+	results: Array<ChatGetConversationsType>;
+	count: number;
+	nextPage: string | null;
+}

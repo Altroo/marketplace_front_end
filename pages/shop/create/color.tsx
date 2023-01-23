@@ -10,9 +10,9 @@ import DefaultCardSection from '../../../components/htmlElements/cards/defaultCa
 import { setShopColorAction } from '../../../store/actions/shop/shopActions';
 import AvatarShopNameRating from '../../../components/groupedComponents/temp-shop/create/avatarShopNameRating/avatarShopNameRating';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
-// import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg';
-// import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
-// import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
+import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg';
+import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
+import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
 import ContactIconSVG from '../../../public/assets/svgs/globalIcons/call.svg';
 import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
 import ContactIconBlackSVG from '../../../public/assets/svgs/globalIcons/call-black.svg';
@@ -95,7 +95,7 @@ const Color: NextPage = () => {
 	// Border
 	const [border, setborder] = useState<string>('');
 	// Gray Message Icon
-	// const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
+	const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
 	// Gray contact Icon
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconSVG);
 	// Icon color
@@ -166,7 +166,7 @@ const Color: NextPage = () => {
 			if (whiteTextColors.includes(color)) {
 				setColorCode(whiteText);
 				setContactIcon(ContactIconWhiteSVG);
-				// setMessageIcon(MessageIconWhiteSVG);
+				setMessageIcon(MessageIconWhiteSVG);
 				setIconColor('white');
 				if (color === blackText) {
 					setColorCode(whiteText);
@@ -174,7 +174,7 @@ const Color: NextPage = () => {
 				// else apply black text color
 			} else {
 				setContactIcon(ContactIconBlackSVG);
-				// setMessageIcon(MessageIconBlackSVG);
+				setMessageIcon(MessageIconBlackSVG);
 				setIconColor('black');
 				setColorCode(blackText);
 			}
@@ -205,6 +205,14 @@ const Color: NextPage = () => {
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} preview={preview} active={false} />
 							<div className={Styles.actionsWrapper}>
+								<IconAnchorButton
+									buttonText="Message"
+									svgIcon={messageIcon}
+									backgroundColor={bgColorCode}
+									textColor={colorCode}
+									border={border}
+									cssClass={Styles.contacterButton}
+								/>
 								<IconAnchorButton
 									buttonText="Contacter"
 									svgIcon={contactIcon}
