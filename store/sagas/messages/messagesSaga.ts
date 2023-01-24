@@ -1,7 +1,7 @@
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import * as Types from '../../actions';
 import { ctxAuthSaga } from '../_init/_initSaga';
-import { isAuthenticatedInstance } from '../../../utils/helpers';
+import { generatePageQueryParams, getBackendNextPageNumber, isAuthenticatedInstance } from "../../../utils/helpers";
 import { ApiErrorResponseType, AuthSagaContextType, ResponseOnlyInterface } from '../../../types/_init/_initTypes';
 import { getApi, patchApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
 import {
@@ -10,89 +10,99 @@ import {
 	ChatGetMessageResponseType,
 	ChatGetMessagesOfTargetResponseType,
 	ChatPatchMessageSeenResponseType,
+	ChatPostMessageOutput,
 	ChatPostMessageResponseType,
-	ChatPostMessageType,
-} from '../../../types/messages/messagesTypes';
+	ChatPostMessageType
+} from "../../../types/messages/messagesTypes";
 import {
 	setConversationsList,
 	setGetWSMessage,
 	setPatchMessageAsViewed,
-	setPostArchiveConversation,
 	setPostMessage,
 	setSelectedConversation,
+	setSelectedConversationLoadMoreMessages,
 	setWSUserStatus,
-} from '../../slices/messages/messagesSlice';
-import { getMyConversationsNextPage, getMyConversationsResults } from '../../selectors';
+	setClearLocalMessagesOfTarget
+} from "../../slices/messages/messagesSlice";
 import { AxiosInstance } from 'axios';
 import { withCallback } from 'redux-saga-callback';
 import { Saga } from 'redux-saga';
+import {
+	getMyConversationsResults,
+	getSelectedConversationNextPage,
+	getSelectedConversationResults
+} from "../../selectors";
+import { chatGetConversationsAction } from "../../actions/messages/messagesActions";
 
-function* chatGetConversationsSaga(payload: { type: string; url: string }) {
+function* chatGetConversationsSaga(payload: { type: string; url: string; isReset: boolean }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: ChatGetConversationsResponseType = yield call(() => getApi(payload.url, authInstance));
-			if (response.status === 200 && response.data) {
-				return response.data;
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		const response: ChatGetConversationsResponseType = yield call(() => getApi(payload.url, authInstance));
+		if (response.status === 200 && response.data) {
+			let map: Array<ChatGetConversationsType> = [];
+			if (!payload.isReset) {
+				map = yield select(getMyConversationsResults);
 			}
+			response.data.results.map((conversation) => {
+				map.push(conversation);
+			});
+			const result = {
+				results: map,
+				nextPage: getBackendNextPageNumber(response.data.next),
+				count: response.data.count,
+			};
+			yield put(setConversationsList(result));
+			return true;
 		}
-	} catch (e) {
-		return e as ApiErrorResponseType;
 	}
 }
 
-// function* chatPostMessageSaga(payload: ChatPostMessageType) {
-// 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-// 	const url = `${process.env.NEXT_PUBLIC_CHAT_MESSAGE}`;
-// 	const conversationsResults: Array<ChatGetConversationsType> = yield select(getMyConversationsResults);
-// 	try {
-// 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-// 			const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-// 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// 			const { type, ...payloadData } = payload;
-// 			const response: ChatPostMessageResponseType = yield call(() => postFormDataApi(url, authInstance, payloadData));
-// 			// Chat post message has 201 created status
-// 			if (response.status === 201) {
-// 				yield put(setPostMessage(response.data));
-// 				const conversationListindex = conversationsResults.findIndex((item) => item.user_pk === response.data.user);
-// 				// first time conversation is created
-// 				// reload conversations list
-// 				if (conversationListindex == -1) {
-// 					yield call(() => chatGetConversationsSaga());
-// 				}
-// 			} else {
-// 				console.log(response.data);
-// 				console.log(response.status);
-// 			}
-// 		}
-// 	} catch (e) {
-// 		const errors = e as ApiErrorResponseType;
-// 		console.log(errors);
-// 		// set error state
-// 	}
-// }
+function* chatPostMessageSaga(payload: ChatPostMessageType) {
+	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
+	const url = `${process.env.NEXT_PUBLIC_CHAT_MESSAGE}`;
+	// const conversationsResults: Array<ChatGetConversationsType> = yield select(getMyConversationsResults);
+	// try {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		const response: ChatPostMessageResponseType = yield call(() => postFormDataApi(url, authInstance, {
+			'body': payload.body,
+			'recipient' : payload.recipient_pk
+		}));
+		// Chat post message has 201 created status
+		if (response.status === 201) {
+			yield put(setPostMessage(response.data));
+			return true;
+			// const conversationListindex = conversationsResults.findIndex((item) => item.user_pk === response.data.user);
+			// // first time conversation is created
+			// // reload conversations list
+			// if (conversationListindex == -1) {
+			// 	yield call(() => chatGetConversationsSaga());
+			// }
+		}
+	}
+	// } catch (e) {
+	// 	const errors = e as ApiErrorResponseType;
+	// 	console.log(errors);
+	// 	// set error state
+	// }
+}
 
-function* chatPostArchiveConversationSaga(payload: { type: string; recipient_pk: number }) {
+function* chatPostArchiveConversationSaga(payload: { type: string; recipient: number }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ARCHIVE_CONVERSATION}`;
-	try {
 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-			const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-			const response: ResponseOnlyInterface = yield call(() =>
-				postApi(url, authInstance, { recipient_pk: payload.recipient_pk }),
-			);
-			if (response.status === 204) {
-				// reload conversations list.
-				yield put(setPostArchiveConversation(payload.recipient_pk));
-			} else {
-				console.log(response.status);
-			}
+		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		const response: ResponseOnlyInterface = yield call(() =>
+			postApi(url, authInstance, { recipient: payload.recipient }),
+		);
+		if (response.status === 204) {
+			// Empty selected conversation
+			yield put(setClearLocalMessagesOfTarget());
+			return true;
+			// reload conversations list.
+			// yield put(setPostArchiveConversation(payload.recipient));
 		}
-	} catch (e) {
-		const errors = e as ApiErrorResponseType;
-		console.log(errors);
-		// set error state
 	}
 }
 
@@ -106,6 +116,22 @@ function* chatGetMessagesOfTargetSaga(payload: { type: string; target: number })
 		);
 		if (response.status === 200) {
 			yield put(setSelectedConversation(response.data));
+			return true;
+		}
+	}
+}
+
+function* chatGetLoadMoreMessagesOfTargetSaga() {
+	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
+	const nextPage: string | null = yield select(getSelectedConversationNextPage);
+	if (nextPage && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		const response: ChatGetMessagesOfTargetResponseType = yield call(() =>
+			getApi(nextPage, authInstance),
+		);
+		if (response.status === 200 && response.data) {
+			yield put(setSelectedConversationLoadMoreMessages(response.data.chat_messages));
+			return true;
 		}
 	}
 }
@@ -115,42 +141,32 @@ function* chatPatchMessageAsSeenSaga(payload: { type: string; message_pk: number
 	const url = `${process.env.NEXT_PUBLIC_CHAT_MESSAGE}${payload.message_pk}/`;
 	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-		const response: ChatPatchMessageSeenResponseType = yield call(() =>
-			patchApi(url, authInstance, { viewed: true }),
-		);
+		const response: ChatPatchMessageSeenResponseType = yield call(() => patchApi(url, authInstance, { viewed: true }));
 		if (response.status === 200) {
-			return true;
+			yield put(setPatchMessageAsViewed(response.data.pk));
 		}
 	}
 }
 
-// function* wsNewMessageSaga(payload: { type: string; pk: number; initiator: number; recipient: number; body: string }) {
-// 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-// 	const url = `${process.env.NEXT_PUBLIC_CHAT_MESSAGE}${payload.pk}/`;
-// 	const conversationsResults: Array<ChatGetConversationsType> = yield select(getMyConversationsResults);
-// 	try {
-// 		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
-// 			const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
-// 			const response: ChatGetMessageResponseType = yield call(() => getApi(url, authInstance));
-// 			if (response.status === 200) {
-// 				yield put(setGetWSMessage(response.data));
-// 				const conversationListindex = conversationsResults.findIndex((item) => item.user_pk === response.data.user);
-// 				// first time conversation is created
-// 				// reload conversations list
-// 				if (conversationListindex == -1) {
-// 					yield call(() => chatGetConversationsSaga());
-// 				}
-// 			} else {
-// 				console.log(response.data);
-// 				console.log(response.status);
-// 			}
-// 		}
-// 	} catch (e) {
-// 		const errors = e as ApiErrorResponseType;
-// 		console.log(errors);
-// 		// set error state
-// 	}
-// }
+function* wsNewMessageSaga(payload: { type: string; pk: number; initiator: number; recipient: number; body: string }) {
+	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
+	const url = `${process.env.NEXT_PUBLIC_CHAT_MESSAGE}${payload.pk}/`;
+	const conversationsResults: Array<ChatGetConversationsType> = yield select(getMyConversationsResults);
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		const response: ChatGetMessageResponseType = yield call(() => getApi(url, authInstance));
+		if (response.status === 200) {
+			yield put(setGetWSMessage(response.data));
+			const conversationListindex = conversationsResults.findIndex((item) => item.user_pk === response.data.user);
+			// first time conversation is created
+			// reload conversations list
+			const chat_conversation_url = `${process.env.NEXT_PUBLIC_CHAT_CONVERSATIONS}?page=1`;
+			if (conversationListindex == -1) {
+				yield call(() => chatGetConversationsAction(chat_conversation_url, true));
+			}
+		}
+	}
+}
 
 function* wsMessageViewedSaga(payload: { type: string; pk: number; initiator: number; recipient: number }) {
 	yield put(setPatchMessageAsViewed(payload.pk));
@@ -160,13 +176,19 @@ function* wsUserStatusSaga(payload: { type: string; user: number; online: boolea
 	yield put(setWSUserStatus({ user_pk: payload.user, status: payload.online }));
 }
 
+function* setClearMessagesOfTarget() {
+	yield put(setClearLocalMessagesOfTarget());
+}
+
 export function* watchMessages() {
 	yield takeLatest(Types.CHAT_GET_CONVERSATIONS, withCallback(chatGetConversationsSaga as Saga));
-	// yield takeLatest(Types.CHAT_POST_MESSAGE, chatPostMessageSaga);
-	yield takeLatest(Types.CHAT_POST_ARCHIVE, chatPostArchiveConversationSaga);
-	yield takeLatest(Types.CHAT_GET_MESSAGES, chatGetMessagesOfTargetSaga);
-	yield takeLatest(Types.CHAT_PATCH_MESSAGE, withCallback(chatPatchMessageAsSeenSaga as Saga));
-	// yield takeLatest(Types.WS_NEW_MESSAGE, wsNewMessageSaga);
+	yield takeLatest(Types.CHAT_POST_MESSAGE, withCallback(chatPostMessageSaga as Saga));
+	yield takeLatest(Types.CHAT_POST_ARCHIVE, withCallback(chatPostArchiveConversationSaga as Saga));
+	yield takeLatest(Types.CHAT_GET_MESSAGES, withCallback(chatGetMessagesOfTargetSaga as Saga));
+	yield takeLatest(Types.CHAT_PATCH_MESSAGE, chatPatchMessageAsSeenSaga as Saga);
+	yield takeLatest(Types.WS_NEW_MESSAGE, wsNewMessageSaga);
 	yield takeLatest(Types.WS_MESSAGE_VIEWED, wsMessageViewedSaga);
 	yield takeLatest(Types.WS_USER_STATUS, wsUserStatusSaga);
+	yield takeLatest(Types.CHAT_SET_CLEAR_MESSAGES_OF_TARGET, setClearMessagesOfTarget);
+	yield takeLatest(Types.CHAT_GET_LOAD_MORE_MESSAGES, withCallback(chatGetLoadMoreMessagesOfTargetSaga as Saga));
 }

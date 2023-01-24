@@ -35,10 +35,10 @@ const FooterInstaLinks = () => {
 	return (
 		<Stack direction="column" spacing={1}>
 			<Stack direction="row" spacing={1}>
-				<Link href="https://instagram.com/qaryb.officiel" target="_blank" rel="noreferrer">
+				<Link href="https://instagram.com/qaryb.maroc" target="_blank" rel="noreferrer">
 					<Stack direction="row" spacing={1} alignItems="center">
 						<Image src={InstagramMiniSVG} alt="" width="0" height="0" sizes="100vw" className={Styles.miniIcon} />
-						<span>qaryb.officiel</span>
+						<span>qaryb.maroc</span>
 					</Stack>
 				</Link>
 			</Stack>

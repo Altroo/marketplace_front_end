@@ -166,6 +166,8 @@ export const getUserLocalCartDeliveriesData = (state: RootState) => state.cart.u
 export const getBoutiqueCoupDeCoeur = (state: RootState) => state._init.boutiqueCoupDeCoeur;
 
 // Chat
-export const getMyConversationsResults = (state: RootState) => state.messages.conversationsList.results as Array<ChatGetConversationsType>;
-export const getMyConversationsNextPage = (state: RootState) => state.messages.conversationsList.next as string | null;
+export const getConversations = (state: RootState) => state.messages.conversationsList;
+export const getMyConversationsResults = (state: RootState) => state.messages.conversationsList?.results;
 export const getSelectedConversation = (state: RootState) => state.messages.selectedConversation;
+export const getSelectedConversationResults = (state: RootState) => state.messages.selectedConversation.chat_messages.results;
+export const getSelectedConversationNextPage = (state: RootState) => state.messages.selectedConversation.chat_messages.next;

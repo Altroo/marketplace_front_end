@@ -1419,3 +1419,50 @@ export const CartAccordionTheme = (primaryColor: string | undefined = undefined)
 		},
 	});
 };
+
+export const chatTextInputTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	const blueColor = '#0274d7';
+
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						'& fieldset': {
+							borderRadius: '50px',
+							// backgroundColor: '#F2F2F3',
+						},
+						'& fieldset > legend': {
+							// size of red error line (label) (input size - 5px)
+							fontFamily: 'Poppins',
+							fontSize: '14px',
+						},
+					},
+					input: {
+						fontFamily: 'Poppins',
+						fontSize: '16px',
+						caretColor: blueColor,
+					},
+				},
+			},
+			MuiFormControl: {
+				styleOverrides: {
+					root: {
+						'& .MuiFormLabel-root': {
+							fontFamily: 'Poppins',
+							fontSize: '16px',
+							color: '#A3A3AD',
+						},
+						'& .MuiFormLabel-root.Mui-focused': {
+							fontFamily: 'Poppins',
+							fontSize: '16px',
+							color: blueColor,
+						},
+					},
+				},
+			},
+		},
+	});
+};

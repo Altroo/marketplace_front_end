@@ -8,7 +8,7 @@ type PayloadType = {
 
 //!- Chat State
 export interface ChatStateInterface {
-	conversationsList: PaginationResponseType<ChatGetConversationsType>;
+	conversationsList: null | ChatGetConversationsLinkedResponseType;
 	selectedConversation: ChatGetMessagesOfTargetInterface;
 }
 
@@ -23,7 +23,7 @@ export type ChatPostMessageOutput = {
 	user: number,
 	initiator: string,
 	recipient: number,
-	created: Date,
+	created: string,
 	body: string | null,
 	attachment_link: string | null,
 	attachment_thumbnail_link: string | null,
@@ -38,6 +38,7 @@ export type ChatGetMessagesOfTargetReceiverShopPart = {
 	shop_pk: number,
 	shop_name: string,
 	shop_avatar: string,
+	shop_url: string,
 	// mode_vacance: boolean // disabled
 }
 
@@ -48,7 +49,7 @@ export type ChatGetMessagesOfTargetReceiverPart = {
 	picture: string,
 	online: boolean,
 	online_timestamp: Date,
-	shop: ChatGetMessagesOfTargetReceiverShopPart
+	shop: ChatGetMessagesOfTargetReceiverShopPart | null,
 }
 
 export interface ChatGetMessagesOfTargetInterface {

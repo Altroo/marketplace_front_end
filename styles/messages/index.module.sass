@@ -6,13 +6,13 @@
 .main
   display: flex
   flex-direction: row
-  padding: 32px 60px 60px 60px
+  padding: 32px 32px 60px 60px
   width: 100%
   height: 100%
 .conversationsSideBar
   padding: 24px
   box-shadow: 0 0 5px -2px rgba(0, 0, 0, 0.25)
-  max-width: 440px
+  min-width: 440px
   z-index: 1
 .backButton
   width: fit-content !important
@@ -67,6 +67,126 @@
 .conversationsListRootStack:last-child
   .splitDivider
     +Hidden
+.centerAlignStack
+  //padding-top: 54px
+  max-height: 50vh
+  min-height: 50vh
+  height: 100%
+.conversationRootStack
+  position: relative
+  width: 100%
+.emptyMessageRootStack
+  color: $primary
+  text-align: center
+  h2
+    margin: 0
+    +Bold
+    font-size: 32px
+    line-height: 40px
+  p
+    margin: 0
+    +Regular
+    font-size: 17px
+.menuItem
+  span
+    +Regular
+    font-size: 17px
+    color: $primary
+    line-height: 26px
+.menuItemImage
+  display: flex
+  align-self: center
+  justify-self: center
+  padding: 10px
+  background-color: #F2F2F3
+  border-radius: 50%
+.menuItemArchiver
+  span
+    +Regular
+    font-size: 17px
+    line-height: 26px
+    color: #E12D3D
+.chatConversationLongAgo
+  +Regular
+  text-align: center
+  font-size: 11px
+  color: #84848A
+  line-height: 16px
+.emptyBlockStack
+  text-align: center
+  color: $primary
+  h2
+    +Bold
+    margin: 0
+    font-size: 32px
+    line-height: 40px
+  p
+    +Regular
+    margin: 0
+    font-size: 17px
+    line-height: 26px
+.blockRootStack
+  width: 100%
+  margin-left: 40px
+  padding-right: 40px
+  max-height: 50vh
+  min-height: 50vh
+  height: 100%
+.columnReverseStack
+  max-height: 50vh
+  min-height: 50vh
+  justify-self: flex-end
+  height: 100%
+  overflow: auto
+  padding-left: 15px
+  padding-right: 15px
+.topMargin
+  margin-top: 12px
+.chatTextInput
+  width: 100%
+.chatBoxSenderRootStack
+  max-width: 327px
+  align-self: flex-end
+  span
+    +Regular
+    font-size: 11px
+    color: #84848A
+    line-height: 16px
+    text-indent: 12px
+.chatBoxReceiverRootStack
+  max-width: 327px
+  align-self: flex-start
+  span
+    +Regular
+    font-size: 11px
+    color: #84848A
+    line-height: 16px
+    text-indent: 12px
+.senderChatBox
+  max-width: 327px
+  min-width: inherit
+  width: 100%
+  background-color: #FBF2DA
+  align-self: flex-end
+  padding: 10px 12px
+  border-radius: 12px
+  span
+    +Regular
+    font-size: 17px
+    color: $primary
+    line-height: 26px
+.receiverChatBox
+  background-color: #F2F2F3
+  align-self: flex-start
+  padding: 10px 12px
+  border-radius: 12px
+  min-width: inherit
+  width: 100%
+  span
+    +Regular
+    font-size: 17px
+    color: $primary
+    line-height: 26px
 @media #{$tablette}
   .main
     padding: 18px 24px 60px 24px

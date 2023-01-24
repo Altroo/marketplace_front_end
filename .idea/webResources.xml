@@ -31,6 +31,8 @@
             <path value="file://$PROJECT_DIR$/public/assets/images/footer_illu/notre-mission" />
             <path value="file://$PROJECT_DIR$/public/~partytown" />
             <path value="file://$PROJECT_DIR$/public/~partytown/debug" />
+            <path value="file://$PROJECT_DIR$/public/assets/images/chat_illu" />
+            <path value="file://$PROJECT_DIR$/public/assets/svgs/chatIcons" />
           </resourceRoots>
         </entryData>
       </entry>

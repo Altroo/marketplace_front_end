@@ -1,6 +1,6 @@
 import * as types from '../index';
 
-export const chatPostMessageAction = (recipient_pk: number, body: string | null, attachment : File | string | null) => {
+export const chatPostMessageAction = (recipient_pk: number, body: string | null = null, attachment : File | string | null = null) => {
 	return {
 		type: types.CHAT_POST_MESSAGE,
 		recipient_pk,
@@ -9,10 +9,10 @@ export const chatPostMessageAction = (recipient_pk: number, body: string | null,
 	};
 };
 
-export const chatPostArchiveConversationAction = (recipient_pk: number) => {
+export const chatPostArchiveConversationAction = (recipient: number) => {
 	return {
 		type: types.CHAT_POST_ARCHIVE,
-		recipient_pk
+		recipient
 	};
 };
 
@@ -23,6 +23,18 @@ export const chatGetMessagesOfTargetAction = (target: number) => {
 	};
 };
 
+export const chatSetClearMessagesOfTargetAction = () => {
+	return {
+		type: types.CHAT_SET_CLEAR_MESSAGES_OF_TARGET,
+	};
+}
+
+export const chatGetLoadMoreMessagesOfTargetAction = () => {
+	return {
+		type: types.CHAT_GET_LOAD_MORE_MESSAGES,
+	};
+};
+
 export const chatPatchMessageAsSeenAction = (message_pk: number) => {
 	return {
 		type: types.CHAT_PATCH_MESSAGE,
@@ -30,9 +42,10 @@ export const chatPatchMessageAsSeenAction = (message_pk: number) => {
 	};
 };
 
-export const chatGetConversationsAction = (url: string) => {
+export const chatGetConversationsAction = (url: string, isReset: boolean) => {
 	return {
 		type: types.CHAT_GET_CONVERSATIONS,
 		url,
+		isReset
 	};
 }
