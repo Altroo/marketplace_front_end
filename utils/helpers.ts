@@ -6,7 +6,7 @@ import {
 } from '../types/_init/_initTypes';
 import { emptyInitStateToken, emptyInitStateUniqueID, initialState, initToken } from '../store/slices/_init/_initSlice';
 import { bulkCookiesDeleter, cookiesPoster } from '../store/services/_init/_initAPI';
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store/store';
 import { GetServerSidePropsContext } from 'next';
 import { getCookie } from 'cookies-next';
@@ -28,12 +28,10 @@ export const isAuthenticatedInstance = (
 		// withCredentials: true
 	});
 	instance.interceptors.request.use(
-		(config: AxiosRequestConfig) => {
+		(config: InternalAxiosRequestConfig) => {
 			/* initStateToken might be using the old access_token. */
 			// load new access token from storage instead.
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			// config.headers!['Authorization'] = 'Bearer ' + initStateToken.access_token;
-			config.headers?.set({
+			config.headers.set({
 				Authorization: 'Bearer ' + initStateToken.access_token
 			});
 			return config;
