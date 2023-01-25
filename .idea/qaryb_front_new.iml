@@ -297,7 +297,6 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/abonnement" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/articles-references" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/audience" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/chiffre-d'affaire" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop/desktopDashboardSideNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop/desktopMyBusinessSideNav" isTestSource="false" />
@@ -369,6 +368,7 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/blog/[page_url]" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/blog" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/blog" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/chiffre-d-affaire" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/seo-pages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />
@@ -388,6 +388,7 @@
       <excludeFolder url="file://$MODULE_DIR$/archives/edit" />
       <excludeFolder url="file://$MODULE_DIR$/archives/disponibilitiesRadioCheckContent" />
       <excludeFolder url="file://$MODULE_DIR$/.yarn" />
+      <excludeFolder url="file://$MODULE_DIR$/logs" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

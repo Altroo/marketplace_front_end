@@ -74,7 +74,7 @@ export const DASHBOARD_SUBSCRIPTION_PAY_VIA_VIREMENT = `${SITE_ROOT}dashboard/my
 export const DASHBOARD_INDEXED_OFFERS = `${SITE_ROOT}dashboard/my-business/articles-references`;
 export const DASHBOARD_ADD_INDEX_OFFERS = `${SITE_ROOT}dashboard/my-business/articles-references/add-offers`;
 export const DASHBOARD_AUDIENCES = `${SITE_ROOT}dashboard/my-business/audience`;
-export const DASHBOARD_CHIFFRE_DAFFAIRE = `${SITE_ROOT}dashboard/my-business/chiffre-d'affaire`;
+export const DASHBOARD_CHIFFRE_DAFFAIRE = `${SITE_ROOT}dashboard/my-business/chiffre-d-affaire`;
 export const DASHBOARD_ORDERS = `${SITE_ROOT}dashboard/my-business/orders`;
 export const DASHBOARD_ORDER_DETAIL = (order_pk: number) => `${SITE_ROOT}dashboard/my-business/orders/${order_pk}`;
 // Panier
