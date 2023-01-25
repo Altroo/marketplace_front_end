@@ -172,7 +172,8 @@ const SelectedConversation: React.FC = () => {
 
 	const cropperRef = useRef<ReactCropperElement>(null);
 	const [openCropModal, setOpenCropModal] = useState<boolean>(false);
-
+	const [openPreviewModal, setOpenPreviewModal] = useState<boolean>(false);
+	const [imageToShow, setImageToShow] = useState<string | null>(null);
 	const imageInputOnChangeUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.files) {
 			return;
@@ -278,7 +279,7 @@ const SelectedConversation: React.FC = () => {
 									/>
 								)}
 							</ThemeProvider>
-							<Stack direction="column" spacing="5px">
+							<Stack direction="column" spacing="0px">
 								<Link
 									href={
 										receiver.shop
@@ -292,6 +293,15 @@ const SelectedConversation: React.FC = () => {
 										{receiver.shop ? receiver.shop.shop_name : receiver.first_name + ' ' + receiver.last_name}
 									</span>
 								</Link>
+								{receiver.online ? (
+									<span className={Styles.onlineStatus}>
+										En ligne.
+									</span>
+								) : (
+									<span className={Styles.onlineStatus}>
+										Hors ligne <ReactTimeAgo date={Date.parse(receiver.online_timestamp)} locale="fr" />.
+									</span>
+								)}
 							</Stack>
 						</Stack>
 						<IconButton
@@ -388,7 +398,11 @@ const SelectedConversation: React.FC = () => {
 													<span>{message.initiator}</span>
 													<span>{hour}</span>
 												</Stack>
-												<Box className={`${message.attachment_link ? Styles.senderMessageImageChatBox : Styles.senderMessageChatBox}`}>
+												<Box
+													className={`${
+														message.attachment_link ? Styles.senderMessageImageChatBox : Styles.senderMessageChatBox
+													}`}
+												>
 													{message.attachment_link ? (
 														<Image
 															src={message.attachment_link}
@@ -396,6 +410,10 @@ const SelectedConversation: React.FC = () => {
 															width="300"
 															height="300"
 															sizes="100vw"
+															onClick={() => {
+																setImageToShow(message.attachment_link);
+																setOpenPreviewModal(true);
+															}}
 														/>
 													) : (
 														<span>{message.body}</span>
@@ -409,7 +427,11 @@ const SelectedConversation: React.FC = () => {
 													<span>{message.initiator}</span>
 													<span>{hour}</span>
 												</Stack>
-												<Box className={`${message.attachment_link ? Styles.receiverMessageImageChatBox : Styles.receiverMessageChatBox}`}>
+												<Box
+													className={`${
+														message.attachment_link ? Styles.receiverMessageImageChatBox : Styles.receiverMessageChatBox
+													}`}
+												>
 													{message.attachment_link ? (
 														<Image
 															src={message.attachment_link}
@@ -417,6 +439,10 @@ const SelectedConversation: React.FC = () => {
 															width="300"
 															height="300"
 															sizes="100vw"
+															onClick={() => {
+																setImageToShow(message.attachment_link);
+																setOpenPreviewModal(true);
+															}}
 														/>
 													) : (
 														<span>{message.body}</span>
@@ -468,13 +494,33 @@ const SelectedConversation: React.FC = () => {
 								/>
 								<Stack direction="row" width="100%" justifyContent="center" pb="24px">
 									<PrimaryButton
-										buttonText="Envoyez"
+										buttonText="Envoyer"
 										active={true}
 										onClick={() => onSaveCropImage(receiver.pk)}
 										cssClass={Styles.cropButton}
 									/>
 								</Stack>
 							</Stack>
+						</CustomSwipeModal>
+						<CustomSwipeModal
+							keepMounted={false}
+							direction="up"
+							fullScreen={false}
+							showCloseIcon={true}
+							onBackdrop={() => setOpenPreviewModal(false)}
+							transition
+							open={openPreviewModal && !!imageToShow}
+							handleClose={() => setOpenPreviewModal(false)}
+							cssClasse={Styles.centerModal}
+						>
+							<Image
+								alt=""
+								src={imageToShow as string}
+								className={Styles.imageToShow}
+								width="0"
+								height="0"
+								sizes="100vw"
+							/>
 						</CustomSwipeModal>
 						{/* shop avatar crop end */}
 						<ThemeProvider theme={chatTextInputTheme()}>

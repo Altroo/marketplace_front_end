@@ -52,7 +52,7 @@ export type ChatGetMessagesOfTargetReceiverPart = {
 	last_name: string,
 	picture: string,
 	online: boolean,
-	online_timestamp: Date,
+	online_timestamp: string,
 	shop: ChatGetMessagesOfTargetReceiverShopPart | null,
 }
 
