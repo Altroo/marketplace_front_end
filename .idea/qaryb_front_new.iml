@@ -293,7 +293,6 @@
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/abonnement" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/articles-references" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/audience" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/chiffre-d'affaire" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop/desktopDashboardSideNav" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/components/layouts/desktop/desktopMyBusinessSideNav" isTestSource="false" />
@@ -373,6 +372,7 @@
       <sourceFolder url="file://$MODULE_DIR$/styles/messages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/messages/receiver_pk" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/messages" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/pages/dashboard/my-business/chiffre-d-affaire" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/seo-pages" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/types/subscription" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/styles/user" isTestSource="false" />
