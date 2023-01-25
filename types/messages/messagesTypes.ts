@@ -82,14 +82,9 @@ export type ChatGetConversationsPaginatedType = PaginationResponseType<ChatGetCo
 
 export type ChatGetConversationsResponseType = ResponseDataInterface<ChatGetConversationsPaginatedType>;
 
-export type ConversationsLinkedHashMapType = {
-	conversationsMap: Iterables.LinkedHashMap<number, ChatGetConversationsType> | null;
-	count: number;
-	nextPage: string | null;
-};
-
 export type ChatGetConversationsLinkedResponseType = {
-	results: Array<ChatGetConversationsType>;
 	count: number;
-	nextPage: string | null;
+	next: string | null;
+	previous: string | null;
+	results: Array<ChatGetConversationsType>;
 }

@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
 	ChatGetConversationsLinkedResponseType,
+	ChatGetConversationsPaginatedType,
+	ChatGetConversationsResponseType,
+	ChatGetConversationsType,
 	ChatGetMessageOutput,
 	ChatGetMessagesOfTargetInterface,
 	ChatPostMessageOutput,
@@ -8,6 +11,7 @@ import {
 } from "../../../types/messages/messagesTypes";
 import { paginationInitial } from "../_init/_initSlice";
 import { PaginationResponseType } from "../../../types/_init/_initTypes";
+import { getBackendNextPageNumber } from "../../../utils/helpers";
 // import { HYDRATE } from "next-redux-wrapper";
 
 const initialState: ChatStateInterface = {
@@ -100,6 +104,23 @@ const messagesSlice = createSlice({
 				results: map,
 			};
 		},
+		setLoadMoreConversations: (state, action: PayloadAction<ChatGetConversationsPaginatedType>) => {
+			if (state.conversationsList) {
+				const map: Array<ChatGetConversationsType> = state.conversationsList.results;
+				action.payload.results.map((conversation) => {
+					const conversationIndex = state.conversationsList?.results.find((item) => item.pk === conversation.pk);
+					if (!conversationIndex) {
+						map.push(conversation);
+					}
+				});
+				state.conversationsList = {
+					count: action.payload.count,
+					next: action.payload.next,
+					previous: action.payload.previous,
+					results: map,
+				};
+			}
+		},
 		setPatchMessageAsViewed: (state, action: PayloadAction<number>) => {
 			// payload has pk = message_pk
 			// find from conversationList & selectedConversation & mark as seen.
@@ -151,14 +172,13 @@ const messagesSlice = createSlice({
 export const {
 	setConversationsList,
 	setPostMessage,
-	// setPostArchiveConversation,
 	setSelectedConversation,
 	setGetWSMessage,
 	setPatchMessageAsViewed,
 	setWSUserStatus,
+	setLoadMoreConversations,
 	setSelectedConversationLoadMoreMessages,
 	setClearLocalMessagesOfTarget,
-	initChat,
 } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

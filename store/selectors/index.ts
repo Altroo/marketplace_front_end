@@ -167,6 +167,7 @@ export const getBoutiqueCoupDeCoeur = (state: RootState) => state._init.boutique
 
 // Chat
 export const getConversations = (state: RootState) => state.messages.conversationsList;
+export const getConversationsNextPage = (state: RootState) => state.messages.conversationsList?.next;
 export const getMyConversationsResults = (state: RootState) => state.messages.conversationsList?.results;
 export const getSelectedConversation = (state: RootState) => state.messages.selectedConversation;
 export const getSelectedConversationResults = (state: RootState) => state.messages.selectedConversation.chat_messages.results;

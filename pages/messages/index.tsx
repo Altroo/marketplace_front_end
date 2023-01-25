@@ -4,7 +4,6 @@ import Styles from '../../styles/messages/index.module.sass';
 import UserMainNavigationBar from '../../components/layouts/userMainNavigationBar/userMainNavigationBar';
 import CustomFooter from '../../components/layouts/footer/customFooter';
 import {
-	Button,
 	Stack,
 	ThemeProvider,
 	Divider,
@@ -21,12 +20,13 @@ import {
 import { AUTH_LOGIN, REAL_SHOP_BY_SHOP_LINK_ROUTE, USER_VIEW_PROFILE_BY_ID } from '../../utils/routes';
 import PrimaryButton from '../../components/htmlElements/buttons/primaryButton/primaryButton';
 import { useRouter } from 'next/router';
-import { generatePageQueryParams } from '../../utils/helpers';
+import { generatePageQueryParams } from "../../utils/helpers";
 import ReactTimeAgo from 'react-time-ago';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import { SagaCallBackResponseType } from '../../types/_init/_initTypes';
 import {
 	chatGetConversationsAction,
+	chatGetLoadMoreConversationsAction,
 	chatGetLoadMoreMessagesOfTargetAction,
 	chatGetMessagesOfTargetAction,
 	chatPatchMessageAsSeenAction,
@@ -217,6 +217,9 @@ const SelectedConversation: React.FC = () => {
 	};
 
 	const SendMessageHandler = (recipient_pk: number) => {
+		if (chatText === '') {
+			return;
+		}
 		const action = chatPostMessageAction(recipient_pk, chatText);
 		dispatch({
 			...action,
@@ -294,9 +297,7 @@ const SelectedConversation: React.FC = () => {
 									</span>
 								</Link>
 								{receiver.online ? (
-									<span className={Styles.onlineStatus}>
-										En ligne.
-									</span>
+									<span className={Styles.onlineStatus}>En ligne.</span>
 								) : (
 									<span className={Styles.onlineStatus}>
 										Hors ligne <ReactTimeAgo date={Date.parse(receiver.online_timestamp)} locale="fr" />.
@@ -574,17 +575,19 @@ const SelectedConversation: React.FC = () => {
 	);
 };
 
-// TODO - include router target ID, when initiating new conversation.
 const Index: NextPage = () => {
 	const { data: session, status } = useSession();
 	const loading = status === 'loading';
 	const router = useRouter();
+	const { receiver_pk } = router.query;
 	const dispatch = useAppDispatch();
 
 	const [loadMoreState, setLoadMoreState] = useState<boolean>(false);
 	const [isLoadingInitInProgress, setIsLoadingInitInProgress] = useState<boolean>(true);
 	const [isLoadingNextPageInProgress, setIsLoadingNextPageInProgress] = useState<boolean>(false);
 	const [isLoadingTargetInProgress, setIsLoadingTargetInProgress] = useState<boolean>(false);
+	const scrollParentRef = useRef<HTMLElement>(null);
+
 	const conversations = useAppSelector(getConversations);
 
 	useEffect(() => {
@@ -605,46 +608,20 @@ const Index: NextPage = () => {
 						},
 					});
 				}
+				if (receiver_pk) {
+					const action = chatGetMessagesOfTargetAction(parseInt(receiver_pk as string));
+					dispatch({
+						...action,
+						onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
+							if (!error && !cancelled && data) {
+								setIsLoadingInitInProgress(false);
+							}
+						},
+					});
+				}
 			} else {
 				router.replace(AUTH_LOGIN).then();
 			}
-		}
-		const getData = (isReset = false) => {
-			if (conversations) {
-				const { count, nextPage, results } = conversations;
-				if (!isReset && results !== null && count > 0 && results.length >= count) {
-					return;
-				}
-				let url = `${process.env.NEXT_PUBLIC_CHAT_CONVERSATIONS}`;
-				let queryParams: string;
-				if (nextPage !== null && !isReset) {
-					queryParams = generatePageQueryParams(nextPage);
-					url += queryParams;
-				} else {
-					queryParams = generatePageQueryParams();
-					url += queryParams;
-				}
-				const action = chatGetConversationsAction(url, isReset);
-				dispatch({
-					...action,
-					onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
-						if (!error && !cancelled && data) {
-							setIsLoadingNextPageInProgress(false);
-							if (isReset) {
-								setIsLoadingInitInProgress(false);
-							}
-						}
-					},
-				});
-			}
-		};
-
-		if (loadMoreState) {
-			if (conversations && conversations.results) {
-				const isReset = conversations.results.length >= conversations.count;
-				getData(isReset);
-			}
-			setLoadMoreState(false);
 		}
 		// dispatch clear selected messages of target.
 		const handleRouteChange = () => {
@@ -654,7 +631,7 @@ const Index: NextPage = () => {
 		return () => {
 			router.events.off('routeChangeStart', handleRouteChange);
 		};
-	}, [conversations, dispatch, isLoadingInitInProgress, loadMoreState, loading, router, session]);
+	}, [dispatch, isLoadingInitInProgress, loading, receiver_pk, router, session]);
 
 	const viewConversationHandler = (user_pk: number, message_pk: number | undefined = undefined) => {
 		setIsLoadingTargetInProgress(true);
@@ -671,6 +648,19 @@ const Index: NextPage = () => {
 		if (message_pk) {
 			dispatch(chatPatchMessageAsSeenAction(message_pk));
 		}
+	};
+
+	const LoadMoreConversations = () => {
+		setLoadMoreState(true);
+		const action = chatGetLoadMoreConversationsAction();
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
+				if (!error && !cancelled && data) {
+					setLoadMoreState(false);
+				}
+			},
+		});
 	};
 
 	return (
@@ -705,123 +695,118 @@ const Index: NextPage = () => {
 											circularColor="#0D070B"
 										/>
 									) : (
-										<Stack direction="column" spacing="12px">
-											{conversations &&
-												conversations.results.map((data, index) => {
-													const {
-														pk,
-														created,
-														online,
-														body,
-														shop_avatar_thumbnail,
-														shop_name,
-														user_avatar,
-														user_pk,
-														user_last_name,
-														user_first_name,
-														viewed,
-													} = data;
-													return (
-														<Stack
-															direction="column"
-															spacing="12px"
-															key={index}
-															className={Styles.conversationsListRootStack}
-															onClick={() => {
-																if (!viewed) {
-																	viewConversationHandler(user_pk, pk);
-																} else {
-																	viewConversationHandler(user_pk);
-																}
-															}}
-														>
+										<Stack
+											direction="column"
+											spacing="12px"
+											className={Styles.conversationsListMaxHeight}
+											ref={scrollParentRef}
+										>
+											{conversations && (
+												<InfiniteScroll
+													pageStart={1}
+													initialLoad={false}
+													loadMore={LoadMoreConversations}
+													hasMore={Boolean(conversations.next)}
+													loader={
+														loadMoreState ? (
+															<CircularProgress
+																sx={{ color: '#0D070B', position: 'absolute', left: '50%', top: '50%' }}
+																key={0}
+															/>
+														) : undefined
+													}
+													isReverse={false}
+													useWindow={false}
+													getScrollParent={() => scrollParentRef.current}
+												>
+													{conversations.results.map((data, index) => {
+														const {
+															pk,
+															created,
+															online,
+															body,
+															shop_avatar_thumbnail,
+															shop_name,
+															user_avatar,
+															user_pk,
+															user_last_name,
+															user_first_name,
+															viewed,
+														} = data;
+														return (
 															<Stack
-																direction="row"
-																justifyContent="space-between"
-																alignItems="center"
-																className={Styles.conversationsRootStack}
+																direction="column"
+																spacing="12px"
+																key={index}
+																className={Styles.conversationsListRootStack}
+																onClick={() => {
+																	if (!viewed) {
+																		viewConversationHandler(user_pk, pk);
+																	} else {
+																		viewConversationHandler(user_pk);
+																	}
+																}}
 															>
-																<Stack direction="row" spacing="18px" alignItems="center">
-																	<ThemeProvider theme={getDefaultTheme()}>
-																		{online ? (
-																			<Badge
-																				overlap="circular"
-																				anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-																				badgeContent={
+																<Stack
+																	direction="row"
+																	justifyContent="space-between"
+																	alignItems="center"
+																	className={Styles.conversationsRootStack}
+																>
+																	<Stack direction="row" spacing="18px" alignItems="center">
+																		<ThemeProvider theme={getDefaultTheme()}>
+																			{online ? (
+																				<Badge
+																					overlap="circular"
+																					anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+																					badgeContent={
+																						<Avatar
+																							alt="online"
+																							src={OnlineSVG.src}
+																							sx={{ width: 18, height: 18 }}
+																							className={Styles.onlineImage}
+																						/>
+																					}
+																				>
 																					<Avatar
-																						alt="online"
-																						src={OnlineSVG.src}
-																						sx={{ width: 18, height: 18 }}
-																						className={Styles.onlineImage}
+																						alt={`${shop_name ? shop_name : user_first_name + ' ' + user_last_name}`}
+																						src={shop_avatar_thumbnail ? shop_avatar_thumbnail : user_avatar}
+																						sx={{ width: 48, height: 48 }}
+																						className={Styles.userAvatar}
 																					/>
-																				}
-																			>
+																				</Badge>
+																			) : (
 																				<Avatar
 																					alt={`${shop_name ? shop_name : user_first_name + ' ' + user_last_name}`}
 																					src={shop_avatar_thumbnail ? shop_avatar_thumbnail : user_avatar}
 																					sx={{ width: 48, height: 48 }}
 																					className={Styles.userAvatar}
 																				/>
-																			</Badge>
-																		) : (
-																			<Avatar
-																				alt={`${shop_name ? shop_name : user_first_name + ' ' + user_last_name}`}
-																				src={shop_avatar_thumbnail ? shop_avatar_thumbnail : user_avatar}
-																				sx={{ width: 48, height: 48 }}
-																				className={Styles.userAvatar}
+																			)}
+																		</ThemeProvider>
+																		<Stack direction="column" spacing="5px">
+																			<ReactTimeAgo
+																				date={Date.parse(created)}
+																				locale="fr"
+																				className={Styles.chatLongAgo}
 																			/>
-																		)}
-																	</ThemeProvider>
-																	<Stack direction="column" spacing="5px">
-																		<ReactTimeAgo
-																			date={Date.parse(created)}
-																			locale="fr"
-																			className={Styles.chatLongAgo}
-																		/>
-																		<span className={Styles.chatUserName}>
-																			{shop_name ? shop_name : user_first_name + ' ' + user_last_name}
-																		</span>
-																		<span className={`${viewed ? Styles.bodyRegularMessage : Styles.bodyNewMessage}`}>
-																			{body}
-																		</span>
+																			<span className={Styles.chatUserName}>
+																				{shop_name ? shop_name : user_first_name + ' ' + user_last_name}
+																			</span>
+																			<span className={`${viewed ? Styles.bodyRegularMessage : Styles.bodyNewMessage}`}>
+																				{body}
+																			</span>
+																		</Stack>
 																	</Stack>
+																	{!viewed && <Image src={NewNotificationBlueSVG} alt="" width="12" height="12" />}
 																</Stack>
-																{!viewed && <Image src={NewNotificationBlueSVG} alt="" width="12" height="12" />}
+																<Divider orientation="vertical" flexItem className={Styles.splitDivider} />
 															</Stack>
-															<Divider orientation="vertical" flexItem className={Styles.splitDivider} />
-														</Stack>
-													);
-												})}
+														);
+													})}
+												</InfiniteScroll>
+											)}
 										</Stack>
-									)}
-									{conversations && conversations.nextPage && (
-										<ThemeProvider theme={getDefaultTheme()}>
-											<Stack direction="row" justifyContent="center" alignItems="center" mt={2}>
-												<Link
-													href={{
-														query: {
-															...router.query,
-															page: conversations.nextPage,
-														},
-													}}
-													replace={true}
-													scroll={false}
-													shallow={true}
-												>
-													<Button
-														variant="text"
-														color="primary"
-														className={Styles.loadMoreButton}
-														onClick={() => {
-															setLoadMoreState(true);
-															setIsLoadingNextPageInProgress(true);
-														}}
-													>
-														Charger plus
-													</Button>
-												</Link>
-											</Stack>
-										</ThemeProvider>
 									)}
 								</Stack>
 							</Stack>

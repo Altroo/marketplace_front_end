@@ -55,6 +55,7 @@ const IconAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref
 		</ThemeProvider>
 	) : (
 		<Button
+			onClick={props.onClick}
 			color="primary"
 			className={`${Styles.iconButton} ${props.active ? Styles.active : ''} 
 			${props.cssClass && props.cssClass}`}

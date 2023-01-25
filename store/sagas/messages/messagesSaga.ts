@@ -1,16 +1,16 @@
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import * as Types from '../../actions';
 import { ctxAuthSaga } from '../_init/_initSaga';
-import { generatePageQueryParams, getBackendNextPageNumber, isAuthenticatedInstance } from "../../../utils/helpers";
-import { ApiErrorResponseType, AuthSagaContextType, ResponseOnlyInterface } from '../../../types/_init/_initTypes';
+import { isAuthenticatedInstance } from "../../../utils/helpers";
+import { AuthSagaContextType, ResponseOnlyInterface } from '../../../types/_init/_initTypes';
 import { getApi, patchApi, postApi, postFormDataApi } from '../../services/_init/_initAPI';
 import {
 	ChatGetConversationsResponseType,
 	ChatGetConversationsType,
 	ChatGetMessageResponseType,
 	ChatGetMessagesOfTargetResponseType,
-	ChatPatchMessageSeenResponseType, ChatPostMessageImageType,
-	ChatPostMessageOutput,
+	ChatPatchMessageSeenResponseType,
+	ChatPostMessageImageType,
 	ChatPostMessageResponseType,
 	ChatPostMessageType
 } from "../../../types/messages/messagesTypes";
@@ -22,15 +22,15 @@ import {
 	setSelectedConversation,
 	setSelectedConversationLoadMoreMessages,
 	setWSUserStatus,
-	setClearLocalMessagesOfTarget
+	setClearLocalMessagesOfTarget, setLoadMoreConversations
 } from "../../slices/messages/messagesSlice";
 import { AxiosInstance } from 'axios';
 import { withCallback } from 'redux-saga-callback';
 import { Saga } from 'redux-saga';
 import {
+	getConversationsNextPage,
 	getMyConversationsResults,
 	getSelectedConversationNextPage,
-	getSelectedConversationResults
 } from "../../selectors";
 import { chatGetConversationsAction } from "../../actions/messages/messagesActions";
 
@@ -49,7 +49,8 @@ function* chatGetConversationsSaga(payload: { type: string; url: string; isReset
 			});
 			const result = {
 				results: map,
-				nextPage: getBackendNextPageNumber(response.data.next),
+				next: response.data.next,
+				previous: response.data.previous,
 				count: response.data.count,
 			};
 			yield put(setConversationsList(result));
@@ -62,6 +63,7 @@ function* chatPostMessageSaga(payload: ChatPostMessageType) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_CHAT_MESSAGE}`;
 	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const conversationsResults: Array<ChatGetConversationsType> = yield select(getMyConversationsResults);
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: ChatPostMessageResponseType = yield call(() => postFormDataApi(url, authInstance, {
 			'body': payload.body,
@@ -70,6 +72,13 @@ function* chatPostMessageSaga(payload: ChatPostMessageType) {
 		// Chat post message has 201 created status
 		if (response.status === 201) {
 			yield put(setPostMessage(response.data));
+			const conversationListindex = conversationsResults.findIndex((item) => item.user_pk === response.data.user);
+			// first time conversation is created
+			// reload conversations list
+			const chat_conversation_url = `${process.env.NEXT_PUBLIC_CHAT_CONVERSATIONS}?page=1`;
+			if (conversationListindex == -1) {
+				yield put(chatGetConversationsAction(chat_conversation_url, true));
+			}
 			return true;
 		}
 	}
@@ -79,6 +88,7 @@ function* chatPostMessageImageSaga(payload: ChatPostMessageImageType) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_CHAT_MESSAGE}`;
 	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const conversationsResults: Array<ChatGetConversationsType> = yield select(getMyConversationsResults);
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: ChatPostMessageResponseType = yield call(() => postFormDataApi(url, authInstance, {
 			'attachment': payload.attachment,
@@ -87,6 +97,13 @@ function* chatPostMessageImageSaga(payload: ChatPostMessageImageType) {
 		// Chat post message has 201 created status
 		if (response.status === 201) {
 			yield put(setPostMessage(response.data));
+			const conversationListindex = conversationsResults.findIndex((item) => item.user_pk === response.data.user);
+			// first time conversation is created
+			// reload conversations list
+			const chat_conversation_url = `${process.env.NEXT_PUBLIC_CHAT_CONVERSATIONS}?page=1`;
+			if (conversationListindex == -1) {
+				yield put(chatGetConversationsAction(chat_conversation_url, true));
+			}
 			return true;
 		}
 	}
@@ -133,6 +150,21 @@ function* chatGetLoadMoreMessagesOfTargetSaga() {
 		);
 		if (response.status === 200 && response.data) {
 			yield put(setSelectedConversationLoadMoreMessages(response.data.chat_messages));
+			return true;
+		}
+	}
+}
+
+function* chatGetLoadMoreConversationsSaga() {
+	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
+	const nextPage: string | null = yield select(getConversationsNextPage);
+	if (nextPage && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
+		const response: ChatGetConversationsResponseType = yield call(() =>
+			getApi(nextPage, authInstance),
+		);
+		if (response.status === 200 && response.data) {
+			yield put(setLoadMoreConversations(response.data));
 			return true;
 		}
 	}
@@ -194,4 +226,5 @@ export function* watchMessages() {
 	yield takeLatest(Types.WS_USER_STATUS, wsUserStatusSaga);
 	yield takeLatest(Types.CHAT_SET_CLEAR_MESSAGES_OF_TARGET, setClearMessagesOfTarget);
 	yield takeLatest(Types.CHAT_GET_LOAD_MORE_MESSAGES, withCallback(chatGetLoadMoreMessagesOfTargetSaga as Saga));
+	yield takeLatest(Types.CHAT_GET_LOAD_MORE_CONVERSATIONS, withCallback(chatGetLoadMoreConversationsSaga as Saga));
 }

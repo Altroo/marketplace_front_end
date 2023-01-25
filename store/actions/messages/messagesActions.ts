@@ -57,3 +57,9 @@ export const chatGetConversationsAction = (url: string, isReset: boolean) => {
 		isReset
 	};
 }
+
+export const chatGetLoadMoreConversationsAction = () => {
+	return {
+		type: types.CHAT_GET_LOAD_MORE_CONVERSATIONS,
+	};
+};

@@ -56,7 +56,6 @@ import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
 import {
 	AUTH_LOGIN,
-	CHAT_BY_RECEIVER_PK,
 	CHAT_INDEX,
 	NOT_FOUND_404,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE
@@ -1120,7 +1119,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const contact_whatsapp_code = data.contact_whatsapp_code;
 	const contact_whatsapp = data.contact_whatsapp;
 	const contact_mode = data.contact_mode;
-
+	const router = useRouter();
 	// states
 	// Gray Message Icon
 	const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
@@ -1239,9 +1238,14 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 							backgroundColor={bg_color_code}
 							textColor={color_code}
 							border={border}
-							nextPage={CHAT_BY_RECEIVER_PK(user)}
 							active={true}
 							cssClass={Styles.iconButton}
+							onClick={() => router.push({
+							query: {
+								receiver_pk: user,
+							},
+							pathname: CHAT_INDEX,
+						}, CHAT_INDEX).then()}
 						/>
 						{(contactModeState === 'P' || contactModeState === 'W') && contactIcon && (
 							<IconAnchorButton
