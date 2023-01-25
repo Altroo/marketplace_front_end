@@ -44,33 +44,6 @@ const messagesSlice = createSlice({
 				}
 			}
 		},
-		// TODO - require those
-		/*
-			pk: 22
-			user_pk: 65
-			user_avatar: "http://127.0.0.1:8000/media/media/user_avatars/80145727-e30c-42bf-8fab-8ff712f6b7a0.webp"
-			user_first_name: "Yooy"
-			user_last_name: "Altroo"
-			body: "Hello"
-			viewed: false
-			created: "2023-01-23T20:33:28.778480Z"
-			online: true
-			shop_pk: null
-			shop_name: null
-			shop_avatar_thumbnail: null
-		 */
-		/*
-			current :
-	    "pk": 23,
-	    "user": 65,
-	    "initiator": "Yooy Altroo",
-	    "recipient": 1,
-	    "created": "2023-01-23T20:36:56.955888Z",
-	    "body": "Hello",
-	    "attachment_link": null,
-	    "attachment_thumbnail_link": null,
-	    "viewed": false
-		 */
 		setGetWSMessage: (state, action: PayloadAction<ChatGetMessageOutput>) => {
 			if (state.selectedConversation.receiver !== null && state.selectedConversation.receiver.pk === action.payload.user) {
 				state.selectedConversation.chat_messages.results.push(action.payload);

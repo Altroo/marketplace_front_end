@@ -104,8 +104,6 @@ function* chatPostArchiveConversationSaga(payload: { type: string; recipient: nu
 			// Empty selected conversation
 			yield put(setClearLocalMessagesOfTarget());
 			return true;
-			// reload conversations list.
-			// yield put(setPostArchiveConversation(payload.recipient));
 		}
 	}
 }
@@ -166,7 +164,7 @@ function* wsNewMessageSaga(payload: { type: string; pk: number; initiator: numbe
 			// reload conversations list
 			const chat_conversation_url = `${process.env.NEXT_PUBLIC_CHAT_CONVERSATIONS}?page=1`;
 			if (conversationListindex == -1) {
-				yield call(() => chatGetConversationsAction(chat_conversation_url, true));
+				yield put(chatGetConversationsAction(chat_conversation_url, true));
 			}
 		}
 	}
