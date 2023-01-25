@@ -39,7 +39,6 @@ import ApiProgress from '../../components/formikElements/apiLoadingResponseOrErr
 import {
 	chatTextInputTheme,
 	customChatImageModalTheme,
-	customOrderActionsModalTheme,
 	getDefaultTheme,
 	getDropDownMenuTheme,
 } from '../../utils/themes';
