@@ -6,7 +6,7 @@ import {
 } from '../types/_init/_initTypes';
 import { emptyInitStateToken, emptyInitStateUniqueID, initialState, initToken } from '../store/slices/_init/_initSlice';
 import { bulkCookiesDeleter, cookiesPoster } from '../store/services/_init/_initAPI';
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../store/store';
 import { GetServerSidePropsContext } from 'next';
 import { getCookie } from 'cookies-next';
@@ -15,7 +15,6 @@ import { signOut } from 'next-auth/react';
 import { SITE_ROOT } from './routes';
 import { useMediaQuery } from 'react-responsive';
 import { useComponentHydrated } from 'react-hydration-provider';
-import { Session } from 'next-auth';
 
 export const isAuthenticatedInstance = (
 	initStateToken: InitStateToken,
@@ -29,13 +28,11 @@ export const isAuthenticatedInstance = (
 		// withCredentials: true
 	});
 	instance.interceptors.request.use(
-		(config: AxiosRequestConfig) => {
+		(config: InternalAxiosRequestConfig) => {
 			/* initStateToken might be using the old access_token. */
 			// load new access token from storage instead.
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			// config.headers!['Authorization'] = 'Bearer ' + initStateToken.access_token;
-			config.headers?.set({
-				Authorization: 'Bearer ' + initStateToken.access_token,
+			config.headers.set({
+				Authorization: 'Bearer ' + initStateToken.access_token
 			});
 			return config;
 		},
@@ -406,14 +403,4 @@ export const TabletAndMobile = (props: MediaQueryProps) => {
 	// const isResponsive = useMediaQuery({ maxWidth: 991 })
 	const isResponsive = useMediaQuery({ maxWidth: 991 }, hydrated ? undefined : { deviceWidth: 767 });
 	return isResponsive ? props.children : null;
-};
-
-export const GetSessionInitStateToken = (session: Session) => {
-	return {
-		access_token: session.accessToken,
-		refresh_token: session.refreshToken,
-		user: session.user,
-		access_token_expiration: session.accessTokenExpiration,
-		refresh_token_expiration: session.refreshTokenExpiration,
-	};
 };
