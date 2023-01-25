@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "NODE_OPTIONS='-r next-logger' next start",
+    "start_dev": "NODE_OPTIONS='-r next-logger' next start -p 3001",
     "lint": "next lint",
     "upgrade": "yarn upgrade-interactive"
   },
