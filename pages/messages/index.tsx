@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, MouseEvent, useRef } from "react";
+import React, { useState, useEffect, useCallback, MouseEvent, useRef } from 'react';
 import { NextPage } from 'next';
 import Styles from '../../styles/messages/index.module.sass';
 import UserMainNavigationBar from '../../components/layouts/userMainNavigationBar/userMainNavigationBar';
@@ -29,11 +29,20 @@ import {
 	chatGetConversationsAction,
 	chatGetLoadMoreMessagesOfTargetAction,
 	chatGetMessagesOfTargetAction,
-	chatPatchMessageAsSeenAction, chatPostArchiveConversationAction,
-	chatPostMessageAction, chatSetClearMessagesOfTargetAction
-} from "../../store/actions/messages/messagesActions";
+	chatPatchMessageAsSeenAction,
+	chatPostArchiveConversationAction,
+	chatPostMessageAction,
+	chatPostMessageImageAction,
+	chatSetClearMessagesOfTargetAction,
+} from '../../store/actions/messages/messagesActions';
 import ApiProgress from '../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
-import { chatTextInputTheme, getDefaultTheme, getDropDownMenuTheme } from '../../utils/themes';
+import {
+	chatTextInputTheme,
+	customChatImageModalTheme,
+	customOrderActionsModalTheme,
+	getDefaultTheme,
+	getDropDownMenuTheme,
+} from '../../utils/themes';
 import NewNotificationBlueSVG from '../../public/assets/svgs/mainNavBarIcons/new-notification-blue.svg';
 import OnlineSVG from '../../public/assets/svgs/chatIcons/online-green.svg';
 import EmptyChatMessagesIllu from '../../public/assets/images/chat_illu/empty-messages-illu.svg';
@@ -48,8 +57,11 @@ import Link from 'next/link';
 import { getConversations, getSelectedConversation } from '../../store/selectors';
 import { useSession } from 'next-auth/react';
 import InfiniteScroll from 'react-infinite-scroller';
-import { accountPostBlockAction } from "../../store/actions/account/accountActions";
-import OpenLockSVG from "../../public/assets/images/dashboard_illu/lock-open.svg";
+import { accountPostBlockAction } from '../../store/actions/account/accountActions';
+import OpenLockSVG from '../../public/assets/images/dashboard_illu/lock-open.svg';
+import 'cropperjs/dist/cropper.css';
+import Cropper, { ReactCropperElement } from 'react-cropper';
+import CustomSwipeModal from '../../components/desktop/modals/rightSwipeModal/customSwipeModal';
 
 const EmptyConversation = () => {
 	return (
@@ -83,9 +95,8 @@ const UserBlockedContent = () => {
 			<Stack direction="column" spacing="18px" alignItems="center" className={Styles.emptyBlockStack}>
 				<h2>Vous avez bloqué cette personne</h2>
 				<p>
-					Désormais, elle ne peut plus vous envoyer de messages et vous ne pouvez plus la contacter.
-					À tout moment, vous pouvez décider de la débloquer en allant dans les paramètres de votre compte,
-					“Contacts bloqués”.
+					Désormais, elle ne peut plus vous envoyer de messages et vous ne pouvez plus la contacter. À tout moment, vous
+					pouvez décider de la débloquer en allant dans les paramètres de votre compte, “Contacts bloqués”.
 				</p>
 			</Stack>
 		</Stack>
@@ -101,7 +112,9 @@ const SelectedConversation: React.FC = () => {
 	const [loadMoreState, setLoadMoreState] = useState<boolean>(false);
 	const [userBlocked, setUserBlocked] = useState<boolean>(false);
 	const scrollParentRef = useRef<HTMLElement>(null);
+	const imageInputRef = useRef<HTMLInputElement>(null);
 	const openChatSubMenu = Boolean(chatSubMenuEl);
+	const [previewImage, setPreviewImage] = useState<string | null>(null);
 
 	const handleChatSubMenuClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
 		setChatSubMenuEl(event.currentTarget);
@@ -158,9 +171,49 @@ const SelectedConversation: React.FC = () => {
 		});
 	};
 
-	// Todo add attach image
-	const SendImageHandler = () => {
-		console.log('send image clicked');
+	const cropperRef = useRef<ReactCropperElement>(null);
+	const [openCropModal, setOpenCropModal] = useState<boolean>(false);
+
+	const imageInputOnChangeUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (!e.target.files) {
+			return;
+		}
+		const file = e.target.files[0];
+		if (file && file.type.substring(0, 5) === 'image') {
+			// to trigger loading skeleton animation
+			setPreviewImage(null);
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onloadend = () => {
+				setPreviewImage(reader.result as string);
+				setOpenCropModal(true);
+			};
+		}
+	};
+
+	const ImageInputOnClickHandler = () => {
+		if (!imageInputRef.current) {
+			return;
+		}
+		imageInputRef.current.click();
+	};
+
+	const onSaveCropImage = (recipient_pk: number) => {
+		const imageElement: ReactCropperElement | null = cropperRef?.current;
+		const cropper = imageElement?.cropper;
+		if (cropper) {
+			const dataUrl = cropper.getCroppedCanvas().toDataURL();
+			const action = chatPostMessageImageAction(recipient_pk, dataUrl);
+			dispatch({
+				...action,
+				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
+					if (!error && !cancelled && data) {
+						setPreviewImage(dataUrl);
+						setOpenCropModal(false);
+					}
+				},
+			});
+		}
 	};
 
 	const SendMessageHandler = (recipient_pk: number) => {
@@ -307,7 +360,11 @@ const SelectedConversation: React.FC = () => {
 							initialLoad={false}
 							loadMore={LoadMoreMessages}
 							hasMore={Boolean(chat_messages.next)}
-							loader={loadMoreState ? <CircularProgress sx={{ color: '#0D070B', position: 'absolute', left: '50%', top: '50%' }} key={0} /> : undefined}
+							loader={
+								loadMoreState ? (
+									<CircularProgress sx={{ color: '#0D070B', position: 'absolute', left: '50%', top: '50%' }} key={0} />
+								) : undefined
+							}
 							isReverse={true}
 							useWindow={false}
 							getScrollParent={() => scrollParentRef.current}
@@ -332,8 +389,18 @@ const SelectedConversation: React.FC = () => {
 													<span>{message.initiator}</span>
 													<span>{hour}</span>
 												</Stack>
-												<Box className={Styles.senderChatBox}>
-													<span>{message.body}</span>
+												<Box className={`${message.attachment_link ? Styles.senderMessageImageChatBox : Styles.senderMessageChatBox}`}>
+													{message.attachment_link ? (
+														<Image
+															src={message.attachment_link}
+															alt=""
+															width="300"
+															height="300"
+															sizes="100vw"
+														/>
+													) : (
+														<span>{message.body}</span>
+													)}
 												</Box>
 												{message.viewed && <span>Vu</span>}
 											</Stack>
@@ -343,8 +410,18 @@ const SelectedConversation: React.FC = () => {
 													<span>{message.initiator}</span>
 													<span>{hour}</span>
 												</Stack>
-												<Box className={Styles.receiverChatBox}>
-													<span>{message.body}</span>
+												<Box className={`${message.attachment_link ? Styles.receiverMessageImageChatBox : Styles.receiverMessageChatBox}`}>
+													{message.attachment_link ? (
+														<Image
+															src={message.attachment_link}
+															alt=""
+															width="300"
+															height="300"
+															sizes="100vw"
+														/>
+													) : (
+														<span>{message.body}</span>
+													)}
 												</Box>
 											</Stack>
 										)}
@@ -355,9 +432,52 @@ const SelectedConversation: React.FC = () => {
 					</Stack>
 					<Divider orientation="vertical" flexItem className={Styles.splitDivider} />
 					<Stack direction="row" spacing="10px">
-						<IconButton onClick={SendImageHandler} size="large" color="inherit">
+						<IconButton onClick={ImageInputOnClickHandler} size="large" color="inherit">
 							<Image src={SendImageBlackSVG} alt="" width="30" height="30" sizes="100vw" />
+							<input
+								type="file"
+								className={Styles.hiddenFile}
+								ref={imageInputRef}
+								accept="image/*"
+								onChange={(e) => imageInputOnChangeUploadHandler(e)}
+							/>
 						</IconButton>
+						{/* Start crop image */}
+						<CustomSwipeModal
+							keepMounted={false}
+							direction="up"
+							fullScreen={false}
+							showCloseIcon={true}
+							onBackdrop={() => setOpenCropModal(false)}
+							theme={customChatImageModalTheme()}
+							transition
+							open={openCropModal}
+							handleClose={() => setOpenCropModal(false)}
+							cssClasse={Styles.centerModal}
+						>
+							<Stack direction="column" spacing="24px">
+								<Cropper
+									src={previewImage as string}
+									style={{ height: '100%', width: '100%' }}
+									cropBoxResizable={false}
+									initialAspectRatio={0}
+									minCropBoxWidth={5000}
+									minCropBoxHeight={5000}
+									dragMode="move"
+									ref={cropperRef}
+									viewMode={3}
+								/>
+								<Stack direction="row" width="100%" justifyContent="center" pb="24px">
+									<PrimaryButton
+										buttonText="Envoyez"
+										active={true}
+										onClick={() => onSaveCropImage(receiver.pk)}
+										cssClass={Styles.cropButton}
+									/>
+								</Stack>
+							</Stack>
+						</CustomSwipeModal>
+						{/* shop avatar crop end */}
 						<ThemeProvider theme={chatTextInputTheme()}>
 							<TextField
 								variant="outlined"
@@ -366,7 +486,7 @@ const SelectedConversation: React.FC = () => {
 								onChange={(e) => setChatText(e.target.value)}
 								onFocus={() => {
 									if (typeof chat_messages.results[chat_messages.results.length - 1] !== 'undefined' && receiver) {
-										const lastMessage = chat_messages.results[chat_messages.results.length - 1]
+										const lastMessage = chat_messages.results[chat_messages.results.length - 1];
 										if (lastMessage.user === receiver.pk && !lastMessage.viewed) {
 											dispatch(chatPatchMessageAsSeenAction(lastMessage.pk));
 										}
@@ -401,10 +521,10 @@ const SelectedConversation: React.FC = () => {
 					</Stack>
 				</Stack>
 			) : userBlocked ? (
-					<UserBlockedContent/>
-				) : (
-					<EmptyConversation />
-				)}
+				<UserBlockedContent />
+			) : (
+				<EmptyConversation />
+			)}
 		</Box>
 	);
 };
@@ -483,12 +603,12 @@ const Index: NextPage = () => {
 		}
 		// dispatch clear selected messages of target.
 		const handleRouteChange = () => {
-      dispatch(chatSetClearMessagesOfTargetAction());
-    }
+			dispatch(chatSetClearMessagesOfTargetAction());
+		};
 		router.events.on('routeChangeStart', handleRouteChange);
 		return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
-    }
+			router.events.off('routeChangeStart', handleRouteChange);
+		};
 	}, [conversations, dispatch, isLoadingInitInProgress, loadMoreState, loading, router, session]);
 
 	const viewConversationHandler = (user_pk: number, message_pk: number | undefined = undefined) => {

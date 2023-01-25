@@ -9,6 +9,14 @@ export const chatPostMessageAction = (recipient_pk: number, body: string | null 
 	};
 };
 
+export const chatPostMessageImageAction = (recipient_pk: number, attachment : File | string | null = null) => {
+	return {
+		type: types.CHAT_POST_MESSAGE_IMAGE,
+		recipient_pk,
+		attachment
+	};
+};
+
 export const chatPostArchiveConversationAction = (recipient: number) => {
 	return {
 		type: types.CHAT_POST_ARCHIVE,

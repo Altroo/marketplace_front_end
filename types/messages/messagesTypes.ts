@@ -15,6 +15,10 @@ export interface ChatStateInterface {
 export interface ChatPostMessageType extends PayloadType{
 	recipient_pk: number,
 	body: string | null,
+}
+
+export interface ChatPostMessageImageType extends PayloadType{
+	recipient_pk: number,
 	attachment: File | string | null,
 }
 

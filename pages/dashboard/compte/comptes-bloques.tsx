@@ -4,12 +4,7 @@ import Styles from '../../../styles/dashboard/dashboard.module.sass';
 import { useRouter } from 'next/router';
 import { Box, Stack, ThemeProvider } from '@mui/material';
 import UserMainNavigationBar from '../../../components/layouts/userMainNavigationBar/userMainNavigationBar';
-import {
-	Desktop,
-	getServerSideCookieTokens,
-	isAuthenticatedInstance,
-	TabletAndMobile
-} from "../../../utils/helpers";
+import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance, TabletAndMobile } from '../../../utils/helpers';
 import DesktopDashboardSideNav from '../../../components/layouts/desktop/desktopDashboardSideNav/desktopDashboardSideNav';
 import MobileDashboardNav from '../../../components/layouts/mobile/mobileDashboardNav/mobileDashboardNav';
 import Image from 'next/image';
@@ -19,22 +14,17 @@ import OpenLockSVG from '../../../public/assets/images/dashboard_illu/lock-open.
 import Portal from '../../../contexts/Portal';
 import CustomToast from '../../../components/portals/customToast/customToast';
 import CustomFooter from '../../../components/layouts/footer/customFooter';
-import {
-	AccountGetBlockedUsersResponseType,
-	AccountGetBlockedUsersType,
-} from "../../../types/account/accountTypes";
+import { AccountGetBlockedUsersResponseType, AccountGetBlockedUsersType } from '../../../types/account/accountTypes';
 import { getApi } from '../../../store/services/_init/_initAPI';
 import { AUTH_LOGIN, NOT_FOUND_404 } from '../../../utils/routes';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import { getDefaultTheme } from '../../../utils/themes';
 import Divider from '@mui/material/Divider';
-import PrimaryButton from "../../../components/htmlElements/buttons/primaryButton/primaryButton";
-import {
-	accountDeleteBlockAction,
-} from "../../../store/actions/account/accountActions";
-import { useAppDispatch } from "../../../utils/hooks";
-import { SagaCallBackResponseType } from "../../../types/_init/_initTypes";
+import PrimaryButton from '../../../components/htmlElements/buttons/primaryButton/primaryButton';
+import { accountDeleteBlockAction } from '../../../store/actions/account/accountActions';
+import { useAppDispatch } from '../../../utils/hooks';
+import { SagaCallBackResponseType } from '../../../types/_init/_initTypes';
 
 type FullBlockedContentType = {
 	data: Array<AccountGetBlockedUsersType>;
@@ -43,19 +33,19 @@ type FullBlockedContentType = {
 const FullBlockedContent: React.FC<FullBlockedContentType> = (props: FullBlockedContentType) => {
 	const { data, setShowToast } = props;
 	const router = useRouter();
-	const dispatch = useAppDispatch()
+	const dispatch = useAppDispatch();
 	const onUnblockHandler = (user_pk: number) => {
 		const action = accountDeleteBlockAction(user_pk);
-			dispatch({
-				...action,
-				onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
-					if (!error && !cancelled && data) {
-						router.replace(router.asPath).then(() => {
-							setShowToast(true);
-						});
-					}
-				},
-			});
+		dispatch({
+			...action,
+			onComplete: ({ error, cancelled, data }: SagaCallBackResponseType<boolean>) => {
+				if (!error && !cancelled && data) {
+					router.replace(router.asPath).then(() => {
+						setShowToast(true);
+					});
+				}
+			},
+		});
 	};
 
 	return (
@@ -75,12 +65,7 @@ const FullBlockedContent: React.FC<FullBlockedContentType> = (props: FullBlocked
 					const { blocked_user_avatar, blocked_user_first_name, blocked_user_last_name, blocked_user_pk } = blocked;
 					return (
 						<Stack direction="column" key={index} spacing="12px" className={Styles.blockedUsersListRootStack}>
-							<Stack
-								direction="row"
-								justifyContent="space-between"
-								alignItems="center"
-								width="100%"
-							>
+							<Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
 								<Stack direction="row" spacing="18px" alignItems="center">
 									<ThemeProvider theme={getDefaultTheme()}>
 										<Badge
@@ -103,7 +88,9 @@ const FullBlockedContent: React.FC<FullBlockedContentType> = (props: FullBlocked
 											/>
 										</Badge>
 									</ThemeProvider>
-									<span className={Styles.blockedUserName}>{`${blocked_user_first_name} ${blocked_user_last_name}`}</span>
+									<span
+										className={Styles.blockedUserName}
+									>{`${blocked_user_first_name} ${blocked_user_last_name}`}</span>
 								</Stack>
 								<PrimaryButton
 									cssClass={Styles.unblockButton}
@@ -163,7 +150,11 @@ const ComptesBloques: NextPage<IndexProps> = (props: IndexProps) => {
 					<Stack direction="row" className={Styles.flexRootStack}>
 						<DesktopDashboardSideNav backText="Mon compte" />
 						<Box sx={{ width: '100%' }}>
-							{data.length > 0 ? <FullBlockedContent data={data} setShowToast={setShowToast} /> : <EmptyBlockedContent />}
+							{data.length > 0 ? (
+								<FullBlockedContent data={data} setShowToast={setShowToast} />
+							) : (
+								<EmptyBlockedContent />
+							)}
 						</Box>
 					</Stack>
 				</Desktop>
@@ -187,7 +178,11 @@ const ComptesBloques: NextPage<IndexProps> = (props: IndexProps) => {
 										</Stack>
 									</Stack>
 								</Stack>
-								{data.length > 0 ? <FullBlockedContent data={data} setShowToast={setShowToast} /> : <EmptyBlockedContent />}
+								{data.length > 0 ? (
+									<FullBlockedContent data={data} setShowToast={setShowToast} />
+								) : (
+									<EmptyBlockedContent />
+								)}
 							</Box>
 						)}
 					</Stack>

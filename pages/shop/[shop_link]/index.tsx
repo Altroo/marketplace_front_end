@@ -1043,6 +1043,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 						handleClose={() => setOpenCropModal(false)}
 						cssClasse={Styles.centerModal}
 					>
+						{/* id used for global css */}
 						<Stack direction="column" spacing="24px" id="shopAvatarCropper">
 							<Cropper
 								src={preview as string}

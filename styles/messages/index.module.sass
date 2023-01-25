@@ -125,6 +125,10 @@
     margin: 0
     font-size: 17px
     line-height: 26px
+.centerModal
+  left: 0 !important
+.hiddenFile
+  +Hidden
 .blockRootStack
   width: 100%
   margin-left: 40px
@@ -162,7 +166,27 @@
     color: #84848A
     line-height: 16px
     text-indent: 12px
-.senderChatBox
+.senderMessageImageChatBox
+  max-width: 327px
+  min-width: inherit
+  width: 100%
+  align-self: flex-end
+  img
+    border-radius: 12px
+    overflow: hidden
+    object-fit: cover
+    cursor: pointer
+.receiverMessageImageChatBox
+  max-width: 327px
+  min-width: inherit
+  width: 100%
+  align-self: flex-start
+  img
+    border-radius: 12px
+    overflow: hidden
+    object-fit: cover
+    cursor: pointer
+.senderMessageChatBox
   max-width: 327px
   min-width: inherit
   width: 100%
@@ -175,13 +199,14 @@
     font-size: 17px
     color: $primary
     line-height: 26px
-.receiverChatBox
+.receiverMessageChatBox
+  max-width: 327px
+  min-width: inherit
+  width: 100%
   background-color: #F2F2F3
   align-self: flex-start
   padding: 10px 12px
   border-radius: 12px
-  min-width: inherit
-  width: 100%
   span
     +Regular
     font-size: 17px
