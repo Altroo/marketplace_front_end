@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef } from 'react';
+import React, { ForwardedRef, forwardRef, HTMLAttributeAnchorTarget } from "react";
 import Styles from './iconAnchorButton.module.sass';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
@@ -16,6 +16,7 @@ type Props = {
 	border?: string;
 	active?: boolean;
 	cssClass?: string;
+	target?: HTMLAttributeAnchorTarget;
 	children?: React.ReactNode;
 };
 
@@ -38,7 +39,7 @@ const IconAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref
 
 	return props.nextPage ? (
 		<ThemeProvider theme={customTheme}>
-		<Link href={props.nextPage} ref={ref} target="_blank" rel="noreferrer">
+		<Link href={props.nextPage} ref={ref} target={props.target} rel="noreferrer">
 			<Button
 				color="primary"
 				disabled={!props.active}
@@ -54,6 +55,7 @@ const IconAnchorButton = forwardRef<HTMLAnchorElement, Props>((props: Props, ref
 		</ThemeProvider>
 	) : (
 		<Button
+			onClick={props.onClick}
 			color="primary"
 			className={`${Styles.iconButton} ${props.active ? Styles.active : ''} 
 			${props.cssClass && props.cssClass}`}

@@ -14,6 +14,9 @@ import IconAnchorButton from '../../../components/htmlElements/buttons/iconAncho
 import ContactIconSVG from '../../../public/assets/svgs/globalIcons/call.svg';
 import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
 import ContactIconBlackSVG from '../../../public/assets/svgs/globalIcons/call-black.svg';
+import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg';
+import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
+import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
 import DisactivatedAddIconSVG from '../../../public/assets/svgs/globalIcons/gray-add.svg';
 import { DisactivatedTab } from '../../../components/htmlElements/tabs/tab';
 import DisabledFilterDropDown from '../../../components/groupedComponents/temp-shop/create/disabledFilterDropDown/disabledFilterDropDown';
@@ -44,8 +47,8 @@ import {
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
 	AUTH_LOGIN,
 	REAL_SHOP_ADD_AVATAR,
-	REAL_SHOP_ADD_SHOP_NAME,
-} from '../../../utils/routes';
+	REAL_SHOP_ADD_SHOP_NAME, CHAT_INDEX
+} from "../../../utils/routes";
 import { Box } from '@mui/material';
 import { SagaCallBackOnCompleteStrType } from '../../../types/_init/_initTypes';
 import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance, TabletAndMobile } from '../../../utils/helpers';
@@ -92,7 +95,7 @@ const Font: NextPage = () => {
 	const [border, setborder] = useState<string | undefined>(undefined);
 	const [fontName, setFontName] = useState<ShopFontNameType>('R');
 	// Gray Message Icon
-	// const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
+	const [messageIcon, setMessageIcon] = useState<string>(MessageIconSVG);
 	// Gray contact Icon
 	const [contactIcon, setContactIcon] = useState<string>(ContactIconSVG);
 	const [isApiCallInProgress, setIsApiCallInProgress] = useState<boolean>(false);
@@ -147,10 +150,10 @@ const Font: NextPage = () => {
 		// icon color
 		if (shopIconColor === 'white') {
 			setContactIcon(ContactIconWhiteSVG);
-			// setMessageIcon(MessageIconWhiteSVG);
+			setMessageIcon(MessageIconWhiteSVG);
 		} else if (shopIconColor === 'black') {
 			setContactIcon(ContactIconBlackSVG);
-			// setMessageIcon(MessageIconBlackSVG);
+			setMessageIcon(MessageIconBlackSVG);
 		}
 		// font
 		if (shopFontName) {
@@ -216,6 +219,14 @@ const Font: NextPage = () => {
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} preview={preview} font={fontName} active={false} />
 							<div className={Styles.actionsWrapper}>
+								<IconAnchorButton
+									buttonText="Message"
+									svgIcon={messageIcon}
+									backgroundColor={bgColorCode}
+									textColor={colorCode}
+									border={border}
+									cssClass={Styles.contacterButton}
+								/>
 								<IconAnchorButton
 									buttonText="Contacter"
 									svgIcon={contactIcon}

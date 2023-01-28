@@ -12,7 +12,10 @@ import {
 	DASHBOARD_SUBSCRIPTION,
 	NOT_FOUND_404,
 	REAL_SHOP_BY_SHOP_LINK_ROUTE,
-	REAL_SHOP_ADD_SHOP_NAME, DASHBOARD_ORDERS, DASHBOARD_ORDER_DETAIL, USER_VIEW_PROFILE_BY_ID
+	REAL_SHOP_ADD_SHOP_NAME,
+	DASHBOARD_ORDERS,
+	DASHBOARD_ORDER_DETAIL,
+	USER_VIEW_PROFILE_BY_ID
 } from "../../utils/routes";
 import { Stack, Box, Skeleton, Badge } from '@mui/material';
 import UserMainNavigationBar from '../../components/layouts/userMainNavigationBar/userMainNavigationBar';
@@ -52,8 +55,6 @@ import { SxProps, ThemeProvider } from '@mui/system';
 import { badgeTheme, getDefaultTheme } from '../../utils/themes';
 import OutlineButton from '../../components/htmlElements/buttons/outlineButton/outlineButton';
 import { Theme } from '@mui/material/styles/createTheme';
-// import { accountPostResendActivationAction } from '../../store/actions/account/accountActions';
-// import { useAppDispatch } from '../../utils/hooks';
 
 type ShopInfoContentType = {
 	shop_name: string;

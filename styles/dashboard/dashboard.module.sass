@@ -48,6 +48,24 @@
   color: #F2F2F3
   margin-top: 12px
   margin-bottom: 12px
+.splitDivider
+  color: $buttonTextDisabled !important
+  border-width: 0.1px
+.blockedUsersListRootStack:last-child
+  .splitDivider
+    +Hidden
+.unblockButton
+  +Regular
+  margin: 0 !important
+  font-size: 13px !important
+  padding: 7px 12px !important
+  background-color: #FFFFFF !important
+  color: $primary !important
+  border: 1px solid $primary !important
+  width: fit-content !important
+  height: fit-content !important
+  &:hover
+    background-color: rgba(13, 7, 11, 0.04) !important
 .userShopLink
   +Medium
   font-size: 19px
@@ -485,7 +503,54 @@
   text-align: center
   font-size: 11px
   color: $primary
+.emptyBlockStack
+  text-align: center
+  color: $primary
+  h2
+    +Bold
+    margin: 0
+    font-size: 32px
+    line-height: 40px
+  p
+    +Regular
+    margin: 0
+    font-size: 17px
+    line-height: 26px
+.blockRootStack
+  width: 100%
+  margin-left: 40px
+  padding-right: 40px
+  min-height: 650px
+.blockSubHeader
+  +Regular
+  font-size: 15px
+  color: #84848A
+  line-height: 22px
+.blockHeader
+  +Bold
+  font-size: 32px
+  color: $primary
+  margin: 0
+.miniBlockImage
+  width: 18px
+  height: 18px
+.blockedUserAvatar
+  width: 48px
+  height: 48px
+  filter: grayscale(1.0)
+.blockedUserName
+  +Medium
+  font-size: 17px
+  letter-spacing: -0.03em
+  line-height: 18px
+  color: $primary
 @media #{$tablette}
+  .blockRootStack
+    margin-left: 0
+    padding-right: 0
+    margin-top: 32px
+    margin-bottom: 32px
+    min-height: 100%
   .dashboardNotSubscribedPriceBy
     margin-left: 0 !important
   .form

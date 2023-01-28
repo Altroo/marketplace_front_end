@@ -1,0 +1,240 @@
+@import 'styles/sass/colors'
+@import 'styles/sass/variables'
+@import 'styles/sass/mixins'
+
+// Global styles
+.main
+  display: flex
+  flex-direction: row
+  padding: 32px 32px 60px 60px
+  width: 100%
+  height: 100%
+.conversationsSideBar
+  padding: 24px
+  box-shadow: 0 0 5px -2px rgba(0, 0, 0, 0.25)
+  min-width: 440px
+  z-index: 1
+.conversationsListMaxHeight
+  max-height: 50vh
+  min-height: 50vh
+  height: 100%
+  overflow: auto
+  padding-left: 15px
+  padding-right: 15px
+.backButton
+  width: fit-content !important
+  padding: 14px 24px !important
+  margin: 0 !important
+.header
+  +Bold
+  font-size: 32px
+  line-height: 40px
+  color: $primary
+  margin: 0
+.onlineImage
+  width: 12px
+  height: 12px
+  box-shadow: 0 2.80058px 11.2023px rgba(13, 7, 11, 0.2)
+  outline: 3px solid white
+.userAvatar
+  width: 48px
+  height: 48px
+.chatUserName
+  +SemiBold
+  font-size: 19px
+  letter-spacing: -0.02em
+  line-height: 28px
+  color: $primary
+.chatLongAgo
+  +Regular
+  font-size: 11px
+  color: #84848A
+  line-height: 16px
+.bodyRegularMessage
+  +Regular
+  font-size: 15px
+  line-height: 22px
+  color: #84848A
+.bodyNewMessage
+  +Medium
+  font-size: 15px
+  line-height: 22px
+  color: #84848A
+  letter-spacing: -0.03em
+.splitDivider
+  color: $buttonTextDisabled !important
+  border-width: 0.1px
+.conversationsRootStack
+  padding: 10px
+  width: 100%
+.conversationsListRootStack
+  cursor: pointer
+  &:hover
+    background-color: rgba(13, 7, 11, 0.04) !important
+.conversationsListRootStack:last-child
+  .splitDivider
+    +Hidden
+.centerAlignStack
+  //padding-top: 54px
+  max-height: 50vh
+  min-height: 50vh
+  height: 100%
+.conversationRootStack
+  position: relative
+  width: 100%
+.emptyMessageRootStack
+  color: $primary
+  text-align: center
+  h2
+    margin: 0
+    +Bold
+    font-size: 32px
+    line-height: 40px
+  p
+    margin: 0
+    +Regular
+    font-size: 17px
+.menuItem
+  span
+    +Regular
+    font-size: 17px
+    color: $primary
+    line-height: 26px
+.menuItemImage
+  display: flex
+  align-self: center
+  justify-self: center
+  padding: 10px
+  background-color: #F2F2F3
+  border-radius: 50%
+.menuItemArchiver
+  span
+    +Regular
+    font-size: 17px
+    line-height: 26px
+    color: #E12D3D
+.onlineStatus
+  +Regular
+  font-size: 11px
+  color: #84848A
+  line-height: 16px
+.chatConversationLongAgo
+  +Regular
+  text-align: center
+  font-size: 11px
+  color: #84848A
+  line-height: 16px
+.emptyBlockStack
+  text-align: center
+  color: $primary
+  h2
+    +Bold
+    margin: 0
+    font-size: 32px
+    line-height: 40px
+  p
+    +Regular
+    margin: 0
+    font-size: 17px
+    line-height: 26px
+.imageToShow
+  width: auto
+  height: auto
+  max-width: 1440px
+  max-height: calc(100vh - 140px)
+.centerModal
+  left: 0 !important
+.hiddenFile
+  +Hidden
+.blockRootStack
+  width: 100%
+  margin-left: 40px
+  padding-right: 40px
+  max-height: 50vh
+  min-height: 50vh
+  height: 100%
+.columnReverseStack
+  max-height: 50vh
+  min-height: 50vh
+  justify-self: flex-end
+  height: 100%
+  overflow: auto
+  padding-left: 15px
+  padding-right: 15px
+.topMargin
+  margin-top: 12px
+.chatTextInput
+  width: 100%
+.chatBoxSenderRootStack
+  max-width: 327px
+  align-self: flex-end
+  span
+    +Regular
+    font-size: 11px
+    color: #84848A
+    line-height: 16px
+    text-indent: 12px
+.chatBoxReceiverRootStack
+  max-width: 327px
+  align-self: flex-start
+  span
+    +Regular
+    font-size: 11px
+    color: #84848A
+    line-height: 16px
+    text-indent: 12px
+.senderMessageImageChatBox
+  max-width: 327px
+  min-width: inherit
+  width: 100%
+  align-self: flex-end
+  img
+    border-radius: 12px
+    overflow: hidden
+    object-fit: cover
+    cursor: pointer
+.receiverMessageImageChatBox
+  max-width: 327px
+  min-width: inherit
+  width: 100%
+  align-self: flex-start
+  img
+    border-radius: 12px
+    overflow: hidden
+    object-fit: cover
+    cursor: pointer
+.senderMessageChatBox
+  max-width: 327px
+  min-width: inherit
+  width: 100%
+  background-color: #FBF2DA
+  align-self: flex-end
+  padding: 10px 12px
+  border-radius: 12px
+  span
+    +Regular
+    font-size: 17px
+    color: $primary
+    line-height: 26px
+.receiverMessageChatBox
+  max-width: 327px
+  min-width: inherit
+  width: 100%
+  background-color: #F2F2F3
+  align-self: flex-start
+  padding: 10px 12px
+  border-radius: 12px
+  span
+    +Regular
+    font-size: 17px
+    color: $primary
+    line-height: 26px
+@media #{$tablette}
+  .main
+    padding: 18px 24px 60px 24px
+  .conversationsSideBar
+    width: 100vw !important
+    margin-right: 0 !important
+    box-shadow: none !important
+// @media #{}
+// @media #{}

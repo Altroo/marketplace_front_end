@@ -160,3 +160,13 @@ export type AccountGetProfilByUserIDType = {
 };
 
 export type AccountGetProfilByUserIDResponseType = ResponseDataInterface<AccountGetProfilByUserIDType>;
+
+export type AccountGetBlockedUsersType = {
+	pk: number,
+	blocked_user_pk: number,
+	blocked_user_first_name: string,
+	blocked_user_last_name: string,
+	blocked_user_avatar: string
+}
+
+export type AccountGetBlockedUsersResponseType = ResponseDataInterface<Array<AccountGetBlockedUsersType>>;

@@ -994,6 +994,30 @@ export const customOrderActionsModalTheme = (primaryColor: string | undefined = 
 	});
 };
 
+export const customChatImageModalTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiDialog: {
+				styleOverrides: {
+					root: {
+						'& .MuiPaper-root': {
+							overflowX: 'hidden',
+							height: 'auto',
+							boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25)',
+							borderRadius: '40px',
+							[defaultTheme.breakpoints.down('sm')]: {
+								width: 'calc(100vw - 2rem)',
+							},
+						},
+					},
+				},
+			},
+		},
+	});
+};
+
 export const customMobileImageModalTheme = (primaryColor: string | undefined = undefined) => {
 	const defaultTheme = getDefaultTheme(primaryColor);
 	return createTheme({
@@ -1413,6 +1437,53 @@ export const CartAccordionTheme = (primaryColor: string | undefined = undefined)
 				styleOverrides: {
 					root: {
 						padding: '0',
+					},
+				},
+			},
+		},
+	});
+};
+
+export const chatTextInputTheme = (primaryColor: string | undefined = undefined) => {
+	const defaultTheme = getDefaultTheme(primaryColor);
+	const blueColor = '#0274d7';
+
+	return createTheme({
+		...defaultTheme,
+		components: {
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						'& fieldset': {
+							borderRadius: '50px',
+							// backgroundColor: '#F2F2F3',
+						},
+						'& fieldset > legend': {
+							// size of red error line (label) (input size - 5px)
+							fontFamily: 'Poppins',
+							fontSize: '14px',
+						},
+					},
+					input: {
+						fontFamily: 'Poppins',
+						fontSize: '16px',
+						caretColor: blueColor,
+					},
+				},
+			},
+			MuiFormControl: {
+				styleOverrides: {
+					root: {
+						'& .MuiFormLabel-root': {
+							fontFamily: 'Poppins',
+							fontSize: '16px',
+							color: '#A3A3AD',
+						},
+						'& .MuiFormLabel-root.Mui-focused': {
+							fontFamily: 'Poppins',
+							fontSize: '16px',
+							color: blueColor,
+						},
 					},
 				},
 			},

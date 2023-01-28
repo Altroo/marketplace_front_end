@@ -9,6 +9,7 @@ import DefaultCardSection from '../../../components/htmlElements/cards/defaultCa
 import { setShopAvatarAction } from '../../../store/actions/shop/shopActions';
 import AvatarShopNameRating from '../../../components/groupedComponents/temp-shop/create/avatarShopNameRating/avatarShopNameRating';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
+import MessageIconSVG from '../../../public/assets/svgs/globalIcons/message.svg';
 import CallIconSVG from '../../../public/assets/svgs/globalIcons/call.svg';
 import DisactivatedAddIconSVG from '../../../public/assets/svgs/globalIcons/gray-add.svg';
 import { DisactivatedTab } from '../../../components/htmlElements/tabs/tab';
@@ -38,7 +39,6 @@ import { Desktop, getServerSideCookieTokens, isAuthenticatedInstance } from '../
 import { AccountGetCheckAccountResponseType } from '../../../types/account/accountTypes';
 import ApiProgress from '../../../components/formikElements/apiLoadingResponseOrError/apiProgress/apiProgress';
 import { SagaCallBackOnCompleteBoolType } from '../../../types/_init/_initTypes';
-
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import CustomSwipeModal from '../../../components/desktop/modals/rightSwipeModal/customSwipeModal';
@@ -153,6 +153,7 @@ const Avatar: NextPage = () => {
 						<div className={Styles.avatarActionsWrapper}>
 							<AvatarShopNameRating shopName={shopName} setAvatar={setAvatar} preview={preview} active />
 							<div className={Styles.actionsWrapper}>
+								<IconAnchorButton buttonText="Message" svgIcon={MessageIconSVG} cssClass={Styles.contacterButton}/>
 								<IconAnchorButton buttonText="Contacter" svgIcon={CallIconSVG} cssClass={Styles.contacterButton} />
 							</div>
 						</div>

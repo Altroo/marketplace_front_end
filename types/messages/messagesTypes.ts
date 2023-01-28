@@ -1,4 +1,6 @@
 import { PaginationResponseType, ResponseDataInterface } from '../_init/_initTypes';
+import { Iterables } from "langx-js";
+import { OfferGetMyOffersProductServiceType } from "../offer/offerTypes";
 
 type PayloadType = {
 	type: string;
@@ -6,13 +8,17 @@ type PayloadType = {
 
 //!- Chat State
 export interface ChatStateInterface {
-	conversationsList: PaginationResponseType<ChatGetConversationsType>;
+	conversationsList: null | ChatGetConversationsLinkedResponseType;
 	selectedConversation: ChatGetMessagesOfTargetInterface;
 }
 
 export interface ChatPostMessageType extends PayloadType{
 	recipient_pk: number,
 	body: string | null,
+}
+
+export interface ChatPostMessageImageType extends PayloadType{
+	recipient_pk: number,
 	attachment: File | string | null,
 }
 
@@ -36,6 +42,7 @@ export type ChatGetMessagesOfTargetReceiverShopPart = {
 	shop_pk: number,
 	shop_name: string,
 	shop_avatar: string,
+	shop_url: string,
 	// mode_vacance: boolean // disabled
 }
 
@@ -46,7 +53,7 @@ export type ChatGetMessagesOfTargetReceiverPart = {
 	picture: string,
 	online: boolean,
 	online_timestamp: string,
-	shop: ChatGetMessagesOfTargetReceiverShopPart
+	shop: ChatGetMessagesOfTargetReceiverShopPart | null,
 }
 
 export interface ChatGetMessagesOfTargetInterface {
@@ -66,11 +73,18 @@ export type ChatGetConversationsType = {
 	viewed: boolean,
 	created: string,
 	online: boolean,
-	shop_pk: number,
-	shop_name: string,
-	shop_avatar_thumbnail: string,
+	shop_pk: number | null,
+	shop_name: string | null,
+	shop_avatar_thumbnail: string | null,
 }
 
 export type ChatGetConversationsPaginatedType = PaginationResponseType<ChatGetConversationsType>;
 
 export type ChatGetConversationsResponseType = ResponseDataInterface<ChatGetConversationsPaginatedType>;
+
+export type ChatGetConversationsLinkedResponseType = {
+	count: number;
+	next: string | null;
+	previous: string | null;
+	results: Array<ChatGetConversationsType>;
+}

@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks';
 import IconAnchorButton from '../../../components/htmlElements/buttons/iconAnchorButton/iconAnchorButton';
 import ShopInfoTabs from '../../../components/htmlElements/tabs/tab';
-// import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
-// import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
+import MessageIconWhiteSVG from '../../../public/assets/svgs/globalIcons/message-white.svg';
+import MessageIconBlackSVG from '../../../public/assets/svgs/globalIcons/message-black.svg';
 import ContactIconBlueSVG from '../../../public/assets/svgs/globalIcons/call-blue.svg';
 import ContactIconWhiteSVG from '../../../public/assets/svgs/globalIcons/call-white.svg';
 import ContactIconBlackSVG from '../../../public/assets/svgs/globalIcons/call-black.svg';
@@ -54,7 +54,12 @@ import { Lazy, Navigation, Pagination } from 'swiper';
 import MobileColorPicker from '../../../components/mobile/modals/mobileColorPicker/mobileColorPicker';
 import { availableFonts } from '../create/font';
 import FontPicker from '../../../components/groupedComponents/temp-shop/create/fontPicker/fontPicker';
-import { AUTH_LOGIN, NOT_FOUND_404, REAL_SHOP_BY_SHOP_LINK_ROUTE } from '../../../utils/routes';
+import {
+	AUTH_LOGIN,
+	CHAT_INDEX,
+	NOT_FOUND_404,
+	REAL_SHOP_BY_SHOP_LINK_ROUTE
+} from "../../../utils/routes";
 import {
 	defaultInstance,
 	Desktop,
@@ -168,7 +173,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	// font
 	const [fontName, setFontName] = useState<ShopFontNameType>(font_name);
 	// Gray Message Icon
-	// const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
+	const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
 	const [contactIcon, setContactIcon] = useState<string | null>(null);
 	const [contactModeState, setContactModeState] = useState(contact_mode);
 	const [phoneSwitch, setPhoneSwitch] = useState<boolean>(false);
@@ -395,6 +400,12 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 		// border
 		if (border) {
 			setborderState(border);
+		}
+
+		if (icon_color === 'white') {
+			setMessageIcon(MessageIconWhiteSVG);
+		} else if (icon_color === 'black') {
+			setMessageIcon(MessageIconBlackSVG);
 		}
 
 		if (contactModeState === 'P' || contactModeState === 'W') {
@@ -698,24 +709,36 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						{(phoneValue || whatsappValue) !== '' && contactIcon ? (
-							<CustomIconButton
-								buttonText="Contacter"
-								svgIcon={contactIcon}
-								onClick={handleContactModalOpen}
-								backgroundColor={bgColorCode}
-								textColor={colorCode}
-								border={borderState}
+						<Stack direction="row" justifyContent="space-evenly" flexWrap="wrap">
+							<IconAnchorButton
+								buttonText="Message"
+								svgIcon={messageIcon}
+								backgroundColor={bg_color_code}
+								textColor={color_code}
+								border={border}
+								nextPage={CHAT_INDEX}
+								active={true}
 								cssClass={Styles.iconButton}
 							/>
-						) : (
-							<BorderIconButton
-								buttonText="Contacter"
-								svgIcon={ContactIconBlueSVG}
-								onClick={handleContactModalOpen}
-								cssClass={Styles.iconButton}
-							/>
-						)}
+							{(phoneValue || whatsappValue) !== '' && contactIcon ? (
+								<CustomIconButton
+									buttonText="Contacter"
+									svgIcon={contactIcon}
+									onClick={handleContactModalOpen}
+									backgroundColor={bgColorCode}
+									textColor={colorCode}
+									border={borderState}
+									cssClass={Styles.iconButton}
+								/>
+							) : (
+								<BorderIconButton
+									buttonText="Contacter"
+									svgIcon={ContactIconBlueSVG}
+									onClick={handleContactModalOpen}
+									cssClass={Styles.iconButton}
+								/>
+							)}
+						</Stack>
 					</Stack>
 					<Box>
 						<Stack className={Styles.shopDetailsWrapper} direction="column">
@@ -973,34 +996,34 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								<div>
 									<TabletAndMobile>
 										<div className={Styles.mobileFontWrapper}>
-										<div className={Styles.mobileFontContainerModal}>
-											{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
-												return (
-													<FontPicker
-														key={index}
-														pickedFontName={fontName}
-														font={font}
+											<div className={Styles.mobileFontContainerModal}>
+												{availableFonts.map((font: { name: string; code: ShopFontNameType }, index: number) => {
+													return (
+														<FontPicker
+															key={index}
+															pickedFontName={fontName}
+															font={font}
+															onClick={() => {
+																fontPicker(font.code);
+															}}
+														/>
+													);
+												})}
+											</div>
+											<TabletAndMobile>
+												<div className={Styles.primaryButtonZindexWrapper}>
+													<PrimaryButton
+														cssClass={Styles.primaryButton}
+														buttonText="Enregistrer"
+														active={fontName !== undefined}
 														onClick={() => {
-															fontPicker(font.code);
+															editFontHandler(fontName);
+															setOpenFontModal(false);
 														}}
 													/>
-												);
-											})}
+												</div>
+											</TabletAndMobile>
 										</div>
-										<TabletAndMobile>
-											<div className={Styles.primaryButtonZindexWrapper}>
-												<PrimaryButton
-													cssClass={Styles.primaryButton}
-													buttonText="Enregistrer"
-													active={fontName !== undefined}
-													onClick={() => {
-														editFontHandler(fontName);
-														setOpenFontModal(false);
-													}}
-												/>
-											</div>
-										</TabletAndMobile>
-									</div>
 									</TabletAndMobile>
 								</div>
 							</Backdrop>
@@ -1019,6 +1042,7 @@ const ViewShopAsOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 						handleClose={() => setOpenCropModal(false)}
 						cssClasse={Styles.centerModal}
 					>
+						{/* id used for global css */}
 						<Stack direction="column" spacing="24px" id="shopAvatarCropper">
 							<Cropper
 								src={preview as string}
@@ -1059,6 +1083,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const { data } = props;
 	// from db
 	const pk = data.pk;
+	const user = data.user;
 	const is_subscribed = data.is_subscribed;
 	const shop_name = data.shop_name as string;
 	const avatar = data.avatar as string;
@@ -1094,10 +1119,10 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 	const contact_whatsapp_code = data.contact_whatsapp_code;
 	const contact_whatsapp = data.contact_whatsapp;
 	const contact_mode = data.contact_mode;
-
+	const router = useRouter();
 	// states
 	// Gray Message Icon
-	// const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
+	const [messageIcon, setMessageIcon] = useState<string>(MessageIconBlackSVG);
 	const [contactModeState, setContactModeState] = useState<string | null>(null);
 	const [contactIcon, setContactIcon] = useState<string | null>(null);
 	const [contacterLink, setContacterLink] = useState<string | undefined>(undefined);
@@ -1108,6 +1133,11 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 		} else {
 			setContactModeState(null);
 		}
+		if (icon_color === 'white') {
+			setMessageIcon(MessageIconWhiteSVG);
+		} else if (icon_color === 'black') {
+			setMessageIcon(MessageIconBlackSVG);
+		}
 		// set icon colors
 		if (contact_mode === 'W' && contact_whatsapp_code && contact_whatsapp) {
 			setContactModeState('W');
@@ -1117,10 +1147,8 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 					contact_whatsapp.replaceAll(' ', ''),
 			);
 			if (icon_color === 'white') {
-				// setMessageIcon(MessageIconWhiteSVG);
 				setContactIcon(WhatsaappIconWhiteSVG);
 			} else if (icon_color === 'black') {
-				// setMessageIcon(MessageIconBlackSVG);
 				setContactIcon(WhatsaappIconBlackSVG);
 			}
 		} else if (contact_mode === 'P') {
@@ -1204,19 +1232,21 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 						</Stack>
 					</Stack>
 					<Stack direction="row" justifyContent="space-evenly" flexWrap="wrap">
-						{/*<IconAnchorButton*/}
-						{/*	buttonText="Message"*/}
-						{/*	svgIcon={messageIcon}*/}
-						{/*	backgroundColor={bg_color_code}*/}
-						{/*	textColor={color_code}*/}
-						{/*	border={border}*/}
-						{/*	nextPage={AUTH_LOGIN}*/}
-						{/*	active={true}*/}
-						{/*	cssClass={Styles.iconButton}*/}
-						{/*/>*/}
-						{/*
-								 target="_blank" rel="noreferrer"
-								 */}
+						<IconAnchorButton
+							buttonText="Message"
+							svgIcon={messageIcon}
+							backgroundColor={bg_color_code}
+							textColor={color_code}
+							border={border}
+							active={true}
+							cssClass={Styles.iconButton}
+							onClick={() => router.push({
+							query: {
+								receiver_pk: user,
+							},
+							pathname: CHAT_INDEX,
+						}, CHAT_INDEX).then()}
+						/>
 						{(contactModeState === 'P' || contactModeState === 'W') && contactIcon && (
 							<IconAnchorButton
 								buttonText="Contacter"
@@ -1226,6 +1256,7 @@ const ViewShopAsNotOwner: React.FC<ViewShopType> = (props: ViewShopType) => {
 								border={border}
 								nextPage={contacterLink}
 								active={contacterLink === undefined}
+								target="_blank"
 								cssClass={Styles.iconButton}
 							/>
 						)}

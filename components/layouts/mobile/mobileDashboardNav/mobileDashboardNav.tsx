@@ -4,14 +4,16 @@ import Styles from './mobileDashboardNav.module.sass';
 import MonProfilSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mon-profil.svg';
 import AdresseEmailSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/adresse-email.svg';
 import MotDePasseSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mot-de-passe.svg';
+import CompteBloqueeSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/comptes-bloques.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
 	DASHBOARD_ADRESSE_EMAIL,
 	DASHBOARD_PASSWORD,
-	DASHBOARD_EDIT_PROFILE, SITE_ROOT
+	DASHBOARD_EDIT_PROFILE, SITE_ROOT, DASHBOARD_COMPTE_BLOQUES
 } from "../../../../utils/routes";
 import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mini-back.svg';
+import Divider from "@mui/material/Divider";
 
 export type MobileSideNavElementType = {
 	icon: string;
@@ -60,6 +62,7 @@ type Props = {
 
 const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 	const router = useRouter();
+
 	const profilNavElements: Array<MobileSideNavElementType> = [
 		{
 			text: 'Mon profil',
@@ -70,6 +73,7 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 			setContent: props.setContent,
 		},
 	];
+
 	const parametresNavElements: Array<MobileSideNavElementType> = [
 		{
 			text: 'Adresse email',
@@ -90,69 +94,80 @@ const MobileDashboardNav: React.FC<Props> = (props: Props) => {
 	];
 
 	return (
-		<Stack direction="column" className={Styles.sideBar} spacing={4}>
-			{props.backText && (
-				<Stack direction="column">
-					<Stack direction="row" justifyContent="space-between">
-						<Stack
-							className={Styles.topBackNavigationStack}
-							direction="row"
-							spacing={1}
-							onClick={() => router.back()}
-							alignItems="center"
-						>
-							<Image
-								src={MiniBackSVG}
-								alt=""
-								width="0"
-								height="0"
-								sizes="100vw"
-								className={Styles.backIcon}
-							/>
-							<span className={Styles.backText}>Retour</span>
+		<Stack direction="column" className={Styles.sideBar}>
+			<Stack direction="column" spacing={4}>
+				{props.backText && (
+					<Stack direction="column">
+						<Stack direction="row" justifyContent="space-between">
+							<Stack
+								className={Styles.topBackNavigationStack}
+								direction="row"
+								spacing={1}
+								onClick={() => router.back()}
+								alignItems="center"
+							>
+								<Image
+									src={MiniBackSVG}
+									alt=""
+									width="0"
+									height="0"
+									sizes="100vw"
+									className={Styles.backIcon}
+								/>
+								<span className={Styles.backText}>Retour</span>
+							</Stack>
+						</Stack>
+						<span className={Styles.backHeader}>{props.backText}</span>
+					</Stack>
+				)}
+				<Stack direction="column" spacing={4}>
+					<Stack direction="column" spacing={2}>
+						<span className={Styles.header}>Profil</span>
+						<Stack direction="column" spacing={2}>
+							{profilNavElements.map((element, index) => {
+								return (
+									<MobileSideNavElement
+										text={element.text}
+										key={index}
+										link={element.link}
+										icon={element.icon}
+										disabled={element.disabled}
+										current={element.current}
+										setContent={element.setContent}
+									/>
+								);
+							})}
 						</Stack>
 					</Stack>
-					<span className={Styles.backHeader}>{props.backText}</span>
-				</Stack>
-			)}
-			<Stack direction="column" spacing={4}>
-				<Stack direction="column" spacing={2}>
-					<span className={Styles.header}>Profil</span>
 					<Stack direction="column" spacing={2}>
-						{profilNavElements.map((element, index) => {
-							return (
-								<MobileSideNavElement
-									text={element.text}
-									key={index}
-									link={element.link}
-									icon={element.icon}
-									disabled={element.disabled}
-									current={element.current}
-									setContent={element.setContent}
-								/>
-							);
-						})}
-					</Stack>
-				</Stack>
-				<Stack direction="column" spacing={2}>
-					<span className={Styles.header}>Paramètres</span>
-					<Stack direction="column" spacing={2}>
-						{parametresNavElements.map((element, index) => {
-							return (
-								<MobileSideNavElement
-									text={element.text}
-									key={index}
-									link={element.link}
-									icon={element.icon}
-									disabled={element.disabled}
-									current={element.current}
-									setContent={element.setContent}
-								/>
-							);
-						})}
+						<span className={Styles.header}>Paramètres</span>
+						<Stack direction="column" spacing={2}>
+							{parametresNavElements.map((element, index) => {
+								return (
+									<MobileSideNavElement
+										text={element.text}
+										key={index}
+										link={element.link}
+										icon={element.icon}
+										disabled={element.disabled}
+										current={element.current}
+										setContent={element.setContent}
+									/>
+								);
+							})}
+						</Stack>
 					</Stack>
 				</Stack>
 			</Stack>
+			<Divider orientation="horizontal" flexItem className={Styles.divider} />
+			<MobileSideNavElement
+				text={"Comptes bloqués"}
+				link={DASHBOARD_COMPTE_BLOQUES}
+				icon={CompteBloqueeSVG}
+				disabled={false}
+				current={router.pathname.endsWith(DASHBOARD_COMPTE_BLOQUES.replace(SITE_ROOT, ''))}
+				setContent={props.setContent}
+			/>
 		</Stack>
 	);
 };

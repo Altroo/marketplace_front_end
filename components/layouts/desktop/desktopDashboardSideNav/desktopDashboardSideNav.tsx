@@ -6,6 +6,7 @@ import MiniBackSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideN
 import MonProfilSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mon-profil.svg';
 import AdresseEmailSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/adresse-email.svg';
 import MotDePasseSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/mot-de-passe.svg';
+import CompteBloqueeSVG from '../../../../public/assets/svgs/dashboardIcons/leftSideNavIcons/comptes-bloques.svg';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -13,8 +14,9 @@ import {
 	DASHBOARD_ADRESSE_EMAIL,
 	DASHBOARD_PASSWORD,
 	DASHBOARD_EDIT_PROFILE,
-	SITE_ROOT,
-} from '../../../../utils/routes';
+	SITE_ROOT, DASHBOARD_COMPTE_BLOQUES
+} from "../../../../utils/routes";
+import Divider from "@mui/material/Divider";
 
 export type DesktopSideNavElementType = {
 	icon: string;
@@ -137,6 +139,14 @@ const DesktopDashboardSideNav: React.FC<Props> = (props: Props) => {
 					</Stack>
 				</Stack>
 			</Stack>
+			<Divider orientation="horizontal" flexItem className={Styles.divider} />
+			<DesktopSideNavElement
+				text={"Comptes bloqués"}
+				link={DASHBOARD_COMPTE_BLOQUES}
+				icon={CompteBloqueeSVG}
+				current={router.pathname.endsWith(DASHBOARD_COMPTE_BLOQUES.replace(SITE_ROOT, ''))}
+				disabled={false}
+			/>
 		</Stack>
 	);
 };

@@ -113,10 +113,14 @@ export const ORDER_POST_ACCEPT_ORDER = 'ORDER_POST_ACCEPT_ORDER';
 export const ORDER_POST_CANCEL_ORDER = 'ORDER_POST_CANCEL_ORDER';
 // Chat [Has no root]
 export const CHAT_POST_MESSAGE = 'CHAT_POST_MESSAGE';
+export const CHAT_GET_LOAD_MORE_CONVERSATIONS = 'CHAT_GET_LOAD_MORE_CONVERSATIONS';
+export const CHAT_POST_MESSAGE_IMAGE = 'CHAT_POST_MESSAGE_IMAGE';
 export const CHAT_POST_ARCHIVE = 'CHAT_POST_ARCHIVE';
 export const CHAT_PATCH_MESSAGE = 'CHAT_PATCH_MESSAGE';
+export const CHAT_SET_CLEAR_MESSAGES_OF_TARGET = 'CHAT_SET_CLEAR_MESSAGES_OF_TARGET';
 // endpoint use "/message" but left as "messages" here to specify it's a list of messages
 export const CHAT_GET_MESSAGES = 'CHAT_GET_MESSAGES';
+export const CHAT_GET_LOAD_MORE_MESSAGES = 'CHAT_GET_LOAD_MORE_MESSAGES';
 export const CHAT_GET_CONVERSATIONS = 'CHAT_GET_CONVERSATIONS';
 
 // Version [will be applied later see : https://github.com/vercel/next.js/pull/34765]

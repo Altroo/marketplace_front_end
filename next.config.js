@@ -45,7 +45,10 @@ module.exports = withSentryConfig(nextConfig, {
 
 // module.exports = {
 // 	...nextConfig,
-// 	...withLangxJs
+// }
+
+// module.exports = {
+// 	...nextConfig,
 //
 // 	// webpack5: true,
 // 	// webpack: (config) => {
