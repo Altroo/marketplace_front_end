@@ -113,11 +113,12 @@ const messagesSlice = createSlice({
 						map.push(conversation);
 					}
 				});
+				const newmap = map.sort((a, b) => Number(Date.parse(b.created)) - Number(Date.parse(a.created)));
 				state.conversationsList = {
 					count: action.payload.count,
 					next: action.payload.next,
 					previous: action.payload.previous,
-					results: map,
+					results: newmap,
 				};
 			}
 		},
