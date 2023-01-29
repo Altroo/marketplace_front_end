@@ -110,6 +110,7 @@ const EntryPoint: React.FC<EntryPointProps> = (props: EntryPointProps) => {
 					boutiques en ligne au Maroc. Inscrivez vous pour créer votre site ecommerce." />
 					<meta name="expires" content="never" />
 					<title>Qaryb</title>
+					<meta name="facebook-domain-verification" content="yq8e271z5hotulds6k8leu3xhh5899" />
 				</Head>
 				{/* Global Site Code Pixel - Facebook Pixel */}
 				<Script
