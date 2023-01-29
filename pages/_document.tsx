@@ -5,12 +5,20 @@ import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from '../utils/createEmotionCache';
 import { Container } from "@mui/material";
 import { Partytown } from '@builder.io/partytown/react';
-
+import { FB_PIXEL_ID } from '../utils/fpixel';
 export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="fr">
         <Head>
+          <noscript>
+            <img
+              height="1"
+              width="1"
+              style={{ display: 'none' }}
+              src={`https://www.facebook.com/tr?id=${FB_PIXEL_ID}&ev=PageView&noscript=1`}
+              alt=""/>
+          </noscript>
           {/* PWA primary color */}
           {/*<meta name="theme-color" content={getDefaultTheme().palette.primary.main} />*/}
           <Partytown debug={false} forward={['dataLayer.push']} />
