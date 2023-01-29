@@ -17,7 +17,6 @@ import PrimaryAnchorButton from '../components/htmlElements/buttons/primaryAncho
 import TextAnchorButton from '../components/htmlElements/buttons/textAnchorButton/textAnchorButton';
 import SeoAnchorWrapper from '../components/htmlElements/buttons/seoAnchorWrapper/seoAnchorWrapper';
 import CreateYourShopLarge from '../components/layouts/callToActionCards/createYourShopLarge/createYourShopLarge';
-import * as fbq from '../utils/fpixel';
 
 type HomePropsType = {
 	pageProps: {
@@ -26,10 +25,6 @@ type HomePropsType = {
 };
 const Home: NextPage<HomePropsType> = (props: HomePropsType) => {
 	const { coup_de_coeur_bg, coup_de_coeur, new_shops } = props.pageProps.data;
-
-	const handleClick = () => {
-    fbq.event('Purchase', { currency: 'USD', value: 10 })
-  }
 
 	return (
 		<>
@@ -106,7 +101,6 @@ const Home: NextPage<HomePropsType> = (props: HomePropsType) => {
 								cssClass={Styles.visitShopButton}
 								buttonText="Visiter la boutique"
 								active={true}
-								onClick={handleClick}
 								nextPage={REAL_SHOP_BY_SHOP_LINK_ROUTE(coup_de_coeur.shop_link)}
 							/>
 						</Stack>

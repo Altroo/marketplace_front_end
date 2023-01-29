@@ -1,5 +1,5 @@
 import "../styles/globals.sass";
-import React, { useEffect } from "react";
+import React from "react";
 import type { AppProps } from "next/app";
 import { wrapper } from "../store/store";
 import { Provider } from "react-redux";
@@ -41,11 +41,6 @@ import CustomContainer from "../components/layouts/customContainer/customContain
 // import { loadNewAddedShopAction } from "../store/actions/shop/shopActions";
 import TimeAgo from "javascript-time-ago";
 import fr from "javascript-time-ago/locale/fr.json";
-import * as fbq from "../utils/fpixel";
-import { effect } from "@redux-saga/is";
-import { router } from "next/client";
-import { useRouter } from "next/router";
-import Script from "next/script";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -56,27 +51,11 @@ interface EntryPointProps extends AppProps {
 
 // Emotion cache Alone
 const EntryPoint: React.FC<EntryPointProps> = (props: EntryPointProps) => {
-	const router = useRouter();
 	TimeAgo.addLocale(fr);
 	// TimeAgo.addDefaultLocale(fr);
 	const { store } = wrapper.useWrappedStore(props);
 	const { Component, emotionCache = clientSideEmotionCache } = props;
 	const { session, ...pageProps } = props;
-
-	useEffect(() => {
-		// This pageview only triggers the first time (it's important for Pixel to have real information)
-		fbq.pageview();
-
-		const handleRouteChange = () => {
-			fbq.pageview();
-		};
-
-		router.events.on("routeChangeComplete", handleRouteChange);
-		return () => {
-			router.events.off("routeChangeComplete", handleRouteChange);
-		};
-	}, [router.events]);
-
 
 	return (
 		<Provider store={store}>
@@ -112,23 +91,6 @@ const EntryPoint: React.FC<EntryPointProps> = (props: EntryPointProps) => {
 					<title>Qaryb</title>
 					<meta name="facebook-domain-verification" content="yq8e271z5hotulds6k8leu3xhh5899" />
 				</Head>
-				{/* Global Site Code Pixel - Facebook Pixel */}
-				<Script
-					id="fb-pixel"
-					strategy="afterInteractive"
-					dangerouslySetInnerHTML={{
-						__html: `
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', ${fbq.FB_PIXEL_ID});
-          `
-					}} />
 				<ThemeProvider theme={getDefaultTheme()}>
 					{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
 					<CssBaseline />
