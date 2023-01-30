@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectTreeColorHighlighter">
     <files>
+      <node color="6" path="$PROJECT_DIR$/.idea" />
       <node color="7" path="$PROJECT_DIR$/components/cards" />
       <node color="7" path="$PROJECT_DIR$/components/cards/cardSection" />
       <node color="7" path="$PROJECT_DIR$/components/cards/cardSection/cardSection.module.sass" />
