@@ -63,7 +63,7 @@ function* shopPostRootSaga(payload: ShopPostRootType) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SHOP_ROOT}/`;
 	// try {
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() =>
 			isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
 		);
@@ -112,7 +112,7 @@ function* shopGetRootSaga(payload: ShopGetRootType) {
 	let url = `${process.env.NEXT_PUBLIC_SHOP_ROOT}/`;
 	// try {
 	// User authenticated
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		// get shop data using qaryb link.
 		// else get user data.
@@ -162,7 +162,7 @@ function* shopPatchShopNameSaga(payload: {type: string, shop_name: string}) {
 	yield put(setPatchShopDataIsLoading());
 	const url = `${process.env.NEXT_PUBLIC_SHOP_SHOP_NAME}`;
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: ShopPatchShopNameType = yield call(() => patchApi(url, instance, {
 			shop_name: payload.shop_name,
@@ -181,7 +181,7 @@ function* shopPatchAvatarSaga(payload: Partial<ShopPatchRootType>) {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { type, ...payloadData } = payload;
 	// User authenticated
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() =>
 			isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
 		);
@@ -201,7 +201,7 @@ function* shopPatchColorSaga(payload: Partial<ShopPatchRootType>) {
 	const { type, ...payloadData } = payload;
 	try {
 		// User authenticated
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: ShopPatchColorType = yield call(() => patchApi(url, instance, payloadData));
 			if (response.status === 200) {
@@ -238,7 +238,7 @@ function* shopPatchFontSaga(payload: Partial<ShopPatchRootType>) {
 	const { type, ...payloadData } = payload;
 	try {
 		// User authenticated
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: ShopPatchFontType = yield call(() => patchApi(url, instance, payloadData));
 			if (response.status === 200) {
@@ -282,7 +282,7 @@ function* shopPatchPhoneContactSaga(payload: {
 	const { type, ...payloadData } = payload;
 	try {
 		// User authenticated
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: ShopPatchContactPhoneType = yield call(() => patchApi(url, instance, payloadData));
 			if (response.status === 200) {
@@ -311,7 +311,7 @@ function* shopPatchBioSaga(payload: {type: string, bio: string | null}) {
 	const url = `${process.env.NEXT_PUBLIC_SHOP_BIO}`;
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	// User authenticated
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: ShopPatchBioType = yield call(() => patchApi(url, instance, {
 			bio: payload.bio,
@@ -332,7 +332,7 @@ function* shopPatchAvailabilitySaga(payload: Partial<ShopPatchRootType>) {
 	const { type, ...payloadData } = payload;
 	try {
 		// User authenticated
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: ShopPatchAvailabilityType = yield call(() => patchApi(url, instance, payloadData));
 			if (response.status === 200) {
@@ -364,7 +364,7 @@ function* shopPatchContactSaga(payload: Partial<ShopPatchRootType>) {
 	const { type, ...payloadData } = payload;
 	try {
 		// User authenticated
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: ShopPatchContactType = yield call(() => patchApi(url, instance, payloadData));
 			if (response.status === 200) {
@@ -394,7 +394,7 @@ function* shopPatchAddressSaga(payload: Partial<ShopPatchRootType>) {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { type, ...payloadData } = payload;
 	// User authenticated
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: ShopPatchAddressType = yield call(() => patchApi(url, instance, payloadData));
 		if (response.status === 200) {

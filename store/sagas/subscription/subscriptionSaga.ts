@@ -20,7 +20,7 @@ function* subscriptionGetAvailableSubscriptionSaga() {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_AVAILABLE_SUBSCRIPTION}`;
 	// try {
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: SubscriptionGetAvailableSubscriptionResponseType = yield call(() => getApi(url, authInstance));
 		if (response.status === 200) {
@@ -32,7 +32,7 @@ function* subscriptionGetAvailableSubscriptionSaga() {
 function* subscriptionGetSubscriptionByNbrArticleSaga(payload: { type: string; nbr_article: string }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_ROOT}/${payload.nbr_article}/`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: SubscriptionGetSubscriptionByNbrArticleResponseType = yield call(() => getApi(url, authInstance));
 		if (response.status === 200) {
@@ -44,7 +44,7 @@ function* subscriptionGetSubscriptionByNbrArticleSaga(payload: { type: string; n
 function* subscriptionPostRootSaga(payload: subscriptionPostRootType) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_ROOT}/`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { type, ...payloadData } = payload;
@@ -58,7 +58,7 @@ function* subscriptionPostRootSaga(payload: subscriptionPostRootType) {
 function* subscriptionPostIndexArticlesRootSaga(payload: { type: string; pk: number | string }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_INDEXED_ARTICLES_ROOT}`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: ResponseOnlyInterface = yield call(() =>
 			postApi(url, authInstance, {
@@ -74,7 +74,7 @@ function* subscriptionPostIndexArticlesRootSaga(payload: { type: string; pk: num
 function* subscriptionPatchRootSaga(payload: subscriptionPostRootType) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_ROOT}/`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { type, ...payloadData } = payload;
@@ -88,7 +88,7 @@ function* subscriptionPatchRootSaga(payload: subscriptionPostRootType) {
 function* subscriptionPostCheckPromoCodeSaga(payload: { type: string; promo_code: string }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_CHECK_PROMO_CODE}`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: subscriptionPostCheckPromoCodeResponseType = yield call(() =>
 			postApi(url, authInstance, {
@@ -103,7 +103,7 @@ function* subscriptionPostCheckPromoCodeSaga(payload: { type: string; promo_code
 
 function* subscriptionGetIndexedArticlesSaga(payload: { type: string; url: string }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: subscriptionGetIndexedOffersResponseType = yield call(() => getApi(payload.url, instance));
 		if (response.status === 200 && response.data) {
@@ -114,7 +114,7 @@ function* subscriptionGetIndexedArticlesSaga(payload: { type: string; url: strin
 
 function* subscriptionGetAvailableArticlesSaga(payload: { type: string; url: string }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: subscriptionGetIndexedOffersResponseType = yield call(() => getApi(payload.url, instance));
 		if (response.status === 200 && response.data) {
@@ -126,7 +126,7 @@ function* subscriptionGetAvailableArticlesSaga(payload: { type: string; url: str
 function* subscriptionDeleteSingleIndexedArticleSaga(payload: { type: string; pk: number | string }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_SUBSCRIPTION_INDEXED_ARTICLES_ROOT}${payload.pk}`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: ResponseOnlyInterface = yield call(() => deleteApi(url, instance));
 		if (response.status === 204) {

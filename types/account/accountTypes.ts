@@ -84,16 +84,16 @@ export interface AccountPatchProfilType {
 }
 
 export type InitNonNullStateToken = {
-	access_token: string;
-	refresh_token: string;
 	user: {
 		pk: number;
 		email: string;
 		first_name: string;
 		last_name: string;
 	};
-	access_token_expiration: string;
-	refresh_token_expiration: string;
+	access: string;
+	refresh: string;
+	access_expiration: string;
+	refresh_expiration: string;
 };
 
 export type AccountPostFacebookResponseType = ResponseDataInterface<InitNonNullStateToken>;

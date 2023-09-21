@@ -120,7 +120,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const { reference_number, total_paid } = getServerSideVirementData(context);
 
 	try {
-		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
 			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
 			if (response.status === 200) {

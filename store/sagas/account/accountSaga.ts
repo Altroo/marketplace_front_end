@@ -48,7 +48,7 @@ function* accountPatchProfilSaga(payload: AccountPatchProfilType) {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { type, ...payloadData } = payload;
 	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: AccountPatchProfilResponseType = yield call(() =>
 				patchApi(url, authInstance, payloadData),
@@ -71,7 +71,7 @@ export function* accountGetCheckAccountSaga() {
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: AccountGetCheckAccountResponseType = yield call(() => getApi(url, authInstance));
 			if (response.status === 200) {
@@ -98,7 +98,7 @@ function* accountPostResendVerificationSaga(payload: { type: string; email: stri
 function* accountPostPasswordChangeSaga(payload: { type: string; old_password: string, new_password1: string; new_password2: string }) {
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PASSWORD_CHANGE}`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const { type, ...payloadData } = payload;
 		const response: ResponseOnlyInterface = yield call(() => putApi(url, authInstance, payloadData));
@@ -112,7 +112,7 @@ function* accountPostPasswordChangeSaga(payload: { type: string; old_password: s
 function* accountPutCreatePasswordSaga(payload: { type: string; new_password1: string; new_password2: string }) {
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CREATE_PASSWORD}`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { type, ...payloadData } = payload;
@@ -142,7 +142,7 @@ function* accountPutChangeEmailHasPasswordSaga(payload: { type: string; email: s
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHANGE_EMAIL_HAS_PASSWORD}`;
 	// try {
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { type, ...payloadData } = payload;
@@ -162,7 +162,7 @@ function* accountPutChangeEmailNotHasPasswordSaga(payload: {
 }) {
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHANGE_EMAIL_NOT_HAS_PASSWORD}`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { type, ...payloadData } = payload;
@@ -200,7 +200,7 @@ function* accountGetBlockSaga() {
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_BLOCK}`;
 	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 			const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: AccountGetBlockResponseType = yield call(() => getApi(url, authInstance));
 			if (response.status === 200) {
@@ -220,7 +220,7 @@ function* accountGetBlockSaga() {
 function* accountPostBlockSaga(payload: { type: string; user_pk: number }) {
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_BLOCK}`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: AccountPostBlockResponseType = yield call(() =>
 			postApi(url, authInstance, { user_pk: payload.user_pk }),
@@ -238,7 +238,7 @@ function* accountPostBlockSaga(payload: { type: string; user_pk: number }) {
 function* accountDeleteBlockSaga(payload: { type: string; user_pk: number }) {
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_BLOCK}${payload.user_pk}/`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const authInstance : AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: ResponseOnlyInterface = yield call(() => deleteApi(url, authInstance));
 		if (response.status === 204) {

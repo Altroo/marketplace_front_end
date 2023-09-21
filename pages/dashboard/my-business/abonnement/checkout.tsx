@@ -544,7 +544,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const appToken = getServerSideCookieTokens(context);
 	const { prix_ttc, pourcentage, prix_unitaire_ttc, nbr_article, prix_ht, prix_unitaire_ht } = context.query;
 	try {
-		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
 			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
 			if (response.status === 200 && response.data.has_shop) {

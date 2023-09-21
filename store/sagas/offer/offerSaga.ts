@@ -124,7 +124,7 @@ function* offerPostRootSaga(payload: OfferPostRootProductType | OfferPostRootSer
 		picture_4,
 		thumbnail_4,
 	};
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() =>
 			isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
 		);
@@ -157,7 +157,7 @@ function* offerGetLastUsedLocalisationSaga(payload: { type: string; offer_type: 
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_OFFER_LOCALISATION}${payload.offer_type}/`;
 	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			const response: OfferGetLastUsedLocalisationResponseType = yield call(() => getApi(url, instance));
 			if (response.status === 200 || response.status === 204) {
@@ -186,7 +186,7 @@ function* offerGetLastThreeUsedDeliveriesSaga() {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_OFFER_DELIVERIES}`;
 	// try {
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: OfferGetLastThreeUsedDeliveriesResponseType = yield call(() => getApi(url, instance));
 		if (response.status === 200 && response.data) {
@@ -292,7 +292,7 @@ function* offerPutRootSaga(payload: OfferPutRootProductType | OfferPutRootServic
 		thumbnail_4,
 	};
 	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 			const instance: AxiosInstance = yield call(() =>
 				isAuthenticatedInstance(authSagaContext.initStateToken, 'multipart/form-data'),
 			);
@@ -328,7 +328,7 @@ function* offerDeleteRootSaga(payload: { type: string; pk: number }) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}`;
 	try {
-		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+		if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 			const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 			url += `/${payload.pk}/`;
 			const response: ResponseOnlyInterface = yield call(() => deleteApi(url, instance));
@@ -358,7 +358,7 @@ function* offerPostPinSaga(payload: { type: string; offer_pk: number }) {
 	let url = `${process.env.NEXT_PUBLIC_OFFER_PIN}`;
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { type, ...payloadData } = payload;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		url += `${payload.offer_pk}/`;
 		const response: OfferPostPinResponseType = yield call(() => postApi(url, instance, payloadData));
@@ -373,7 +373,7 @@ function* offerPostSolderSaga(payload: OfferPostSolderType) {
 	// solder/<uuid:unique_id>/<int:offer_pk>/
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_OFFER_SOLDER}`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		url += `${payload.offer_pk}/`;
 		const response: OfferPostSolderResponseType = yield call(() => postApi(url, instance, {
@@ -391,7 +391,7 @@ function* offerPatchSolderSaga(payload: OfferPostSolderType) {
 	// solder/<uuid:unique_id>/<int:offer_pk>/
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_OFFER_SOLDER}`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		url += `${payload.offer_pk}/`;
 		const response: OfferPostSolderResponseType = yield call(() => patchApi(url, instance, {
@@ -409,7 +409,7 @@ function* offerDeleteSolderSaga(payload: { type: string; offer_pk: number}) {
 	// solder/<uuid:unique_id>/<int:offer_pk>/
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	let url = `${process.env.NEXT_PUBLIC_OFFER_SOLDER}`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		url += `${payload.offer_pk}/`;
 		const response: ResponseOnlyInterface = yield call(() => deleteApi(url, instance));
@@ -421,7 +421,7 @@ function* offerDeleteSolderSaga(payload: { type: string; offer_pk: number}) {
 
 function* offerGetVuesSaga(payload: {type: string, url: string}) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: OfferGetVuesResponseType = yield call(() => getApi(payload.url, instance));
 		if (response.status === 200 && response.data) {

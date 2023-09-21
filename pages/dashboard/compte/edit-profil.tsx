@@ -339,7 +339,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const appToken = getServerSideCookieTokens(context);
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_PROFIL}`;
 	try {
-		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
 			const response: AccountGetProfilResponseType = await getApi(url, instance);
 			if (response.status === 200) {

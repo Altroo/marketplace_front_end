@@ -866,7 +866,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const check_account_url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	const appToken = getServerSideCookieTokens(context);
 	try {
-		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 			const instance: AxiosInstance = isAuthenticatedInstance(appToken.initStateToken);
 			const account_response: AccountGetCheckAccountResponseType = await getApi(check_account_url, instance);
 			if (account_response.status === 200) {

@@ -10,7 +10,7 @@ import { ChatGetConversationsType } from "../../types/messages/messagesTypes";
 // _Init
 export const getTokenType = (state: RootState) => state._init.tokenType as TokenChoices;
 export const getInitStateToken = (state: RootState) => state._init.initStateToken;
-export const getAccessToken = (state: RootState) => state._init.initStateToken.access_token;
+export const getAccessToken = (state: RootState) => state._init.initStateToken.access;
 export const getInitStateUniqueID = (state: RootState) => state._init.initStateUniqueID as InitStateUniqueID;
 // New shop
 export const getNewShopName = (state: RootState) => state.shop.newShop.shop_name as string;

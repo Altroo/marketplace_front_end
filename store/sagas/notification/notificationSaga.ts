@@ -14,7 +14,7 @@ import { setNotificationsState, setNotificationVueState, prependNotificationsSta
 function* notificationGetRootSaga() {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_NOTIFICATION_ROOT}/`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: NotificationsGetRootResponseType = yield call(() => getApi(url, instance));
 		if (response.status === 200) {
@@ -27,7 +27,7 @@ function* notificationGetRootSaga() {
 function* notificationPatchRootSaga(payload: {type: string, pk: number}) {
 	const authSagaContext: AuthSagaContextType = yield call(() => ctxAuthSaga());
 	const url = `${process.env.NEXT_PUBLIC_NOTIFICATION_ROOT}/`;
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		const instance: AxiosInstance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: ResponseOnlyInterface = yield call(() => patchApi(url, instance, {
 			'pk': payload.pk,

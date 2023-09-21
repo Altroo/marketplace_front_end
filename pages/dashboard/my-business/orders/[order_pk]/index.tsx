@@ -619,7 +619,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const url = `${process.env.NEXT_PUBLIC_ORDER_GET_ORDER_DETAILS}${order_pk}/`;
 	const appToken = getServerSideCookieTokens(context);
 	try {
-		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 			const instance: AxiosInstance = isAuthenticatedInstance(appToken.initStateToken);
 			const response: OrdersGetDetailsResponseType = await getApi(url, instance);
 			if (response.status === 200) {

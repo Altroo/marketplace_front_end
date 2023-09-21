@@ -3,10 +3,10 @@ import { ProviderType } from "next-auth/providers";
 
 export interface AuthInterface {
 	user: tokenUser;
-	accessToken: string;
-	refreshToken: string;
-	accessTokenExpiration: string;
-	refreshTokenExpiration: string;
+	access: string;
+	refresh: string;
+	access_expiration: string;
+	refresh_expiration: string;
 }
 
 declare module 'next-auth' {
@@ -27,10 +27,10 @@ declare module 'next-auth' {
 	interface User {
 		id: number,
 		user: tokenUser,
-		access_token: string,
-		access_token_expiration: string,
-		refresh_token_expiration: string,
-		refresh_token: string,
+		access: string;
+		refresh: string;
+		access_expiration: string;
+		refresh_expiration: string;
 	}
 	/**
 	 * Usually contains information about the provider being used
@@ -41,10 +41,10 @@ declare module 'next-auth' {
 		type: ProviderType,
 		provider: string,
 		user: tokenUser,
-		access_token: string,
-		refresh_token: string,
-		access_token_expiration: string,
-		refresh_token_expiration: string,
+		access: string;
+		refresh: string;
+		access_expiration: string;
+		refresh_expiration: string;
 	}
 	// /** The OAuth profile returned from your provider */
 	// interface Profile {}
@@ -54,9 +54,9 @@ declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
   interface JWT {
 		user: tokenUser,
-    accessToken: string;
-		refreshToken: string;
-		accessTokenExpiration: string;
-		refreshTokenExpiration: string;
+    access: string;
+		refresh: string;
+		access_expiration: string;
+		refresh_expiration: string;
   }
 }

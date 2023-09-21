@@ -290,7 +290,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const appToken = getServerSideCookieTokens(context);
 	const newEmail = getCookie('@new_email', { req: context.req, res: context.res });
 	try {
-		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
 			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
 			if (response.status === 200) {

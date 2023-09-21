@@ -80,30 +80,30 @@ export type Token_type = {
 };
 
 export type InitStateNonNullableToken = {
-	access_token: string;
-	refresh_token: string;
 	user: {
 		pk: number;
 		email: string;
 		first_name: string;
 		last_name: string;
 	};
-	access_token_expiration: string;
-	refresh_token_expiration: string;
+	access: string;
+	refresh: string;
+	access_expiration: string;
+	refresh_expiration: string;
 };
 
 export type InitStateNonNullableTokenFixNextAuth = {
 	id: number;
-	access_token: string;
-	refresh_token: string;
 	user: {
 		pk: number;
 		email: string;
 		first_name: string;
 		last_name: string;
 	};
-	access_token_expiration: string;
-	refresh_token_expiration: string;
+	access: string;
+	refresh: string;
+	access_expiration: string;
+	refresh_expiration: string;
 };
 
 export type tokenUser = {
@@ -114,16 +114,16 @@ export type tokenUser = {
 };
 //!- Init State
 export type InitStateToken = {
-	access_token: string | null;
-	refresh_token: string | null;
 	user: {
 		pk: number | null;
 		email: string | null;
 		first_name: string | null;
 		last_name: string | null;
 	};
-	access_token_expiration: string | null;
-	refresh_token_expiration: string | null;
+	access: string | null;
+	refresh: string | null;
+	access_expiration: string | null;
+	refresh_expiration: string | null;
 };
 
 export type InitStateUniqueID = {
@@ -140,7 +140,7 @@ export interface InitStateInterface<T, K> extends Token_type {
 type ResponseDataTokenRefresh = {
 	access: string;
 	refresh: string;
-	access_token_expiration: string;
+	access_expiration: string;
 };
 
 export type ResponseDataTokenRefreshType = ResponseDataInterface<ResponseDataTokenRefresh>;

@@ -1094,7 +1094,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	};
 	const appToken = getServerSideCookieTokens(context);
 	try {
-		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null && shop_pk) {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null && shop_pk) {
 			const url = `${process.env.NEXT_PUBLIC_CART_GET_CART_DETAILS}${shop_pk}/`;
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
 			const response: CartGetDetailsResponseType = await getApi(url, instance);

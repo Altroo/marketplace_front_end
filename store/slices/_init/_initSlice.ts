@@ -25,16 +25,16 @@ export const paginationInitial = {
 };
 
 export const emptyInitStateToken = {
-	access_token: null,
-	refresh_token: null,
+	access: null,
+	refresh: null,
 	user: {
 		pk: null,
 		email: null,
 		first_name: null,
 		last_name: null,
 	},
-	access_token_expiration: null,
-	refresh_token_expiration: null,
+	access_expiration: null,
+	refresh_expiration: null,
 };
 export const emptyInitStateUniqueID = {
 	unique_id: null,

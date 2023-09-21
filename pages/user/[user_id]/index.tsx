@@ -311,7 +311,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		const appToken = getServerSideCookieTokens(context);
 		// case connected - check if owner - not owner or not found.
 		try {
-			if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+			if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 				const instance = isAuthenticatedInstance(appToken.initStateToken);
 				const response: AccountGetProfilByUserIDResponseType = await getApi(url, instance);
 				const check_account_url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;

@@ -32,7 +32,7 @@ function* cartPostProductRootSaga(payload: CartPostProductRootSagaPayload) {
 	const { type, ...payloadData } = payload;
 	let instance: AxiosInstance = yield call(() => allowAnyInstance());
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
-	if (!payload.unique_id && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (!payload.unique_id && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		instance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: CartPostProductRootResponseType = yield call(() => postApi(url, instance, payloadData));
 		if (response.status === 200) {
@@ -52,7 +52,7 @@ function* cartPostServiceRootSaga(payload: CartPostServiceRootSagaPayload) {
 	const { type, ...payloadData } = payload;
 	let instance: AxiosInstance = yield call(() => allowAnyInstance());
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
-	if (!payload.unique_id && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (!payload.unique_id && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		instance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 		const response: CartPostServiceRootResponseType = yield call(() => postApi(url, instance, payloadData));
 		if (response.status === 200) {
@@ -70,7 +70,7 @@ function* cartGetCartCounterSaga(payload: { type: string; unique_id: string | nu
 	let url = `${process.env.NEXT_PUBLIC_CART_GET_CART_COUNTER}${payload.unique_id}/`;
 	let instance: AxiosInstance = yield call(() => allowAnyInstance());
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
-	if (!payload.unique_id && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (!payload.unique_id && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		url = `${process.env.NEXT_PUBLIC_CART_GET_CART_COUNTER}`;
 		instance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 	}
@@ -87,7 +87,7 @@ function* cartDeleteRootSaga(payload: { type: string; cart_pk: number; unique_id
 	let url = `${process.env.NEXT_PUBLIC_CART_ROOT}/${payload.cart_pk}/${payload.unique_id}/`;
 	let instance: AxiosInstance = yield call(() => allowAnyInstance());
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
-	if (!payload.unique_id && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (!payload.unique_id && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		url = `${process.env.NEXT_PUBLIC_CART_ROOT}/${payload.cart_pk}/`;
 		instance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 	}
@@ -101,7 +101,7 @@ function* cartPatchQuantitySaga(payload: { type: string; cart_pk: number; unique
 	let url = `${process.env.NEXT_PUBLIC_CART_PATCH_CART_QUANTITY}${payload.cart_pk}/${payload.action_type}/${payload.unique_id}/`;
 	let instance: AxiosInstance = yield call(() => allowAnyInstance());
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
-	if (!payload.unique_id && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (!payload.unique_id && authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		url = `${process.env.NEXT_PUBLIC_CART_PATCH_CART_QUANTITY}${payload.cart_pk}/${payload.action_type}/`;
 		instance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 	}
@@ -162,7 +162,7 @@ function* cartPostOrderSaga(payload: cartPostOrderSagaType) {
 	const { type, url, ...payloadData } = payload;
 	const authSagaContext : AuthSagaContextType = yield call(() => ctxAuthSaga());
 	let instance: AxiosInstance = yield call(() => allowAnyInstance());
-	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access_token !== null) {
+	if (authSagaContext.tokenType === 'TOKEN' && authSagaContext.initStateToken.access !== null) {
 		instance = yield call(() => isAuthenticatedInstance(authSagaContext.initStateToken));
 	}
 	const response: ResponseOnlyInterface = yield call(() => postApi(url, instance, payloadData));

@@ -32,7 +32,7 @@ export const isAuthenticatedInstance = (
 			/* initStateToken might be using the old access_token. */
 			// load new access token from storage instead.
 			config.headers.set({
-				Authorization: 'Bearer ' + initStateToken.access_token
+				Authorization: 'Bearer ' + initStateToken.access
 			});
 			return config;
 		},
@@ -96,7 +96,7 @@ export const isAuthenticatedInstance = (
 				// 						first_name: initStateToken.user.first_name,
 				// 						last_name: initStateToken.user.last_name,
 				// 					},
-				// 					access_token_expiration: newAccessToken.data.access_token_expiration,
+				// 					access_token_expiration: newAccessToken.data.access_expiration,
 				// 					refresh_token_expiration: initStateToken.refresh_token_expiration,
 				// 				},
 				// 				initStateUniqueID: emptyInitStateUniqueID,

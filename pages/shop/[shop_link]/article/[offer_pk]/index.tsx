@@ -2699,7 +2699,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		sameSite: 'lax',
 	};
 	try {
-		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
 			const url = `${process.env.NEXT_PUBLIC_OFFER_ROOT}/${context.params?.shop_link}/${context.params?.offer_pk}/`;
 			const check_url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
@@ -2762,7 +2762,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	// }`;
 	// try {
 	// 	const response: OfferGetRootProductResponseType | OfferGetRootServiceResponseType = await getApi(url, instance);
-	// 	if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+	// 	if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 	// 		const isAuthInstance = isAuthenticatedInstance(appToken.initStateToken);
 	// 		const authResponse: AccountGetCheckAccountResponseType = await getApi(check_url, isAuthInstance);
 	// 		if (authResponse.status === 200 && response.status === 200) {

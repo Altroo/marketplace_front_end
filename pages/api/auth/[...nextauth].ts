@@ -164,10 +164,10 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 								id_token: id_token
 							});
 							account.user = response.data.user;
-							account.access_token = response.data.access_token as string;
-							account.refresh_token = response.data.refresh_token as string;
-							account.access_token_expiration = response.data.access_token_expiration as string;
-							account.refresh_token_expiration = response.data.refresh_token_expiration as string;
+							account.access = response.data.access as string;
+							account.refresh = response.data.refresh as string;
+							account.access_expiration = response.data.access_expiration as string;
+							account.refresh_expiration = response.data.refresh_expiration as string;
 							return true;
 						} catch (e) {
 							// return e as ApiErrorResponseType;
@@ -185,10 +185,10 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 								id_token: id_token
 							});
 							account.user = response.data.user;
-							account.access_token = response.data.access_token;
-							account.refresh_token = response.data.refresh_token;
-							account.access_token_expiration = response.data.access_token_expiration;
-							account.refresh_token_expiration = response.data.refresh_token_expiration;
+							account.access = response.data.access;
+							account.refresh = response.data.refresh;
+							account.access_expiration = response.data.access_expiration;
+							account.refresh_expiration = response.data.refresh_expiration;
 							return true;
 						} catch (e) {
 							return false;
@@ -196,10 +196,10 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					} else if (account.provider === "credentials") {
 						// login handled in authorize
 						account.user = user.user;
-						account.access_token = user.access_token;
-						account.refresh_token = user.refresh_token;
-						account.access_token_expiration = user.access_token_expiration;
-						account.refresh_token_expiration = user.refresh_token_expiration;
+						account.access = user.access;
+						account.refresh = user.refresh;
+						account.access_expiration = user.access_expiration;
+						account.refresh_expiration = user.refresh_expiration;
 						return true;
 					}
 					return false;
@@ -221,19 +221,19 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 					// domain: `${process.env.NEXT_BACKEND_DOMAIN}`,
 				};
 				if (account) {
-					token.accessToken = account.access_token;
-					token.accessTokenExpiration = account.access_token_expiration;
-					token.refreshTokenExpiration = account.refresh_token_expiration;
-					token.refreshToken = account.refresh_token;
+					token.access = account.access;
+					token.access_expiration = account.access_expiration;
+					token.refresh_expiration = account.refresh_expiration;
+					token.refresh = account.refresh;
 					token.user = account.user as tokenUser;
 					const newInitStateToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
 						tokenType: "TOKEN",
 						initStateToken: {
 							user: account.user,
-							access_token: account.access_token as string,
-							refresh_token: account.refresh_token as string,
-							access_token_expiration: account.access_token_expiration as string,
-							refresh_token_expiration: account.refresh_token_expiration as string
+							access: account.access as string,
+							refresh: account.refresh as string,
+							access_expiration: account.access_expiration as string,
+							refresh_expiration: account.refresh_expiration as string
 						},
 						initStateUniqueID: emptyInitStateUniqueID
 					};
@@ -246,10 +246,10 @@ const getOptions = (req: NextApiRequest, res: NextApiResponse) => {
 				return token;
 			},
 			async session({ session, token }) {
-				session.accessToken = token.accessToken;
-				session.refreshToken = token.refreshToken;
-				session.accessTokenExpiration = token.accessTokenExpiration;
-				session.refreshTokenExpiration = token.refreshTokenExpiration;
+				session.accessToken = token.access;
+				session.refreshToken = token.refresh;
+				session.accessTokenExpiration = token.access_expiration;
+				session.refreshTokenExpiration = token.refresh_expiration;
 				session.user = token.user;
 				return session;
 			}

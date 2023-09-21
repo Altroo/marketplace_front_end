@@ -35,7 +35,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	}
 	const url = `${process.env.NEXT_PUBLIC_CHAT_MESSAGE}?target=${receiver_pk}`;
 	try {
-		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
 			const response: ChatGetMessagesOfTargetResponseType = await getApi(url, instance);
 			if (response.status === 200) {

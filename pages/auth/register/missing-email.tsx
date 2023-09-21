@@ -153,7 +153,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_CHECK_ACCOUNT}`;
 	const appToken = getServerSideCookieTokens(context);
 	try {
-		if (appToken.tokenType === "TOKEN" && appToken.initStateToken.access_token !== null) {
+		if (appToken.tokenType === "TOKEN" && appToken.initStateToken.access !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
 			const response: AccountGetCheckAccountResponseType = await getApi(url, instance);
 			if (response.status === 200 && response.data.email === '') {

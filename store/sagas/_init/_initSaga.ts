@@ -60,7 +60,7 @@ function* initAppCookieTokensSaga(payload: { type: string; cookies: AppTokensCoo
 	// 	};
 	// }
 	yield put(setInitState(appToken));
-	if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+	if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 		// set is logged in to true
 		yield put(setIsLoggedIn(true));
 	}
@@ -114,16 +114,16 @@ function* refreshAppTokenStatesSaga(payload: { type: string; session: Record<str
 	const appToken: InitStateInterface<InitStateToken, InitStateUniqueID> = {
 		tokenType: 'TOKEN',
 		initStateToken: {
-			access_token: accessToken,
-			refresh_token: refreshToken,
+			access: accessToken,
+			refresh: refreshToken,
 			user: {
 				pk: userObj.pk as number,
 				email: userObj.email as string,
 				first_name: userObj.first_name as string,
 				last_name: userObj.last_name as string,
 			},
-			refresh_token_expiration: accessTokenExpiration,
-			access_token_expiration: refreshTokenExpiration,
+			refresh_expiration: accessTokenExpiration,
+			access_expiration: refreshTokenExpiration,
 		},
 		initStateUniqueID: emptyInitStateUniqueID,
 	};

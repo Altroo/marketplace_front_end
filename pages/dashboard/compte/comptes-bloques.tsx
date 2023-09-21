@@ -200,7 +200,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const appToken = getServerSideCookieTokens(context);
 	const url = `${process.env.NEXT_PUBLIC_ACCOUNT_BLOCK}`;
 	try {
-		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access_token !== null) {
+		if (appToken.tokenType === 'TOKEN' && appToken.initStateToken.access !== null) {
 			const instance = isAuthenticatedInstance(appToken.initStateToken);
 			const response: AccountGetBlockedUsersResponseType = await getApi(url, instance);
 			if (response.status === 200) {
