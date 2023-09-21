@@ -9,6 +9,14 @@ export interface AuthInterface {
 	refresh_expiration: string;
 }
 
+export interface Session {
+		user: tokenUser;
+		accessToken: string;
+		refreshToken: string;
+		accessTokenExpiration: string;
+		refreshTokenExpiration: string;
+	}
+
 declare module 'next-auth' {
 	/**
 	 * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
