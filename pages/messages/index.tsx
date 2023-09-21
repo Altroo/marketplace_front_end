@@ -110,7 +110,7 @@ const SelectedConversation: React.FC = () => {
 	const [chatText, setChatText] = useState<string>('');
 	const [loadMoreState, setLoadMoreState] = useState<boolean>(false);
 	const [userBlocked, setUserBlocked] = useState<boolean>(false);
-	const scrollParentRef = useRef<HTMLElement>(null);
+	const scrollParentRef = useRef<HTMLDivElement>(null);
 	const imageInputRef = useRef<HTMLInputElement>(null);
 	const openChatSubMenu = Boolean(chatSubMenuEl);
 	const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -586,7 +586,7 @@ const Index: NextPage = () => {
 	const [isLoadingInitInProgress, setIsLoadingInitInProgress] = useState<boolean>(true);
 	const [isLoadingNextPageInProgress, setIsLoadingNextPageInProgress] = useState<boolean>(false);
 	const [isLoadingTargetInProgress, setIsLoadingTargetInProgress] = useState<boolean>(false);
-	const scrollParentRef = useRef<HTMLElement>(null);
+	const scrollParentRef = useRef<HTMLDivElement>(null);
 
 	const conversations = useAppSelector(getConversations);
 
